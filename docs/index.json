@@ -1,5 +1,5 @@
 {
-  "generatedAt": 1755158040,
+  "generatedAt": 1755160177,
   "year": 2025,
   "items": [
     {
@@ -13,7 +13,8 @@
         "환경"
       ],
       "meta": {
-        "ministry": "환경부"
+        "ministry": "환경부",
+        "lsId": "010923"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -32,7 +33,8 @@
         "환경"
       ],
       "meta": {
-        "ministry": "환경부"
+        "ministry": "환경부",
+        "lsId": "010964"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -51,7 +53,8 @@
         "환경"
       ],
       "meta": {
-        "ministry": "환경부"
+        "ministry": "환경부",
+        "lsId": "011601"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -70,7 +73,8 @@
         "환경"
       ],
       "meta": {
-        "ministry": "환경부"
+        "ministry": "환경부",
+        "lsId": "011602"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -89,7 +93,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "000186"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -108,7 +113,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "교육부,보건복지부"
+        "ministry": "교육부,보건복지부",
+        "lsId": "011443"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -127,7 +133,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부,질병관리청"
+        "ministry": "보건복지부,질병관리청",
+        "lsId": "001788"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -143,10 +150,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "환경"
       ],
       "meta": {
-        "ministry": "해양수산부"
+        "ministry": "해양수산부",
+        "lsId": "001483"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -165,7 +174,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "해양경찰청"
+        "ministry": "해양경찰청",
+        "lsId": "000977"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -184,7 +194,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "산림청"
+        "ministry": "산림청",
+        "lsId": "011163"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -203,7 +214,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "산림청"
+        "ministry": "산림청",
+        "lsId": "011019"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -222,7 +234,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부,질병관리청"
+        "ministry": "보건복지부,질병관리청",
+        "lsId": "002029"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -238,10 +251,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "국토교통부"
+        "ministry": "국토교통부",
+        "lsId": "002118"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -260,7 +275,8 @@
         "환경"
       ],
       "meta": {
-        "ministry": "환경부"
+        "ministry": "환경부",
+        "lsId": "009683"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -279,7 +295,8 @@
         "환경"
       ],
       "meta": {
-        "ministry": "환경부"
+        "ministry": "환경부",
+        "lsId": "005369"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -295,10 +312,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "안전"
+        "안전",
+        "재무회계"
       ],
       "meta": {
-        "ministry": "산업통상자원부"
+        "ministry": "산업통상자원부",
+        "lsId": "008044"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -317,7 +336,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "여성가족부"
+        "ministry": "여성가족부",
+        "lsId": "000184"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -333,10 +353,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "국토교통부"
+        "ministry": "국토교통부",
+        "lsId": "001747"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -352,10 +374,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "안전"
+        "안전",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "국토교통부"
+        "ministry": "국토교통부",
+        "lsId": "000237"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -371,10 +395,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "국토교통부"
+        "ministry": "국토교통부",
+        "lsId": "009521"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -390,10 +416,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "국토교통부"
+        "ministry": "국토교통부",
+        "lsId": "009410"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -412,7 +440,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "009838"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -431,7 +460,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "농림축산식품부"
+        "ministry": "농림축산식품부",
+        "lsId": "010624"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -447,10 +477,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "안전"
+        "안전",
+        "재무회계"
       ],
       "meta": {
-        "ministry": "산업통상자원부"
+        "ministry": "산업통상자원부",
+        "lsId": "001863"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -466,10 +498,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "안전"
+        "안전",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "국토교통부"
+        "ministry": "국토교통부",
+        "lsId": "012524"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -485,10 +519,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "안전"
+        "안전",
+        "재무회계"
       ],
       "meta": {
-        "ministry": "산업통상자원부"
+        "ministry": "산업통상자원부",
+        "lsId": "012573"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -505,10 +541,12 @@
       "lawType": "일부개정",
       "categories": [
         "안전",
-        "재무회계"
+        "재무회계",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "기획재정부,산업통상자원부,행정안전부"
+        "ministry": "기획재정부,산업통상자원부,행정안전부",
+        "lsId": "014455"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -527,7 +565,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "중소벤처기업부"
+        "ministry": "중소벤처기업부",
+        "lsId": "009767"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -543,10 +582,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "안전"
+        "안전",
+        "재무회계"
       ],
       "meta": {
-        "ministry": "산업통상자원부"
+        "ministry": "산업통상자원부",
+        "lsId": "013718"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -562,10 +603,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "안전"
+        "안전",
+        "재무회계"
       ],
       "meta": {
-        "ministry": "산업통상자원부"
+        "ministry": "산업통상자원부",
+        "lsId": "000285"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -584,7 +627,8 @@
         "안전"
       ],
       "meta": {
-        "ministry": "소방청,해양경찰청,행정안전부"
+        "ministry": "소방청,해양경찰청,행정안전부",
+        "lsId": "009640"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -603,7 +647,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "중소벤처기업부"
+        "ministry": "중소벤처기업부",
+        "lsId": "010011"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -622,7 +667,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "행정안전부"
+        "ministry": "행정안전부",
+        "lsId": "014295"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -641,7 +687,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "우주항공청"
+        "ministry": "우주항공청",
+        "lsId": "009938"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -660,7 +707,8 @@
         "정보보호"
       ],
       "meta": {
-        "ministry": "과학기술정보통신부"
+        "ministry": "과학기술정보통신부",
+        "lsId": "009395"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -676,10 +724,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "안전"
+        "안전",
+        "재무회계"
       ],
       "meta": {
-        "ministry": "산업통상자원부"
+        "ministry": "산업통상자원부",
+        "lsId": "001849"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -695,10 +745,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "안전"
+        "안전",
+        "재무회계"
       ],
       "meta": {
-        "ministry": "산업통상자원부"
+        "ministry": "산업통상자원부",
+        "lsId": "000299"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -714,10 +766,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "국토교통부"
+        "ministry": "국토교통부",
+        "lsId": "009205"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -736,7 +790,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "중소벤처기업부"
+        "ministry": "중소벤처기업부",
+        "lsId": "013679"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -755,7 +810,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "특허청"
+        "ministry": "특허청",
+        "lsId": "001871"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -774,7 +830,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "인사혁신처"
+        "ministry": "인사혁신처",
+        "lsId": "001717"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -793,7 +850,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "경찰청"
+        "ministry": "경찰청",
+        "lsId": "000985"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -812,7 +870,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "농림축산식품부"
+        "ministry": "농림축산식품부",
+        "lsId": "010623"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -828,10 +887,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "국토교통부"
+        "ministry": "국토교통부",
+        "lsId": "001748"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -850,7 +911,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "해양경찰청"
+        "ministry": "해양경찰청",
+        "lsId": "013803"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -869,7 +931,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "해양경찰청"
+        "ministry": "해양경찰청",
+        "lsId": "011449"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -888,7 +951,8 @@
         "환경"
       ],
       "meta": {
-        "ministry": "환경부"
+        "ministry": "환경부",
+        "lsId": "007951"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -907,7 +971,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "식품의약품안전처"
+        "ministry": "식품의약품안전처",
+        "lsId": "014128"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -926,7 +991,8 @@
         "환경"
       ],
       "meta": {
-        "ministry": "환경부"
+        "ministry": "환경부",
+        "lsId": "002016"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -942,10 +1008,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "환경"
       ],
       "meta": {
-        "ministry": "해양수산부"
+        "ministry": "해양수산부",
+        "lsId": "010512"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -964,7 +1032,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "해양경찰청"
+        "ministry": "해양경찰청",
+        "lsId": "011562"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -980,10 +1049,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "환경"
       ],
       "meta": {
-        "ministry": "해양수산부"
+        "ministry": "해양수산부",
+        "lsId": "000049"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1002,7 +1073,8 @@
         "안전"
       ],
       "meta": {
-        "ministry": "원자력안전위원회"
+        "ministry": "원자력안전위원회",
+        "lsId": "000765"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1021,7 +1093,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "법무부"
+        "ministry": "법무부",
+        "lsId": "008494"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1040,7 +1113,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "법무부"
+        "ministry": "법무부",
+        "lsId": "001707"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1056,10 +1130,12 @@
       "announcedDate": null,
       "lawType": "타법개정",
       "categories": [
-        "기타"
+        "안전",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "국토교통부,행정안전부"
+        "ministry": "국토교통부,행정안전부",
+        "lsId": "010162"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1078,7 +1154,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "000187"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1097,7 +1174,8 @@
         "안전"
       ],
       "meta": {
-        "ministry": "원자력안전위원회"
+        "ministry": "원자력안전위원회",
+        "lsId": "011431"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1116,7 +1194,8 @@
         "안전"
       ],
       "meta": {
-        "ministry": "원자력안전위원회"
+        "ministry": "원자력안전위원회",
+        "lsId": "011435"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1135,7 +1214,8 @@
         "안전"
       ],
       "meta": {
-        "ministry": "원자력안전위원회"
+        "ministry": "원자력안전위원회",
+        "lsId": "009494"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1154,7 +1234,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "해양경찰청"
+        "ministry": "해양경찰청",
+        "lsId": "012049"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1170,10 +1251,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "환경"
       ],
       "meta": {
-        "ministry": "해양수산부"
+        "ministry": "해양수산부",
+        "lsId": "002033"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1192,7 +1275,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "여성가족부"
+        "ministry": "여성가족부",
+        "lsId": "000185"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1211,7 +1295,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "법무부"
+        "ministry": "법무부",
+        "lsId": "011997"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1230,7 +1315,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "000190"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1249,7 +1335,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "여성가족부"
+        "ministry": "여성가족부",
+        "lsId": "002044"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1265,10 +1352,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "환경"
       ],
       "meta": {
-        "ministry": "해양수산부"
+        "ministry": "해양수산부",
+        "lsId": "012311"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1287,7 +1376,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "여성가족부"
+        "ministry": "여성가족부",
+        "lsId": "011185"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1306,7 +1396,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "012197"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1325,7 +1416,8 @@
         "정보보호"
       ],
       "meta": {
-        "ministry": "과학기술정보통신부,방송통신위원회"
+        "ministry": "과학기술정보통신부,방송통신위원회",
+        "lsId": "000794"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1344,7 +1436,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "012046"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1360,10 +1453,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "국토교통부"
+        "ministry": "국토교통부",
+        "lsId": "000106"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1382,7 +1477,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "001777"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1398,10 +1494,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "환경"
       ],
       "meta": {
-        "ministry": "해양수산부"
+        "ministry": "해양수산부",
+        "lsId": "013927"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1420,7 +1518,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "010111"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1439,7 +1538,8 @@
         "환경"
       ],
       "meta": {
-        "ministry": "환경부"
+        "ministry": "환경부",
+        "lsId": "014152"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1459,7 +1559,8 @@
         "인사노무"
       ],
       "meta": {
-        "ministry": "고용노동부"
+        "ministry": "고용노동부",
+        "lsId": "003058"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1479,7 +1580,8 @@
         "인사노무"
       ],
       "meta": {
-        "ministry": "고용노동부"
+        "ministry": "고용노동부",
+        "lsId": "001872"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1498,7 +1600,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "문화체육관광부"
+        "ministry": "문화체육관광부",
+        "lsId": "001744"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1517,7 +1620,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "문화체육관광부"
+        "ministry": "문화체육관광부",
+        "lsId": "010196"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1536,7 +1640,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "여성가족부"
+        "ministry": "여성가족부",
+        "lsId": "009682"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1555,7 +1660,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "법무부"
+        "ministry": "법무부",
+        "lsId": "001132"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1571,10 +1677,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "환경"
       ],
       "meta": {
-        "ministry": "해양수산부"
+        "ministry": "해양수산부",
+        "lsId": "013852"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1590,10 +1698,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "환경"
       ],
       "meta": {
-        "ministry": "해양수산부"
+        "ministry": "해양수산부",
+        "lsId": "013575"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1609,10 +1719,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "안전"
+        "안전",
+        "재무회계"
       ],
       "meta": {
-        "ministry": "산업통상자원부"
+        "ministry": "산업통상자원부",
+        "lsId": "004686"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1631,7 +1743,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "국가유산청"
+        "ministry": "국가유산청",
+        "lsId": "014410"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1650,7 +1763,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "외교부"
+        "ministry": "외교부",
+        "lsId": "000006"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1669,7 +1783,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "통일부"
+        "ministry": "통일부",
+        "lsId": "001432"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1688,7 +1803,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "국가유산청"
+        "ministry": "국가유산청",
+        "lsId": "003506"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1707,7 +1823,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "국가유산청"
+        "ministry": "국가유산청",
+        "lsId": "014506"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1726,7 +1843,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "국무조정실,외교부"
+        "ministry": "국무조정실,외교부",
+        "lsId": "011140"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1745,7 +1863,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "문화체육관광부"
+        "ministry": "문화체육관광부",
+        "lsId": "009877"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1764,7 +1883,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "문화체육관광부"
+        "ministry": "문화체육관광부",
+        "lsId": "000083"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1783,7 +1903,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "문화체육관광부"
+        "ministry": "문화체육관광부",
+        "lsId": "000086"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1802,7 +1923,8 @@
         "환경"
       ],
       "meta": {
-        "ministry": "환경부"
+        "ministry": "환경부",
+        "lsId": "008508"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1821,7 +1943,8 @@
         "환경"
       ],
       "meta": {
-        "ministry": "환경부"
+        "ministry": "환경부",
+        "lsId": "008567"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1840,7 +1963,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "012492"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1859,7 +1983,8 @@
         "지배구조"
       ],
       "meta": {
-        "ministry": "공정거래위원회"
+        "ministry": "공정거래위원회",
+        "lsId": "001590"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1878,7 +2003,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": ""
+        "ministry": "",
+        "lsId": "014866"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1897,7 +2023,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "교육부"
+        "ministry": "교육부",
+        "lsId": "000900"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1916,7 +2043,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "행정안전부"
+        "ministry": "행정안전부",
+        "lsId": "001656"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1935,7 +2063,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "행정안전부"
+        "ministry": "행정안전부",
+        "lsId": "001648"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1954,7 +2083,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "012441"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1973,7 +2103,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "행정안전부"
+        "ministry": "행정안전부",
+        "lsId": "001020"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -1992,7 +2123,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "011418"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2012,7 +2144,8 @@
         "지배구조"
       ],
       "meta": {
-        "ministry": "금융위원회"
+        "ministry": "금융위원회",
+        "lsId": "001523"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2031,7 +2164,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "농림축산식품부"
+        "ministry": "농림축산식품부",
+        "lsId": "007570"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2050,7 +2184,8 @@
         "지배구조"
       ],
       "meta": {
-        "ministry": "공정거래위원회"
+        "ministry": "공정거래위원회",
+        "lsId": "001987"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2069,7 +2204,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "014151"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2088,7 +2224,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "000202"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2107,7 +2244,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "000201"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2126,7 +2264,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부,식품의약품안전처"
+        "ministry": "보건복지부,식품의약품안전처",
+        "lsId": "002025"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2145,7 +2284,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "009624"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2164,7 +2304,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부"
+        "ministry": "보건복지부",
+        "lsId": "014527"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2180,10 +2321,12 @@
       "announcedDate": null,
       "lawType": "일부개정",
       "categories": [
-        "기타"
+        "안전",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "국토교통부"
+        "ministry": "국토교통부",
+        "lsId": "009419"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2202,7 +2345,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부,질병관리청"
+        "ministry": "보건복지부,질병관리청",
+        "lsId": "000223"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2221,7 +2365,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "경찰청"
+        "ministry": "경찰청",
+        "lsId": "000980"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2240,7 +2385,8 @@
         "정보보호"
       ],
       "meta": {
-        "ministry": "개인정보보호위원회"
+        "ministry": "개인정보보호위원회",
+        "lsId": "011357"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2259,7 +2405,8 @@
         "기타"
       ],
       "meta": {
-        "ministry": "보건복지부,질병관리청"
+        "ministry": "보건복지부,질병관리청",
+        "lsId": "001792"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
@@ -2278,12 +2425,1640 @@
         "기타"
       ],
       "meta": {
-        "ministry": "교육부"
+        "ministry": "교육부",
+        "lsId": "000899"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000899",
         "search": "https://www.law.go.kr/lsSc.do?query=%EA%B3%A0%EB%93%B1%EA%B5%90%EC%9C%A1%EB%B2%95"
+      }
+    },
+    {
+      "id": "39558e8a28f0116a9bdf3ee5cb50a575",
+      "title": "환경범죄 등의 단속 및 가중처벌에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "001143"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001143",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%99%98%EA%B2%BD%EB%B2%94%EC%A3%84%20%EB%93%B1%EC%9D%98%20%EB%8B%A8%EC%86%8D%20%EB%B0%8F%20%EA%B0%80%EC%A4%91%EC%B2%98%EB%B2%8C%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "90ffa42bc93424c18075483dc9399989",
+      "title": "화학물질의 등록 및 평가 등에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "011857"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011857",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%99%94%ED%95%99%EB%AC%BC%EC%A7%88%EC%9D%98%20%EB%93%B1%EB%A1%9D%20%EB%B0%8F%20%ED%8F%89%EA%B0%80%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "d5e20e35d1e304e53c8a1e5b2f23e04b",
+      "title": "토양환경보전법",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "000160"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000160",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%86%A0%EC%96%91%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95"
+      }
+    },
+    {
+      "id": "615a413e7ae0f7c159860798d5d37aaf",
+      "title": "전원개발촉진법",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "안전",
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "001852"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001852",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A0%84%EC%9B%90%EA%B0%9C%EB%B0%9C%EC%B4%89%EC%A7%84%EB%B2%95"
+      }
+    },
+    {
+      "id": "83c05ca4b8427c4db83647a2d506a9dc",
+      "title": "저작권법",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "문화체육관광부",
+        "lsId": "000798"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000798",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A0%80%EC%9E%91%EA%B6%8C%EB%B2%95"
+      }
+    },
+    {
+      "id": "078eb5d31f3be4a455d84dfde2a5c3a9",
+      "title": "자원의 절약과 재활용촉진에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "000155"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000155",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%9E%90%EC%9B%90%EC%9D%98%20%EC%A0%88%EC%95%BD%EA%B3%BC%20%EC%9E%AC%ED%99%9C%EC%9A%A9%EC%B4%89%EC%A7%84%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "0b2f3bf7b7ae296687287305b1c2c1b8",
+      "title": "영화 및 비디오물의 진흥에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "문화체육관광부",
+        "lsId": "010200"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010200",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%98%81%ED%99%94%20%EB%B0%8F%20%EB%B9%84%EB%94%94%EC%98%A4%EB%AC%BC%EC%9D%98%20%EC%A7%84%ED%9D%A5%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "3fcf249237c59be20cff8e4d8c64299f",
+      "title": "물의 재이용 촉진 및 지원에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "011209"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011209",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EB%AC%BC%EC%9D%98%20%EC%9E%AC%EC%9D%B4%EC%9A%A9%20%EC%B4%89%EC%A7%84%20%EB%B0%8F%20%EC%A7%80%EC%9B%90%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "093ce7818f97405c1a3b28a2ca19f8e2",
+      "title": "무형유산의 보전 및 진흥에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "국가유산청",
+        "lsId": "012265"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012265",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EB%AC%B4%ED%98%95%EC%9C%A0%EC%82%B0%EC%9D%98%20%EB%B3%B4%EC%A0%84%20%EB%B0%8F%20%EC%A7%84%ED%9D%A5%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "47eec67e596c1f9e8b6055a2fbafb6ed",
+      "title": "도서관법",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "문화체육관광부",
+        "lsId": "000830"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000830",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EB%8F%84%EC%84%9C%EA%B4%80%EB%B2%95"
+      }
+    },
+    {
+      "id": "abddd493d236f3d23a4d142fd2c2c547",
+      "title": "대중문화예술산업발전법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "문화체육관광부",
+        "lsId": "012108"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012108",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EB%8C%80%EC%A4%91%EB%AC%B8%ED%99%94%EC%98%88%EC%88%A0%EC%82%B0%EC%97%85%EB%B0%9C%EC%A0%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "9318200501e3ac00bddd5bb0fe3081c1",
+      "title": "대중문화예술산업발전법",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "문화체육관광부",
+        "lsId": "011999"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011999",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EB%8C%80%EC%A4%91%EB%AC%B8%ED%99%94%EC%98%88%EC%88%A0%EC%82%B0%EC%97%85%EB%B0%9C%EC%A0%84%EB%B2%95"
+      }
+    },
+    {
+      "id": "0ed4d171e88c755815794fc1e17c0cac",
+      "title": "기후ㆍ기후변화 감시 및 예측 등에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전",
+        "환경"
+      ],
+      "meta": {
+        "ministry": "기상청,해양수산부",
+        "lsId": "014515"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=014515",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B8%B0%ED%9B%84%E3%86%8D%EA%B8%B0%ED%9B%84%EB%B3%80%ED%99%94%20%EA%B0%90%EC%8B%9C%20%EB%B0%8F%20%EC%98%88%EC%B8%A1%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "2e258ad1bcda755aec9d819551033650",
+      "title": "기상법",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "기상청",
+        "lsId": "000743"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000743",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B8%B0%EC%83%81%EB%B2%95"
+      }
+    },
+    {
+      "id": "40e742785b254a4bf45c312b46f065ad",
+      "title": "국민체육진흥법",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "문화체육관광부",
+        "lsId": "001605"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001605",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%AD%EB%AF%BC%EC%B2%B4%EC%9C%A1%EC%A7%84%ED%9D%A5%EB%B2%95"
+      }
+    },
+    {
+      "id": "e9241ba263a1e8a72bd824da2eba0301",
+      "title": "공익신고자 보호법",
+      "summary": "",
+      "effectiveDate": "2025-09-26",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "국민권익위원회",
+        "lsId": "011358"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011358",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B3%B5%EC%9D%B5%EC%8B%A0%EA%B3%A0%EC%9E%90%20%EB%B3%B4%ED%98%B8%EB%B2%95"
+      }
+    },
+    {
+      "id": "12352d60087ee0c4d12b3f930245e69b",
+      "title": "형사소송법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "법무부",
+        "lsId": "001671"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001671",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%98%95%EC%82%AC%EC%86%8C%EC%86%A1%EB%B2%95"
+      }
+    },
+    {
+      "id": "1f9f4ea18d977cf0a09f5420d5afe1aa",
+      "title": "행정기본법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "법제처",
+        "lsId": "014041"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=014041",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%96%89%EC%A0%95%EA%B8%B0%EB%B3%B8%EB%B2%95"
+      }
+    },
+    {
+      "id": "29108bea5c2ba48b562d561d8e6025df",
+      "title": "학교폭력예방 및 대책에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "교육부",
+        "lsId": "009620"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009620",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%95%99%EA%B5%90%ED%8F%AD%EB%A0%A5%EC%98%88%EB%B0%A9%20%EB%B0%8F%20%EB%8C%80%EC%B1%85%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "d19667586e0a81243e6503fbca3e05b9",
+      "title": "학교보건법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "교육부",
+        "lsId": "000890"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000890",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%95%99%EA%B5%90%EB%B3%B4%EA%B1%B4%EB%B2%95"
+      }
+    },
+    {
+      "id": "382519ab1d2aab459f1bc9b7f4b50f5f",
+      "title": "차산업 발전 및 차문화 진흥에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "농림축산식품부",
+        "lsId": "012236"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012236",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%B0%A8%EC%82%B0%EC%97%85%20%EB%B0%9C%EC%A0%84%20%EB%B0%8F%20%EC%B0%A8%EB%AC%B8%ED%99%94%20%EC%A7%84%ED%9D%A5%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "d4047e81451c20066f8f40022e90c0f9",
+      "title": "직업교육훈련 촉진법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전",
+        "인사노무"
+      ],
+      "meta": {
+        "ministry": "고용노동부,교육부",
+        "lsId": "000864"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000864",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A7%81%EC%97%85%EA%B5%90%EC%9C%A1%ED%9B%88%EB%A0%A8%20%EC%B4%89%EC%A7%84%EB%B2%95"
+      }
+    },
+    {
+      "id": "f35491a81e6f040d1a5eb28c124ef9b1",
+      "title": "전기통신사업법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "정보보호"
+      ],
+      "meta": {
+        "ministry": "과학기술정보통신부,방송통신위원회",
+        "lsId": "001733"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001733",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A0%84%EA%B8%B0%ED%86%B5%EC%8B%A0%EC%82%AC%EC%97%85%EB%B2%95"
+      }
+    },
+    {
+      "id": "1c209fc99447fa84b0247c58203c9102",
+      "title": "장애인차별금지 및 권리구제 등에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "보건복지부",
+        "lsId": "010420"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010420",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%9E%A5%EC%95%A0%EC%9D%B8%EC%B0%A8%EB%B3%84%EA%B8%88%EC%A7%80%20%EB%B0%8F%20%EA%B6%8C%EB%A6%AC%EA%B5%AC%EC%A0%9C%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "8fd13f2c71bb5f932f8557b876a4c281",
+      "title": "자연환경보전법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "000169"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000169",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%9E%90%EC%97%B0%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95"
+      }
+    },
+    {
+      "id": "eac2aea98df3629e4232ac781f3a83a0",
+      "title": "자본시장과 금융투자업에 관한 법률 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "재무회계",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "금융위원회",
+        "lsId": "010817"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010817",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%9E%90%EB%B3%B8%EC%8B%9C%EC%9E%A5%EA%B3%BC%20%EA%B8%88%EC%9C%B5%ED%88%AC%EC%9E%90%EC%97%85%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "99f6475e0334c1f6fbfa1f33da5adcda",
+      "title": "유아교육법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "교육부",
+        "lsId": "009621"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009621",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%9C%A0%EC%95%84%EA%B5%90%EC%9C%A1%EB%B2%95"
+      }
+    },
+    {
+      "id": "42fd3ef301f492ec4e05d20a4aaf1855",
+      "title": "외국환거래법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "재무회계",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "기획재정부",
+        "lsId": "001525"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001525",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%99%B8%EA%B5%AD%ED%99%98%EA%B1%B0%EB%9E%98%EB%B2%95"
+      }
+    },
+    {
+      "id": "76a1f5d6d57707b8304ff61e195df1b1",
+      "title": "예비군법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "국방부",
+        "lsId": "001619"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001619",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%98%88%EB%B9%84%EA%B5%B0%EB%B2%95"
+      }
+    },
+    {
+      "id": "53a60aafc0b0540cbb514311818bb851",
+      "title": "식품 등의 표시ㆍ광고에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "식품의약품안전처",
+        "lsId": "013094"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=013094",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%8B%9D%ED%92%88%20%EB%93%B1%EC%9D%98%20%ED%91%9C%EC%8B%9C%E3%86%8D%EA%B4%91%EA%B3%A0%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "ed992cd9a5f594b5b07e1180485b929d",
+      "title": "식생활교육지원법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "농림축산식품부",
+        "lsId": "011008"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011008",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%8B%9D%EC%83%9D%ED%99%9C%EA%B5%90%EC%9C%A1%EC%A7%80%EC%9B%90%EB%B2%95"
+      }
+    },
+    {
+      "id": "1018eba71b73928ab6178f7318e34e8a",
+      "title": "식물방역법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "농림축산식품부",
+        "lsId": "001513"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001513",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%8B%9D%EB%AC%BC%EB%B0%A9%EC%97%AD%EB%B2%95"
+      }
+    },
+    {
+      "id": "a0e641f40273a05be4372f78cdc8fd09",
+      "title": "서민의 금융생활 지원에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "재무회계",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "금융위원회",
+        "lsId": "012513"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012513",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%84%9C%EB%AF%BC%EC%9D%98%20%EA%B8%88%EC%9C%B5%EC%83%9D%ED%99%9C%20%EC%A7%80%EC%9B%90%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "dff77497786709d674976089425800a3",
+      "title": "사립학교법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "교육부",
+        "lsId": "000888"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000888",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%82%AC%EB%A6%BD%ED%95%99%EA%B5%90%EB%B2%95"
+      }
+    },
+    {
+      "id": "37cedf8afd77a364c6072ac687cc111c",
+      "title": "병역법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "국방부,병무청",
+        "lsId": "001622"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001622",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EB%B3%91%EC%97%AD%EB%B2%95"
+      }
+    },
+    {
+      "id": "501448634a5420d46cbde7ff083da5a4",
+      "title": "대체역의 편입 및 복무 등에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "국방부,병무청",
+        "lsId": "013642"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=013642",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EB%8C%80%EC%B2%B4%EC%97%AD%EC%9D%98%20%ED%8E%B8%EC%9E%85%20%EB%B0%8F%20%EB%B3%B5%EB%AC%B4%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "3dc45583551005bf23f02cf84fc912d1",
+      "title": "군인사법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "국방부",
+        "lsId": "001629"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001629",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%B0%EC%9D%B8%EC%82%AC%EB%B2%95"
+      }
+    },
+    {
+      "id": "3f08ee15a155845dbcbf62d38ae847f4",
+      "title": "군보건의료에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "국방부",
+        "lsId": "011574"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011574",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%B0%EB%B3%B4%EA%B1%B4%EC%9D%98%EB%A3%8C%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "f6f239382dbb0f7e186e229a12a92da3",
+      "title": "군무원인사법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "국방부",
+        "lsId": "001626"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001626",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%B0%EB%AC%B4%EC%9B%90%EC%9D%B8%EC%82%AC%EB%B2%95"
+      }
+    },
+    {
+      "id": "e91c9c89964462fecc6e7f5afa3901ae",
+      "title": "군 책임운영기관의 지정ㆍ운영에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "국방부",
+        "lsId": "010707"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010707",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%B0%20%EC%B1%85%EC%9E%84%EC%9A%B4%EC%98%81%EA%B8%B0%EA%B4%80%EC%9D%98%20%EC%A7%80%EC%A0%95%E3%86%8D%EC%9A%B4%EC%98%81%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "ea9e27d6494a55c427c13b48bfa0c8ed",
+      "title": "국유재산특례제한법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "재무회계",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "기획재정부",
+        "lsId": "011361"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011361",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%AD%EC%9C%A0%EC%9E%AC%EC%82%B0%ED%8A%B9%EB%A1%80%EC%A0%9C%ED%95%9C%EB%B2%95"
+      }
+    },
+    {
+      "id": "402dd1bd7a442daa09560d624b53c977",
+      "title": "국방ㆍ군사시설 사업에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "국방부",
+        "lsId": "000934"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000934",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%AD%EB%B0%A9%E3%86%8D%EA%B5%B0%EC%82%AC%EC%8B%9C%EC%84%A4%20%EC%82%AC%EC%97%85%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "d4379b857ea676620682cb7f61d9c48a",
+      "title": "국민기초생활 보장법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "보건복지부",
+        "lsId": "001973"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001973",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%AD%EB%AF%BC%EA%B8%B0%EC%B4%88%EC%83%9D%ED%99%9C%20%EB%B3%B4%EC%9E%A5%EB%B2%95"
+      }
+    },
+    {
+      "id": "067e7bf25de8d476fd36ef65d6b64e53",
+      "title": "교육공무원법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "교육부",
+        "lsId": "001616"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001616",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%90%EC%9C%A1%EA%B3%B5%EB%AC%B4%EC%9B%90%EB%B2%95"
+      }
+    },
+    {
+      "id": "38da6306c47017d6a99eee05944ade53",
+      "title": "교원의 지위 향상 및 교육활동 보호를 위한 특별법",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "교육부",
+        "lsId": "000886"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000886",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%90%EC%9B%90%EC%9D%98%20%EC%A7%80%EC%9C%84%20%ED%96%A5%EC%83%81%20%EB%B0%8F%20%EA%B5%90%EC%9C%A1%ED%99%9C%EB%8F%99%20%EB%B3%B4%ED%98%B8%EB%A5%BC%20%EC%9C%84%ED%95%9C%20%ED%8A%B9%EB%B3%84%EB%B2%95"
+      }
+    },
+    {
+      "id": "e55e3a697bf5d2615c52129be2f3d4a4",
+      "title": "국세기본법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-15",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "재무회계",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "기획재정부",
+        "lsId": "002884"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=002884",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%AD%EC%84%B8%EA%B8%B0%EB%B3%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "3d0aca30e1d3b82f30fcb2a1822f4cf6",
+      "title": "국세기본법",
+      "summary": "",
+      "effectiveDate": "2025-09-15",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "재무회계",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "기획재정부",
+        "lsId": "001586"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001586",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%AD%EC%84%B8%EA%B8%B0%EB%B3%B8%EB%B2%95"
+      }
+    },
+    {
+      "id": "9cc8acbddf882d5c36be2dbc75d62656",
+      "title": "주택건설기준 등에 관한 규칙",
+      "summary": "",
+      "effectiveDate": "2025-09-07",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "국토교통부",
+        "lsId": "008240"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008240",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A3%BC%ED%83%9D%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%A4%80%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EA%B7%9C%EC%B9%99"
+      }
+    },
+    {
+      "id": "12842dfaf05b66f9dec939f7f3ed3013",
+      "title": "신의료기술평가에 관한 규칙",
+      "summary": "",
+      "effectiveDate": "2025-09-07",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "보건복지부",
+        "lsId": "010431"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010431",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%8B%A0%EC%9D%98%EB%A3%8C%EA%B8%B0%EC%88%A0%ED%8F%89%EA%B0%80%EC%97%90%20%EA%B4%80%ED%95%9C%20%EA%B7%9C%EC%B9%99"
+      }
+    },
+    {
+      "id": "c527f1bdca5300866411aa95e21f5564",
+      "title": "국민 평생 직업능력 개발법 시행규칙",
+      "summary": "",
+      "effectiveDate": "2025-09-03",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전",
+        "인사노무"
+      ],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "006865"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=006865",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B5%AD%EB%AF%BC%20%ED%8F%89%EC%83%9D%20%EC%A7%81%EC%97%85%EB%8A%A5%EB%A0%A5%20%EA%B0%9C%EB%B0%9C%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      }
+    },
+    {
+      "id": "41960174075c1332526648c281bdc553",
+      "title": "평생교육법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "교육부",
+        "lsId": "003751"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=003751",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%8F%89%EC%83%9D%EA%B5%90%EC%9C%A1%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "635703568f4d0037fb831543d424a927",
+      "title": "통상협정대책위원회 규정",
+      "summary": "",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전",
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "010453"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010453",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%86%B5%EC%83%81%ED%98%91%EC%A0%95%EB%8C%80%EC%B1%85%EC%9C%84%EC%9B%90%ED%9A%8C%20%EA%B7%9C%EC%A0%95"
+      }
+    },
+    {
+      "id": "38fe19d03a73b43a46562ee55a922095",
+      "title": "예금자보호법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "재무회계",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "금융위원회",
+        "lsId": "004223"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=004223",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%98%88%EA%B8%88%EC%9E%90%EB%B3%B4%ED%98%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "9e978e8cb86ae4f99f35e64e05458d68",
+      "title": "예금자보호법",
+      "summary": "",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "재무회계",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "금융위원회",
+        "lsId": "001537"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001537",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%98%88%EA%B8%88%EC%9E%90%EB%B3%B4%ED%98%B8%EB%B2%95"
+      }
+    },
+    {
+      "id": "044e89028952b91b190cb354ba853979",
+      "title": "예금보호한도 상향을 위한 6개 법령의 일부개정에 관한 대통령령",
+      "summary": "",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": null,
+      "lawType": "일괄개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "",
+        "lsId": "014905"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=014905",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%98%88%EA%B8%88%EB%B3%B4%ED%98%B8%ED%95%9C%EB%8F%84%20%EC%83%81%ED%96%A5%EC%9D%84%20%EC%9C%84%ED%95%9C%206%EA%B0%9C%20%EB%B2%95%EB%A0%B9%EC%9D%98%20%EC%9D%BC%EB%B6%80%EA%B0%9C%EC%A0%95%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%8C%80%ED%86%B5%EB%A0%B9%EB%A0%B9"
+      }
+    },
+    {
+      "id": "ecae0256efa0b27afd2073c45d6e18bc",
+      "title": "신용협동조합법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "재무회계",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "금융위원회",
+        "lsId": "004108"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=004108",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%8B%A0%EC%9A%A9%ED%98%91%EB%8F%99%EC%A1%B0%ED%95%A9%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "e0749433d7d2debf5b56d89b3a1b0d27",
+      "title": "수산업협동조합의 부실예방 및 구조개선에 관한 법률 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "안전",
+        "환경"
+      ],
+      "meta": {
+        "ministry": "해양수산부",
+        "lsId": "009565"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009565",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%88%98%EC%82%B0%EC%97%85%ED%98%91%EB%8F%99%EC%A1%B0%ED%95%A9%EC%9D%98%20%EB%B6%80%EC%8B%A4%EC%98%88%EB%B0%A9%20%EB%B0%8F%20%EA%B5%AC%EC%A1%B0%EA%B0%9C%EC%84%A0%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "1693d85de5ab9ddad3553f9f66266a1d",
+      "title": "새마을금고법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "행정안전부",
+        "lsId": "003830"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=003830",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%83%88%EB%A7%88%EC%9D%84%EA%B8%88%EA%B3%A0%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "c8d706721d65c999c9077b98d09a34d5",
+      "title": "산림조합의 구조개선에 관한 법률 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "산림청",
+        "lsId": "010639"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010639",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%82%B0%EB%A6%BC%EC%A1%B0%ED%95%A9%EC%9D%98%20%EA%B5%AC%EC%A1%B0%EA%B0%9C%EC%84%A0%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "ad6a1a5ea35a53b3fe9fa3c35609456b",
+      "title": "대기환경보전법 시행규칙",
+      "summary": "",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "007038"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=007038",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EB%8C%80%EA%B8%B0%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      }
+    },
+    {
+      "id": "3322a0a8922fb28a553d671d7ba53b30",
+      "title": "농업협동조합의 구조개선에 관한 법률 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "농림축산식품부",
+        "lsId": "009260"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009260",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EB%86%8D%EC%97%85%ED%98%91%EB%8F%99%EC%A1%B0%ED%95%A9%EC%9D%98%20%EA%B5%AC%EC%A1%B0%EA%B0%9C%EC%84%A0%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "dacc1b88032574a78f581a1904d2d1f6",
+      "title": "항공안전법 시행규칙",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "국토교통부",
+        "lsId": "012848"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012848",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%95%AD%EA%B3%B5%EC%95%88%EC%A0%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      }
+    },
+    {
+      "id": "18da108598239d21f03f0f4552a88f06",
+      "title": "초고층 및 지하연계 복합건축물 재난관리에 관한 특별법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "안전"
+      ],
+      "meta": {
+        "ministry": "소방청",
+        "lsId": "011348"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011348",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%B4%88%EA%B3%A0%EC%B8%B5%20%EB%B0%8F%20%EC%A7%80%ED%95%98%EC%97%B0%EA%B3%84%20%EB%B3%B5%ED%95%A9%EA%B1%B4%EC%B6%95%EB%AC%BC%20%EC%9E%AC%EB%82%9C%EA%B4%80%EB%A6%AC%EC%97%90%20%EA%B4%80%ED%95%9C%20%ED%8A%B9%EB%B3%84%EB%B2%95"
+      }
+    },
+    {
+      "id": "78e6c7df8530c810e3026e0c5fef6aac",
+      "title": "집단에너지사업법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전",
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "005157"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=005157",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A7%91%EB%8B%A8%EC%97%90%EB%84%88%EC%A7%80%EC%82%AC%EC%97%85%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "6d4e14a93d84227b6d2e8e66a60f9a6d",
+      "title": "집단에너지사업법 시행규칙",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전",
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "008396"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008396",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A7%91%EB%8B%A8%EC%97%90%EB%84%88%EC%A7%80%EC%82%AC%EC%97%85%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      }
+    },
+    {
+      "id": "c90a7d3566ef608cfc8c4f7b6450de17",
+      "title": "집단에너지사업법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전",
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "001866"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001866",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A7%91%EB%8B%A8%EC%97%90%EB%84%88%EC%A7%80%EC%82%AC%EC%97%85%EB%B2%95"
+      }
+    },
+    {
+      "id": "cd0c5abe9839c7dda4eab2973d38161d",
+      "title": "지진ㆍ화산재해대책법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "행정안전부",
+        "lsId": "010726"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010726",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A7%80%EC%A7%84%E3%86%8D%ED%99%94%EC%82%B0%EC%9E%AC%ED%95%B4%EB%8C%80%EC%B1%85%EB%B2%95"
+      }
+    },
+    {
+      "id": "c4880fbc8a743ba80d9457a578061b9a",
+      "title": "지방세특례제한법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "행정안전부",
+        "lsId": "011178"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011178",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A7%80%EB%B0%A9%EC%84%B8%ED%8A%B9%EB%A1%80%EC%A0%9C%ED%95%9C%EB%B2%95"
+      }
+    },
+    {
+      "id": "968a25441cf66d6a2e50ad441b80c6ad",
+      "title": "조세특례제한법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "재무회계",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "기획재정부,행정안전부",
+        "lsId": "001584"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001584",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A1%B0%EC%84%B8%ED%8A%B9%EB%A1%80%EC%A0%9C%ED%95%9C%EB%B2%95"
+      }
+    },
+    {
+      "id": "7062cf47c9eeb90be96e4a7c42964026",
+      "title": "재난 및 안전관리 기본법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전"
+      ],
+      "meta": {
+        "ministry": "소방청,해양경찰청,행정안전부",
+        "lsId": "009708"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009708",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%9E%AC%EB%82%9C%20%EB%B0%8F%20%EC%95%88%EC%A0%84%EA%B4%80%EB%A6%AC%20%EA%B8%B0%EB%B3%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "459d70eba2aefb96ce8a283c95f2eeea",
+      "title": "자연재해대책법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "행정안전부",
+        "lsId": "000959"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000959",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%9E%90%EC%97%B0%EC%9E%AC%ED%95%B4%EB%8C%80%EC%B1%85%EB%B2%95"
+      }
+    },
+    {
+      "id": "c53267bd293916e4d50d9aa6e003ea5e",
+      "title": "유통산업발전법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "안전",
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "001469"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001469",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%9C%A0%ED%86%B5%EC%82%B0%EC%97%85%EB%B0%9C%EC%A0%84%EB%B2%95"
+      }
+    },
+    {
+      "id": "5f450adf2b8a6d62a9bc6ea490f45a8e",
+      "title": "엔지니어링산업 진흥법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전",
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "000758"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000758",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%97%94%EC%A7%80%EB%8B%88%EC%96%B4%EB%A7%81%EC%82%B0%EC%97%85%20%EC%A7%84%ED%9D%A5%EB%B2%95"
+      }
+    },
+    {
+      "id": "2bd6e309e1342fc7ed9c0294867b212d",
+      "title": "어린이제품 안전 특별법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "안전",
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "012070"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012070",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%96%B4%EB%A6%B0%EC%9D%B4%EC%A0%9C%ED%92%88%20%EC%95%88%EC%A0%84%20%ED%8A%B9%EB%B3%84%EB%B2%95"
+      }
+    },
+    {
+      "id": "be4d4c794bd45a055f5bc3b29f887884",
+      "title": "어린이안전관리에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "행정안전부",
+        "lsId": "013761"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=013761",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%96%B4%EB%A6%B0%EC%9D%B4%EC%95%88%EC%A0%84%EA%B4%80%EB%A6%AC%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "3821bdae4a74c16b64440a129ca69adf",
+      "title": "실종아동등의 보호 및 지원에 관한 법률",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "경찰청,보건복지부",
+        "lsId": "009942"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009942",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%8B%A4%EC%A2%85%EC%95%84%EB%8F%99%EB%93%B1%EC%9D%98%20%EB%B3%B4%ED%98%B8%20%EB%B0%8F%20%EC%A7%80%EC%9B%90%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      }
+    },
+    {
+      "id": "cd31aace49334ab8a15dc495de23d63a",
+      "title": "물환경보전법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "000166"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000166",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EB%AC%BC%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95"
+      }
+    },
+    {
+      "id": "0776ba86e2cca067d77983401734572f",
+      "title": "궤도운송법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "안전",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "국토교통부",
+        "lsId": "000096"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000096",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B6%A4%EB%8F%84%EC%9A%B4%EC%86%A1%EB%B2%95"
+      }
+    },
+    {
+      "id": "accec842858cbe22024820f783c93fca",
+      "title": "경제자유구역의 지정 및 운영에 관한 특별법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "안전",
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "009411"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009411",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B2%BD%EC%A0%9C%EC%9E%90%EC%9C%A0%EA%B5%AC%EC%97%AD%EC%9D%98%20%EC%A7%80%EC%A0%95%20%EB%B0%8F%20%EC%9A%B4%EC%98%81%EC%97%90%20%EA%B4%80%ED%95%9C%20%ED%8A%B9%EB%B3%84%EB%B2%95"
+      }
+    },
+    {
+      "id": "5002f4e3e7cac240c11e38c7e1c3e5da",
+      "title": "건설산업기본법",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "안전",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "국토교통부",
+        "lsId": "001808"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001808",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B1%B4%EC%84%A4%EC%82%B0%EC%97%85%EA%B8%B0%EB%B3%B8%EB%B2%95"
       }
     }
   ]
