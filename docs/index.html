@@ -6,36 +6,44 @@
   <title>LAW WATCH · 올해 개정 법령</title>
   <style>
     :root {
-      --brand:#2563eb; --brand-weak:#ecf2ff; --text:#0b1220; --muted:#6b7280;
-      --card:#ffffff; --bg:#f6f7fb; --bd:#e5e7eb;
+      --brand:#2563eb; --brand-weak:#eef2ff; --text:#0b1220; --muted:#6b7280;
+      --bg:#f6f7fb; --card:#fff; --bd:#e5e7eb; --ok:#059669; --warn:#d97706;
     }
     @media (prefers-color-scheme: dark) {
-      :root { --text:#e5e7eb; --muted:#9ca3af; --card:#0d1117; --bg:#050a12; --bd:#1f2937;
-              --brand:#63a4ff; --brand-weak:#0d1b2e; }
+      :root { --text:#e5e7eb; --muted:#9ca3af; --bg:#050a12; --card:#0d1117; --bd:#1f2937;
+              --brand:#63a4ff; --brand-weak:#10213a; }
       body { background: var(--bg); }
     }
-    * { box-sizing:border-box; }
-    body { margin: 0; font-family: Inter, Pretendard, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--text); background:var(--bg); }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
-    header { display:flex; align-items:end; justify-content:space-between; gap:12px; flex-wrap:wrap; }
-    h1 { margin: 0; font-size: 24px; letter-spacing: .2px; }
-    .meta { color:var(--muted); font-size: 13px; }
-    .toolbar { display:flex; gap:10px; flex-wrap:wrap; margin: 14px 0 18px; }
+    * { box-sizing:border-box }
+    body { margin:0; font-family: Inter, Pretendard, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--text); background:var(--bg); }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 22px; }
+    header { display:flex; align-items:end; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom: 10px; }
+    h1 { margin:0; font-size: 24px; letter-spacing:.2px; }
+    .meta { color:var(--muted); font-size:13px; }
+    .controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin: 12px 0 18px; }
     input[type="search"], select {
       padding:10px 12px; border:1px solid var(--bd); border-radius:12px; background:var(--card); color:var(--text);
     }
-    .cards { display:grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+    .tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 8px; }
+    .tab { padding:8px 10px; border:1px solid var(--bd); border-radius:999px; background:var(--card); cursor:pointer; font-weight:600; color:var(--text); }
+    .tab.active { background:var(--brand); color:#fff; border-color:transparent; }
+    .count { color:var(--muted); font-size:13px; margin-left: 6px; }
+    .cards { display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
     .card { background:var(--card); border:1px solid var(--bd); border-radius:16px; padding:16px; }
-    .title { font-weight:700; font-size: 16px; margin: 0 0 8px; line-height:1.35; }
+    .title { font-weight:750; font-size:16px; margin:0 0 10px; line-height:1.35; }
     .chips { display:flex; gap:8px; flex-wrap:wrap; margin: 6px 0 12px; }
     .chip { padding: 4px 10px; border-radius: 999px; font-size: 12px; background: var(--brand-weak); color: var(--brand); }
+    .chip.gray { background:#f1f2f4; color:#374151; }
+    @media (prefers-color-scheme: dark) { .chip.gray { background:#18202a; color:#cbd5e1; } }
+    .status { font-weight:700; }
+    .status.ok { color:var(--ok); }
+    .status.warn { color:var(--warn); }
     .actions { display:flex; gap:8px; }
-    .btn { display:inline-block; padding:9px 11px; border-radius: 10px; border:1px solid var(--bd); text-decoration:none; font-weight:600; }
-    .btn.primary { background: var(--brand); color: #fff; border-color: transparent; }
-    .btn.secondary { background: transparent; color: var(--text); }
-    .empty { color:var(--muted); border:1px dashed var(--bd); border-radius: 12px; padding: 24px; text-align:center; }
-    footer { margin-top: 22px; color:var(--muted); font-size:12px; }
-    .count { color:var(--muted); font-size:13px; }
+    .btn { display:inline-block; padding:9px 11px; border-radius:10px; text-decoration:none; font-weight:600; border:1px solid var(--bd); }
+    .btn.primary { background:var(--brand); color:#fff; border-color:transparent; }
+    .btn.secondary { background:transparent; color:var(--text); }
+    .empty { color:var(--muted); border:1px dashed var(--bd); border-radius:12px; padding:24px; text-align:center; }
+    footer { margin-top: 18px; color:var(--muted); font-size:12px; }
   </style>
 </head>
 <body>
@@ -48,48 +56,65 @@
       <a class="btn" href="https://github.com/tjdudfhr/law-watch" target="_blank" rel="noopener">GitHub</a>
     </header>
 
-    <div class="toolbar">
+    <div class="tabs" id="tabs"></div>
+
+    <div class="controls">
       <input id="q" type="search" placeholder="검색(제목)" />
-      <select id="type">
-        <option value="">유형: 전체</option>
-        <option value="전부개정">전부개정</option>
-        <option value="일부개정">일부개정</option>
-        <option value="타법개정">타법개정</option>
-        <option value="일괄개정">일괄개정</option>
-        <option value="개정">기타 개정</option>
-      </select>
       <select id="sort">
-        <option value="eff-desc">정렬: 시행일 최신순</option>
-        <option value="eff-asc">정렬: 시행일 오래된순</option>
+        <option value="due">정렬: 임박순(기본)</option>
+        <option value="eff-desc">정렬: 시행일 최신</option>
+        <option value="eff-asc">정렬: 시행일 오래된</option>
         <option value="title">정렬: 제목순</option>
       </select>
-      <div class="count" id="count"></div>
+      <label style="display:flex;align-items:center;gap:6px;">
+        <input id="onlySoon" type="checkbox" />
+        임박만(60일 내)
+      </label>
+      <span class="count" id="count"></span>
     </div>
 
-    <div id="list" class="cards">
-      <div class="empty">로딩 중...</div>
-    </div>
+    <div id="list" class="cards"><div class="empty">로딩 중...</div></div>
 
     <footer>
-      상세 페이지는 국가법령정보센터의 lsInfoP.do 경로를 사용하며, 일부 항목은 검색 페이지(lsSc.do?query=)로 대체 이동합니다.
+      상세 페이지는 국가법령정보센터 lsInfoP.do 경로를 사용하며, 일부 항목은 검색 페이지로 대체 이동합니다.
     </footer>
   </div>
 
   <script>
-    let all = [];
+    const CAT_ORDER = ["전체","안전","환경","인사노무","지배구조","재무회계","정보보호","기타"];
+    let all = [], selectedCat = "전체";
+
     const $ = s => document.querySelector(s);
-    const list = $('#list');
+    const today = new Date(); today.setHours(0,0,0,0);
+
+    function parseDate(s){ if(!s) return null; const d = new Date(s); return isNaN(d) ? null : d; }
+    function daysDiff(eff){
+      const d = parseDate(eff); if(!d) return null;
+      return Math.round((d - today)/86400000);
+    }
+    function statusBadge(eff){
+      const dd = daysDiff(eff);
+      if(dd === null) return "";
+      if(dd > 0) return `<span class="status warn">D-${dd}</span>`;
+      if(dd === 0) return `<span class="status warn">D-0</span>`;
+      return `<span class="status ok">시행중 D+${Math.abs(dd)}</span>`;
+    }
 
     function mkCard(it){
       const div = document.createElement('div');
       div.className = 'card';
       const url = it.source?.url || '';
       const searchUrl = it.source?.search || ('https://www.law.go.kr/lsSc.do?query=' + encodeURIComponent(it.title||''));
+      const cats = it.categories || ["기타"];
+      const ministry = it.meta?.ministry || "";
       div.innerHTML = `
         <h3 class="title">${it.title||''}</h3>
         <div class="chips">
-          ${it.lawType ? `<span class="chip">${it.lawType}</span>`:''}
-          ${it.effectiveDate ? `<span class="chip">시행일: ${it.effectiveDate}</span>`:''}
+          ${cats.map(c=>`<span class="chip">${c}</span>`).join('')}
+          ${it.lawType ? `<span class="chip gray">${it.lawType}</span>`:''}
+          ${it.effectiveDate ? `<span class="chip gray">시행일 ${it.effectiveDate}</span>`:''}
+          ${statusBadge(it.effectiveDate)}
+          ${ministry ? `<span class="chip gray">${ministry}</span>`:''}
         </div>
         <div class="actions">
           ${url ? `<a class="btn primary" href="${url}" target="_blank" rel="noopener">원문 보기</a>`:''}
@@ -99,50 +124,85 @@
       return div;
     }
 
+    function sortItems(arr, how){
+      const a = [...arr];
+      if(how==='title') a.sort((x,y)=> (x.title||'').localeCompare(y.title||''));
+      else if(how==='eff-asc') a.sort((x,y)=> (x.effectiveDate||'').localeCompare(y.effectiveDate||''));
+      else if(how==='eff-desc') a.sort((x,y)=> (y.effectiveDate||'').localeCompare(x.effectiveDate||''));
+      else { // due: 임박순(미래 우선, 가까울수록 먼저 → 그 다음 최근 과거)
+        a.sort((x,y)=>{
+          const dx = daysDiff(x.effectiveDate), dy = daysDiff(y.effectiveDate);
+          const fx = dx!=null && dx>=0, fy = dy!=null && dy>=0; // 미래 여부
+          if(fx!==fy) return fx ? -1 : 1; // 미래 먼저
+          const ax = Math.abs(dx ?? 99999), ay = Math.abs(dy ?? 99999);
+          return ax - ay;
+        });
+      }
+      return a;
+    }
+
+    function buildTabs(items){
+      const counts = {"전체": items.length};
+      CAT_ORDER.slice(1).forEach(c=>counts[c]=0);
+      items.forEach(it=>{
+        const cats = it.categories && it.categories.length ? it.categories : ["기타"];
+        new Set(cats).forEach(c=>{ counts[c] = (counts[c]||0)+1; });
+      });
+      const tabs = $('#tabs');
+      tabs.innerHTML = '';
+      CAT_ORDER.forEach(c=>{
+        const btn = document.createElement('button');
+        btn.className = 'tab' + (selectedCat===c?' active':'');
+        btn.textContent = `${c} (${counts[c]||0})`;
+        btn.onclick = ()=>{ selectedCat=c; applyFilter(); buildTabs(all); };
+        tabs.appendChild(btn);
+      });
+    }
+
     function render(items){
+      const list = $('#list');
       list.innerHTML = '';
       $('#count').textContent = `총 ${items.length.toLocaleString()}건`;
       if(!items.length){ list.innerHTML = '<div class="empty">표시할 항목이 없습니다.</div>'; return; }
       items.forEach(it => list.appendChild(mkCard(it)));
     }
 
-    function sortItems(arr, how){
-      const a = [...arr];
-      if(how==='eff-asc') a.sort((x,y)=> (x.effectiveDate||'').localeCompare(y.effectiveDate||''));
-      else if(how==='title') a.sort((x,y)=> (x.title||'').localeCompare(y.title||''));
-      else a.sort((x,y)=> (y.effectiveDate||'').localeCompare(x.effectiveDate||'')); // 최신순
-      return a;
-    }
-
     function applyFilter(){
-      const qv = ($('#q').value||'').trim();
-      const tv = $('#type').value;
-      const sv = $('#sort').value;
       let rows = all;
+      const qv = ($('#q').value||'').trim();
+      const sort = $('#sort').value;
+      const onlySoon = $('#onlySoon').checked;
+
+      if(selectedCat && selectedCat!=="전체"){
+        rows = rows.filter(it => (it.categories||["기타"]).includes(selectedCat));
+      }
       if(qv){
         const re = new RegExp(qv.replace(/[.*+?^${}()|[\]\\]/g,'\\__CODE_BLOCK_0__'),'i');
-        rows = rows.filter(it => re.test(it.title||''));
+        rows = rows.filter(it => re.test(it.title||'') || re.test(it.meta?.ministry||''));
       }
-      if(tv){
-        rows = rows.filter(it => (it.lawType||'').includes(tv));
+      if(onlySoon){
+        rows = rows.filter(it => {
+          const d = daysDiff(it.effectiveDate);
+          return d!=null && d>=0 && d<=60;
+        });
       }
-      render(sortItems(rows, sv));
+      render(sortItems(rows, sort));
     }
 
-    $('#q').addEventListener('input', applyFilter);
-    $('#type').addEventListener('change', applyFilter);
-    $('#sort').addEventListener('change', applyFilter);
+    ['q','sort','onlySoon'].forEach(id => document.getElementById(id).addEventListener('input', applyFilter));
 
     async function load(){
       const res = await fetch('./index.json?ts=' + Date.now());
       const data = await res.json();
       const year = data.year || new Date().getFullYear();
-      $('#yy').textContent = year;
-      $('#ts').textContent = '생성시각: ' + new Date((data.generatedAt||0)*1000).toLocaleString('ko-KR');
-      all = (data.items||[]);  // 서버에서 이미 "올해만" 필터됨
+      document.getElementById('yy').textContent = year;
+      document.getElementById('ts').textContent = '생성시각: ' + new Date((data.generatedAt||0)*1000).toLocaleString('ko-KR');
+
+      all = data.items || [];
+      buildTabs(all);
       applyFilter();
     }
-    load().catch(e => { list.innerHTML = '<div class="empty">index.json 로드 실패: '+e+'</div>'; });
+    load().catch(e => { document.getElementById('list').innerHTML = '<div class="empty">index.json 로드 실패: '+e+'</div>'; });
   </script>
 </body>
 </html>
