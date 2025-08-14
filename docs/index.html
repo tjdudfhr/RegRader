@@ -5,14 +5,20 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>법령 업데이트 모니터</title>
   <style>
-    body { font-family: system-ui, sans-serif; margin: 24px; }
+    :root { --bg:#0b6cff; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; }
     header { margin-bottom: 16px; }
+    h1 { margin: 0 0 6px; font-size: 22px; }
     .meta { color:#666; font-size:14px; }
-    ul { list-style: none; padding: 0; }
-    li { border:1px solid #e5e5e5; border-radius:10px; padding:12px; margin:10px 0; }
-    .title { font-weight:600; }
-    .chips span { display:inline-block; padding:2px 8px; border-radius:999px; background:#f1f3f5; margin-right:6px; font-size:12px; }
-    a { color:#0b6cff; text-decoration:none; }
+    .toolbar { margin:12px 0 20px; display:flex; gap:8px; flex-wrap:wrap; }
+    input[type="search"]{ padding:8px 10px; border:1px solid #d0d7de; border-radius:8px; min-width:240px; }
+    .chip { display:inline-block; padding:2px 8px; border-radius:999px; background:#eef2ff; color:#1f3fb3; font-size:12px; margin-right:6px; }
+    ul { list-style:none; padding:0; }
+    li { border:1px solid #e5e7eb; border-radius:12px; padding:14px; margin:10px 0; box-shadow:0 1px 0 #f2f2f2; }
+    .title { font-weight:600; font-size:16px; margin-bottom:6px; }
+    a { color: var(--bg); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .empty { color:#666; border-style:dashed; text-align:center; padding:22px; }
   </style>
 </head>
 <body>
@@ -20,38 +26,59 @@
     <h1>법령 업데이트 모니터</h1>
     <div class="meta">
       데이터: <a href="./index.json">index.json</a>
+      <span id="ts"></span>
     </div>
   </header>
 
-  <ul id="list"></ul>
+  <div class="toolbar">
+    <input id="q" type="search" placeholder="검색(제목)" />
+  </div>
+
+  <ul id="list"><li class="empty">로딩 중...</li></ul>
 
   <script>
-    async function load(){
-      const res = await fetch('./index.json?ts=' + Date.now());
-      const data = await res.json();
-      document.querySelector('.meta').insertAdjacentHTML('beforeend',
-        ' · 생성시각: ' + new Date((data.generatedAt||0)*1000).toLocaleString('ko-KR'));
-      const ul = document.getElementById('list');
-      (data.items||[]).forEach(it=>{
+    let all = [];
+    const ul = document.getElementById('list');
+    const q = document.getElementById('q');
+
+    function render(items){
+      ul.innerHTML = '';
+      if(!items.length){
+        ul.innerHTML = '<li class="empty">표시할 항목이 없습니다.</li>';
+        return;
+      }
+      items.forEach(it=>{
         const li = document.createElement('li');
         li.innerHTML = `
           <div class="title">${it.title||''}</div>
-          <div class="chips">
-            ${it.lawType ? `<span>${it.lawType}</span>`:''}
-            ${it.effectiveDate ? `<span>시행일: ${it.effectiveDate}</span>`:''}
+          <div style="margin:6px 0 10px;">
+            ${it.lawType ? `<span class="chip">${it.lawType}</span>`:''}
+            ${it.effectiveDate ? `<span class="chip">시행일: ${it.effectiveDate}</span>`:''}
           </div>
-          ${it.source && it.source.url ? `<div><a href="${it.source.url}" target="_blank">원문 보기</a></div>`:''}
-          ${it.summary ? `<p>${it.summary}</p>`:''}
+          ${it.source && it.source.url ? `<a href="${it.source.url}" target="_blank" rel="noopener">원문 보기</a>`:''}
         `;
         ul.appendChild(li);
       });
-      if(!(data.items||[]).length){
-        document.getElementById('list').innerHTML =
-          '<li>표시할 항목이 없습니다. Actions에서 워크플로를 실행해 보세요.</li>';
-      }
     }
+
+    function filter(){
+      const v = (q.value||'').trim();
+      if(!v) return render(all);
+      const re = new RegExp(v.replace(/[.*+?^${}()|[\]\\]/g,'\\__CODE_BLOCK_0__'),'i');
+      render(all.filter(it => re.test(it.title||'')));
+    }
+
+    async function load(){
+      const res = await fetch('./index.json?ts=' + Date.now());
+      const data = await res.json();
+      all = data.items || [];
+      document.getElementById('ts').textContent = '· 생성시각: ' + new Date((data.generatedAt||0)*1000).toLocaleString('ko-KR');
+      render(all);
+    }
+
+    q.addEventListener('input', filter);
     load().catch(e=>{
-      document.getElementById('list').innerHTML = '<li>index.json 로드 실패: '+e+'</li>';
+      ul.innerHTML = '<li class="empty">index.json 로드 실패: '+e+'</li>';
     });
   </script>
 </body>
