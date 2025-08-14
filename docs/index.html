@@ -1,208 +1,160 @@
-<!doctype html>
-<html lang="ko">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>LAW WATCH · 올해 개정 법령</title>
-  <style>
-    :root {
-      --brand:#2563eb; --brand-weak:#eef2ff; --text:#0b1220; --muted:#6b7280;
-      --bg:#f6f7fb; --card:#fff; --bd:#e5e7eb; --ok:#059669; --warn:#d97706;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root { --text:#e5e7eb; --muted:#9ca3af; --bg:#050a12; --card:#0d1117; --bd:#1f2937;
-              --brand:#63a4ff; --brand-weak:#10213a; }
-      body { background: var(--bg); }
-    }
-    * { box-sizing:border-box }
-    body { margin:0; font-family: Inter, Pretendard, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--text); background:var(--bg); }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 22px; }
-    header { display:flex; align-items:end; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom: 10px; }
-    h1 { margin:0; font-size: 24px; letter-spacing:.2px; }
-    .meta { color:var(--muted); font-size:13px; }
-    .controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin: 12px 0 18px; }
-    input[type="search"], select {
-      padding:10px 12px; border:1px solid var(--bd); border-radius:12px; background:var(--card); color:var(--text);
-    }
-    .tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 8px; }
-    .tab { padding:8px 10px; border:1px solid var(--bd); border-radius:999px; background:var(--card); cursor:pointer; font-weight:600; color:var(--text); }
-    .tab.active { background:var(--brand); color:#fff; border-color:transparent; }
-    .count { color:var(--muted); font-size:13px; margin-left: 6px; }
-    .cards { display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
-    .card { background:var(--card); border:1px solid var(--bd); border-radius:16px; padding:16px; }
-    .title { font-weight:750; font-size:16px; margin:0 0 10px; line-height:1.35; }
-    .chips { display:flex; gap:8px; flex-wrap:wrap; margin: 6px 0 12px; }
-    .chip { padding: 4px 10px; border-radius: 999px; font-size: 12px; background: var(--brand-weak); color: var(--brand); }
-    .chip.gray { background:#f1f2f4; color:#374151; }
-    @media (prefers-color-scheme: dark) { .chip.gray { background:#18202a; color:#cbd5e1; } }
-    .status { font-weight:700; }
-    .status.ok { color:var(--ok); }
-    .status.warn { color:var(--warn); }
-    .actions { display:flex; gap:8px; }
-    .btn { display:inline-block; padding:9px 11px; border-radius:10px; text-decoration:none; font-weight:600; border:1px solid var(--bd); }
-    .btn.primary { background:var(--brand); color:#fff; border-color:transparent; }
-    .btn.secondary { background:transparent; color:var(--text); }
-    .empty { color:var(--muted); border:1px dashed var(--bd); border-radius:12px; padding:24px; text-align:center; }
-    footer { margin-top: 18px; color:var(--muted); font-size:12px; }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <div>
-        <h1>LAW WATCH · <span id="yy"></span> 개정 법령</h1>
-        <div class="meta">데이터: <a href="./index.json">index.json</a> · <span id="ts"></span></div>
-      </div>
-      <a class="btn" href="https://github.com/tjdudfhr/law-watch" target="_blank" rel="noopener">GitHub</a>
-    </header>
+<!doctype html>  
+<html lang="ko">  
+<head>  
+<meta charset="utf-8" />  
+<meta name="viewport" content="width=device-width,initial-scale=1" />  
+<title>LAW WATCH · 올해 개정 법령</title>  
+<style>  
+  :root {  
+    --brand:#2563eb; --text:#0b1220; --muted:#6b7280; --bg:#f5f7fb; --card:#ffffff; --bd:#e5e7eb;  
+    --ok:#16a34a; --warn:#d97706;  
+    --c-safety:#22c55e; --c-env:#10b981; --c-hr:#f59e0b; --c-gov:#6366f1; --c-fin:#0ea5e9; --c-sec:#ef4444; --c-etc:#9ca3af;  
+  }  
+  @media (prefers-color-scheme: dark){  
+    :root { --text:#e5e7eb; --muted:#9ca3af; --bg:#050a12; --card:#0d1117; --bd:#1f2937; --brand:#63a4ff; }  
+    body { background:var(--bg); }  
+  }  
+  *{box-sizing:border-box}  
+  body{margin:0; font-family: Inter, Pretendard, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--text); background:var(--bg);}  
+  .wrap{max-width:1200px; margin:0 auto; padding:22px;}  
+  header{display:flex; align-items:end; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:10px;}  
+  h1{margin:0; font-size:26px; letter-spacing:.2px;}  
+  .meta{color:var(--muted); font-size:13px;}  
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:14px 0 18px;}  
+  .kpi{background:var(--card); border:1px solid var(--bd); border-radius:16px; padding:14px 16px; display:flex; align-items:center; gap:12px;}  
+  .kpi .shape{width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800}  
+  .kpi .txt{flex:1}  
+  .kpi .label{color:var(--muted); font-size:12px;}  
+  .kpi .value{font-weight:800; font-size:20px;}  
+  .panel{display:grid; grid-template-columns: 360px 1fr; gap:14px; margin-bottom:16px;}  
+  .card{background:var(--card); border:1px solid var(--bd); border-radius:16px; padding:16px;}  
+  .donut{width: 220px; height:220px; border-radius:50%; margin:8px auto; background: conic-gradient(var(--c-etc) 0 360deg)}  
+  .legend{display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:10px;}  
+  .lg{display:flex; align-items:center; gap:8px; color:var(--muted); font-size:13px;}  
+  .dot{width:10px; height:10px; border-radius:50%;}  
+  .controls{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:8px 0 10px;}  
+  input[type="search"], select{padding:10px 12px; border:1px solid var(--bd); border-radius:12px; background:var(--card); color:var(--text);}  
+  .tabs{display:flex; gap:8px; flex-wrap:wrap;}  
+  .tab{padding:8px 12px; border:1px solid var(--bd); border-radius:999px; background:var(--card); cursor:pointer; font-weight:700;}  
+  .tab.active{background:var(--brand); color:#fff; border-color:transparent;}  
+  .count{color:var(--muted); font-size:13px; margin-left:6px;}  
+  .cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:14px; margin-top:8px;}  
+  .law{background:var(--card); border:1px solid var(--bd); border-radius:16px; padding:16px;}  
+  .title{font-weight:800; font-size:16px; margin:0 0 8px; line-height:1.35;}  
+  .chips{display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 12px;}  
+  .chip{padding:4px 10px; border-radius:999px; font-size:12px; color:#fff}  
+  .chip.gray{background:#64748b;}  
+  .chip.safety{background:var(--c-safety)} .chip.env{background:var(--c-env)} .chip.hr{background:var(--c-hr)}  
+  .chip.gov{background:var(--c-gov)} .chip.fin{background:var(--c-fin)} .chip.sec{background:var(--c-sec)} .chip.etc{background:var(--c-etc)}  
+  .status{font-weight:800;}  
+  .status.warn{color:var(--warn)} .status.ok{color:var(--ok)}  
+  .actions{display:flex; gap:8px;}  
+  .btn{display:inline-block; padding:9px 11px; border-radius:10px; text-decoration:none; font-weight:700; border:1px solid var(--bd);}  
+  .btn.primary{background:var(--brand); color:#fff; border-color:transparent;}  
+  .btn.secondary{background:transparent; color:var(--text);}  
+  .empty{color:var(--muted); border:1px dashed var(--bd); border-radius:12px; padding:24px; text-align:center;}  
+  @media (max-width: 960px){ .panel{grid-template-columns: 1fr;} .kpis{grid-template-columns:repeat(2,1fr);} }  
+</style>  
+</head>  
+<body>  
+<div class="wrap">  
+  <header>  
+    <div>  
+      <h1>LAW WATCH · <span id="yy"></span> 개정 법령</h1>  
+      <div class="meta">데이터: <a href="./index.json">index.json</a> · <span id="ts"></span></div>  
+    </div>  
+    <a class="btn" href="https://github.com/tjdudfhr/law-watch" target="_blank" rel="noopener">GitHub</a>  
+  </header>  
 
-    <div class="tabs" id="tabs"></div>
+  <!-- KPIs -->  
+  <div class="kpis">  
+    <div class="kpi"><div class="shape" style="background:linear-gradient(135deg,#2563eb,#60a5fa)">📚</div><div class="txt"><div class="label">올해 전체</div><div class="value" id="v-all">0</div></div></div>  
+    <div class="kpi"><div class="shape" style="background:linear-gradient(135deg,#d97706,#fbbf24)">⏳</div><div class="txt"><div class="label">D-7 예정</div><div class="value" id="v-d7">0</div></div></div>  
+    <div class="kpi"><div class="shape" style="background:linear-gradient(135deg,#0ea5e9,#60a5fa)">🗓️</div><div class="txt"><div class="label">D-30 예정</div><div class="value" id="v-d30">0</div></div></div>  
+    <div class="kpi"><div class="shape" style="background:linear-gradient(135deg,#16a34a,#86efac)">✅</div><div class="txt"><div class="label">시행 중</div><div class="value" id="v-live">0</div></div></div>  
+  </div>  
 
-    <div class="controls">
-      <input id="q" type="search" placeholder="검색(제목)" />
-      <select id="sort">
-        <option value="due">정렬: 임박순(기본)</option>
-        <option value="eff-desc">정렬: 시행일 최신</option>
-        <option value="eff-asc">정렬: 시행일 오래된</option>
-        <option value="title">정렬: 제목순</option>
-      </select>
-      <label style="display:flex;align-items:center;gap:6px;">
-        <input id="onlySoon" type="checkbox" />
-        임박만(60일 내)
-      </label>
-      <span class="count" id="count"></span>
-    </div>
+  <!-- Category donut + controls -->  
+  <div class="panel">  
+    <div class="card">  
+      <div style="text-align:center; font-weight:800; margin-bottom:8px;">직무 카테고리 분포</div>  
+      <div class="donut" id="donut"></div>  
+      <div class="legend" id="legend"></div>  
+    </div>  
 
-    <div id="list" class="cards"><div class="empty">로딩 중...</div></div>
+    <div class="card">  
+      <div class="tabs" id="tabs"></div>  
+      <div class="controls">  
+        <input id="q" type="search" placeholder="검색(제목·부처)" />  
+        <select id="sort">  
+          <option value="due">정렬: 임박순(기본)</option>  
+          <option value="eff-desc">정렬: 시행일 최신</option>  
+          <option value="eff-asc">정렬: 시행일 오래된</option>  
+          <option value="title">정렬: 제목순</option>  
+        </select>  
+        <label style="display:flex;align-items:center;gap:6px;">  
+          <input id="onlySoon" type="checkbox" /> 임박만(60일 내)  
+        </label>  
+        <span class="count" id="count"></span>  
+      </div>  
+      <div id="list" class="cards"><div class="empty">로딩 중...</div></div>  
+    </div>  
+  </div>  
 
-    <footer>
-      상세 페이지는 국가법령정보센터 lsInfoP.do 경로를 사용하며, 일부 항목은 검색 페이지로 대체 이동합니다.
-    </footer>
-  </div>
+  <div class="meta">상세 페이지는 국가법령정보센터 lsInfoP.do 경로를 사용하며, 일부 항목은 검색 페이지로 대체 이동합니다.</div>  
+</div>  
 
-  <script>
-    const CAT_ORDER = ["전체","안전","환경","인사노무","지배구조","재무회계","정보보호","기타"];
-    let all = [], selectedCat = "전체";
+<script>  
+  const CAT_META = {  
+    "안전":{varName:"--c-safety", cls:"safety"},  
+    "환경":{varName:"--c-env", cls:"env"},  
+    "인사노무":{varName:"--c-hr", cls:"hr"},  
+    "지배구조":{varName:"--c-gov", cls:"gov"},  
+    "재무회계":{varName:"--c-fin", cls:"fin"},  
+    "정보보호":{varName:"--c-sec", cls:"sec"},  
+    "기타":{varName:"--c-etc", cls:"etc"},  
+  };  
+  const CAT_ORDER = ["전체","안전","환경","인사노무","지배구조","재무회계","정보보호","기타"];  
+  let all=[], selectedCat="전체";  
 
-    const $ = s => document.querySelector(s);
-    const today = new Date(); today.setHours(0,0,0,0);
+  const $ = s => document.querySelector(s);  
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();  
+  const today = new Date(); today.setHours(0,0,0,0);  
 
-    function parseDate(s){ if(!s) return null; const d = new Date(s); return isNaN(d) ? null : d; }
-    function daysDiff(eff){
-      const d = parseDate(eff); if(!d) return null;
-      return Math.round((d - today)/86400000);
-    }
-    function statusBadge(eff){
-      const dd = daysDiff(eff);
-      if(dd === null) return "";
-      if(dd > 0) return `<span class="status warn">D-${dd}</span>`;
-      if(dd === 0) return `<span class="status warn">D-0</span>`;
-      return `<span class="status ok">시행중 D+${Math.abs(dd)}</span>`;
-    }
+  function parseDate(s){ if(!s) return null; const d=new Date(s); return isNaN(d)?null:d; }  
+  function daysDiff(eff){ const d=parseDate(eff); if(!d) return null; return Math.round((d-today)/86400000); }  
+  function statusBadge(eff){  
+    const dd = daysDiff(eff);  
+    if(dd===null) return "";  
+    if(dd>0) return `<span class="status warn">D-${dd}</span>`;  
+    if(dd===0) return `<span class="status warn">D-0</span>`;  
+    return `<span class="status ok">시행중 D+${Math.abs(dd)}</span>`;  
+  }  
 
-    function mkCard(it){
-      const div = document.createElement('div');
-      div.className = 'card';
-      const url = it.source?.url || '';
-      const searchUrl = it.source?.search || ('https://www.law.go.kr/lsSc.do?query=' + encodeURIComponent(it.title||''));
-      const cats = it.categories || ["기타"];
-      const ministry = it.meta?.ministry || "";
-      div.innerHTML = `
-        <h3 class="title">${it.title||''}</h3>
-        <div class="chips">
-          ${cats.map(c=>`<span class="chip">${c}</span>`).join('')}
-          ${it.lawType ? `<span class="chip gray">${it.lawType}</span>`:''}
-          ${it.effectiveDate ? `<span class="chip gray">시행일 ${it.effectiveDate}</span>`:''}
-          ${statusBadge(it.effectiveDate)}
-          ${ministry ? `<span class="chip gray">${ministry}</span>`:''}
-        </div>
-        <div class="actions">
-          ${url ? `<a class="btn primary" href="${url}" target="_blank" rel="noopener">원문 보기</a>`:''}
-          <a class="btn secondary" href="${searchUrl}" target="_blank" rel="noopener">검색으로 열기</a>
-        </div>
-      `;
-      return div;
-    }
+  function mkCard(it){  
+    const div=document.createElement('div'); div.className='law';  
+    const url = it.source?.url || '';  
+    const searchUrl = it.source?.search || ('https://www.law.go.kr/lsSc.do?query='+encodeURIComponent(it.title||''));  
+    const cats = it.categories?.length? it.categories : ["기타"];  
+    const ministry = it.meta?.ministry || "";  
+    div.innerHTML = `  
+      <h3 class="title">${it.title||''}</h3>  
+      <div class="chips">  
+        ${cats.map(c=>`<span class="chip ${CAT_META[c]?.cls||'etc'}">${c}</span>`).join('')}  
+        ${it.lawType ? `<span class="chip gray">${it.lawType}</span>`:''}  
+        ${it.effectiveDate ? `<span class="chip gray">시행 ${it.effectiveDate}</span>`:''}  
+        ${statusBadge(it.effectiveDate)}  
+        ${ministry ? `<span class="chip gray">${ministry}</span>`:''}  
+      </div>  
+      <div class="actions">  
+        ${url?`<a class="btn primary" href="${url}" target="_blank" rel="noopener">원문 보기</a>`:''}  
+        <a class="btn secondary" href="${searchUrl}" target="_blank" rel="noopener">검색으로 열기</a>  
+      </div>`;  
+    return div;  
+  }  
 
-    function sortItems(arr, how){
-      const a = [...arr];
-      if(how==='title') a.sort((x,y)=> (x.title||'').localeCompare(y.title||''));
-      else if(how==='eff-asc') a.sort((x,y)=> (x.effectiveDate||'').localeCompare(y.effectiveDate||''));
-      else if(how==='eff-desc') a.sort((x,y)=> (y.effectiveDate||'').localeCompare(x.effectiveDate||''));
-      else { // due: 임박순(미래 우선, 가까울수록 먼저 → 그 다음 최근 과거)
-        a.sort((x,y)=>{
-          const dx = daysDiff(x.effectiveDate), dy = daysDiff(y.effectiveDate);
-          const fx = dx!=null && dx>=0, fy = dy!=null && dy>=0; // 미래 여부
-          if(fx!==fy) return fx ? -1 : 1; // 미래 먼저
-          const ax = Math.abs(dx ?? 99999), ay = Math.abs(dy ?? 99999);
-          return ax - ay;
-        });
-      }
-      return a;
-    }
-
-    function buildTabs(items){
-      const counts = {"전체": items.length};
-      CAT_ORDER.slice(1).forEach(c=>counts[c]=0);
-      items.forEach(it=>{
-        const cats = it.categories && it.categories.length ? it.categories : ["기타"];
-        new Set(cats).forEach(c=>{ counts[c] = (counts[c]||0)+1; });
-      });
-      const tabs = $('#tabs');
-      tabs.innerHTML = '';
-      CAT_ORDER.forEach(c=>{
-        const btn = document.createElement('button');
-        btn.className = 'tab' + (selectedCat===c?' active':'');
-        btn.textContent = `${c} (${counts[c]||0})`;
-        btn.onclick = ()=>{ selectedCat=c; applyFilter(); buildTabs(all); };
-        tabs.appendChild(btn);
-      });
-    }
-
-    function render(items){
-      const list = $('#list');
-      list.innerHTML = '';
-      $('#count').textContent = `총 ${items.length.toLocaleString()}건`;
-      if(!items.length){ list.innerHTML = '<div class="empty">표시할 항목이 없습니다.</div>'; return; }
-      items.forEach(it => list.appendChild(mkCard(it)));
-    }
-
-    function applyFilter(){
-      let rows = all;
-      const qv = ($('#q').value||'').trim();
-      const sort = $('#sort').value;
-      const onlySoon = $('#onlySoon').checked;
-
-      if(selectedCat && selectedCat!=="전체"){
-        rows = rows.filter(it => (it.categories||["기타"]).includes(selectedCat));
-      }
-      if(qv){
-        const re = new RegExp(qv.replace(/[.*+?^${}()|[\]\\]/g,'\\__CODE_BLOCK_0__'),'i');
-        rows = rows.filter(it => re.test(it.title||'') || re.test(it.meta?.ministry||''));
-      }
-      if(onlySoon){
-        rows = rows.filter(it => {
-          const d = daysDiff(it.effectiveDate);
-          return d!=null && d>=0 && d<=60;
-        });
-      }
-      render(sortItems(rows, sort));
-    }
-
-    ['q','sort','onlySoon'].forEach(id => document.getElementById(id).addEventListener('input', applyFilter));
-
-    async function load(){
-      const res = await fetch('./index.json?ts=' + Date.now());
-      const data = await res.json();
-      const year = data.year || new Date().getFullYear();
-      document.getElementById('yy').textContent = year;
-      document.getElementById('ts').textContent = '생성시각: ' + new Date((data.generatedAt||0)*1000).toLocaleString('ko-KR');
-
-      all = data.items || [];
-      buildTabs(all);
-      applyFilter();
-    }
-    load().catch(e => { document.getElementById('list').innerHTML = '<div class="empty">index.json 로드 실패: '+e+'</div>'; });
-  </script>
-</body>
-</html>
+  function sortItems(arr, how){  
+    const a=[...arr];  
+    if(how==='title') a.sort((x,y)=>(x.title||'').localeCompare(y.title||''));  
+    else if(how==='eff-asc') a.sort((x,y)=>(x.effectiveDate||'').localeCompare(y.effectiveDate||''));   
+    else if(how==='eff-desc') a.sort((x
