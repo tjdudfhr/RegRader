@@ -1,9 +1,10 @@
-import os, sys, json, time, hashlib, re
+import os, sys, json, time, hashlib, re, random
 import urllib.parse, urllib.request
 from datetime import date, datetime
 
-UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) law-watch/3.0"
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) law-watch/3.1"
 OPENAPI = "https://www.law.go.kr/DRF/lawSearch.do"
+LAW_RSS = "https://www.law.go.kr/rss/lsRss.do?section=LS"  # 백업용
 
 TODAY = date.today()
 YEAR_START = date(TODAY.year, 1, 1)
@@ -12,10 +13,29 @@ YEAR_END   = date(TODAY.year, 12, 31)
 AMEND_RE = re.compile(r"(전부개정|일부개정|타법개정|일괄개정|개정(령|법률|규칙)?)")
 DATE_RE = re.compile(r"(\d{4})(\d{2})(\d{2})")
 
-def http_get(url, timeout=30, headers=None):
-    req = urllib.request.Request(url, headers={"User-Agent": UA, **(headers or {})})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read()
+def log(msg):
+    print(msg, file=sys.stderr)
+
+def http_get(url, timeout=40, headers=None, retries=5, backoff=2.0):
+    """
+    신뢰성 향상: 최대 5회 재시도, 지수 백오프(+지터)
+    실패 시 None 반환(예외로 죽지 않게)
+    """
+    last = None
+    hdr = {"User-Agent": UA, "Accept": "*/*"}
+    if headers: hdr.update(headers)
+    for i in range(retries):
+        try:
+            req = urllib.request.Request(url, headers=hdr)
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read()
+        except Exception as e:
+            last = e
+            sleep = (backoff ** i) + random.uniform(0, 0.6)
+            log(f"[WARN] GET fail ({i+1}/{retries}) {url} -> {e}; retry in {sleep:.1f}s")
+            time.sleep(sleep)
+    log(f"[ERROR] GET failed after retries: {url} -> {last}")
+    return None
 
 def yyyymmdd_to_iso(s):
     if not s: return None
@@ -23,7 +43,10 @@ def yyyymmdd_to_iso(s):
     m = DATE_RE.search(s) or re.search(r"(\d{4})[.\-/년]\s*(\d{1,2})[.\-/월]?\s*(\d{1,2})", s)
     if not m: return None
     y, mm, dd = map(int, m.groups())
-    return f"{y:04d}-{mm:02d}-{dd:02d}"
+    try:
+        return f"{y:04d}-{mm:02d}-{dd:02d}"
+    except:
+        return None
 
 def is_amendment(text):
     return bool(AMEND_RE.search(text or ""))
@@ -50,17 +73,21 @@ def parse_openapi_year(oc, start_d, end_d, display=100, max_pages=10):
             "display": str(display),
             "page": str(page),
             "efYd": f"{start_d.strftime('%Y%m%d')}~{end_d.strftime('%Y%m%d')}",
-            "sort": "efdes"
+            "sort": "efdes",
         }
         url = OPENAPI + "?" + urllib.parse.urlencode(params, safe="~:")
-        raw = http_get(url)
-        with open(f"docs/_debug/openapi_p{page}.json", "wb") as f:
-            f.write(raw)
+        raw = http_get(url, timeout=45)
+        if raw:
+            with open(f"docs/_debug/openapi_p{page}.json", "wb") as f:
+                f.write(raw)
+        else:
+            # 네트워크 실패 시 더 진행하지 않고 종료
+            break
 
         try:
             data = json.loads(raw.decode("utf-8", "ignore"))
         except Exception as e:
-            print(f"[WARN] OpenAPI JSON decode fail p{page}: {e}", file=sys.stderr)
+            log(f"[WARN] OpenAPI JSON decode fail p{page}: {e}")
             break
 
         items = []
@@ -89,16 +116,48 @@ def parse_openapi_year(oc, start_d, end_d, display=100, max_pages=10):
                 "effectiveDate": eff,
                 "announcedDate": None,
                 "lawType": lawtype,
-                "source": {
-                    "name": "국가법령정보(OpenAPI)",
-                    "url": detail_url or search_url,
-                    "search": search_url
-                }
+                "source": {"name":"국가법령정보(OpenAPI)","url": detail_url or search_url,"search": search_url}
             })
 
-        if len(items) < display: break
+        if len(items) < display:
+            break
 
     return collected
+
+def parse_rss_backup():
+    os.makedirs("docs/_debug", exist_ok=True)
+    raw = http_get(LAW_RSS, timeout=45)
+    if not raw:
+        return []
+    with open("docs/_debug/law_rss.xml", "wb") as f:
+        f.write(raw)
+    xml = raw.decode("utf-8", "ignore")
+    blocks = re.findall(r"<item\b[^>]*>(.*?)</item>", xml, flags=re.I|re.S)
+    out = []
+    for blk in blocks:
+        def pick(tag):
+            m = re.search(rf"<{tag}[^>]*>(.*?)</{tag}>", blk, flags=re.I|re.S)
+            return re.sub(r"<[^>]+>", "", m.group(1)).strip() if m else ""
+        title = pick("title")
+        link = pick("link")
+        desc = pick("description")
+        eff = yyyymmdd_to_iso(desc) or yyyymmdd_to_iso(title)
+        if not eff:  # RSS에 시행일이 안 박힌 경우가 있어요
+            continue
+        try:
+            dd = datetime.strptime(eff, "%Y-%m-%d").date()
+        except:
+            continue
+        if not (YEAR_START <= dd <= YEAR_END):
+            continue
+        if not is_amendment(title + " " + desc):
+            continue
+        out.append({
+            "title": title, "summary": desc, "effectiveDate": eff,
+            "announcedDate": None, "lawType": "개정",
+            "source": {"name":"RSS","url": link, "search": "https://www.law.go.kr/lsSc.do?query=" + urllib.parse.quote(title)}
+        })
+    return out
 
 def build_results(candidates, limit=60):
     seen, out = set(), []
@@ -121,10 +180,13 @@ def build_results(candidates, limit=60):
 
 def main():
     oc = os.environ.get("LAW_OC") or "knowhow1"
-    all_items = parse_openapi_year(oc, YEAR_START, YEAR_END, display=100, max_pages=10)
 
+    # 1) OpenAPI 시도(리트라이 포함)
+    openapi_items = parse_openapi_year(oc, YEAR_START, YEAR_END, display=100, max_pages=10)
+
+    # 2) 올해 시행 + 개정만 남기기
     filtered = []
-    for it in all_items:
+    for it in openapi_items:
         lt = it.get("lawType") or ""
         if "개정" not in lt and not is_amendment(it.get("title")):
             continue
@@ -133,10 +195,15 @@ def main():
             continue
         try:
             dd = datetime.strptime(d, "%Y-%m-%d").date()
-        except Exception:
+        except:
             continue
         if YEAR_START <= dd <= YEAR_END:
             filtered.append(it)
+
+    # 3) OpenAPI가 비었으면 RSS 백업 사용
+    if not filtered:
+        log("[INFO] Using RSS backup because OpenAPI returned no usable items.")
+        filtered = parse_rss_backup()
 
     results = build_results(filtered, 60)
     os.makedirs("docs", exist_ok=True)
