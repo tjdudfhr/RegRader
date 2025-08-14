@@ -12,10 +12,12 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     env:
-      # GitHub Secrets에 LAW_OC가 있으면 그 값을, 없으면 knowhow1 사용
       LAW_OC: ${{ secrets.LAW_OC || 'knowhow1' }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Prepare docs dir
+        run: mkdir -p docs/_debug
 
       - name: Set up Python
         uses: actions/setup-python@v5
