@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>법령 업데이트 모니터</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; }
+    header { margin-bottom: 16px; }
+    .meta { color:#666; font-size:14px; }
+    ul { list-style: none; padding: 0; }
+    li { border:1px solid #e5e5e5; border-radius:10px; padding:12px; margin:10px 0; }
+    .title { font-weight:600; }
+    .chips span { display:inline-block; padding:2px 8px; border-radius:999px; background:#f1f3f5; margin-right:6px; font-size:12px; }
+    a { color:#0b6cff; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>법령 업데이트 모니터</h1>
+    <div class="meta">
+      데이터: <a href="./index.json">index.json</a>
+    </div>
+  </header>
+
+  <ul id="list"></ul>
+
+  <script>
+    async function load(){
+      const res = await fetch('./index.json?ts=' + Date.now());
+      const data = await res.json();
+      document.querySelector('.meta').insertAdjacentHTML('beforeend',
+        ' · 생성시각: ' + new Date((data.generatedAt||0)*1000).toLocaleString('ko-KR'));
+      const ul = document.getElementById('list');
+      (data.items||[]).forEach(it=>{
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <div class="title">${it.title||''}</div>
+          <div class="chips">
+            ${it.lawType ? `<span>${it.lawType}</span>`:''}
+            ${it.effectiveDate ? `<span>시행일: ${it.effectiveDate}</span>`:''}
+          </div>
+          ${it.source && it.source.url ? `<div><a href="${it.source.url}" target="_blank">원문 보기</a></div>`:''}
+          ${it.summary ? `<p>${it.summary}</p>`:''}
+        `;
+        ul.appendChild(li);
+      });
+      if(!(data.items||[]).length){
+        document.getElementById('list').innerHTML =
+          '<li>표시할 항목이 없습니다. Actions에서 워크플로를 실행해 보세요.</li>';
+      }
+    }
+    load().catch(e=>{
+      document.getElementById('list').innerHTML = '<li>index.json 로드 실패: '+e+'</li>';
+    });
+  </script>
+</body>
+</html>
