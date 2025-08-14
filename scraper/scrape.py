@@ -87,8 +87,23 @@ def parse_openapi_all(oc, start_d, end_d, display=100, max_pages=5):
                 "lawType": lawtype,
                 "source": {
                     "name": "국가법령정보(OpenAPI)",
-                    "url": f"https://www.law.go.kr/법령?lsId={law_id}" if law_id else ""
-                }
+                    law_id = (it.get("법령ID") or it.get("lsId") or it.get("법령일련번호") or "").strip()
+                    title = (it.get("법령명한글") or it.get("법령명") or it.get("title") or "").strip()
+
+                    detail_url = f"https://www.law.go.kr/LSW/lsInfoP.do?lsId={law_id}" if law_id else ""
+                    search_url = "https://www.law.go.kr/lsSc.do?query=" + urllib.parse.quote(title)
+
+                    collected.append({
+                         "title": title,
+                         "summary": "",
+                         "effectiveDate": eff,
+                         "announcedDate": None,
+                         "lawType": lawtype,
+                         "source": {
+                         "name": "국가법령정보(OpenAPI)",
+                         "url": detail_url or search_url,
+                         "search": search_url
+                  }
             })
 
         if len(items) < display:
