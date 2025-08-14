@@ -3,83 +3,146 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>법령 업데이트 모니터</title>
+  <title>LAW WATCH · 올해 개정 법령</title>
   <style>
-    :root { --bg:#0b6cff; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; }
-    header { margin-bottom: 16px; }
-    h1 { margin: 0 0 6px; font-size: 22px; }
-    .meta { color:#666; font-size:14px; }
-    .toolbar { margin:12px 0 20px; display:flex; gap:8px; flex-wrap:wrap; }
-    input[type="search"]{ padding:8px 10px; border:1px solid #d0d7de; border-radius:8px; min-width:240px; }
-    .chip { display:inline-block; padding:2px 8px; border-radius:999px; background:#eef2ff; color:#1f3fb3; font-size:12px; margin-right:6px; }
-    ul { list-style:none; padding:0; }
-    li { border:1px solid #e5e7eb; border-radius:12px; padding:14px; margin:10px 0; box-shadow:0 1px 0 #f2f2f2; }
-    .title { font-weight:600; font-size:16px; margin-bottom:6px; }
-    a { color: var(--bg); text-decoration:none; }
-    a:hover { text-decoration:underline; }
-    .empty { color:#666; border-style:dashed; text-align:center; padding:22px; }
+    :root {
+      --brand:#2563eb; --brand-weak:#ecf2ff; --text:#0b1220; --muted:#6b7280;
+      --card:#ffffff; --bg:#f6f7fb; --bd:#e5e7eb;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --text:#e5e7eb; --muted:#9ca3af; --card:#0d1117; --bg:#050a12; --bd:#1f2937;
+              --brand:#63a4ff; --brand-weak:#0d1b2e; }
+      body { background: var(--bg); }
+    }
+    * { box-sizing:border-box; }
+    body { margin: 0; font-family: Inter, Pretendard, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color:var(--text); background:var(--bg); }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    header { display:flex; align-items:end; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    h1 { margin: 0; font-size: 24px; letter-spacing: .2px; }
+    .meta { color:var(--muted); font-size: 13px; }
+    .toolbar { display:flex; gap:10px; flex-wrap:wrap; margin: 14px 0 18px; }
+    input[type="search"], select {
+      padding:10px 12px; border:1px solid var(--bd); border-radius:12px; background:var(--card); color:var(--text);
+    }
+    .cards { display:grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+    .card { background:var(--card); border:1px solid var(--bd); border-radius:16px; padding:16px; }
+    .title { font-weight:700; font-size: 16px; margin: 0 0 8px; line-height:1.35; }
+    .chips { display:flex; gap:8px; flex-wrap:wrap; margin: 6px 0 12px; }
+    .chip { padding: 4px 10px; border-radius: 999px; font-size: 12px; background: var(--brand-weak); color: var(--brand); }
+    .actions { display:flex; gap:8px; }
+    .btn { display:inline-block; padding:9px 11px; border-radius: 10px; border:1px solid var(--bd); text-decoration:none; font-weight:600; }
+    .btn.primary { background: var(--brand); color: #fff; border-color: transparent; }
+    .btn.secondary { background: transparent; color: var(--text); }
+    .empty { color:var(--muted); border:1px dashed var(--bd); border-radius: 12px; padding: 24px; text-align:center; }
+    footer { margin-top: 22px; color:var(--muted); font-size:12px; }
+    .count { color:var(--muted); font-size:13px; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>법령 업데이트 모니터</h1>
-    <div class="meta">
-      데이터: <a href="./index.json">index.json</a>
-      <span id="ts"></span>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>LAW WATCH · <span id="yy"></span> 개정 법령</h1>
+        <div class="meta">데이터: <a href="./index.json">index.json</a> · <span id="ts"></span></div>
+      </div>
+      <a class="btn" href="https://github.com/tjdudfhr/law-watch" target="_blank" rel="noopener">GitHub</a>
+    </header>
+
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="검색(제목)" />
+      <select id="type">
+        <option value="">유형: 전체</option>
+        <option value="전부개정">전부개정</option>
+        <option value="일부개정">일부개정</option>
+        <option value="타법개정">타법개정</option>
+        <option value="일괄개정">일괄개정</option>
+        <option value="개정">기타 개정</option>
+      </select>
+      <select id="sort">
+        <option value="eff-desc">정렬: 시행일 최신순</option>
+        <option value="eff-asc">정렬: 시행일 오래된순</option>
+        <option value="title">정렬: 제목순</option>
+      </select>
+      <div class="count" id="count"></div>
     </div>
-  </header>
 
-  <div class="toolbar">
-    <input id="q" type="search" placeholder="검색(제목)" />
+    <div id="list" class="cards">
+      <div class="empty">로딩 중...</div>
+    </div>
+
+    <footer>
+      상세 페이지는 국가법령정보센터의 lsInfoP.do 경로를 사용하며, 일부 항목은 검색 페이지(lsSc.do?query=)로 대체 이동합니다.
+    </footer>
   </div>
-
-  <ul id="list"><li class="empty">로딩 중...</li></ul>
 
   <script>
     let all = [];
-    const ul = document.getElementById('list');
-    const q = document.getElementById('q');
+    const $ = s => document.querySelector(s);
+    const list = $('#list');
+
+    function mkCard(it){
+      const div = document.createElement('div');
+      div.className = 'card';
+      const url = it.source?.url || '';
+      const searchUrl = it.source?.search || ('https://www.law.go.kr/lsSc.do?query=' + encodeURIComponent(it.title||''));
+      div.innerHTML = `
+        <h3 class="title">${it.title||''}</h3>
+        <div class="chips">
+          ${it.lawType ? `<span class="chip">${it.lawType}</span>`:''}
+          ${it.effectiveDate ? `<span class="chip">시행일: ${it.effectiveDate}</span>`:''}
+        </div>
+        <div class="actions">
+          ${url ? `<a class="btn primary" href="${url}" target="_blank" rel="noopener">원문 보기</a>`:''}
+          <a class="btn secondary" href="${searchUrl}" target="_blank" rel="noopener">검색으로 열기</a>
+        </div>
+      `;
+      return div;
+    }
 
     function render(items){
-      ul.innerHTML = '';
-      if(!items.length){
-        ul.innerHTML = '<li class="empty">표시할 항목이 없습니다.</li>';
-        return;
-      }
-      items.forEach(it=>{
-        const li = document.createElement('li');
-        li.innerHTML = `
-          <div class="title">${it.title||''}</div>
-          <div style="margin:6px 0 10px;">
-            ${it.lawType ? `<span class="chip">${it.lawType}</span>`:''}
-            ${it.effectiveDate ? `<span class="chip">시행일: ${it.effectiveDate}</span>`:''}
-          </div>
-          ${it.source && it.source.url ? `<a href="${it.source.url}" target="_blank" rel="noopener">원문 보기</a>`:''}
-        `;
-        ul.appendChild(li);
-      });
+      list.innerHTML = '';
+      $('#count').textContent = `총 ${items.length.toLocaleString()}건`;
+      if(!items.length){ list.innerHTML = '<div class="empty">표시할 항목이 없습니다.</div>'; return; }
+      items.forEach(it => list.appendChild(mkCard(it)));
     }
 
-    function filter(){
-      const v = (q.value||'').trim();
-      if(!v) return render(all);
-      const re = new RegExp(v.replace(/[.*+?^${}()|[\]\\]/g,'\\__CODE_BLOCK_0__'),'i');
-      render(all.filter(it => re.test(it.title||'')));
+    function sortItems(arr, how){
+      const a = [...arr];
+      if(how==='eff-asc') a.sort((x,y)=> (x.effectiveDate||'').localeCompare(y.effectiveDate||''));
+      else if(how==='title') a.sort((x,y)=> (x.title||'').localeCompare(y.title||''));
+      else a.sort((x,y)=> (y.effectiveDate||'').localeCompare(x.effectiveDate||'')); // 최신순
+      return a;
     }
+
+    function applyFilter(){
+      const qv = ($('#q').value||'').trim();
+      const tv = $('#type').value;
+      const sv = $('#sort').value;
+      let rows = all;
+      if(qv){
+        const re = new RegExp(qv.replace(/[.*+?^${}()|[\]\\]/g,'\\__CODE_BLOCK_0__'),'i');
+        rows = rows.filter(it => re.test(it.title||''));
+      }
+      if(tv){
+        rows = rows.filter(it => (it.lawType||'').includes(tv));
+      }
+      render(sortItems(rows, sv));
+    }
+
+    $('#q').addEventListener('input', applyFilter);
+    $('#type').addEventListener('change', applyFilter);
+    $('#sort').addEventListener('change', applyFilter);
 
     async function load(){
       const res = await fetch('./index.json?ts=' + Date.now());
       const data = await res.json();
-      all = data.items || [];
-      document.getElementById('ts').textContent = '· 생성시각: ' + new Date((data.generatedAt||0)*1000).toLocaleString('ko-KR');
-      render(all);
+      const year = data.year || new Date().getFullYear();
+      $('#yy').textContent = year;
+      $('#ts').textContent = '생성시각: ' + new Date((data.generatedAt||0)*1000).toLocaleString('ko-KR');
+      all = (data.items||[]);  // 서버에서 이미 "올해만" 필터됨
+      applyFilter();
     }
-
-    q.addEventListener('input', filter);
-    load().catch(e=>{
-      ul.innerHTML = '<li class="empty">index.json 로드 실패: '+e+'</li>';
-    });
+    load().catch(e => { list.innerHTML = '<div class="empty">index.json 로드 실패: '+e+'</div>'; });
   </script>
 </body>
 </html>
