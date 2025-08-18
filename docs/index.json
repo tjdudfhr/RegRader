@@ -1,5 +1,5 @@
 {
-  "generatedAt": 1755524900,
+  "generatedAt": 1755543347,
   "year": 2025,
   "items": [
     {
@@ -2777,6 +2777,26 @@
       }
     },
     {
+      "id": "f2b5725b09be5afa09b975f9e1e542ce",
+      "title": "행정기본법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "법제처",
+        "lsId": "014156"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=014156",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%96%89%EC%A0%95%EA%B8%B0%EB%B3%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
       "id": "1f9f4ea18d977cf0a09f5420d5afe1aa",
       "title": "행정기본법",
       "summary": "",
@@ -4038,27 +4058,6 @@
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009411",
         "search": "https://www.law.go.kr/lsSc.do?query=%EA%B2%BD%EC%A0%9C%EC%9E%90%EC%9C%A0%EA%B5%AC%EC%97%AD%EC%9D%98%20%EC%A7%80%EC%A0%95%20%EB%B0%8F%20%EC%9A%B4%EC%98%81%EC%97%90%20%EA%B4%80%ED%95%9C%20%ED%8A%B9%EB%B3%84%EB%B2%95"
-      }
-    },
-    {
-      "id": "5002f4e3e7cac240c11e38c7e1c3e5da",
-      "title": "건설산업기본법",
-      "summary": "",
-      "effectiveDate": "2025-08-28",
-      "announcedDate": null,
-      "lawType": "타법개정",
-      "categories": [
-        "안전",
-        "지배구조"
-      ],
-      "meta": {
-        "ministry": "국토교통부",
-        "lsId": "001808"
-      },
-      "source": {
-        "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001808",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B1%B4%EC%84%A4%EC%82%B0%EC%97%85%EA%B8%B0%EB%B3%B8%EB%B2%95"
       }
     }
   ]
