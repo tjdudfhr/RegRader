@@ -718,6 +718,41 @@
             }
         }
 
+        /* Quarterly Filter Tabs (similar to business filter tabs) */
+        .quarterly-filter-tab {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin: 0.25rem;
+        }
+
+        .quarterly-filter-tab:hover {
+            background: var(--bg-secondary);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+        }
+
+        .quarterly-filter-tab.active {
+            background: var(--primary-gradient);
+            color: var(--text-white);
+            border-color: var(--primary);
+            box-shadow: 0 2px 12px rgba(102, 126, 234, 0.25);
+        }
+
+        .quarterly-filter-tab.active span {
+            color: var(--text-white);
+        }
+
         @media (max-width: 1024px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -1367,14 +1402,20 @@
                 '기타': '#a0aec0'
             };
 
-            // Create business filter tabs for this quarter
-            const businessFilterTabs = Object.keys(lawsByCategory).map(category => {
-                const count = lawsByCategory[category].length;
-                const icon = categoryIcons[category] || '📋';
-                return `<div class="filter-tab" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 1rem; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-primary);">
-                    ${icon} ${category} (<span>${count}</span>)
-                </div>`;
-            }).join('');
+            // Create business filter tabs for this quarter (similar to business tab)
+            const allCount = quarterLaws.length;
+            const businessFilterTabs = [
+                `<div class="quarterly-filter-tab active" data-quarter="${quarter}" data-filter="all" onclick="filterQuarterlyLaws('${quarter}', 'all')">
+                    전체 (<span>${allCount}</span>)
+                </div>`,
+                ...Object.keys(lawsByCategory).map(category => {
+                    const count = lawsByCategory[category].length;
+                    const icon = categoryIcons[category] || '📋';
+                    return `<div class="quarterly-filter-tab" data-quarter="${quarter}" data-filter="${category}" onclick="filterQuarterlyLaws('${quarter}', '${category}')">
+                        ${icon} ${category} (<span>${count}</span>)
+                    </div>`;
+                })
+            ].join('');
 
             const detailContent = `
                 <div class="quarterly-detail-header">
@@ -1443,6 +1484,96 @@
             }, 500);
 
             currentQuarterlyDetail = null;
+        }
+
+        function filterQuarterlyLaws(quarter, filterCategory) {
+            const quarterInfo = {
+                'Q1': { title: '1분기 개정 법령', period: '2025년 1~3월', months: [1, 2, 3], icon: '🌱' },
+                'Q2': { title: '2분기 개정 법령', period: '2025년 4~6월', months: [4, 5, 6], icon: '☀️' },
+                'Q3': { title: '3분기 개정 법령', period: '2025년 7~9월', months: [7, 8, 9], icon: '🍂' },
+                'Q4': { title: '4분기 개정 법령', period: '2025년 10~12월', months: [10, 11, 12], icon: '❄️' }
+            };
+
+            const info = quarterInfo[quarter];
+            if (!info) return;
+
+            // Get all laws for this quarter
+            const quarterLaws = lawsData.filter(law => {
+                if (!law.effectiveDate) return false;
+                const date = new Date(law.effectiveDate);
+                return info.months.includes(date.getMonth() + 1);
+            });
+
+            // Filter by category if not 'all'
+            let filteredLaws = quarterLaws;
+            if (filterCategory !== 'all') {
+                filteredLaws = quarterLaws.filter(law => 
+                    law.categories && law.categories.includes(filterCategory)
+                );
+            }
+
+            // Update active filter tab
+            const filterTabs = document.querySelectorAll(`[data-quarter="${quarter}"]`);
+            filterTabs.forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`[data-quarter="${quarter}"][data-filter="${filterCategory}"]`).classList.add('active');
+
+            // Generate filtered law list HTML
+            const lawListHtml = filteredLaws.map(item => {
+                const daysUntil = getDaysFromNow(item.effectiveDate);
+                let dateClass = 'active';
+                let dateText = item.effectiveDate || '미정';
+                
+                if (daysUntil > 0) {
+                    if (daysUntil <= 7) {
+                        dateClass = 'urgent';
+                        dateText = `D-${daysUntil}`;
+                    } else if (daysUntil <= 30) {
+                        dateClass = 'soon';
+                        dateText = `D-${daysUntil}`;
+                    } else {
+                        dateClass = 'soon';
+                        dateText = item.effectiveDate || '미정';
+                    }
+                }
+
+                const categoryTags = (item.categories || []).map(cat => {
+                    const className = getCategoryClass(cat);
+                    return `<span class="category-tag ${className}">${cat}</span>`;
+                }).join('');
+
+                return `
+                    <div class="law-item">
+                        <div class="law-item-header">
+                            <div class="law-title" onclick="showLawDetail('${item.id}')">${item.title || '제목 없음'}</div>
+                            <div class="date-badge ${dateClass}">${dateText}</div>
+                        </div>
+                        <div class="law-meta">
+                            <div class="meta-item">
+                                <span>🏛️</span>
+                                <span>${item.meta?.ministry || '미상'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📄</span>
+                                <span>${item.lawType || '일부개정'}</span>
+                            </div>
+                        </div>
+                        ${categoryTags ? `<div class="category-tags">${categoryTags}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            // Update the law list
+            const lawListContainer = document.getElementById('quarterly-law-list');
+            if (lawListContainer) {
+                lawListContainer.innerHTML = filteredLaws.length > 0 ? lawListHtml : 
+                    '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">해당 조건의 법령이 없습니다.</div>';
+            }
+
+            // Update header count
+            const headerTitle = document.querySelector('#quarterly-detail .detail-period');
+            if (headerTitle) {
+                headerTitle.textContent = `${info.period} · ${filterCategory === 'all' ? '전체' : filterCategory} ${filteredLaws.length}건`;
+            }
         }
 
         function showLawModal(lawId) {
