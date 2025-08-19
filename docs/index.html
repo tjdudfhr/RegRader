@@ -959,6 +959,9 @@
         }
 
         .registry-law-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             padding: 1rem 1.5rem;
             border-bottom: 1px solid var(--border);
             transition: all 0.2s ease;
@@ -967,31 +970,38 @@
 
         .registry-law-item:hover {
             background: var(--bg-secondary);
+            transform: translateX(4px);
         }
 
         .registry-law-item:last-child {
             border-bottom: none;
         }
 
+        .registry-law-number {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            min-width: 2rem;
+        }
+
         .registry-law-title {
+            flex: 1;
             font-size: 1rem;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
         }
 
-        .registry-law-meta {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .registry-meta-item {
+        .registry-law-link {
             display: flex;
             align-items: center;
             gap: 0.3rem;
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .registry-law-link:hover {
+            color: var(--primary-light);
         }
 
         /* Enhanced Quarterly Tab Selection */
@@ -2719,28 +2729,17 @@
             }
             document.getElementById('job-function-count').textContent = `${filteredLaws.length}건`;
             
-            // Generate law list HTML (simplified without amendment details)
-            const lawsHtml = filteredLaws.map(law => {
-                const effectiveDate = law.effectiveDate || '미정';
-                const ministry = law.meta?.ministry || '미상';
-                const lawType = law.lawType || '일반법령';
+            // Generate simplified law list (law name only, direct link to law center)
+            const lawsHtml = filteredLaws.map((law, index) => {
+                const lawUrl = law.source?.url || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(law.title)}`;
                 
                 return `
-                    <div class="registry-law-item" onclick="showLawDetail('${law.id}')">
+                    <div class="registry-law-item" onclick="window.open('${lawUrl}', '_blank')">
+                        <div class="registry-law-number">${index + 1}.</div>
                         <div class="registry-law-title">${law.title}</div>
-                        <div class="registry-law-meta">
-                            <div class="registry-meta-item">
-                                <span>📅</span>
-                                <span>${effectiveDate}</span>
-                            </div>
-                            <div class="registry-meta-item">
-                                <span>🏛️</span>
-                                <span>${ministry}</span>
-                            </div>
-                            <div class="registry-meta-item">
-                                <span>📄</span>
-                                <span>${lawType}</span>
-                            </div>
+                        <div class="registry-law-link">
+                            <span>🔗</span>
+                            <span>국가법령정보센터</span>
                         </div>
                     </div>
                 `;
