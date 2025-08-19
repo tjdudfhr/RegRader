@@ -281,7 +281,7 @@
         /* Main Content */
         .main-content {
             display: grid;
-            grid-template-columns: 1fr 350px;
+            grid-template-columns: 300px 1fr;
             gap: 2rem;
             margin-bottom: 2rem;
         }
@@ -643,6 +643,57 @@
         .amendment-box em {
             color: #718096;
             font-size: 0.9rem;
+        }
+        
+        .external-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .external-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(102, 126, 234, 0.05);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #2d3748;
+            transition: all 0.2s ease;
+        }
+        
+        .external-link:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateX(4px);
+        }
+        
+        .link-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .link-content {
+            flex: 1;
+        }
+        
+        .link-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.25rem;
+        }
+        
+        .link-desc {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+        
+        .link-arrow {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: bold;
         }
 
         @media (max-width: 1024px) {
@@ -1238,6 +1289,28 @@
                     <p>• 개정 사항이 업무에 미치는 영향을 사전에 검토하시기 바랍니다.</p>
                     <p>• 관련 부서와 협의하여 적절한 대응 방안을 수립하세요.</p>
                     ${getDaysFromNow(item.effectiveDate) <= 30 ? '<p>• <strong>시행일이 임박했으니 즉시 대응 계획을 세우세요!</strong></p>' : ''}
+                </div>
+                
+                <div class="summary-section">
+                    <h4>🔗 관련 링크</h4>
+                    <div class="external-links">
+                        <a href="${item.source?.url || `https://www.law.go.kr/LSW/lsInfoP.do?lsId=${item.meta?.lsId || ''}`}" target="_blank" class="external-link law-link">
+                            <div class="link-icon">📜</div>
+                            <div class="link-content">
+                                <div class="link-title">법령 원문 보기</div>
+                                <div class="link-desc">국가법령정보센터</div>
+                            </div>
+                            <div class="link-arrow">→</div>
+                        </a>
+                        <a href="${item.source?.search || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`}" target="_blank" class="external-link search-link">
+                            <div class="link-icon">🔍</div>
+                            <div class="link-content">
+                                <div class="link-title">관련 법령 검색</div>
+                                <div class="link-desc">법령 검색 서비스</div>
+                            </div>
+                            <div class="link-arrow">→</div>
+                        </a>
+                    </div>
                 </div>
             `;
 
