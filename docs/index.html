@@ -985,21 +985,6 @@
             color: var(--text-muted);
             font-weight: 500;
         }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-tab-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .main-tab .tab-text {
-                font-size: 0.9rem;
-            }
-
-            .detail-stats {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1028,12 +1013,12 @@
             </div>
         </div>
 
-        <!-- Tab Contents -->
+        <!-- Tab Content Wrapper -->
         <div class="tab-content">
             <!-- Quarterly Tab Content -->
             <div class="tab-pane active" id="quarterly-content">
                 <!-- Quarterly View -->
-                <div class="quarterly-view">
+        <div class="quarterly-view">
             <div class="filter-title">
                 📅 2025년 분기별 개정 현황
             </div>
@@ -1071,13 +1056,13 @@
                     </div>
                 </div>
             </div>
-
-                <!-- Quarterly Detail Section (Hidden by default) -->
+                </div>
+                
+                <!-- Quarterly Detail Section (Sliding) -->
                 <div class="quarterly-detail-section" id="quarterly-detail" style="display: none;">
                     <div class="quarterly-detail-content">
-                        <!-- Dynamic content will be inserted here -->
+                        <!-- Dynamic quarterly content will be inserted here -->
                     </div>
-                </div>
                 </div>
             </div>
 
@@ -1273,7 +1258,7 @@
                 return info.months.includes(date.getMonth() + 1);
             });
 
-            // Generate simple content for now
+            // Generate detailed content
             const detailContent = `
                 <div class="quarterly-detail-header">
                     <div class="detail-title">
@@ -1295,9 +1280,10 @@
                 </div>
                 
                 <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
-                    <h4 style="margin-bottom: 0.5rem; color: var(--text-secondary);">상세 법령 목록</h4>
-                    <p>해당 분기의 ${quarterLaws.length}개 법령을 확인할 수 있습니다.</p>
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+                    <h4 style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 1.2rem;">상세 법령 목록</h4>
+                    <p style="font-size: 1rem; line-height: 1.5;">해당 분기의 <strong>${quarterLaws.length}개</strong> 법령을 확인할 수 있습니다.</p>
+                    ${quarterLaws.length > 0 ? '<p style="margin-top: 1rem; font-size: 0.9rem; color: var(--primary);">💡 곧 상세 리스트 기능이 추가될 예정입니다.</p>' : ''}
                 </div>
             `;
             
