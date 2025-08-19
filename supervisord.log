@@ -41,3 +41,20 @@
 2025-08-19 01:56:17,241 INFO success: webserver entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
 2025-08-19 01:56:58,378 WARN exited: webserver (terminated by SIGTERM; not expected)
 2025-08-19 01:56:58,378 WARN received SIGTERM indicating exit request
+2025-08-19 02:21:03,762 INFO RPC interface 'supervisor' initialized
+2025-08-19 02:21:03,762 CRIT Server 'unix_http_server' running without any HTTP authentication checking
+2025-08-19 02:21:03,765 INFO daemonizing the supervisord process
+2025-08-19 02:21:03,765 INFO supervisord started with pid 12250
+2025-08-19 02:21:04,769 INFO spawned: 'webserver' with pid 12252
+2025-08-19 02:21:05,771 INFO success: webserver entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-08-19 02:22:20,762 INFO waiting for webserver to stop
+2025-08-19 02:22:20,764 WARN stopped: webserver (terminated by SIGTERM)
+2025-08-19 02:22:30,064 INFO spawned: 'webserver' with pid 12358
+2025-08-19 02:22:30,334 WARN exited: webserver (exit status 1; not expected)
+2025-08-19 02:22:31,341 INFO spawned: 'webserver' with pid 12361
+2025-08-19 02:22:31,441 WARN exited: webserver (exit status 1; not expected)
+2025-08-19 02:22:34,437 INFO spawned: 'webserver' with pid 12367
+2025-08-19 02:22:34,541 WARN exited: webserver (exit status 1; not expected)
+2025-08-19 02:22:37,547 INFO spawned: 'webserver' with pid 12371
+2025-08-19 02:22:37,652 WARN exited: webserver (exit status 1; not expected)
+2025-08-19 02:22:38,654 INFO gave up: webserver entered FATAL state, too many start retries too quickly
