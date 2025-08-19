@@ -1169,7 +1169,6 @@
                 <div class="filter-tab" data-filter="안전보건">🛡️ 안전/보건 (<span id="count-안전보건">0</span>)</div>
                 <div class="filter-tab" data-filter="환경에너지">🌱 환경/에너지 (<span id="count-환경에너지">0</span>)</div>
                 <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">0</span>)</div>
-                <div class="filter-tab" data-filter="기타">📋 기타 (<span id="count-기타">0</span>)</div>
             </div>
         </div>
 
@@ -1355,8 +1354,7 @@
                 '재무회계': '💰',
                 '안전보건': '🛡️',
                 '환경에너지': '🌱',
-                '지배구조': '🏛️',
-                '기타': '📋'
+                '지배구조': '🏛️'
             };
 
             // Group laws by category
@@ -1367,9 +1365,6 @@
                         if (!lawsByCategory[category]) lawsByCategory[category] = [];
                         lawsByCategory[category].push(law);
                     });
-                } else {
-                    if (!lawsByCategory['기타']) lawsByCategory['기타'] = [];
-                    lawsByCategory['기타'].push(law);
                 }
             });
 
@@ -1423,15 +1418,14 @@
 
             // Generate chart data for this quarter
             const categoryColors = {
-                '인사노무': '#ed8936',
-                '공정거래': '#38b2ac',
-                '정보보호': '#f56565',
-                '지식재산': '#9f7aea',
-                '재무회계': '#4299e1',
-                '안전보건': '#48bb78',
-                '환경에너지': '#38d9a9',
-                '지배구조': '#805ad5',
-                '기타': '#a0aec0'
+                '인사노무': '#e53e3e',      // 빨간색 계열
+                '공정거래': '#3182ce',      // 파란색 계열  
+                '정보보호': '#805ad5',      // 보라색 계열
+                '지식재산': '#d69e2e',      // 노란색 계열
+                '재무회계': '#38a169',      // 초록색 계열
+                '안전보건': '#dd6b20',      // 주황색 계열
+                '환경에너지': '#319795',    // 청록색 계열
+                '지배구조': '#9f7aea'       // 자주색 계열
             };
 
             // Create business filter tabs for this quarter (similar to business tab)
@@ -1656,8 +1650,7 @@
                 '재무회계': '💰',
                 '안전보건': '🛡️',
                 '환경에너지': '🌱',
-                '지배구조': '🏛️',
-                '기타': '📋'
+                '지배구조': '🏛️'
             };
             
             const categoryLabel = categories.map(cat => `${categoryIcons[cat] || '📋'} ${cat}`).join(', ');
@@ -2587,15 +2580,14 @@
 
             // 카테고리 색상 및 아이콘 정보
             const categoryColors = {
-                '인사노무': '#ed8936',
-                '공정거래': '#38b2ac',
-                '정보보호': '#f56565',
-                '지식재산': '#9f7aea',
-                '재무회계': '#4299e1',
-                '안전보건': '#48bb78',
-                '환경에너지': '#38d9a9',
-                '지배구조': '#805ad5',
-                '기타': '#a0aec0'
+                '인사노무': '#e53e3e',      // 빨간색 계열
+                '공정거래': '#3182ce',      // 파란색 계열  
+                '정보보호': '#805ad5',      // 보라색 계열
+                '지식재산': '#d69e2e',      // 노란색 계열
+                '재무회계': '#38a169',      // 초록색 계열
+                '안전보건': '#dd6b20',      // 주황색 계열
+                '환경에너지': '#319795',    // 청록색 계열
+                '지배구조': '#9f7aea'       // 자주색 계열
             };
             const categoryIcons = {
                 '인사노무': '👥',
@@ -2605,8 +2597,7 @@
                 '재무회계': '💰',
                 '안전보건': '🛡️',
                 '환경에너지': '🌱',
-                '지배구조': '🏛️',
-                '기타': '📋'
+                '지배구조': '🏛️'
             };
             
             const categoryColor = categoryColors[category] || '#a0aec0';
