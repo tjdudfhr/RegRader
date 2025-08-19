@@ -234,8 +234,8 @@
             background: var(--bg-glass);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2rem;
+            border-radius: 16px;
+            padding: 1.25rem;
             position: relative;
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -295,10 +295,10 @@
         }
 
         .stat-value {
-            font-size: 3rem;
-            font-weight: 900;
+            font-size: 2rem;
+            font-weight: 800;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
             position: relative;
             z-index: 1;
         }
@@ -306,7 +306,7 @@
         .stat-label {
             color: var(--text-secondary);
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.85rem;
             position: relative;
             z-index: 1;
         }
@@ -962,23 +962,6 @@
             </div>
         </div>
 
-        <!-- Business Filter -->
-        <div class="business-filter">
-            <div class="filter-title">
-                🏢 업무별 법령 필터링
-            </div>
-            <div class="filter-tabs">
-                <div class="filter-tab active" data-filter="all">전체</div>
-                <div class="filter-tab" data-filter="안전">🛡️ 안전관리</div>
-                <div class="filter-tab" data-filter="환경">🌱 환경</div>
-                <div class="filter-tab" data-filter="인사노무">👥 인사노무</div>
-                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조</div>
-                <div class="filter-tab" data-filter="재무회계">💰 재무회계</div>
-                <div class="filter-tab" data-filter="정보보호">🔒 정보보호</div>
-                <div class="filter-tab" data-filter="기타">📋 기타</div>
-            </div>
-        </div>
-
         <!-- Stats Grid -->
         <div class="stats-grid">
             <div class="stat-card" style="--card-gradient: var(--primary-gradient);">
@@ -1022,6 +1005,23 @@
             </div>
         </div>
 
+        <!-- Business Filter -->
+        <div class="business-filter">
+            <div class="filter-title">
+                🏢 업무별 법령 필터링
+            </div>
+            <div class="filter-tabs">
+                <div class="filter-tab active" data-filter="all">전체</div>
+                <div class="filter-tab" data-filter="안전">🛡️ 안전관리</div>
+                <div class="filter-tab" data-filter="환경">🌱 환경</div>
+                <div class="filter-tab" data-filter="인사노무">👥 인사노무</div>
+                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조</div>
+                <div class="filter-tab" data-filter="재무회계">💰 재무회계</div>
+                <div class="filter-tab" data-filter="정보보호">🔒 정보보호</div>
+                <div class="filter-tab" data-filter="기타">📋 기타</div>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <div class="main-content">
             <!-- Sidebar with Charts -->
@@ -1038,16 +1038,7 @@
                         로딩 중...
                     </div>
                 </div>
-                
-                <!-- Timeline Chart -->
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <div class="chart-title">📅 시행 일정 현황</div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="timelineChart"></canvas>
-                    </div>
-                </div>
+
             </div>
 
             <!-- Law List -->
@@ -1121,7 +1112,7 @@
         let lawsData = [];
         let filteredLaws = [];
         let currentFilter = 'all';
-        let categoryChart, timelineChart;
+        let categoryChart;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', async function() {
@@ -1234,7 +1225,6 @@
         function createCharts() {
             if (typeof Chart !== 'undefined') {
                 createCategoryChart();
-                createTimelineChart();
             } else {
                 createCSSCharts();
             }
@@ -1283,71 +1273,7 @@
             updateCategoryLegend(categoryData);
         }
 
-        function createTimelineChart() {
-            const stats = calculateStats(filteredLaws);
-            const future = stats.total - stats.active - stats.d7 - stats.d30;
-            
-            const ctx = document.getElementById('timelineChart').getContext('2d');
-            
-            if (timelineChart) {
-                timelineChart.destroy();
-            }
 
-            timelineChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['시행 중', '7일 이내', '30일 이내', '미래'],
-                    datasets: [{
-                        data: [stats.active, stats.d7, stats.d30, future],
-                        backgroundColor: [
-                            '#48bb78',
-                            '#f56565', 
-                            '#ed8936',
-                            '#4299e1'
-                        ],
-                        borderRadius: 8,
-                        borderSkipped: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#a0aec0',
-                                font: {
-                                    size: 11
-                                }
-                            }
-                        },
-                        y: {
-                            grid: {
-                                color: 'rgba(160, 174, 192, 0.1)'
-                            },
-                            ticks: {
-                                color: '#a0aec0',
-                                font: {
-                                    size: 11
-                                }
-                            }
-                        }
-                    },
-                    animation: {
-                        duration: 1000,
-                        easing: 'easeOutQuart'
-                    }
-                }
-            });
-        }
 
         function createCSSCharts() {
             console.log('🎨 CSS 차트로 폴백');
@@ -1421,7 +1347,7 @@
                 </div>
             `;
             
-            document.getElementById('timelineChart').parentElement.innerHTML = chartHtml;
+            // Timeline chart removed
         }
 
         function updateCategoryLegend(categoryData) {
