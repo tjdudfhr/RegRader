@@ -795,6 +795,27 @@
             color: white;
             margin-left: auto;
         }
+
+        /* 드롭다운 스타일 */
+        #business-category-select {
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.8rem center;
+            background-size: 1rem;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        #business-category-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        #business-category-select:hover {
+            border-color: var(--primary)80;
+        }
     </style>
 </head>
 <body>
@@ -884,14 +905,29 @@
                     </div>
                 </div>
                 
-                <!-- 업무별 법규 리스트 박스 -->
-                <div class="chart-card" id="business-laws-card" style="display: none; margin-top: 1rem;">
+                <!-- 업무 분야별 법규 리스트 박스 -->
+                <div class="chart-card" style="margin-top: 1rem;">
                     <div class="chart-header">
-                        <div class="chart-title" id="business-laws-title">📋 업무별 법규 목록</div>
-                        <button onclick="hideBusinessLawsList()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;">×</button>
+                        <div class="chart-title">📋 업무 분야별 법규 리스트</div>
                     </div>
-                    <div class="business-laws-list" id="business-laws-list">
-                        <!-- 업무별 법규 리스트가 여기에 표시됩니다 -->
+                    <div style="padding: 1rem;">
+                        <!-- 업무 분야 선택 드롭다운 -->
+                        <div style="margin-bottom: 1rem;">
+                            <select id="business-category-select" onchange="showSelectedBusinessLaws()" style="width: 100%; padding: 0.8rem; border: 2px solid var(--border); border-radius: 12px; background: white; font-size: 0.9rem; color: var(--text-primary); cursor: pointer; transition: all 0.2s;">
+                                <option value="">업무 분야를 선택하세요</option>
+                                <option value="안전">🛡️ 안전관리</option>
+                                <option value="환경">🌱 환경</option>
+                                <option value="인사노무">👥 인사노무</option>
+                                <option value="지배구조">🏛️ 지배구조</option>
+                                <option value="재무회계">💰 재무회계</option>
+                                <option value="정보보호">🔒 정보보호</option>
+                                <option value="기타">📋 기타</option>
+                            </select>
+                        </div>
+                        <!-- 선택한 업무의 법규 리스트 -->
+                        <div class="business-laws-list" id="business-laws-list" style="display: none;">
+                            <!-- 업무별 법규 리스트가 여기에 표시됩니다 -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1103,7 +1139,7 @@
                         '기타': '📋'
                     };
                     return `
-                        <div class="legend-item" onclick="showBusinessLaws('${category}')" style="cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <div class="legend-item">
                             <div class="legend-dot" style="background: ${color};"></div>
                             <div class="legend-text">${icons[category] || '📋'} ${category} (${count})</div>
                         </div>
@@ -1777,6 +1813,18 @@
             }
         }
 
+        function showSelectedBusinessLaws() {
+            const selectElement = document.getElementById('business-category-select');
+            const category = selectElement.value;
+            
+            if (!category) {
+                document.getElementById('business-laws-list').style.display = 'none';
+                return;
+            }
+            
+            showBusinessLaws(category);
+        }
+
         function showBusinessLaws(category) {
             // 해당 업무 카테고리의 법규들 필터링
             const businessLaws = lawsData.filter(law => 
@@ -1788,7 +1836,8 @@
             });
 
             if (businessLaws.length === 0) {
-                hideBusinessLawsList();
+                document.getElementById('business-laws-list').innerHTML = '<div style="text-align: center; padding: 1rem; color: var(--text-muted);">해당 업무 분야의 법규가 없습니다.</div>';
+                document.getElementById('business-laws-list').style.display = 'block';
                 return;
             }
 
@@ -1815,9 +1864,6 @@
             const categoryColor = categoryColors[category] || '#a0aec0';
             const categoryIcon = categoryIcons[category] || '📋';
 
-            // 타이틀 업데이트
-            document.getElementById('business-laws-title').innerHTML = `${categoryIcon} ${category} 분야 법규 (${businessLaws.length}건)`;
-
             // 법규 리스트 생성
             const lawsHtml = businessLaws.map(law => {
                 const daysUntil = getDaysFromNow(law.effectiveDate);
@@ -1837,11 +1883,7 @@
 
             // 법규 리스트 표시
             document.getElementById('business-laws-list').innerHTML = lawsHtml;
-            document.getElementById('business-laws-card').style.display = 'block';
-        }
-
-        function hideBusinessLawsList() {
-            document.getElementById('business-laws-card').style.display = 'none';
+            document.getElementById('business-laws-list').style.display = 'block';
         }
 
         function getDaysFromNow(dateStr) {
