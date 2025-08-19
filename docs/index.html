@@ -1216,55 +1216,6 @@
             </div>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card" style="--card-gradient: var(--primary-gradient);">
-                <div class="stat-header">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-trend">+활성</div>
-                </div>
-                <div class="stat-value" id="total-count">로딩 중...</div>
-                <div class="stat-label">전체 개정 법령</div>
-                <div class="stat-description">올해 시행되는 모든 개정 법령</div>
-            </div>
-            
-            <div class="stat-card" style="--card-gradient: var(--danger-gradient);">
-                <div class="stat-header">
-                    <div class="stat-icon">🚨</div>
-                    <div class="stat-trend">긴급</div>
-                </div>
-                <div class="stat-value" id="d7-count">로딩 중...</div>
-                <div class="stat-label">7일 이내 시행</div>
-                <div class="stat-description">즉시 대응이 필요한 긴급 법령</div>
-            </div>
-            
-            <div class="stat-card" style="--card-gradient: var(--warning-gradient);">
-                <div class="stat-header">
-                    <div class="stat-icon">⏰</div>
-                    <div class="stat-trend">준비</div>
-                </div>
-                <div class="stat-value" id="d30-count">로딩 중...</div>
-                <div class="stat-label">30일 이내 시행</div>
-                <div class="stat-description">준비 기간을 확보해야 할 법령</div>
-            </div>
-
-        </div>
-
-        <!-- Business Filter -->
-        <div class="business-filter">
-            <div class="filter-title">
-                🏢 업무별 법령 필터링
-            </div>
-            <div class="filter-tabs">
-                <div class="filter-tab active" data-filter="all">전체</div>
-                <div class="filter-tab" data-filter="안전">🛡️ 안전관리</div>
-                <div class="filter-tab" data-filter="환경">🌱 환경</div>
-                <div class="filter-tab" data-filter="인사노무">👥 인사노무</div>
-                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조</div>
-                <div class="filter-tab" data-filter="재무회계">💰 재무회계</div>
-                <div class="filter-tab" data-filter="정보보호">🔒 정보보호</div>
-                <div class="filter-tab" data-filter="기타">📋 기타</div>
-            </div>
         </div>
 
         <!-- Quarterly View -->
@@ -1305,6 +1256,23 @@
                         <div class="quarter-count" id="q4-count">0</div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Business Filter -->
+        <div class="business-filter">
+            <div class="filter-title">
+                🏢 업무별 법령 필터링
+            </div>
+            <div class="filter-tabs">
+                <div class="filter-tab active" data-filter="all">전체</div>
+                <div class="filter-tab" data-filter="안전">🛡️ 안전관리</div>
+                <div class="filter-tab" data-filter="환경">🌱 환경</div>
+                <div class="filter-tab" data-filter="인사노무">👥 인사노무</div>
+                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조</div>
+                <div class="filter-tab" data-filter="재무회계">💰 재무회계</div>
+                <div class="filter-tab" data-filter="정보보호">🔒 정보보호</div>
+                <div class="filter-tab" data-filter="기타">📋 기타</div>
             </div>
         </div>
 
@@ -1483,9 +1451,13 @@
             document.getElementById('timestamp').textContent = date.toLocaleString('ko-KR');
 
             // 통계 계산
-            const stats = calculateStats(items);
-            updateStatCards(stats);
+            // 데이터 설정
+            lawsData = items;
+            filteredLaws = [...lawsData];
+            
             displayLawList(filteredLaws);
+            updateTabCounts();
+            updateQuarterlyCounts();
 
             console.log('✅ 데이터 표시 완료');
         }
@@ -1517,11 +1489,7 @@
                 d7: d7Count,
                 d30: d30Count,
                 active: activeCount,
-                categories: categoryCounts
-            };
-        }
-
-        function updateStatCards(stats) {
+        // Stats cards removed - no longer needed
             document.getElementById('total-count').textContent = stats.total.toLocaleString();
             document.getElementById('d7-count').textContent = stats.d7.toLocaleString();
             document.getElementById('d30-count').textContent = stats.d30.toLocaleString();
@@ -2093,7 +2061,7 @@
         }
 
         function showError(message) {
-            const elements = ['total-count', 'd7-count', 'd30-count'];
+            const elements = [];
             elements.forEach(id => {
                 document.getElementById(id).textContent = '오류';
             });
