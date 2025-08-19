@@ -1085,21 +1085,16 @@
                         <span style="font-size: 1.3rem;">📋</span>
                         <div>
                             <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">2025년 전체 개정 현황</div>
-                            <div style="font-size: 0.9rem; color: var(--text-muted);">대기업 제조업 핵심 컴플라이언스 법규</div>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="total-law-count">0</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 법규</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 적용 법규</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;">8</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">업무분야</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #ed8936;">4</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">분기</div>
+                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="amendment-law-count">0</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">개정 예정 법규</div>
                         </div>
                     </div>
                 </div>
@@ -1774,6 +1769,18 @@
                 const totalLawCountElement = document.getElementById('total-law-count');
                 if (totalLawCountElement) {
                     totalLawCountElement.textContent = lawsData.length;
+                }
+                
+                // 개정 예정 법규 개수 업데이트 (2025년 개정 예정)
+                const amendmentLawCountElement = document.getElementById('amendment-law-count');
+                if (amendmentLawCountElement) {
+                    const currentYear = new Date().getFullYear();
+                    const amendmentCount = lawsData.filter(law => {
+                        if (!law.effectiveDate) return false;
+                        const effectiveYear = new Date(law.effectiveDate).getFullYear();
+                        return effectiveYear >= currentYear;
+                    }).length;
+                    amendmentLawCountElement.textContent = amendmentCount;
                 }
                 
                 // Chart.js가 로딩된 후 차트 생성
