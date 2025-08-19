@@ -45,49 +45,18 @@
         }
         
         .quarterly-tab {
-            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            background: #f7fafc;
             border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 1.5rem;
+            border-radius: 12px;
+            padding: 1rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .quarterly-tab::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .quarterly-tab:hover::before {
-            opacity: 0.1;
         }
         
         .quarterly-tab:hover {
             border-color: #667eea;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        }
-        
-        .quarterly-tab > div {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .quarter-count {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #667eea;
-            margin-top: 0.5rem;
+            transform: translateY(-2px);
         }
         
         .business-filter {
@@ -167,24 +136,20 @@
             <h3>📅 2025년 분기별 개정 현황</h3>
             <div class="quarterly-tabs">
                 <div class="quarterly-tab" onclick="showQuarter('Q1')">
-                    <div>🌱 1분기</div>
-                    <div style="font-size: 0.9rem; color: #718096;">(1-3월)</div>
-                    <div id="q1-count" class="quarter-count">0</div>
+                    <div>🌱 1분기 (1-3월)</div>
+                    <div id="q1-count">0</div>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarter('Q2')">
-                    <div>☀️ 2분기</div>
-                    <div style="font-size: 0.9rem; color: #718096;">(4-6월)</div>
-                    <div id="q2-count" class="quarter-count">0</div>
+                    <div>☀️ 2분기 (4-6월)</div>
+                    <div id="q2-count">0</div>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarter('Q3')">
-                    <div>🍂 3분기</div>
-                    <div style="font-size: 0.9rem; color: #718096;">(7-9월)</div>
-                    <div id="q3-count" class="quarter-count">0</div>
+                    <div>🍂 3분기 (7-9월)</div>
+                    <div id="q3-count">0</div>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarter('Q4')">
-                    <div>❄️ 4분기</div>
-                    <div style="font-size: 0.9rem; color: #718096;">(10-12월)</div>
-                    <div id="q4-count" class="quarter-count">0</div>
+                    <div>❄️ 4분기 (10-12월)</div>
+                    <div id="q4-count">0</div>
                 </div>
             </div>
         </div>

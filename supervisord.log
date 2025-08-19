@@ -34,3 +34,10 @@
 2025-08-19 01:40:36,058 INFO success: webserver entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
 2025-08-19 01:43:43,237 INFO waiting for webserver to stop
 2025-08-19 01:43:43,239 WARN stopped: webserver (terminated by SIGTERM)
+2025-08-19 01:49:17,192 INFO spawned: 'webserver' with pid 9054
+2025-08-19 01:49:18,195 INFO success: webserver entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-08-19 01:56:15,235 WARN exited: webserver (terminated by SIGTERM; not expected)
+2025-08-19 01:56:16,239 INFO spawned: 'webserver' with pid 9849
+2025-08-19 01:56:17,241 INFO success: webserver entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-08-19 01:56:58,378 WARN exited: webserver (terminated by SIGTERM; not expected)
+2025-08-19 01:56:58,378 WARN received SIGTERM indicating exit request
