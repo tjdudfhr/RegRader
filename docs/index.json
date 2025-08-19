@@ -21,6 +21,42 @@
       }
     },
     {
+      "id": "hr001_1",
+      "title": "근로기준법 시행령",
+      "summary": "근로기준법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-03-15",
+      "announcedDate": "2025-01-15",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "003058"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=003058",
+        "search": "https://www.law.go.kr/lsSc.do?query=근로기준법시행령"
+      }
+    },
+    {
+      "id": "hr001_2",
+      "title": "근로기준법 시행규칙",
+      "summary": "근로기준법의 시행에 필요한 세부사항을 규정하는 시행규칙입니다.",
+      "effectiveDate": "2025-03-15",
+      "announcedDate": "2025-01-15",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "003059"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=003059",
+        "search": "https://www.law.go.kr/lsSc.do?query=근로기준법시행규칙"
+      }
+    },
+    {
       "id": "hr002",
       "title": "최저임금법",
       "summary": "근로자에 대하여 임금의 최저수준을 보장하여 근로자의 생활안정과 노동력의 질적 향상을 꾀함으로써 국민경제의 건전한 발전에 이바지함을 목적으로 하는 법률입니다.",
@@ -57,6 +93,24 @@
       }
     },
     {
+      "id": "hr003_1",
+      "title": "근로자퇴직급여 보장법 시행령",
+      "summary": "근로자퇴직급여 보장법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-05-01",
+      "announcedDate": "2025-03-01",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "009965"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009965",
+        "search": "https://www.law.go.kr/lsSc.do?query=퇴직급여법시행령"
+      }
+    },
+    {
       "id": "hr004",
       "title": "고용보험법",
       "summary": "고용보험사업을 통하여 실업의 예방, 고용의 촉진 및 근로자의 직업능력의 개발·향상을 도모하고, 국가의 직업지도·직업소개기능을 강화하며, 근로자가 실업한 경우에 생활에 필요한 급여를 실시함을 목적으로 하는 법률입니다.",
@@ -72,6 +126,24 @@
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000724",
         "search": "https://www.law.go.kr/lsSc.do?query=고용보험법"
+      }
+    },
+    {
+      "id": "hr004_1",
+      "title": "고용보험법 시행령",
+      "summary": "고용보험법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-06-15",
+      "announcedDate": "2025-04-15",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "000725"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000725",
+        "search": "https://www.law.go.kr/lsSc.do?query=고용보험법시행령"
       }
     },
     {
@@ -108,6 +180,132 @@
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000712",
         "search": "https://www.law.go.kr/lsSc.do?query=장애인고용촉진법"
+      }
+    },
+    {
+      "id": "hr007",
+      "title": "채용절차의 공정화에 관한 법률",
+      "summary": "채용과정에서 구직자의 기본적 인권을 보호하고 채용기회의 균등을 보장함으로써 공정한 채용문화를 정착시키는 것을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-02-15",
+      "announcedDate": "2024-12-15",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "012875"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012875",
+        "search": "https://www.law.go.kr/lsSc.do?query=채용절차공정화법"
+      }
+    },
+    {
+      "id": "hr008",
+      "title": "장애인차별금지 및 권리구제 등에 관한 법률",
+      "summary": "장애를 이유로 한 차별을 금지하고 장애인의 완전한 사회참여와 평등권 실현을 통하여 인간으로서의 존엄과 가치를 구현함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-03-01",
+      "announcedDate": "2025-01-01",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "국가인권위원회",
+        "lsId": "010961"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010961",
+        "search": "https://www.law.go.kr/lsSc.do?query=장애인차별금지법"
+      }
+    },
+    {
+      "id": "hr009",
+      "title": "기간제 및 단시간근로자 보호 등에 관한 법률",
+      "summary": "기간제근로자 및 단시간근로자의 근로조건 보호 및 차별적 처우의 금지·시정 등에 관한 사항을 정함으로써 이들 근로자의 고용안정과 복지증진에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-04-01",
+      "announcedDate": "2025-02-01",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "009956"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009956",
+        "search": "https://www.law.go.kr/lsSc.do?query=기간제법"
+      }
+    },
+    {
+      "id": "hr010",
+      "title": "노동조합 및 노동관계조정법",
+      "summary": "헌법에 의한 근로자의 단결권·단체교섭권 및 단체행동권을 보장하여 근로조건의 유지·개선과 근로자의 경제적·사회적 지위의 향상을 도모하고, 노동관계를 공정하게 조정하여 산업평화의 유지와 국민경제의 발전에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-05-15",
+      "announcedDate": "2025-03-15",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "001876"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001876",
+        "search": "https://www.law.go.kr/lsSc.do?query=노동조합법"
+      }
+    },
+    {
+      "id": "hr011",
+      "title": "근로자참여 및 협력증진에 관한 법률",
+      "summary": "근로자의 경영참여를 통하여 노사협력을 증진하고 산업평화를 도모함으로써 국민경제의 건전한 발전에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-06-01",
+      "announcedDate": "2025-04-01",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "000723"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000723",
+        "search": "https://www.law.go.kr/lsSc.do?query=근로자참여법"
+      }
+    },
+    {
+      "id": "hr012",
+      "title": "근로복지기본법",
+      "summary": "근로자의 복리증진을 위한 사업을 지원하고 근로복지기본정책의 수립·추진 등에 관한 사항을 정함으로써 근로자의 생활의 질을 향상시키고 국민경제의 균형있는 발전에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-07-15",
+      "announcedDate": "2025-05-15",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "008878"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008878",
+        "search": "https://www.law.go.kr/lsSc.do?query=근로복지기본법"
+      }
+    },
+    {
+      "id": "hr013",
+      "title": "고용정책 기본법",
+      "summary": "고용에 관한 정부의 정책목표와 그 달성을 위한 고용정책의 수립·시행에 관한 기본적인 사항을 정하여 국민 개개인이 그 능력을 개발·발휘할 수 있는 고용기회가 최대한 창출·제공되도록 함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-08-01",
+      "announcedDate": "2025-06-01",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "000715"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000715",
+        "search": "https://www.law.go.kr/lsSc.do?query=고용정책기본법"
       }
     },
     {
@@ -237,6 +435,24 @@
       }
     },
     {
+      "id": "it001_1",
+      "title": "개인정보 보호법 시행령",
+      "summary": "개인정보 보호법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-03-15",
+      "announcedDate": "2025-01-15",
+      "lawType": "일부개정",
+      "categories": ["정보보호"],
+      "meta": {
+        "ministry": "개인정보보호위원회",
+        "lsId": "011499"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011499",
+        "search": "https://www.law.go.kr/lsSc.do?query=개인정보보호법시행령"
+      }
+    },
+    {
       "id": "it002",
       "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
       "summary": "정보통신망의 이용을 촉진하고 정보통신서비스를 이용하는 자의 개인정보를 보호함과 아울러 정보통신망을 건전하고 안전하게 이용할 수 있는 환경을 조성하여 국민생활의 향상과 공공복리의 증진에 이바지함을 목적으로 하는 법률입니다.",
@@ -270,6 +486,24 @@
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012033",
         "search": "https://www.law.go.kr/lsSc.do?query=정보보호산업진흥법"
+      }
+    },
+    {
+      "id": "it003_1",
+      "title": "정보보호산업의 진흥에 관한 법률 시행령",
+      "summary": "정보보호산업의 진흥에 관한 법률의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-05-01",
+      "announcedDate": "2025-03-01",
+      "lawType": "일부개정",
+      "categories": ["정보보호"],
+      "meta": {
+        "ministry": "과학기술정보통신부",
+        "lsId": "012034"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012034",
+        "search": "https://www.law.go.kr/lsSc.do?query=정보보호산업진흥법시행령"
       }
     },
     {
@@ -324,6 +558,60 @@
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012504",
         "search": "https://www.law.go.kr/lsSc.do?query=사이버보안기본법"
+      }
+    },
+    {
+      "id": "it007",
+      "title": "국가첨단전략산업 경쟁력 강화 및 보호에 관한 특별법",
+      "summary": "첨단전략기술 및 첨단전략산업의 경쟁력 강화와 보호를 위한 정책의 수립·시행에 관한 사항을 정함으로써 첨단전략기술 유출 방지와 첨단전략산업의 자생력을 높여 국가경쟁력 향상에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-02-28",
+      "announcedDate": "2024-12-28",
+      "lawType": "제정",
+      "categories": ["정보보호"],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "014590"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=014590",
+        "search": "https://www.law.go.kr/lsSc.do?query=국가첨단전략산업법"
+      }
+    },
+    {
+      "id": "it008",
+      "title": "산업기술의 유출방지 및 보호에 관한 법률",
+      "summary": "산업기술의 유출을 방지하고 보호함으로써 기업의 경쟁력과 국가경쟁력을 강화하여 국민경제의 발전에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-04-15",
+      "announcedDate": "2025-02-15",
+      "lawType": "일부개정",
+      "categories": ["정보보호"],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "011250"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011250",
+        "search": "https://www.law.go.kr/lsSc.do?query=산업기술보호법"
+      }
+    },
+    {
+      "id": "it008_1",
+      "title": "산업기술의 유출방지 및 보호에 관한 법률 시행령",
+      "summary": "산업기술의 유출방지 및 보호에 관한 법률의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-04-15",
+      "announcedDate": "2025-02-15",
+      "lawType": "일부개정",
+      "categories": ["정보보호"],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "011251"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011251",
+        "search": "https://www.law.go.kr/lsSc.do?query=산업기술보호법시행령"
       }
     },
     {
@@ -561,6 +849,42 @@
       }
     },
     {
+      "id": "hs001_1",
+      "title": "산업안전보건법 시행령",
+      "summary": "산업안전보건법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-03-01",
+      "announcedDate": "2025-01-01",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "013690"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=013690",
+        "search": "https://www.law.go.kr/lsSc.do?query=산업안전보건법시행령"
+      }
+    },
+    {
+      "id": "hs001_2",
+      "title": "산업안전보건법 시행규칙",
+      "summary": "산업안전보건법의 시행에 필요한 세부사항을 규정하는 시행규칙입니다.",
+      "effectiveDate": "2025-03-01",
+      "announcedDate": "2025-01-01",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "013691"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=013691",
+        "search": "https://www.law.go.kr/lsSc.do?query=산업안전보건법시행규칙"
+      }
+    },
+    {
       "id": "hs002",
       "title": "화학물질관리법",
       "summary": "화학물질로 인한 국민건강 및 환경상의 위해를 예방하고 화학물질을 적절히 관리함으로써 국민건강 및 환경보호에 이바지함을 목적으로 하는 법률입니다.",
@@ -576,6 +900,24 @@
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012080",
         "search": "https://www.law.go.kr/lsSc.do?query=화학물질관리법"
+      }
+    },
+    {
+      "id": "hs002_1",
+      "title": "화학물질관리법 시행령",
+      "summary": "화학물질관리법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-04-15",
+      "announcedDate": "2025-02-15",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "012081"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012081",
+        "search": "https://www.law.go.kr/lsSc.do?query=화학물질관리법시행령"
       }
     },
     {
@@ -651,6 +993,384 @@
       }
     },
     {
+      "id": "hs007",
+      "title": "고압가스 안전관리법",
+      "summary": "고압가스로 인한 위해를 방지하여 공공의 안전을 확보함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-02-15",
+      "announcedDate": "2024-12-15",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "001851"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001851",
+        "search": "https://www.law.go.kr/lsSc.do?query=고압가스안전관리법"
+      }
+    },
+    {
+      "id": "hs007_1",
+      "title": "고압가스 안전관리법 시행령",
+      "summary": "고압가스 안전관리법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-02-15",
+      "announcedDate": "2024-12-15",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "001852"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001852",
+        "search": "https://www.law.go.kr/lsSc.do?query=고압가스법시행령"
+      }
+    },
+    {
+      "id": "hs008",
+      "title": "석면안전관리법",
+      "summary": "석면으로 인한 국민건강 피해를 예방하고 석면을 안전하게 관리함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-03-15",
+      "announcedDate": "2025-01-15",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "011601"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011601",
+        "search": "https://www.law.go.kr/lsSc.do?query=석면안전관리법"
+      }
+    },
+    {
+      "id": "hs008_1",
+      "title": "석면안전관리법 시행령",
+      "summary": "석면안전관리법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-03-15",
+      "announcedDate": "2025-01-15",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "011602"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011602",
+        "search": "https://www.law.go.kr/lsSc.do?query=석면안전관리법시행령"
+      }
+    },
+    {
+      "id": "hs009",
+      "title": "위험물안전관리법",
+      "summary": "위험물의 저장·취급 및 운송과 이에 따른 안전관리에 관하여 필요한 사항을 정하여 위험물로 인한 위해를 방지함으로써 공공의 안전을 확보함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-04-01",
+      "announcedDate": "2025-02-01",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "소방청",
+        "lsId": "001855"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001855",
+        "search": "https://www.law.go.kr/lsSc.do?query=위험물안전관리법"
+      }
+    },
+    {
+      "id": "hs009_1",
+      "title": "위험물안전관리법 시행령",
+      "summary": "위험물안전관리법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-04-01",
+      "announcedDate": "2025-02-01",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "소방청",
+        "lsId": "001856"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001856",
+        "search": "https://www.law.go.kr/lsSc.do?query=위험물안전관리법시행령"
+      }
+    },
+    {
+      "id": "hs010",
+      "title": "연구실 안전환경 조성에 관한 법률",
+      "summary": "연구실에서 발생할 수 있는 각종 사고로부터 연구활동종사자의 생명과 신체를 보호하고 연구활동에 기인한 환경오염 또는 환경훼손을 방지함으로써 연구개발활동이 안전한 환경에서 수행될 수 있도록 하는 것을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-05-15",
+      "announcedDate": "2025-03-15",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "과학기술정보통신부",
+        "lsId": "010431"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010431",
+        "search": "https://www.law.go.kr/lsSc.do?query=연구실안전환경법"
+      }
+    },
+    {
+      "id": "hs010_1",
+      "title": "연구실 안전환경 조성에 관한 법률 시행령",
+      "summary": "연구실 안전환경 조성에 관한 법률의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-05-15",
+      "announcedDate": "2025-03-15",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "과학기술정보통신부",
+        "lsId": "010432"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010432",
+        "search": "https://www.law.go.kr/lsSc.do?query=연구실안전법시행령"
+      }
+    },
+    {
+      "id": "hs011",
+      "title": "전기안전관리법",
+      "summary": "전기로 인한 위해를 방지하고 전기설비의 안전관리를 확보하여 공공의 안전을 도모함과 아울러 전기사업의 건전한 발달에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-06-01",
+      "announcedDate": "2025-04-01",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "013718"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=013718",
+        "search": "https://www.law.go.kr/lsSc.do?query=전기안전관리법"
+      }
+    },
+    {
+      "id": "hs011_1",
+      "title": "전기안전관리법 시행령",
+      "summary": "전기안전관리법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-06-01",
+      "announcedDate": "2025-04-01",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "013719"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=013719",
+        "search": "https://www.law.go.kr/lsSc.do?query=전기안전관리법시행령"
+      }
+    },
+    {
+      "id": "hs012",
+      "title": "화재예방, 소방시설 설치·유지 및 안전관리에 관한 법률",
+      "summary": "화재를 예방·경계하거나 진압하고 화재, 재난·재해, 그 밖의 위급상황에서의 구조·구급활동 등을 통하여 국민의 생명·신체 및 재산을 보호함으로써 공공의 안녕과 질서 유지 및 복리증진에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-07-15",
+      "announcedDate": "2025-05-15",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "소방청",
+        "lsId": "013536"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=013536",
+        "search": "https://www.law.go.kr/lsSc.do?query=화재예방법"
+      }
+    },
+    {
+      "id": "hs013",
+      "title": "액화석유가스의 안전관리 및 사업법",
+      "summary": "액화석유가스로 인한 위해를 방지하여 공공의 안전을 확보하고 액화석유가스사업의 건전한 발달을 도모함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-08-01",
+      "announcedDate": "2025-06-01",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "001849"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001849",
+        "search": "https://www.law.go.kr/lsSc.do?query=액화석유가스안전관리법"
+      }
+    },
+    {
+      "id": "hs014",
+      "title": "도시가스사업법",
+      "summary": "도시가스사업을 적정하게 운영함으로써 도시가스 공급을 원활하게 하고 도시가스의 안전관리 및 이용증진을 통하여 공공복리의 증진에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-02-28",
+      "announcedDate": "2024-12-28",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "001847"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001847",
+        "search": "https://www.law.go.kr/lsSc.do?query=도시가스사업법"
+      }
+    },
+    {
+      "id": "hs015",
+      "title": "원자력안전법",
+      "summary": "원자력이용에 있어서 방사선에 의한 방사선장해로부터 국민을 보호하고 환경을 보전하며 원자력안전을 확보함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-03-30",
+      "announcedDate": "2025-01-30",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "원자력안전위원회",
+        "lsId": "011435"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011435",
+        "search": "https://www.law.go.kr/lsSc.do?query=원자력안전법"
+      }
+    },
+    {
+      "id": "hs015_1",
+      "title": "원자력안전법 시행령",
+      "summary": "원자력안전법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-03-30",
+      "announcedDate": "2025-01-30",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "원자력안전위원회",
+        "lsId": "011436"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011436",
+        "search": "https://www.law.go.kr/lsSc.do?query=원자력안전법시행령"
+      }
+    },
+    {
+      "id": "hs016",
+      "title": "승강기 안전관리법",
+      "summary": "승강기의 안전관리를 통하여 이용자의 생명과 재산을 보호하고 공공복리의 향상에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-04-30",
+      "announcedDate": "2025-02-28",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "행정안전부",
+        "lsId": "010440"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010440",
+        "search": "https://www.law.go.kr/lsSc.do?query=승강기안전관리법"
+      }
+    },
+    {
+      "id": "hs016_1",
+      "title": "승강기 안전관리법 시행령",
+      "summary": "승강기 안전관리법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-04-30",
+      "announcedDate": "2025-02-28",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "행정안전부",
+        "lsId": "010441"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010441",
+        "search": "https://www.law.go.kr/lsSc.do?query=승강기법시행령"
+      }
+    },
+    {
+      "id": "hs017",
+      "title": "감염병의 예방 및 관리에 관한 법률",
+      "summary": "국민 건강에 위해가 되는 감염병의 발생과 유행을 방지하고, 그 예방 및 관리를 위하여 필요한 사항을 규정함으로써 국민건강의 증진 및 유지에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-05-30",
+      "announcedDate": "2025-03-30",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "보건복지부",
+        "lsId": "011604"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011604",
+        "search": "https://www.law.go.kr/lsSc.do?query=감염병예방법"
+      }
+    },
+    {
+      "id": "hs017_1",
+      "title": "감염병의 예방 및 관리에 관한 법률 시행령",
+      "summary": "감염병의 예방 및 관리에 관한 법률의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-05-30",
+      "announcedDate": "2025-03-30",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "보건복지부",
+        "lsId": "011605"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011605",
+        "search": "https://www.law.go.kr/lsSc.do?query=감염병예방법시행령"
+      }
+    },
+    {
+      "id": "hs018",
+      "title": "식품위생법",
+      "summary": "식품으로 인하여 생기는 위생상의 위해를 방지하고 식품영양의 질적 향상을 도모하며 식품에 관한 올바른 정보를 제공하여 국민보건의 증진에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-06-30",
+      "announcedDate": "2025-04-30",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "식품의약품안전처",
+        "lsId": "001792"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001792",
+        "search": "https://www.law.go.kr/lsSc.do?query=식품위생법"
+      }
+    },
+    {
+      "id": "hs018_1",
+      "title": "식품위생법 시행령",
+      "summary": "식품위생법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-06-30",
+      "announcedDate": "2025-04-30",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "식품의약품안전처",
+        "lsId": "001793"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001793",
+        "search": "https://www.law.go.kr/lsSc.do?query=식품위생법시행령"
+      }
+    },
+    {
       "id": "ee001",
       "title": "환경정책기본법",
       "summary": "환경보전에 관하여 국민과 국가·지방자치단체의 책무를 명확히 하고 환경정책의 기본사항을 정하여 환경오염과 환경훼손을 예방하고 환경을 적정하고 지속가능하게 관리·보전함으로써 모든 국민이 건강하고 쾌적한 삶을 누릴 수 있도록 함을 목적으로 하는 법률입니다.",
@@ -666,6 +1386,24 @@
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001842",
         "search": "https://www.law.go.kr/lsSc.do?query=환경정책기본법"
+      }
+    },
+    {
+      "id": "ee001_1",
+      "title": "환경정책기본법 시행령",
+      "summary": "환경정책기본법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-03-15",
+      "announcedDate": "2025-01-15",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "001843"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001843",
+        "search": "https://www.law.go.kr/lsSc.do?query=환경정책기본법시행령"
       }
     },
     {
@@ -687,6 +1425,24 @@
       }
     },
     {
+      "id": "ee002_1",
+      "title": "대기환경보전법 시행령",
+      "summary": "대기환경보전법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-04-01",
+      "announcedDate": "2025-02-01",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "001850"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001850",
+        "search": "https://www.law.go.kr/lsSc.do?query=대기환경보전법시행령"
+      }
+    },
+    {
       "id": "ee003",
       "title": "물환경보전법",
       "summary": "물환경오염으로 인한 국민건강 및 환경상의 위해를 예방하고 하천·호소 등 공공수역의 물환경을 적정하게 관리·보전함으로써 국민으로 하여금 건전하고 쾌적한 환경에서 생활할 수 있게 함을 목적으로 하는 법률입니다.",
@@ -705,6 +1461,24 @@
       }
     },
     {
+      "id": "ee003_1",
+      "title": "물환경보전법 시행령",
+      "summary": "물환경보전법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-05-01",
+      "announcedDate": "2025-03-01",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "008859"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008859",
+        "search": "https://www.law.go.kr/lsSc.do?query=물환경보전법시행령"
+      }
+    },
+    {
       "id": "ee004",
       "title": "폐기물관리법",
       "summary": "폐기물의 발생을 최대한 억제하고 발생된 폐기물을 적정하게 재활용 또는 처리함으로써 환경보전과 국민생활의 질적 향상에 이바지함을 목적으로 하는 법률입니다.",
@@ -720,6 +1494,24 @@
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001850",
         "search": "https://www.law.go.kr/lsSc.do?query=폐기물관리법"
+      }
+    },
+    {
+      "id": "ee004_1",
+      "title": "폐기물관리법 시행령",
+      "summary": "폐기물관리법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-06-15",
+      "announcedDate": "2025-04-15",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "001851"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001851",
+        "search": "https://www.law.go.kr/lsSc.do?query=폐기물관리법시행령"
       }
     },
     {
@@ -756,6 +1548,150 @@
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011931",
         "search": "https://www.law.go.kr/lsSc.do?query=온실가스배출권거래법"
+      }
+    },
+    {
+      "id": "ee007",
+      "title": "토양환경보전법",
+      "summary": "토양오염으로 인한 국민건강 및 환경상의 위해를 예방하고 오염된 토양을 정화하는 등 토양을 적정하게 관리·보전함으로써 모든 국민이 건강하고 쾌적한 환경에서 생활할 수 있게 함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-02-15",
+      "announcedDate": "2024-12-15",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "008507"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008507",
+        "search": "https://www.law.go.kr/lsSc.do?query=토양환경보전법"
+      }
+    },
+    {
+      "id": "ee007_1",
+      "title": "토양환경보전법 시행령",
+      "summary": "토양환경보전법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-02-15",
+      "announcedDate": "2024-12-15",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "008508"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008508",
+        "search": "https://www.law.go.kr/lsSc.do?query=토양환경보전법시행령"
+      }
+    },
+    {
+      "id": "ee008",
+      "title": "잔류성유기오염물질 관리법",
+      "summary": "잔류성유기오염물질로 인한 위해를 방지함으로써 국민건강 및 환경보호에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-03-30",
+      "announcedDate": "2025-01-30",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "010600"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010600",
+        "search": "https://www.law.go.kr/lsSc.do?query=잔류성유기오염물질관리법"
+      }
+    },
+    {
+      "id": "ee008_1",
+      "title": "잔류성유기오염물질 관리법 시행령",
+      "summary": "잔류성유기오염물질 관리법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-03-30",
+      "announcedDate": "2025-01-30",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "010601"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010601",
+        "search": "https://www.law.go.kr/lsSc.do?query=잔류성물질법시행령"
+      }
+    },
+    {
+      "id": "ee009",
+      "title": "소음·진동관리법",
+      "summary": "소음·진동으로 인한 피해를 방지하고 소음·진동을 적정하게 관리함으로써 모든 국민이 정온하고 쾌적한 환경에서 생활할 수 있게 함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-04-30",
+      "announcedDate": "2025-02-28",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "008832"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008832",
+        "search": "https://www.law.go.kr/lsSc.do?query=소음진동관리법"
+      }
+    },
+    {
+      "id": "ee009_1",
+      "title": "소음·진동관리법 시행령",
+      "summary": "소음·진동관리법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-04-30",
+      "announcedDate": "2025-02-28",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "008833"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008833",
+        "search": "https://www.law.go.kr/lsSc.do?query=소음진동관리법시행령"
+      }
+    },
+    {
+      "id": "ee010",
+      "title": "하수도법",
+      "summary": "하수도의 설치·관리 및 하수처리에 관하여 필요한 사항을 정하여 하수도를 적정하게 관리함으로써 공중위생의 향상과 생활환경의 개선 및 공공수역의 수질보전에 이바지함을 목적으로 하는 법률입니다.",
+      "effectiveDate": "2025-05-30",
+      "announcedDate": "2025-03-30",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "005368"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=005368",
+        "search": "https://www.law.go.kr/lsSc.do?query=하수도법"
+      }
+    },
+    {
+      "id": "ee010_1",
+      "title": "하수도법 시행령",
+      "summary": "하수도법의 시행에 필요한 사항을 규정하는 시행령입니다.",
+      "effectiveDate": "2025-05-30",
+      "announcedDate": "2025-03-30",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "005369"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=005369",
+        "search": "https://www.law.go.kr/lsSc.do?query=하수도법시행령"
       }
     },
     {
