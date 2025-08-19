@@ -694,6 +694,447 @@
         "온라인 플랫폼 개인정보 처리 투명성 강화",
         "쿠키 동의 절차 개선"
       ]
+    },
+    {
+      "id": "hr_007",
+      "title": "장애인차별금지 및 권리구제 등에 관한 법률",
+      "summary": "장애인에 대한 차별금지 및 인권보호를 통한 사회통합 실현",
+      "effectiveDate": "2025-04-15",
+      "announcedDate": "2025-01-20",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "보건복지부",
+        "lsId": "HR007"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "직장 내 장애인 편의시설 의무 강화",
+        "장애인 근로자 지원 서비스 확대"
+      ]
+    },
+    {
+      "id": "hr_008",
+      "title": "근로자참여 및 협력증진에 관한 법률",
+      "summary": "근로자의 경영참여를 통한 노사협력 증진 및 기업 경쟁력 강화",
+      "effectiveDate": "2025-05-10",
+      "announcedDate": "2025-02-15",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "HR008"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "노사협의회 운영 활성화 방안 마련",
+        "근로자 제안제도 의무화 확대"
+      ]
+    },
+    {
+      "id": "hr_009",
+      "title": "고용정책 기본법",
+      "summary": "고용정책의 기본방향 설정 및 완전고용 달성을 위한 종합적 고용정책 추진",
+      "effectiveDate": "2025-06-20",
+      "announcedDate": "2025-03-25",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "HR009"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "플랫폼 노동자 고용안정성 강화",
+        "청년고용 촉진을 위한 인센티브 확대"
+      ]
+    },
+    {
+      "id": "hr_010",
+      "title": "근로복지기본법",
+      "summary": "근로자의 복지향상을 위한 종합적인 근로복지정책 추진 및 지원",
+      "effectiveDate": "2025-07-30",
+      "announcedDate": "2025-04-10",
+      "lawType": "일부개정",
+      "categories": ["인사노무"],
+      "meta": {
+        "ministry": "고용노동부",
+        "lsId": "HR010"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "근로자 복지시설 지원 확대",
+        "직장 내 복리후생 프로그램 다양화"
+      ]
+    },
+    {
+      "id": "fair_003",
+      "title": "표시·광고의 공정화에 관한 법률",
+      "summary": "소비자를 보호하고 사업자 간의 공정한 경쟁을 도모하기 위한 표시·광고 규제",
+      "effectiveDate": "2025-03-20",
+      "announcedDate": "2024-12-28",
+      "lawType": "일부개정",
+      "categories": ["공정거래"],
+      "meta": {
+        "ministry": "공정거래위원회",
+        "lsId": "FAIR003"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "온라인 광고 규제 강화",
+        "그린워싱 방지를 위한 환경 표시 기준 신설"
+      ]
+    },
+    {
+      "id": "fair_004",
+      "title": "약관의 규제에 관한 법률",
+      "summary": "불공정한 약관조항으로부터 고객을 보호하고 건전한 거래질서 확립",
+      "effectiveDate": "2025-08-15",
+      "announcedDate": "2025-05-20",
+      "lawType": "일부개정",
+      "categories": ["공정거래"],
+      "meta": {
+        "ministry": "공정거래위원회",
+        "lsId": "FAIR004"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "디지털 플랫폼 약관 투명성 강화",
+        "불공정 약관 신고센터 운영 확대"
+      ]
+    },
+    {
+      "id": "sec_005",
+      "title": "신용정보의 이용 및 보호에 관한 법률",
+      "summary": "신용정보의 효율적 이용과 체계적 관리를 통한 금융거래 활성화 및 신용정보 보호",
+      "effectiveDate": "2025-04-25",
+      "announcedDate": "2025-01-30",
+      "lawType": "일부개정",
+      "categories": ["정보보호"],
+      "meta": {
+        "ministry": "금융위원회",
+        "lsId": "SEC005"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "마이데이터 서비스 보안 강화",
+        "신용정보 이용 동의 절차 간소화"
+      ]
+    },
+    {
+      "id": "ip_003",
+      "title": "상표법",
+      "summary": "상표를 보호하여 상표사용자의 업무상 신용유지를 도모하고 산업발전에 이바지",
+      "effectiveDate": "2025-09-10",
+      "announcedDate": "2025-06-15",
+      "lawType": "일부개정",
+      "categories": ["지식재산"],
+      "meta": {
+        "ministry": "특허청",
+        "lsId": "IP003"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "비전통적 상표 보호 범위 확대",
+        "상표권 침해 구제절차 신속화"
+      ]
+    },
+    {
+      "id": "ip_004",
+      "title": "디자인보호법",
+      "summary": "디자인의 창작을 장려하고 그 이용을 도모함으로써 산업발전에 이바지",
+      "effectiveDate": "2025-10-05",
+      "announcedDate": "2025-07-10",
+      "lawType": "일부개정",
+      "categories": ["지식재산"],
+      "meta": {
+        "ministry": "특허청",
+        "lsId": "IP004"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "GUI 디자인 보호 확대",
+        "디자인권 존속기간 연장"
+      ]
+    },
+    {
+      "id": "ip_005",
+      "title": "저작권법",
+      "summary": "저작자의 권리와 이에 인접하는 권리를 보호하고 저작물의 공정한 이용을 도모",
+      "effectiveDate": "2025-11-20",
+      "announcedDate": "2025-08-25",
+      "lawType": "일부개정",
+      "categories": ["지식재산"],
+      "meta": {
+        "ministry": "문화체육관광부",
+        "lsId": "IP005"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "AI 창작물 저작권 보호 기준 마련",
+        "온라인 저작권 침해 대응 체계 강화"
+      ]
+    },
+    {
+      "id": "fin_004",
+      "title": "부가가치세법",
+      "summary": "부가가치세의 공평한 부과와 징수를 통한 국가재정 확충 및 조세정의 실현",
+      "effectiveDate": "2025-01-01",
+      "announcedDate": "2024-10-15",
+      "lawType": "일부개정",
+      "categories": ["재무회계"],
+      "meta": {
+        "ministry": "기획재정부",
+        "lsId": "FIN004"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "전자세금계산서 발급 의무 확대",
+        "디지털 서비스 부가세 과세 체계 정비"
+      ]
+    },
+    {
+      "id": "fin_005",
+      "title": "국세기본법",
+      "summary": "국세에 관한 기본적인 사항을 정하여 조세행정의 공정성과 효율성을 도모",
+      "effectiveDate": "2025-12-31",
+      "announcedDate": "2025-09-30",
+      "lawType": "일부개정",
+      "categories": ["재무회계"],
+      "meta": {
+        "ministry": "기획재정부",
+        "lsId": "FIN005"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "국세 납부 절차 디지털화 확대",
+        "세무조사 투명성 강화 방안 마련"
+      ]
+    },
+    {
+      "id": "safety_009",
+      "title": "석면안전관리법",
+      "summary": "석면으로 인한 건강피해를 예방하고 석면 안전관리 체계 구축",
+      "effectiveDate": "2025-03-15",
+      "announcedDate": "2024-12-20",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "SAFETY009"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "석면 해체·제거 작업 안전기준 강화",
+        "석면 피해 구제급여 지원 확대"
+      ]
+    },
+    {
+      "id": "safety_010",
+      "title": "연구실 안전환경 조성에 관한 법률",
+      "summary": "연구개발활동에 종사하는 연구원의 안전보장과 연구실 안전환경 조성",
+      "effectiveDate": "2025-05-01",
+      "announcedDate": "2025-02-05",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "과학기술정보통신부",
+        "lsId": "SAFETY010"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "AI·바이오 연구실 특별 안전관리 기준 신설",
+        "연구실 안전점검 주기 단축"
+      ]
+    },
+    {
+      "id": "safety_011",
+      "title": "액화석유가스의 안전관리 및 사업법",
+      "summary": "액화석유가스의 안전한 제조·저장·판매 및 사용을 위한 종합적 관리체계",
+      "effectiveDate": "2025-07-15",
+      "announcedDate": "2025-04-20",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "SAFETY011"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "LPG 충전소 안전관리 시스템 고도화",
+        "이동식 LPG 용기 관리 강화"
+      ]
+    },
+    {
+      "id": "safety_012",
+      "title": "승강기 안전관리법",
+      "summary": "승강기의 안전한 설치·관리·검사를 통한 승강기 이용자의 안전 확보",
+      "effectiveDate": "2025-09-01",
+      "announcedDate": "2025-06-10",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "국토교통부",
+        "lsId": "SAFETY012"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "스마트 승강기 안전기준 마련",
+        "승강기 원격 안전관리 시스템 도입"
+      ]
+    },
+    {
+      "id": "safety_013",
+      "title": "식품위생법",
+      "summary": "식품으로 인하여 생기는 위생상의 위해를 방지하고 식품영양의 질적 향상을 도모",
+      "effectiveDate": "2025-10-15",
+      "announcedDate": "2025-07-20",
+      "lawType": "일부개정",
+      "categories": ["안전보건"],
+      "meta": {
+        "ministry": "식품의약품안전처",
+        "lsId": "SAFETY013"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "스마트 식품안전관리 체계 구축",
+        "온라인 식품판매 안전기준 강화"
+      ]
+    },
+    {
+      "id": "env_007",
+      "title": "물환경보전법",
+      "summary": "물환경의 보전 및 관리를 통한 국민의 건강과 환경의 질적 향상",
+      "effectiveDate": "2025-04-10",
+      "announcedDate": "2025-01-15",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "ENV007"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "수질오염물질 배출기준 강화",
+        "물환경 통합관리 시스템 구축"
+      ]
+    },
+    {
+      "id": "env_008",
+      "title": "잔류성유기오염물질 관리법",
+      "summary": "잔류성유기오염물질의 위해성을 예방하고 체계적 관리를 통한 환경보호",
+      "effectiveDate": "2025-06-05",
+      "announcedDate": "2025-03-10",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "ENV008"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "신규 POPs 물질 관리 체계 도입",
+        "POPs 대체물질 개발 지원 확대"
+      ]
+    },
+    {
+      "id": "env_009",
+      "title": "하수도법",
+      "summary": "하수도의 설치·운영 및 관리를 통한 공중위생 향상과 수질보전",
+      "effectiveDate": "2025-08-20",
+      "announcedDate": "2025-05-25",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "환경부",
+        "lsId": "ENV009"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "스마트 하수도 관리시스템 구축",
+        "하수처리 에너지 효율성 개선 의무화"
+      ]
+    },
+    {
+      "id": "env_010",
+      "title": "신에너지 및 재생에너지 개발·이용·보급 촉진법",
+      "summary": "신에너지 및 재생에너지의 개발·이용·보급 촉진을 통한 에너지 전환 가속화",
+      "effectiveDate": "2025-11-10",
+      "announcedDate": "2025-08-15",
+      "lawType": "일부개정",
+      "categories": ["환경에너지"],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "lsId": "ENV010"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/"
+      },
+      "amendmentDetails": [
+        "재생에너지 의무공급비율(RPS) 확대",
+        "분산형 에너지 시스템 구축 지원 강화"
+      ]
     }
   ]
 }
