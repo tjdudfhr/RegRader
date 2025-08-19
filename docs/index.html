@@ -492,12 +492,14 @@
             font-weight: 500;
         }
 
-        .category-tag.safety { background: rgba(72, 187, 120, 0.1); color: var(--c-safety); }
-        .category-tag.env { background: rgba(56, 178, 172, 0.1); color: var(--c-env); }
         .category-tag.hr { background: rgba(237, 137, 54, 0.1); color: var(--c-hr); }
-        .category-tag.gov { background: rgba(159, 122, 234, 0.1); color: var(--c-gov); }
-        .category-tag.fin { background: rgba(66, 153, 225, 0.1); color: var(--c-fin); }
+        .category-tag.fair { background: rgba(56, 178, 172, 0.1); color: var(--c-env); }
         .category-tag.sec { background: rgba(245, 101, 101, 0.1); color: var(--c-sec); }
+        .category-tag.ip { background: rgba(159, 122, 234, 0.1); color: var(--c-gov); }
+        .category-tag.fin { background: rgba(66, 153, 225, 0.1); color: var(--c-fin); }
+        .category-tag.safety { background: rgba(72, 187, 120, 0.1); color: var(--c-safety); }
+        .category-tag.env { background: rgba(56, 217, 169, 0.1); color: var(--c-env); }
+        .category-tag.gov { background: rgba(128, 90, 213, 0.1); color: var(--c-gov); }
         .category-tag.etc { background: rgba(160, 174, 192, 0.1); color: var(--c-etc); }
 
         /* Enhanced Modal */
@@ -1132,12 +1134,14 @@
             </div>
             <div class="filter-tabs">
                 <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">0</span>)</div>
-                <div class="filter-tab" data-filter="안전">🛡️ 안전관리 (<span id="count-안전">0</span>)</div>
-                <div class="filter-tab" data-filter="환경">🌱 환경 (<span id="count-환경">0</span>)</div>
                 <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">0</span>)</div>
-                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">0</span>)</div>
-                <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">0</span>)</div>
+                <div class="filter-tab" data-filter="공정거래">⚖️ 공정거래 (<span id="count-공정거래">0</span>)</div>
                 <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">0</span>)</div>
+                <div class="filter-tab" data-filter="지식재산">💡 지식재산 (<span id="count-지식재산">0</span>)</div>
+                <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">0</span>)</div>
+                <div class="filter-tab" data-filter="안전보건">🛡️ 안전/보건 (<span id="count-안전보건">0</span>)</div>
+                <div class="filter-tab" data-filter="환경에너지">🌱 환경/에너지 (<span id="count-환경에너지">0</span>)</div>
+                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">0</span>)</div>
                 <div class="filter-tab" data-filter="기타">📋 기타 (<span id="count-기타">0</span>)</div>
             </div>
         </div>
@@ -1317,12 +1321,14 @@
 
             // Generate detailed content with business categories and law list
             const categoryIcons = {
-                '안전': '🛡️',
-                '환경': '🌱',
                 '인사노무': '👥',
-                '지배구조': '🏛️', 
-                '재무회계': '💰',
+                '공정거래': '⚖️',
                 '정보보호': '🔒',
+                '지식재산': '💡',
+                '재무회계': '💰',
+                '안전보건': '🛡️',
+                '환경에너지': '🌱',
+                '지배구조': '🏛️',
                 '기타': '📋'
             };
 
@@ -1390,12 +1396,14 @@
 
             // Generate chart data for this quarter
             const categoryColors = {
-                '안전': '#48bb78',
-                '환경': '#38b2ac',
-                '인사노무': '#ed8936', 
-                '지배구조': '#9f7aea',
-                '재무회계': '#4299e1',
+                '인사노무': '#ed8936',
+                '공정거래': '#38b2ac',
                 '정보보호': '#f56565',
+                '지식재산': '#9f7aea',
+                '재무회계': '#4299e1',
+                '안전보건': '#48bb78',
+                '환경에너지': '#38d9a9',
+                '지배구조': '#805ad5',
                 '기타': '#a0aec0'
             };
 
@@ -1614,12 +1622,14 @@
 
             const categories = law.categories && law.categories.length > 0 ? law.categories : ['기타'];
             const categoryIcons = {
-                '안전': '🛡️',
-                '환경': '🌱',
                 '인사노무': '👥',
-                '지배구조': '🏛️', 
-                '재무회계': '💰',
+                '공정거래': '⚖️',
                 '정보보호': '🔒',
+                '지식재산': '💡',
+                '재무회계': '💰',
+                '안전보건': '🛡️',
+                '환경에너지': '🌱',
+                '지배구조': '🏛️',
                 '기타': '📋'
             };
             
@@ -2031,12 +2041,14 @@
 
         function getCategoryClass(category) {
             const classMap = {
-                '안전': 'safety',
-                '환경': 'env', 
                 '인사노무': 'hr',
-                '지배구조': 'gov',
+                '공정거래': 'fair',
+                '정보보호': 'sec',
+                '지식재산': 'ip',
                 '재무회계': 'fin',
-                '정보보호': 'sec'
+                '안전보건': 'safety',
+                '환경에너지': 'env',
+                '지배구조': 'gov'
             };
             return classMap[category] || 'etc';
         }
@@ -2542,21 +2554,25 @@
 
             // 카테고리 색상 및 아이콘 정보
             const categoryColors = {
-                '안전': '#48bb78',
-                '환경': '#38b2ac',
-                '인사노무': '#ed8936', 
-                '지배구조': '#9f7aea',
-                '재무회계': '#4299e1',
+                '인사노무': '#ed8936',
+                '공정거래': '#38b2ac',
                 '정보보호': '#f56565',
+                '지식재산': '#9f7aea',
+                '재무회계': '#4299e1',
+                '안전보건': '#48bb78',
+                '환경에너지': '#38d9a9',
+                '지배구조': '#805ad5',
                 '기타': '#a0aec0'
             };
             const categoryIcons = {
-                '안전': '🛡️',
-                '환경': '🌱',
                 '인사노무': '👥',
-                '지배구조': '🏛️', 
-                '재무회계': '💰',
+                '공정거래': '⚖️',
                 '정보보호': '🔒',
+                '지식재산': '💡',
+                '재무회계': '💰',
+                '안전보건': '🛡️',
+                '환경에너지': '🌱',
+                '지배구조': '🏛️',
                 '기타': '📋'
             };
             
