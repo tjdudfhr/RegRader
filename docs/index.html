@@ -2731,10 +2731,8 @@
             
             // Generate simplified law list (law name only, direct link to law center)
             const lawsHtml = filteredLaws.map((law, index) => {
-                const lawUrl = law.source?.url || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(law.title)}`;
-                
                 return `
-                    <div class="registry-law-item" onclick="window.open('${lawUrl}', '_blank')">
+                    <div class="registry-law-item" onclick="openLawCenter('${law.id}')">
                         <div class="registry-law-number">${index + 1}.</div>
                         <div class="registry-law-title">${law.title}</div>
                         <div class="registry-law-link">
@@ -2800,6 +2798,18 @@
             if (registryTotalElement) {
                 registryTotalElement.textContent = lawsData.length;
             }
+        }
+
+        // Law Registry specific function to open law center
+        function openLawCenter(lawId) {
+            const law = lawsData.find(l => l.id === lawId);
+            if (!law) {
+                console.error('Law not found:', lawId);
+                return;
+            }
+            
+            const lawUrl = law.source?.url || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(law.title)}`;
+            window.open(lawUrl, '_blank');
         }
 
         function getDaysFromNow(dateStr) {
