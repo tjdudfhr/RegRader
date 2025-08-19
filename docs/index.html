@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚖️ LAW WATCH · 스마트 법령 대시보드</title>
+    <title>LAW WATCH · AI를 활용한 법규 제개정 모니터링 시스템</title>
     <link rel="shortcut icon" href="data:text/plain;base64,📊">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1048,8 +1048,8 @@
     <div class="container">
         <!-- Glassmorphism Header -->
         <div class="header">
-            <h1>⚖️ LAW WATCH</h1>
-            <div class="subtitle">스마트 법령 대시보드</div>
+            <h1>LAW WATCH</h1>
+            <div class="subtitle">AI를 활용한 법규 제개정 모니터링 시스템</div>
             <div class="meta">
                 <span id="year">2025</span>년 법령 개정 현황 · 
                 최종 업데이트: <span id="timestamp">로딩 중...</span>
@@ -1365,10 +1365,7 @@
                     }
                 }
 
-                const categoryTags = (item.categories || []).map(cat => {
-                    const className = getCategoryClass(cat);
-                    return `<span class="category-tag ${className}">${cat}</span>`;
-                }).join('');
+
 
                 return `
                     <div class="law-item">
@@ -1386,7 +1383,7 @@
                                 <span>${item.lawType || '일부개정'}</span>
                             </div>
                         </div>
-                        ${categoryTags ? `<div class="category-tags">${categoryTags}</div>` : ''}
+
                     </div>
                 `;
             }).join('');
@@ -1536,10 +1533,7 @@
                     }
                 }
 
-                const categoryTags = (item.categories || []).map(cat => {
-                    const className = getCategoryClass(cat);
-                    return `<span class="category-tag ${className}">${cat}</span>`;
-                }).join('');
+
 
                 return `
                     <div class="law-item">
@@ -1557,7 +1551,7 @@
                                 <span>${item.lawType || '일부개정'}</span>
                             </div>
                         </div>
-                        ${categoryTags ? `<div class="category-tags">${categoryTags}</div>` : ''}
+
                     </div>
                 `;
             }).join('');
@@ -2009,10 +2003,7 @@
                     }
                 }
 
-                const categoryTags = (item.categories || []).map(cat => {
-                    const className = getCategoryClass(cat);
-                    return `<span class="category-tag ${className}">${cat}</span>`;
-                }).join('');
+
 
                 return `
                     <div class="law-item">
@@ -2030,7 +2021,7 @@
                                 <span>${item.lawType || '일부개정'}</span>
                             </div>
                         </div>
-                        ${categoryTags ? `<div class="category-tags">${categoryTags}</div>` : ''}
+
                     </div>
                 `;
             }).join('');
