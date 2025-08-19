@@ -947,6 +947,103 @@
             padding: 2rem;
         }
 
+        /* Law Registry Tab Styles */
+        .job-function-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .job-function-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .job-function-item:hover {
+            background: var(--bg-secondary);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .job-function-item.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .job-function-item .job-icon {
+            font-size: 1.1rem;
+            width: 1.5rem;
+            text-align: center;
+        }
+
+        .job-function-item .job-name {
+            flex: 1;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .job-function-item .job-count {
+            background: var(--bg-glass);
+            color: var(--text-secondary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            min-width: 2rem;
+            text-align: center;
+        }
+
+        .job-function-item.active .job-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .registry-law-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .registry-law-item:hover {
+            background: var(--bg-secondary);
+        }
+
+        .registry-law-item:last-child {
+            border-bottom: none;
+        }
+
+        .registry-law-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .registry-law-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .registry-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
         /* Enhanced Quarterly Tab Selection */
         .quarterly-tab {
             transition: all 0.3s ease;
@@ -1069,6 +1166,10 @@
                     <span class="tab-icon">🏢</span>
                     <span class="tab-text">직무별 개정 현황</span>
                 </div>
+                <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')">
+                    <span class="tab-icon">📚</span>
+                    <span class="tab-text">적용법규(법규등록부)</span>
+                </div>
             </div>
         </div>
 
@@ -1085,21 +1186,16 @@
                         <span style="font-size: 1.3rem;">📋</span>
                         <div>
                             <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">2025년 전체 개정 현황</div>
-                            <div style="font-size: 0.9rem; color: var(--text-muted);">대기업 제조업 핵심 컴플라이언스 법규</div>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="total-law-count">0</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 법규</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 적용 법규</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;">8</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">업무분야</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #ed8936;">4</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">분기</div>
+                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="amendment-law-count">0</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">개정 예정 법규</div>
                         </div>
                     </div>
                 </div>
@@ -1169,7 +1265,6 @@
                 <div class="filter-tab" data-filter="안전보건">🛡️ 안전/보건 (<span id="count-안전보건">0</span>)</div>
                 <div class="filter-tab" data-filter="환경에너지">🌱 환경/에너지 (<span id="count-환경에너지">0</span>)</div>
                 <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">0</span>)</div>
-                <div class="filter-tab" data-filter="기타">📋 기타 (<span id="count-기타">0</span>)</div>
             </div>
         </div>
 
@@ -1238,6 +1333,107 @@
                     <div class="loading">데이터를 로딩 중입니다...</div>
                 </div>
             </div>
+                </div>
+            </div>
+
+            <!-- Law Registry Tab Content -->
+            <div class="tab-pane" id="lawregistry-content">
+                <div class="law-registry-view">
+                    <!-- Header -->
+                    <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <span style="font-size: 1.3rem;">📚</span>
+                                <div>
+                                    <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">적용법규(법규등록부)</div>
+                                    <div style="font-size: 0.9rem; color: var(--text-muted);">직무별 적용되는 법규 리스트</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="registry-total-count">100</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 법규 수</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="registry-selected-count">0</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">선택된 법규</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Content with Sidebar and Panel -->
+                    <div style="display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; min-height: 600px;">
+                        <!-- Left Sidebar: Job Functions -->
+                        <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.2rem; box-shadow: var(--glass-shadow);">
+                            <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <span>👔</span> 직무 분야
+                            </div>
+                            
+                            <div class="job-function-list" id="job-function-list">
+                                <div class="job-function-item active" data-job="all" onclick="showJobFunctionLaws('all', '전체')">
+                                    <span class="job-icon">📋</span>
+                                    <span class="job-name">전체</span>
+                                    <span class="job-count" id="job-count-all">100</span>
+                                </div>
+                                <div class="job-function-item" data-job="인사노무" onclick="showJobFunctionLaws('인사노무', '👥 인사노무')">
+                                    <span class="job-icon">👥</span>
+                                    <span class="job-name">인사노무</span>
+                                    <span class="job-count" id="job-count-인사노무">0</span>
+                                </div>
+                                <div class="job-function-item" data-job="정보보호" onclick="showJobFunctionLaws('정보보호', '🔒 정보보호')">
+                                    <span class="job-icon">🔒</span>
+                                    <span class="job-name">정보보호</span>
+                                    <span class="job-count" id="job-count-정보보호">0</span>
+                                </div>
+                                <div class="job-function-item" data-job="안전보건" onclick="showJobFunctionLaws('안전보건', '🛡️ 안전보건')">
+                                    <span class="job-icon">🛡️</span>
+                                    <span class="job-name">안전보건</span>
+                                    <span class="job-count" id="job-count-안전보건">0</span>
+                                </div>
+                                <div class="job-function-item" data-job="환경에너지" onclick="showJobFunctionLaws('환경에너지', '🌱 환경에너지')">
+                                    <span class="job-icon">🌱</span>
+                                    <span class="job-name">환경에너지</span>
+                                    <span class="job-count" id="job-count-환경에너지">0</span>
+                                </div>
+                                <div class="job-function-item" data-job="재무회계" onclick="showJobFunctionLaws('재무회계', '💰 재무회계')">
+                                    <span class="job-icon">💰</span>
+                                    <span class="job-name">재무회계</span>
+                                    <span class="job-count" id="job-count-재무회계">0</span>
+                                </div>
+                                <div class="job-function-item" data-job="공정거래" onclick="showJobFunctionLaws('공정거래', '⚖️ 공정거래')">
+                                    <span class="job-icon">⚖️</span>
+                                    <span class="job-name">공정거래</span>
+                                    <span class="job-count" id="job-count-공정거래">0</span>
+                                </div>
+                                <div class="job-function-item" data-job="지배구조" onclick="showJobFunctionLaws('지배구조', '🏛️ 지배구조')">
+                                    <span class="job-icon">🏛️</span>
+                                    <span class="job-name">지배구조</span>
+                                    <span class="job-count" id="job-count-지배구조">0</span>
+                                </div>
+                                <div class="job-function-item" data-job="지식재산" onclick="showJobFunctionLaws('지식재산', '💡 지식재산')">
+                                    <span class="job-icon">💡</span>
+                                    <span class="job-name">지식재산</span>
+                                    <span class="job-count" id="job-count-지식재산">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Laws for Selected Job Function -->
+                        <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; box-shadow: var(--glass-shadow);">
+                            <div style="padding: 1.2rem; background: var(--primary-gradient); color: white; display: flex; align-items: center; gap: 0.5rem;">
+                                <span id="job-function-icon">📋</span>
+                                <h3 style="margin: 0; font-size: 1.1rem;" id="job-function-title">전체 적용 법규</h3>
+                                <div style="margin-left: auto; background: rgba(255, 255, 255, 0.2); padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.8rem;" id="job-function-count">100건</div>
+                            </div>
+                            
+                            <div style="max-height: 500px; overflow-y: auto; padding: 0;" id="job-function-laws">
+                                <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
+                                    왼쪽에서 직무를 선택하면 해당 법규 목록이 표시됩니다.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1355,8 +1551,7 @@
                 '재무회계': '💰',
                 '안전보건': '🛡️',
                 '환경에너지': '🌱',
-                '지배구조': '🏛️',
-                '기타': '📋'
+                '지배구조': '🏛️'
             };
 
             // Group laws by category
@@ -1367,9 +1562,6 @@
                         if (!lawsByCategory[category]) lawsByCategory[category] = [];
                         lawsByCategory[category].push(law);
                     });
-                } else {
-                    if (!lawsByCategory['기타']) lawsByCategory['기타'] = [];
-                    lawsByCategory['기타'].push(law);
                 }
             });
 
@@ -1423,15 +1615,14 @@
 
             // Generate chart data for this quarter
             const categoryColors = {
-                '인사노무': '#ed8936',
-                '공정거래': '#38b2ac',
-                '정보보호': '#f56565',
-                '지식재산': '#9f7aea',
-                '재무회계': '#4299e1',
-                '안전보건': '#48bb78',
-                '환경에너지': '#38d9a9',
-                '지배구조': '#805ad5',
-                '기타': '#a0aec0'
+                '인사노무': '#e53e3e',      // 빨간색 계열
+                '공정거래': '#3182ce',      // 파란색 계열  
+                '정보보호': '#805ad5',      // 보라색 계열
+                '지식재산': '#d69e2e',      // 노란색 계열
+                '재무회계': '#38a169',      // 초록색 계열
+                '안전보건': '#dd6b20',      // 주황색 계열
+                '환경에너지': '#319795',    // 청록색 계열
+                '지배구조': '#9f7aea'       // 자주색 계열
             };
 
             // Create business filter tabs for this quarter (similar to business tab)
@@ -1656,8 +1847,7 @@
                 '재무회계': '💰',
                 '안전보건': '🛡️',
                 '환경에너지': '🌱',
-                '지배구조': '🏛️',
-                '기타': '📋'
+                '지배구조': '🏛️'
             };
             
             const categoryLabel = categories.map(cat => `${categoryIcons[cat] || '📋'} ${cat}`).join(', ');
@@ -1776,11 +1966,24 @@
                 displayLawList(filteredLaws);
                 updateTabCounts();
                 updateQuarterlyCounts();
+                updateJobFunctionCounts();
                 
                 // 전체 법규 개수 업데이트
                 const totalLawCountElement = document.getElementById('total-law-count');
                 if (totalLawCountElement) {
                     totalLawCountElement.textContent = lawsData.length;
+                }
+                
+                // 개정 예정 법규 개수 업데이트 (2025년 개정 예정)
+                const amendmentLawCountElement = document.getElementById('amendment-law-count');
+                if (amendmentLawCountElement) {
+                    const currentYear = new Date().getFullYear();
+                    const amendmentCount = lawsData.filter(law => {
+                        if (!law.effectiveDate) return false;
+                        const effectiveYear = new Date(law.effectiveDate).getFullYear();
+                        return effectiveYear >= currentYear;
+                    }).length;
+                    amendmentLawCountElement.textContent = amendmentCount;
                 }
                 
                 // Chart.js가 로딩된 후 차트 생성
@@ -2587,15 +2790,14 @@
 
             // 카테고리 색상 및 아이콘 정보
             const categoryColors = {
-                '인사노무': '#ed8936',
-                '공정거래': '#38b2ac',
-                '정보보호': '#f56565',
-                '지식재산': '#9f7aea',
-                '재무회계': '#4299e1',
-                '안전보건': '#48bb78',
-                '환경에너지': '#38d9a9',
-                '지배구조': '#805ad5',
-                '기타': '#a0aec0'
+                '인사노무': '#e53e3e',      // 빨간색 계열
+                '공정거래': '#3182ce',      // 파란색 계열  
+                '정보보호': '#805ad5',      // 보라색 계열
+                '지식재산': '#d69e2e',      // 노란색 계열
+                '재무회계': '#38a169',      // 초록색 계열
+                '안전보건': '#dd6b20',      // 주황색 계열
+                '환경에너지': '#319795',    // 청록색 계열
+                '지배구조': '#9f7aea'       // 자주색 계열
             };
             const categoryIcons = {
                 '인사노무': '👥',
@@ -2605,8 +2807,7 @@
                 '재무회계': '💰',
                 '안전보건': '🛡️',
                 '환경에너지': '🌱',
-                '지배구조': '🏛️',
-                '기타': '📋'
+                '지배구조': '🏛️'
             };
             
             const categoryColor = categoryColors[category] || '#a0aec0';
@@ -2624,6 +2825,119 @@
             // 법규 리스트 표시
             document.getElementById('business-laws-list').innerHTML = lawsHtml;
             document.getElementById('business-laws-list').style.display = 'block';
+        }
+
+        // Law Registry Tab Functions
+        function showJobFunctionLaws(jobFunction, jobTitle) {
+            console.log('Showing laws for job function:', jobFunction);
+            
+            // Update active job function
+            document.querySelectorAll('.job-function-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-job="${jobFunction}"]`).classList.add('active');
+            
+            // Filter laws based on job function
+            let filteredLaws;
+            if (jobFunction === 'all') {
+                filteredLaws = lawsData;
+            } else {
+                filteredLaws = lawsData.filter(law => 
+                    law.categories && law.categories.includes(jobFunction)
+                );
+            }
+            
+            // Update header
+            const jobIcon = document.querySelector(`[data-job="${jobFunction}"] .job-icon`).textContent;
+            document.getElementById('job-function-icon').textContent = jobIcon;
+            document.getElementById('job-function-title').textContent = jobTitle;
+            document.getElementById('job-function-count').textContent = `${filteredLaws.length}건`;
+            
+            // Update selected count in header
+            document.getElementById('registry-selected-count').textContent = filteredLaws.length;
+            
+            // Generate law list HTML (simplified without amendment details)
+            const lawsHtml = filteredLaws.map(law => {
+                const effectiveDate = law.effectiveDate || '미정';
+                const ministry = law.meta?.ministry || '미상';
+                const lawType = law.lawType || '일반법령';
+                
+                return `
+                    <div class="registry-law-item" onclick="showLawDetail('${law.id}')">
+                        <div class="registry-law-title">${law.title}</div>
+                        <div class="registry-law-meta">
+                            <div class="registry-meta-item">
+                                <span>📅</span>
+                                <span>${effectiveDate}</span>
+                            </div>
+                            <div class="registry-meta-item">
+                                <span>🏛️</span>
+                                <span>${ministry}</span>
+                            </div>
+                            <div class="registry-meta-item">
+                                <span>📄</span>
+                                <span>${lawType}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Update laws panel
+            if (filteredLaws.length > 0) {
+                document.getElementById('job-function-laws').innerHTML = lawsHtml;
+            } else {
+                document.getElementById('job-function-laws').innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
+                        해당 직무에 적용되는 법규가 없습니다.
+                    </div>
+                `;
+            }
+        }
+
+        function updateJobFunctionCounts() {
+            if (!lawsData || lawsData.length === 0) return;
+            
+            const categoryIcons = {
+                '인사노무': '👥',
+                '공정거래': '⚖️',
+                '정보보호': '🔒',
+                '지식재산': '💡',
+                '재무회계': '💰',
+                '안전보건': '🛡️',
+                '환경에너지': '🌱',
+                '지배구조': '🏛️'
+            };
+            
+            // Count laws for each category
+            const categoryCounts = {};
+            lawsData.forEach(law => {
+                if (law.categories && law.categories.length > 0) {
+                    law.categories.forEach(category => {
+                        categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+                    });
+                }
+            });
+            
+            // Update counts in job function list
+            Object.keys(categoryCounts).forEach(category => {
+                const countElement = document.getElementById(`job-count-${category}`);
+                if (countElement) {
+                    countElement.textContent = categoryCounts[category];
+                }
+            });
+            
+            // Update total count
+            const totalCountElement = document.getElementById('job-count-all');
+            if (totalCountElement) {
+                totalCountElement.textContent = lawsData.length;
+            }
+            
+            // Update registry total count in header
+            const registryTotalElement = document.getElementById('registry-total-count');
+            if (registryTotalElement) {
+                registryTotalElement.textContent = lawsData.length;
+            }
         }
 
         function getDaysFromNow(dateStr) {
