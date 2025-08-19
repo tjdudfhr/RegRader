@@ -3,144 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAW WATCH · 올해 개정 법령</title>
+    <title>LAW WATCH · 올해 개정 법령 대시보드</title>
+    <link rel="shortcut icon" href="data:text/plain;base64,📊">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --brand: #2563eb;
-            --text: #0b1220;
-            --muted: #6b7280;
-            --bg: #f5f7fb;
-            --card: #ffffff;
-            --bd: #e5e7eb;
-            --ok: #16a34a;
-            --warn: #d97706;
+            --primary: #3b82f6;
+            --primary-light: #60a5fa;
+            --primary-dark: #1d4ed8;
+            --secondary: #f1f5f9;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
             --c-safety: #22c55e;
-            --c-env: #10b981;
+            --c-env: #059669;
             --c-hr: #f59e0b;
             --c-gov: #6366f1;
             --c-fin: #0ea5e9;
             --c-sec: #ef4444;
-            --c-etc: #9ca3af;
+            --c-etc: #6b7280;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --text: #e5e7eb;
-                --muted: #9ca3af;
-                --bg: #050a12;
-                --card: #0d1117;
-                --bd: #1f2937;
-                --brand: #63a4ff;
+                --text-primary: #f1f5f9;
+                --text-secondary: #cbd5e1;
+                --text-muted: #64748b;
+                --bg-primary: #0f172a;
+                --bg-secondary: #1e293b;
+                --bg-card: #1e293b;
+                --border: #334155;
+                --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+                --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
             }
         }
 
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            margin: 0;
-            font-family: Inter, Pretendard, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-            color: var(--text);
-            background: var(--bg);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
         }
 
-        .wrap {
-            max-width: 1200px;
+        .container {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 22px;
+            padding: 2rem;
         }
 
-        header {
-            display: flex;
-            align-items: end;
-            justify-content: space-between;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            margin: -2rem -2rem 2rem -2rem;
+            border-radius: 0 0 24px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        h1 {
-            margin: 0;
-            font-size: 26px;
-            letter-spacing: 0.2px;
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.1)" points="0,1000 1000,0 1000,1000"/></svg>');
+            pointer-events: none;
         }
 
-        .meta {
-            color: var(--muted);
-            font-size: 13px;
+        .header-content {
+            position: relative;
+            z-index: 1;
         }
 
-        .kpis {
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .header .meta {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .header .meta a {
+            color: white;
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .header .meta a:hover {
+            text-decoration-color: white;
+        }
+
+        .github-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .github-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin: 14px 0 18px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .kpi {
-            background: var(--card);
-            border: 1px solid var(--bd);
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .kpi .shape {
-            width: 42px;
-            height: 42px;
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-color);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .stat-card .icon {
+            width: 48px;
+            height: 48px;
             border-radius: 12px;
+            background: var(--card-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
-            font-weight: 800;
-            font-size: 18px;
-        }
-
-        .kpi .txt .label {
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        .kpi .txt .value {
-            font-weight: 800;
-            font-size: 20px;
-        }
-
-        .btn {
-            background: var(--brand);
+            font-size: 1.5rem;
             color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 14px;
+            margin-bottom: 1rem;
         }
 
-        .panel {
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-card .label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        .main-content {
             display: grid;
-            grid-template-columns: 360px 1fr;
-            gap: 14px;
-            margin-bottom: 16px;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         .card {
-            background: var(--card);
-            border: 1px solid var(--bd);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
         }
 
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Category Stats */
+        .category-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .category-item:last-child {
+            border-bottom: none;
+        }
+
+        .category-name {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .category-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .category-count {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Law List */
         .law-list {
             max-height: 600px;
             overflow-y: auto;
         }
 
         .law-item {
-            border-bottom: 1px solid var(--bd);
-            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .law-item:hover {
+            background: var(--secondary);
+            margin: 0 -1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            border-bottom: 1px solid transparent;
         }
 
         .law-item:last-child {
@@ -149,96 +303,319 @@
 
         .law-title {
             font-weight: 600;
-            margin-bottom: 4px;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
         }
 
         .law-meta {
-            color: var(--muted);
-            font-size: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .law-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
         }
 
         .category-tag {
-            display: inline-block;
-            background: var(--bg);
-            padding: 2px 6px;
+            display: inline-flex;
+            align-items: center;
+            background: var(--secondary);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.5rem;
             border-radius: 4px;
-            font-size: 11px;
-            margin-right: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .date-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .date-badge.urgent {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .date-badge.soon {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .date-badge.future {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .date-badge.active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 16px;
+            max-width: 800px;
+            max-height: 80vh;
+            width: 90vw;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 16px 16px 0 0;
+            position: relative;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .modal-subtitle {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            padding: 1rem;
+            background: var(--secondary);
+            border-radius: 8px;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .external-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .external-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .external-link:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
         }
 
         .loading {
             text-align: center;
-            color: var(--muted);
-            padding: 20px;
+            padding: 3rem 2rem;
+            color: var(--text-secondary);
         }
 
         .error {
             text-align: center;
-            color: var(--warn);
-            padding: 20px;
+            padding: 3rem 2rem;
+            color: var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: -1;
+            }
         }
 
         @media (max-width: 768px) {
-            .panel {
-                grid-template-columns: 1fr;
+            .container {
+                padding: 1rem;
             }
-            .kpis {
-                grid-template-columns: repeat(2, 1fr);
+            
+            .header {
+                margin: -1rem -1rem 1rem -1rem;
+                padding: 2rem 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .github-btn {
+                position: static;
+                display: inline-block;
+                margin-top: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .modal-content {
+                width: 95vw;
+                max-height: 90vh;
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="wrap">
-        <header>
-            <div>
-                <h1>LAW WATCH · <span id="year">2025</span> 개정 법령</h1>
+    <div class="container">
+        <div class="header">
+            <a href="https://github.com/tjdudfhr/law-watch" target="_blank" class="github-btn">
+                📁 GitHub
+            </a>
+            <div class="header-content">
+                <h1>⚖️ LAW WATCH</h1>
+                <div class="subtitle"><span id="year">2025</span>년 개정 법령 종합 대시보드</div>
                 <div class="meta">
-                    데이터: <a href="./index.json" target="_blank">index.json</a> · 
-                    <span id="timestamp">로딩 중...</span>
-                </div>
-            </div>
-            <a class="btn" href="https://github.com/tjdudfhr/law-watch" target="_blank">GitHub</a>
-        </header>
-
-        <div class="kpis">
-            <div class="kpi">
-                <div class="shape" style="background: var(--brand);">📊</div>
-                <div class="txt">
-                    <div class="label">올해 전체</div>
-                    <div class="value" id="total-count">로딩 중...</div>
-                </div>
-            </div>
-            <div class="kpi">
-                <div class="shape" style="background: var(--warn);">⚡</div>
-                <div class="txt">
-                    <div class="label">D-7 예정</div>
-                    <div class="value" id="d7-count">로딩 중...</div>
-                </div>
-            </div>
-            <div class="kpi">
-                <div class="shape" style="background: var(--ok);">📅</div>
-                <div class="txt">
-                    <div class="label">D-30 예정</div>
-                    <div class="value" id="d30-count">로딩 중...</div>
-                </div>
-            </div>
-            <div class="kpi">
-                <div class="shape" style="background: var(--c-safety);">✅</div>
-                <div class="txt">
-                    <div class="label">시행 중</div>
-                    <div class="value" id="active-count">로딩 중...</div>
+                    데이터 소스: <a href="./index.json" target="_blank">index.json</a> · 
+                    최종 업데이트: <span id="timestamp">로딩 중...</span>
                 </div>
             </div>
         </div>
 
-        <div class="panel">
-            <div class="card">
-                <h3>직무 카테고리 분포</h3>
-                <div id="category-stats">로딩 중...</div>
+        <!-- 통계 카드 -->
+        <div class="stats-grid">
+            <div class="stat-card" style="--card-color: var(--primary);">
+                <div class="icon">📊</div>
+                <div class="value" id="total-count">로딩 중...</div>
+                <div class="label">전체 개정 법령</div>
             </div>
+            
+            <div class="stat-card" style="--card-color: var(--danger);">
+                <div class="icon">🚨</div>
+                <div class="value" id="d7-count">로딩 중...</div>
+                <div class="label">7일 이내 시행</div>
+            </div>
+            
+            <div class="stat-card" style="--card-color: var(--warning);">
+                <div class="icon">⏰</div>
+                <div class="value" id="d30-count">로딩 중...</div>
+                <div class="label">30일 이내 시행</div>
+            </div>
+            
+            <div class="stat-card" style="--card-color: var(--success);">
+                <div class="icon">✅</div>
+                <div class="value" id="active-count">로딩 중...</div>
+                <div class="label">현재 시행 중</div>
+            </div>
+        </div>
+
+        <!-- 메인 콘텐츠 -->
+        <div class="main-content">
+            <div class="sidebar">
+                <!-- 카테고리 분포 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📈 업무 분야별 분포</h3>
+                    </div>
+                    <div id="category-stats">로딩 중...</div>
+                </div>
+                
+                <!-- 시행 일정 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📅 시행 일정 현황</h3>
+                    </div>
+                    <div id="schedule-stats">로딩 중...</div>
+                </div>
+            </div>
+
+            <!-- 법령 목록 -->
             <div class="card">
-                <h3>최근 개정 법령 <span id="recent-count">(로딩 중...)</span></h3>
+                <div class="card-header">
+                    <h3 class="card-title">📋 개정 법령 목록</h3>
+                    <div class="card-subtitle">
+                        <span id="recent-count">(로딩 중...)</span> · 클릭하여 상세 보기
+                    </div>
+                </div>
                 <div class="law-list" id="law-list">
                     <div class="loading">데이터를 불러오는 중...</div>
                 </div>
@@ -246,10 +623,49 @@
         </div>
     </div>
 
+    <!-- 법령 상세 모달 -->
+    <div id="law-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">법령 제목</div>
+                <div class="modal-subtitle" id="modal-subtitle">법령 정보</div>
+                <button class="modal-close" onclick="closeLawModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-grid" id="modal-info">
+                    <!-- 동적으로 생성 -->
+                </div>
+                <div id="modal-description">
+                    <!-- 상세 설명 -->
+                </div>
+                <div class="external-links">
+                    <a href="#" id="modal-law-link" target="_blank">
+                        🔗 국가법령정보센터에서 보기
+                    </a>
+                    <a href="#" id="modal-search-link" target="_blank">
+                        🔍 법령 검색하기
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        const categoryColors = {
+            '안전': '#22c55e',
+            '환경': '#059669', 
+            '인사노무': '#f59e0b',
+            '지배구조': '#6366f1',
+            '재무회계': '#0ea5e9',
+            '정보보호': '#ef4444',
+            '기타': '#6b7280'
+        };
+
+        let lawsData = [];
+
         async function loadData() {
             try {
-                console.log('데이터 로딩 시작...');
+                console.log('📡 데이터 로딩 시작...');
                 const response = await fetch('./index.json');
                 
                 if (!response.ok) {
@@ -257,19 +673,13 @@
                 }
                 
                 const data = await response.json();
-                console.log('데이터 로딩 성공:', data);
+                console.log('✅ 데이터 로딩 성공:', data);
                 
+                lawsData = data.items || [];
                 displayData(data);
             } catch (error) {
-                console.error('데이터 로딩 실패:', error);
-                document.getElementById('total-count').textContent = '오류';
-                document.getElementById('d7-count').textContent = '오류';
-                document.getElementById('d30-count').textContent = '오류';
-                document.getElementById('active-count').textContent = '오류';
-                document.getElementById('timestamp').textContent = '로딩 실패';
-                document.getElementById('law-list').innerHTML = '<div class="error">데이터를 불러올 수 없습니다: ' + error.message + '</div>';
-                document.getElementById('category-stats').innerHTML = '<div class="error">오류</div>';
-                document.getElementById('recent-count').textContent = '(오류)';
+                console.error('❌ 데이터 로딩 실패:', error);
+                showError('데이터를 불러올 수 없습니다: ' + error.message);
             }
         }
 
@@ -278,26 +688,25 @@
             const generatedAt = data.generatedAt || 0;
             const year = data.year || 2025;
             
-            console.log(`총 ${items.length}개 항목 처리 시작`);
+            console.log(`📊 총 ${items.length}개 항목 처리 시작`);
 
-            // 연도와 타임스탬프 표시
+            // 헤더 정보 업데이트
             document.getElementById('year').textContent = year;
             const date = new Date(generatedAt * 1000);
             document.getElementById('timestamp').textContent = date.toLocaleString('ko-KR');
 
-            // 날짜 계산을 위한 함수
-            function getDaysFromNow(dateStr) {
-                if (!dateStr) return null;
-                const targetDate = new Date(dateStr);
-                const now = new Date();
-                const diffTime = targetDate - now;
-                return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            }
-
             // 통계 계산
-            let d7Count = 0;
-            let d30Count = 0;
-            let activeCount = 0;
+            const stats = calculateStats(items);
+            updateStatCards(stats);
+            updateCategoryStats(stats.categories);
+            updateScheduleStats(stats);
+            displayLawList(items);
+
+            console.log('✅ 데이터 표시 완료');
+        }
+
+        function calculateStats(items) {
+            let d7Count = 0, d30Count = 0, activeCount = 0;
             const categoryCounts = {};
 
             items.forEach(item => {
@@ -313,67 +722,234 @@
                     }
                 }
 
-                // 카테고리 통계
                 (item.categories || ['기타']).forEach(cat => {
                     categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
                 });
             });
 
-            // KPI 표시
-            document.getElementById('total-count').textContent = items.length.toLocaleString();
-            document.getElementById('d7-count').textContent = d7Count.toLocaleString();
-            document.getElementById('d30-count').textContent = d30Count.toLocaleString();
-            document.getElementById('active-count').textContent = activeCount.toLocaleString();
+            return {
+                total: items.length,
+                d7: d7Count,
+                d30: d30Count,
+                active: activeCount,
+                categories: categoryCounts
+            };
+        }
 
-            // 카테고리 통계 표시
-            const categoryStatsHtml = Object.entries(categoryCounts)
+        function updateStatCards(stats) {
+            document.getElementById('total-count').textContent = stats.total.toLocaleString();
+            document.getElementById('d7-count').textContent = stats.d7.toLocaleString();
+            document.getElementById('d30-count').textContent = stats.d30.toLocaleString();
+            document.getElementById('active-count').textContent = stats.active.toLocaleString();
+        }
+
+        function updateCategoryStats(categories) {
+            const html = Object.entries(categories)
                 .sort((a, b) => b[1] - a[1])
-                .slice(0, 8)
-                .map(([category, count]) => 
-                    `<div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span>${category}</span>
-                        <strong>${count}</strong>
-                    </div>`
-                ).join('');
+                .slice(0, 7)
+                .map(([category, count]) => {
+                    const color = categoryColors[category] || categoryColors['기타'];
+                    return `
+                        <div class="category-item">
+                            <div class="category-name">
+                                <div class="category-dot" style="background: ${color};"></div>
+                                <span>${category}</span>
+                            </div>
+                            <div class="category-count">${count.toLocaleString()}</div>
+                        </div>
+                    `;
+                }).join('');
 
-            document.getElementById('category-stats').innerHTML = categoryStatsHtml || '<div class="muted">데이터 없음</div>';
+            document.getElementById('category-stats').innerHTML = html || '<div style="color: var(--text-muted);">데이터 없음</div>';
+        }
 
-            // 법령 목록 표시 (최근 50개)
+        function updateScheduleStats(stats) {
+            const future = stats.total - stats.active - stats.d7 - stats.d30;
+            const scheduleHtml = `
+                <div class="category-item">
+                    <div class="category-name">
+                        <div class="category-dot" style="background: var(--success);"></div>
+                        <span>현재 시행</span>
+                    </div>
+                    <div class="category-count">${stats.active}</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-name">
+                        <div class="category-dot" style="background: var(--danger);"></div>
+                        <span>7일 이내</span>
+                    </div>
+                    <div class="category-count">${stats.d7}</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-name">
+                        <div class="category-dot" style="background: var(--warning);"></div>
+                        <span>30일 이내</span>
+                    </div>
+                    <div class="category-count">${stats.d30}</div>
+                </div>
+                <div class="category-item">
+                    <div class="category-name">
+                        <div class="category-dot" style="background: var(--primary);"></div>
+                        <span>30일 이후</span>
+                    </div>
+                    <div class="category-count">${future}</div>
+                </div>
+            `;
+            
+            document.getElementById('schedule-stats').innerHTML = scheduleHtml;
+        }
+
+        function displayLawList(items) {
             const sortedItems = items
                 .sort((a, b) => {
                     const dateA = a.effectiveDate || '1900-01-01';
                     const dateB = b.effectiveDate || '1900-01-01';
                     return dateB.localeCompare(dateA);
                 })
-                .slice(0, 50);
+                .slice(0, 100);
 
             const lawListHtml = sortedItems
-                .map(item => {
+                .map((item, index) => {
                     const categories = (item.categories || ['기타'])
                         .map(cat => `<span class="category-tag">${cat}</span>`)
-                        .join('');
+                        .join(' ');
                     
                     const effectiveDate = item.effectiveDate || '미정';
                     const ministry = item.meta?.ministry || '';
+                    const days = getDaysFromNow(item.effectiveDate);
                     
-                    return `<div class="law-item">
-                        <div class="law-title">${item.title || '제목 없음'}</div>
-                        <div class="law-meta">
-                            ${categories}
-                            <br>
-                            시행일: ${effectiveDate} ${ministry ? `· ${ministry}` : ''}
-                            ${item.lawType ? `· ${item.lawType}` : ''}
+                    let dateBadge = '';
+                    if (days !== null) {
+                        if (days <= 0) {
+                            dateBadge = '<span class="date-badge active">시행 중</span>';
+                        } else if (days <= 7) {
+                            dateBadge = `<span class="date-badge urgent">D-${days}</span>`;
+                        } else if (days <= 30) {
+                            dateBadge = `<span class="date-badge soon">D-${days}</span>`;
+                        } else {
+                            dateBadge = `<span class="date-badge future">D-${days}</span>`;
+                        }
+                    }
+                    
+                    return `
+                        <div class="law-item" onclick="showLawDetail(${index})">
+                            <div class="law-title">${item.title || '제목 없음'}</div>
+                            <div class="law-meta">
+                                <span>시행일: ${effectiveDate}</span>
+                                ${ministry ? `<span>• ${ministry}</span>` : ''}
+                                ${item.lawType ? `<span>• ${item.lawType}</span>` : ''}
+                                ${dateBadge}
+                            </div>
+                            <div class="law-categories">${categories}</div>
                         </div>
-                    </div>`;
+                    `;
                 }).join('');
 
             document.getElementById('law-list').innerHTML = lawListHtml || '<div class="loading">표시할 법령이 없습니다</div>';
-            document.getElementById('recent-count').textContent = `(${sortedItems.length}건)`;
-
-            console.log('데이터 표시 완료');
+            document.getElementById('recent-count').textContent = `${sortedItems.length}건`;
         }
 
-        // 페이지 로드 시 데이터 로딩 시작
+        function showLawDetail(index) {
+            const item = lawsData[index];
+            if (!item) return;
+
+            document.getElementById('modal-title').textContent = item.title || '제목 없음';
+            document.getElementById('modal-subtitle').textContent = `${item.lawType || ''} • ${item.meta?.ministry || ''}`;
+
+            const effectiveDate = item.effectiveDate || '미정';
+            const days = getDaysFromNow(item.effectiveDate);
+            const daysText = days !== null ? (days <= 0 ? '시행 중' : `D-${days}`) : '미정';
+
+            const infoHtml = `
+                <div class="info-item">
+                    <div class="info-label">시행일자</div>
+                    <div class="info-value">${effectiveDate}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">시행까지</div>
+                    <div class="info-value">${daysText}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">개정구분</div>
+                    <div class="info-value">${item.lawType || '미분류'}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">소관부처</div>
+                    <div class="info-value">${item.meta?.ministry || '미상'}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">업무분야</div>
+                    <div class="info-value">${(item.categories || ['기타']).join(', ')}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">법령ID</div>
+                    <div class="info-value">${item.meta?.lsId || '없음'}</div>
+                </div>
+            `;
+
+            document.getElementById('modal-info').innerHTML = infoHtml;
+
+            const description = `
+                <h4 style="margin-bottom: 1rem; color: var(--text-primary);">📋 개정 정보</h4>
+                <div style="background: var(--secondary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <p><strong>개정 유형:</strong> ${item.lawType || '정보 없음'}</p>
+                    <p><strong>시행 시기:</strong> ${effectiveDate} (${daysText})</p>
+                    <p><strong>주요 사항:</strong> ${item.summary || '상세 정보는 국가법령정보센터에서 확인하실 수 있습니다.'}</p>
+                </div>
+                
+                <h4 style="margin-bottom: 1rem; color: var(--text-primary);">⚠️ 주의 사항</h4>
+                <div style="background: #fef3c7; color: #92400e; padding: 1rem; border-radius: 8px;">
+                    <p>• 법령 개정으로 인한 실무 영향을 미리 검토하시기 바랍니다.</p>
+                    <p>• 정확한 개정 내용은 반드시 국가법령정보센터에서 확인하세요.</p>
+                    <p>• 시행일까지 충분한 준비 기간을 확보하시기 바랍니다.</p>
+                </div>
+            `;
+
+            document.getElementById('modal-description').innerHTML = description;
+
+            // 링크 설정 (현재 URL 구조 사용, 나중에 수정 가능)
+            const lawLink = item.source?.url || `https://www.law.go.kr/LSW/lsInfoP.do?lsId=${item.meta?.lsId}`;
+            const searchLink = item.source?.search || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`;
+
+            document.getElementById('modal-law-link').href = lawLink;
+            document.getElementById('modal-search-link').href = searchLink;
+
+            document.getElementById('law-modal').classList.add('show');
+        }
+
+        function closeLawModal() {
+            document.getElementById('law-modal').classList.remove('show');
+        }
+
+        function getDaysFromNow(dateStr) {
+            if (!dateStr) return null;
+            const targetDate = new Date(dateStr);
+            const now = new Date();
+            const diffTime = targetDate - now;
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        function showError(message) {
+            const elements = ['total-count', 'd7-count', 'd30-count', 'active-count'];
+            elements.forEach(id => {
+                document.getElementById(id).textContent = '오류';
+            });
+            
+            document.getElementById('timestamp').textContent = '로딩 실패';
+            document.getElementById('law-list').innerHTML = `<div class="error">${message}</div>`;
+            document.getElementById('category-stats').innerHTML = '<div class="error">오류</div>';
+            document.getElementById('schedule-stats').innerHTML = '<div class="error">오류</div>';
+            document.getElementById('recent-count').textContent = '(오류)';
+        }
+
+        // 모달 외부 클릭 시 닫기
+        document.getElementById('law-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLawModal();
+            }
+        });
+
+        // 페이지 로드 시 데이터 로딩
         document.addEventListener('DOMContentLoaded', loadData);
     </script>
 </body>
