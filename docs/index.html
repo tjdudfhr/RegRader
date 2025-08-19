@@ -2844,14 +2844,20 @@
                 );
             }
             
-            // Update header
-            const jobIcon = document.querySelector(`[data-job="${jobFunction}"] .job-icon`).textContent;
-            document.getElementById('job-function-icon').textContent = jobIcon;
-            document.getElementById('job-function-title').textContent = jobTitle;
+            // Update header (fix icon duplication issue)
+            if (jobFunction === 'all') {
+                document.getElementById('job-function-icon').textContent = '📋';
+                document.getElementById('job-function-title').textContent = '전체 적용 법규';
+            } else {
+                // Extract icon from jobTitle and clean title
+                const parts = jobTitle.split(' ');
+                const icon = parts[0]; // First part is the icon (e.g., '👥')
+                const title = parts.slice(1).join(' '); // Rest is the title
+                
+                document.getElementById('job-function-icon').textContent = icon;
+                document.getElementById('job-function-title').textContent = title + ' 적용 법규';
+            }
             document.getElementById('job-function-count').textContent = `${filteredLaws.length}건`;
-            
-            // Update selected count in header
-            document.getElementById('registry-selected-count').textContent = filteredLaws.length;
             
             // Generate law list HTML (simplified without amendment details)
             const lawsHtml = filteredLaws.map(law => {
