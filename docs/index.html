@@ -747,17 +747,15 @@
         }
 
         .business-law-item {
-            padding: 0.8rem;
+            padding: 0.6rem 0.8rem;
             border-bottom: 1px solid rgba(0,0,0,0.05);
             cursor: pointer;
             transition: all 0.2s ease;
-            border-radius: 8px;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.1rem;
         }
 
         .business-law-item:hover {
             background: rgba(102, 126, 234, 0.05);
-            transform: translateY(-1px);
         }
 
         .business-law-item:last-child {
@@ -766,34 +764,10 @@
         }
 
         .business-law-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.4rem;
-            font-size: 0.9rem;
-            line-height: 1.3;
-        }
-
-        .business-law-meta {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .business-law-tag {
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 6px;
             font-weight: 500;
-        }
-
-        .business-law-date {
-            font-size: 0.75rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            color: white;
-            margin-left: auto;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
 
         /* 드롭다운 스타일 */
@@ -822,7 +796,7 @@
     <div class="container">
         <!-- Glassmorphism Header -->
         <div class="header">
-            <h1>⚖️ LAW WATCH</h1>
+            <h1>■ LAW WATCH</h1>
             <div class="subtitle">스마트 법령 대시보드</div>
             <div class="meta">
                 <span id="year">2025</span>년 법령 개정 현황 · 
@@ -837,7 +811,7 @@
             </div>
             <div class="quarterly-tabs">
                 <div class="quarterly-tab" onclick="showQuarterlyModal('Q1')">
-                    <div class="quarter-icon">🌱</div>
+                    <div class="quarter-icon">▲</div>
                     <div class="quarter-info">
                         <div class="quarter-title">1분기</div>
                         <div class="quarter-period">(1-3월)</div>
@@ -845,7 +819,7 @@
                     </div>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyModal('Q2')">
-                    <div class="quarter-icon">☀️</div>
+                    <div class="quarter-icon">●</div>
                     <div class="quarter-info">
                         <div class="quarter-title">2분기</div>
                         <div class="quarter-period">(4-6월)</div>
@@ -853,7 +827,7 @@
                     </div>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyModal('Q3')">
-                    <div class="quarter-icon">🍂</div>
+                    <div class="quarter-icon">■</div>
                     <div class="quarter-info">
                         <div class="quarter-title">3분기</div>
                         <div class="quarter-period">(7-9월)</div>
@@ -861,7 +835,7 @@
                     </div>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyModal('Q4')">
-                    <div class="quarter-icon">❄️</div>
+                    <div class="quarter-icon">◆</div>
                     <div class="quarter-info">
                         <div class="quarter-title">4분기</div>
                         <div class="quarter-period">(10-12월)</div>
@@ -874,17 +848,17 @@
         <!-- Business Filter -->
         <div class="business-filter">
             <div class="filter-title">
-                🏢 업무별 법령 필터링
+                ■ 업무별 법령 필터링
             </div>
             <div class="filter-tabs">
                 <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">0</span>)</div>
-                <div class="filter-tab" data-filter="안전">🛡️ 안전관리 (<span id="count-안전">0</span>)</div>
-                <div class="filter-tab" data-filter="환경">🌱 환경 (<span id="count-환경">0</span>)</div>
-                <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">0</span>)</div>
-                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">0</span>)</div>
-                <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">0</span>)</div>
-                <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">0</span>)</div>
-                <div class="filter-tab" data-filter="기타">📋 기타 (<span id="count-기타">0</span>)</div>
+                <div class="filter-tab" data-filter="안전">● 안전관리 (<span id="count-안전">0</span>)</div>
+                <div class="filter-tab" data-filter="환경">● 환경 (<span id="count-환경">0</span>)</div>
+                <div class="filter-tab" data-filter="인사노무">● 인사노무 (<span id="count-인사노무">0</span>)</div>
+                <div class="filter-tab" data-filter="지배구조">● 지배구조 (<span id="count-지배구조">0</span>)</div>
+                <div class="filter-tab" data-filter="재무회계">● 재무회계 (<span id="count-재무회계">0</span>)</div>
+                <div class="filter-tab" data-filter="정보보호">● 정보보호 (<span id="count-정보보호">0</span>)</div>
+                <div class="filter-tab" data-filter="기타">● 기타 (<span id="count-기타">0</span>)</div>
             </div>
         </div>
 
@@ -895,7 +869,7 @@
                 <!-- Category Distribution Chart -->
                 <div class="chart-card">
                     <div class="chart-header">
-                        <div class="chart-title">📈 업무 분야별 분포</div>
+                        <div class="chart-title">● 업무 분야별 분포</div>
                     </div>
                     <div class="chart-container">
                         <canvas id="categoryChart"></canvas>
@@ -908,20 +882,20 @@
                 <!-- 업무 분야별 법규 리스트 박스 -->
                 <div class="chart-card" style="margin-top: 1rem;">
                     <div class="chart-header">
-                        <div class="chart-title">📋 업무 분야별 법규 리스트</div>
+                        <div class="chart-title">■ 업무 분야별 법규 리스트</div>
                     </div>
                     <div style="padding: 1rem;">
                         <!-- 업무 분야 선택 드롭다운 -->
                         <div style="margin-bottom: 1rem;">
                             <select id="business-category-select" onchange="showSelectedBusinessLaws()" style="width: 100%; padding: 0.8rem; border: 2px solid var(--border); border-radius: 12px; background: white; font-size: 0.9rem; color: var(--text-primary); cursor: pointer; transition: all 0.2s;">
                                 <option value="">업무 분야를 선택하세요</option>
-                                <option value="안전">🛡️ 안전관리</option>
-                                <option value="환경">🌱 환경</option>
-                                <option value="인사노무">👥 인사노무</option>
-                                <option value="지배구조">🏛️ 지배구조</option>
-                                <option value="재무회계">💰 재무회계</option>
-                                <option value="정보보호">🔒 정보보호</option>
-                                <option value="기타">📋 기타</option>
+                                <option value="안전">● 안전관리</option>
+                                <option value="환경">● 환경</option>
+                                <option value="인사노무">● 인사노무</option>
+                                <option value="지배구조">● 지배구조</option>
+                                <option value="재무회계">● 재무회계</option>
+                                <option value="정보보호">● 정보보호</option>
+                                <option value="기타">● 기타</option>
                             </select>
                         </div>
                         <!-- 선택한 업무의 법규 리스트 -->
@@ -936,14 +910,14 @@
             <div class="law-card">
                 <div class="law-list-header">
                     <div class="law-list-title">
-                        📋 개정 법령 목록
+                        ■ 개정 법령 목록
                         <div class="law-count" id="law-count">로딩 중...</div>
                     </div>
                 </div>
                 
                 <div class="search-container">
                     <div class="search-box">
-                        <span>🔍</span>
+                        <span>●</span>
                         <input type="text" class="search-input" id="searchInput" placeholder="법령명, 부처명으로 검색...">
                         <button onclick="searchLaws()" style="background: none; border: none; color: var(--primary); cursor: pointer;">검색</button>
                     </div>
@@ -1593,10 +1567,10 @@
 
         function showQuarterlyModal(quarter) {
             const quarterInfo = {
-                'Q1': { title: '1분기 개정 법령', period: '2025년 1월 ~ 3월', months: [1, 2, 3], icon: '🌱' },
-                'Q2': { title: '2분기 개정 법령', period: '2025년 4월 ~ 6월', months: [4, 5, 6], icon: '☀️' },
-                'Q3': { title: '3분기 개정 법령', period: '2025년 7월 ~ 9월', months: [7, 8, 9], icon: '🍂' },
-                'Q4': { title: '4분기 개정 법령', period: '2025년 10월 ~ 12월', months: [10, 11, 12], icon: '❄️' }
+                'Q1': { title: '1분기 개정 법령', period: '2025년 1월 ~ 3월', months: [1, 2, 3], icon: '▲' },
+                'Q2': { title: '2분기 개정 법령', period: '2025년 4월 ~ 6월', months: [4, 5, 6], icon: '●' },
+                'Q3': { title: '3분기 개정 법령', period: '2025년 7월 ~ 9월', months: [7, 8, 9], icon: '■' },
+                'Q4': { title: '4분기 개정 법령', period: '2025년 10월 ~ 12월', months: [10, 11, 12], icon: '◆' }
             };
             
             const info = quarterInfo[quarter];
@@ -1674,13 +1648,13 @@
                         
                         const categoryColor = categoryColors[category] || '#a0aec0';
                         const categoryIcons = {
-                            '안전': '🛡️',
-                            '환경': '🌱',
-                            '인사노무': '👥',
-                            '지배구조': '🏛️', 
-                            '재무회계': '💰',
-                            '정보보호': '🔒',
-                            '기타': '📋'
+                            '안전': '●',
+                            '환경': '●',
+                            '인사노무': '●',
+                            '지배구조': '●', 
+                            '재무회계': '●',
+                            '정보보호': '●',
+                            '기타': '●'
                         };
                         
                         return `
@@ -1732,13 +1706,13 @@
                             '기타': '#a0aec0'
                         };
                         const categoryIcons = {
-                            '안전': '🛡️',
-                            '환경': '🌱',
-                            '인사노무': '👥',
-                            '지배구조': '🏛️', 
-                            '재무회계': '💰',
-                            '정보보호': '🔒',
-                            '기타': '📋'
+                            '안전': '●',
+                            '환경': '●',
+                            '인사노무': '●',
+                            '지배구조': '●', 
+                            '재무회계': '●',
+                            '정보보호': '●',
+                            '기타': '●'
                         };
                         const categoryColor = categoryColors[category] || '#a0aec0';
                         return `
@@ -1753,7 +1727,7 @@
                 const listHtml = `
                     <div style="margin-bottom: 1.5rem;">
                         <h4 style="color: var(--primary); margin: 0; font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem;">
-                            📋 업무별 법령 분류
+                            ■ 업무별 법령 분류
                         </h4>
                         <p style="color: var(--text-muted); margin: 0.5rem 0 1rem 0; font-size: 0.9rem;">업무 분야별로 정리된 ${info.title} 목록입니다. 법령명을 클릭하면 상세 정보를 확인할 수 있습니다.</p>
                         
@@ -1852,31 +1826,23 @@
                 '기타': '#a0aec0'
             };
             const categoryIcons = {
-                '안전': '🛡️',
-                '환경': '🌱',
-                '인사노무': '👥',
-                '지배구조': '🏛️', 
-                '재무회계': '💰',
-                '정보보호': '🔒',
-                '기타': '📋'
+                '안전': '●',
+                '환경': '●',
+                '인사노무': '●',
+                '지배구조': '●', 
+                '재무회계': '●',
+                '정보보호': '●',
+                '기타': '●'
             };
             
             const categoryColor = categoryColors[category] || '#a0aec0';
-            const categoryIcon = categoryIcons[category] || '📋';
+            const categoryIcon = categoryIcons[category] || '●';
 
-            // 법규 리스트 생성
-            const lawsHtml = businessLaws.map(law => {
-                const daysUntil = getDaysFromNow(law.effectiveDate);
-                const urgencyText = daysUntil <= 0 ? '시행 중' : daysUntil <= 7 ? `D-${daysUntil}` : law.effectiveDate;
-                const urgencyColor = daysUntil <= 7 ? '#f56565' : daysUntil <= 30 ? '#ed8936' : '#4299e1';
-                
+            // 법규 리스트 생성 (숫자와 제목만)
+            const lawsHtml = businessLaws.map((law, index) => {
                 return `
                     <div class="business-law-item" onclick="showLawDetail('${law.id}')">
-                        <div class="business-law-title">${law.title}</div>
-                        <div class="business-law-meta">
-                            <span class="business-law-tag" style="background: linear-gradient(135deg, ${categoryColor}20, ${categoryColor}10); color: ${categoryColor}; border: 1px solid ${categoryColor}30;">${law.lawType || '일부개정'}</span>
-                            <span class="business-law-date" style="background: ${urgencyColor};">${urgencyText}</span>
-                        </div>
+                        <div class="business-law-title">${index + 1}. ${law.title}</div>
                     </div>
                 `;
             }).join('');
