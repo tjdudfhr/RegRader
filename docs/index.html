@@ -863,7 +863,7 @@
 
         .main-tab-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 0.5rem;
         }
 
@@ -1160,7 +1160,7 @@
             <div class="main-tab-container">
                 <div class="main-tab active" data-tab="quarterly" onclick="switchMainTab('quarterly')">
                     <span class="tab-icon">📅</span>
-                    <span class="tab-text">25년 분기별 개정 현황</span>
+                    <span class="tab-text">분기별 개정 현황</span>
                 </div>
                 <div class="main-tab" data-tab="business" onclick="switchMainTab('business')">
                     <span class="tab-icon">🏢</span>
@@ -1168,7 +1168,7 @@
                 </div>
                 <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')">
                     <span class="tab-icon">📚</span>
-                    <span class="tab-text">적용법규(법규등록부)</span>
+                    <span class="tab-text">적용법규</span>
                 </div>
             </div>
         </div>
@@ -1351,13 +1351,10 @@
                             </div>
                             <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
                                 <div style="text-align: center;">
-                                    <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="registry-total-count">100</div>
+                                    <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="registry-total-count">0</div>
                                     <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 법규 수</div>
                                 </div>
-                                <div style="text-align: center;">
-                                    <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="registry-selected-count">0</div>
-                                    <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">선택된 법규</div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
