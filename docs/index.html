@@ -164,21 +164,21 @@
 
         .quarterly-tabs {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
             margin-top: 1rem;
         }
 
         .quarterly-tab {
             background: var(--bg-card);
             border: 2px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
+            border-radius: 16px;
+            padding: 1.2rem;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
             position: relative;
             overflow: hidden;
         }
@@ -1258,7 +1258,61 @@
                 return info.months.includes(date.getMonth() + 1);
             });
 
-            // Generate detailed content
+            // Generate detailed content with business categories and law list
+            const categoryIcons = {
+                '안전': '🛡️',
+                '환경': '🌱',
+                '인사노무': '👥',
+                '지배구조': '🏛️', 
+                '재무회계': '💰',
+                '정보보호': '🔒',
+                '기타': '📋'
+            };
+
+            // Group laws by category
+            const lawsByCategory = {};
+            quarterLaws.forEach(law => {
+                if (law.categories && law.categories.length > 0) {
+                    law.categories.forEach(category => {
+                        if (!lawsByCategory[category]) lawsByCategory[category] = [];
+                        lawsByCategory[category].push(law);
+                    });
+                } else {
+                    if (!lawsByCategory['기타']) lawsByCategory['기타'] = [];
+                    lawsByCategory['기타'].push(law);
+                }
+            });
+
+            // Generate business category overview (one line)
+            const businessOverview = Object.keys(lawsByCategory).map(category => {
+                const count = lawsByCategory[category].length;
+                return `<span style="display: inline-flex; align-items: center; gap: 0.3rem; margin-right: 1rem; color: var(--text-secondary); font-size: 0.9rem;"><span>${categoryIcons[category] || '📋'}</span><span>${category}</span><span style="color: var(--primary); font-weight: 600;">${count}건</span></span>`;
+            }).join('');
+
+            // Generate detailed law list with category labels
+            const lawListHtml = quarterLaws.map((law, index) => {
+                const categories = law.categories && law.categories.length > 0 ? law.categories : ['기타'];
+                const categoryLabel = categories.map(cat => `${categoryIcons[cat] || '📋'} ${cat}`).join(', ');
+                const effectiveDate = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR') : '미정';
+                
+                return `
+                    <div class="law-item" onclick="showLawModal('${law.id}')" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='transparent'">
+                        <div class="law-number" style="width: 2rem; height: 2rem; background: var(--primary-gradient); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.8rem; flex-shrink: 0;">
+                            ${index + 1}
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.3rem; line-height: 1.4;">
+                                ${law.title}
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.8rem; color: var(--text-muted);">
+                                <span style="color: var(--primary); font-weight: 500;">${categoryLabel}</span>
+                                <span>${effectiveDate}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
             const detailContent = `
                 <div class="quarterly-detail-header">
                     <div class="detail-title">
@@ -1266,24 +1320,26 @@
                         <h3>${info.title}</h3>
                         <button class="close-detail-btn" onclick="closeQuarterlyDetail()">×</button>
                     </div>
-                    <div class="detail-period">${info.period}</div>
-                    <div class="detail-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">${quarterLaws.length}</span>
-                            <span class="stat-label">전체 개정 법령</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">${quarterLaws.filter(law => law.categories && law.categories.length > 0).length}</span>
-                            <span class="stat-label">주요 업무 관련</span>
-                        </div>
+                    <div class="detail-period">${info.period} · 총 ${quarterLaws.length}건</div>
+                    
+                    <!-- Business Category Overview -->
+                    <div style="margin: 1rem 0; padding: 1rem; background: var(--bg-secondary); border-radius: 8px;">
+                        <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">📊 직무별 현황</div>
+                        <div style="line-height: 1.8;">${businessOverview}</div>
                     </div>
                 </div>
                 
-                <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
-                    <h4 style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 1.2rem;">상세 법령 목록</h4>
-                    <p style="font-size: 1rem; line-height: 1.5;">해당 분기의 <strong>${quarterLaws.length}개</strong> 법령을 확인할 수 있습니다.</p>
-                    ${quarterLaws.length > 0 ? '<p style="margin-top: 1rem; font-size: 0.9rem; color: var(--primary);">💡 곧 상세 리스트 기능이 추가될 예정입니다.</p>' : ''}
+                <!-- Detailed Law List -->
+                <div style="background: var(--bg-card); border-radius: 12px; overflow: hidden;">
+                    <div style="padding: 1.2rem; background: var(--bg-primary); border-bottom: 1px solid var(--border);">
+                        <h4 style="margin: 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            📋 상세 법령 목록
+                            <span style="background: var(--primary); color: white; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem;">${quarterLaws.length}건</span>
+                        </h4>
+                    </div>
+                    <div style="max-height: 500px; overflow-y: auto;">
+                        ${quarterLaws.length > 0 ? lawListHtml : '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">해당 분기에는 개정된 법령이 없습니다.</div>'}
+                    </div>
                 </div>
             `;
             
