@@ -738,6 +738,63 @@
             border-radius: 12px;
             border: 1px solid rgba(245, 101, 101, 0.2);
         }
+
+        /* 업무별 법규 리스트 스타일 */
+        .business-laws-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .business-law-item {
+            padding: 0.8rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            margin-bottom: 0.25rem;
+        }
+
+        .business-law-item:hover {
+            background: rgba(102, 126, 234, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .business-law-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .business-law-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            line-height: 1.3;
+        }
+
+        .business-law-meta {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .business-law-tag {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .business-law-date {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            color: white;
+            margin-left: auto;
+        }
     </style>
 </head>
 <body>
@@ -824,6 +881,17 @@
                     </div>
                     <div class="category-legend" id="categoryLegend">
                         <!-- 범례가 여기에 동적으로 생성됩니다 -->
+                    </div>
+                </div>
+                
+                <!-- 업무별 법규 리스트 박스 -->
+                <div class="chart-card" id="business-laws-card" style="display: none; margin-top: 1rem;">
+                    <div class="chart-header">
+                        <div class="chart-title" id="business-laws-title">📋 업무별 법규 목록</div>
+                        <button onclick="hideBusinessLawsList()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;">×</button>
+                    </div>
+                    <div class="business-laws-list" id="business-laws-list">
+                        <!-- 업무별 법규 리스트가 여기에 표시됩니다 -->
                     </div>
                 </div>
             </div>
@@ -1025,10 +1093,19 @@
             const legendHtml = categoryData
                 .map(([category, count]) => {
                     const color = categoryColors[category] || categoryColors['기타'];
+                    const icons = {
+                        '안전': '🛡️',
+                        '환경': '🌱',
+                        '인사노무': '👥',
+                        '지배구조': '🏛️', 
+                        '재무회계': '💰',
+                        '정보보호': '🔒',
+                        '기타': '📋'
+                    };
                     return `
-                        <div class="legend-item">
+                        <div class="legend-item" onclick="showBusinessLaws('${category}')" style="cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
                             <div class="legend-dot" style="background: ${color};"></div>
-                            <div class="legend-text">${category} (${count})</div>
+                            <div class="legend-text">${icons[category] || '📋'} ${category} (${count})</div>
                         </div>
                     `;
                 }).join('');
@@ -1571,7 +1648,7 @@
                         };
                         
                         return `
-                            <div style="margin-bottom: 1.5rem;">
+                            <div id="category-${category}" style="margin-bottom: 1.5rem; scroll-margin-top: 20px;">
                                 <div style="background: linear-gradient(135deg, ${categoryColor}, ${categoryColor}dd); color: white; padding: 0.8rem 1.2rem; border-radius: 12px 12px 0 0; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 0.6rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                                     <span style="font-size: 1.1rem;">${categoryIcons[category] || '📋'}</span>
                                     <span>${category} 분야</span>
@@ -1629,7 +1706,7 @@
                         };
                         const categoryColor = categoryColors[category] || '#a0aec0';
                         return `
-                            <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem; background: linear-gradient(135deg, ${categoryColor}15, ${categoryColor}08); border: 2px solid ${categoryColor}30; border-radius: 12px; margin: 0.3rem; color: ${categoryColor}; font-weight: 700; font-size: 0.9rem;">
+                            <div onclick="scrollToCategory('${category}')" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem; background: linear-gradient(135deg, ${categoryColor}15, ${categoryColor}08); border: 2px solid ${categoryColor}30; border-radius: 12px; margin: 0.3rem; color: ${categoryColor}; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
                                 <span style="font-size: 1.1rem;">${categoryIcons[category]}</span>
                                 <span>${category}</span>
                                 <span style="background: ${categoryColor}; color: white; padding: 0.2rem 0.6rem; border-radius: 10px; font-size: 0.8rem; margin-left: 0.3rem;">${laws.length}</span>
@@ -1674,6 +1751,97 @@
 
         function closeQuarterlyModal() {
             document.getElementById('quarterly-modal').classList.remove('show');
+        }
+
+        function scrollToCategory(category) {
+            const targetElement = document.getElementById(`category-${category}`);
+            if (targetElement) {
+                // 스무스 스크롤 효과로 해당 카테고리로 이동
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                    inline: 'nearest'
+                });
+                
+                // 시각적 피드백을 위한 하이라이트 효과
+                const header = targetElement.querySelector('div:first-child');
+                if (header) {
+                    const originalStyle = header.style.transform;
+                    header.style.transform = 'scale(1.02)';
+                    header.style.transition = 'transform 0.3s ease';
+                    
+                    setTimeout(() => {
+                        header.style.transform = originalStyle;
+                    }, 300);
+                }
+            }
+        }
+
+        function showBusinessLaws(category) {
+            // 해당 업무 카테고리의 법규들 필터링
+            const businessLaws = lawsData.filter(law => 
+                law.categories && law.categories.includes(category)
+            ).sort((a, b) => {
+                const dateA = new Date(a.effectiveDate || '1900-01-01');
+                const dateB = new Date(b.effectiveDate || '1900-01-01'); 
+                return dateA - dateB;
+            });
+
+            if (businessLaws.length === 0) {
+                hideBusinessLawsList();
+                return;
+            }
+
+            // 카테고리 색상 및 아이콘 정보
+            const categoryColors = {
+                '안전': '#48bb78',
+                '환경': '#38b2ac',
+                '인사노무': '#ed8936', 
+                '지배구조': '#9f7aea',
+                '재무회계': '#4299e1',
+                '정보보호': '#f56565',
+                '기타': '#a0aec0'
+            };
+            const categoryIcons = {
+                '안전': '🛡️',
+                '환경': '🌱',
+                '인사노무': '👥',
+                '지배구조': '🏛️', 
+                '재무회계': '💰',
+                '정보보호': '🔒',
+                '기타': '📋'
+            };
+            
+            const categoryColor = categoryColors[category] || '#a0aec0';
+            const categoryIcon = categoryIcons[category] || '📋';
+
+            // 타이틀 업데이트
+            document.getElementById('business-laws-title').innerHTML = `${categoryIcon} ${category} 분야 법규 (${businessLaws.length}건)`;
+
+            // 법규 리스트 생성
+            const lawsHtml = businessLaws.map(law => {
+                const daysUntil = getDaysFromNow(law.effectiveDate);
+                const urgencyText = daysUntil <= 0 ? '시행 중' : daysUntil <= 7 ? `D-${daysUntil}` : law.effectiveDate;
+                const urgencyColor = daysUntil <= 7 ? '#f56565' : daysUntil <= 30 ? '#ed8936' : '#4299e1';
+                
+                return `
+                    <div class="business-law-item" onclick="showLawDetail('${law.id}')">
+                        <div class="business-law-title">${law.title}</div>
+                        <div class="business-law-meta">
+                            <span class="business-law-tag" style="background: linear-gradient(135deg, ${categoryColor}20, ${categoryColor}10); color: ${categoryColor}; border: 1px solid ${categoryColor}30;">${law.lawType || '일부개정'}</span>
+                            <span class="business-law-date" style="background: ${urgencyColor};">${urgencyText}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // 법규 리스트 표시
+            document.getElementById('business-laws-list').innerHTML = lawsHtml;
+            document.getElementById('business-laws-card').style.display = 'block';
+        }
+
+        function hideBusinessLawsList() {
+            document.getElementById('business-laws-card').style.display = 'none';
         }
 
         function getDaysFromNow(dateStr) {
