@@ -1571,11 +1571,11 @@
                         };
                         
                         return `
-                            <div style="margin-bottom: 2.5rem;">
-                                <div style="background: linear-gradient(135deg, ${categoryColor}, ${categoryColor}dd); color: white; padding: 1.5rem 2rem; border-radius: 16px 16px 0 0; font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 0.8rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                                    <span style="font-size: 1.3rem;">${categoryIcons[category] || '📋'}</span>
+                            <div style="margin-bottom: 1.5rem;">
+                                <div style="background: linear-gradient(135deg, ${categoryColor}, ${categoryColor}dd); color: white; padding: 0.8rem 1.2rem; border-radius: 12px 12px 0 0; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 0.6rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                    <span style="font-size: 1.1rem;">${categoryIcons[category] || '📋'}</span>
                                     <span>${category} 분야</span>
-                                    <span style="background: rgba(255,255,255,0.2); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem; margin-left: auto;">${laws.length}건</span>
+                                    <span style="background: rgba(255,255,255,0.2); padding: 0.2rem 0.6rem; border-radius: 15px; font-size: 0.8rem; margin-left: auto;">${laws.length}건</span>
                                 </div>
                                 <div style="background: rgba(255,255,255,0.8); border-radius: 0 0 12px 12px; border: 1px solid ${categoryColor}; border-top: none;">
                                     ${laws.map(law => {
@@ -1584,17 +1584,17 @@
                                         const urgencyColor = daysUntil <= 7 ? '#f56565' : daysUntil <= 30 ? '#ed8936' : '#4299e1';
                                         
                                         return `
-                                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 2rem; border-bottom: 1px solid rgba(0,0,0,0.08); cursor: pointer; transition: all 0.3s; hover: background-color: rgba(0,0,0,0.03);" 
+                                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.2rem; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; transition: all 0.2s; hover: background-color: rgba(0,0,0,0.02);" 
                                                  onclick="showLawDetail('${law.id}'); closeQuarterlyModal();"
-                                                 onmouseover="this.style.backgroundColor='rgba(0,0,0,0.03); this.style.transform='translateY(-1px)'"
-                                                 onmouseout="this.style.backgroundColor='transparent'; this.style.transform='translateY(0)'">
+                                                 onmouseover="this.style.backgroundColor='rgba(0,0,0,0.02)'"
+                                                 onmouseout="this.style.backgroundColor='transparent'">
                                                 <div style="flex: 1;">
-                                                    <div style="font-weight: 700; color: #2d3748; margin-bottom: 0.7rem; line-height: 1.4; font-size: 1.05rem;">${law.title}</div>
-                                                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                                                        <span style="font-size: 0.8rem; padding: 0.3rem 0.7rem; background: linear-gradient(135deg, ${categoryColor}20, ${categoryColor}10); border: 1px solid ${categoryColor}40; border-radius: 8px; color: ${categoryColor}; font-weight: 600;">${law.lawType || '일부개정'}</span>
+                                                    <div style="font-weight: 600; color: #2d3748; margin-bottom: 0.4rem; line-height: 1.3; font-size: 0.95rem;">${law.title}</div>
+                                                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                                        <span style="font-size: 0.7rem; padding: 0.2rem 0.5rem; background: linear-gradient(135deg, ${categoryColor}15, ${categoryColor}08); border: 1px solid ${categoryColor}30; border-radius: 6px; color: ${categoryColor}; font-weight: 500;">${law.lawType || '일부개정'}</span>
                                                     </div>
                                                 </div>
-                                                <div style="font-weight: 800; font-size: 1rem; padding: 0.7rem 1rem; border-radius: 12px; white-space: nowrap; background: ${urgencyColor}; color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                                                <div style="font-weight: 700; font-size: 0.85rem; padding: 0.4rem 0.7rem; border-radius: 8px; white-space: nowrap; background: ${urgencyColor}; color: white; box-shadow: 0 1px 4px rgba(0,0,0,0.15);">
                                                     ${urgencyText}
                                                 </div>
                                             </div>
@@ -1605,14 +1605,58 @@
                         `;
                     }).join('');
                 
+                // Create business overview summary
+                const businessOverview = Object.entries(lawsByCategory)
+                    .filter(([category, laws]) => laws.length > 0)
+                    .map(([category, laws]) => {
+                        const categoryColors = {
+                            '안전': '#48bb78',
+                            '환경': '#38b2ac',
+                            '인사노무': '#ed8936', 
+                            '지배구조': '#9f7aea',
+                            '재무회계': '#4299e1',
+                            '정보보호': '#f56565',
+                            '기타': '#a0aec0'
+                        };
+                        const categoryIcons = {
+                            '안전': '🛡️',
+                            '환경': '🌱',
+                            '인사노무': '👥',
+                            '지배구조': '🏛️', 
+                            '재무회계': '💰',
+                            '정보보호': '🔒',
+                            '기타': '📋'
+                        };
+                        const categoryColor = categoryColors[category] || '#a0aec0';
+                        return `
+                            <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem; background: linear-gradient(135deg, ${categoryColor}15, ${categoryColor}08); border: 2px solid ${categoryColor}30; border-radius: 12px; margin: 0.3rem; color: ${categoryColor}; font-weight: 700; font-size: 0.9rem;">
+                                <span style="font-size: 1.1rem;">${categoryIcons[category]}</span>
+                                <span>${category}</span>
+                                <span style="background: ${categoryColor}; color: white; padding: 0.2rem 0.6rem; border-radius: 10px; font-size: 0.8rem; margin-left: 0.3rem;">${laws.length}</span>
+                            </div>
+                        `;
+                    }).join('');
+
                 const listHtml = `
                     <div style="margin-bottom: 1.5rem;">
                         <h4 style="color: var(--primary); margin: 0; font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem;">
                             📋 업무별 법령 분류
                         </h4>
-                        <p style="color: var(--text-muted); margin: 0.5rem 0 0 0; font-size: 0.9rem;">업무 분야별로 정리된 ${info.title} 목록입니다. 법령명을 클릭하면 상세 정보를 확인할 수 있습니다.</p>
+                        <p style="color: var(--text-muted); margin: 0.5rem 0 1rem 0; font-size: 0.9rem;">업무 분야별로 정리된 ${info.title} 목록입니다. 법령명을 클릭하면 상세 정보를 확인할 수 있습니다.</p>
+                        
+                        <!-- 업무별 현황 종합 박스 -->
+                        <div style="background: linear-gradient(135deg, #f8fafc, #e2e8f0); border: 2px solid var(--primary)20; border-radius: 16px; padding: 1.2rem; margin-bottom: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                                <span style="font-size: 1.2rem;">📊</span>
+                                <h5 style="margin: 0; color: var(--primary); font-weight: 700; font-size: 1.1rem;">업무별 현황 종합</h5>
+                                <span style="background: var(--primary); color: white; padding: 0.2rem 0.8rem; border-radius: 12px; font-size: 0.8rem; margin-left: auto;">총 ${quarterLaws.length}건</span>
+                            </div>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                ${businessOverview}
+                            </div>
+                        </div>
                     </div>
-                    <div style="max-height: 650px; overflow-y: auto; padding-right: 0.5rem;">
+                    <div style="max-height: 600px; overflow-y: auto; padding-right: 0.5rem;">
                         ${categoryListHtml}
                     </div>
                 `;
