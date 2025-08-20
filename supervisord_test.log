@@ -4,3 +4,7 @@
 2025-08-20 02:45:50,181 INFO supervisord started with pid 942
 2025-08-20 02:45:51,185 INFO spawned: 'testserver' with pid 945
 2025-08-20 02:45:52,187 INFO success: testserver entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-08-20 02:55:11,056 INFO waiting for testserver to stop
+2025-08-20 02:55:11,058 WARN stopped: testserver (terminated by SIGTERM)
+2025-08-20 02:55:11,062 INFO spawned: 'testserver' with pid 1232
+2025-08-20 02:55:12,065 INFO success: testserver entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
