@@ -2091,8 +2091,9 @@
                 'Q4': { months: [10, 11, 12], count: 0 }
             };
             
+            // Only count laws with 2025 effective dates to match summary statistics
             lawsData.forEach(law => {
-                if (law.effectiveDate) {
+                if (law.effectiveDate && law.effectiveDate.startsWith('2025')) {
                     const date = new Date(law.effectiveDate);
                     const month = date.getMonth() + 1;
                     
