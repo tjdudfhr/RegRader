@@ -2303,11 +2303,22 @@
                 <div class="summary-section">
                     <h4>🔗 관련 링크</h4>
                     <div class="external-links">
-                        <a href="${item.source?.url || `https://www.law.go.kr/LSW/lsInfoP.do?lsId=${item.meta?.lsId || ''}`}" target="_blank" class="external-link law-link">
+                        <a href="${(() => {
+                            if (item.meta?.lsId) {
+                                const efYd = item.effectiveDate ? item.effectiveDate.replace(/-/g, '') : '';
+                                return `https://www.law.go.kr/LSW/lsInfoP.do?lsId=${item.meta.lsId}` + 
+                                       (efYd ? `&efYd=${efYd}` : '') + 
+                                       `#0000`;
+                            } else if (item.source?.url) {
+                                return item.source.url;
+                            } else {
+                                return `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`;
+                            }
+                        })()}" target="_blank" class="external-link law-link">
                             <div class="link-icon">📜</div>
                             <div class="link-content">
                                 <div class="link-title">법령 원문 보기</div>
-                                <div class="link-desc">국가법령정보센터</div>
+                                <div class="link-desc">국가법령정보센터 (법령ID: ${item.meta?.lsId || '검색'})</div>
                             </div>
                             <div class="link-arrow">→</div>
                         </a>
@@ -2748,11 +2759,35 @@
             
             // Generate simplified law list (law name only, direct link to law center)
             const lawsHtml = filteredLaws.map((law, index) => {
-                const lawUrl = law.source?.url || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(law.title)}`;
+                // 법령 ID 기반 정확한 URL 생성
+                let lawUrl;
+                if (law.meta?.lsId) {
+                    // 법령 ID가 있으면 직접 링크 사용
+                    // efYd 파라미터는 시행일자 (YYYYMMDD 형식)
+                    const efYd = law.effectiveDate ? law.effectiveDate.replace(/-/g, '') : '';
+                    // 국가법령정보센터 직접 링크 형식
+                    lawUrl = `https://www.law.go.kr/LSW/lsInfoP.do?lsId=${law.meta.lsId}` + 
+                            (efYd ? `&efYd=${efYd}` : '') + 
+                            `#0000`;
+                } else if (law.source?.url) {
+                    // source URL이 있으면 사용
+                    lawUrl = law.source.url;
+                } else {
+                    // 둘 다 없으면 제목으로 검색
+                    lawUrl = `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(law.title)}`;
+                }
                 const safeUrl = lawUrl.replace(/'/g, '&quot;');
                 
+                // 법령 타입 표시 (법률/시행령/시행규칙 등)
+                let lawType = '';
+                if (law.title.includes('시행규칙')) {
+                    lawType = ' (시행규칙)';
+                } else if (law.title.includes('시행령')) {
+                    lawType = ' (시행령)';
+                }
+                
                 return `
-                    <div class="registry-law-item" onclick="window.open('${safeUrl}', '_blank'); return false;">
+                    <div class="registry-law-item" onclick="window.open('${safeUrl}', '_blank'); return false;" title="${law.title} - 법령ID: ${law.meta?.lsId || '없음'}">
                         <div class="registry-law-number">${index + 1}.</div>
                         <div class="registry-law-title">${law.title}</div>
                         <div class="registry-law-link">
