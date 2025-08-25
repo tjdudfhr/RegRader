@@ -1725,16 +1725,11 @@
                     }
                 }
 
-                // 카테고리 배지 생성
-                const categoryBadges = (item.categories || []).map(category => 
-                    `<span class="category-badge">${categoryIcons[category] || '📋'} ${category}</span>`
-                ).join('');
-
                 // 링크 URL 생성
                 const lawUrl = item.detail_url || item.search_url || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`;
 
                 return `
-                    <div class="law-item">
+                    <div class="law-item" onclick="window.open('${lawUrl}', '_blank')" style="cursor: pointer;">
                         <div class="law-item-header">
                             <div class="law-title">${item.title || '제목 없음'}</div>
                             <div class="date-badge ${dateClass}">${dateText}</div>
@@ -1750,11 +1745,8 @@
                             </div>
                             <div class="meta-item">
                                 <span>🔗</span>
-                                <a href="${lawUrl}" target="_blank" style="color: var(--primary); text-decoration: none;">법령정보</a>
+                                <span style="color: var(--primary);">법령정보</span>
                             </div>
-                        </div>
-                        <div class="law-categories">
-                            ${categoryBadges}
                         </div>
                     </div>`;
             }).join('');
@@ -1922,16 +1914,11 @@
                             }
                         }
 
-                        // 카테고리 배지 생성
-                        const categoryBadges = (item.categories || []).map(category => 
-                            `<span class="category-badge">${categoryIcons[category] || '📋'} ${category}</span>`
-                        ).join('');
-
                         // 링크 URL 생성
                         const lawUrl = item.detail_url || item.search_url || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`;
 
                         return `
-                            <div class="law-item">
+                            <div class="law-item" onclick="window.open('${lawUrl}', '_blank')" style="cursor: pointer;">
                                 <div class="law-item-header">
                                     <div class="law-title">${item.title || '제목 없음'}</div>
                                     <div class="date-badge ${dateClass}">${dateText}</div>
@@ -1947,11 +1934,8 @@
                                     </div>
                                     <div class="meta-item">
                                         <span>🔗</span>
-                                        <a href="${lawUrl}" target="_blank" style="color: var(--primary); text-decoration: none;">법령정보</a>
+                                        <span style="color: var(--primary);">법령정보</span>
                                     </div>
-                                </div>
-                                <div class="law-categories">
-                                    ${categoryBadges}
                                 </div>
                             </div>`;
                     }).join('');
