@@ -1729,7 +1729,7 @@
                 const lawUrl = item.detail_url || item.search_url || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`;
 
                 return `
-                    <div class="law-item" onclick="window.open('${lawUrl}', '_blank')" style="cursor: pointer;">
+                    <div class="law-item" onclick="showQuarterlyLawModal('${item.title.replace(/'/g, "\\'")}', '${lawUrl}')" style="cursor: pointer;">
                         <div class="law-item-header">
                             <div class="law-title">${item.title || '제목 없음'}</div>
                             <div class="date-badge ${dateClass}">${dateText}</div>
@@ -1918,7 +1918,7 @@
                         const lawUrl = item.detail_url || item.search_url || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`;
 
                         return `
-                            <div class="law-item" onclick="window.open('${lawUrl}', '_blank')" style="cursor: pointer;">
+                            <div class="law-item" onclick="showQuarterlyLawModal('${item.title.replace(/'/g, "\\'")}', '${lawUrl}')" style="cursor: pointer;">
                                 <div class="law-item-header">
                                     <div class="law-title">${item.title || '제목 없음'}</div>
                                     <div class="date-badge ${dateClass}">${dateText}</div>
@@ -1967,6 +1967,54 @@
                         lawListContainer.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">데이터 로드에 실패했습니다.</div>';
                     }
                 });
+        }
+
+        function showQuarterlyLawModal(lawTitle, lawUrl) {
+            console.log('🔍 분기 법령 모달 열기:', lawTitle);
+            
+            // lawsData에서 제목으로 매칭하여 찾기
+            const matchingLaw = lawsData.find(law => law.title === lawTitle);
+            
+            if (matchingLaw) {
+                console.log('✅ 매칭된 법령 찾음:', matchingLaw.id);
+                showLawModal(matchingLaw.id);
+            } else {
+                console.log('❌ 매칭된 법령 없음, 간소화 모달 표시');
+                // 매칭되지 않으면 간소화된 모달 표시
+                showSimpleLawModal(lawTitle, lawUrl);
+            }
+        }
+        
+        function showSimpleLawModal(lawTitle, lawUrl) {
+            // 간소화된 법령 정보 모달 (기존 스타일 유지)
+            const modalBackdrop = document.createElement('div');
+            modalBackdrop.className = 'modal-backdrop';
+            modalBackdrop.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); z-index: 9999;
+                display: flex; align-items: center; justify-content: center; padding: 1rem;
+            `;
+            
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background: var(--bg-glass); backdrop-filter: blur(20px);
+                border: 1px solid var(--glass-border); border-radius: 20px;
+                max-width: 500px; max-height: 80vh; overflow-y: auto;
+                box-shadow: var(--glass-shadow); position: relative; padding: 2rem;
+            `;
+            
+            modalContent.innerHTML = `
+                <button onclick="this.closest('.modal-backdrop').remove()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted);">×</button>
+                <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">${lawTitle}</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">상세한 법령 정보는 국가법령정보센터에서 확인하실 수 있습니다.</p>
+                <div style="display: flex; gap: 1rem;">
+                    <button onclick="window.open('${lawUrl}', '_blank')" style="flex: 1; padding: 0.75rem; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer;">법령정보 보기</button>
+                    <button onclick="this.closest('.modal-backdrop').remove()" style="flex: 1; padding: 0.75rem; background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); border-radius: 8px; cursor: pointer;">닫기</button>
+                </div>
+            `;
+            
+            modalBackdrop.appendChild(modalContent);
+            document.body.appendChild(modalBackdrop);
         }
 
         function showLawModal(lawId) {
