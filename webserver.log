@@ -15,3 +15,11 @@ Serving files from: /home/user/webapp/docs
 25/Aug/2025 05:23:52 - "GET /index.json HTTP/1.1" 200 -
 25/Aug/2025 05:24:14 - "GET /test_quarterly.html HTTP/1.1" 200 -
 25/Aug/2025 05:24:14 - "GET /favicon.ico HTTP/1.1" 200 -
+25/Aug/2025 05:30:35 - "GET / HTTP/1.1" 200 -
+25/Aug/2025 05:30:35 - "GET /index.json HTTP/1.1" 200 -
+Server running at http://0.0.0.0:8000/
+Serving files from: /home/user/webapp/docs
+25/Aug/2025 05:32:29 - "GET / HTTP/1.1" 200 -
+25/Aug/2025 05:32:29 - "GET /index.json HTTP/1.1" 200 -
+25/Aug/2025 05:32:56 - "GET /test_click.html HTTP/1.1" 200 -
+25/Aug/2025 05:32:56 - "GET /favicon.ico HTTP/1.1" 200 -

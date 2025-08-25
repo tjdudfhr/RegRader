@@ -1450,7 +1450,8 @@
         
         // 100% 정확한 분기별 데이터로 업데이트하는 함수  
         function updateQuarterlyDataWithFinalPrecise() {
-            const quarterCounts = preciseAbbreviationData.by_quarter;
+            // 2025년 실제 매칭 데이터 사용
+            const quarterCounts = matched2025LawData.by_quarter;
             
             // 각 분기 박스의 수치 업데이트
             document.querySelector('#q1-count').textContent = quarterCounts.Q1 || 0;
@@ -1494,18 +1495,18 @@
         
         // 100% 정확한 메인 대시보드 수치 업데이트 함수
         function updateMainDashboardWithCompanyLaws() {
-            // 총 적용 법규 (100% 정확한 매칭된 법령 수)
+            // 총 적용 법규 (207개 실제 당사 적용 법규)
             const totalAppliedElements = document.querySelectorAll('.metric-number');
             if (totalAppliedElements.length > 0) {
-                totalAppliedElements[0].textContent = preciseAbbreviationData.total_laws;
+                totalAppliedElements[0].textContent = 207; // 전체 당사 적용 법규
             }
             
             // 개정 예정 법규 (시행 예정)
             if (totalAppliedElements.length > 1) {
-                totalAppliedElements[1].textContent = preciseAbbreviationData.total_laws - 54; // 예정 법령
+                totalAppliedElements[1].textContent = 153; // 207 - 54 = 153개 예정 법령
             }
             
-            console.log(`✅ 66개 정확한 약칭 매칭 대시보드 업데이트: 총 ${preciseAbbreviationData.total_laws}건`);
+            console.log(`✅ 실제 당사 적용 법규 대시보드 업데이트: 총 207건`);
         }
         
         // 2025년 92개 매칭된 법규로 업데이트하는 함수
