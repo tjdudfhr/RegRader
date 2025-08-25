@@ -1224,10 +1224,10 @@
                 <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">0</span>)</div>
                 <div class="filter-tab" data-filter="공정거래">⚖️ 공정거래 (<span id="count-공정거래">0</span>)</div>
                 <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">0</span>)</div>
-                <div class="filter-tab" data-filter="지식재산">💡 지식재산 (<span id="count-지식재산">0</span>)</div>
+                <div class="filter-tab" data-filter="지식재산권">💡 지식재산 (<span id="count-지식재산권">0</span>)</div>
                 <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">0</span>)</div>
-                <div class="filter-tab" data-filter="안전보건">🛡️ 안전/보건 (<span id="count-안전보건">0</span>)</div>
-                <div class="filter-tab" data-filter="환경에너지">🌱 환경/에너지 (<span id="count-환경에너지">0</span>)</div>
+                <div class="filter-tab" data-filter="안전">🛡️ 안전/보건 (<span id="count-안전">0</span>)</div>
+                <div class="filter-tab" data-filter="환경">🌱 환경/에너지 (<span id="count-환경">0</span>)</div>
                 <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">0</span>)</div>
             </div>
         </div>
@@ -1322,15 +1322,15 @@
                                     <span class="job-name">정보보호</span>
                                     <span class="job-count" id="job-count-정보보호">0</span>
                                 </div>
-                                <div class="job-function-item" data-job="안전보건" onclick="showJobFunctionLaws('안전보건', '🛡️ 안전보건')">
+                                <div class="job-function-item" data-job="안전" onclick="showJobFunctionLaws('안전', '🛡️ 안전보건')">
                                     <span class="job-icon">🛡️</span>
                                     <span class="job-name">안전보건</span>
-                                    <span class="job-count" id="job-count-안전보건">0</span>
+                                    <span class="job-count" id="job-count-안전">0</span>
                                 </div>
-                                <div class="job-function-item" data-job="환경에너지" onclick="showJobFunctionLaws('환경에너지', '🌱 환경에너지')">
+                                <div class="job-function-item" data-job="환경" onclick="showJobFunctionLaws('환경', '🌱 환경에너지')">
                                     <span class="job-icon">🌱</span>
                                     <span class="job-name">환경에너지</span>
-                                    <span class="job-count" id="job-count-환경에너지">0</span>
+                                    <span class="job-count" id="job-count-환경">0</span>
                                 </div>
                                 <div class="job-function-item" data-job="재무회계" onclick="showJobFunctionLaws('재무회계', '💰 재무회계')">
                                     <span class="job-icon">💰</span>
@@ -1347,10 +1347,10 @@
                                     <span class="job-name">지배구조</span>
                                     <span class="job-count" id="job-count-지배구조">0</span>
                                 </div>
-                                <div class="job-function-item" data-job="지식재산" onclick="showJobFunctionLaws('지식재산', '💡 지식재산')">
+                                <div class="job-function-item" data-job="지식재산권" onclick="showJobFunctionLaws('지식재산권', '💡 지식재산')">
                                     <span class="job-icon">💡</span>
                                     <span class="job-name">지식재산</span>
-                                    <span class="job-count" id="job-count-지식재산">0</span>
+                                    <span class="job-count" id="job-count-지식재산권">0</span>
                                 </div>
                             </div>
                         </div>
@@ -1483,10 +1483,10 @@
                 '인사노무': '👥',
                 '공정거래': '⚖️',
                 '정보보호': '🔒',
-                '지식재산': '💡',
+                '지식재산권': '💡',
                 '재무회계': '💰',
-                '안전보건': '🛡️',
-                '환경에너지': '🌱',
+                '안전': '🛡️',
+                '환경': '🌱',
                 '지배구조': '🏛️'
             };
 
@@ -1554,10 +1554,10 @@
                 '인사노무': '#e53e3e',      // 빨간색 계열
                 '공정거래': '#3182ce',      // 파란색 계열  
                 '정보보호': '#805ad5',      // 보라색 계열
-                '지식재산': '#d69e2e',      // 노란색 계열
+                '지식재산권': '#d69e2e',      // 노란색 계열
                 '재무회계': '#38a169',      // 초록색 계열
-                '안전보건': '#dd6b20',      // 주황색 계열
-                '환경에너지': '#319795',    // 청록색 계열
+                '안전': '#dd6b20',      // 주황색 계열
+                '환경': '#319795',    // 청록색 계열
                 '지배구조': '#9f7aea'       // 자주색 계열
             };
 
@@ -1779,10 +1779,10 @@
                 '인사노무': '👥',
                 '공정거래': '⚖️',
                 '정보보호': '🔒',
-                '지식재산': '💡',
+                '지식재산권': '💡',
                 '재무회계': '💰',
-                '안전보건': '🛡️',
-                '환경에너지': '🌱',
+                '안전': '🛡️',
+                '환경': '🌱',
                 '지배구조': '🏛️'
             };
             
@@ -2229,10 +2229,10 @@
                 '인사노무': 'hr',
                 '공정거래': 'fair',
                 '정보보호': 'sec',
-                '지식재산': 'ip',
+                '지식재산권': 'ip',
                 '재무회계': 'fin',
-                '안전보건': 'safety',
-                '환경에너지': 'env',
+                '안전': 'safety',
+                '환경': 'env',
                 '지배구조': 'gov'
             };
             return classMap[category] || 'etc';
@@ -2793,10 +2793,10 @@
                 '인사노무': '👥',
                 '공정거래': '⚖️',
                 '정보보호': '🔒',
-                '지식재산': '💡',
+                '지식재산권': '💡',
                 '재무회계': '💰',
-                '안전보건': '🛡️',
-                '환경에너지': '🌱',
+                '안전': '🛡️',
+                '환경': '🌱',
                 '지배구조': '🏛️'
             };
             
