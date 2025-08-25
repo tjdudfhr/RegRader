@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Precise Data</title>
+</head>
+<body>
+    <h1>Precise Data Test</h1>
+    <div id="output"></div>
+
+    <script>
+        // 정확한 2025년 매칭 법령 데이터
+        const preciseMatchedData = {
+        "total_laws": 125,
+        "implemented": 106,
+        "upcoming": 19,
+        "by_quarter": {
+                "Q1": 20,
+                "Q2": 49,
+                "Q3": 40,
+                "Q4": 16
+        },
+        "by_category": {
+                "정보보호": 7,
+                "환경": 44,
+                "재무회계": 17,
+                "안전": 25,
+                "공정거래": 4,
+                "지식재산권": 6,
+                "인사노무": 21,
+                "지배구조": 1
+        },
+        "match_percentage": 58.96
+        };
+        
+        console.log('✅ 정확한 데이터 로드 완료:', preciseMatchedData);
+        document.getElementById('output').innerHTML = `
+            <h2>Data Summary</h2>
+            <p>Total Laws: ${preciseMatchedData.total_laws}</p>
+            <p>Q1: ${preciseMatchedData.by_quarter.Q1}</p>
+            <p>Q2: ${preciseMatchedData.by_quarter.Q2}</p>
+            <p>Q3: ${preciseMatchedData.by_quarter.Q3}</p>
+            <p>Q4: ${preciseMatchedData.by_quarter.Q4}</p>
+            <p>Match Rate: ${preciseMatchedData.match_percentage}%</p>
+        `;
+    </script>
+</body>
+</html>
