@@ -1630,7 +1630,11 @@
             document.querySelectorAll('.quarterly-tab').forEach(tab => {
                 tab.classList.remove('selected');
             });
-            event.currentTarget.classList.add('selected');
+            // 클릭된 분기탭에 selected 클래스 추가
+            const clickedTab = document.querySelector(`.quarterly-tab[onclick*="${quarter}"]`);
+            if (clickedTab) {
+                clickedTab.classList.add('selected');
+            }
 
             // 2025년 매칭된 법규 데이터를 동적으로 로드하여 분기별 필터링
             console.log('📡 quarterly_details.json 요청 시작...');

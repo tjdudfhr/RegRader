@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Force Click Test</title>
+</head>
+<body>
+    <h1>강제 클릭 테스트</h1>
+    <p>메인 페이지를 열고 5초 후 Q1 버튼을 강제로 클릭합니다.</p>
+    <button onclick="openMainAndClick()" style="padding: 20px; font-size: 18px;">메인 페이지 열고 Q1 클릭</button>
+    
+    <script>
+        function openMainAndClick() {
+            // 메인 페이지 새 탭으로 열기
+            const newWindow = window.open('/', '_blank');
+            
+            console.log('메인 페이지 열었음. 5초 후 클릭 시도...');
+            
+            // 5초 후 스크립트 실행 (페이지 로드 대기)
+            setTimeout(() => {
+                console.log('이제 Q1 클릭 시도...');
+                
+                // 새 창에 스크립트 삽입하여 Q1 클릭
+                try {
+                    // 스크립트를 새 창에 주입
+                    const script = newWindow.document.createElement('script');
+                    script.textContent = `
+                        console.log('=== 강제 Q1 클릭 테스트 시작 ===');
+                        
+                        // Q1 버튼 찾기
+                        const q1Tab = document.querySelector('.quarterly-tab[onclick*="Q1"]');
+                        console.log('Q1 버튼 찾음:', !!q1Tab);
+                        
+                        if (q1Tab) {
+                            console.log('Q1 버튼 클릭 시도...');
+                            
+                            // 직접 showQuarterlyDetail 함수 호출
+                            if (typeof showQuarterlyDetail === 'function') {
+                                console.log('showQuarterlyDetail 함수 직접 호출');
+                                showQuarterlyDetail('Q1');
+                            } else {
+                                console.error('showQuarterlyDetail 함수가 없습니다!');
+                            }
+                            
+                            // 클릭 이벤트도 시도
+                            q1Tab.click();
+                            console.log('클릭 이벤트 발생시킴');
+                            
+                            // 결과 확인
+                            setTimeout(() => {
+                                const detailSection = document.getElementById('quarterly-detail');
+                                if (detailSection) {
+                                    console.log('quarterly-detail 요소 상태:');
+                                    console.log('- display:', detailSection.style.display);
+                                    console.log('- classes:', detailSection.classList.toString());
+                                    console.log('- computed style:', getComputedStyle(detailSection).display);
+                                    
+                                    if (detailSection.style.display === 'block' || detailSection.classList.contains('expanded')) {
+                                        console.log('✅ 슬라이드가 정상적으로 표시되었습니다!');
+                                        alert('✅ 분기 슬라이드가 정상 작동합니다!');
+                                    } else {
+                                        console.error('❌ 슬라이드가 표시되지 않았습니다');
+                                        alert('❌ 슬라이드가 아직 표시되지 않았습니다');
+                                    }
+                                } else {
+                                    console.error('❌ quarterly-detail 요소를 찾을 수 없습니다');
+                                }
+                            }, 2000);
+                            
+                        } else {
+                            console.error('❌ Q1 버튼을 찾을 수 없습니다');
+                            
+                            // 모든 버튼 확인
+                            const allTabs = document.querySelectorAll('.quarterly-tab');
+                            console.log('전체 quarterly-tab 개수:', allTabs.length);
+                            allTabs.forEach((tab, i) => {
+                                console.log('Tab ' + i + ':', tab.getAttribute('onclick'));
+                            });
+                        }
+                    `;
+                    
+                    newWindow.document.head.appendChild(script);
+                    console.log('스크립트 주입 완료');
+                    
+                } catch (error) {
+                    console.error('스크립트 주입 실패:', error);
+                    alert('Same-origin 정책으로 인해 테스트할 수 없습니다. 직접 메인 페이지에서 콘솔을 열고 Q1 버튼을 클릭해보세요.');
+                }
+                
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

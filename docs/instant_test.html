@@ -1,0 +1,9 @@
+<!DOCTYPE html><html><head><title>Test</title></head><body><script>
+window.location.href = "/?test=1#autoclick";
+setTimeout(() => {
+  if (typeof showQuarterlyDetail === 'function') {
+    console.log('Function exists, calling...');
+    showQuarterlyDetail('Q1');
+  }
+}, 3000);
+</script></body></html>

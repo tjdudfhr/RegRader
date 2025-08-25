@@ -29,3 +29,13 @@ Server running at http://0.0.0.0:8000/
 Serving files from: /home/user/webapp/docs
 25/Aug/2025 05:35:29 - "GET /test_simple_quarterly.html HTTP/1.1" 200 -
 25/Aug/2025 05:35:29 - "GET /favicon.ico HTTP/1.1" 200 -
+25/Aug/2025 05:36:26 - "GET / HTTP/1.1" 200 -
+25/Aug/2025 05:36:26 - "GET /index.json HTTP/1.1" 200 -
+25/Aug/2025 05:37:55 - "GET / HTTP/1.1" 200 -
+25/Aug/2025 05:37:56 - "GET /index.json HTTP/1.1" 200 -
+25/Aug/2025 05:37:58 - "GET /quarterly_details.json HTTP/1.1" 200 -
+25/Aug/2025 05:37:59 - "GET /quarterly_details.json HTTP/1.1" 200 -
+25/Aug/2025 05:43:03 - "GET / HTTP/1.1" 304 -
+25/Aug/2025 05:43:06 - "GET /quarterly_details.json HTTP/1.1" 304 -
+25/Aug/2025 05:44:26 - "GET / HTTP/1.1" 200 -
+25/Aug/2025 05:44:26 - "GET /index.json HTTP/1.1" 200 -
