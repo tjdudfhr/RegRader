@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html><head><title>Click Test</title></head><body>
+<iframe id="testFrame" src="/" width="100%" height="800px"></iframe>
+<script>
+setTimeout(() => {
+  try {
+    const frame = document.getElementById('testFrame');
+    const doc = frame.contentDocument;
+    const q1 = doc.querySelector('.quarterly-tab');
+    console.log('Q1 element:', q1);
+    
+    // 실제 마우스 클릭 이벤트 생성
+    const clickEvent = new MouseEvent('click', {
+      view: frame.contentWindow,
+      bubbles: true,
+      cancelable: true
+    });
+    
+    console.log('Dispatching click event...');
+    q1.dispatchEvent(clickEvent);
+    
+    // 결과 확인
+    setTimeout(() => {
+      const detail = doc.getElementById('quarterly-detail');
+      console.log('Detail section:', detail?.style.display);
+      if (detail?.style.display === 'block') {
+        alert('✅ 성공! 슬라이드 나타남!');
+      } else {
+        console.log('Still checking...');
+      }
+    }, 2000);
+    
+  } catch(e) {
+    console.log('Error:', e);
+    // 직접 함수 호출로 대체
+    window.open('javascript:showQuarterlyDetail("Q1");void(0);');
+  }
+}, 3000);
+</script>
+</body></html>
