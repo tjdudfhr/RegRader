@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inject Test</title>
+</head>
+<body>
+    <h1>메인 사이트에서 분기탭 테스트</h1>
+    
+    <p>이 버튼을 클릭하면 메인 사이트의 Q1 분기탭을 프로그램적으로 클릭합니다.</p>
+    
+    <button onclick="testMainSite()" style="padding: 20px; font-size: 16px;">메인사이트 Q1 클릭 테스트</button>
+    
+    <script>
+        function testMainSite() {
+            console.log('메인 사이트에서 Q1 클릭 테스트 시작...');
+            
+            // 새 탭에서 메인 사이트 열기
+            const mainSite = window.open('/', '_blank');
+            
+            // 메인 사이트가 로드된 후 Q1 버튼 클릭
+            setTimeout(() => {
+                try {
+                    // 메인 사이트에 스크립트 삽입
+                    mainSite.eval(`
+                        console.log('=== Q1 분기탭 클릭 테스트 ===');
+                        
+                        // Q1 분기탭 찾기
+                        const q1Tab = document.querySelector('.quarterly-tab[onclick*="Q1"]');
+                        if (q1Tab) {
+                            console.log('✅ Q1 분기탭 찾음');
+                            q1Tab.click();
+                            console.log('🖱️ Q1 분기탭 클릭 완료');
+                        } else {
+                            console.error('❌ Q1 분기탭을 찾을 수 없습니다');
+                            
+                            // 모든 quarterly-tab 요소 찾기
+                            const allTabs = document.querySelectorAll('.quarterly-tab');
+                            console.log('📋 찾은 quarterly-tab 요소 수:', allTabs.length);
+                            allTabs.forEach((tab, index) => {
+                                console.log('Tab ' + index + ':', tab.onclick);
+                            });
+                        }
+                    `);
+                } catch (error) {
+                    console.error('크로스 도메인 오류:', error);
+                    alert('크로스 도메인 보안 정책으로 인해 테스트할 수 없습니다. 직접 메인 사이트에서 Q1 버튼을 클릭해보세요.');
+                }
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

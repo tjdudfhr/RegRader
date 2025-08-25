@@ -1609,6 +1609,8 @@
         }
 
         function showQuarterlyDetail(quarter) {
+            console.log('🎯 showQuarterlyDetail 함수 호출:', quarter);
+            
             const quarterInfo = {
                 'Q1': { title: '1분기 개정 법령', period: '2025년 1~3월', months: [1, 2, 3], icon: '🌱' },
                 'Q2': { title: '2분기 개정 법령', period: '2025년 4~6월', months: [4, 5, 6], icon: '☀️' },
@@ -1617,7 +1619,12 @@
             };
             
             const info = quarterInfo[quarter];
-            if (!info) return;
+            if (!info) {
+                console.error('❌ 분기 정보를 찾을 수 없습니다:', quarter);
+                return;
+            }
+            
+            console.log('✅ 분기 정보 확인:', info.title);
 
             // Update visual selection
             document.querySelectorAll('.quarterly-tab').forEach(tab => {
@@ -1626,19 +1633,24 @@
             event.currentTarget.classList.add('selected');
 
             // 2025년 매칭된 법규 데이터를 동적으로 로드하여 분기별 필터링
+            console.log('📡 quarterly_details.json 요청 시작...');
             fetch('quarterly_details.json')
                 .then(response => {
+                    console.log('📡 Response status:', response.status);
                     if (!response.ok) throw new Error('데이터 로드 실패');
                     return response.json();
                 })
                 .then(quarterlyData => {
+                    console.log('✅ quarterly_details.json 로드 성공');
                     const quarterLaws = quarterlyData.quarters[quarter].laws || [];
+                    console.log('📋 ' + quarter + ' 분기 법령 수:', quarterLaws.length + '개');
                     continueShowQuarterlyDetail(quarter, info, quarterLaws);
                 })
                 .catch(error => {
-                    console.error('분기별 데이터 로드 실패:', error);
+                    console.error('❌ 분기별 데이터 로드 실패:', error);
                     // 폴백: matched2025LawData에서 예상 개수 표시
                     const quarterCount = matched2025LawData.by_quarter[quarter] || 0;
+                    console.log('🔄 폴백 데이터 사용, 법령 수:', quarterCount);
                     const fallbackLaws = Array(quarterCount).fill().map((_, index) => ({
                         title: `${quarter} 시행 법령 ${index + 1}`,
                         effective_date: quarter === 'Q1' ? '2025-03-01' : quarter === 'Q2' ? '2025-06-01' : quarter === 'Q3' ? '2025-09-01' : '2025-12-01',
@@ -1652,12 +1664,14 @@
         }
         
         function continueShowQuarterlyDetail(quarter, info, quarterLaws) {
+            console.log('🚀 continueShowQuarterlyDetail 호출:', quarter, '법령 수:', quarterLaws.length);
             // Call the existing showQuarterlyModal function to display the quarterly details
             showQuarterlyModal(quarter, info, quarterLaws);
         }
         
         function showQuarterlyModal(quarter, info, quarterLaws) {
-
+            console.log('📱 showQuarterlyModal 호출 시작:', quarter);
+            
             // Generate detailed content with business categories and law list
             const categoryIcons = {
                 '인사노무': '👥',
@@ -1803,14 +1817,28 @@
             `;
             
             // Insert content and show with animation
+            console.log('📄 내용 삽입 시작...');
             const detailSection = document.getElementById('quarterly-detail');
             const contentDiv = detailSection.querySelector('.quarterly-detail-content');
+            
+            if (!detailSection) {
+                console.error('❌ quarterly-detail 요소를 찾을 수 없습니다!');
+                return;
+            }
+            if (!contentDiv) {
+                console.error('❌ quarterly-detail-content 요소를 찾을 수 없습니다!');
+                return;
+            }
+            
             contentDiv.innerHTML = detailContent;
+            console.log('📄 내용 삽입 완료');
 
             // Smooth slide down animation
             detailSection.style.display = 'block';
+            console.log('👁️ display: block 설정');
             setTimeout(() => {
                 detailSection.classList.add('expanded');
+                console.log('✨ expanded 클래스 추가');
             }, 10);
 
             currentQuarterlyDetail = quarter;
@@ -1818,6 +1846,7 @@
             // Smooth scroll to detail section
             setTimeout(() => {
                 detailSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                console.log('📍 스크롤 이동 완료');
             }, 300);
         }
 
