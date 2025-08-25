@@ -1,0 +1,2623 @@
+{
+  "generated_at": "2025-08-25T04:59:13.633920",
+  "description": "당사 적용 207개 법규와 2025년 정부 법령 100% 정확한 매칭 결과",
+  "source_data": {
+    "company_laws_count": 207,
+    "government_laws_count": 1290
+  },
+  "matching_summary": {
+    "total_matched": 92,
+    "matching_rate": 44.44444444444444,
+    "matching_method": "100%_exact_title_matching"
+  },
+  "quarterly_distribution": {
+    "Q1": {
+      "count": 10,
+      "laws": [
+        {
+          "title": "고용정책 기본법 시행령",
+          "effective_date": "2025-03-25",
+          "categories": [
+            "인사노무"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "독점규제 및 공정거래에 관한 법률 시행령",
+          "effective_date": "2025-03-12",
+          "categories": [
+            "공정거래"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "증권거래세법 시행령",
+          "effective_date": "2025-02-28",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "증권거래세법 시행규칙",
+          "effective_date": "2025-03-21",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "종합부동산세법",
+          "effective_date": "2025-03-14",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "국제조세조정에 관한 법률 시행령",
+          "effective_date": "2025-02-28",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "국제조세조정에 관한 법률 시행규칙",
+          "effective_date": "2025-03-21",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "대기환경보전법",
+          "effective_date": "2025-03-25",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "도시가스사업법",
+          "effective_date": "2025-03-21",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "도시가스사업법 시행령",
+          "effective_date": "2025-03-21",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        }
+      ]
+    },
+    "Q2": {
+      "count": 28,
+      "laws": [
+        {
+          "title": "근로복지기본법 시행령",
+          "effective_date": "2025-04-08",
+          "categories": [
+            "인사노무"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "근로복지기본법 시행규칙",
+          "effective_date": "2025-04-14",
+          "categories": [
+            "인사노무"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "독점규제 및 공정거래에 관한 법률",
+          "effective_date": "2025-04-22",
+          "categories": [
+            "공정거래"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행령",
+          "effective_date": "2025-05-20",
+          "categories": [
+            "정보보호"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "주식회사 등의 외부감사에 관한 법률",
+          "effective_date": "2025-04-01",
+          "categories": [
+            "지배구조"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "주식회사 등의 외부감사에 관한 법률 시행령",
+          "effective_date": "2025-05-20",
+          "categories": [
+            "지배구조"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "법인세법 시행령",
+          "effective_date": "2025-06-04",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "지방세법 시행규칙",
+          "effective_date": "2025-04-30",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "종합부동산세법 시행령",
+          "effective_date": "2025-06-04",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "종합부동산세법 시행규칙",
+          "effective_date": "2025-06-04",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "자본시장과 금융투자업에 관한 법률 시행규칙",
+          "effective_date": "2025-06-02",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "대기환경보전법 시행령",
+          "effective_date": "2025-06-30",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "해양폐기물 및 해양오염퇴적물 관리법",
+          "effective_date": "2025-06-21",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "하수도법 시행규칙",
+          "effective_date": "2025-05-23",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "환경영향평가법 시행령",
+          "effective_date": "2025-05-01",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "환경영향평가법 시행규칙",
+          "effective_date": "2025-04-11",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "환경기술 및 환경산업 지원법 시행령",
+          "effective_date": "2025-04-29",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "환경기술 및 환경산업 지원법 시행규칙",
+          "effective_date": "2025-06-18",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "건설폐기물의 재활용촉진에 관한 법률 시행령",
+          "effective_date": "2025-06-02",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "건설폐기물의 재활용촉진에 관한 법률 시행규칙",
+          "effective_date": "2025-05-29",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "산업안전보건법 시행령",
+          "effective_date": "2025-06-21",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "산업안전보건법 시행규칙",
+          "effective_date": "2025-06-01",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "고압가스 안전관리법 시행규칙",
+          "effective_date": "2025-05-15",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "전기안전관리법 시행규칙",
+          "effective_date": "2025-04-23",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "화재의 예방 및 안전관리에 관한 법률 시행규칙",
+          "effective_date": "2025-06-26",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "도시가스사업법 시행규칙",
+          "effective_date": "2025-05-01",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "원자력안전법 시행령",
+          "effective_date": "2025-04-23",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "식품위생법",
+          "effective_date": "2025-04-01",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        }
+      ]
+    },
+    "Q3": {
+      "count": 40,
+      "laws": [
+        {
+          "title": "장애인차별금지 및 권리구제 등에 관한 법률",
+          "effective_date": "2025-09-19",
+          "categories": [
+            "인사노무"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "고용보험법 시행령",
+          "effective_date": "2025-08-05",
+          "categories": [
+            "인사노무"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "고용보험법 시행규칙",
+          "effective_date": "2025-07-01",
+          "categories": [
+            "인사노무"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "노동조합 및 노동관계조정법 시행령",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "인사노무"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "특허법",
+          "effective_date": "2025-07-22",
+          "categories": [
+            "지식재산권"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "특허법 시행규칙",
+          "effective_date": "2025-07-11",
+          "categories": [
+            "지식재산권"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "실용신안법",
+          "effective_date": "2025-07-22",
+          "categories": [
+            "지식재산권"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "실용신안법 시행규칙",
+          "effective_date": "2025-07-11",
+          "categories": [
+            "지식재산권"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "개인정보 보호법 시행령",
+          "effective_date": "2025-07-01",
+          "categories": [
+            "정보보호"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
+          "effective_date": "2025-07-22",
+          "categories": [
+            "정보보호"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "산업기술의 유출방지 및 보호에 관한 법률",
+          "effective_date": "2025-07-22",
+          "categories": [
+            "정보보호"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "산업기술의 유출방지 및 보호에 관한 법률 시행령",
+          "effective_date": "2025-07-22",
+          "categories": [
+            "정보보호"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "산업기술의 유출방지 및 보호에 관한 법률 시행규칙",
+          "effective_date": "2025-07-22",
+          "categories": [
+            "정보보호"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "상법",
+          "effective_date": "2025-07-22",
+          "categories": [
+            "지배구조"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "법인세법",
+          "effective_date": "2025-07-01",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "법인세법 시행규칙",
+          "effective_date": "2025-07-04",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "지방세법 시행령",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "자본시장과 금융투자업에 관한 법률 시행령",
+          "effective_date": "2025-09-19",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "자본시장과 금융투자업에 관한 법률",
+          "effective_date": "2025-07-22",
+          "categories": [
+            "재무회계"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "대기환경보전법 시행규칙",
+          "effective_date": "2025-09-01",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "토양환경보전법",
+          "effective_date": "2025-09-26",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "토양환경보전법 시행령",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "물환경보전법",
+          "effective_date": "2025-08-28",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "물환경보전법 시행규칙",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "폐기물관리법",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "폐기물관리법 시행령",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "화학물질관리법",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "화학물질관리법 시행령",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "화학물질관리법 시행규칙",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "수도법",
+          "effective_date": "2025-08-17",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "수도법 시행령",
+          "effective_date": "2025-08-17",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "수도법 시행규칙",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "화학물질의 등록 및 평가 등에 관한 법률",
+          "effective_date": "2025-09-26",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "화학물질의 등록 및 평가 등에 관한 법률 시행령",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "화학물질의 등록 및 평가 등에 관한 법률 시행규칙",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "산업안전보건법",
+          "effective_date": "2025-07-22",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "중대재해 처벌 등에 관한 법률 시행령",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "연구실 안전환경 조성에 관한 법률 시행령",
+          "effective_date": "2025-08-07",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "타법개정"
+        },
+        {
+          "title": "감염병의 예방 및 관리에 관한 법률 시행령",
+          "effective_date": "2025-07-31",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "감염병의 예방 및 관리에 관한 법률 시행규칙",
+          "effective_date": "2025-07-31",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        }
+      ]
+    },
+    "Q4": {
+      "count": 14,
+      "laws": [
+        {
+          "title": "근로기준법",
+          "effective_date": "2025-10-23",
+          "categories": [
+            "인사노무"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "근로기준법 시행령",
+          "effective_date": "2025-10-23",
+          "categories": [
+            "인사노무"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "하도급거래 공정화에 관한 법률",
+          "effective_date": "2025-10-02",
+          "categories": [
+            "공정거래"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "개인정보 보호법",
+          "effective_date": "2025-10-02",
+          "categories": [
+            "정보보호"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "토양환경보전법 시행규칙",
+          "effective_date": "2025-10-08",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "폐기물관리법 시행규칙",
+          "effective_date": "2025-10-05",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "하수도법 시행령",
+          "effective_date": "2025-12-11",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "환경영향평가법",
+          "effective_date": "2025-10-23",
+          "categories": [
+            "환경"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "석면안전관리법 시행령",
+          "effective_date": "2025-12-25",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "석면안전관리법 시행규칙",
+          "effective_date": "2025-12-25",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "전기안전관리법",
+          "effective_date": "2025-11-28",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "액화석유가스의 안전관리 및 사업법",
+          "effective_date": "2025-11-28",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "원자력안전법",
+          "effective_date": "2025-10-23",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        },
+        {
+          "title": "감염병의 예방 및 관리에 관한 법률",
+          "effective_date": "2025-10-02",
+          "categories": [
+            "안전"
+          ],
+          "law_type": "일부개정"
+        }
+      ]
+    }
+  },
+  "category_distribution": {
+    "인사노무": 9,
+    "공정거래": 3,
+    "지식재산권": 4,
+    "정보보호": 7,
+    "지배구조": 3,
+    "재무회계": 15,
+    "환경": 30,
+    "안전": 21
+  },
+  "matched_laws": [
+    {
+      "id": "7f052f403601ef6a58e127b65aa316fb",
+      "title": "장애인차별금지 및 권리구제 등에 관한 법률",
+      "categories": [
+        "인사노무"
+      ],
+      "government_info": {
+        "effective_date": "2025-09-19",
+        "law_type": "일부개정",
+        "ministry": "보건복지부",
+        "ls_id": "010420",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010420",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%9E%A5%EC%95%A0%EC%9D%B8%EC%B0%A8%EB%B3%84%EA%B8%88%EC%A7%80%20%EB%B0%8F%20%EA%B6%8C%EB%A6%AC%EA%B5%AC%EC%A0%9C%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.622808"
+    },
+    {
+      "id": "e25b5701e132dfe0388546c92c40b9ee",
+      "title": "근로기준법",
+      "categories": [
+        "인사노무"
+      ],
+      "government_info": {
+        "effective_date": "2025-10-23",
+        "law_type": "일부개정",
+        "ministry": "고용노동부",
+        "ls_id": "001872",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001872",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B7%BC%EB%A1%9C%EA%B8%B0%EC%A4%80%EB%B2%95"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.623381"
+    },
+    {
+      "id": "af3a997608aafe0216ef3a00b99a5e3a",
+      "title": "근로기준법 시행령",
+      "categories": [
+        "인사노무"
+      ],
+      "government_info": {
+        "effective_date": "2025-10-23",
+        "law_type": "일부개정",
+        "ministry": "고용노동부",
+        "ls_id": "003058",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=003058",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B7%BC%EB%A1%9C%EA%B8%B0%EC%A4%80%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.623461"
+    },
+    {
+      "id": "625fc9f904699e1b209b7885f8d86048",
+      "title": "근로복지기본법 시행령",
+      "categories": [
+        "인사노무"
+      ],
+      "government_info": {
+        "effective_date": "2025-04-08",
+        "law_type": "일부개정",
+        "ministry": "고용노동부",
+        "ls_id": "009264",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009264",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B7%BC%EB%A1%9C%EB%B3%B5%EC%A7%80%EA%B8%B0%EB%B3%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.623951"
+    },
+    {
+      "id": "b61994831ac340142ddcbad447d4cc2b",
+      "title": "근로복지기본법 시행규칙",
+      "categories": [
+        "인사노무"
+      ],
+      "government_info": {
+        "effective_date": "2025-04-14",
+        "law_type": "일부개정",
+        "ministry": "고용노동부",
+        "ls_id": "009267",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009267",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B7%BC%EB%A1%9C%EB%B3%B5%EC%A7%80%EA%B8%B0%EB%B3%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.623970"
+    },
+    {
+      "id": "9545ef03295befe4ca1f8651863d61b1",
+      "title": "고용보험법 시행령",
+      "categories": [
+        "인사노무"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-05",
+        "law_type": "일부개정",
+        "ministry": "고용노동부",
+        "ls_id": "002249",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=002249",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B3%A0%EC%9A%A9%EB%B3%B4%ED%97%98%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.624077"
+    },
+    {
+      "id": "ccfd3ec3446fd45397ab652a6fb3d364",
+      "title": "고용보험법 시행규칙",
+      "categories": [
+        "인사노무"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-01",
+        "law_type": "일부개정",
+        "ministry": "고용노동부",
+        "ls_id": "006288",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=006288",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B3%A0%EC%9A%A9%EB%B3%B4%ED%97%98%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.624139"
+    },
+    {
+      "id": "e1059928636681430abdc1b0d6cf43f4",
+      "title": "고용정책 기본법 시행령",
+      "categories": [
+        "인사노무"
+      ],
+      "government_info": {
+        "effective_date": "2025-03-25",
+        "law_type": "일부개정",
+        "ministry": "고용노동부",
+        "ls_id": "002250",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=002250",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B3%A0%EC%9A%A9%EC%A0%95%EC%B1%85%20%EA%B8%B0%EB%B3%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q1",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.624287"
+    },
+    {
+      "id": "aa483f4bfdeb961b2930706ed5eecf46",
+      "title": "노동조합 및 노동관계조정법 시행령",
+      "categories": [
+        "인사노무"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "타법개정",
+        "ministry": "고용노동부",
+        "ls_id": "003166",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=003166",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%85%B8%EB%8F%99%EC%A1%B0%ED%95%A9%20%EB%B0%8F%20%EB%85%B8%EB%8F%99%EA%B4%80%EA%B3%84%EC%A1%B0%EC%A0%95%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.624474"
+    },
+    {
+      "id": "40495afd4e41a4552742467bc6a74eae",
+      "title": "독점규제 및 공정거래에 관한 법률",
+      "categories": [
+        "공정거래"
+      ],
+      "government_info": {
+        "effective_date": "2025-04-22",
+        "law_type": "일부개정",
+        "ministry": "공정거래위원회",
+        "ls_id": "001591",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001591",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%8F%85%EC%A0%90%EA%B7%9C%EC%A0%9C%20%EB%B0%8F%20%EA%B3%B5%EC%A0%95%EA%B1%B0%EB%9E%98%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.624835"
+    },
+    {
+      "id": "f08207fe71be64d029ae9053504a05c4",
+      "title": "독점규제 및 공정거래에 관한 법률 시행령",
+      "categories": [
+        "공정거래"
+      ],
+      "government_info": {
+        "effective_date": "2025-03-12",
+        "law_type": "타법개정",
+        "ministry": "공정거래위원회",
+        "ls_id": "003440",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=003440",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%8F%85%EC%A0%90%EA%B7%9C%EC%A0%9C%20%EB%B0%8F%20%EA%B3%B5%EC%A0%95%EA%B1%B0%EB%9E%98%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q1",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.624847"
+    },
+    {
+      "id": "a3c690739ff8fbfaed23d6330d678c67",
+      "title": "하도급거래 공정화에 관한 법률",
+      "categories": [
+        "공정거래"
+      ],
+      "government_info": {
+        "effective_date": "2025-10-02",
+        "law_type": "일부개정",
+        "ministry": "공정거래위원회",
+        "ls_id": "001590",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001590",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%95%98%EB%8F%84%EA%B8%89%EA%B1%B0%EB%9E%98%20%EA%B3%B5%EC%A0%95%ED%99%94%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.624904"
+    },
+    {
+      "id": "d1b26b25b1c0d9cf8c3a0dc57fc59a6c",
+      "title": "특허법",
+      "categories": [
+        "지식재산권"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-22",
+        "law_type": "일부개정",
+        "ministry": "특허청",
+        "ls_id": "001455",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001455",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%8A%B9%ED%97%88%EB%B2%95"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.625472"
+    },
+    {
+      "id": "4c42cfa604d05df733ae104ecbeac8ce",
+      "title": "특허법 시행규칙",
+      "categories": [
+        "지식재산권"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-11",
+        "law_type": "일부개정",
+        "ministry": "특허청",
+        "ls_id": "008561",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008561",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%8A%B9%ED%97%88%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.625604"
+    },
+    {
+      "id": "b08963503f62d859d7c28f2b1a78c064",
+      "title": "실용신안법",
+      "categories": [
+        "지식재산권"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-22",
+        "law_type": "일부개정",
+        "ministry": "특허청",
+        "ls_id": "001454",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001454",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%8B%A4%EC%9A%A9%EC%8B%A0%EC%95%88%EB%B2%95"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.625730"
+    },
+    {
+      "id": "dea9f09e3ed31c1a8f8068db69565c85",
+      "title": "실용신안법 시행규칙",
+      "categories": [
+        "지식재산권"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-11",
+        "law_type": "일부개정",
+        "ministry": "특허청",
+        "ls_id": "007656",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=007656",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%8B%A4%EC%9A%A9%EC%8B%A0%EC%95%88%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.625838"
+    },
+    {
+      "id": "9161e04067717ea2f72de2e73327fda8",
+      "title": "개인정보 보호법",
+      "categories": [
+        "정보보호"
+      ],
+      "government_info": {
+        "effective_date": "2025-10-02",
+        "law_type": "일부개정",
+        "ministry": "개인정보보호위원회",
+        "ls_id": "011357",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011357",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%20%EB%B3%B4%ED%98%B8%EB%B2%95"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.625913"
+    },
+    {
+      "id": "2cf74db2ba941ae24ebbd26806aeeb9f",
+      "title": "개인정보 보호법 시행령",
+      "categories": [
+        "정보보호"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-01",
+        "law_type": "일부개정",
+        "ministry": "개인정보보호위원회",
+        "ls_id": "011468",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011468",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%20%EB%B3%B4%ED%98%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.625955"
+    },
+    {
+      "id": "12dc0765e3cf8f218885ff1f6b37b732",
+      "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
+      "categories": [
+        "정보보호"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-22",
+        "law_type": "일부개정",
+        "ministry": "과학기술정보통신부,방송통신위원회",
+        "ls_id": "000030",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000030",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A0%95%EB%B3%B4%ED%86%B5%EC%8B%A0%EB%A7%9D%20%EC%9D%B4%EC%9A%A9%EC%B4%89%EC%A7%84%20%EB%B0%8F%20%EC%A0%95%EB%B3%B4%EB%B3%B4%ED%98%B8%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.626002"
+    },
+    {
+      "id": "3575f0f5c8c8a533b02debbedc921286",
+      "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행령",
+      "categories": [
+        "정보보호"
+      ],
+      "government_info": {
+        "effective_date": "2025-05-20",
+        "law_type": "일부개정",
+        "ministry": "과학기술정보통신부,방송통신위원회",
+        "ls_id": "004797",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=004797",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A0%95%EB%B3%B4%ED%86%B5%EC%8B%A0%EB%A7%9D%20%EC%9D%B4%EC%9A%A9%EC%B4%89%EC%A7%84%20%EB%B0%8F%20%EC%A0%95%EB%B3%B4%EB%B3%B4%ED%98%B8%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.626047"
+    },
+    {
+      "id": "324782f8540e6002bff7292e1948a95a",
+      "title": "산업기술의 유출방지 및 보호에 관한 법률",
+      "categories": [
+        "정보보호"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-22",
+        "law_type": "일부개정",
+        "ministry": "산업통상자원부",
+        "ls_id": "010306",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010306",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%82%B0%EC%97%85%EA%B8%B0%EC%88%A0%EC%9D%98%20%EC%9C%A0%EC%B6%9C%EB%B0%A9%EC%A7%80%20%EB%B0%8F%20%EB%B3%B4%ED%98%B8%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.626506"
+    },
+    {
+      "id": "4f99128ad3c295efddc65d041725692e",
+      "title": "산업기술의 유출방지 및 보호에 관한 법률 시행령",
+      "categories": [
+        "정보보호"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-22",
+        "law_type": "일부개정",
+        "ministry": "산업통상자원부",
+        "ls_id": "010430",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010430",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%82%B0%EC%97%85%EA%B8%B0%EC%88%A0%EC%9D%98%20%EC%9C%A0%EC%B6%9C%EB%B0%A9%EC%A7%80%20%EB%B0%8F%20%EB%B3%B4%ED%98%B8%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.626556"
+    },
+    {
+      "id": "47f298ea3c9491ddc27cdcc40e194cc0",
+      "title": "산업기술의 유출방지 및 보호에 관한 법률 시행규칙",
+      "categories": [
+        "정보보호"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-22",
+        "law_type": "일부개정",
+        "ministry": "산업통상자원부",
+        "ls_id": "010429",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010429",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%82%B0%EC%97%85%EA%B8%B0%EC%88%A0%EC%9D%98%20%EC%9C%A0%EC%B6%9C%EB%B0%A9%EC%A7%80%20%EB%B0%8F%20%EB%B3%B4%ED%98%B8%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.626601"
+    },
+    {
+      "id": "167eb84fa83354e17964c337895efcd1",
+      "title": "상법",
+      "categories": [
+        "지배구조"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-22",
+        "law_type": "일부개정",
+        "ministry": "법무부",
+        "ls_id": "001702",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001702",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%83%81%EB%B2%95"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.626958"
+    },
+    {
+      "id": "7a3caf771582de25c401018b21e70b96",
+      "title": "주식회사 등의 외부감사에 관한 법률",
+      "categories": [
+        "지배구조"
+      ],
+      "government_info": {
+        "effective_date": "2025-04-01",
+        "law_type": "일부개정",
+        "ministry": "금융위원회",
+        "ls_id": "001701",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001701",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A3%BC%EC%8B%9D%ED%9A%8C%EC%82%AC%20%EB%93%B1%EC%9D%98%20%EC%99%B8%EB%B6%80%EA%B0%90%EC%82%AC%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627034"
+    },
+    {
+      "id": "f5ca2c2fb394e75d76d6e62c4b2ba5ac",
+      "title": "주식회사 등의 외부감사에 관한 법률 시행령",
+      "categories": [
+        "지배구조"
+      ],
+      "government_info": {
+        "effective_date": "2025-05-20",
+        "law_type": "일부개정",
+        "ministry": "금융위원회",
+        "ls_id": "004940",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=004940",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A3%BC%EC%8B%9D%ED%9A%8C%EC%82%AC%20%EB%93%B1%EC%9D%98%20%EC%99%B8%EB%B6%80%EA%B0%90%EC%82%AC%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627069"
+    },
+    {
+      "id": "c998b3628f5ec9c0e19e7a3e678730f9",
+      "title": "법인세법",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-01",
+        "law_type": "일부개정",
+        "ministry": "기획재정부",
+        "ls_id": "001563",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001563",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%B2%95%EC%9D%B8%EC%84%B8%EB%B2%95"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627174"
+    },
+    {
+      "id": "aa547e3483716463de1df5b180e85eb7",
+      "title": "법인세법 시행령",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-06-04",
+        "law_type": "일부개정",
+        "ministry": "기획재정부",
+        "ls_id": "003608",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=003608",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%B2%95%EC%9D%B8%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627257"
+    },
+    {
+      "id": "9db1ce2328c2f996346024b8d43314b4",
+      "title": "법인세법 시행규칙",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-04",
+        "law_type": "일부개정",
+        "ministry": "기획재정부",
+        "ls_id": "007229",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=007229",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%B2%95%EC%9D%B8%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627320"
+    },
+    {
+      "id": "f78b6c78467afebaecd92385e7a10023",
+      "title": "지방세법 시행령",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "타법개정",
+        "ministry": "행정안전부",
+        "ls_id": "005077",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=005077",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A7%80%EB%B0%A9%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627446"
+    },
+    {
+      "id": "8f78dc4c4cb9af7aaf5f15d92c8df3e3",
+      "title": "지방세법 시행규칙",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-04-30",
+        "law_type": "일부개정",
+        "ministry": "행정안전부",
+        "ls_id": "008334",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008334",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A7%80%EB%B0%A9%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627468"
+    },
+    {
+      "id": "38ff73c664d65249306fbbdac178c42a",
+      "title": "증권거래세법 시행령",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-02-28",
+        "law_type": "일부개정",
+        "ministry": "기획재정부",
+        "ls_id": "005028",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=005028",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A6%9D%EA%B6%8C%EA%B1%B0%EB%9E%98%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q1",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627588"
+    },
+    {
+      "id": "9cce82ce416f6d94218cdcabf35e0289",
+      "title": "증권거래세법 시행규칙",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-03-21",
+        "law_type": "일부개정",
+        "ministry": "기획재정부",
+        "ls_id": "008301",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008301",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A6%9D%EA%B6%8C%EA%B1%B0%EB%9E%98%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q1",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627600"
+    },
+    {
+      "id": "5d85eccd0a6dea497b31c154365251a8",
+      "title": "종합부동산세법 시행령",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-06-04",
+        "law_type": "일부개정",
+        "ministry": "기획재정부",
+        "ls_id": "009968",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009968",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A2%85%ED%95%A9%EB%B6%80%EB%8F%99%EC%82%B0%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627629"
+    },
+    {
+      "id": "29e256206d452d5cd3a1aca689d02837",
+      "title": "종합부동산세법 시행규칙",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-06-04",
+        "law_type": "일부개정",
+        "ministry": "기획재정부",
+        "ls_id": "009967",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009967",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A2%85%ED%95%A9%EB%B6%80%EB%8F%99%EC%82%B0%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627659"
+    },
+    {
+      "id": "9704a1326cebe50d70a058d3adc77c15",
+      "title": "종합부동산세법",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-03-14",
+        "law_type": "일부개정",
+        "ministry": "기획재정부",
+        "ls_id": "009873",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009873",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A2%85%ED%95%A9%EB%B6%80%EB%8F%99%EC%82%B0%EC%84%B8%EB%B2%95"
+      },
+      "quarter": "Q1",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627671"
+    },
+    {
+      "id": "9d9aff406f12d0bf855c564e8afe8d50",
+      "title": "국제조세조정에 관한 법률 시행령",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-02-28",
+        "law_type": "일부개정",
+        "ministry": "기획재정부",
+        "ls_id": "002942",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=002942",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B5%AD%EC%A0%9C%EC%A1%B0%EC%84%B8%EC%A1%B0%EC%A0%95%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q1",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627734"
+    },
+    {
+      "id": "1c5919f4d76c37e0a7c8a5dee5000de6",
+      "title": "국제조세조정에 관한 법률 시행규칙",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-03-21",
+        "law_type": "일부개정",
+        "ministry": "기획재정부",
+        "ls_id": "006780",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=006780",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B5%AD%EC%A0%9C%EC%A1%B0%EC%84%B8%EC%A1%B0%EC%A0%95%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q1",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627751"
+    },
+    {
+      "id": "ef6ed54d772cade9e58fe78cf84eeecb",
+      "title": "자본시장과 금융투자업에 관한 법률 시행령",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-09-19",
+        "law_type": "일부개정",
+        "ministry": "금융위원회",
+        "ls_id": "010817",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010817",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%9E%90%EB%B3%B8%EC%8B%9C%EC%9E%A5%EA%B3%BC%20%EA%B8%88%EC%9C%B5%ED%88%AC%EC%9E%90%EC%97%85%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627806"
+    },
+    {
+      "id": "465ac3b1340bba2f7ce3571a88eb8859",
+      "title": "자본시장과 금융투자업에 관한 법률",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-22",
+        "law_type": "일부개정",
+        "ministry": "금융위원회",
+        "ls_id": "010513",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010513",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%9E%90%EB%B3%B8%EC%8B%9C%EC%9E%A5%EA%B3%BC%20%EA%B8%88%EC%9C%B5%ED%88%AC%EC%9E%90%EC%97%85%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627848"
+    },
+    {
+      "id": "b664b531d577bc1308c983f6ff1c21de",
+      "title": "자본시장과 금융투자업에 관한 법률 시행규칙",
+      "categories": [
+        "재무회계"
+      ],
+      "government_info": {
+        "effective_date": "2025-06-02",
+        "law_type": "일부개정",
+        "ministry": "금융위원회",
+        "ls_id": "010820",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010820",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%9E%90%EB%B3%B8%EC%8B%9C%EC%9E%A5%EA%B3%BC%20%EA%B8%88%EC%9C%B5%ED%88%AC%EC%9E%90%EC%97%85%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627874"
+    },
+    {
+      "id": "00e4ab7cec182aba4bf0935d469ee3c1",
+      "title": "대기환경보전법",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-03-25",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "001773",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001773",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%8C%80%EA%B8%B0%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95"
+      },
+      "quarter": "Q1",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627887"
+    },
+    {
+      "id": "df06b1c1d1c8a82f9d1e2bbc72cc999f",
+      "title": "대기환경보전법 시행령",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-06-30",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "003302",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=003302",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%8C%80%EA%B8%B0%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627922"
+    },
+    {
+      "id": "daa118cd9518c79ca676020e86ed52d8",
+      "title": "대기환경보전법 시행규칙",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-09-01",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "007038",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=007038",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%8C%80%EA%B8%B0%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.627974"
+    },
+    {
+      "id": "3c8891e9c3d99dcb96097d8e0d4ff446",
+      "title": "토양환경보전법",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-09-26",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "000160",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000160",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%86%A0%EC%96%91%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628029"
+    },
+    {
+      "id": "5e0affe1e438dcc1faf48eec23e479ec",
+      "title": "토양환경보전법 시행령",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "타법개정",
+        "ministry": "환경부",
+        "ls_id": "005273",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=005273",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%86%A0%EC%96%91%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628078"
+    },
+    {
+      "id": "a037b5f7bdaf2a7ed8fa9a1c83740536",
+      "title": "토양환경보전법 시행규칙",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-10-08",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "008508",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008508",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%86%A0%EC%96%91%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628134"
+    },
+    {
+      "id": "f6c22b55ddbd39ec10ba36a13127c6e3",
+      "title": "물환경보전법",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-28",
+        "law_type": "타법개정",
+        "ministry": "환경부",
+        "ls_id": "000166",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000166",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%AC%BC%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628186"
+    },
+    {
+      "id": "8e129a91697f4fc231d61a73cb0859d0",
+      "title": "물환경보전법 시행규칙",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "타법개정",
+        "ministry": "환경부",
+        "ls_id": "007575",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=007575",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%AC%BC%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628327"
+    },
+    {
+      "id": "3fd612dde1a3127086a64e7a78b5b994",
+      "title": "폐기물관리법",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "타법개정",
+        "ministry": "환경부",
+        "ls_id": "001771",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001771",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%8F%90%EA%B8%B0%EB%AC%BC%EA%B4%80%EB%A6%AC%EB%B2%95"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628380"
+    },
+    {
+      "id": "e7c6d02f760548d49483c01522a0981f",
+      "title": "폐기물관리법 시행령",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "005353",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=005353",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%8F%90%EA%B8%B0%EB%AC%BC%EA%B4%80%EB%A6%AC%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628430"
+    },
+    {
+      "id": "00f5bba26278f66fc0d6edb1ea24b533",
+      "title": "폐기물관리법 시행규칙",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-10-05",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "008567",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008567",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%8F%90%EA%B8%B0%EB%AC%BC%EA%B4%80%EB%A6%AC%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628486"
+    },
+    {
+      "id": "c97f99dd44937d52669ae57b2916852e",
+      "title": "해양폐기물 및 해양오염퇴적물 관리법",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-06-21",
+        "law_type": "일부개정",
+        "ministry": "해양수산부",
+        "ls_id": "013616",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=013616",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%95%B4%EC%96%91%ED%8F%90%EA%B8%B0%EB%AC%BC%20%EB%B0%8F%20%ED%95%B4%EC%96%91%EC%98%A4%EC%97%BC%ED%87%B4%EC%A0%81%EB%AC%BC%20%EA%B4%80%EB%A6%AC%EB%B2%95"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628520"
+    },
+    {
+      "id": "9cf68fbfb957b75f0eb774a71826c665",
+      "title": "화학물질관리법",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "000162",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000162",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%94%ED%95%99%EB%AC%BC%EC%A7%88%EA%B4%80%EB%A6%AC%EB%B2%95"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628735"
+    },
+    {
+      "id": "9e9361f31496a89804381bc9e1318293",
+      "title": "화학물질관리법 시행령",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "004390",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=004390",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%94%ED%95%99%EB%AC%BC%EC%A7%88%EA%B4%80%EB%A6%AC%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628785"
+    },
+    {
+      "id": "e48439395b1a30574db1775960e6b922",
+      "title": "화학물질관리법 시행규칙",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "007845",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=007845",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%94%ED%95%99%EB%AC%BC%EC%A7%88%EA%B4%80%EB%A6%AC%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.628834"
+    },
+    {
+      "id": "c42077839529ae4253f4d82674fa8302",
+      "title": "하수도법 시행령",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-12-11",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "005369",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=005369",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%95%98%EC%88%98%EB%8F%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.629430"
+    },
+    {
+      "id": "b7afab3d4c5992c9fe111d83738174dd",
+      "title": "하수도법 시행규칙",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-05-23",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "008578",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008578",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%95%98%EC%88%98%EB%8F%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.629468"
+    },
+    {
+      "id": "011fa0c1ffc8414f02a16ddc0bad8a29",
+      "title": "환경영향평가법",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-10-23",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "002016",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=002016",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%98%EA%B2%BD%EC%98%81%ED%96%A5%ED%8F%89%EA%B0%80%EB%B2%95"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.629722"
+    },
+    {
+      "id": "a1a3a6e402edc8100a8c43bacae0fc00",
+      "title": "환경영향평가법 시행령",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-05-01",
+        "law_type": "타법개정",
+        "ministry": "환경부",
+        "ls_id": "009161",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009161",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%98%EA%B2%BD%EC%98%81%ED%96%A5%ED%8F%89%EA%B0%80%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.629747"
+    },
+    {
+      "id": "228a54d16449cb67c386afa402bb4518",
+      "title": "환경영향평가법 시행규칙",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-04-11",
+        "law_type": "타법개정",
+        "ministry": "환경부",
+        "ls_id": "009169",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009169",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%98%EA%B2%BD%EC%98%81%ED%96%A5%ED%8F%89%EA%B0%80%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.629765"
+    },
+    {
+      "id": "1866238fc169089cfe570fcd3e9af118",
+      "title": "환경기술 및 환경산업 지원법 시행령",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-04-29",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "005676",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=005676",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%98%EA%B2%BD%EA%B8%B0%EC%88%A0%20%EB%B0%8F%20%ED%99%98%EA%B2%BD%EC%82%B0%EC%97%85%20%EC%A7%80%EC%9B%90%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.630541"
+    },
+    {
+      "id": "dc394c6c0f646995aab3b0f14d1a82fa",
+      "title": "환경기술 및 환경산업 지원법 시행규칙",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-06-18",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "008748",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008748",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%98%EA%B2%BD%EA%B8%B0%EC%88%A0%20%EB%B0%8F%20%ED%99%98%EA%B2%BD%EC%82%B0%EC%97%85%20%EC%A7%80%EC%9B%90%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.630608"
+    },
+    {
+      "id": "aa777f5f6537e2566726370d8cc084a2",
+      "title": "수도법",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-17",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "001818",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001818",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%88%98%EB%8F%84%EB%B2%95"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.630877"
+    },
+    {
+      "id": "de8c5449cb993927c9f52e5dbe4c5190",
+      "title": "수도법 시행령",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-17",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "004004",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=004004",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%88%98%EB%8F%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.630932"
+    },
+    {
+      "id": "2d427508d7d1852a67886baf8ca6d477",
+      "title": "수도법 시행규칙",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "타법개정",
+        "ministry": "환경부",
+        "ls_id": "007531",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=007531",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%88%98%EB%8F%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.631002"
+    },
+    {
+      "id": "1f48d07607f91b68f535c0d56185b2b6",
+      "title": "화학물질의 등록 및 평가 등에 관한 법률",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-09-26",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "011857",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011857",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%94%ED%95%99%EB%AC%BC%EC%A7%88%EC%9D%98%20%EB%93%B1%EB%A1%9D%20%EB%B0%8F%20%ED%8F%89%EA%B0%80%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.631291"
+    },
+    {
+      "id": "37f675e2a5af2ff4950bb31245203108",
+      "title": "화학물질의 등록 및 평가 등에 관한 법률 시행령",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "012183",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012183",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%94%ED%95%99%EB%AC%BC%EC%A7%88%EC%9D%98%20%EB%93%B1%EB%A1%9D%20%EB%B0%8F%20%ED%8F%89%EA%B0%80%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.631351"
+    },
+    {
+      "id": "36c248a3186f6fe9d51e06bdd9f1a0c3",
+      "title": "화학물질의 등록 및 평가 등에 관한 법률 시행규칙",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "012201",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012201",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%94%ED%95%99%EB%AC%BC%EC%A7%88%EC%9D%98%20%EB%93%B1%EB%A1%9D%20%EB%B0%8F%20%ED%8F%89%EA%B0%80%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.631411"
+    },
+    {
+      "id": "5fd42c1b8e30a7c3a3e61d66facd6929",
+      "title": "건설폐기물의 재활용촉진에 관한 법률 시행령",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-06-02",
+        "law_type": "타법개정",
+        "ministry": "국토교통부,환경부",
+        "ls_id": "009857",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009857",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B1%B4%EC%84%A4%ED%8F%90%EA%B8%B0%EB%AC%BC%EC%9D%98%20%EC%9E%AC%ED%99%9C%EC%9A%A9%EC%B4%89%EC%A7%84%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.631617"
+    },
+    {
+      "id": "047f2464848566eda4e0be2feec2371e",
+      "title": "건설폐기물의 재활용촉진에 관한 법률 시행규칙",
+      "categories": [
+        "환경"
+      ],
+      "government_info": {
+        "effective_date": "2025-05-29",
+        "law_type": "일부개정",
+        "ministry": "국토교통부,환경부",
+        "ls_id": "009880",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009880",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B1%B4%EC%84%A4%ED%8F%90%EA%B8%B0%EB%AC%BC%EC%9D%98%20%EC%9E%AC%ED%99%9C%EC%9A%A9%EC%B4%89%EC%A7%84%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.631645"
+    },
+    {
+      "id": "fcfb871c2fde6b3e729f6fdc336e0a92",
+      "title": "산업안전보건법",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-22",
+        "law_type": "타법개정",
+        "ministry": "고용노동부",
+        "ls_id": "001766",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001766",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%82%B0%EC%97%85%EC%95%88%EC%A0%84%EB%B3%B4%EA%B1%B4%EB%B2%95"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.631690"
+    },
+    {
+      "id": "2e7bad27a19da12c2467d951c66a4079",
+      "title": "산업안전보건법 시행령",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-06-21",
+        "law_type": "타법개정",
+        "ministry": "고용노동부",
+        "ls_id": "003786",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=003786",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%82%B0%EC%97%85%EC%95%88%EC%A0%84%EB%B3%B4%EA%B1%B4%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.631723"
+    },
+    {
+      "id": "a7d1115afa2f39567ecd260e8f8693eb",
+      "title": "산업안전보건법 시행규칙",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-06-01",
+        "law_type": "일부개정",
+        "ministry": "고용노동부",
+        "ls_id": "007364",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=007364",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%82%B0%EC%97%85%EC%95%88%EC%A0%84%EB%B3%B4%EA%B1%B4%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.631751"
+    },
+    {
+      "id": "0f0292adad1b74db9736a00c6d3f93fe",
+      "title": "고압가스 안전관리법 시행규칙",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-05-15",
+        "law_type": "일부개정",
+        "ministry": "산업통상자원부",
+        "ls_id": "006285",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=006285",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B3%A0%EC%95%95%EA%B0%80%EC%8A%A4%20%EC%95%88%EC%A0%84%EA%B4%80%EB%A6%AC%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.631835"
+    },
+    {
+      "id": "86371d75fae47859a2e427b92d764e5a",
+      "title": "중대재해 처벌 등에 관한 법률 시행령",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "타법개정",
+        "ministry": "고용노동부,공정거래위원회,국토교통부,법무부,산업통상자원부,중소벤처기업부,환경부",
+        "ls_id": "014159",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=014159",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A4%91%EB%8C%80%EC%9E%AC%ED%95%B4%20%EC%B2%98%EB%B2%8C%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.632129"
+    },
+    {
+      "id": "85ce15b24831093452eabb45ac172379",
+      "title": "석면안전관리법 시행령",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-12-25",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "011601",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011601",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%84%9D%EB%A9%B4%EC%95%88%EC%A0%84%EA%B4%80%EB%A6%AC%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.632281"
+    },
+    {
+      "id": "d16baee9f86e94621f96931ab57a12f8",
+      "title": "석면안전관리법 시행규칙",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-12-25",
+        "law_type": "일부개정",
+        "ministry": "환경부",
+        "ls_id": "011602",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011602",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%84%9D%EB%A9%B4%EC%95%88%EC%A0%84%EA%B4%80%EB%A6%AC%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.632350"
+    },
+    {
+      "id": "5146e39b3a868d1aadfcfc37d01c1e86",
+      "title": "연구실 안전환경 조성에 관한 법률 시행령",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-08-07",
+        "law_type": "타법개정",
+        "ministry": "과학기술정보통신부",
+        "ls_id": "010191",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010191",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%97%B0%EA%B5%AC%EC%8B%A4%20%EC%95%88%EC%A0%84%ED%99%98%EA%B2%BD%20%EC%A1%B0%EC%84%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.632512"
+    },
+    {
+      "id": "d3869371204be8dbc663639de2fade05",
+      "title": "전기안전관리법",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-11-28",
+        "law_type": "일부개정",
+        "ministry": "산업통상자원부",
+        "ls_id": "013718",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=013718",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A0%84%EA%B8%B0%EC%95%88%EC%A0%84%EA%B4%80%EB%A6%AC%EB%B2%95"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.632626"
+    },
+    {
+      "id": "0e529aba85e3bf56c08cc82225d261c3",
+      "title": "전기안전관리법 시행규칙",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-04-23",
+        "law_type": "일부개정",
+        "ministry": "산업통상자원부",
+        "ls_id": "014058",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=014058",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%A0%84%EA%B8%B0%EC%95%88%EC%A0%84%EA%B4%80%EB%A6%AC%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.632702"
+    },
+    {
+      "id": "65e2dc4a951f1095b7c107a315a52fc8",
+      "title": "화재의 예방 및 안전관리에 관한 법률 시행규칙",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-06-26",
+        "law_type": "일부개정",
+        "ministry": "소방청",
+        "ls_id": "014356",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=014356",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%99%94%EC%9E%AC%EC%9D%98%20%EC%98%88%EB%B0%A9%20%EB%B0%8F%20%EC%95%88%EC%A0%84%EA%B4%80%EB%A6%AC%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.632846"
+    },
+    {
+      "id": "eb60a03fa3b72832e45c9dbc62e6ea5a",
+      "title": "액화석유가스의 안전관리 및 사업법",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-11-28",
+        "law_type": "일부개정",
+        "ministry": "산업통상자원부",
+        "ls_id": "001849",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001849",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%95%A1%ED%99%94%EC%84%9D%EC%9C%A0%EA%B0%80%EC%8A%A4%EC%9D%98%20%EC%95%88%EC%A0%84%EA%B4%80%EB%A6%AC%20%EB%B0%8F%20%EC%82%AC%EC%97%85%EB%B2%95"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.632905"
+    },
+    {
+      "id": "c448f662a3eb2a765df55920a15417cd",
+      "title": "도시가스사업법",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-03-21",
+        "law_type": "일부개정",
+        "ministry": "산업통상자원부",
+        "ls_id": "001851",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001851",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%8F%84%EC%8B%9C%EA%B0%80%EC%8A%A4%EC%82%AC%EC%97%85%EB%B2%95"
+      },
+      "quarter": "Q1",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.633030"
+    },
+    {
+      "id": "638a6eed2509b149fc8655816a648dd5",
+      "title": "도시가스사업법 시행령",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-03-21",
+        "law_type": "일부개정",
+        "ministry": "산업통상자원부",
+        "ls_id": "003420",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=003420",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%8F%84%EC%8B%9C%EA%B0%80%EC%8A%A4%EC%82%AC%EC%97%85%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q1",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.633042"
+    },
+    {
+      "id": "dec3d0ed596203d1eb16085b9ff36147",
+      "title": "도시가스사업법 시행규칙",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-05-01",
+        "law_type": "일부개정",
+        "ministry": "산업통상자원부",
+        "ls_id": "007095",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=007095",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%8F%84%EC%8B%9C%EA%B0%80%EC%8A%A4%EC%82%AC%EC%97%85%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.633064"
+    },
+    {
+      "id": "2f1d684c6dcb3e966b7301f08692aebe",
+      "title": "원자력안전법",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-10-23",
+        "law_type": "일부개정",
+        "ministry": "원자력안전위원회",
+        "ls_id": "011435",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011435",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%9B%90%EC%9E%90%EB%A0%A5%EC%95%88%EC%A0%84%EB%B2%95"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.633178"
+    },
+    {
+      "id": "4acb16d06cf1195bc057bb96378fdb14",
+      "title": "원자력안전법 시행령",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-04-23",
+        "law_type": "일부개정",
+        "ministry": "원자력안전위원회",
+        "ls_id": "011484",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011484",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%9B%90%EC%9E%90%EB%A0%A5%EC%95%88%EC%A0%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.633206"
+    },
+    {
+      "id": "8ebbb8b8ffa1938a716b917cf34e03fc",
+      "title": "감염병의 예방 및 관리에 관한 법률",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-10-02",
+        "law_type": "일부개정",
+        "ministry": "보건복지부,질병관리청",
+        "ls_id": "001792",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001792",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B0%90%EC%97%BC%EB%B3%91%EC%9D%98%20%EC%98%88%EB%B0%A9%20%EB%B0%8F%20%EA%B4%80%EB%A6%AC%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
+      },
+      "quarter": "Q4",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.633532"
+    },
+    {
+      "id": "cbe79461894d3726acd3b9cfb670d4e0",
+      "title": "감염병의 예방 및 관리에 관한 법률 시행령",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-31",
+        "law_type": "일부개정",
+        "ministry": "보건복지부,질병관리청",
+        "ls_id": "004750",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=004750",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B0%90%EC%97%BC%EB%B3%91%EC%9D%98%20%EC%98%88%EB%B0%A9%20%EB%B0%8F%20%EA%B4%80%EB%A6%AC%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.633577"
+    },
+    {
+      "id": "897499bfc679d2b8e32fc814c5a2c3df",
+      "title": "감염병의 예방 및 관리에 관한 법률 시행규칙",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-07-31",
+        "law_type": "일부개정",
+        "ministry": "보건복지부,질병관리청",
+        "ls_id": "008083",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=008083",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B0%90%EC%97%BC%EB%B3%91%EC%9D%98%20%EC%98%88%EB%B0%A9%20%EB%B0%8F%20%EA%B4%80%EB%A6%AC%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99"
+      },
+      "quarter": "Q3",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.633621"
+    },
+    {
+      "id": "8819ef8e0bd03be37b345ebf49da9c39",
+      "title": "식품위생법",
+      "categories": [
+        "안전"
+      ],
+      "government_info": {
+        "effective_date": "2025-04-01",
+        "law_type": "일부개정",
+        "ministry": "식품의약품안전처",
+        "ls_id": "001805",
+        "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001805",
+        "search_url": "https://www.law.go.kr/lsSc.do?query=%EC%8B%9D%ED%92%88%EC%9C%84%EC%83%9D%EB%B2%95"
+      },
+      "quarter": "Q2",
+      "year": 2025,
+      "match_type": "100%_exact_title",
+      "match_confidence": 1.0,
+      "matched_at": "2025-08-25T04:59:13.633635"
+    }
+  ]
+}
