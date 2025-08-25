@@ -58,3 +58,17 @@ Serving files from: /home/user/webapp/docs
 25/Aug/2025 23:30:12 - "GET / HTTP/1.1" 200 -
 25/Aug/2025 23:30:12 - "GET /index.json HTTP/1.1" 200 -
 25/Aug/2025 23:30:12 - "GET /quarterly_details.json HTTP/1.1" 200 -
+25/Aug/2025 23:33:12 - "GET / HTTP/1.1" 200 -
+25/Aug/2025 23:33:19 - "GET / HTTP/1.1" 200 -
+25/Aug/2025 23:33:19 - "GET /index.json HTTP/1.1" 200 -
+25/Aug/2025 23:33:19 - "GET /quarterly_details.json HTTP/1.1" 200 -
+✅ 서버가 포트 8000에서 시작되었습니다.
+📁 문서 루트: /home/user/webapp/docs
+25/Aug/2025 23:35:05 - "GET / HTTP/1.1" 200 -
+25/Aug/2025 23:35:05 - "GET /index.json HTTP/1.1" 200 -
+25/Aug/2025 23:35:05 - "GET /quarterly_details.json HTTP/1.1" 200 -
+✅ 서버가 포트 8000에서 시작되었습니다.
+📁 문서 루트: /home/user/webapp/docs
+25/Aug/2025 23:45:57 - "GET / HTTP/1.1" 200 -
+25/Aug/2025 23:45:57 - "GET /index.json HTTP/1.1" 200 -
+25/Aug/2025 23:45:57 - "GET /quarterly_details.json HTTP/1.1" 200 -

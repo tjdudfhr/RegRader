@@ -2671,10 +2671,23 @@
                 }
                 
                 const data = await response.json();
-                console.log('📋 데이터 로드 완료:', data.items?.length || 0, '건');
                 
-                lawsData = data.items || [];
+                console.log('🔍 원본 데이터 구조:', Object.keys(data));
+                console.log('🔍 data.items 존재 여부:', !!data.items);
+                console.log('🔍 data.items 타입:', typeof data.items);
+                
+                if (data.items && Array.isArray(data.items)) {
+                    console.log('📋 데이터 로드 완료:', data.items.length, '건');
+                    lawsData = data.items;
+                } else {
+                    console.error('❌ data.items가 배열이 아닙니다:', data.items);
+                    lawsData = [];
+                }
+                
                 filteredLaws = [...lawsData];
+                
+                console.log('🔍 최종 lawsData:', lawsData.length, '개');
+                console.log('🔍 최종 filteredLaws:', filteredLaws.length, '개');
                 
                 // 헤더 정보 업데이트
                 document.getElementById('year').textContent = data.year || 2025;
@@ -2684,6 +2697,7 @@
                 // 실제 2025년 시행일자 데이터를 병합
                 await updateLawsWithRealEffectiveDates();
                 
+                console.log('🔍 displayLawList 호출 시점의 filteredLaws:', filteredLaws.length, '개');
                 displayLawList(filteredLaws);
                 updateTabCounts();
                 updateQuarterlyCounts();
@@ -2700,7 +2714,10 @@
                 // 전체 법규 개수 업데이트
                 const totalLawCountElement = document.getElementById('total-law-count');
                 if (totalLawCountElement) {
+                    console.log('🔍 전체 법규 개수 업데이트:', lawsData.length);
+                    console.log('🔍 업데이트 전 표시값:', totalLawCountElement.textContent);
                     totalLawCountElement.textContent = lawsData.length;
+                    console.log('🔍 업데이트 후 표시값:', totalLawCountElement.textContent);
                 }
                 
                 // 2025년 법규 분류 및 개수 업데이트
