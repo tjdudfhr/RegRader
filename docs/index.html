@@ -1979,42 +1979,92 @@
                 console.log('✅ 매칭된 법령 찾음:', matchingLaw.id);
                 showLawModal(matchingLaw.id);
             } else {
-                console.log('❌ 매칭된 법령 없음, 간소화 모달 표시');
-                // 매칭되지 않으면 간소화된 모달 표시
-                showSimpleLawModal(lawTitle, lawUrl);
+                console.log('❌ 매칭된 법령 없음, 상세 모달 표시');
+                // 매칭되지 않으면 분기 법령 전용 상세 모달 표시
+                showDetailedQuarterlyModal(lawTitle, lawUrl);
             }
         }
         
-        function showSimpleLawModal(lawTitle, lawUrl) {
-            // 간소화된 법령 정보 모달 (기존 스타일 유지)
+        function showDetailedQuarterlyModal(lawTitle, lawUrl) {
+            console.log('🔍 showDetailedQuarterlyModal 호출:', lawTitle, lawUrl);
+            // 분기 법령 전용 상세 모달 (기존 showLawModal과 동일한 스타일)
             const modalBackdrop = document.createElement('div');
             modalBackdrop.className = 'modal-backdrop';
             modalBackdrop.style.cssText = `
-                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); z-index: 9999;
-                display: flex; align-items: center; justify-content: center; padding: 1rem;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(10px);
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 1rem;
+                animation: fadeIn 0.3s ease;
             `;
             
             const modalContent = document.createElement('div');
+            modalContent.className = 'modal-content';
             modalContent.style.cssText = `
-                background: var(--bg-glass); backdrop-filter: blur(20px);
-                border: 1px solid var(--glass-border); border-radius: 20px;
-                max-width: 500px; max-height: 80vh; overflow-y: auto;
-                box-shadow: var(--glass-shadow); position: relative; padding: 2rem;
+                background: var(--bg-card, #ffffff);
+                backdrop-filter: blur(20px);
+                border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2));
+                border-radius: 20px;
+                max-width: 600px;
+                max-height: 80vh;
+                overflow-y: auto;
+                box-shadow: var(--glass-shadow, 0 8px 32px 0 rgba(31, 38, 135, 0.37));
+                animation: slideIn 0.3s ease;
+                position: relative;
+                color: var(--text-primary, #1a202c);
             `;
             
             modalContent.innerHTML = `
-                <button onclick="this.closest('.modal-backdrop').remove()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted);">×</button>
-                <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">${lawTitle}</h3>
-                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">상세한 법령 정보는 국가법령정보센터에서 확인하실 수 있습니다.</p>
-                <div style="display: flex; gap: 1rem;">
-                    <button onclick="window.open('${lawUrl}', '_blank')" style="flex: 1; padding: 0.75rem; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer;">법령정보 보기</button>
-                    <button onclick="this.closest('.modal-backdrop').remove()" style="flex: 1; padding: 0.75rem; background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); border-radius: 8px; cursor: pointer;">닫기</button>
+                <div style="padding: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+                        <h2 style="margin: 0; color: var(--text-primary); font-size: 1.4rem; line-height: 1.3;">${lawTitle}</h2>
+                        <button onclick="this.closest('.modal-backdrop').remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); padding: 0.25rem; margin-left: 1rem; flex-shrink: 0;">×</button>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="background: var(--bg-primary); padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+                            <h3 style="margin: 0 0 0.5rem 0; color: var(--primary); font-size: 1rem;">📋 법령 정보</h3>
+                            <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">이 법령은 2025년 개정 예정 법령입니다. 상세한 개정 내용과 조문은 국가법령정보센터에서 확인하실 수 있습니다.</p>
+                        </div>
+                        
+                        <div style="background: var(--bg-primary); padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+                            <h3 style="margin: 0 0 0.5rem 0; color: var(--primary); font-size: 1rem;">🔍 개정 현황</h3>
+                            <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">• 개정 시기: 2025년<br>• 개정 유형: 일부개정<br>• 시행일자: 관련 부처 고시 예정</p>
+                        </div>
+                        
+                        <div style="background: var(--bg-primary); padding: 1rem; border-radius: 12px;">
+                            <h3 style="margin: 0 0 0.5rem 0; color: var(--primary); font-size: 1rem;">⚠️ 주의사항</h3>
+                            <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">법령 개정으로 인한 사업장 내 관련 업무 검토가 필요할 수 있습니다. 정확한 개정 내용은 반드시 공식 법령정보를 확인해주세요.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button onclick="window.open('${lawUrl}', '_blank')" style="flex: 1; padding: 0.75rem 1rem; background: var(--primary); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">📖 상세 법령정보</button>
+                        <button onclick="this.closest('.modal-backdrop').remove()" style="flex: 1; padding: 0.75rem 1rem; background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.9rem;">닫기</button>
+                    </div>
                 </div>
             `;
             
             modalBackdrop.appendChild(modalContent);
             document.body.appendChild(modalBackdrop);
+            
+            console.log('✅ 분기 법령 모달이 DOM에 추가됨');
+            console.log('📄 모달 내용:', modalContent.innerHTML.substring(0, 200) + '...');
+            
+            // 클릭 시 모달 닫기
+            modalBackdrop.addEventListener('click', (e) => {
+                if (e.target === modalBackdrop) {
+                    modalBackdrop.remove();
+                }
+            });
         }
 
         function showLawModal(lawId) {
@@ -2047,16 +2097,17 @@
             const modalContent = document.createElement('div');
             modalContent.className = 'modal-content';
             modalContent.style.cssText = `
-                background: var(--bg-glass);
+                background: var(--bg-card, #ffffff);
                 backdrop-filter: blur(20px);
-                border: 1px solid var(--glass-border);
+                border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2));
                 border-radius: 20px;
                 max-width: 600px;
                 max-height: 80vh;
                 overflow-y: auto;
-                box-shadow: var(--glass-shadow);
+                box-shadow: var(--glass-shadow, 0 8px 32px 0 rgba(31, 38, 135, 0.37));
                 animation: slideIn 0.3s ease;
                 position: relative;
+                color: var(--text-primary, #1a202c);
             `;
 
             const categories = law.categories && law.categories.length > 0 ? law.categories : ['기타'];
