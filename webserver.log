@@ -1,0 +1,17 @@
+Server running at http://0.0.0.0:8000/
+Serving files from: /home/user/webapp/docs
+25/Aug/2025 05:18:10 - "GET / HTTP/1.1" 200 -
+Server running at http://0.0.0.0:8000/
+Serving files from: /home/user/webapp/docs
+25/Aug/2025 05:21:13 - "GET / HTTP/1.1" 200 -
+25/Aug/2025 05:22:30 - "GET /test.html HTTP/1.1" 200 -
+25/Aug/2025 05:22:30 - "GET /quarterly_details.json HTTP/1.1" 200 -
+25/Aug/2025 05:22:30 - "GET /favicon.ico HTTP/1.1" 200 -
+Server running at http://0.0.0.0:8000/
+Serving files from: /home/user/webapp/docs
+Server running at http://0.0.0.0:8000/
+Serving files from: /home/user/webapp/docs
+25/Aug/2025 05:23:51 - "GET / HTTP/1.1" 200 -
+25/Aug/2025 05:23:52 - "GET /index.json HTTP/1.1" 200 -
+25/Aug/2025 05:24:14 - "GET /test_quarterly.html HTTP/1.1" 200 -
+25/Aug/2025 05:24:14 - "GET /favicon.ico HTTP/1.1" 200 -

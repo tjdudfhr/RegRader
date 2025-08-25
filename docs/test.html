@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page</title>
+</head>
+<body>
+    <h1>Test Page Working</h1>
+    <script>
+        console.log('JavaScript is working');
+        
+        function testQuarterlyDetail() {
+            console.log('Testing quarterly detail function');
+            fetch('quarterly_details.json')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Quarterly data loaded:', data);
+                })
+                .catch(error => {
+                    console.error('Error loading quarterly data:', error);
+                });
+        }
+        
+        testQuarterlyDetail();
+    </script>
+</body>
+</html>

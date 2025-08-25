@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Quarterly Functionality</title>
+</head>
+<body>
+    <h1>Testing Quarterly Functionality</h1>
+    <button onclick="testQuarterly()">Test Q1 Data</button>
+    <div id="result"></div>
+    
+    <script>
+        function testQuarterly() {
+            console.log('Testing quarterly functionality...');
+            
+            fetch('quarterly_details.json')
+                .then(response => response.json())
+                .then(quarterlyData => {
+                    const q1Laws = quarterlyData.quarters.Q1.laws || [];
+                    console.log('Q1 laws loaded:', q1Laws.length);
+                    console.log('Sample Q1 law:', q1Laws[0]);
+                    
+                    document.getElementById('result').innerHTML = `
+                        <h2>Q1 분기 (${q1Laws.length}개 법령)</h2>
+                        <h3>첫 번째 법령:</h3>
+                        <p><strong>제목:</strong> ${q1Laws[0]?.title}</p>
+                        <p><strong>시행일:</strong> ${q1Laws[0]?.effective_date}</p>
+                        <p><strong>부처:</strong> ${q1Laws[0]?.ministry}</p>
+                        <p><strong>분류:</strong> ${q1Laws[0]?.categories?.join(', ')}</p>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('result').innerHTML = '<p style="color: red;">Error: ' + error.message + '</p>';
+                });
+        }
+    </script>
+</body>
+</html>
