@@ -1969,39 +1969,95 @@
                 });
         }
 
-        function showQuarterlyLawModal(lawTitle, lawUrl) {
+        async function showQuarterlyLawModal(lawTitle, lawUrl) {
             console.log('🔍 분기 법령 모달 열기:', lawTitle);
             
-            // lawsData에서 제목으로 매칭하여 찾기 (정확한 매칭 우선)
+            // 1단계: lawsData에서 정확한 매칭 시도
             let matchingLaw = lawsData.find(law => law.title === lawTitle);
             
-            // 정확한 매칭이 안되면 부분 매칭 시도
+            // 2단계: 부분 매칭 시도
             if (!matchingLaw) {
-                // 법령명에서 핵심 키워드 추출하여 부분 매칭
-                const cleanTitle = lawTitle.replace(/시행령|시행규칙|개정안|일부개정|전부개정/g, '').trim();
-                matchingLaw = lawsData.find(law => 
-                    law.title.includes(cleanTitle) || 
-                    cleanTitle.includes(law.title.replace(/시행령|시행규칙/g, '').trim())
-                );
+                const cleanTitle = lawTitle.replace(/\s*(시행령|시행규칙|개정안|일부개정|전부개정)\s*/g, '').trim();
+                matchingLaw = lawsData.find(law => {
+                    const cleanLawTitle = law.title.replace(/\s*(시행령|시행규칙)\s*/g, '').trim();
+                    return law.title.includes(cleanTitle) || 
+                           cleanTitle.includes(cleanLawTitle) ||
+                           cleanLawTitle.includes(cleanTitle);
+                });
             }
             
+            // 3단계: quarterly_details.json에서 실제 데이터 가져오기
+            if (!matchingLaw) {
+                try {
+                    const response = await fetch('quarterly_details.json');
+                    const quarterlyData = await response.json();
+                    
+                    // 모든 분기에서 해당 법령 찾기
+                    let quarterlyLaw = null;
+                    Object.values(quarterlyData.quarters).forEach(quarter => {
+                        const found = quarter.laws.find(law => law.title === lawTitle);
+                        if (found) quarterlyLaw = found;
+                    });
+                    
+                    if (quarterlyLaw) {
+                        console.log('✅ quarterly_details.json에서 법령 찾음:', quarterlyLaw.title);
+                        
+                        // 실제 정부 데이터로 상세한 임시 법령 데이터 생성
+                        const tempLawData = {
+                            id: 'quarterly_' + Date.now(),
+                            title: quarterlyLaw.title,
+                            categories: quarterlyLaw.categories || ['기타'],
+                            effectiveDate: quarterlyLaw.effective_date,
+                            lawType: quarterlyLaw.law_type,
+                            summary: `이 법령은 ${quarterlyLaw.effective_date}에 시행되는 2025년 개정 법령입니다. ${quarterlyLaw.ministry}에서 관장하며, ${quarterlyLaw.law_type}으로 개정됩니다.`,
+                            amendmentDetails: [
+                                `개정 시기: ${quarterlyLaw.effective_date}`,
+                                `개정 유형: ${quarterlyLaw.law_type}`,
+                                `관장 부처: ${quarterlyLaw.ministry}`,
+                                `업무 분야: ${quarterlyLaw.categories?.join(', ') || '기타'}`,
+                                '법령 개정으로 인한 사업장 내 관련 업무 검토가 필요할 수 있습니다.'
+                            ],
+                            links: [
+                                {
+                                    title: '상세 법령정보 (국가법령정보센터)',
+                                    url: quarterlyLaw.detail_url || quarterlyLaw.search_url || lawUrl
+                                }
+                            ],
+                            meta: {
+                                ministry: quarterlyLaw.ministry,
+                                lsId: quarterlyLaw.detail_url?.match(/lsId=(\d+)/)?.[1]
+                            }
+                        };
+                        
+                        // 임시로 lawsData에 추가
+                        lawsData.push(tempLawData);
+                        
+                        // 기존 showLawModal 호출 (직무별 탭과 동일한 상세 모달)
+                        showLawModal(tempLawData.id);
+                        return;
+                    }
+                } catch (error) {
+                    console.warn('⚠️ quarterly_details.json 로드 실패:', error);
+                }
+            }
+            
+            // 4단계: 매칭된 법령이 있으면 기존 showLawModal 호출
             if (matchingLaw) {
-                console.log('✅ 매칭된 법령 찾음:', matchingLaw.id);
+                console.log('✅ lawsData에서 매칭된 법령 찾음:', matchingLaw.id);
                 showLawModal(matchingLaw.id);
             } else {
-                console.log('❌ 매칭된 법령 없음, 직무별 탭과 동일한 방식으로 처리');
-                // 직무별 탭과 동일하게 처리: 임시 법령 데이터 생성하여 showLawModal 호출
+                console.log('❌ 법령을 찾을 수 없음, 기본 모달 표시');
+                // 최종 폴백: 기본 모달
                 const tempLawData = {
-                    id: 'quarterly_' + Date.now(),
+                    id: 'quarterly_fallback_' + Date.now(),
                     title: lawTitle,
-                    categories: ['환경'], // 기본 카테고리
+                    categories: ['기타'],
                     effectiveDate: '2025-01-01',
                     summary: '이 법령은 2025년 개정 예정 법령입니다. 상세한 개정 내용과 조문은 국가법령정보센터에서 확인하실 수 있습니다.',
                     amendmentDetails: [
                         '개정 시기: 2025년',
-                        '개정 유형: 일부개정', 
-                        '시행일자: 관련 부처 고시 예정',
-                        '법령 개정으로 인한 사업장 내 관련 업무 검토가 필요할 수 있습니다.'
+                        '개정 유형: 일부개정',
+                        '시행일자: 관련 부처 고시 예정'
                     ],
                     links: [
                         {
@@ -2011,10 +2067,7 @@
                     ]
                 };
                 
-                // 임시로 lawsData에 추가
                 lawsData.push(tempLawData);
-                
-                // 기존 showLawModal 호출
                 showLawModal(tempLawData.id);
             }
         }
@@ -2249,6 +2302,50 @@
             initializeSearch();
         });
 
+        async function updateLawsWithRealEffectiveDates() {
+            try {
+                console.log('📅 실제 시행일자 데이터 로딩 중...');
+                const response = await fetch('quarterly_details.json');
+                if (!response.ok) return;
+                
+                const quarterlyData = await response.json();
+                const realEffectiveDates = {};
+                
+                // 모든 분기의 실제 시행일자 데이터 수집
+                Object.values(quarterlyData.quarters).forEach(quarter => {
+                    quarter.laws.forEach(law => {
+                        if (law.effective_date && law.title) {
+                            realEffectiveDates[law.title] = law.effective_date;
+                            // 시행령, 시행규칙 등의 변형도 고려
+                            const baseTitle = law.title.replace(/\s*(시행령|시행규칙)\s*$/, '');
+                            realEffectiveDates[baseTitle] = law.effective_date;
+                        }
+                    });
+                });
+                
+                // lawsData의 시행일자 업데이트
+                let updatedCount = 0;
+                lawsData.forEach(law => {
+                    if (realEffectiveDates[law.title]) {
+                        law.effectiveDate = realEffectiveDates[law.title];
+                        updatedCount++;
+                    } else {
+                        // 부분 매칭 시도
+                        const baseTitle = law.title.replace(/\s*(시행령|시행규칙)\s*$/, '');
+                        if (realEffectiveDates[baseTitle]) {
+                            law.effectiveDate = realEffectiveDates[baseTitle];
+                            updatedCount++;
+                        }
+                    }
+                });
+                
+                console.log(`✅ ${updatedCount}개 법령의 실제 시행일자 업데이트 완료`);
+                
+            } catch (error) {
+                console.warn('⚠️ 실제 시행일자 업데이트 실패:', error);
+            }
+        }
+
         async function loadData() {
             try {
                 console.log('🚀 데이터 로딩 시작...');
@@ -2269,6 +2366,9 @@
                 const date = new Date((data.generatedAt || 0) * 1000);
                 document.getElementById('timestamp').textContent = date.toLocaleString('ko-KR');
 
+                // 실제 2025년 시행일자 데이터를 병합
+                await updateLawsWithRealEffectiveDates();
+                
                 displayLawList(filteredLaws);
                 updateTabCounts();
                 updateQuarterlyCounts();
