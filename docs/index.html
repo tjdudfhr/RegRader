@@ -1568,8 +1568,8 @@
             });
             event.currentTarget.classList.add('selected');
 
-            // Filter laws for this quarter
-            const quarterLaws = lawsData.filter(law => {
+            // Filter laws for this quarter using precise data
+            const quarterLaws = preciseLawsData.filter(law => {
                 if (!law.effectiveDate) return false;
                 const date = new Date(law.effectiveDate);
                 return info.months.includes(date.getMonth() + 1);
@@ -1753,8 +1753,8 @@
             const info = quarterInfo[quarter];
             if (!info) return;
 
-            // Get all laws for this quarter
-            const quarterLaws = lawsData.filter(law => {
+            // Get all laws for this quarter using precise data
+            const quarterLaws = preciseLawsData.filter(law => {
                 if (!law.effectiveDate) return false;
                 const date = new Date(law.effectiveDate);
                 return info.months.includes(date.getMonth() + 1);
@@ -2603,8 +2603,8 @@
             const info = quarterInfo[quarter];
             if (!info) return;
             
-            // Filter laws for this quarter
-            const quarterLaws = lawsData.filter(law => {
+            // Filter laws for this quarter using precise data
+            const quarterLaws = preciseLawsData.filter(law => {
                 if (!law.effectiveDate) return false;
                 const date = new Date(law.effectiveDate);
                 const month = date.getMonth() + 1;
