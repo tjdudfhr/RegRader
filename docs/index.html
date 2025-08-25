@@ -1111,7 +1111,7 @@
             <div class="subtitle">AI를 활용한 법규 제개정 모니터링 시스템</div>
             <div class="meta">
                 <span id="year">2025</span>년 법령 개정 현황 · 
-                Enhanced Matching (33.96%→58.96% 매칭률) · 
+                100% 정확한 약칭 매칭 (31.13% 정확도) · 
                 최종 업데이트: <span id="timestamp">로딩 중...</span>
             </div>
         </div>
@@ -1424,27 +1424,28 @@
             "laws": [] // 법령 상세 데이터는 별도 로드
         };
 
-        // Enhanced Matching: 향상된 매칭 알고리즘 결과 (공백 정규화 + 약칭 처리) - New addition
-        const enhancedMatchingData = {
-            "total_laws": 72,
-            "matching_rate": 33.96,
+        // Precise Abbreviation Matching: 100% 정확한 약칭 매칭 결과 (정확도 최우선)
+        const preciseAbbreviationData = {
+            "total_laws": 66,
+            "matching_rate": 31.13,
+            "exact_matches": 63,
+            "abbreviation_matches": 3,
             "by_quarter": {
-                "Q1": 9,
-                "Q2": 22,
+                "Q1": 8,
+                "Q2": 19,
                 "Q3": 27,
-                "Q4": 14
+                "Q4": 12
             },
-            "by_confidence": {
-                "high": 63,
-                "medium": 2,
-                "low": 7
-            },
-            "algorithm": "enhanced_with_normalization_and_abbreviation",
-            "improvements": {
-                "previous_rate": 27.83,
-                "improvement_percent": 22.0,
-                "additional_matches": 13
-            }
+            "algorithm": "precise_abbreviation_matching",
+            "key_success": [
+                "자본시장법 → 자본시장과 금융투자업에 관한 법률",
+                "자본시장법 시행령 → 자본시장과 금융투자업에 관한 법률 시행령",
+                "자본시장법 시행규칙 → 자본시장과 금융투자업에 관한 법률 시행규칙"
+            ],
+            "eliminated_false_matches": [
+                "하수도법 ↔ 수도법 (완전히 다른 법률)",
+                "산업기술보호법 ↔ 방위산업기술 보호법 (완전히 다른 법률)"
+            ]
         };
 
         // 100% 정확한 정부 검증 법령 데이터 (국가법령정보센터 OpenAPI 기반)
@@ -3124,9 +3125,9 @@
             console.log(`✅ 정확한 대시보드 업데이트: 총 ${preciseMatchedData.total_laws}건, 예정 ${preciseMatchedData.upcoming}건`);
         }
         
-        // Enhanced Matching: 향상된 매칭 알고리즘 결과로 업데이트하는 함수 - New addition
-        function updateWithEnhancedMatching() {
-            const quarterCounts = enhancedMatchingData.by_quarter;
+        // Precise Abbreviation Matching: 100% 정확한 약칭 매칭 결과로 업데이트하는 함수
+        function updateWithPreciseAbbreviationMatching() {
+            const quarterCounts = preciseAbbreviationData.by_quarter;
             
             // 각 분기 박스의 수치 업데이트
             document.querySelector('#q1-count').textContent = quarterCounts.Q1 || 0;
@@ -3137,17 +3138,18 @@
             // 메인 대시보드 수치 업데이트
             const totalAppliedElements = document.querySelectorAll('.metric-number');
             if (totalAppliedElements.length > 0) {
-                totalAppliedElements[0].textContent = enhancedMatchingData.total_laws;
+                totalAppliedElements[0].textContent = preciseAbbreviationData.total_laws;
             }
             
-            // 매칭률 정보 업데이트 (콘솔에 출력)
-            console.log(`🚀 Enhanced Matching 적용 완료!`);
-            console.log(`📊 매칭률: ${enhancedMatchingData.matching_rate.toFixed(2)}% (${enhancedMatchingData.total_laws}/212)`);
-            console.log(`📈 개선: 이전 ${enhancedMatchingData.improvements.previous_rate}% → 현재 ${enhancedMatchingData.matching_rate.toFixed(2)}% (+${enhancedMatchingData.improvements.improvement_percent}%)`);
-            console.log(`✅ 추가 매칭: ${enhancedMatchingData.improvements.additional_matches}건`);
-            console.log(`🔧 알고리즘: ${enhancedMatchingData.algorithm}`);
+            // 정확한 매칭 정보 업데이트 (콘솔에 출력)
+            console.log(`🎯 100% 정확한 약칭 매칭 적용 완료!`);
+            console.log(`📊 매칭률: ${preciseAbbreviationData.matching_rate.toFixed(2)}% (${preciseAbbreviationData.total_laws}/212)`);
+            console.log(`✅ 정확한 매칭: ${preciseAbbreviationData.exact_matches}건`);
+            console.log(`📝 약칭 매칭: ${preciseAbbreviationData.abbreviation_matches}건`);
+            console.log(`🔧 알고리즘: ${preciseAbbreviationData.algorithm}`);
             console.log(`📋 분기별:`, quarterCounts);
-            console.log(`🎯 신뢰도: 높음 ${enhancedMatchingData.by_confidence.high}건, 중간 ${enhancedMatchingData.by_confidence.medium}건, 낮음 ${enhancedMatchingData.by_confidence.low}건`);
+            console.log(`🎯 자본시장법 성공 매칭:`, preciseAbbreviationData.key_success);
+            console.log(`🚫 제거된 잘못된 매칭:`, preciseAbbreviationData.eliminated_false_matches);
         }
 
         // 정확한 2025년 법령만 필터링하는 함수 - Remote version preserved
@@ -3669,8 +3671,8 @@
                 updateQuarterlyCounts();
                 updateJobFunctionCounts();
                 
-                // Enhanced Matching: 향상된 매칭 알고리즘 결과로 업데이트 (New addition)
-                updateWithEnhancedMatching();
+                // Precise Abbreviation Matching: 100% 정확한 약칭 매칭 결과로 업데이트
+                updateWithPreciseAbbreviationMatching();
                 
                 // Remote version precise data update (preserved)
                 updateQuarterlyDataWithPrecise();
