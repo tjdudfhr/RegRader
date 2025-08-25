@@ -1631,7 +1631,68 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label class="form-label">EmailJS 설정</label>
+                        <div class="emailjs-config">
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                id="emailjs-public-key" 
+                                placeholder="EmailJS Public Key 입력"
+                                style="margin-bottom: 0.5rem;"
+                            >
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                id="emailjs-service-id" 
+                                placeholder="Service ID 입력"
+                                style="margin-bottom: 0.5rem;"
+                            >
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                id="emailjs-template-id" 
+                                placeholder="Template ID 입력"
+                                style="margin-bottom: 0.5rem;"
+                            >
+                            <div class="emailjs-guide">
+                                <details style="margin-top: 0.5rem;">
+                                    <summary style="cursor: pointer; font-weight: 600; color: var(--primary);">📋 EmailJS 설정 가이드</summary>
+                                    <div style="margin-top: 0.5rem; padding: 1rem; background: var(--bg-secondary); border-radius: 8px; font-size: 0.85rem;">
+                                        <p><strong>1단계: 계정 생성</strong></p>
+                                        <p>• <a href="https://www.emailjs.com/" target="_blank" style="color: var(--primary);">https://www.emailjs.com/</a> 접속</p>
+                                        <p>• "Create Free Account" 클릭하여 가입</p>
+                                        
+                                        <p><strong>2단계: 이메일 서비스 연결</strong></p>
+                                        <p>• 대시보드 → "Email Services" → "Add New Service"</p>
+                                        <p>• Gmail, Outlook 등 선택하고 인증</p>
+                                        <p>• Service ID 복사</p>
+                                        
+                                        <p><strong>3단계: 이메일 템플릿 생성</strong></p>
+                                        <p>• 대시보드 → "Email Templates" → "Create New Template"</p>
+                                        <p>• 템플릿 내용 예시:</p>
+                                        <pre style="background: var(--bg-card); padding: 0.5rem; margin: 0.5rem 0; border-radius: 4px; font-size: 0.8rem;">제목: [LAW WATCH] {{quarter}} 시행 예정 법령 알림
+본문:
+안녕하세요, {{sender_name}}입니다.
+
+{{quarter}} 시행 예정 법령 {{law_count}}건을 안내드립니다.
+
+{{law_list}}
+
+전체 현황: {{website_url}}</pre>
+                                        
+                                        <p><strong>4단계: Public Key 확인</strong></p>
+                                        <p>• 대시보드 → "Integration" → Public Key 복사</p>
+                                        
+                                        <p><strong>무료 플랜 제한: 월 200건</strong></p>
+                                    </div>
+                                </details>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-buttons">
+                        <button type="button" class="btn-secondary" onclick="setupEmailJS()">EmailJS 연결</button>
                         <button type="button" class="btn-secondary" onclick="testEmailSending()">테스트 발송</button>
                         <button type="button" class="btn-primary" onclick="saveEmailSettings()">설정 저장</button>
                     </div>
@@ -3407,8 +3468,13 @@
         // 이메일 알림 설정 시스템
         // ===========================================
 
-        // EmailJS 초기화 (사용자가 API 키를 설정해야 함)
+        // EmailJS 초기화 상태
         let emailjsInitialized = false;
+        let emailjsConfig = {
+            publicKey: '',
+            serviceId: '',
+            templateId: ''
+        };
 
         // 설정 모달 열기/닫기
         function openSettingsModal() {
@@ -3434,6 +3500,17 @@
             document.getElementById('notify-q2').checked = settings.quarters.Q2;
             document.getElementById('notify-q3').checked = settings.quarters.Q3;
             document.getElementById('notify-q4').checked = settings.quarters.Q4;
+            
+            // EmailJS 설정 불러오기
+            const emailjsSettings = getEmailJSSettings();
+            document.getElementById('emailjs-public-key').value = emailjsSettings.publicKey;
+            document.getElementById('emailjs-service-id').value = emailjsSettings.serviceId;
+            document.getElementById('emailjs-template-id').value = emailjsSettings.templateId;
+            
+            // EmailJS 초기화 시도
+            if (emailjsSettings.publicKey) {
+                setupEmailJS();
+            }
         }
 
         // 설정 저장
@@ -3448,6 +3525,7 @@
                 return;
             }
 
+            // 이메일 설정 저장
             const settings = {
                 recipients: recipients,
                 senderName: document.getElementById('sender-name').value.trim() || 'LAW WATCH 시스템',
@@ -3461,8 +3539,21 @@
             };
 
             localStorage.setItem('lawwatch_email_settings', JSON.stringify(settings));
+
+            // EmailJS 설정도 함께 저장
+            const emailjsSettings = {
+                publicKey: document.getElementById('emailjs-public-key').value.trim(),
+                serviceId: document.getElementById('emailjs-service-id').value.trim(),
+                templateId: document.getElementById('emailjs-template-id').value.trim()
+            };
+
+            if (emailjsSettings.publicKey && emailjsSettings.serviceId && emailjsSettings.templateId) {
+                localStorage.setItem('lawwatch_emailjs_settings', JSON.stringify(emailjsSettings));
+                showNotification('success', `모든 설정이 저장되었습니다. ${recipients.length}명의 수신자가 등록되었습니다.`);
+            } else {
+                showNotification('success', `이메일 설정이 저장되었습니다. EmailJS 설정을 완료하면 자동 발송이 가능합니다.`);
+            }
             
-            showNotification('success', `설정이 저장되었습니다. ${recipients.length}명의 수신자가 등록되었습니다.`);
             scheduleNotifications();
         }
 
@@ -3477,6 +3568,22 @@
 
             try {
                 const saved = localStorage.getItem('lawwatch_email_settings');
+                return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
+            } catch (e) {
+                return defaultSettings;
+            }
+        }
+
+        // EmailJS 설정 반환
+        function getEmailJSSettings() {
+            const defaultSettings = {
+                publicKey: '',
+                serviceId: '',
+                templateId: ''
+            };
+
+            try {
+                const saved = localStorage.getItem('lawwatch_emailjs_settings');
                 return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
             } catch (e) {
                 return defaultSettings;
@@ -3586,6 +3693,36 @@
                 });
         }
 
+        // EmailJS 설정 및 초기화
+        function setupEmailJS() {
+            const publicKey = document.getElementById('emailjs-public-key').value.trim();
+            const serviceId = document.getElementById('emailjs-service-id').value.trim();
+            const templateId = document.getElementById('emailjs-template-id').value.trim();
+
+            if (!publicKey || !serviceId || !templateId) {
+                showNotification('error', 'EmailJS Public Key, Service ID, Template ID를 모두 입력해주세요.');
+                return;
+            }
+
+            try {
+                // EmailJS 초기화
+                emailjs.init(publicKey);
+                
+                emailjsConfig = { publicKey, serviceId, templateId };
+                emailjsInitialized = true;
+
+                // 설정 저장
+                localStorage.setItem('lawwatch_emailjs_settings', JSON.stringify(emailjsConfig));
+                
+                showNotification('success', 'EmailJS 연결이 완료되었습니다! 이제 테스트 발송을 시도해보세요.');
+                
+            } catch (error) {
+                console.error('EmailJS 초기화 실패:', error);
+                showNotification('error', 'EmailJS 초기화에 실패했습니다. Public Key를 확인해주세요.');
+                emailjsInitialized = false;
+            }
+        }
+
         // 테스트 이메일 발송
         function testEmailSending() {
             const settings = getEmailSettings();
@@ -3600,16 +3737,63 @@
             }
 
             if (!emailjsInitialized) {
-                showNotification('error', 'EmailJS 설정이 필요합니다. 관리자에게 문의하세요.');
+                showNotification('error', 'EmailJS 연결이 필요합니다. 먼저 "EmailJS 연결" 버튼을 클릭해주세요.');
                 return;
             }
 
             showNotification('success', '테스트 이메일을 발송 중입니다...');
             
-            // 실제 EmailJS 발송 로직은 API 키 설정 후 구현
-            setTimeout(() => {
-                showNotification('success', `테스트 이메일이 ${recipients.length}명에게 발송되었습니다.`);
-            }, 2000);
+            // 실제 EmailJS 발송
+            sendQuarterlyEmail('테스트', recipients[0], true)
+                .then(() => {
+                    showNotification('success', `테스트 이메일이 ${recipients[0]}에게 발송되었습니다.`);
+                })
+                .catch((error) => {
+                    console.error('이메일 발송 실패:', error);
+                    showNotification('error', '이메일 발송에 실패했습니다. 설정을 확인해주세요.');
+                });
+        }
+
+        // 실제 이메일 발송 함수
+        async function sendQuarterlyEmail(quarter, recipientEmail, isTest = false) {
+            if (!emailjsInitialized) {
+                throw new Error('EmailJS가 초기화되지 않았습니다.');
+            }
+
+            const quarterlyData = getQuarterlyData();
+            const quarterData = quarterlyData[quarter] || { count: 0, laws: [] };
+            const senderName = document.getElementById('sender-name').value || 'LAW WATCH 시스템';
+
+            // 법령 목록 텍스트 생성
+            const lawList = quarterData.laws.length > 0 
+                ? quarterData.laws.slice(0, 5).map(law => `• ${law.title}`).join('\n') 
+                + (quarterData.laws.length > 5 ? `\n• 그 외 ${quarterData.laws.length - 5}건...` : '')
+                : '• 데이터 로딩 중...';
+
+            const templateParams = {
+                to_name: '담당자',
+                to_email: recipientEmail,
+                from_name: senderName,
+                quarter: isTest ? '테스트 - ' + quarter : quarter,
+                law_count: quarterData.count,
+                law_list: lawList,
+                website_url: window.location.origin,
+                sender_name: senderName
+            };
+
+            try {
+                const response = await emailjs.send(
+                    emailjsConfig.serviceId,
+                    emailjsConfig.templateId,
+                    templateParams,
+                    emailjsConfig.publicKey
+                );
+                console.log('✅ 이메일 발송 성공:', response);
+                return response;
+            } catch (error) {
+                console.error('❌ 이메일 발송 실패:', error);
+                throw error;
+            }
         }
 
         // 알림 스케줄링 (실제로는 서버 사이드나 GitHub Actions 필요)
