@@ -5,7 +5,7 @@
   "quarters": {
     "Q1": {
       "period": "1월 ~ 3월",
-      "count": 10,
+      "count": 11,
       "laws": [
         {
           "title": "증권거래세법 시행령",
@@ -116,6 +116,17 @@
           "ministry": "환경부",
           "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001773",
           "search_url": "https://www.law.go.kr/lsSc.do?query=%EB%8C%80%EA%B8%B0%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95"
+        },
+        {
+          "title": "개인정보 보호법",
+          "categories": [
+            "정보보호"
+          ],
+          "effective_date": "2025-03-13",
+          "law_type": "일부개정",
+          "ministry": "개인정보보호위원회",
+          "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011357",
+          "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%20%EB%B3%B4%ED%98%B8%EB%B2%95"
         }
       ]
     },
@@ -881,7 +892,7 @@
     },
     "Q4": {
       "period": "10월 ~ 12월",
-      "count": 14,
+      "count": 13,
       "laws": [
         {
           "title": "하도급거래 공정화에 관한 법률",
@@ -893,17 +904,6 @@
           "ministry": "공정거래위원회",
           "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001590",
           "search_url": "https://www.law.go.kr/lsSc.do?query=%ED%95%98%EB%8F%84%EA%B8%89%EA%B1%B0%EB%9E%98%20%EA%B3%B5%EC%A0%95%ED%99%94%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
-        },
-        {
-          "title": "개인정보 보호법",
-          "categories": [
-            "정보보호"
-          ],
-          "effective_date": "2025-10-02",
-          "law_type": "일부개정",
-          "ministry": "개인정보보호위원회",
-          "detail_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011357",
-          "search_url": "https://www.law.go.kr/lsSc.do?query=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%20%EB%B3%B4%ED%98%B8%EB%B2%95"
         },
         {
           "title": "감염병의 예방 및 관리에 관한 법률",
@@ -1039,5 +1039,11 @@
         }
       ]
     }
-  }
+  },
+  "last_verified": "2025-08-25T07:08:42.521703",
+  "verification_notes": [
+    "개인정보보호법: Q4→Q1 이동 (2025-03-13 시행)",
+    "환경부 10개 법령: 2025-08-07 시행일자 검증 완료",
+    "화학물질관리법 등: 화학물질 관리체계 개선 패키지 개정으로 동시 시행 확인"
+  ]
 }
