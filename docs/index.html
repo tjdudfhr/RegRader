@@ -2745,6 +2745,23 @@
             console.log('✅ 직무별 데이터 업데이트 완료:', categoryData);
         }
         
+        // 메인 대시보드 수치 업데이트 함수
+        function updateMainDashboardWithActual() {
+            // 총 적용 법규 (2025년 시행/예정)
+            const totalAppliedElement = document.querySelector('.metric-number');
+            if (totalAppliedElement) {
+                totalAppliedElement.textContent = actual2025Data.total_laws;
+            }
+            
+            // 개정 예정 법규 (시행 예정)
+            const upcomingElements = document.querySelectorAll('.metric-number');
+            if (upcomingElements.length > 1) {
+                upcomingElements[1].textContent = actual2025Data.upcoming;
+            }
+            
+            console.log('✅ 메인 대시보드 업데이트 완료');
+        }
+        
         // 실제 2025년 법령만 필터링하는 함수
         function filterActual2025Laws() {
             const actualLawTitles = new Set(actual2025Data.laws.map(law => law.title));
@@ -3244,6 +3261,11 @@
                 updateTabCounts();
                 updateQuarterlyCounts();
                 updateJobFunctionCounts();
+                
+                // 실제 2025년 데이터로 업데이트
+                updateQuarterlyDataWithActual();
+                updateJobFunctionDataWithActual();
+                updateMainDashboardWithActual();
                 
                 // 전체 법규 개수 업데이트
                 const totalLawCountElement = document.getElementById('total-law-count');
