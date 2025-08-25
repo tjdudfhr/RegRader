@@ -1413,6 +1413,17 @@
 
     <script>
     
+        // 정확한 2025년 매칭 법령 데이터 (안전한 버전) - Remote version preserved
+        const preciseMatchedData = {
+            "total_laws": 125,
+            "implemented": 106, 
+            "upcoming": 19,
+            "by_quarter": {"Q1": 20, "Q2": 49, "Q3": 40, "Q4": 16},
+            "by_category": {"정보보호": 7, "환경": 44, "재무회계": 17, "안전": 25, "공정거래": 4, "지식재산권": 6, "인사노무": 21, "지배구조": 1},
+            "match_percentage": 58.96,
+            "laws": [] // 법령 상세 데이터는 별도 로드
+        };
+
         // Precise Abbreviation Matching: 100% 정확한 약칭 매칭 결과 (정확도 최우선)
         const preciseAbbreviationData = {
             "total_laws": 66,
@@ -3134,9 +3145,9 @@
             console.log(`🎯 자본시장법 성공 매칭:`, preciseAbbreviationData.key_success);
             console.log(`🚫 제거된 잘못된 매칭:`, preciseAbbreviationData.eliminated_false_matches);
         }
-        
-        // 100% 정확한 법령만 필터링하는 함수
-        function filterFinalPreciseMatchedLaws() {
+
+        // 정확한 2025년 법령만 필터링하는 함수 - Remote version preserved
+        function filterPreciseMatchedLaws() {
             const matchedLawTitles = new Set(preciseLawsData.map(law => law.title));
             return lawsData.filter(law => matchedLawTitles.has(law.title));
         }
@@ -3657,10 +3668,10 @@
                 // Precise Abbreviation Matching: 100% 정확한 약칭 매칭 결과로 업데이트
                 updateWithPreciseAbbreviationMatching();
                 
-                // 기존 정확한 데이터도 유지 (참고용)
-                updateQuarterlyDataWithFinalPrecise();
-                updateJobFunctionDataWithFinalPrecise();
-                updateMainDashboardWithFinalPrecise();
+                // Remote version precise data update (preserved)
+                updateQuarterlyDataWithPrecise();
+                updateJobFunctionDataWithPrecise();
+                updateMainDashboardWithPrecise();
                 
                 // 정확한 법령 상세 데이터 로드
                 await loadFinalPreciseLawsData();
