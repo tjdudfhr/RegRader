@@ -1,5 +1,5 @@
 {
-  "generatedAt": 1756129100,
+  "generatedAt": 1756147914,
   "year": 2025,
   "items": [
     {
@@ -817,6 +817,27 @@
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001871",
         "search": "https://www.law.go.kr/lsSc.do?query=%EB%94%94%EC%9E%90%EC%9D%B8%EB%B3%B4%ED%98%B8%EB%B2%95"
+      }
+    },
+    {
+      "id": "5002f4e3e7cac240c11e38c7e1c3e5da",
+      "title": "건설산업기본법",
+      "summary": "",
+      "effectiveDate": "2025-11-27",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "안전",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "국토교통부",
+        "lsId": "001808"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001808",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B1%B4%EC%84%A4%EC%82%B0%EC%97%85%EA%B8%B0%EB%B3%B8%EB%B2%95"
       }
     },
     {
@@ -3100,6 +3121,27 @@
       }
     },
     {
+      "id": "e719b0623c5486dc239df4957488302c",
+      "title": "서민의 금융생활 지원에 관한 법률 시행령",
+      "summary": "",
+      "effectiveDate": "2025-09-19",
+      "announcedDate": null,
+      "lawType": "일부개정",
+      "categories": [
+        "재무회계",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "금융위원회",
+        "lsId": "012665"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012665",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%84%9C%EB%AF%BC%EC%9D%98%20%EA%B8%88%EC%9C%B5%EC%83%9D%ED%99%9C%20%EC%A7%80%EC%9B%90%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
       "id": "a0e641f40273a05be4372f78cdc8fd09",
       "title": "서민의 금융생활 지원에 관한 법률",
       "summary": "",
@@ -3712,6 +3754,47 @@
       }
     },
     {
+      "id": "555928d36233ad5701dcd602e0b959c3",
+      "title": "평화경제특별구역의 지정 및 운영에 관한 법률 시행령",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "안전",
+        "지배구조"
+      ],
+      "meta": {
+        "ministry": "국토교통부,통일부",
+        "lsId": "014545"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=014545",
+        "search": "https://www.law.go.kr/lsSc.do?query=%ED%8F%89%ED%99%94%EA%B2%BD%EC%A0%9C%ED%8A%B9%EB%B3%84%EA%B5%AC%EC%97%AD%EC%9D%98%20%EC%A7%80%EC%A0%95%20%EB%B0%8F%20%EC%9A%B4%EC%98%81%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "a213010e0ecfd18caeb648cbb19fe8ce",
+      "title": "초고층 및 지하연계 복합건축물 재난관리에 관한 특별법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "안전"
+      ],
+      "meta": {
+        "ministry": "소방청",
+        "lsId": "011567"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011567",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%B4%88%EA%B3%A0%EC%B8%B5%20%EB%B0%8F%20%EC%A7%80%ED%95%98%EC%97%B0%EA%B3%84%20%EB%B3%B5%ED%95%A9%EA%B1%B4%EC%B6%95%EB%AC%BC%20%EC%9E%AC%EB%82%9C%EA%B4%80%EB%A6%AC%EC%97%90%20%EA%B4%80%ED%95%9C%20%ED%8A%B9%EB%B3%84%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
       "id": "18da108598239d21f03f0f4552a88f06",
       "title": "초고층 및 지하연계 복합건축물 재난관리에 관한 특별법",
       "summary": "",
@@ -3795,6 +3878,26 @@
       }
     },
     {
+      "id": "e5cfdb94fd906324a042b93cf3f2f847",
+      "title": "지진ㆍ화산재해대책법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "행정안전부",
+        "lsId": "010943"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010943",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A7%80%EC%A7%84%E3%86%8D%ED%99%94%EC%82%B0%EC%9E%AC%ED%95%B4%EB%8C%80%EC%B1%85%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
       "id": "cd0c5abe9839c7dda4eab2973d38161d",
       "title": "지진ㆍ화산재해대책법",
       "summary": "",
@@ -3812,6 +3915,46 @@
         "name": "국가법령정보(OpenAPI)",
         "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010726",
         "search": "https://www.law.go.kr/lsSc.do?query=%EC%A7%80%EC%A7%84%E3%86%8D%ED%99%94%EC%82%B0%EC%9E%AC%ED%95%B4%EB%8C%80%EC%B1%85%EB%B2%95"
+      }
+    },
+    {
+      "id": "6f629a4dc3ca5d7d095ba75cb26d18da",
+      "title": "지방자치법 제156조제1항 단서에 따른 전국적 통일이 필요한 수수료의 징수기준에 관한 규정",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "기타"
+      ],
+      "meta": {
+        "ministry": "행정안전부",
+        "lsId": "010232"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=010232",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%B2%95%20%EC%A0%9C156%EC%A1%B0%EC%A0%9C1%ED%95%AD%20%EB%8B%A8%EC%84%9C%EC%97%90%20%EB%94%B0%EB%A5%B8%20%EC%A0%84%EA%B5%AD%EC%A0%81%20%ED%86%B5%EC%9D%BC%EC%9D%B4%20%ED%95%84%EC%9A%94%ED%95%9C%20%EC%88%98%EC%88%98%EB%A3%8C%EC%9D%98%20%EC%A7%95%EC%88%98%EA%B8%B0%EC%A4%80%EC%97%90%20%EA%B4%80%ED%95%9C%20%EA%B7%9C%EC%A0%95"
+      }
+    },
+    {
+      "id": "cbda2fe50833fc324a9e6744aa8f7a9a",
+      "title": "지방세특례제한법 시행령",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "행정안전부",
+        "lsId": "011278"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=011278",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A7%80%EB%B0%A9%EC%84%B8%ED%8A%B9%EB%A1%80%EC%A0%9C%ED%95%9C%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
       }
     },
     {
@@ -3835,192 +3978,52 @@
       }
     },
     {
-      "id": "968a25441cf66d6a2e50ad441b80c6ad",
-      "title": "조세특례제한법",
+      "id": "da9ee3254c9e758fb71cf21bfbd32681",
+      "title": "지방세법 시행령",
       "summary": "",
       "effectiveDate": "2025-08-28",
       "announcedDate": null,
       "lawType": "타법개정",
       "categories": [
+        "재무회계"
+      ],
+      "meta": {
+        "ministry": "행정안전부",
+        "lsId": "005077"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=005077",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A7%80%EB%B0%A9%EC%84%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
+      }
+    },
+    {
+      "id": "9131d332ac9e6e636749bfa8dd27583f",
+      "title": "중대재해 처벌 등에 관한 법률 시행령",
+      "summary": "",
+      "effectiveDate": "2025-08-28",
+      "announcedDate": null,
+      "lawType": "타법개정",
+      "categories": [
+        "안전",
+        "인사노무",
         "재무회계",
-        "지배구조"
-      ],
-      "meta": {
-        "ministry": "기획재정부,행정안전부",
-        "lsId": "001584"
-      },
-      "source": {
-        "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001584",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A1%B0%EC%84%B8%ED%8A%B9%EB%A1%80%EC%A0%9C%ED%95%9C%EB%B2%95"
-      }
-    },
-    {
-      "id": "7062cf47c9eeb90be96e4a7c42964026",
-      "title": "재난 및 안전관리 기본법 시행령",
-      "summary": "",
-      "effectiveDate": "2025-08-28",
-      "announcedDate": null,
-      "lawType": "일부개정",
-      "categories": [
-        "안전"
-      ],
-      "meta": {
-        "ministry": "소방청,해양경찰청,행정안전부",
-        "lsId": "009708"
-      },
-      "source": {
-        "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009708",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EC%9E%AC%EB%82%9C%20%EB%B0%8F%20%EC%95%88%EC%A0%84%EA%B4%80%EB%A6%AC%20%EA%B8%B0%EB%B3%B8%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
-      }
-    },
-    {
-      "id": "459d70eba2aefb96ce8a283c95f2eeea",
-      "title": "자연재해대책법",
-      "summary": "",
-      "effectiveDate": "2025-08-28",
-      "announcedDate": null,
-      "lawType": "타법개정",
-      "categories": [
-        "기타"
-      ],
-      "meta": {
-        "ministry": "행정안전부",
-        "lsId": "000959"
-      },
-      "source": {
-        "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000959",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EC%9E%90%EC%97%B0%EC%9E%AC%ED%95%B4%EB%8C%80%EC%B1%85%EB%B2%95"
-      }
-    },
-    {
-      "id": "c53267bd293916e4d50d9aa6e003ea5e",
-      "title": "유통산업발전법",
-      "summary": "",
-      "effectiveDate": "2025-08-28",
-      "announcedDate": null,
-      "lawType": "타법개정",
-      "categories": [
-        "안전",
-        "재무회계"
-      ],
-      "meta": {
-        "ministry": "산업통상자원부",
-        "lsId": "001469"
-      },
-      "source": {
-        "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=001469",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EC%9C%A0%ED%86%B5%EC%82%B0%EC%97%85%EB%B0%9C%EC%A0%84%EB%B2%95"
-      }
-    },
-    {
-      "id": "5f450adf2b8a6d62a9bc6ea490f45a8e",
-      "title": "엔지니어링산업 진흥법",
-      "summary": "",
-      "effectiveDate": "2025-08-28",
-      "announcedDate": null,
-      "lawType": "일부개정",
-      "categories": [
-        "안전",
-        "재무회계"
-      ],
-      "meta": {
-        "ministry": "산업통상자원부",
-        "lsId": "000758"
-      },
-      "source": {
-        "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000758",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EC%97%94%EC%A7%80%EB%8B%88%EC%96%B4%EB%A7%81%EC%82%B0%EC%97%85%20%EC%A7%84%ED%9D%A5%EB%B2%95"
-      }
-    },
-    {
-      "id": "2bd6e309e1342fc7ed9c0294867b212d",
-      "title": "어린이제품 안전 특별법",
-      "summary": "",
-      "effectiveDate": "2025-08-28",
-      "announcedDate": null,
-      "lawType": "타법개정",
-      "categories": [
-        "안전",
-        "재무회계"
-      ],
-      "meta": {
-        "ministry": "산업통상자원부",
-        "lsId": "012070"
-      },
-      "source": {
-        "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012070",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EC%96%B4%EB%A6%B0%EC%9D%B4%EC%A0%9C%ED%92%88%20%EC%95%88%EC%A0%84%20%ED%8A%B9%EB%B3%84%EB%B2%95"
-      }
-    },
-    {
-      "id": "be4d4c794bd45a055f5bc3b29f887884",
-      "title": "어린이안전관리에 관한 법률",
-      "summary": "",
-      "effectiveDate": "2025-08-28",
-      "announcedDate": null,
-      "lawType": "타법개정",
-      "categories": [
-        "기타"
-      ],
-      "meta": {
-        "ministry": "행정안전부",
-        "lsId": "013761"
-      },
-      "source": {
-        "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=013761",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EC%96%B4%EB%A6%B0%EC%9D%B4%EC%95%88%EC%A0%84%EA%B4%80%EB%A6%AC%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
-      }
-    },
-    {
-      "id": "3821bdae4a74c16b64440a129ca69adf",
-      "title": "실종아동등의 보호 및 지원에 관한 법률",
-      "summary": "",
-      "effectiveDate": "2025-08-28",
-      "announcedDate": null,
-      "lawType": "타법개정",
-      "categories": [
-        "기타"
-      ],
-      "meta": {
-        "ministry": "경찰청,보건복지부",
-        "lsId": "009942"
-      },
-      "source": {
-        "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009942",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EC%8B%A4%EC%A2%85%EC%95%84%EB%8F%99%EB%93%B1%EC%9D%98%20%EB%B3%B4%ED%98%B8%20%EB%B0%8F%20%EC%A7%80%EC%9B%90%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0"
-      }
-    },
-    {
-      "id": "cd31aace49334ab8a15dc495de23d63a",
-      "title": "물환경보전법",
-      "summary": "",
-      "effectiveDate": "2025-08-28",
-      "announcedDate": null,
-      "lawType": "타법개정",
-      "categories": [
+        "지배구조",
         "환경"
       ],
       "meta": {
-        "ministry": "환경부",
-        "lsId": "000166"
+        "ministry": "고용노동부,공정거래위원회,국토교통부,법무부,산업통상자원부,중소벤처기업부,환경부",
+        "lsId": "014159"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000166",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EB%AC%BC%ED%99%98%EA%B2%BD%EB%B3%B4%EC%A0%84%EB%B2%95"
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=014159",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A4%91%EB%8C%80%EC%9E%AC%ED%95%B4%20%EC%B2%98%EB%B2%8C%20%EB%93%B1%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0%20%EC%8B%9C%ED%96%89%EB%A0%B9"
       }
     },
     {
-      "id": "0776ba86e2cca067d77983401734572f",
-      "title": "궤도운송법",
+      "id": "53a2a1f886f8e95df0336e431b75c43b",
+      "title": "주택도시기금법 시행령",
       "summary": "",
       "effectiveDate": "2025-08-28",
       "announcedDate": null,
@@ -4031,33 +4034,33 @@
       ],
       "meta": {
         "ministry": "국토교통부",
-        "lsId": "000096"
+        "lsId": "012323"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=000096",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B6%A4%EB%8F%84%EC%9A%B4%EC%86%A1%EB%B2%95"
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=012323",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A3%BC%ED%83%9D%EB%8F%84%EC%8B%9C%EA%B8%B0%EA%B8%88%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
       }
     },
     {
-      "id": "accec842858cbe22024820f783c93fca",
-      "title": "경제자유구역의 지정 및 운영에 관한 특별법",
+      "id": "d780297abbfbd438b29a5a9fe6edca8e",
+      "title": "조세특례제한법 시행령",
       "summary": "",
       "effectiveDate": "2025-08-28",
       "announcedDate": null,
       "lawType": "타법개정",
       "categories": [
-        "안전",
-        "재무회계"
+        "재무회계",
+        "지배구조"
       ],
       "meta": {
-        "ministry": "산업통상자원부",
-        "lsId": "009411"
+        "ministry": "기획재정부,행정안전부",
+        "lsId": "004920"
       },
       "source": {
         "name": "국가법령정보(OpenAPI)",
-        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=009411",
-        "search": "https://www.law.go.kr/lsSc.do?query=%EA%B2%BD%EC%A0%9C%EC%9E%90%EC%9C%A0%EA%B5%AC%EC%97%AD%EC%9D%98%20%EC%A7%80%EC%A0%95%20%EB%B0%8F%20%EC%9A%B4%EC%98%81%EC%97%90%20%EA%B4%80%ED%95%9C%20%ED%8A%B9%EB%B3%84%EB%B2%95"
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsId=004920",
+        "search": "https://www.law.go.kr/lsSc.do?query=%EC%A1%B0%EC%84%B8%ED%8A%B9%EB%A1%80%EC%A0%9C%ED%95%9C%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9"
       }
     }
   ]
