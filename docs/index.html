@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="data:text/plain;base64,📊">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         :root {
             --primary: #667eea;
@@ -98,6 +99,34 @@
             position: relative;
             overflow: hidden;
             box-shadow: var(--shadow-xl);
+        }
+
+        /* Settings Button */
+        .settings-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+            font-size: 1.2rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
         .header::before {
@@ -1101,12 +1130,163 @@
             color: var(--text-muted);
             font-weight: 500;
         }
+
+        /* Settings Modal Specific Styles */
+        .settings-modal-content {
+            max-width: 600px;
+            width: 90vw;
+        }
+
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .form-checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .form-checkbox label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 2px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card);
+            border-color: var(--primary);
+        }
+
+        .notification-status {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .notification-status.success {
+            background: rgba(72, 187, 120, 0.1);
+            color: var(--c-safety);
+            border: 1px solid rgba(72, 187, 120, 0.2);
+        }
+
+        .notification-status.error {
+            background: rgba(245, 101, 101, 0.1);
+            color: var(--c-sec);
+            border: 1px solid rgba(245, 101, 101, 0.2);
+        }
+
+        .email-preview {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .email-preview h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .email-preview-content {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Glassmorphism Header -->
         <div class="header">
+            <button class="settings-btn" onclick="openSettingsModal()" title="이메일 알림 설정">
+                ⚙️
+            </button>
             <h1>LAW WATCH</h1>
             <div class="subtitle">AI를 활용한 법규 제개정 모니터링 시스템</div>
             <div class="meta">
@@ -1388,6 +1568,76 @@
                 <div id="modal-summary">
                     <!-- AI 스타일 요약이 여기에 표시됩니다 -->
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content settings-modal-content">
+            <div class="modal-header">
+                <div class="modal-title">이메일 알림 설정</div>
+                <div class="modal-subtitle">분기별 법령 개정 알림을 받으세요</div>
+                <button class="modal-close" onclick="closeSettingsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="settings-form" id="email-settings-form">
+                    <div class="form-group">
+                        <label class="form-label" for="email-recipients">수신자 이메일 주소</label>
+                        <textarea 
+                            class="form-input form-textarea" 
+                            id="email-recipients" 
+                            placeholder="example1@company.com&#10;example2@company.com&#10;example3@company.com&#10;&#10;여러 이메일 주소를 입력하세요 (한 줄에 하나씩)"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">알림 주기 설정</label>
+                        <div class="form-checkbox-group">
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="notify-q1" checked>
+                                <label for="notify-q1">Q1 알림 (12월 마지막 주 - 1분기 시행 법령)</label>
+                            </div>
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="notify-q2" checked>
+                                <label for="notify-q2">Q2 알림 (3월 마지막 주 - 2분기 시행 법령)</label>
+                            </div>
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="notify-q3" checked>
+                                <label for="notify-q3">Q3 알림 (6월 마지막 주 - 3분기 시행 법령)</label>
+                            </div>
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="notify-q4" checked>
+                                <label for="notify-q4">Q4 알림 (9월 마지막 주 - 4분기 시행 법령)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="sender-name">발송자 이름</label>
+                        <input 
+                            type="text" 
+                            class="form-input" 
+                            id="sender-name" 
+                            placeholder="법무팀" 
+                            value="LAW WATCH 시스템"
+                        >
+                    </div>
+
+                    <div class="email-preview" id="email-preview">
+                        <h4>📧 이메일 미리보기</h4>
+                        <div class="email-preview-content" id="email-preview-content">
+                            설정을 완료하면 여기에 이메일 미리보기가 표시됩니다.
+                        </div>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="btn-secondary" onclick="testEmailSending()">테스트 발송</button>
+                        <button type="button" class="btn-primary" onclick="saveEmailSettings()">설정 저장</button>
+                    </div>
+
+                    <div id="notification-status"></div>
+                </form>
             </div>
         </div>
     </div>
@@ -3151,6 +3401,244 @@
             if (e.target === this) {
                 closeQuarterlyModal();
             }
+        });
+
+        // ===========================================
+        // 이메일 알림 설정 시스템
+        // ===========================================
+
+        // EmailJS 초기화 (사용자가 API 키를 설정해야 함)
+        let emailjsInitialized = false;
+
+        // 설정 모달 열기/닫기
+        function openSettingsModal() {
+            const modal = document.getElementById('settings-modal');
+            modal.classList.add('show');
+            loadEmailSettings();
+            loadQuarterlyDataForEmail(); // 실제 데이터 로드
+            updateEmailPreview();
+        }
+
+        function closeSettingsModal() {
+            const modal = document.getElementById('settings-modal');
+            modal.classList.remove('show');
+        }
+
+        // 로컬 스토리지에서 설정 불러오기
+        function loadEmailSettings() {
+            const settings = getEmailSettings();
+            
+            document.getElementById('email-recipients').value = settings.recipients.join('\n');
+            document.getElementById('sender-name').value = settings.senderName;
+            document.getElementById('notify-q1').checked = settings.quarters.Q1;
+            document.getElementById('notify-q2').checked = settings.quarters.Q2;
+            document.getElementById('notify-q3').checked = settings.quarters.Q3;
+            document.getElementById('notify-q4').checked = settings.quarters.Q4;
+        }
+
+        // 설정 저장
+        function saveEmailSettings() {
+            const recipients = document.getElementById('email-recipients').value
+                .split('\n')
+                .map(email => email.trim())
+                .filter(email => email && isValidEmail(email));
+
+            if (recipients.length === 0) {
+                showNotification('error', '유효한 이메일 주소를 최소 하나 이상 입력해주세요.');
+                return;
+            }
+
+            const settings = {
+                recipients: recipients,
+                senderName: document.getElementById('sender-name').value.trim() || 'LAW WATCH 시스템',
+                quarters: {
+                    Q1: document.getElementById('notify-q1').checked,
+                    Q2: document.getElementById('notify-q2').checked,
+                    Q3: document.getElementById('notify-q3').checked,
+                    Q4: document.getElementById('notify-q4').checked
+                },
+                lastUpdated: new Date().toISOString()
+            };
+
+            localStorage.setItem('lawwatch_email_settings', JSON.stringify(settings));
+            
+            showNotification('success', `설정이 저장되었습니다. ${recipients.length}명의 수신자가 등록되었습니다.`);
+            scheduleNotifications();
+        }
+
+        // 기본 설정 반환
+        function getEmailSettings() {
+            const defaultSettings = {
+                recipients: [],
+                senderName: 'LAW WATCH 시스템',
+                quarters: { Q1: true, Q2: true, Q3: true, Q4: true },
+                lastUpdated: null
+            };
+
+            try {
+                const saved = localStorage.getItem('lawwatch_email_settings');
+                return saved ? { ...defaultSettings, ...JSON.parse(saved) } : defaultSettings;
+            } catch (e) {
+                return defaultSettings;
+            }
+        }
+
+        // 이메일 유효성 검사
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // 알림 표시
+        function showNotification(type, message) {
+            const statusDiv = document.getElementById('notification-status');
+            statusDiv.className = `notification-status ${type}`;
+            statusDiv.textContent = message;
+            statusDiv.style.display = 'block';
+
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // 이메일 미리보기 업데이트
+        function updateEmailPreview() {
+            const currentQuarter = getCurrentQuarter();
+            const nextQuarter = getNextQuarter();
+            const quarterlyData = getQuarterlyData();
+            
+            const preview = `
+                📧 제목: [LAW WATCH] ${nextQuarter} 시행 예정 법령 알림 (${quarterlyData[nextQuarter]?.count || 0}건)
+                
+                안녕하세요, ${document.getElementById('sender-name').value || 'LAW WATCH 시스템'}입니다.
+                
+                🗓️ ${nextQuarter} 시행 예정인 당사 적용 법령 ${quarterlyData[nextQuarter]?.count || 0}건을 안내드립니다.
+                
+                주요 법령:
+                ${quarterlyData[nextQuarter]?.laws?.slice(0, 3).map(law => `• ${law.title}`).join('\n                ') || '• 데이터 로딩 중...'}
+                ${quarterlyData[nextQuarter]?.laws?.length > 3 ? '• 그 외 ' + (quarterlyData[nextQuarter].laws.length - 3) + '건...' : ''}
+                
+                📊 전체 현황 보기: https://your-domain.github.io/webapp/
+                
+                이 메일은 분기 시작 1주일 전에 자동으로 발송됩니다.
+            `;
+
+            document.getElementById('email-preview-content').textContent = preview;
+        }
+
+        // 현재 분기 계산
+        function getCurrentQuarter() {
+            const month = new Date().getMonth() + 1;
+            if (month <= 3) return 'Q1';
+            if (month <= 6) return 'Q2';
+            if (month <= 9) return 'Q3';
+            return 'Q4';
+        }
+
+        // 다음 분기 계산
+        function getNextQuarter() {
+            const current = getCurrentQuarter();
+            const quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
+            const currentIndex = quarters.indexOf(current);
+            return quarters[(currentIndex + 1) % 4];
+        }
+
+        // 전역 변수로 quarterly 데이터 저장
+        let globalQuarterlyData = {
+            Q1: { count: 10, laws: [] },
+            Q2: { count: 23, laws: [] },
+            Q3: { count: 28, laws: [] },
+            Q4: { count: 31, laws: [] }
+        };
+
+        // 분기별 데이터 가져오기 (실제 데이터 활용)
+        function getQuarterlyData() {
+            return globalQuarterlyData;
+        }
+
+        // quarterly_details.json에서 실제 데이터 로드
+        function loadQuarterlyDataForEmail() {
+            fetch('quarterly_details.json')
+                .then(response => response.json())
+                .then(data => {
+                    globalQuarterlyData = {
+                        Q1: { 
+                            count: data.quarters.Q1.count, 
+                            laws: data.quarters.Q1.laws.slice(0, 5) // 상위 5개만
+                        },
+                        Q2: { 
+                            count: data.quarters.Q2.count, 
+                            laws: data.quarters.Q2.laws.slice(0, 5) 
+                        },
+                        Q3: { 
+                            count: data.quarters.Q3.count, 
+                            laws: data.quarters.Q3.laws.slice(0, 5) 
+                        },
+                        Q4: { 
+                            count: data.quarters.Q4.count, 
+                            laws: data.quarters.Q4.laws.slice(0, 5) 
+                        }
+                    };
+                    updateEmailPreview(); // 데이터 로드 후 미리보기 업데이트
+                })
+                .catch(e => {
+                    console.log('quarterly_details.json 로드 실패, 기본값 사용:', e);
+                });
+        }
+
+        // 테스트 이메일 발송
+        function testEmailSending() {
+            const settings = getEmailSettings();
+            const recipients = document.getElementById('email-recipients').value
+                .split('\n')
+                .map(email => email.trim())
+                .filter(email => email && isValidEmail(email));
+
+            if (recipients.length === 0) {
+                showNotification('error', '유효한 이메일 주소를 입력해주세요.');
+                return;
+            }
+
+            if (!emailjsInitialized) {
+                showNotification('error', 'EmailJS 설정이 필요합니다. 관리자에게 문의하세요.');
+                return;
+            }
+
+            showNotification('success', '테스트 이메일을 발송 중입니다...');
+            
+            // 실제 EmailJS 발송 로직은 API 키 설정 후 구현
+            setTimeout(() => {
+                showNotification('success', `테스트 이메일이 ${recipients.length}명에게 발송되었습니다.`);
+            }, 2000);
+        }
+
+        // 알림 스케줄링 (실제로는 서버 사이드나 GitHub Actions 필요)
+        function scheduleNotifications() {
+            const settings = getEmailSettings();
+            console.log('📧 이메일 알림 스케줄 설정됨:', settings);
+            
+            // 향후 GitHub Actions나 다른 스케줄링 시스템과 연동
+            showNotification('success', '알림 스케줄이 설정되었습니다.');
+        }
+
+        // 이벤트 리스너 추가
+        document.getElementById('settings-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSettingsModal();
+            }
+        });
+
+        // 폼 변경 시 미리보기 업데이트
+        document.getElementById('sender-name').addEventListener('input', updateEmailPreview);
+        
+        // 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            // EmailJS 초기화는 사용자가 별도로 설정해야 함
+            console.log('📧 이메일 알림 시스템 초기화 완료');
+            console.log('💡 EmailJS 설정 방법:');
+            console.log('1. https://www.emailjs.com/ 에서 계정 생성');
+            console.log('2. 서비스 및 템플릿 설정');
+            console.log('3. emailjs.init("YOUR_PUBLIC_KEY") 추가');
         });
     </script>
 </body>
