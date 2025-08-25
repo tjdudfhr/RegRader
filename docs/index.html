@@ -1111,7 +1111,7 @@
             <div class="subtitle">AI를 활용한 법규 제개정 모니터링 시스템</div>
             <div class="meta">
                 <span id="year">2025</span>년 법령 개정 현황 · 
-                100% 정확한 약칭 매칭 (31.13% 정확도) · 
+실제 당사 적용 법규 (207개) · 
                 최종 업데이트: <span id="timestamp">로딩 중...</span>
             </div>
         </div>
@@ -1413,42 +1413,28 @@
 
     <script>
     
-        // 사용자가 선택한 최종 정확한 데이터: 66개 약칭 매칭 결과
-        const mainData = {"total_laws": 66, "by_quarter": {"Q1": 8, "Q2": 19, "Q3": 27, "Q4": 12}, "by_category": {"환경": 27, "안전": 12, "재무회계": 19, "인사노무": 8}};
-
-        // Precise Abbreviation Matching: 100% 정확한 약칭 매칭 결과 (정확도 최우선)
-        const preciseAbbreviationData = {
-            "total_laws": 66,
-            "matching_rate": 31.13,
-            "exact_matches": 63,
-            "abbreviation_matches": 3,
-            "by_quarter": {
-                "Q1": 8,
-                "Q2": 19,
-                "Q3": 27,
-                "Q4": 12
-            },
+        // 실제 당사 적용 법규 207개 (사용자 직무별 정확 분류)
+        const companyLawData = {
+            "total_laws": 207,
+            "description": "실제 당사 적용 법규",
             "by_category": {
-                "환경": 27,
-                "안전": 12,
+                "환경": 65,
+                "인사노무": 41,
+                "안전": 41,
                 "재무회계": 19,
-                "인사노무": 8,
-                "지식재산권": 0,
-                "정보보호": 0,
-                "공정거래": 0,
-                "지배구조": 0
+                "정보보호": 16,
+                "공정거래": 11,
+                "지식재산권": 7,
+                "지배구조": 7
             },
-            "algorithm": "precise_abbreviation_matching",
-            "key_success": [
-                "자본시장법 → 자본시장과 금융투자업에 관한 법률",
-                "자본시장법 시행령 → 자본시장과 금융투자업에 관한 법률 시행령",
-                "자본시장법 시행규칙 → 자본시장과 금융투자업에 관한 법률 시행규칙"
-            ],
-            "eliminated_false_matches": [
-                "하수도법 ↔ 수도법 (완전히 다른 법률)",
-                "산업기술보호법 ↔ 방위산업기술 보호법 (완전히 다른 법률)"
-            ]
+            "coverage": "100% 실제 적용 법규",
+            "source": "사용자 직무별 정확 분류"
         };
+        
+        // 주요 데이터 참조
+        const mainData = companyLawData;
+
+        // 기존 66개 약칭 매칭 데이터는 207개 실제 적용 법규로 완전 대체됨
 
         // 66개 정확한 약칭 매칭 데이터만 사용 (단순화 완료)
         
@@ -1467,9 +1453,9 @@
             console.log('✅ 100% 정확한 분기별 데이터 업데이트 완료:', quarterCounts);
         }
         
-        // 100% 정확한 직무별 데이터로 업데이트하는 함수
-        function updateJobFunctionDataWithFinalPrecise() {
-            const categoryData = preciseAbbreviationData.by_category;
+        // 실제 당사 적용 법규 직무별 데이터로 업데이트하는 함수
+        function updateJobFunctionDataWithCompanyLaws() {
+            const categoryData = companyLawData.by_category;
             
             // 각 직무별 카운트 업데이트
             Object.keys(categoryData).forEach(category => {
@@ -1479,11 +1465,11 @@
                 }
             });
             
-            console.log('✅ 100% 정확한 직무별 데이터 업데이트 완료:', categoryData);
+            console.log('✅ 207개 실제 당사 적용 법규 직무별 데이터 업데이트 완료:', categoryData);
         }
         
         // 100% 정확한 메인 대시보드 수치 업데이트 함수
-        function updateMainDashboardWithFinalPrecise() {
+        function updateMainDashboardWithCompanyLaws() {
             // 총 적용 법규 (100% 정확한 매칭된 법령 수)
             const totalAppliedElements = document.querySelectorAll('.metric-number');
             if (totalAppliedElements.length > 0) {
@@ -1499,7 +1485,7 @@
         }
         
         // Precise Abbreviation Matching: 100% 정확한 약칭 매칭 결과로 업데이트하는 함수
-        function updateWithPreciseAbbreviationMatching() {
+        function updateWithCompanyLawData() {
             const quarterCounts = preciseAbbreviationData.by_quarter;
             
             // 각 분기 박스의 수치 업데이트
@@ -2045,7 +2031,9 @@
                 updateJobFunctionCounts();
                 
                 // 66개 정확한 약칭 매칭 결과로 업데이트 (최종 선택)
-                updateWithPreciseAbbreviationMatching();
+                updateWithCompanyLawData();
+                updateJobFunctionDataWithCompanyLaws();
+                updateMainDashboardWithCompanyLaws();
                 
                 // 정확한 법령 상세 데이터 로드
                 // 66개 약칭 매칭 데이터를 사용하여 단순화
