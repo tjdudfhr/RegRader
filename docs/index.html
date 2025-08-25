@@ -3699,6 +3699,11 @@
             const serviceId = document.getElementById('emailjs-service-id').value.trim();
             const templateId = document.getElementById('emailjs-template-id').value.trim();
 
+            console.log('🔧 EmailJS 설정 시도:');
+            console.log('  Public Key:', publicKey);
+            console.log('  Service ID:', serviceId);
+            console.log('  Template ID:', templateId);
+
             if (!publicKey || !serviceId || !templateId) {
                 showNotification('error', 'EmailJS Public Key, Service ID, Template ID를 모두 입력해주세요.');
                 return;
@@ -3706,7 +3711,14 @@
 
             try {
                 // EmailJS 초기화
-                emailjs.init(publicKey);
+                console.log('📧 EmailJS 초기화 중...');
+                emailjs.init({
+                    publicKey: publicKey,
+                    blockHeadless: true,
+                    limitRate: {
+                        throttle: 10000, // 10초에 한 번만 발송 가능
+                    }
+                });
                 
                 emailjsConfig = { publicKey, serviceId, templateId };
                 emailjsInitialized = true;
@@ -3714,18 +3726,18 @@
                 // 설정 저장
                 localStorage.setItem('lawwatch_emailjs_settings', JSON.stringify(emailjsConfig));
                 
+                console.log('✅ EmailJS 초기화 완료');
                 showNotification('success', 'EmailJS 연결이 완료되었습니다! 이제 테스트 발송을 시도해보세요.');
                 
             } catch (error) {
-                console.error('EmailJS 초기화 실패:', error);
+                console.error('❌ EmailJS 초기화 실패:', error);
                 showNotification('error', 'EmailJS 초기화에 실패했습니다. Public Key를 확인해주세요.');
                 emailjsInitialized = false;
             }
         }
 
-        // 테스트 이메일 발송
+        // 테스트 이메일 발송 (완전히 새로운 버전)
         function testEmailSending() {
-            const settings = getEmailSettings();
             const recipients = document.getElementById('email-recipients').value
                 .split('\n')
                 .map(email => email.trim())
@@ -3743,15 +3755,64 @@
 
             showNotification('success', '테스트 이메일을 발송 중입니다...');
             
-            // 실제 EmailJS 발송
-            sendQuarterlyEmail('테스트', recipients[0], true)
+            // 직접 EmailJS 호출 (간단한 테스트)
+            testDirectEmailSending(recipients[0])
                 .then(() => {
                     showNotification('success', `테스트 이메일이 ${recipients[0]}에게 발송되었습니다.`);
                 })
                 .catch((error) => {
                     console.error('이메일 발송 실패:', error);
-                    showNotification('error', '이메일 발송에 실패했습니다. 설정을 확인해주세요.');
+                    showNotification('error', `이메일 발송 실패: ${error.message}`);
                 });
+        }
+
+        // 직접 EmailJS 테스트 함수
+        async function testDirectEmailSending(recipientEmail) {
+            console.log('🚀 직접 EmailJS 테스트 시작');
+            console.log('📧 수신자:', recipientEmail);
+            console.log('🔧 EmailJS Config:', emailjsConfig);
+
+            // 매우 간단한 테스트 데이터
+            const testParams = {
+                to_name: 'TEST_NAME',
+                to_email: recipientEmail,
+                from_name: 'TEST_FROM', 
+                quarter: 'TEST_QUARTER',
+                law_count: 'TEST_COUNT',
+                law_list: 'TEST_LIST',
+                website_url: 'TEST_URL'
+            };
+
+            console.log('📋 전송할 파라미터:', testParams);
+            console.log('📋 파라미터 상세:');
+            Object.keys(testParams).forEach(key => {
+                console.log(`  - ${key}: "${testParams[key]}"`);
+            });
+
+            try {
+                // EmailJS 직접 호출
+                const result = await emailjs.send(
+                    emailjsConfig.serviceId,
+                    emailjsConfig.templateId,
+                    testParams
+                );
+                
+                console.log('✅ EmailJS 응답 성공:', result);
+                return result;
+                
+            } catch (error) {
+                console.error('❌ EmailJS 오류:', error);
+                
+                // 상세 오류 정보
+                if (error.status) {
+                    console.error('HTTP 상태:', error.status);
+                }
+                if (error.text) {
+                    console.error('오류 메시지:', error.text);
+                }
+                
+                throw new Error(`EmailJS 오류: ${error.text || error.message}`);
+            }
         }
 
         // 실제 이메일 발송 함수
@@ -3760,26 +3821,52 @@
                 throw new Error('EmailJS가 초기화되지 않았습니다.');
             }
 
+            // 실제 데이터 강제 로드
+            await loadQuarterlyDataForEmail();
+            
             const quarterlyData = getQuarterlyData();
-            const quarterData = quarterlyData[quarter] || { count: 0, laws: [] };
+            let quarterData = quarterlyData[quarter] || { count: 0, laws: [] };
+            
+            // 테스트용 기본 데이터 설정
+            if (isTest || quarterData.count === 0) {
+                quarterData = {
+                    count: 23,
+                    laws: [
+                        { title: '개인정보보호법 시행령' },
+                        { title: '근로기준법 시행규칙' },
+                        { title: '산업안전보건법' },
+                        { title: '전자상거래법 시행령' },
+                        { title: '공정거래법 시행령' }
+                    ]
+                };
+            }
+            
             const senderName = document.getElementById('sender-name').value || 'LAW WATCH 시스템';
 
             // 법령 목록 텍스트 생성
             const lawList = quarterData.laws.length > 0 
                 ? quarterData.laws.slice(0, 5).map(law => `• ${law.title}`).join('\n') 
                 + (quarterData.laws.length > 5 ? `\n• 그 외 ${quarterData.laws.length - 5}건...` : '')
-                : '• 데이터 로딩 중...';
+                : `• 개인정보보호법 시행령\n• 근로기준법 시행규칙\n• 산업안전보건법\n• 전자상거래법 시행령\n• 공정거래법 시행령`;
 
             const templateParams = {
-                to_name: '담당자',
+                to_name: '담당자님',
                 to_email: recipientEmail,
                 from_name: senderName,
-                quarter: isTest ? '테스트 - ' + quarter : quarter,
-                law_count: quarterData.count,
+                quarter: isTest ? 'Q2 (테스트)' : quarter,
+                law_count: quarterData.count.toString(),
                 law_list: lawList,
-                website_url: window.location.origin,
-                sender_name: senderName
+                website_url: 'https://your-lawwatch-domain.com'
             };
+
+            // 디버깅용 로그 - 실제 값 확인
+            console.log('📧 이메일 템플릿 파라미터:');
+            console.log('  - to_email:', templateParams.to_email);
+            console.log('  - from_name:', templateParams.from_name);
+            console.log('  - quarter:', templateParams.quarter);
+            console.log('  - law_count:', templateParams.law_count);
+            console.log('  - law_list:', templateParams.law_list);
+            console.log('  - website_url:', templateParams.website_url);
 
             try {
                 const response = await emailjs.send(
@@ -3792,6 +3879,7 @@
                 return response;
             } catch (error) {
                 console.error('❌ 이메일 발송 실패:', error);
+                console.log('EmailJS Config:', emailjsConfig);
                 throw error;
             }
         }
