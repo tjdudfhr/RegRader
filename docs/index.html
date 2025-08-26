@@ -3498,11 +3498,11 @@
                         <div class="law-meta">
                             <div class="meta-item">
                                 <span>🏛️</span>
-                                <span>${item.meta?.ministry || '미상'}</span>
+                                <span>${getMinistryName(item.title, item.categories) || item.meta?.ministry || '관계부처'}</span>
                             </div>
                             <div class="meta-item">
                                 <span>📄</span>
-                                <span>${item.lawType || '일부개정'}</span>
+                                <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
                             </div>
                         </div>
 
@@ -3526,6 +3526,78 @@
             };
             return classMap[category] || 'etc';
         }
+        
+        // 법령명과 카테고리 기반으로 구체적인 관계부처 반환
+        function getMinistryName(title, categories) {
+            if (!title) return '관계부처';
+            
+            const category = (categories && categories[0]) || '';
+            
+            // 법령명 기반 부처 매핑
+            if (title.includes('근로기준법') || title.includes('최저임금법') || title.includes('파견근로자') || title.includes('고용보험법')) {
+                return '고용노동부';
+            } else if (title.includes('개인정보보호법') || title.includes('정보통신')) {
+                return '개인정보보호위원회';
+            } else if (title.includes('공정거래법') || title.includes('독점규제')) {
+                return '공정거래위원회';
+            } else if (title.includes('산업안전보건법') || title.includes('중대재해')) {
+                return '고용노동부';
+            } else if (title.includes('환경영향평가법') || title.includes('대기환경보전법') || title.includes('폐기물관리법')) {
+                return '환경부';
+            } else if (title.includes('상법') || title.includes('주식회사')) {
+                return '법무부';
+            } else if (title.includes('법인세법') || title.includes('부가가치세법')) {
+                return '기획재정부';
+            } else if (title.includes('특허법') || title.includes('상표법') || title.includes('저작권법')) {
+                return '특허청';
+            }
+            
+            // 카테고리 기반 부처 매핑
+            switch(category) {
+                case '인사노무': return '고용노동부';
+                case '정보보호': return '개인정보보호위원회';
+                case '공정거래': return '공정거래위원회';
+                case '안전': return '고용노동부';
+                case '환경': return '환경부';
+                case '지배구조': return '법무부';
+                case '재무회계': return '기획재정부';
+                case '지식재산권': return '특허청';
+                default: return '관계부처';
+            }
+        }
+        
+        // 법령명 기반으로 구체적인 개정유형 반환
+        function getDetailedLawType(title, originalType) {
+            if (!title) return '일부개정';
+            
+            // 법령명에서 개정유형 추출
+            if (title.includes('전부개정') || title.includes('전면개정')) {
+                return '전면개정';
+            } else if (title.includes('타법개정') || title.includes('다른 법률')) {
+                return '타법개정';
+            } else if (title.includes('폐지')) {
+                return '폐지';
+            } else if (title.includes('제정') || title.includes('신설')) {
+                return '제정';
+            }
+            
+            // 일반적인 개정 패턴 분석
+            const lawTypes = [
+                { keyword: ['시행령', '시행규칙'], type: '일부개정' },
+                { keyword: ['기본법', '기본계획'], type: '일부개정' },
+                { keyword: ['특별법', '특례법'], type: '일부개정' },
+                { keyword: ['개정법률', '개정안'], type: '일부개정' }
+            ];
+            
+            for (const lawType of lawTypes) {
+                if (lawType.keyword.some(keyword => title.includes(keyword))) {
+                    return lawType.type;
+                }
+            }
+            
+            // 원본 타입이 있으면 사용, 없으면 기본값
+            return originalType || '일부개정';
+        }
 
         function showLawDetail(lawId) {
             const item = lawsData.find(law => law.id === lawId);
@@ -3533,7 +3605,7 @@
 
             document.getElementById('modal-title').textContent = item.title || '법령 제목';
             document.getElementById('modal-subtitle').textContent = 
-                `${item.meta?.ministry || '미상'} • ${item.lawType || '일부개정'} • ${item.effectiveDate || '미정'}`;
+                `${getMinistryName(item.title, item.categories) || item.meta?.ministry || '관계부처'} • ${getDetailedLawType(item.title, item.lawType) || '일부개정'} • ${item.effectiveDate || '미정'}`;
 
             generateAISummary(item);
             document.getElementById('law-modal').classList.add('show');
