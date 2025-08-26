@@ -279,13 +279,16 @@
             font-size: 1.4rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
         }
 
         .quarter-period {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-bottom: 0.75rem;
+            font-weight: 500;
         }
 
         .quarter-count {
@@ -1532,42 +1535,53 @@
                 </div>
             </div>
 
-            <div class="filter-title">
-                📅 2025년 분기별 시행 현황
-            </div>
-            <div class="quarterly-tabs">
+            <!-- 분기별 현황 박스 -->
+            <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
+                <div class="filter-title">
+                    📅 2025년 분기별 시행 현황
+                </div>
+                <div class="quarterly-tabs">
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q1')">
                     <div class="quarter-icon">🌱</div>
                     <div class="quarter-info">
-                        <div class="quarter-title">1분기</div>
-                        <div class="quarter-period">(1~3월)</div>
+                        <div class="quarter-title">
+                            <span>1분기</span>
+                            <span class="quarter-period">(1~3월)</span>
+                        </div>
                         <div class="quarter-count" id="q1-count">0</div>
                     </div>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q2')">
                     <div class="quarter-icon">☀️</div>
                     <div class="quarter-info">
-                        <div class="quarter-title">2분기</div>
-                        <div class="quarter-period">(4~6월)</div>
+                        <div class="quarter-title">
+                            <span>2분기</span>
+                            <span class="quarter-period">(4~6월)</span>
+                        </div>
                         <div class="quarter-count" id="q2-count">0</div>
                     </div>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q3')">
                     <div class="quarter-icon">🍂</div>
                     <div class="quarter-info">
-                        <div class="quarter-title">3분기</div>
-                        <div class="quarter-period">(7~9월)</div>
+                        <div class="quarter-title">
+                            <span>3분기</span>
+                            <span class="quarter-period">(7~9월)</span>
+                        </div>
                         <div class="quarter-count" id="q3-count">0</div>
                     </div>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q4')">
                     <div class="quarter-icon">❄️</div>
                     <div class="quarter-info">
-                        <div class="quarter-title">4분기</div>
-                        <div class="quarter-period">(10~12월)</div>
+                        <div class="quarter-title">
+                            <span>4분기</span>
+                            <span class="quarter-period">(10~12월)</span>
+                        </div>
                         <div class="quarter-count" id="q4-count">0</div>
                     </div>
                 </div>
+            </div>
             </div>
                 </div>
                 
