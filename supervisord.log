@@ -28,3 +28,7 @@
 2025-08-26 04:28:24,155 WARN stopped: lawwatch (terminated by SIGTERM)
 2025-08-26 04:28:24,160 INFO spawned: 'lawwatch' with pid 84211
 2025-08-26 04:28:25,269 INFO success: lawwatch entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-08-26 04:32:15,580 INFO waiting for lawwatch to stop
+2025-08-26 04:32:15,581 WARN stopped: lawwatch (terminated by SIGTERM)
+2025-08-26 04:32:15,586 INFO spawned: 'lawwatch' with pid 84759
+2025-08-26 04:32:16,683 INFO success: lawwatch entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
