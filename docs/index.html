@@ -170,6 +170,34 @@
             z-index: 1;
         }
 
+        /* Settings Button */
+        .settings-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+            font-size: 1.2rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
         /* Quarterly View Styles */
         .quarterly-view {
             background: var(--bg-glass);
@@ -624,6 +652,164 @@
             overflow-y: auto;
             background: rgba(255, 255, 255, 0.9);
             color: #2d3748;
+        }
+
+        /* Settings Form Styles */
+        .settings-form {
+            max-width: 800px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            background: white;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .form-checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .form-checkbox label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+
+        .email-preview {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .email-preview h4 {
+            margin: 0 0 1rem 0;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .email-preview-content {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            white-space: pre-line;
+        }
+
+        .emailjs-config {
+            background: var(--bg-primary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--primary);
+        }
+
+        #notification-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        #notification-status.success {
+            background: rgba(17, 153, 142, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(17, 153, 142, 0.2);
+            display: block;
+        }
+
+        #notification-status.error {
+            background: rgba(252, 70, 107, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(252, 70, 107, 0.2);
+            display: block;
         }
 
         .summary-section {
@@ -1718,6 +1904,137 @@
                 <div id="quarterly-law-list" class="quarterly-law-list">
                     <!-- 분기별 법령 리스트 -->
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">이메일 알림 설정</div>
+                <div class="modal-subtitle">분기별 법령 시행 알림 설정</div>
+                <button class="modal-close" onclick="closeSettingsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="settings-form" id="email-settings-form">
+                    <div class="form-group">
+                        <label class="form-label" for="email-recipients">수신자 이메일 주소</label>
+                        <textarea 
+                            class="form-input form-textarea" 
+                            id="email-recipients" 
+                            placeholder="example1@company.com&#10;example2@company.com&#10;example3@company.com&#10;&#10;여러 이메일 주소를 입력하세요 (한 줄에 하나씩)"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">알림 주기 설정</label>
+                        <div class="form-checkbox-group">
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="notify-q1" checked>
+                                <label for="notify-q1">Q1 알림 (12월 마지막 주 - 1분기 시행 법령)</label>
+                            </div>
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="notify-q2" checked>
+                                <label for="notify-q2">Q2 알림 (3월 마지막 주 - 2분기 시행 법령)</label>
+                            </div>
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="notify-q3" checked>
+                                <label for="notify-q3">Q3 알림 (6월 마지막 주 - 3분기 시행 법령)</label>
+                            </div>
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="notify-q4" checked>
+                                <label for="notify-q4">Q4 알림 (9월 마지막 주 - 4분기 시행 법령)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="sender-name">발송자 이름</label>
+                        <input 
+                            type="text" 
+                            class="form-input" 
+                            id="sender-name" 
+                            placeholder="법무팀" 
+                            value="LAW WATCH 시스템"
+                        >
+                    </div>
+
+                    <div class="email-preview" id="email-preview">
+                        <h4>📧 이메일 미리보기</h4>
+                        <div class="email-preview-content" id="email-preview-content">
+                            설정을 완료하면 여기에 이메일 미리보기가 표시됩니다.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">EmailJS 설정</label>
+                        <div class="emailjs-config">
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                id="emailjs-public-key" 
+                                placeholder="EmailJS Public Key 입력"
+                                style="margin-bottom: 0.5rem;"
+                            >
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                id="emailjs-service-id" 
+                                placeholder="Service ID 입력"
+                                style="margin-bottom: 0.5rem;"
+                            >
+                            <input 
+                                type="text" 
+                                class="form-input" 
+                                id="emailjs-template-id" 
+                                placeholder="Template ID 입력"
+                                style="margin-bottom: 0.5rem;"
+                            >
+                            <div class="emailjs-guide">
+                                <details style="margin-top: 0.5rem;">
+                                    <summary style="cursor: pointer; font-weight: 600; color: var(--primary);">📋 EmailJS 설정 가이드</summary>
+                                    <div style="margin-top: 0.5rem; padding: 1rem; background: var(--bg-secondary); border-radius: 8px; font-size: 0.85rem;">
+                                        <p><strong>1단계: 계정 생성</strong></p>
+                                        <p>• <a href="https://www.emailjs.com/" target="_blank" style="color: var(--primary);">https://www.emailjs.com/</a> 접속</p>
+                                        <p>• "Create Free Account" 클릭하여 가입</p>
+                                        
+                                        <p><strong>2단계: 이메일 서비스 연결</strong></p>
+                                        <p>• 대시보드 → "Email Services" → "Add New Service"</p>
+                                        <p>• Gmail, Outlook 등 선택하고 인증</p>
+                                        <p>• Service ID 복사</p>
+                                        
+                                        <p><strong>3단계: 이메일 템플릿 생성</strong></p>
+                                        <p>• 대시보드 → "Email Templates" → "Create New Template"</p>
+                                        <p>• 템플릿 내용 예시:</p>
+                                        <pre style="background: var(--bg-card); padding: 0.5rem; margin: 0.5rem 0; border-radius: 4px; font-size: 0.8rem;">제목: [LAW WATCH] {{quarter}} 시행 예정 법령 알림
+본문:
+안녕하세요, {{sender_name}}입니다.
+
+{{quarter}} 시행 예정 법령 {{law_count}}건을 안내드립니다.
+
+{{law_list}}
+
+전체 현황: {{website_url}}</pre>
+                                        
+                                        <p><strong>4단계: Public Key 확인</strong></p>
+                                        <p>• 대시보드 → "Integration" → Public Key 복사</p>
+                                        
+                                        <p><strong>무료 플랜 제한: 월 200건</strong></p>
+                                    </div>
+                                </details>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="button" class="btn-secondary" onclick="setupEmailJS()">EmailJS 연결</button>
+                        <button type="button" class="btn-secondary" onclick="testEmailSending()">테스트 발송</button>
+                        <button type="button" class="btn-primary" onclick="saveEmailSettings()">설정 저장</button>
+                    </div>
+
+                    <div id="notification-status"></div>
+                </form>
             </div>
         </div>
     </div>
