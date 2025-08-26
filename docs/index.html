@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAW WATCH · AI를 활용한 법규 제개정 모니터링 시스템</title>
+    <title>LAW WATCH · AI를 활용한 법규 시행 모니터링 시스템</title>
     <link rel="shortcut icon" href="data:text/plain;base64,📊">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1288,9 +1288,9 @@
                 ⚙️
             </button>
             <h1>LAW WATCH</h1>
-            <div class="subtitle">AI를 활용한 법규 제개정 모니터링 시스템</div>
+            <div class="subtitle">AI를 활용한 법규 시행 모니터링 시스템</div>
             <div class="meta">
-                <span id="year">2025</span>년 법령 개정 현황 · 
+                <span id="year">2025</span>년 법령 시행 현황 · 
 실제 당사 적용 법규 (207개, 92개 2025년 매칭) · 
                 최종 업데이트: <span id="timestamp">로딩 중...</span>
             </div>
@@ -1301,11 +1301,11 @@
             <div class="main-tab-container">
                 <div class="main-tab active" data-tab="quarterly" onclick="switchMainTab('quarterly')">
                     <span class="tab-icon">📅</span>
-                    <span class="tab-text">분기별 개정 현황</span>
+                    <span class="tab-text">분기별 시행 현황</span>
                 </div>
                 <div class="main-tab" data-tab="business" onclick="switchMainTab('business')">
                     <span class="tab-icon">🏢</span>
-                    <span class="tab-text">직무별 개정 현황</span>
+                    <span class="tab-text">직무별 시행 현황</span>
                 </div>
                 <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')">
                     <span class="tab-icon">📚</span>
@@ -1326,7 +1326,7 @@
                     <div style="display: flex; align-items: center; gap: 0.8rem;">
                         <span style="font-size: 1.3rem;">📋</span>
                         <div>
-                            <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">2025년 전체 개정 현황</div>
+                            <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">2025년 전체 시행 현황</div>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
@@ -1336,18 +1336,18 @@
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">0</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">개정 완료 (올해)</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행 완료 (올해)</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb;" id="amendment-law-count">0</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">개정 예정</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행 예정</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="filter-title">
-                📅 2025년 분기별 개정 현황
+                📅 2025년 분기별 시행 현황
             </div>
             <div class="quarterly-tabs">
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q1')">
@@ -1436,7 +1436,7 @@
             <div class="law-card">
                 <div class="law-list-header">
                     <div class="law-list-title">
-                        📋 개정 법령 목록
+                        📋 시행 법령 목록
                         <div class="law-count" id="law-count">로딩 중...</div>
                     </div>
                 </div>
@@ -1707,7 +1707,7 @@
     <div id="quarterly-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title" id="quarterly-modal-title">분기별 개정 법령</div>
+                <div class="modal-title" id="quarterly-modal-title">분기별 시행 법령</div>
                 <div class="modal-subtitle" id="quarterly-modal-subtitle">분기 정보</div>
                 <button class="modal-close" onclick="closeQuarterlyModal()">&times;</button>
             </div>
@@ -1923,10 +1923,10 @@
             console.log('🎯 showQuarterlyDetail 함수 호출:', quarter);
             
             const quarterInfo = {
-                'Q1': { title: '1분기 개정 법령', period: '2025년 1~3월', months: [1, 2, 3], icon: '🌱' },
-                'Q2': { title: '2분기 개정 법령', period: '2025년 4~6월', months: [4, 5, 6], icon: '☀️' },
-                'Q3': { title: '3분기 개정 법령', period: '2025년 7~9월', months: [7, 8, 9], icon: '🍂' },
-                'Q4': { title: '4분기 개정 법령', period: '2025년 10~12월', months: [10, 11, 12], icon: '❄️' }
+                'Q1': { title: '1분기 시행 법령', period: '2025년 1~3월', months: [1, 2, 3], icon: '🌱' },
+                'Q2': { title: '2분기 시행 법령', period: '2025년 4~6월', months: [4, 5, 6], icon: '☀️' },
+                'Q3': { title: '3분기 시행 법령', period: '2025년 7~9월', months: [7, 8, 9], icon: '🍂' },
+                'Q4': { title: '4분기 시행 법령', period: '2025년 10~12월', months: [10, 11, 12], icon: '❄️' }
             };
             
             const info = quarterInfo[quarter];
@@ -2113,7 +2113,7 @@
                 <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; box-shadow: var(--glass-shadow);">
                     <div style="padding: 1.2rem; background: var(--bg-primary); border-bottom: 1px solid var(--border);">
                         <h4 style="margin: 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 700;">
-                            📋 개정 법령 목록
+                            📋 시행 법령 목록
                             <span style="background: var(--primary); color: white; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem;">${quarterLaws.length}건</span>
                         </h4>
                     </div>
@@ -2260,10 +2260,10 @@
 
                     // Update header count
                     const quarterInfo = {
-                        'Q1': { title: '1분기 개정 법령', period: '2025년 1~3월', months: [1, 2, 3], icon: '🌱' },
-                        'Q2': { title: '2분기 개정 법령', period: '2025년 4~6월', months: [4, 5, 6], icon: '☀️' },
-                        'Q3': { title: '3분기 개정 법령', period: '2025년 7~9월', months: [7, 8, 9], icon: '🍂' },
-                        'Q4': { title: '4분기 개정 법령', period: '2025년 10~12월', months: [10, 11, 12], icon: '❄️' }
+                        'Q1': { title: '1분기 시행 법령', period: '2025년 1~3월', months: [1, 2, 3], icon: '🌱' },
+                        'Q2': { title: '2분기 시행 법령', period: '2025년 4~6월', months: [4, 5, 6], icon: '☀️' },
+                        'Q3': { title: '3분기 시행 법령', period: '2025년 7~9월', months: [7, 8, 9], icon: '🍂' },
+                        'Q4': { title: '4분기 시행 법령', period: '2025년 10~12월', months: [10, 11, 12], icon: '❄️' }
                     };
                     const info = quarterInfo[quarter];
                     const headerTitle = document.querySelector('#quarterly-detail .detail-period');
@@ -2320,7 +2320,7 @@
                             categories: quarterlyLaw.categories || ['기타'],
                             effectiveDate: quarterlyLaw.effective_date,
                             lawType: quarterlyLaw.law_type,
-                            summary: `이 법령은 ${quarterlyLaw.effective_date}에 시행되는 2025년 개정 법령입니다. ${quarterlyLaw.ministry}에서 관장하며, ${quarterlyLaw.law_type}으로 개정됩니다.`,
+                            summary: `이 법령은 ${quarterlyLaw.effective_date}에 시행되는 2025년 시행 법령입니다. ${quarterlyLaw.ministry}에서 관장하며, ${quarterlyLaw.law_type}으로 개정됩니다.`,
                             amendmentDetails: [
                                 `개정 시기: ${quarterlyLaw.effective_date}`,
                                 `개정 유형: ${quarterlyLaw.law_type}`,
