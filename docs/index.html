@@ -1490,11 +1490,11 @@
             <div class="main-tab-container">
                 <div class="main-tab active" data-tab="quarterly" onclick="switchMainTab('quarterly')">
                     <span class="tab-icon">📅</span>
-                    <span class="tab-text">분기별 시행 현황</span>
+                    <span class="tab-text">분기별 개정 현황</span>
                 </div>
                 <div class="main-tab" data-tab="business" onclick="switchMainTab('business')">
                     <span class="tab-icon">🏢</span>
-                    <span class="tab-text">직무별 시행 현황</span>
+                    <span class="tab-text">직무별 개정 현황</span>
                 </div>
                 <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')">
                     <span class="tab-icon">📚</span>
@@ -1515,7 +1515,7 @@
                     <div style="display: flex; align-items: center; gap: 0.8rem;">
                         <span style="font-size: 1.3rem;">📋</span>
                         <div>
-                            <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">2025년 전체 시행 현황</div>
+                            <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">2025년 전체 개정 현황</div>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
@@ -1525,11 +1525,11 @@
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">0</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행 완료 (올해)</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">개정완료</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb;" id="amendment-law-count">0</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행 예정</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">개정 예정</div>
                         </div>
                     </div>
                 </div>
@@ -1538,7 +1538,7 @@
             <!-- 분기별 현황 박스 -->
             <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
                 <div class="filter-title">
-                    📅 2025년 분기별 시행 현황
+                    📅 2025년 분기별 개정 현황
                 </div>
                 <div class="quarterly-tabs">
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q1')">
@@ -1907,7 +1907,7 @@
     <div id="quarterly-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title" id="quarterly-modal-title">분기별 시행 법령</div>
+                <div class="modal-title" id="quarterly-modal-title">분기별 개정 법령</div>
                 <div class="modal-subtitle" id="quarterly-modal-subtitle">분기 정보</div>
                 <button class="modal-close" onclick="closeQuarterlyModal()">&times;</button>
             </div>
@@ -1927,7 +1927,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">이메일 알림 설정</div>
-                <div class="modal-subtitle">분기별 법령 시행 알림 설정</div>
+                <div class="modal-subtitle">분기별 법령 개정 알림 설정</div>
                 <button class="modal-close" onclick="closeSettingsModal()">&times;</button>
             </div>
             <div class="modal-body">
@@ -3055,20 +3055,22 @@
                 const currentDate = new Date('2025-08-20'); // 현재 날짜
                 const currentDateStr = '2025-08-20';
                 
-                // 개정 완료 (이미 시행된 2025년 법규)
+                // 개정 완료 - 실제 92개 매칭 데이터 기준
                 const implementedLawCountElement = document.getElementById('implemented-law-count');
                 if (implementedLawCountElement) {
-                    const implementedCount = lawsData.filter(law => {
+                    // 92개 매칭 데이터에서 이미 시행된 법규
+                    const implementedCount = preciseLawsData.filter(law => {
                         if (!law.effectiveDate) return false;
                         return law.effectiveDate.startsWith('2025') && law.effectiveDate <= currentDateStr;
                     }).length;
                     implementedLawCountElement.textContent = implementedCount;
                 }
                 
-                // 개정 예정 (아직 시행되지 않은 2025년 법규)
+                // 개정 예정 - 실제 92개 매칭 데이터 기준
                 const amendmentLawCountElement = document.getElementById('amendment-law-count');
                 if (amendmentLawCountElement) {
-                    const amendmentCount = lawsData.filter(law => {
+                    // 92개 매칭 데이터에서 아직 시행되지 않은 법규
+                    const amendmentCount = preciseLawsData.filter(law => {
                         if (!law.effectiveDate) return false;
                         return law.effectiveDate.startsWith('2025') && law.effectiveDate > currentDateStr;
                     }).length;
