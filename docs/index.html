@@ -4672,6 +4672,11 @@
                 });
                 
                 const detailedWorksheet = XLSX.utils.json_to_sheet(detailedData);
+                
+                // 강력한 가운데 정렬을 위한 추가 설정
+                if (!detailedWorksheet['!cols']) detailedWorksheet['!cols'] = [];
+                if (!detailedWorksheet['!rows']) detailedWorksheet['!rows'] = [];
+                
                 applyDetailedSheetStyling(detailedWorksheet, detailedData.length);
                 
                 // 드롭다운 검증 추가 (8번 컬럼 - 이행상태)
@@ -4817,25 +4822,41 @@
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!worksheet[cellRef]) continue;
                     
+                    // 강력한 가운데 정렬 스타일 적용
                     worksheet[cellRef].s = {
                         alignment: { 
-                            vertical: 'center', 
-                            horizontal: 'center',
-                            wrapText: true 
+                            vertical: 'middle',    // 'center' 대신 'middle' 사용
+                            horizontal: 'center',  // 가로 가운데
+                            wrapText: true,
+                            indent: 0
                         },
                         border: {
-                            top: { style: 'thin', color: { rgb: 'DDDDDD' } },
-                            bottom: { style: 'thin', color: { rgb: 'DDDDDD' } },
-                            left: { style: 'thin', color: { rgb: 'DDDDDD' } },
-                            right: { style: 'thin', color: { rgb: 'DDDDDD' } }
+                            top: { style: 'thin', color: { rgb: 'CCCCCC' } },
+                            bottom: { style: 'thin', color: { rgb: 'CCCCCC' } },
+                            left: { style: 'thin', color: { rgb: 'CCCCCC' } },
+                            right: { style: 'thin', color: { rgb: 'CCCCCC' } }
+                        },
+                        font: { 
+                            name: 'Arial',
+                            size: 10
                         }
                     };
                     
-                    // 헤더 스타일링 (색상 코딩)
+                    // 헤더 추가 스타일링
                     if (R === 0) {
                         worksheet[cellRef].s.fill = { fgColor: { rgb: '4F46E5' } };
-                        worksheet[cellRef].s.font = { bold: true, color: { rgb: 'FFFFFF' }, size: 12 };
-                        worksheet[cellRef].s.alignment.horizontal = 'center';
+                        worksheet[cellRef].s.font = { 
+                            bold: true, 
+                            color: { rgb: 'FFFFFF' }, 
+                            size: 11,
+                            name: 'Arial'
+                        };
+                        worksheet[cellRef].s.alignment = {
+                            vertical: 'middle',
+                            horizontal: 'center',
+                            wrapText: true,
+                            indent: 0
+                        };
                     }
                     // 모든 셀 가운데 정렬 완료
                 }
@@ -4958,20 +4979,40 @@
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!worksheet[cellRef]) continue;
                     
+                    // 강력한 가운데 정렬 적용 (카테고리 시트)
                     worksheet[cellRef].s = {
-                        alignment: { vertical: 'center', horizontal: 'center', wrapText: true },
+                        alignment: { 
+                            vertical: 'middle', 
+                            horizontal: 'center', 
+                            wrapText: true,
+                            indent: 0
+                        },
                         border: {
-                            top: { style: 'thin', color: { rgb: 'E5E7EB' } },
-                            bottom: { style: 'thin', color: { rgb: 'E5E7EB' } },
-                            left: { style: 'thin', color: { rgb: 'E5E7EB' } },
-                            right: { style: 'thin', color: { rgb: 'E5E7EB' } }
+                            top: { style: 'thin', color: { rgb: 'CCCCCC' } },
+                            bottom: { style: 'thin', color: { rgb: 'CCCCCC' } },
+                            left: { style: 'thin', color: { rgb: 'CCCCCC' } },
+                            right: { style: 'thin', color: { rgb: 'CCCCCC' } }
+                        },
+                        font: {
+                            name: 'Arial',
+                            size: 10
                         }
                     };
                     
                     if (R === 0) {
                         worksheet[cellRef].s.fill = { fgColor: { rgb: categoryColors[category] || '6B7280' } };
-                        worksheet[cellRef].s.font = { bold: true, color: { rgb: 'FFFFFF' } };
-                        worksheet[cellRef].s.alignment.horizontal = 'center';
+                        worksheet[cellRef].s.font = { 
+                            bold: true, 
+                            color: { rgb: 'FFFFFF' },
+                            name: 'Arial',
+                            size: 11
+                        };
+                        worksheet[cellRef].s.alignment = {
+                            vertical: 'middle',
+                            horizontal: 'center',
+                            wrapText: true,
+                            indent: 0
+                        };
                     }
                 }
             }
