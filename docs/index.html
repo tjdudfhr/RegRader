@@ -344,27 +344,29 @@
             position: absolute;
             bottom: 0.8rem;
             right: 0.8rem;
-            width: 36px;
-            height: 36px;
-            background: var(--primary-gradient);
-            border: none;
-            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
             z-index: 2;
             color: white;
-            font-size: 1rem;
+            font-size: 1.1rem;
             text-decoration: none;
+            backdrop-filter: blur(10px);
         }
 
         .quarter-download-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-            background: var(--accent-gradient);
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .quarter-download-btn:active {
@@ -1627,8 +1629,8 @@
                         </div>
                         <div class="quarter-count" id="q1-count">0</div>
                     </div>
-                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q1', event)" title="1분기 법령 엑셀 다운로드">
-                        📊
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q1', event)" title="클릭하면 1분기 법령 엑셀파일이 다운로드됩니다 📄">
+                        📅📊
                     </button>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q2')">
@@ -1640,8 +1642,8 @@
                         </div>
                         <div class="quarter-count" id="q2-count">0</div>
                     </div>
-                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q2', event)" title="2분기 법령 엑셀 다운로드">
-                        📊
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q2', event)" title="클릭하면 2분기 법령 엑셀파일이 다운로드됩니다 📄">
+                        📅📊
                     </button>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q3')">
@@ -1653,8 +1655,8 @@
                         </div>
                         <div class="quarter-count" id="q3-count">0</div>
                     </div>
-                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q3', event)" title="3분기 법령 엑셀 다운로드">
-                        📊
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q3', event)" title="클릭하면 3분기 법령 엑셀파일이 다운로드됩니다 📄">
+                        📅📊
                     </button>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q4')">
@@ -1666,8 +1668,8 @@
                         </div>
                         <div class="quarter-count" id="q4-count">0</div>
                     </div>
-                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q4', event)" title="4분기 법령 엑셀 다운로드">
-                        📊
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q4', event)" title="클릭하면 4분기 법령 엑셀파일이 다운로드됩니다 📄">
+                        📅📊
                     </button>
                 </div>
             </div>
@@ -4662,6 +4664,7 @@
                         '순번': index + 1,
                         '시행일자': law.effective_date || '',
                         '법령명': law.title || '',
+                        '개정법률조항': generateAmendmentClause(law),
                         '주요개정내용': analysis.uniqueContent,
                         '필요조치사항': analysis.uniqueActions,
                         '담당부서': '',
@@ -4796,13 +4799,14 @@
         
         // 📋 상세 시트 스타일링
         function applyDetailedSheetStyling(worksheet, dataLength) {
-            // 9컬럼 구조: 순번, 시행일자, 법령명, 주요개정내용, 필요조치사항, 담당부서, 담당자, 이행상태, 완료예정일
+            // 10컬럼 구조: 순번, 시행일자, 법령명, 개정법률조항, 주요개정내용, 필요조치사항, 담당부서, 담당자, 이행상태, 완료예정일
             worksheet['!cols'] = [
                 { wch: 8 },   // 순번
                 { wch: 12 },  // 시행일자  
                 { wch: 35 },  // 법령명
-                { wch: 50 },  // 주요개정내용
-                { wch: 50 },  // 필요조치사항
+                { wch: 20 },  // 개정법률조항
+                { wch: 45 },  // 주요개정내용
+                { wch: 45 },  // 필요조치사항
                 { wch: 15 },  // 담당부서
                 { wch: 12 },  // 담당자
                 { wch: 12 },  // 이행상태
@@ -4822,13 +4826,17 @@
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!worksheet[cellRef]) continue;
                     
-                    // 강력한 가운데 정렬 스타일 적용
+                    // 최강 Excel 가운데 정렬 (셀서식 방식)
                     worksheet[cellRef].s = {
                         alignment: { 
-                            vertical: 'middle',    // 'center' 대신 'middle' 사용
-                            horizontal: 'center',  // 가로 가운데
+                            vertical: 'center',    // Excel 표준 center
+                            horizontal: 'center',  // Excel 표준 center
                             wrapText: true,
-                            indent: 0
+                            readingOrder: 0,       // 읽기 순서
+                            textRotation: 0,       // 텍스트 회전 없음
+                            shrinkToFit: false,    // 크기 맞춤 비활성화
+                            justifyLastLine: false,// 마지막 줄 양쪽 맞춤 비활성화
+                            indent: 0              // 들여쓰기 0
                         },
                         border: {
                             top: { style: 'thin', color: { rgb: 'CCCCCC' } },
@@ -4838,23 +4846,30 @@
                         },
                         font: { 
                             name: 'Arial',
-                            size: 10
+                            sz: 10,               // size 대신 sz 사용
+                            bold: false,
+                            italic: false,
+                            underline: false
                         }
                     };
                     
-                    // 헤더 추가 스타일링
+                    // 헤더 강력한 가운데 정렬
                     if (R === 0) {
                         worksheet[cellRef].s.fill = { fgColor: { rgb: '4F46E5' } };
                         worksheet[cellRef].s.font = { 
                             bold: true, 
                             color: { rgb: 'FFFFFF' }, 
-                            size: 11,
+                            sz: 11,
                             name: 'Arial'
                         };
                         worksheet[cellRef].s.alignment = {
-                            vertical: 'middle',
-                            horizontal: 'center',
+                            vertical: 'center',      // Excel 표준
+                            horizontal: 'center',    // Excel 표준
                             wrapText: true,
+                            readingOrder: 0,
+                            textRotation: 0,
+                            shrinkToFit: false,
+                            justifyLastLine: false,
                             indent: 0
                         };
                     }
@@ -4920,6 +4935,7 @@
                         '순번': index + 1,
                         '시행일자': law.effective_date || '',
                         '법령명': law.title || '',
+                        '개정법률조항': generateAmendmentClause(law),
                         '주요개정내용': analysis.uniqueContent,
                         '필요조치사항': analysis.uniqueActions,
                         '담당부서': '',
@@ -4950,13 +4966,14 @@
         
         // 🏢 카테고리별 시트 스타일링
         function applyCategorySheetStyling(worksheet, dataLength, category) {
-            // 상세 시트와 동일한 컨럼 구조
+            // 상세 시트와 동일한 10컬럼 구조
             worksheet['!cols'] = [
                 { wch: 8 },   // 순번
                 { wch: 12 },  // 시행일자
                 { wch: 35 },  // 법령명
-                { wch: 50 },  // 주요 개정내용
-                { wch: 50 },  // 필요 조치사항
+                { wch: 20 },  // 개정법률조항
+                { wch: 45 },  // 주요개정내용
+                { wch: 45 },  // 필요조치사항
                 { wch: 15 },  // 담당부서
                 { wch: 12 },  // 담당자
                 { wch: 12 },  // 이행상태
@@ -4979,12 +4996,16 @@
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!worksheet[cellRef]) continue;
                     
-                    // 강력한 가운데 정렬 적용 (카테고리 시트)
+                    // 카테고리 시트 최강 가운데 정렬
                     worksheet[cellRef].s = {
                         alignment: { 
-                            vertical: 'middle', 
+                            vertical: 'center',
                             horizontal: 'center', 
                             wrapText: true,
+                            readingOrder: 0,
+                            textRotation: 0,
+                            shrinkToFit: false,
+                            justifyLastLine: false,
                             indent: 0
                         },
                         border: {
@@ -4995,7 +5016,10 @@
                         },
                         font: {
                             name: 'Arial',
-                            size: 10
+                            sz: 10,
+                            bold: false,
+                            italic: false,
+                            underline: false
                         }
                     };
                     
