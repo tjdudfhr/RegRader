@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAW WATCH · AI를 활용한 법규 시행 모니터링 시스템</title>
+    <title>LAW WATCH · AI를 활용한 법규 개정 모니터링 시스템</title>
     <link rel="shortcut icon" href="data:text/plain;base64,📊">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1477,9 +1477,9 @@
                 ⚙️
             </button>
             <h1>LAW WATCH</h1>
-            <div class="subtitle">AI를 활용한 법규 시행 모니터링 시스템</div>
+            <div class="subtitle">AI를 활용한 법규 개정 모니터링 시스템</div>
             <div class="meta">
-                <span id="year">2025</span>년 법령 시행 현황 · 
+                <span id="year">2025</span>년 법령 개정 현황 · 
 실제 당사 적용 법규 (207개, 92개 2025년 매칭) · 
                 최종 업데이트: <span id="timestamp">로딩 중...</span>
             </div>
@@ -1525,11 +1525,11 @@
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">0</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">개정완료</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행완료(올해)</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb;" id="amendment-law-count">0</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">개정 예정</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행예정</div>
                         </div>
                     </div>
                 </div>
@@ -3055,22 +3055,22 @@
                 const currentDate = new Date('2025-08-20'); // 현재 날짜
                 const currentDateStr = '2025-08-20';
                 
-                // 개정 완료 - 실제 92개 매칭 데이터 기준
+                // 시행 완료 - 2025년 매칭된 법규 중 이미 시행된 것들
                 const implementedLawCountElement = document.getElementById('implemented-law-count');
                 if (implementedLawCountElement) {
-                    // 92개 매칭 데이터에서 이미 시행된 법규
-                    const implementedCount = preciseLawsData.filter(law => {
+                    // 2025년 법규 중 현재 날짜 이전에 시행된 법규 (올해 시행완료)
+                    const implementedCount = lawsData.filter(law => {
                         if (!law.effectiveDate) return false;
                         return law.effectiveDate.startsWith('2025') && law.effectiveDate <= currentDateStr;
                     }).length;
                     implementedLawCountElement.textContent = implementedCount;
                 }
                 
-                // 개정 예정 - 실제 92개 매칭 데이터 기준
+                // 시행 예정 - 2025년 매칭된 법규 중 아직 시행되지 않은 것들
                 const amendmentLawCountElement = document.getElementById('amendment-law-count');
                 if (amendmentLawCountElement) {
-                    // 92개 매칭 데이터에서 아직 시행되지 않은 법규
-                    const amendmentCount = preciseLawsData.filter(law => {
+                    // 2025년 법규 중 현재 날짜 이후에 시행될 법규 (시행예정)
+                    const amendmentCount = lawsData.filter(law => {
                         if (!law.effectiveDate) return false;
                         return law.effectiveDate.startsWith('2025') && law.effectiveDate > currentDateStr;
                     }).length;
