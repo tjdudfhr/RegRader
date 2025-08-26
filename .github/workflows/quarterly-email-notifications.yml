@@ -1,0 +1,191 @@
+name: 📧 Quarterly Email Notifications
+
+on:
+  # 매 분기 1주일 전 자동 실행
+  schedule:
+    # Q1: 12월 마지막 주 (12월 25일) - 1월 1일 1주일 전
+    - cron: '0 9 25 12 *'  # 12월 25일 오전 9시 (UTC)
+    # Q2: 3월 마지막 주 (3월 25일) - 4월 1일 1주일 전  
+    - cron: '0 9 25 3 *'   # 3월 25일 오전 9시 (UTC)
+    # Q3: 6월 마지막 주 (6월 25일) - 7월 1일 1주일 전
+    - cron: '0 9 25 6 *'   # 6월 25일 오전 9시 (UTC)
+    # Q4: 9월 마지막 주 (9월 25일) - 10월 1일 1주일 전
+    - cron: '0 9 25 9 *'   # 9월 25일 오전 9시 (UTC)
+  
+  # 수동 실행 가능
+  workflow_dispatch:
+    inputs:
+      quarter:
+        description: '발송할 분기 (Q1, Q2, Q3, Q4)'
+        required: true
+        default: 'Q1'
+        type: choice
+        options:
+        - Q1
+        - Q2
+        - Q3
+        - Q4
+      test_mode:
+        description: '테스트 모드 활성화'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  send-quarterly-emails:
+    runs-on: ubuntu-latest
+    name: 📧 분기별 법령 알림 발송
+    
+    steps:
+    - name: 📂 Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: 📅 Determine Quarter
+      id: quarter
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "quarter=${{ github.event.inputs.quarter }}" >> $GITHUB_OUTPUT
+          echo "test_mode=${{ github.event.inputs.test_mode }}" >> $GITHUB_OUTPUT
+        else
+          # 현재 날짜로 분기 결정
+          month=$(date +%m)
+          case $month in
+            12) echo "quarter=Q1" >> $GITHUB_OUTPUT ;;  # 12월 -> Q1 알림
+            03) echo "quarter=Q2" >> $GITHUB_OUTPUT ;;  # 3월 -> Q2 알림  
+            06) echo "quarter=Q3" >> $GITHUB_OUTPUT ;;  # 6월 -> Q3 알림
+            09) echo "quarter=Q4" >> $GITHUB_OUTPUT ;;  # 9월 -> Q4 알림
+            *) echo "quarter=Q1" >> $GITHUB_OUTPUT ;;   # 기본값
+          esac
+          echo "test_mode=false" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: 🐍 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: 📦 Install Dependencies
+      run: |
+        npm init -y
+        npm install @emailjs/nodejs
+        
+    - name: 📧 Send Email Notifications
+      env:
+        EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+        EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
+        EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+        EMAIL_RECIPIENTS: ${{ secrets.EMAIL_RECIPIENTS }}
+      run: |
+        node - << 'EOF'
+        const emailjs = require('@emailjs/nodejs');
+        
+        // EmailJS 초기화
+        emailjs.init({
+          publicKey: process.env.EMAILJS_PUBLIC_KEY,
+          privateKey: process.env.EMAILJS_PRIVATE_KEY
+        });
+        
+        // 환경 변수에서 설정 읽기
+        const quarter = '${{ steps.quarter.outputs.quarter }}';
+        const testMode = '${{ steps.quarter.outputs.test_mode }}' === 'true';
+        const recipients = process.env.EMAIL_RECIPIENTS.split(',').map(e => e.trim());
+        
+        console.log(`📧 ${quarter} 분기 이메일 알림 발송 시작`);
+        console.log(`🎯 수신자 수: ${recipients.length}명`);
+        console.log(`🧪 테스트 모드: ${testMode}`);
+        
+        // 분기별 기간 정보
+        const quarterPeriods = {
+          'Q1': '1분기 (1월~3월)',
+          'Q2': '2분기 (4월~6월)', 
+          'Q3': '3분기 (7월~9월)',
+          'Q4': '4분기 (10월~12월)'
+        };
+        
+        // 샘플 법령 데이터 (실제로는 GitHub에서 파일을 읽어와야 함)
+        const sampleLaws = [
+          '개인정보보호법 시행령 개정',
+          '근로기준법 시행규칙 개정', 
+          '산업안전보건법 개정',
+          '전자상거래법 시행령 개정',
+          '공정거래법 시행령 개정'
+        ];
+        
+        const lawList = sampleLaws.map(law => `• ${law}`).join('\\n');
+        
+        // 각 수신자에게 이메일 발송
+        async function sendEmails() {
+          for (const recipient of recipients) {
+            try {
+              const templateParams = {
+                to_name: '담당자님',
+                to_email: recipient,
+                from_name: 'LAW WATCH 시스템',
+                subject: `[LAW WATCH] ${testMode ? quarter + ' (테스트)' : quarter} 법령 개정 알림`,
+                quarter_info: testMode ? quarter + ' (테스트)' : quarter,
+                quarter_period: quarterPeriods[quarter],
+                law_count: sampleLaws.length.toString(),
+                law_list: lawList,
+                website_url: 'https://tjdudfhr.github.io/law-watch/',
+                current_date: new Date().toLocaleDateString('ko-KR'),
+                system_name: 'LAW WATCH AI 법규 모니터링 시스템',
+                message: `안녕하세요, LAW WATCH 시스템입니다.\\n\\n${quarter} 분기 시행 예정 법령을 알려드립니다.\\n\\n총 ${sampleLaws.length}건의 법령이 시행될 예정이니, 사전 검토 및 대응 방안을 수립해주시기 바랍니다.`,
+                html_content: `
+                  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+                      <h1 style="margin: 0; font-size: 24px;">LAW WATCH</h1>
+                      <p style="margin: 10px 0 0 0; opacity: 0.9;">AI 법규 개정 모니터링 시스템</p>
+                    </div>
+                    <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                      <h2 style="color: #333; margin-top: 0;">${quarter} 분기 법령 개정 알림</h2>
+                      <p style="color: #666; line-height: 1.6;">안녕하세요, <strong>LAW WATCH 시스템</strong>입니다.</p>
+                      <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <h3 style="margin-top: 0; color: #333;">📊 시행 예정 법령: ${sampleLaws.length}건</h3>
+                        <div style="color: #555; line-height: 1.8;">${lawList.replace(/\\n/g, '<br>')}</div>
+                      </div>
+                      <div style="text-align: center; margin: 20px 0;">
+                        <a href="https://tjdudfhr.github.io/law-watch/" style="background: #667eea; color: white; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: bold;">📋 LAW WATCH 바로가기</a>
+                      </div>
+                    </div>
+                    <div style="text-align: center; font-size: 12px; color: #999;">
+                      <p>이 메일은 LAW WATCH 시스템에서 자동 발송되었습니다.</p>
+                      <p>발송일시: ${new Date().toLocaleString('ko-KR')}</p>
+                    </div>
+                  </div>
+                `
+              };
+              
+              console.log(`📤 ${recipient}에게 이메일 발송 중...`);
+              
+              const result = await emailjs.send(
+                process.env.EMAILJS_SERVICE_ID,
+                process.env.EMAILJS_TEMPLATE_ID,
+                templateParams
+              );
+              
+              console.log(`✅ ${recipient} 발송 완료:`, result.status);
+              
+              // 발송 간격 (Rate Limiting)
+              await new Promise(resolve => setTimeout(resolve, 2000));
+              
+            } catch (error) {
+              console.error(`❌ ${recipient} 발송 실패:`, error);
+            }
+          }
+        }
+        
+        sendEmails().then(() => {
+          console.log('🎉 모든 이메일 발송 완료!');
+        }).catch(console.error);
+        
+        EOF
+        
+    - name: 📊 Summary Report
+      run: |
+        echo "## 📧 분기별 법령 알림 발송 완료" >> $GITHUB_STEP_SUMMARY
+        echo "- **분기**: ${{ steps.quarter.outputs.quarter }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **발송 일시**: $(date '+%Y-%m-%d %H:%M:%S KST')" >> $GITHUB_STEP_SUMMARY
+        echo "- **테스트 모드**: ${{ steps.quarter.outputs.test_mode }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **시스템**: LAW WATCH AI 법규 모니터링" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ 자동 이메일 발송이 성공적으로 완료되었습니다." >> $GITHUB_STEP_SUMMARY

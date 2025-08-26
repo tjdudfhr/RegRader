@@ -18,6 +18,22 @@
 ✅ 실시간 분기별/직무별 필터링
 ✅ 상세한 법령 개정 내용 및 영향 분석
 ✅ 모바일 반응형 디자인
+✅ 📧 EmailJS 자동 알림 시스템 (분기별 1주일 전 발송)
+✅ 📊 Excel 다운로드 (10컬럼 전문 구조)
+
+## 📧 Email Notification Setup
+
+### EmailJS Integration
+1. Create account at [EmailJS](https://www.emailjs.com/)
+2. Connect email service (Gmail/Outlook)
+3. Create template with variables: `{{subject}}`, `{{html_content}}`, `{{message}}`
+4. Configure in LAW WATCH settings
+
+### Auto-Schedule (GitHub Actions)
+- Q1: Dec 25 (1 week before Jan 1)
+- Q2: Mar 25 (1 week before Apr 1)  
+- Q3: Jun 25 (1 week before Jul 1)
+- Q4: Sep 25 (1 week before Oct 1)
 
 ---
 *Last Updated: 2025-08-19 06:34:33*

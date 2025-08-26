@@ -2004,12 +2004,12 @@
                                         
                                         <p><strong>3단계: 이메일 템플릿 생성</strong></p>
                                         <p>• 대시보드 → "Email Templates" → "Create New Template"</p>
-                                        <p>• 템플릿 내용 예시:</p>
-                                        <pre style="background: var(--bg-card); padding: 0.5rem; margin: 0.5rem 0; border-radius: 4px; font-size: 0.8rem;">제목: [LAW WATCH] {{quarter}} 시행 예정 법령 알림
+                                        <p>• 필수 템플릿 변수명 (정확히 입력하세요!):</p>
+                                        <pre style="background: var(--bg-card); padding: 0.5rem; margin: 0.5rem 0; border-radius: 4px; font-size: 0.8rem;">제목: [LAW WATCH] {{quarter_info}} 시행 예정 법령 알림
 본문:
 안녕하세요, {{sender_name}}입니다.
 
-{{quarter}} 시행 예정 법령 {{law_count}}건을 안내드립니다.
+{{quarter_info}} 시행 예정 법령 {{law_count}}건을 안내드립니다.
 
 {{law_list}}
 
@@ -2154,12 +2154,12 @@
                                         
                                         <p><strong>3단계: 이메일 템플릿 생성</strong></p>
                                         <p>• 대시보드 → "Email Templates" → "Create New Template"</p>
-                                        <p>• 템플릿 내용 예시:</p>
-                                        <pre style="background: var(--bg-card); padding: 0.5rem; margin: 0.5rem 0; border-radius: 4px; font-size: 0.8rem;">제목: [LAW WATCH] {{quarter}} 시행 예정 법령 알림
+                                        <p>• 필수 템플릿 변수명 (정확히 입력하세요!):</p>
+                                        <pre style="background: var(--bg-card); padding: 0.5rem; margin: 0.5rem 0; border-radius: 4px; font-size: 0.8rem;">제목: [LAW WATCH] {{quarter_info}} 시행 예정 법령 알림
 본문:
 안녕하세요, {{sender_name}}입니다.
 
-{{quarter}} 시행 예정 법령 {{law_count}}건을 안내드립니다.
+{{quarter_info}} 시행 예정 법령 {{law_count}}건을 안내드립니다.
 
 {{law_list}}
 
@@ -4385,6 +4385,17 @@
             }
         }
 
+        // 분기별 기간 정보 반환
+        function getQuarterPeriod(quarter) {
+            const periods = {
+                'Q1': '1분기 (1월~3월)',
+                'Q2': '2분기 (4월~6월)', 
+                'Q3': '3분기 (7월~9월)',
+                'Q4': '4분기 (10월~12월)'
+            };
+            return periods[quarter] || quarter;
+        }
+
         // 실제 이메일 발송 함수
         async function sendQuarterlyEmail(quarter, recipientEmail, isTest = false) {
             if (!emailjsInitialized) {
@@ -4420,13 +4431,47 @@
                 : `• 개인정보보호법 시행령\n• 근로기준법 시행규칙\n• 산업안전보건법\n• 전자상거래법 시행령\n• 공정거래법 시행령`;
 
             const templateParams = {
+                // 표준 EmailJS 변수명 사용
                 to_name: '담당자님',
                 to_email: recipientEmail,
                 from_name: senderName,
-                quarter: isTest ? 'Q2 (테스트)' : quarter,
+                subject: `[LAW WATCH] ${isTest ? 'Q2 (테스트)' : quarter} 법령 개정 알림`,
+                quarter_info: isTest ? 'Q2 (테스트)' : quarter,
                 law_count: quarterData.count.toString(),
                 law_list: lawList,
-                website_url: 'https://your-lawwatch-domain.com'
+                website_url: window.location.origin,
+                // 추가 상세 정보
+                quarter_period: getQuarterPeriod(quarter),
+                current_date: new Date().toLocaleDateString('ko-KR'),
+                system_name: 'LAW WATCH AI 법규 모니터링 시스템',
+                // 메일 본문 내용
+                message: `안녕하세요, ${senderName}입니다.\n\n${isTest ? 'Q2 (테스트)' : quarter} 분기 시행 예정 법령을 알려드립니다.\n\n총 ${quarterData.count}건의 법령이 시행될 예정이니, 사전 검토 및 대응 방안을 수립해주시기 바랍니다.\n\n상세 내용은 첨부된 법령 목록을 확인해주세요.`,
+                // HTML 버전 메일 본문
+                html_content: `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+                            <h1 style="margin: 0; font-size: 24px;">LAW WATCH</h1>
+                            <p style="margin: 10px 0 0 0; opacity: 0.9;">AI 법규 개정 모니터링 시스템</p>
+                        </div>
+                        <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                            <h2 style="color: #333; margin-top: 0;">${isTest ? 'Q2 (테스트)' : quarter} 분기 법령 개정 알림</h2>
+                            <p style="color: #666; line-height: 1.6;">안녕하세요, <strong>${senderName}</strong>입니다.</p>
+                            <p style="color: #666; line-height: 1.6;">${isTest ? 'Q2 (테스트)' : quarter} 분기에 시행 예정인 법령을 알려드립니다.</p>
+                            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <h3 style="margin-top: 0; color: #333;">📊 시행 예정 법령: ${quarterData.count}건</h3>
+                                <div style="white-space: pre-line; color: #555; line-height: 1.8;">${lawList}</div>
+                            </div>
+                            <p style="color: #666; line-height: 1.6; margin-top: 20px;">상세 내용 및 분석은 아래 링크에서 확인하실 수 있습니다.</p>
+                            <div style="text-align: center; margin: 20px 0;">
+                                <a href="${window.location.origin}" style="background: #667eea; color: white; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: bold;">📋 LAW WATCH 바로가기</a>
+                            </div>
+                        </div>
+                        <div style="text-align: center; font-size: 12px; color: #999;">
+                            <p>이 메일은 LAW WATCH 시스템에서 자동 발송되었습니다.</p>
+                            <p>발송일시: ${new Date().toLocaleString('ko-KR')}</p>
+                        </div>
+                    </div>
+                `
             };
 
             // 디버깅용 로그 - 실제 값 확인
