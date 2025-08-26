@@ -4655,20 +4655,19 @@
                 applySummarySheetStyling(summaryWorksheet, summaryData.data.length);
                 XLSX.utils.book_append_sheet(workbook, summaryWorksheet, '📊 분기 종합현황');
                 
-                // 📋 2. 상세 법령 목록 시트 생성
+                // 📋 2. 상세 법령 목록 시트 생성 (3번 약칭 삭제, 직무별과 동일 구조)
                 const detailedData = quarterData.laws.map((law, index) => {
-                    const analysis = generateDetailedAmendmentContent(law);
+                    const analysis = generateUniqueAmendmentContent(law);
                     return {
-                        '1. 시행일자': law.effective_date || '',
-                        '2. 법률명': law.title || '',
-                        '3. 법령(약칭)': generateLawAbbreviation(law.title || ''),
-                        '4. 개정법률조항': generateAmendmentClause(law),
-                        '5. 주요 개정 내용(요약정리)': analysis.detailedContent.replace(/•/g, '\n•').trim(),
-                        '6. 담당부서': '',
-                        '7. 담당자': '',
-                        '8. 법률 개정에 따른 시정 및 개선이 필요한 사항': analysis.specificImprovements.replace(/\d+\./g, '\n$&').trim(),
-                        '9. 이행상태': '진행중',
-                        '10. 이행완료일': ''
+                        '순번': index + 1,
+                        '시행일자': law.effective_date || '',
+                        '법령명': law.title || '',
+                        '주요개정내용': analysis.uniqueContent,
+                        '필요조치사항': analysis.uniqueActions,
+                        '담당부서': '',
+                        '담당자': '',
+                        '이행상태': '',
+                        '완료예정일': ''
                     };
                 });
                 
@@ -4812,7 +4811,7 @@
             
             const range = XLSX.utils.decode_range(worksheet['!ref']);
             
-            // 셀 스타일링
+            // 모든 셀에 가운데 정렬 적용
             for (let R = range.s.r; R <= range.e.r; ++R) {
                 for (let C = range.s.c; C <= range.e.c; ++C) {
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
@@ -4903,7 +4902,7 @@
                         '주요개정내용': analysis.uniqueContent,
                         '필요조치사항': analysis.uniqueActions,
                         '담당부서': '',
-                        '담담자': '',
+                        '담당자': '',
                         '이행상태': '',
                         '완료예정일': ''
                     };
