@@ -1,0 +1,21 @@
+# Supervisor logs and process files
+supervisord.log
+supervisord.pid
+lawwatch.log
+lawwatch_error.log
+
+# Temporary backup files
+*_backup.*
+*_temp.*
+*_simple.*
+*_corrected.*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
