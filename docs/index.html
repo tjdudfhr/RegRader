@@ -2413,10 +2413,8 @@
             }
 
             // 2025년 매칭된 법규 데이터를 동적으로 로드하여 분기별 필터링
-            console.log('📡 quarterly_details.json 요청 시작...');
             fetch('quarterly_details.json')
                 .then(response => {
-                    console.log('📡 Response status:', response.status);
                     if (!response.ok) throw new Error('데이터 로드 실패');
                     return response.json();
                 })
@@ -2589,7 +2587,6 @@
             `;
             
             // Insert content and show with animation
-            console.log('📄 내용 삽입 시작...');
             const detailSection = document.getElementById('quarterly-detail');
             const contentDiv = detailSection.querySelector('.quarterly-detail-content');
             
@@ -2603,11 +2600,9 @@
             }
             
             contentDiv.innerHTML = detailContent;
-            console.log('📄 내용 삽입 완료');
 
             // Smooth slide down animation
             detailSection.style.display = 'block';
-            console.log('👁️ display: block 설정');
             setTimeout(() => {
                 detailSection.classList.add('expanded');
                 console.log('✨ expanded 클래스 추가');
@@ -2618,7 +2613,6 @@
             // Smooth scroll to detail section
             setTimeout(() => {
                 detailSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                console.log('📍 스크롤 이동 완료');
             }, 300);
         }
 
@@ -2746,7 +2740,6 @@
         }
 
         async function showQuarterlyLawModal(lawTitle, lawUrl) {
-            console.log('🔍 분기 법령 모달 열기:', lawTitle);
             
             // 1단계: lawsData에서 정확한 매칭 시도
             let matchingLaw = lawsData.find(law => law.title === lawTitle);
@@ -2853,7 +2846,6 @@
         }
         
         function showDetailedQuarterlyModal(lawTitle, lawUrl) {
-            console.log('🔍 showDetailedQuarterlyModal 호출:', lawTitle, lawUrl);
             // 분기 법령 전용 상세 모달 (기존 showLawModal과 동일한 스타일)
             const modalBackdrop = document.createElement('div');
             modalBackdrop.className = 'modal-backdrop';
@@ -2924,7 +2916,6 @@
             document.body.appendChild(modalBackdrop);
             
             console.log('✅ 분기 법령 모달이 DOM에 추가됨');
-            console.log('📄 모달 내용:', modalContent.innerHTML.substring(0, 200) + '...');
             
             // 클릭 시 모달 닫기
             modalBackdrop.addEventListener('click', (e) => {
@@ -3128,7 +3119,6 @@
 
         async function loadData() {
             try {
-                console.log('🚀 데이터 로딩 시작...');
                 const response = await fetch('./index.json');
                 
                 if (!response.ok) {
@@ -3137,9 +3127,6 @@
                 
                 const data = await response.json();
                 
-                console.log('🔍 원본 데이터 구조:', Object.keys(data));
-                console.log('🔍 data.items 존재 여부:', !!data.items);
-                console.log('🔍 data.items 타입:', typeof data.items);
                 
                 if (data.items && Array.isArray(data.items)) {
                     console.log('📋 데이터 로드 완료:', data.items.length, '건');
@@ -3151,8 +3138,6 @@
                 
                 filteredLaws = [...lawsData];
                 
-                console.log('🔍 최종 lawsData:', lawsData.length, '개');
-                console.log('🔍 최종 filteredLaws:', filteredLaws.length, '개');
                 
                 // 헤더 정보 업데이트
                 document.getElementById('year').textContent = data.year || 2025;
@@ -3162,7 +3147,6 @@
                 // 실제 2025년 시행일자 데이터를 병합
                 await updateLawsWithRealEffectiveDates();
                 
-                console.log('🔍 displayLawList 호출 시점의 filteredLaws:', filteredLaws.length, '개');
                 displayLawList(filteredLaws);
                 updateTabCounts();
                 updateQuarterlyCounts();
@@ -3179,10 +3163,7 @@
                 // 전체 법규 개수 업데이트
                 const totalLawCountElement = document.getElementById('total-law-count');
                 if (totalLawCountElement) {
-                    console.log('🔍 전체 법규 개수 업데이트:', lawsData.length);
-                    console.log('🔍 업데이트 전 표시값:', totalLawCountElement.textContent);
                     totalLawCountElement.textContent = lawsData.length;
-                    console.log('🔍 업데이트 후 표시값:', totalLawCountElement.textContent);
                 }
                 
                 // 2025년 법규 분류 및 개수 업데이트
@@ -4358,7 +4339,6 @@
 
         // 직접 EmailJS 테스트 함수
         async function testDirectEmailSending(recipientEmail) {
-            console.log('🚀 직접 EmailJS 테스트 시작');
             console.log('📧 수신자:', recipientEmail);
             console.log('🔧 EmailJS Config:', emailjsConfig);
 
@@ -4497,10 +4477,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             // EmailJS 초기화는 사용자가 별도로 설정해야 함
             console.log('📧 이메일 알림 시스템 초기화 완료');
-            console.log('💡 EmailJS 설정 방법:');
             console.log('1. https://www.emailjs.com/ 에서 계정 생성');
             console.log('2. 서비스 및 템플릿 설정');
-            console.log('3. emailjs.init("YOUR_PUBLIC_KEY") 추가');
         });
 
         // 데이터 업데이트 함수
