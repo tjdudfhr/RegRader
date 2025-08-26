@@ -4687,9 +4687,7 @@
                     XLSX.utils.book_append_sheet(workbook, worksheet, name);
                 });
                 
-                // 📈 4. 통계 차트 시트 생성 - 사용자 요청으로 삭제
-                // const chartSheet = createChartSheet(quarterData.laws, quarter);
-                // XLSX.utils.book_append_sheet(workbook, chartSheet, '📈 통계 분석');
+                // 📈 4. 통계 차트 시트 완전 삭제
                 
                 // 파일명 생성 및 다운로드
                 const quarterNames = {
@@ -4794,10 +4792,17 @@
         
         // 📋 상세 시트 스타일링
         function applyDetailedSheetStyling(worksheet, dataLength) {
-            // 컬럼 너비 설정 (3번 약칭 컬럼 제거로 인한 변경)
+            // 9컬럼 구조: 순번, 시행일자, 법령명, 주요개정내용, 필요조치사항, 담당부서, 담당자, 이행상태, 완료예정일
             worksheet['!cols'] = [
-                { wch: 12 }, { wch: 40 }, { wch: 15 }, { wch: 50 },
-                { wch: 15 }, { wch: 12 }, { wch: 50 }, { wch: 12 }, { wch: 12 }
+                { wch: 8 },   // 순번
+                { wch: 12 },  // 시행일자  
+                { wch: 35 },  // 법령명
+                { wch: 50 },  // 주요개정내용
+                { wch: 50 },  // 필요조치사항
+                { wch: 15 },  // 담당부서
+                { wch: 12 },  // 담당자
+                { wch: 12 },  // 이행상태
+                { wch: 12 }   // 완료예정일
             ];
             
             // 행 높이 설정 (내용이 많은 컬럼들은 더 높게)
@@ -4833,10 +4838,7 @@
                         worksheet[cellRef].s.font = { bold: true, color: { rgb: 'FFFFFF' }, size: 12 };
                         worksheet[cellRef].s.alignment.horizontal = 'center';
                     }
-                    // 중요 컬럼 하이라이트 (4번, 7번 - 내용 컬럼)
-                    else if (C === 3 || C === 6) {
-                        worksheet[cellRef].s.fill = { fgColor: { rgb: 'F8FAFC' } };
-                    }
+                    // 모든 셀 가운데 정렬 완료
                 }
             }
         }
@@ -4890,19 +4892,19 @@
                 categories[category].push(law);
             });
             
-            // 각 카테고리별 시트 생성 (개정구분, 소관부처 제거, 담당부서 추가)
+            // 각 카테고리별 시트 생성 (상세시트와 완전 동일 구조)
             Object.entries(categories).forEach(([category, categoryLaws]) => {
                 const categoryData = categoryLaws.map((law, index) => {
-                    const analysis = generateDetailedAmendmentContent(law);
+                    const analysis = generateUniqueAmendmentContent(law);
                     return {
                         '순번': index + 1,
                         '시행일자': law.effective_date || '',
                         '법령명': law.title || '',
-                        '주요 개정내용': analysis.detailedContent,
-                        '필요 조치사항': analysis.specificImprovements,
+                        '주요개정내용': analysis.uniqueContent,
+                        '필요조치사항': analysis.uniqueActions,
                         '담당부서': '',
-                        '담당자': '',
-                        '이행상태': '진행중',
+                        '담담자': '',
+                        '이행상태': '',
                         '완료예정일': ''
                     };
                 });
@@ -4913,8 +4915,7 @@
                 applyCategorySheetStyling(worksheet, categoryData.length, category);
                 
                 // 드롭다운 추가 (G번 컬럼 - 이행상태)
-                // 드롭다운 검증 제거 - 빈칸으로 두기
-                // addDropdownValidation(worksheet, categoryData.length, 'G', ['진행중', '처리완료', '해당사항없음']);
+                // 드롭다운 검증 완전 제거
                 
                 const icon = getCategoryIcon(category);
                 sheets.push({
