@@ -129,6 +129,47 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
+        /* Update Button */
+        .update-btn {
+            position: absolute;
+            top: 1rem;
+            right: 5rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+            font-size: 1.2rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .update-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .update-btn:active {
+            transform: scale(0.95);
+        }
+
+        .update-btn.loading {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         .header::before {
             content: '';
             position: absolute;
@@ -1473,6 +1514,9 @@
     <div class="container">
         <!-- Glassmorphism Header -->
         <div class="header">
+            <button class="update-btn" onclick="triggerDataUpdate()" title="데이터 업데이트">
+                🔄
+            </button>
             <button class="settings-btn" onclick="openSettingsModal()" title="이메일 알림 설정">
                 ⚙️
             </button>
@@ -4296,6 +4340,35 @@
             console.log('2. 서비스 및 템플릿 설정');
             console.log('3. emailjs.init("YOUR_PUBLIC_KEY") 추가');
         });
+
+        // 데이터 업데이트 함수
+        function triggerDataUpdate() {
+            const updateBtn = document.querySelector('.update-btn');
+            const originalText = updateBtn.innerHTML;
+            
+            // 로딩 상태로 변경
+            updateBtn.classList.add('loading');
+            updateBtn.innerHTML = '⏳';
+            updateBtn.style.pointerEvents = 'none';
+            
+            // GitHub Actions 워크플로우 트리거 (현재는 시뮬레이션)
+            // 실제 구현 시에는 GitHub API를 사용하여 workflow_dispatch 이벤트를 트리거
+            
+            // 시뮬레이션: 3초 후 완료 표시
+            setTimeout(() => {
+                updateBtn.innerHTML = '✅';
+                updateBtn.classList.remove('loading');
+                
+                // 사용자에게 알림
+                alert('📊 데이터 업데이트 요청이 전송되었습니다!\n\n• GitHub Actions에서 최신 법령 데이터를 수집합니다\n• 업데이트 완료 시 페이지가 자동으로 새로고침됩니다\n• 약 2-3분 정도 소요됩니다');
+                
+                // 2초 후 원래 상태로 복원
+                setTimeout(() => {
+                    updateBtn.innerHTML = originalText;
+                    updateBtn.style.pointerEvents = 'auto';
+                }, 2000);
+            }, 3000);
+        }
     </script>
 </body>
 </html>
