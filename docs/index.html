@@ -3052,30 +3052,64 @@
                 }
                 
                 // 2025년 법규 분류 및 개수 업데이트
-                const currentDate = new Date('2025-08-20'); // 현재 날짜
-                const currentDateStr = '2025-08-20';
+                const currentDate = new Date('2025-08-26'); // 현재 날짜
+                const currentDateStr = '2025-08-26';
                 
-                // 시행 완료 - 2025년 매칭된 법규 중 이미 시행된 것들
-                const implementedLawCountElement = document.getElementById('implemented-law-count');
-                if (implementedLawCountElement) {
-                    // 2025년 법규 중 현재 날짜 이전에 시행된 법규 (올해 시행완료)
-                    const implementedCount = lawsData.filter(law => {
-                        if (!law.effectiveDate) return false;
-                        return law.effectiveDate.startsWith('2025') && law.effectiveDate <= currentDateStr;
-                    }).length;
-                    implementedLawCountElement.textContent = implementedCount;
-                }
-                
-                // 시행 예정 - 2025년 매칭된 법규 중 아직 시행되지 않은 것들
-                const amendmentLawCountElement = document.getElementById('amendment-law-count');
-                if (amendmentLawCountElement) {
-                    // 2025년 법규 중 현재 날짜 이후에 시행될 법규 (시행예정)
-                    const amendmentCount = lawsData.filter(law => {
-                        if (!law.effectiveDate) return false;
-                        return law.effectiveDate.startsWith('2025') && law.effectiveDate > currentDateStr;
-                    }).length;
-                    amendmentLawCountElement.textContent = amendmentCount;
-                }
+                // 92개 매칭 법규 기준으로 시행완료/시행예정 계산
+                // quarterly_details.json에서 실제 92개 데이터를 가져와서 계산
+                fetch('quarterly_details.json')
+                    .then(response => response.json())
+                    .then(quarterlyData => {
+                        // 모든 분기의 법규를 하나로 합침
+                        let all92Laws = [];
+                        Object.values(quarterlyData.quarters).forEach(quarter => {
+                            all92Laws = all92Laws.concat(quarter.laws || []);
+                        });
+                        
+                        console.log('📊 92개 매칭 법규 로드 완료:', all92Laws.length);
+                        
+                        // 시행 완료 (1월~8월 26일까지)
+                        const implementedLawCountElement = document.getElementById('implemented-law-count');
+                        if (implementedLawCountElement) {
+                            const implementedCount = all92Laws.filter(law => {
+                                if (!law.effective_date) return false;
+                                return law.effective_date <= currentDateStr;
+                            }).length;
+                            implementedLawCountElement.textContent = implementedCount;
+                            console.log('✅ 시행완료:', implementedCount);
+                        }
+                        
+                        // 시행 예정 (8월 27일~12월 31일)
+                        const amendmentLawCountElement = document.getElementById('amendment-law-count');
+                        if (amendmentLawCountElement) {
+                            const amendmentCount = all92Laws.filter(law => {
+                                if (!law.effective_date) return false;
+                                return law.effective_date > currentDateStr;
+                            }).length;
+                            amendmentLawCountElement.textContent = amendmentCount;
+                            console.log('✅ 시행예정:', amendmentCount);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('❌ 92개 매칭 데이터 로드 실패:', error);
+                        // 폴백: matched2025LawData의 분기별 개수를 사용해서 대략 계산
+                        const implementedLawCountElement = document.getElementById('implemented-law-count');
+                        const amendmentLawCountElement = document.getElementById('amendment-law-count');
+                        
+                        if (implementedLawCountElement) {
+                            // Q1(1~3월) + Q2(4~6월) + Q3 일부(7~8월) ≈ 대략 70건 정도
+                            const implementedCount = matched2025LawData.by_quarter.Q1 + 
+                                                   matched2025LawData.by_quarter.Q2 + 
+                                                   Math.floor(matched2025LawData.by_quarter.Q3 * 0.7); // Q3의 70%
+                            implementedLawCountElement.textContent = implementedCount;
+                        }
+                        
+                        if (amendmentLawCountElement) {
+                            // 나머지 = 92 - 시행완료
+                            const totalImplemented = parseInt(implementedLawCountElement.textContent) || 0;
+                            amendmentLawCountElement.textContent = 92 - totalImplemented;
+                        }
+                    });
                 
                 // Chart.js가 로딩된 후 차트 생성
                 setTimeout(() => {
