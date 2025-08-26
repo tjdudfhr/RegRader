@@ -94,12 +94,16 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
-            padding: 3rem 2rem;
+            padding: 3rem 2rem 2rem 2rem;
             margin-bottom: 2rem;
             text-align: center;
             position: relative;
             overflow: hidden;
             box-shadow: var(--shadow-xl);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
         }
 
         /* Settings Button */
@@ -188,7 +192,7 @@
         }
 
         .header h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 900;
             color: white;
             margin-bottom: 0.5rem;
@@ -198,18 +202,31 @@
         }
 
         .header .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
             position: relative;
             z-index: 1;
+            font-weight: 500;
+        }
+
+        .header .header-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .header .meta {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.75);
             position: relative;
             z-index: 1;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            line-height: 1.4;
         }
 
         /* Settings Button */
@@ -1572,8 +1589,10 @@
             <button class="settings-btn" onclick="openSettingsModal()" title="이메일 알림 설정">
                 ⚙️
             </button>
-            <h1>LAW WATCH</h1>
-            <div class="subtitle">AI를 활용한 법규 개정 모니터링 시스템</div>
+            <div class="header-content">
+                <h1>LAW WATCH</h1>
+                <div class="subtitle">AI를 활용한 법규 개정 모니터링 시스템</div>
+            </div>
             <div class="meta">
                 <span id="year">2025</span>년 법령 개정 현황 · 
 실제 당사 적용 법규 (207개, 92개 2025년 매칭) · 
