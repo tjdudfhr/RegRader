@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         :root {
             --primary: #667eea;
@@ -336,6 +337,38 @@
             font-size: 2.5rem;
             font-weight: 800;
             color: var(--primary);
+        }
+
+        /* Quarter Download Button */
+        .quarter-download-btn {
+            position: absolute;
+            bottom: 0.8rem;
+            right: 0.8rem;
+            width: 36px;
+            height: 36px;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            z-index: 2;
+            color: white;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .quarter-download-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            background: var(--accent-gradient);
+        }
+
+        .quarter-download-btn:active {
+            transform: scale(0.95);
         }
 
         /* Business Filter */
@@ -1594,6 +1627,9 @@
                         </div>
                         <div class="quarter-count" id="q1-count">0</div>
                     </div>
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q1', event)" title="1분기 법령 엑셀 다운로드">
+                        📊
+                    </button>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q2')">
                     <div class="quarter-icon">☀️</div>
@@ -1604,6 +1640,9 @@
                         </div>
                         <div class="quarter-count" id="q2-count">0</div>
                     </div>
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q2', event)" title="2분기 법령 엑셀 다운로드">
+                        📊
+                    </button>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q3')">
                     <div class="quarter-icon">🍂</div>
@@ -1614,6 +1653,9 @@
                         </div>
                         <div class="quarter-count" id="q3-count">0</div>
                     </div>
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q3', event)" title="3분기 법령 엑셀 다운로드">
+                        📊
+                    </button>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q4')">
                     <div class="quarter-icon">❄️</div>
@@ -1624,6 +1666,9 @@
                         </div>
                         <div class="quarter-count" id="q4-count">0</div>
                     </div>
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q4', event)" title="4분기 법령 엑셀 다운로드">
+                        📊
+                    </button>
                 </div>
             </div>
             </div>
@@ -4368,6 +4413,78 @@
                     updateBtn.style.pointerEvents = 'auto';
                 }, 2000);
             }, 3000);
+        }
+
+        // 분기별 엑셀 다운로드 함수
+        async function downloadQuarterlyExcel(quarter, event) {
+            // 이벤트 버블링 방지 (분기 박스 클릭 이벤트와 분리)
+            event.stopPropagation();
+            
+            try {
+                // 분기별 상세 데이터 로드
+                const response = await fetch('quarterly_details.json');
+                const data = await response.json();
+                
+                const quarterData = data.quarters[quarter];
+                if (!quarterData || !quarterData.laws) {
+                    alert('해당 분기 데이터를 찾을 수 없습니다.');
+                    return;
+                }
+                
+                // 엑셀 데이터 준비
+                const excelData = quarterData.laws.map((law, index) => ({
+                    '순번': index + 1,
+                    '법령명': law.title || '',
+                    '분류': (law.categories || []).join(', '),
+                    '시행일자': law.effective_date || '',
+                    '개정구분': law.law_type || '',
+                    '소관부처': law.ministry || '',
+                    '상세링크': law.detail_url || '',
+                    '검색링크': law.search_url || ''
+                }));
+                
+                // 워크북 생성
+                const workbook = XLSX.utils.book_new();
+                const worksheet = XLSX.utils.json_to_sheet(excelData);
+                
+                // 컬럼 너비 설정
+                const columnWidths = [
+                    { wch: 8 },  // 순번
+                    { wch: 50 }, // 법령명
+                    { wch: 15 }, // 분류
+                    { wch: 15 }, // 시행일자
+                    { wch: 12 }, // 개정구분
+                    { wch: 20 }, // 소관부처
+                    { wch: 15 }, // 상세링크
+                    { wch: 15 }  // 검색링크
+                ];
+                worksheet['!cols'] = columnWidths;
+                
+                // 워크시트를 워크북에 추가
+                const quarterNames = {
+                    'Q1': '1분기 (1-3월)',
+                    'Q2': '2분기 (4-6월)',
+                    'Q3': '3분기 (7-9월)',
+                    'Q4': '4분기 (10-12월)'
+                };
+                
+                XLSX.utils.book_append_sheet(workbook, worksheet, `${quarterNames[quarter]}`);
+                
+                // 파일명 생성
+                const today = new Date();
+                const dateStr = today.toISOString().split('T')[0];
+                const fileName = `법령개정현황_2025년_${quarterNames[quarter]}_${dateStr}.xlsx`;
+                
+                // 다운로드 실행
+                XLSX.writeFile(workbook, fileName);
+                
+                // 성공 메시지
+                console.log(`📊 ${quarterNames[quarter]} 법령 데이터 다운로드 완료: ${quarterData.laws.length}건`);
+                
+            } catch (error) {
+                console.error('엑셀 다운로드 오류:', error);
+                alert('엑셀 파일 다운로드 중 오류가 발생했습니다.');
+            }
         }
     </script>
 </body>
