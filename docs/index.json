@@ -4154,5 +4154,28 @@
         "search": "https://www.law.go.kr/lsSc.do?query=식품위생법 시행규칙"
       }
     }
-  ]
+  ],
+  "quarterlyClassification": {
+    "description": "2025년 분기별 법규 분류 (100% 완전 매칭 기준)",
+    "totalMatched": 259,
+    "lastUpdated": "2025-08-28T08:43:03.766521",
+    "quarters": {
+      "2025Q1": {
+        "count": 119,
+        "file": "quarters/2025q1_laws.json"
+      },
+      "2025Q2": {
+        "count": 61,
+        "file": "quarters/2025q2_laws.json"
+      },
+      "2025Q3": {
+        "count": 64,
+        "file": "quarters/2025q3_laws.json"
+      },
+      "2025Q4": {
+        "count": 15,
+        "file": "quarters/2025q4_laws.json"
+      }
+    }
+  }
 }

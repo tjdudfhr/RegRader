@@ -1,0 +1,291 @@
+{
+  "quarter": "2025Q4",
+  "year": 2025,
+  "generatedAt": "2025-08-28T08:43:03.763628",
+  "totalCount": 15,
+  "description": "2025Q4 시행 예정/현행 법규 목록 (100% 완전 매칭)",
+  "items": [
+    {
+      "id": "law_010",
+      "title": "근로기준법",
+      "collectedTitle": "근로기준법",
+      "effectiveDate": "2025-10-23",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "인사노무"
+      ],
+      "meta": {
+        "ministry": "고용노동부",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "e25b5701e132dfe0388546c92c40b9ee"
+      }
+    },
+    {
+      "id": "law_012",
+      "title": "근로기준법 시행령",
+      "collectedTitle": "근로기준법 시행령",
+      "effectiveDate": "2025-10-23",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "인사노무"
+      ],
+      "meta": {
+        "ministry": "고용노동부",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "af3a997608aafe0216ef3a00b99a5e3a"
+      }
+    },
+    {
+      "id": "law_033",
+      "title": "하도급거래 공정화에 관한 법률",
+      "collectedTitle": "하도급거래 공정화에 관한 법률",
+      "effectiveDate": "2025-10-02",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "공정거래"
+      ],
+      "meta": {
+        "ministry": "공정거래위원회",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "a3c690739ff8fbfaed23d6330d678c67"
+      }
+    },
+    {
+      "id": "law_044",
+      "title": "개인정보 보호법",
+      "collectedTitle": "개인정보 보호법",
+      "effectiveDate": "2025-10-02",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "정보보호"
+      ],
+      "meta": {
+        "ministry": "개인정보보호위원회",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "9161e04067717ea2f72de2e73327fda8"
+      }
+    },
+    {
+      "id": "law_125",
+      "title": "토양환경보전법 시행규칙",
+      "collectedTitle": "토양환경보전법 시행규칙",
+      "effectiveDate": "2025-10-08",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "a037b5f7bdaf2a7ed8fa9a1c83740536"
+      }
+    },
+    {
+      "id": "law_148",
+      "title": "폐기물관리법 시행규칙",
+      "collectedTitle": "폐기물관리법 시행규칙",
+      "effectiveDate": "2025-10-05",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "00f5bba26278f66fc0d6edb1ea24b533"
+      }
+    },
+    {
+      "id": "law_159",
+      "title": "하수도법 시행령",
+      "collectedTitle": "하수도법 시행령",
+      "effectiveDate": "2025-12-11",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "c42077839529ae4253f4d82674fa8302"
+      }
+    },
+    {
+      "id": "law_163",
+      "title": "환경영향평가법",
+      "collectedTitle": "환경영향평가법",
+      "effectiveDate": "2025-10-23",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "011fa0c1ffc8414f02a16ddc0bad8a29"
+      }
+    },
+    {
+      "id": "law_201",
+      "title": "기후위기 대응을 위한 탄소중립·녹색성장 기본법",
+      "collectedTitle": "기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법",
+      "effectiveDate": "2025-10-23",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "환경"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "0808dadd105bb2640c11914958b067cd"
+      }
+    },
+    {
+      "id": "law_221",
+      "title": "석면안전관리법 시행령",
+      "collectedTitle": "석면안전관리법 시행령",
+      "effectiveDate": "2025-12-25",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "안전"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "85ce15b24831093452eabb45ac172379"
+      }
+    },
+    {
+      "id": "law_223",
+      "title": "석면안전관리법 시행규칙",
+      "collectedTitle": "석면안전관리법 시행규칙",
+      "effectiveDate": "2025-12-25",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "안전"
+      ],
+      "meta": {
+        "ministry": "환경부",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "d16baee9f86e94621f96931ab57a12f8"
+      }
+    },
+    {
+      "id": "law_228",
+      "title": "전기안전관리법",
+      "collectedTitle": "전기안전관리법",
+      "effectiveDate": "2025-11-28",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "안전"
+      ],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "d3869371204be8dbc663639de2fade05"
+      }
+    },
+    {
+      "id": "law_231",
+      "title": "액화석유가스의 안전관리 및 사업법",
+      "collectedTitle": "액화석유가스의 안전관리 및 사업법",
+      "effectiveDate": "2025-11-28",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "안전"
+      ],
+      "meta": {
+        "ministry": "산업통상자원부",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "eb60a03fa3b72832e45c9dbc62e6ea5a"
+      }
+    },
+    {
+      "id": "law_237",
+      "title": "원자력안전법",
+      "collectedTitle": "원자력안전법",
+      "effectiveDate": "2025-10-23",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "안전"
+      ],
+      "meta": {
+        "ministry": "원자력안전위원회",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "2f1d684c6dcb3e966b7301f08692aebe"
+      }
+    },
+    {
+      "id": "law_245",
+      "title": "감염병의 예방 및 관리에 관한 법률",
+      "collectedTitle": "감염병의 예방 및 관리에 관한 법률",
+      "effectiveDate": "2025-10-02",
+      "originalDate": "2025-01-01",
+      "lawType": "nan",
+      "status": "시행예정",
+      "categories": [
+        "안전"
+      ],
+      "meta": {
+        "ministry": "보건복지부,질병관리청",
+        "source": "target=eflaw",
+        "matchType": "100%완전일치",
+        "companyLawId": "8ebbb8b8ffa1938a716b917cf34e03fc"
+      }
+    }
+  ],
+  "statistics": {
+    "byCategory": {
+      "인사노무": 2,
+      "공정거래": 1,
+      "정보보호": 1,
+      "환경": 5,
+      "안전": 6
+    },
+    "byStatus": {
+      "시행예정": 15
+    }
+  }
+}
