@@ -1,0 +1,11 @@
+# Code Owners for LAW WATCH Project
+# These files require manual review before any changes
+
+# Core data files - DO NOT AUTO-UPDATE
+/docs/base_laws_207.json @tjdudfhr
+/docs/index.json @tjdudfhr
+/core_data/ @tjdudfhr
+
+# Critical system files
+/docs/index.html @tjdudfhr
+*.py @tjdudfhr

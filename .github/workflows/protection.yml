@@ -1,0 +1,20 @@
+name: Protect Core Files
+on:
+  pull_request:
+    paths:
+      - 'docs/base_laws_207.json'
+      - 'docs/index.json'
+      - 'core_data/**'
+
+jobs:
+  block-auto-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Block automatic updates
+        run: |
+          echo "⚠️ WARNING: Attempting to modify protected core files!"
+          echo "These files require manual approval:"
+          echo "- base_laws_207.json (207 company laws)"
+          echo "- index.json (259 matched laws)"
+          echo "Please review changes carefully before merging."
+          exit 1
