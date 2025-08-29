@@ -3938,6 +3938,13 @@
                 );
             }
             
+            // 시행일자순으로 정렬 (오름차순: 가장 가까운 날짜부터)
+            filteredLaws.sort((a, b) => {
+                const dateA = a.effectiveDate ? new Date(a.effectiveDate) : new Date('2099-12-31');
+                const dateB = b.effectiveDate ? new Date(b.effectiveDate) : new Date('2099-12-31');
+                return dateA - dateB;
+            });
+            
             // Update header (fix icon duplication issue)
             if (jobFunction === 'all') {
                 document.getElementById('job-function-icon').textContent = '📋';
@@ -3969,10 +3976,20 @@
                 }
                 const safeUrl = lawUrl.replace(/'/g, '&quot;');
                 
+                // 시행일자 포맷팅
+                const effectiveDate = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                }).replace(/\. /g, '.').replace(/\.$/, '') : '미정';
+                
                 return `
-                    <div class="registry-law-item" onclick="window.open('${safeUrl}', '_blank'); return false;" title="${law.title} - 법령ID: ${law.meta?.lsId || '없음'}">
+                    <div class="registry-law-item" onclick="window.open('${safeUrl}', '_blank'); return false;" title="${law.title} - 시행일: ${effectiveDate}">
                         <div class="registry-law-number">${index + 1}.</div>
-                        <div class="registry-law-title">${law.title}</div>
+                        <div class="registry-law-title" style="flex: 1;">${law.title}</div>
+                        <div style="color: var(--primary); font-size: 0.85rem; margin: 0 1rem; font-weight: 500;">
+                            ${effectiveDate}
+                        </div>
                         <div class="registry-law-link">
                             <span>🔗</span>
                             <span>국가법령정보센터</span>
