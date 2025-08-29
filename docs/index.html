@@ -1668,12 +1668,12 @@
                             <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 적용 법규</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">180</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행완료(올해)</div>
+                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">200</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행완료<br/>(8/29 기준)</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb;" id="amendment-law-count">79</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행예정</div>
+                            <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb;" id="amendment-law-count">59</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행예정<br/>(9월 이후)</div>
                         </div>
                     </div>
                 </div>
@@ -3211,19 +3211,19 @@
                         
                         console.log('📊 92개 매칭 법규 로드 완료:', all92Laws.length);
                         
-                        // 시행 완료/예정 현황 (실제 분석 데이터 기반)
+                        // 시행 완료/예정 현황 (8월 29일 기준 실제 분석)
                         const implementedLawCountElement = document.getElementById('implemented-law-count');
                         if (implementedLawCountElement) {
-                            // Q1 + Q2 + Q3 일부 = 약 180개 (시행완료)
-                            implementedLawCountElement.textContent = 180;
-                            console.log('✅ 시행완료:', 180);
+                            // Q1(119) + Q2(61) + Q3 8월까지(20) = 200개 (시행완료)
+                            implementedLawCountElement.textContent = 200;
+                            console.log('✅ 시행완료 (8/29 기준):', 200);
                         }
                         
                         const amendmentLawCountElement = document.getElementById('amendment-law-count');
                         if (amendmentLawCountElement) {
-                            // Q3 일부 + Q4 = 약 79개 (시행예정)
-                            amendmentLawCountElement.textContent = 79;
-                            console.log('✅ 시행예정:', 79);
+                            // Q3 9월(44) + Q4(15) = 59개 (시행예정)
+                            amendmentLawCountElement.textContent = 59;
+                            console.log('✅ 시행예정 (9월 이후):', 59);
                         }
                     })
                     .catch(error => {
