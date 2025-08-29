@@ -3183,8 +3183,8 @@
                 const date = new Date((data.generatedAt || 0) * 1000);
                 document.getElementById('timestamp').textContent = date.toLocaleString('ko-KR');
 
-                // 실제 2025년 시행일자 데이터를 병합
-                await updateLawsWithRealEffectiveDates();
+                // 실제 2025년 시행일자 데이터를 병합 - 중복 문제로 비활성화
+                // await updateLawsWithRealEffectiveDates();
                 
                 displayLawList(filteredLaws);
                 updateTabCounts();
