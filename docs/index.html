@@ -2249,16 +2249,16 @@
         
         // 실제 당사 적용 법규 직무별 데이터로 업데이트하는 함수 (전체 259개 기준)
         function updateJobFunctionDataWithCompanyLaws() {
-            // 3번째 탭은 전체 259개 적용법규를 표시해야 하므로 실제 매칭된 카테고리 데이터 사용
+            // 3번째 탭은 기본 207개 적용법규를 표시 (과거 베이스 데이터)
             const fullCategoryData = {
-                "환경": 99,
-                "안전": 52,
-                "재무회계": 47,
-                "인사노무": 27,
-                "정보보호": 13,
-                "공정거래": 10,
-                "지배구조": 6,
-                "지식재산권": 5
+                "환경": 65,
+                "인사노무": 41,
+                "안전": 41,
+                "재무회계": 19,
+                "정보보호": 16,
+                "공정거래": 11,
+                "지식재산권": 7,
+                "지배구조": 7
             };
             
             // 각 직무별 카운트 업데이트 (전체 259개 기준)
@@ -2269,10 +2269,10 @@
                 }
             });
             
-            // 전체 카운트도 업데이트
+            // 전체 카운트도 업데이트 (기본 207개)
             const allCountElement = document.querySelector('#job-count-all');
             if (allCountElement) {
-                allCountElement.textContent = 259;
+                allCountElement.textContent = 207;
             }
             
             console.log('✅ 259개 실제 당사 적용 법규 직무별 데이터 업데이트 완료:', fullCategoryData);
@@ -3912,26 +3912,30 @@
             });
             document.querySelector(`[data-job="${jobFunction}"]`).classList.add('active');
             
+            // 적용법규 탭용: 중복 제거하여 207개 기본 법규만 표시
+            const uniqueLaws = {};
+            lawsData.forEach(law => {
+                // 법령명 기준으로 첫 번째 항목만 유지 (중복 제거)
+                if (!uniqueLaws[law.title]) {
+                    uniqueLaws[law.title] = law;
+                }
+            });
+            
+            const baseLaws = Object.values(uniqueLaws);
+            
             // Filter laws based on job function
             let filteredLaws;
             if (jobFunction === 'all') {
-                filteredLaws = lawsData;
+                filteredLaws = baseLaws;
             } else {
-                filteredLaws = lawsData.filter(law => 
+                filteredLaws = baseLaws.filter(law => 
                     law.categories && law.categories.includes(jobFunction)
                 );
             }
             
             // 법령명 가나다순으로 정렬
             filteredLaws.sort((a, b) => {
-                // 먼저 법령명으로 정렬
-                const titleCompare = a.title.localeCompare(b.title, 'ko-KR');
-                if (titleCompare !== 0) return titleCompare;
-                
-                // 같은 법령명이면 시행일자순으로 정렬
-                const dateA = a.effectiveDate ? new Date(a.effectiveDate) : new Date('2099-12-31');
-                const dateB = b.effectiveDate ? new Date(b.effectiveDate) : new Date('2099-12-31');
-                return dateA - dateB;
+                return a.title.localeCompare(b.title, 'ko-KR');
             });
             
             // Update header (fix icon duplication issue)
@@ -3973,15 +3977,12 @@
                 }).replace(/\. /g, '.').replace(/\.$/, '') : '미정';
                 
                 return `
-                    <div class="registry-law-item" onclick="showLawDetail('${law.id}'); return false;" title="${law.title} - 시행일: ${effectiveDate}" style="cursor: pointer;">
+                    <div class="registry-law-item" onclick="window.open('${safeUrl}', '_blank'); return false;" title="${law.title}">
                         <div class="registry-law-number">${index + 1}.</div>
                         <div class="registry-law-title" style="flex: 1;">${law.title}</div>
-                        <div style="color: var(--primary); font-size: 0.85rem; margin: 0 1rem; font-weight: 500;">
-                            ${effectiveDate}
-                        </div>
                         <div class="registry-law-link">
-                            <span>📋</span>
-                            <span>상세보기</span>
+                            <span>🔗</span>
+                            <span>국가법령정보센터</span>
                         </div>
                     </div>
                 `;
