@@ -3538,7 +3538,7 @@
                         <div class="law-meta">
                             <div class="meta-item">
                                 <span>🏛️</span>
-                                <span>${getMinistryName(item.title, item.categories) || item.meta?.ministry || '관계부처'}</span>
+                                <span>${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</span>
                             </div>
                             <div class="meta-item">
                                 <span>📄</span>
