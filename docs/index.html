@@ -3984,15 +3984,15 @@
                 }).replace(/\. /g, '.').replace(/\.$/, '') : '미정';
                 
                 return `
-                    <div class="registry-law-item" onclick="window.open('${safeUrl}', '_blank'); return false;" title="${law.title} - 시행일: ${effectiveDate}">
+                    <div class="registry-law-item" onclick="showLawDetail('${law.id}'); return false;" title="${law.title} - 시행일: ${effectiveDate}" style="cursor: pointer;">
                         <div class="registry-law-number">${index + 1}.</div>
                         <div class="registry-law-title" style="flex: 1;">${law.title}</div>
                         <div style="color: var(--primary); font-size: 0.85rem; margin: 0 1rem; font-weight: 500;">
                             ${effectiveDate}
                         </div>
                         <div class="registry-law-link">
-                            <span>🔗</span>
-                            <span>국가법령정보센터</span>
+                            <span>📋</span>
+                            <span>상세보기</span>
                         </div>
                     </div>
                 `;
