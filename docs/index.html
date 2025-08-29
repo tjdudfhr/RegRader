@@ -1664,8 +1664,8 @@
                     </div>
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
                         <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="total-law-count">207</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 적용 법규</div>
+                            <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="total-law-count">259</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 매칭 법규</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">200</div>
@@ -2216,9 +2216,9 @@
 
     <script>
     
-        // 2025년 100% 정확한 매칭 된 92개 법규 (207개 중 44.4% 매칭)
+        // 2025년 100% 정확한 매칭 된 259개 법규
         const matched2025LawData = {
-            "total_laws": 207,
+            "total_laws": 259,
             "matched_2025": 92,
             "matching_rate": 44.4,
             "description": "2025년 실제 시행 매칭 법규",
@@ -2245,7 +2245,7 @@
         // 주요 데이터 참조 - 2025년 매칭된 법규 사용
         const mainData = matched2025LawData;
 
-        // 기존 66개 약칭 매칭 데이터는 207개 실제 적용 법규로 완전 대체됨
+        // 259개 매칭 데이터로 업데이트
 
         // 66개 정확한 약칭 매칭 데이터만 사용 (단순화 완료)
         
@@ -2265,21 +2265,21 @@
             console.log('✅ 100% 정확한 분기별 데이터 업데이트 완료:', quarterCounts);
         }
         
-        // 실제 당사 적용 법규 직무별 데이터로 업데이트하는 함수 (전체 207개 기준)
+        // 실제 당사 적용 법규 직무별 데이터로 업데이트하는 함수 (전체 259개 기준)
         function updateJobFunctionDataWithCompanyLaws() {
-            // 3번째 탭은 전체 207개 적용법규를 표시해야 하므로 원본 카테고리 데이터 사용
+            // 3번째 탭은 전체 259개 적용법규를 표시해야 하므로 실제 매칭된 카테고리 데이터 사용
             const fullCategoryData = {
-                "환경": 65,
-                "인사노무": 41,
-                "안전": 41,
-                "재무회계": 19,
-                "정보보호": 16,
-                "공정거래": 11,
-                "지식재산권": 7,
-                "지배구조": 7
+                "환경": 99,
+                "안전": 52,
+                "재무회계": 47,
+                "인사노무": 27,
+                "정보보호": 13,
+                "공정거래": 10,
+                "지배구조": 6,
+                "지식재산권": 5
             };
             
-            // 각 직무별 카운트 업데이트 (전체 207개 기준)
+            // 각 직무별 카운트 업데이트 (전체 259개 기준)
             Object.keys(fullCategoryData).forEach(category => {
                 const countElement = document.querySelector(`#job-count-${category}`);
                 if (countElement) {
@@ -2290,26 +2290,26 @@
             // 전체 카운트도 업데이트
             const allCountElement = document.querySelector('#job-count-all');
             if (allCountElement) {
-                allCountElement.textContent = 207;
+                allCountElement.textContent = 259;
             }
             
-            console.log('✅ 207개 실제 당사 적용 법규 직무별 데이터 업데이트 완료:', fullCategoryData);
+            console.log('✅ 259개 실제 당사 적용 법규 직무별 데이터 업데이트 완료:', fullCategoryData);
         }
         
         // 100% 정확한 메인 대시보드 수치 업데이트 함수
         function updateMainDashboardWithCompanyLaws() {
-            // 총 적용 법규 (207개 실제 당사 적용 법규)
+            // 총 적용 법규 (259개 실제 당사 적용 법규)
             const totalAppliedElements = document.querySelectorAll('.metric-number');
             if (totalAppliedElements.length > 0) {
-                totalAppliedElements[0].textContent = 207; // 전체 당사 적용 법규
+                totalAppliedElements[0].textContent = 259; // 전체 당사 적용 법규
             }
             
             // 개정 예정 법규 (시행 예정)
             if (totalAppliedElements.length > 1) {
-                totalAppliedElements[1].textContent = 153; // 207 - 54 = 153개 예정 법령
+                totalAppliedElements[1].textContent = 59; // 259개 중 시행예정 59개
             }
             
-            console.log(`✅ 실제 당사 적용 법규 대시보드 업데이트: 총 207건`);
+            console.log(`✅ 실제 당사 적용 법규 대시보드 업데이트: 총 259건`);
         }
         
         // 2025년 92개 매칭된 법규로 업데이트하는 함수
@@ -3202,7 +3202,7 @@
                 // 전체 법규 개수 업데이트 (실제 분석 데이터 기반)
                 const totalLawCountElement = document.getElementById('total-law-count');
                 if (totalLawCountElement) {
-                    totalLawCountElement.textContent = 207; // 우리 회사 적용법규 207개
+                    totalLawCountElement.textContent = 259; // 우리 회사 적용법규 259개
                 }
                 
                 // 2025년 법규 분류 및 개수 업데이트
