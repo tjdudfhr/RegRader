@@ -3491,9 +3491,14 @@
         function displayLawList(items) {
             const sortedItems = items
                 .sort((a, b) => {
+                    // 법령명 가나다순 정렬
+                    const titleCompare = a.title.localeCompare(b.title, 'ko-KR');
+                    if (titleCompare !== 0) return titleCompare;
+                    
+                    // 같은 법령명이면 시행일자순
                     const dateA = a.effectiveDate || '1900-01-01';
                     const dateB = b.effectiveDate || '1900-01-01';
-                    return dateB.localeCompare(dateA);
+                    return dateA.localeCompare(dateB);
                 })
                 .slice(0, 100);
 
@@ -3640,7 +3645,7 @@
 
             document.getElementById('modal-title').textContent = item.title || '법령 제목';
             document.getElementById('modal-subtitle').textContent = 
-                `${getMinistryName(item.title, item.categories) || item.meta?.ministry || '관계부처'} • ${getDetailedLawType(item.title, item.lawType) || '일부개정'} • ${item.effectiveDate || '미정'}`;
+                `${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'} • ${getDetailedLawType(item.title, item.lawType) || '일부개정'} • ${item.effectiveDate || '미정'}`;
 
             generateAISummary(item);
             document.getElementById('law-modal').classList.add('show');
@@ -3655,9 +3660,9 @@
                 <div class="summary-section">
                     <h4>📋 개정 개요</h4>
                     <p><strong>법령명:</strong> ${item.title}</p>
-                    <p><strong>개정 유형:</strong> ${item.lawType || '정보 없음'}</p>
+                    <p><strong>개정 유형:</strong> ${getDetailedLawType(item.title, item.lawType) || '일부개정'}</p>
                     <p><strong>시행 시기:</strong> ${item.effectiveDate || '미정'}</p>
-                    <p><strong>주무 부처:</strong> ${item.meta?.ministry || '미상'}</p>
+                    <p><strong>주무 부처:</strong> ${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</p>
                 </div>
                 
                 <div class="summary-section">
@@ -3938,8 +3943,13 @@
                 );
             }
             
-            // 시행일자순으로 정렬 (오름차순: 가장 가까운 날짜부터)
+            // 법령명 가나다순으로 정렬
             filteredLaws.sort((a, b) => {
+                // 먼저 법령명으로 정렬
+                const titleCompare = a.title.localeCompare(b.title, 'ko-KR');
+                if (titleCompare !== 0) return titleCompare;
+                
+                // 같은 법령명이면 시행일자순으로 정렬
                 const dateA = a.effectiveDate ? new Date(a.effectiveDate) : new Date('2099-12-31');
                 const dateB = b.effectiveDate ? new Date(b.effectiveDate) : new Date('2099-12-31');
                 return dateA - dateB;
