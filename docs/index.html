@@ -2439,33 +2439,33 @@
                 clickedTab.classList.add('selected');
             }
 
-            // 2025년 매칭된 법규 데이터를 동적으로 로드하여 분기별 필터링
-            fetch('quarterly_details.json')
-                .then(response => {
-                    if (!response.ok) throw new Error('데이터 로드 실패');
-                    return response.json();
-                })
-                .then(quarterlyData => {
-                    console.log('✅ quarterly_details.json 로드 성공');
-                    const quarterLaws = quarterlyData.quarters[quarter].laws || [];
-                    console.log('📋 ' + quarter + ' 분기 법령 수:', quarterLaws.length + '개');
-                    continueShowQuarterlyDetail(quarter, info, quarterLaws);
-                })
-                .catch(error => {
-                    console.error('❌ 분기별 데이터 로드 실패:', error);
-                    // 폴백: matched2025LawData에서 예상 개수 표시
-                    const quarterCount = matched2025LawData.by_quarter[quarter] || 0;
-                    console.log('🔄 폴백 데이터 사용, 법령 수:', quarterCount);
-                    const fallbackLaws = Array(quarterCount).fill().map((_, index) => ({
-                        title: `${quarter} 시행 법령 ${index + 1}`,
-                        effective_date: quarter === 'Q1' ? '2025-03-01' : quarter === 'Q2' ? '2025-06-01' : quarter === 'Q3' ? '2025-09-01' : '2025-12-01',
-                        categories: ['환경'],
-                        ministry: '관계부처',
-                        law_type: '일부개정',
-                        detail_url: 'https://www.law.go.kr'
-                    }));
-                    continueShowQuarterlyDetail(quarter, info, fallbackLaws);
-                });
+            // lawsData에서 분기별 법령 필터링
+            const quarterLaws = lawsData.filter(law => {
+                if (!law.effectiveDate) return false;
+                const date = new Date(law.effectiveDate);
+                const month = date.getMonth() + 1; // 0-11 → 1-12
+                const year = date.getFullYear();
+                
+                // 2025년 법령만 필터링
+                if (year !== 2025) return false;
+                
+                // 분기별 필터링
+                return info.months.includes(month);
+            });
+            
+            // 가나다순 정렬
+            quarterLaws.sort((a, b) => {
+                const titleCompare = a.title.localeCompare(b.title, 'ko-KR');
+                if (titleCompare !== 0) return titleCompare;
+                
+                // 같은 법령명이면 시행일자순
+                const dateA = a.effectiveDate || '2099-12-31';
+                const dateB = b.effectiveDate || '2099-12-31';
+                return dateA.localeCompare(dateB);
+            });
+            
+            console.log(`📋 ${quarter} 분기 법령 수: ${quarterLaws.length}개`);
+            continueShowQuarterlyDetail(quarter, info, quarterLaws);
         }
         
         function continueShowQuarterlyDetail(quarter, info, quarterLaws) {
@@ -2506,9 +2506,9 @@
                 return `<span style="display: inline-flex; align-items: center; gap: 0.3rem; margin-right: 1rem; color: var(--text-secondary); font-size: 0.9rem;"><span>${categoryIcons[category] || '📋'}</span><span>${category}</span><span style="color: var(--primary); font-weight: 600;">${count}건</span></span>`;
             }).join('');
 
-            // 법령 목록 HTML 생성 (새로운 데이터 구조 반영)
+            // 법령 목록 HTML 생성 (index.json 데이터 구조 사용)
             const lawListHtml = quarterLaws.map(item => {
-                const effectiveDate = item.effective_date || item.effectiveDate || '미정';
+                const effectiveDate = item.effectiveDate || '미정';
                 const daysUntil = getDaysFromNow(effectiveDate);
                 let dateClass = 'active';
                 let dateText = effectiveDate;
@@ -2526,11 +2526,8 @@
                     }
                 }
 
-                // 링크 URL 생성
-                const lawUrl = item.detail_url || item.search_url || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`;
-
                 return `
-                    <div class="law-item" onclick="showQuarterlyLawModal('${item.title.replace(/'/g, "\\'")}', '${lawUrl}')" style="cursor: pointer;">
+                    <div class="law-item" onclick="showLawDetail('${item.id}')" style="cursor: pointer;">
                         <div class="law-item-header">
                             <div class="law-title">${item.title || '제목 없음'}</div>
                             <div class="date-badge ${dateClass}">${dateText}</div>
@@ -2538,15 +2535,15 @@
                         <div class="law-meta">
                             <div class="meta-item">
                                 <span>🏛️</span>
-                                <span>${item.ministry || '관계부처'}</span>
+                                <span>${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</span>
                             </div>
                             <div class="meta-item">
                                 <span>📄</span>
-                                <span>${item.law_type || '일부개정'}</span>
+                                <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
                             </div>
                             <div class="meta-item">
-                                <span>🔗</span>
-                                <span style="color: var(--primary);">법령정보</span>
+                                <span>📋</span>
+                                <span style="color: var(--primary);">상세보기</span>
                             </div>
                         </div>
                     </div>`;
@@ -3191,8 +3188,8 @@
                 updateQuarterlyCounts();
                 updateJobFunctionCounts();
                 
-                // 66개 정확한 약칭 매칭 결과로 업데이트 (최종 선택)
-                updateWith2025MatchedData();
+                // 66개 정확한 약칭 매칭 결과로 업데이트 (최종 선택) - 비활성화 (실제 데이터 사용)
+                // updateWith2025MatchedData();
                 updateJobFunctionDataWithCompanyLaws();
                 updateMainDashboardWithCompanyLaws();
                 
