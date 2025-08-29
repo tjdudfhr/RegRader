@@ -1645,9 +1645,9 @@
                             <div style="font-size: 2.2rem; font-weight: 900;">2,809</div>
                             <div style="font-size: 0.85rem; opacity: 0.9;">개정 법령</div>
                         </div>
-                        <button onclick="download2809Laws()" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 0.4rem 0.6rem; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 0.3rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'" title="2,809개 법령 엑셀 다운로드">
-                            <span style="font-size: 0.9rem;">📄</span>
-                            <span style="font-size: 0.75rem; font-weight: 600;">Excel</span>
+                        <button class="quarter-download-btn" onclick="download2809Laws()" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white;" title="클릭하면 2,809개 법령 엑셀파일이 다운로드됩니다 📄">
+                            <span class="download-icon">📄</span>
+                            <span class="download-text">Download</span>
                         </button>
                     </div>
                 </div>
@@ -1663,17 +1663,17 @@
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
-                        <div style="text-align: center; min-width: 80px;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary); height: 2rem; display: flex; align-items: center; justify-content: center;" id="total-law-count">207</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500; margin-top: 0.3rem; height: 2.5rem; display: flex; align-items: center; justify-content: center;">총 적용 법규</div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="total-law-count">207</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 적용 법규</div>
                         </div>
-                        <div style="text-align: center; min-width: 80px;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78; height: 2rem; display: flex; align-items: center; justify-content: center;" id="implemented-law-count">200</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500; margin-top: 0.3rem; height: 2.5rem; display: flex; align-items: center; justify-content: center;">시행완료</div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">200</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행완료</div>
                         </div>
-                        <div style="text-align: center; min-width: 80px;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb; height: 2rem; display: flex; align-items: center; justify-content: center;" id="amendment-law-count">59</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500; margin-top: 0.3rem; height: 2.5rem; display: flex; align-items: center; justify-content: center;">시행예정</div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb;" id="amendment-law-count">59</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행예정</div>
                         </div>
                     </div>
                 </div>
