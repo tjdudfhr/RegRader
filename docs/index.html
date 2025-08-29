@@ -2418,6 +2418,11 @@
             if (tabName !== 'quarterly' && currentQuarterlyDetail) {
                 closeQuarterlyDetail();
             }
+            
+            // 적용법규 탭을 클릭하면 207개 기본 법규 로드
+            if (tabName === 'lawregistry' && baseLawsData.length === 0) {
+                loadBaseLaws();
+            }
         }
 
         function showQuarterlyDetail(quarter) {
@@ -3929,6 +3934,78 @@
 
 
 
+        // 207개 기본 법규 데이터 저장용 전역 변수
+        let baseLawsData = [];
+        
+        // 207개 기본 법규 로드 함수
+        async function loadBaseLaws() {
+            try {
+                const response = await fetch('base_laws_207.json');
+                const data = await response.json();
+                baseLawsData = data.items;
+                console.log('✅ 207개 기본 법규 로드 완료');
+                
+                // 적용법규 탭 카운트 업데이트
+                updateRegistryTabCounts();
+                
+                // 초기 전체 법규 표시
+                showJobFunctionLaws('all', '전체');
+            } catch (error) {
+                console.error('기본 법규 로드 실패:', error);
+            }
+        }
+        
+        // 적용법규 탭 카운트 업데이트 (207개 기본 법규 기준)
+        function updateRegistryTabCounts() {
+            if (baseLawsData.length === 0) return;
+            
+            // 카테고리별 카운트 계산
+            const categoryCounts = {
+                "환경": 0,
+                "인사노무": 0,
+                "안전": 0,
+                "재무회계": 0,
+                "정보보호": 0,
+                "공정거래": 0,
+                "지식재산권": 0,
+                "지배구조": 0
+            };
+            
+            baseLawsData.forEach(law => {
+                if (law.categories && law.categories.length > 0) {
+                    law.categories.forEach(category => {
+                        if (categoryCounts.hasOwnProperty(category)) {
+                            categoryCounts[category]++;
+                        }
+                    });
+                }
+            });
+            
+            // 각 직무별 카운트 업데이트  
+            Object.keys(categoryCounts).forEach(category => {
+                const countElement = document.querySelector(`#job-count-${category}`);
+                if (countElement) {
+                    countElement.textContent = categoryCounts[category];
+                }
+            });
+            
+            // 전체 카운트 업데이트
+            const totalCount = baseLawsData.length;
+            const allCountElement = document.querySelector('#job-count-all');
+            if (allCountElement) {
+                allCountElement.textContent = totalCount;
+            }
+            
+            // registry-total-count 업데이트
+            const registryTotalElement = document.getElementById('registry-total-count');
+            if (registryTotalElement) {
+                registryTotalElement.textContent = totalCount;
+            }
+            
+            console.log('✅ 적용법규 탭 카운트 업데이트 완료 - 총', totalCount, '개 (207개 기본 법규)');
+            console.log('카테고리별:', categoryCounts);
+        }
+        
         // Law Registry Tab Functions
         function showJobFunctionLaws(jobFunction, jobTitle) {
             console.log('Showing laws for job function:', jobFunction);
@@ -3939,16 +4016,8 @@
             });
             document.querySelector(`[data-job="${jobFunction}"]`).classList.add('active');
             
-            // 적용법규 탭용: 중복 제거하여 207개 기본 법규만 표시
-            const uniqueLaws = {};
-            lawsData.forEach(law => {
-                // 법령명 기준으로 첫 번째 항목만 유지 (중복 제거)
-                if (!uniqueLaws[law.title]) {
-                    uniqueLaws[law.title] = law;
-                }
-            });
-            
-            const baseLaws = Object.values(uniqueLaws);
+            // 207개 기본 법규 사용
+            const baseLaws = baseLawsData;
             
             // Filter laws based on job function
             let filteredLaws;
@@ -3982,31 +4051,18 @@
             
             // Generate simplified law list (law name only, direct link to law center)
             const lawsHtml = filteredLaws.map((law, index) => {
-                // source.url을 우선적으로 사용 (이미 올바른 URL이 저장되어 있음)
-                let lawUrl;
-                if (law.source?.url) {
-                    // source URL이 있으면 사용 (이미 올바른 형식)
-                    lawUrl = law.source.url;
-                } else if (law.meta?.lsId) {
-                    // source URL이 없으면 법령 ID로 URL 생성
-                    lawUrl = `https://www.law.go.kr/LSW/lsInfoP.do?lsId=${law.meta.lsId}`;
-                } else {
-                    // 둘 다 없으면 제목으로 검색
-                    lawUrl = `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(law.title)}`;
-                }
+                // 국가법령정보센터로 직접 링크 (법령명으로 검색)
+                const lawUrl = `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(law.title)}`;
                 const safeUrl = lawUrl.replace(/'/g, '&quot;');
                 
-                // 시행일자 포맷팅
-                const effectiveDate = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit'
-                }).replace(/\. /g, '.').replace(/\.$/, '') : '미정';
+                // 법령 종류 표시
+                const lawType = law.lawType || '법률';
                 
                 return `
                     <div class="registry-law-item" onclick="window.open('${safeUrl}', '_blank'); return false;" title="${law.title}">
                         <div class="registry-law-number">${index + 1}.</div>
                         <div class="registry-law-title" style="flex: 1;">${law.title}</div>
+                        <div class="registry-law-type" style="padding: 0 10px; color: var(--text-muted); font-size: 0.85rem;">${lawType}</div>
                         <div class="registry-law-link">
                             <span>🔗</span>
                             <span>국가법령정보센터</span>
