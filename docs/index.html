@@ -1640,14 +1640,15 @@
                         <div style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem;">📊 2025년 법령 모니터링 분석 현황</div>
                         <div style="font-size: 0.9rem; opacity: 0.9;">국가법령정보센터 수집 및 매칭 분석 결과</div>
                     </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2.2rem; font-weight: 900;">2,809</div>
-                        <div style="font-size: 0.85rem; opacity: 0.9; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.2rem;">
-                            <span>개정 법령</span>
-                            <button onclick="download2809Laws()" style="background: transparent; border: none; color: white; cursor: pointer; padding: 0; display: inline-flex; align-items: center;" title="클릭하면 2,809개 법령 엑셀파일이 다운로드됩니다">
-                                <span style="font-size: 1rem;">📄</span>
-                            </button>
+                    <div style="display: flex; align-items: center; gap: 2rem;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2.2rem; font-weight: 900;">2,809</div>
+                            <div style="font-size: 0.85rem; opacity: 0.9;">개정 법령</div>
                         </div>
+                        <button onclick="download2809Laws()" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: white; padding: 0.4rem 0.6rem; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 0.3rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'" title="2,809개 법령 엑셀 다운로드">
+                            <span style="font-size: 0.9rem;">📄</span>
+                            <span style="font-size: 0.75rem; font-weight: 600;">Excel</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1658,7 +1659,7 @@
                     <div style="display: flex; align-items: center; gap: 0.8rem;">
                         <span style="font-size: 1.3rem;">🎯</span>
                         <div>
-                            <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">2025년 전체 개정 현황</div>
+                            <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">2025년 당사 적용 법규 개정 현황</div>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
@@ -1668,10 +1669,7 @@
                         </div>
                         <div style="text-align: center; min-width: 80px;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78; height: 2rem; display: flex; align-items: center; justify-content: center;" id="implemented-law-count">200</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500; margin-top: 0.3rem; height: 2.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                                <div>시행완료</div>
-                                <div style="font-size: 0.7rem;" id="today-date">(8/29 기준)</div>
-                            </div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500; margin-top: 0.3rem; height: 2.5rem; display: flex; align-items: center; justify-content: center;">시행완료</div>
                         </div>
                         <div style="text-align: center; min-width: 80px;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb; height: 2rem; display: flex; align-items: center; justify-content: center;" id="amendment-law-count">59</div>
