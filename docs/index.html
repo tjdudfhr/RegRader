@@ -1641,14 +1641,16 @@
                         <div style="font-size: 0.9rem; opacity: 0.9;">국가법령정보센터 수집 및 매칭 분석 결과</div>
                     </div>
                     <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 2.2rem; font-weight: 900;">2,809</div>
-                            <div style="font-size: 0.85rem; opacity: 0.9;">개정 법령</div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2.2rem; font-weight: 900;">2,809</div>
+                                <div style="font-size: 0.85rem; opacity: 0.9;">개정 법령</div>
+                            </div>
+                            <button class="quarter-download-btn" onclick="download2809Laws()" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white; padding: 0.5rem 0.8rem;" title="클릭하면 2,809개 법령 엑셀파일이 다운로드됩니다 📄">
+                                <span class="download-icon">📄</span>
+                                <span class="download-text">Download</span>
+                            </button>
                         </div>
-                        <button class="quarter-download-btn" onclick="download2809Laws()" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white;" title="클릭하면 2,809개 법령 엑셀파일이 다운로드됩니다 📄">
-                            <span class="download-icon">📄</span>
-                            <span class="download-text">Download</span>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -1665,15 +1667,15 @@
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="total-law-count">207</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 적용 법규</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500; margin-top: 0.3rem;">총 적용 법규</div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">200</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행완료<br/>(8/29 기준)</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500; margin-top: 0.3rem;">시행완료<br/><span style="font-size: 0.7rem;" id="today-date">(8/29 기준)</span></div>
                         </div>
                         <div style="text-align: center;">
                             <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb;" id="amendment-law-count">59</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행예정<br/>(9월 이후)</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500; margin-top: 0.3rem;">시행예정</div>
                         </div>
                     </div>
                 </div>
@@ -3098,7 +3100,18 @@
             await loadData();
             initializeFilters();
             initializeSearch();
+            updateTodayDate();
         });
+        
+        function updateTodayDate() {
+            const today = new Date();
+            const month = today.getMonth() + 1;
+            const day = today.getDate();
+            const dateElement = document.getElementById('today-date');
+            if (dateElement) {
+                dateElement.textContent = `(${month}/${day} 기준)`;
+            }
+        }
 
 
         async function updateLawsWithRealEffectiveDates() {
