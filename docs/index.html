@@ -2249,33 +2249,60 @@
         
         // 실제 당사 적용 법규 직무별 데이터로 업데이트하는 함수 (전체 259개 기준)
         function updateJobFunctionDataWithCompanyLaws() {
-            // 3번째 탭은 기본 207개 적용법규를 표시 (과거 베이스 데이터)
-            const fullCategoryData = {
-                "환경": 65,
-                "인사노무": 41,
-                "안전": 41,
-                "재무회계": 19,
-                "정보보호": 16,
-                "공정거래": 11,
-                "지식재산권": 7,
-                "지배구조": 7
-            };
-            
-            // 각 직무별 카운트 업데이트 (전체 259개 기준)
-            Object.keys(fullCategoryData).forEach(category => {
-                const countElement = document.querySelector(`#job-count-${category}`);
-                if (countElement) {
-                    countElement.textContent = fullCategoryData[category] || 0;
+            // 3번째 탭은 실제 유니크 법령 기준으로 표시 (중복 제거)
+            // 실제 계산된 값 사용
+            const uniqueLaws = {};
+            lawsData.forEach(law => {
+                if (!uniqueLaws[law.title]) {
+                    uniqueLaws[law.title] = law;
                 }
             });
             
-            // 전체 카운트도 업데이트 (기본 207개)
+            // 카테고리별 실제 카운트 계산
+            const categoryCounts = {
+                "환경": 0,
+                "인사노무": 0,
+                "안전": 0,
+                "재무회계": 0,
+                "정보보호": 0,
+                "공정거래": 0,
+                "지식재산권": 0,
+                "지배구조": 0
+            };
+            
+            Object.values(uniqueLaws).forEach(law => {
+                if (law.categories && law.categories.length > 0) {
+                    law.categories.forEach(category => {
+                        if (categoryCounts.hasOwnProperty(category)) {
+                            categoryCounts[category]++;
+                        }
+                    });
+                }
+            });
+            
+            // 각 직무별 카운트 업데이트
+            Object.keys(categoryCounts).forEach(category => {
+                const countElement = document.querySelector(`#job-count-${category}`);
+                if (countElement) {
+                    countElement.textContent = categoryCounts[category];
+                }
+            });
+            
+            // 전체 카운트 업데이트
+            const totalCount = Object.keys(uniqueLaws).length;
             const allCountElement = document.querySelector('#job-count-all');
             if (allCountElement) {
-                allCountElement.textContent = 207;
+                allCountElement.textContent = totalCount;
             }
             
-            console.log('✅ 259개 실제 당사 적용 법규 직무별 데이터 업데이트 완료:', fullCategoryData);
+            // registry-total-count 업데이트
+            const registryTotalElement = document.getElementById('registry-total-count');
+            if (registryTotalElement) {
+                registryTotalElement.textContent = totalCount;
+            }
+            
+            console.log('✅ 적용법규 데이터 업데이트 완료 - 총', totalCount, '개');
+            console.log('카테고리별:', categoryCounts);
         }
         
         // 100% 정확한 메인 대시보드 수치 업데이트 함수
@@ -4001,48 +4028,9 @@
         }
 
         function updateJobFunctionCounts() {
-            if (!lawsData || lawsData.length === 0) return;
-            
-            const categoryIcons = {
-                '인사노무': '👥',
-                '공정거래': '⚖️',
-                '정보보호': '🔒',
-                '지식재산권': '💡',
-                '재무회계': '💰',
-                '안전': '🛡️',
-                '환경': '🌱',
-                '지배구조': '🏛️'
-            };
-            
-            // Count laws for each category
-            const categoryCounts = {};
-            lawsData.forEach(law => {
-                if (law.categories && law.categories.length > 0) {
-                    law.categories.forEach(category => {
-                        categoryCounts[category] = (categoryCounts[category] || 0) + 1;
-                    });
-                }
-            });
-            
-            // Update counts in job function list
-            Object.keys(categoryCounts).forEach(category => {
-                const countElement = document.getElementById(`job-count-${category}`);
-                if (countElement) {
-                    countElement.textContent = categoryCounts[category];
-                }
-            });
-            
-            // Update total count
-            const totalCountElement = document.getElementById('job-count-all');
-            if (totalCountElement) {
-                totalCountElement.textContent = lawsData.length;
-            }
-            
-            // Update registry total count in header
-            const registryTotalElement = document.getElementById('registry-total-count');
-            if (registryTotalElement) {
-                registryTotalElement.textContent = lawsData.length;
-            }
+            // 이 함수는 사용하지 않음 - updateJobFunctionDataWithCompanyLaws가 대체
+            // 적용법규 탭은 유니크 법령만 카운트해야 하므로
+            return;
         }
 
 
