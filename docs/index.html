@@ -1605,7 +1605,6 @@
             </div>
             <div class="meta">
                 <span id="year">2025</span>년 법령 개정 현황 · 
-실제 당사 적용 법규 (207개, 92개 2025년 매칭) · 
                 최종 업데이트: <span id="timestamp">로딩 중...</span>
             </div>
         </div>
@@ -1638,17 +1637,17 @@
             <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; color: white; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
                 <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
                     <div>
-                        <div style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem;">📊 2025년 개정 법령</div>
-                        <div style="font-size: 0.9rem; opacity: 0.9;">국가법령정보센터 수집 데이터</div>
+                        <div style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.5rem;">📊 2025년 법령 모니터링 분석 현황</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">국가법령정보센터 수집 및 매칭 분석 결과</div>
                     </div>
                     <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
                         <div style="text-align: center;">
                             <div style="font-size: 2.2rem; font-weight: 900;">2,809</div>
                             <div style="font-size: 0.85rem; opacity: 0.9;">개정 법령</div>
                         </div>
-                        <button onclick="download2809Laws()" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white; padding: 0.7rem 1.2rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                            <span>📥</span>
-                            <span>Excel 다운로드</span>
+                        <button class="quarter-download-btn" onclick="download2809Laws()" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white;" title="클릭하면 2,809개 법령 엑셀파일이 다운로드됩니다 📄">
+                            <span class="download-icon">📄</span>
+                            <span class="download-text">Download</span>
                         </button>
                     </div>
                 </div>
@@ -1660,7 +1659,7 @@
                     <div style="display: flex; align-items: center; gap: 0.8rem;">
                         <span style="font-size: 1.3rem;">🎯</span>
                         <div>
-                            <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">우리 회사 적용법규 매칭 현황</div>
+                            <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">2025년 전체 개정 현황</div>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
@@ -1669,8 +1668,12 @@
                             <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 적용 법규</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="matched-law-count">259</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">매칭 법규<br/>(중복포함)</div>
+                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">180</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행완료(올해)</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb;" id="amendment-law-count">79</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행예정</div>
                         </div>
                     </div>
                 </div>
