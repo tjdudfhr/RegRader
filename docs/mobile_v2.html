@@ -1275,11 +1275,12 @@
                     const status = date < new Date() ? '시행완료' : '시행예정';
                     const statusClass = status === '시행완료' ? 'badge-status-completed' : 'badge-status-upcoming';
                     
-                    // ID를 안전하게 이스케이프
-                    const lawId = (law.id || law.title || '').replace(/'/g, '\\'');
+                    // 데이터 속성으로 전달하는 방식으로 변경
+                    const lawIndex = quarterLaws.indexOf(law);
+                    const lawData = JSON.stringify(law).replace(/"/g, '&quot;');
                     
                     return `
-                        <div class="law-item" onclick="showLawDetail('${lawId}'); event.stopPropagation();">
+                        <div class="law-item" data-law='${lawData}' onclick="showLawDetailFromData(this)">
                             <div class="law-header">
                                 <div class="law-title">${law.title}</div>
                                 <span class="law-link-icon">🔗</span>
@@ -1349,11 +1350,11 @@
                     const status = date && date < new Date() ? '시행완료' : '시행예정';
                     const statusClass = status === '시행완료' ? 'badge-status-completed' : 'badge-status-upcoming';
                     
-                    // ID를 안전하게 이스케이프
-                    const lawId = (law.id || law.title || '').replace(/'/g, '\\'');
+                    // 데이터 속성으로 전달하는 방식으로 변경
+                    const lawData = JSON.stringify(law).replace(/"/g, '&quot;');
                     
                     return `
-                        <div class="law-item" onclick="showLawDetail('${lawId}'); event.stopPropagation();">
+                        <div class="law-item" data-law='${lawData}' onclick="showLawDetailFromData(this)">
                             <div class="law-header">
                                 <div class="law-title">${law.title}</div>
                                 <span class="law-link-icon">🔗</span>
@@ -1654,6 +1655,17 @@
             document.getElementById('law-detail-modal').classList.remove('show');
         }
         
+        // 데이터 속성에서 법규 정보를 가져와서 상세 보기
+        function showLawDetailFromData(element) {
+            try {
+                const lawData = element.getAttribute('data-law').replace(/&quot;/g, '"');
+                const law = JSON.parse(lawData);
+                showLawDetailWithData(law);
+            } catch (error) {
+                console.error('Error parsing law data:', error);
+            }
+        }
+        
         // 법규 상세 보기 (PC버전과 동일한 AI 요약)
         function showLawDetail(lawId) {
             console.log('showLawDetail called with:', lawId);
@@ -1663,7 +1675,11 @@
                 return;
             }
             console.log('Found law:', law);
-            
+            showLawDetailWithData(law);
+        }
+        
+        // 실제 법규 데이터로 상세 팝업 표시
+        function showLawDetailWithData(law) {
             const modal = document.getElementById('law-detail-modal');
             const title = document.getElementById('law-modal-title');
             const body = document.getElementById('law-modal-body');
