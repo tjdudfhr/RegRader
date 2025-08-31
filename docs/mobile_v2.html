@@ -1275,8 +1275,11 @@
                     const status = date < new Date() ? '시행완료' : '시행예정';
                     const statusClass = status === '시행완료' ? 'badge-status-completed' : 'badge-status-upcoming';
                     
+                    // ID를 안전하게 이스케이프
+                    const lawId = (law.id || law.title || '').replace(/'/g, '\\'');
+                    
                     return `
-                        <div class="law-item" onclick="showLawDetail('${law.id || law.title}'); event.stopPropagation();">
+                        <div class="law-item" onclick="showLawDetail('${lawId}'); event.stopPropagation();">
                             <div class="law-header">
                                 <div class="law-title">${law.title}</div>
                                 <span class="law-link-icon">🔗</span>
@@ -1346,8 +1349,11 @@
                     const status = date && date < new Date() ? '시행완료' : '시행예정';
                     const statusClass = status === '시행완료' ? 'badge-status-completed' : 'badge-status-upcoming';
                     
+                    // ID를 안전하게 이스케이프
+                    const lawId = (law.id || law.title || '').replace(/'/g, '\\'');
+                    
                     return `
-                        <div class="law-item" onclick="showLawDetail('${law.id || law.title}'); event.stopPropagation();">
+                        <div class="law-item" onclick="showLawDetail('${lawId}'); event.stopPropagation();">
                             <div class="law-header">
                                 <div class="law-title">${law.title}</div>
                                 <span class="law-link-icon">🔗</span>
@@ -1650,8 +1656,13 @@
         
         // 법규 상세 보기 (PC버전과 동일한 AI 요약)
         function showLawDetail(lawId) {
+            console.log('showLawDetail called with:', lawId);
             const law = lawsData.find(l => l.id === lawId || l.title === lawId);
-            if (!law) return;
+            if (!law) {
+                console.error('Law not found:', lawId);
+                return;
+            }
+            console.log('Found law:', law);
             
             const modal = document.getElementById('law-detail-modal');
             const title = document.getElementById('law-modal-title');
@@ -1729,16 +1740,16 @@
         function generateAmendmentContent(item) {
             const category = item.categories?.[0] || '기타';
             const contents = {
-                '환경': '• 환경영향평가 대상 확대 및 평가 기준 강화\n• 오염물질 배출 허용 기준 강화\n• 환경 법규 위반 시 과태료 상향 조정\n• 친환경 경영 인센티브 제도 도입',
-                '안전': '• 중대재해 발생 시 처벌 기준 강화\n• 안전관리자 선임 기준 확대\n• 위험성 평가 주기 단축 및 절차 강화\n• 안전교육 시간 확대 및 내용 강화',
-                '인사노무': '• 최저임금 인상 및 적용 대상 확대\n• 유연근무제 도입 요건 완화\n• 육아휴직 기간 연장 및 급여 인상\n• 직장 내 괴롭힘 방지 조치 의무화',
-                '재무회계': '• 재무제표 공시 주기 단축\n• 내부회계관리제도 운영 기준 강화\n• 외부감사 대상 기업 범위 확대\n• 회계 부정 적발 시 처벌 강화',
-                '정보보호': '• 개인정보 수집 시 동의 절차 강화\n• 정보보안 관리체계 인증 의무화\n• 개인정보 유출 시 통지 기한 단축\n• 정보보호 책임자 지정 의무 확대',
-                '공정거래': '• 불공정거래 행위 유형 확대\n• 과징금 부과 기준 상향 조정\n• 하도급 대금 지급 기한 단축\n• 기술자료 요구 금지 조항 신설',
-                '지배구조': '• 사외이사 독립성 요건 강화\n• 감사위원회 운영 의무화\n• 주주총회 전자투표제 도입\n• ESG 경영 공시 의무화',
-                '지식재산권': '• 특허 심사 기간 단축\n• 영업비밀 보호 범위 확대\n• 저작권 침해 손해배상액 상향\n• 기술이전 촉진 제도 도입'
+                '환경': '• 환경영향평가 대상 확대 및 평가 기준 강화<br>• 오염물질 배출 허용 기준 강화<br>• 환경 법규 위반 시 과태료 상향 조정<br>• 친환경 경영 인센티브 제도 도입',
+                '안전': '• 중대재해 발생 시 처벌 기준 강화<br>• 안전관리자 선임 기준 확대<br>• 위험성 평가 주기 단축 및 절차 강화<br>• 안전교육 시간 확대 및 내용 강화',
+                '인사노무': '• 최저임금 인상 및 적용 대상 확대<br>• 유연근무제 도입 요건 완화<br>• 육아휴직 기간 연장 및 급여 인상<br>• 직장 내 괴롭힘 방지 조치 의무화',
+                '재무회계': '• 재무제표 공시 주기 단축<br>• 내부회계관리제도 운영 기준 강화<br>• 외부감사 대상 기업 범위 확대<br>• 회계 부정 적발 시 처벌 강화',
+                '정보보호': '• 개인정보 수집 시 동의 절차 강화<br>• 정보보안 관리체계 인증 의무화<br>• 개인정보 유출 시 통지 기한 단축<br>• 정보보호 책임자 지정 의무 확대',
+                '공정거래': '• 불공정거래 행위 유형 확대<br>• 과징금 부과 기준 상향 조정<br>• 하도급 대금 지급 기한 단축<br>• 기술자료 요구 금지 조항 신설',
+                '지배구조': '• 사외이사 독립성 요건 강화<br>• 감사위원회 운영 의무화<br>• 주주총회 전자투표제 도입<br>• ESG 경영 공시 의무화',
+                '지식재산권': '• 특허 심사 기간 단축<br>• 영업비밀 보호 범위 확대<br>• 저작권 침해 손해배상액 상향<br>• 기술이전 촉진 제도 도입'
             };
-            return contents[category] || '• 관련 법령 조항 정비\n• 행정 절차 간소화\n• 규제 합리화 조치\n• 제재 기준 현실화';
+            return contents[category] || '• 관련 법령 조항 정비<br>• 행정 절차 간소화<br>• 규제 합리화 조치<br>• 제재 기준 현실화';
         }
         
         // 날짜 계산 함수
