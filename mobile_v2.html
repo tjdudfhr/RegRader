@@ -676,6 +676,80 @@
             font-size: 0.9rem;
         }
         
+        /* TOP 3 카테고리 스타일 */
+        .top-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .top-category-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .top-category-item:active {
+            transform: scale(0.98);
+        }
+        
+        .rank-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .top-category-item:nth-child(1) .rank-badge {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+        }
+        
+        .top-category-item:nth-child(2) .rank-badge {
+            background: linear-gradient(135deg, #C0C0C0, #808080);
+        }
+        
+        .top-category-item:nth-child(3) .rank-badge {
+            background: linear-gradient(135deg, #CD7F32, #8B4513);
+        }
+        
+        .category-info {
+            flex: 1;
+        }
+        
+        .category-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 0.2rem;
+        }
+        
+        .category-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .category-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+        }
+        
         /* 요약 섹션 스타일 */
         .summary-section {
             margin-bottom: 1.5rem;
@@ -853,34 +927,48 @@
 
         </div>
 
-        <!-- 빠른 접근 -->
+        <!-- 이번주 주요 시행 법령 -->
         <div class="quarter-section">
             <div class="section-title">
-                <span>⚡</span>
-                <span>빠른 접근</span>
+                <span>🔥</span>
+                <span>이번주 시행 법령</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem;" id="week-info"></span>
             </div>
-            <div class="quarter-grid">
-                <div class="quarter-card" onclick="showQuarterDetail('Q1')">
-                    <div class="quarter-icon">🌱</div>
-                    <div class="quarter-name">1분기</div>
-                    <div class="quarter-period">2025.01~03</div>
-                    <div class="quarter-stats">
-                        <div>
-                            <div class="quarter-count">119</div>
-                            <div class="quarter-label">법령</div>
-                        </div>
+            <div id="weekly-laws" class="law-list" style="max-height: 300px; overflow-y: auto;">
+                <!-- 이번주 시행 법령이 여기에 표시됩니다 -->
+            </div>
+        </div>
+        
+        <!-- TOP 3 직무별 개정 현황 -->
+        <div class="quarter-section">
+            <div class="section-title">
+                <span>🏆</span>
+                <span>TOP 3 직무별 개정 현황</span>
+            </div>
+            <div class="top-categories">
+                <div class="top-category-item" onclick="showJobDetail('환경')">
+                    <div class="rank-badge">1</div>
+                    <div class="category-info">
+                        <div class="category-name">환경</div>
+                        <div class="category-count">99개 법령</div>
                     </div>
+                    <div class="category-bar" style="width: 100%;"></div>
                 </div>
-                <div class="quarter-card" onclick="showQuarterDetail('Q2')">
-                    <div class="quarter-icon">☀️</div>
-                    <div class="quarter-name">2분기</div>
-                    <div class="quarter-period">2025.04~06</div>
-                    <div class="quarter-stats">
-                        <div>
-                            <div class="quarter-count">61</div>
-                            <div class="quarter-label">법령</div>
-                        </div>
+                <div class="top-category-item" onclick="showJobDetail('안전')">
+                    <div class="rank-badge">2</div>
+                    <div class="category-info">
+                        <div class="category-name">안전</div>
+                        <div class="category-count">52개 법령</div>
                     </div>
+                    <div class="category-bar" style="width: 52%;"></div>
+                </div>
+                <div class="top-category-item" onclick="showJobDetail('재무회계')">
+                    <div class="rank-badge">3</div>
+                    <div class="category-info">
+                        <div class="category-name">재무회계</div>
+                        <div class="category-count">47개 법령</div>
+                    </div>
+                    <div class="category-bar" style="width: 47%;"></div>
                 </div>
             </div>
         </div>
@@ -1168,7 +1256,83 @@
             await loadLawsData();
             await loadBaseLaws();
             updateAllCounts();
+            updateWeeklyLaws();
+            updateWeekInfo();
         });
+        
+        // 이번주 정보 업데이트
+        function updateWeekInfo() {
+            const now = new Date();
+            const weekStart = new Date(now);
+            weekStart.setDate(now.getDate() - now.getDay()); // 일요일
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 6); // 토요일
+            
+            const formatDate = (date) => {
+                return `${date.getMonth() + 1}.${date.getDate()}`;
+            };
+            
+            document.getElementById('week-info').textContent = 
+                `${formatDate(weekStart)} ~ ${formatDate(weekEnd)}`;
+        }
+        
+        // 이번주 시행 법령 업데이트
+        function updateWeeklyLaws() {
+            if (lawsData.length === 0) return;
+            
+            const now = new Date();
+            const weekStart = new Date(now);
+            weekStart.setDate(now.getDate() - now.getDay());
+            weekStart.setHours(0, 0, 0, 0);
+            
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 6);
+            weekEnd.setHours(23, 59, 59, 999);
+            
+            // 이번주 시행 법령 필터링
+            const weeklyLaws = lawsData.filter(law => {
+                if (!law.effectiveDate) return false;
+                const effectiveDate = new Date(law.effectiveDate);
+                return effectiveDate >= weekStart && effectiveDate <= weekEnd;
+            }).sort((a, b) => new Date(a.effectiveDate) - new Date(b.effectiveDate));
+            
+            const weeklyLawsDiv = document.getElementById('weekly-laws');
+            
+            if (weeklyLaws.length > 0) {
+                weeklyLawsDiv.innerHTML = weeklyLaws.slice(0, 5).map(law => {
+                    const date = new Date(law.effectiveDate);
+                    const dateStr = `${date.getMonth() + 1}/${date.getDate()}`;
+                    const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+                    const dayName = dayNames[date.getDay()];
+                    
+                    const lawData = JSON.stringify(law).replace(/"/g, '&quot;');
+                    
+                    return `
+                        <div class="law-item" data-law='${lawData}' onclick="showLawDetailFromData(this)" style="cursor: pointer;">
+                            <div class="law-header">
+                                <div class="law-title">${law.title}</div>
+                                <span class="law-link-icon">🔗</span>
+                            </div>
+                            <div class="law-meta">
+                                <span class="law-badge badge-category">${law.categories?.[0] || '기타'}</span>
+                                <span class="law-badge badge-status-upcoming">${dateStr}(${dayName})</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                if (weeklyLaws.length > 5) {
+                    weeklyLawsDiv.innerHTML += `<p style="text-align: center; padding: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">외 ${weeklyLaws.length - 5}개 더...</p>`;
+                }
+            } else {
+                weeklyLawsDiv.innerHTML = `
+                    <div class="empty-state" style="padding: 2rem;">
+                        <div class="empty-icon">📅</div>
+                        <div class="empty-text">이번주 시행 예정 법령이 없습니다</div>
+                    </div>
+                `;
+            }
+        }
         
         // 259개 매칭 법규 데이터 로드
         async function loadLawsData() {
