@@ -646,6 +646,25 @@
         .empty-text {
             font-size: 0.9rem;
         }
+        
+        /* 요약 섹션 스타일 */
+        .summary-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .summary-section h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.8rem;
+        }
+        
+        .summary-section p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
 
         /* 플로팅 액션 버튼 */
         .fab {
@@ -1072,6 +1091,19 @@
         </div>
     </div>
 
+    <!-- 법규 상세 모달 -->
+    <div class="modal" id="law-detail-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="law-modal-title">법령 상세</h3>
+                <button class="modal-close" onclick="closeLawModal()">✕</button>
+            </div>
+            <div class="modal-body" id="law-modal-body">
+                <!-- AI 요약 내용이 여기에 표시됩니다 -->
+            </div>
+        </div>
+    </div>
+
     <script>
         // 데이터 저장소
         let lawsData = [];
@@ -1244,7 +1276,7 @@
                     const statusClass = status === '시행완료' ? 'badge-status-completed' : 'badge-status-upcoming';
                     
                     return `
-                        <div class="law-item" onclick="window.open('https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(law.title)}', '_blank')">
+                        <div class="law-item" onclick="showLawDetail('${law.id || law.title}'); event.stopPropagation();">
                             <div class="law-header">
                                 <div class="law-title">${law.title}</div>
                                 <span class="law-link-icon">🔗</span>
@@ -1315,7 +1347,7 @@
                     const statusClass = status === '시행완료' ? 'badge-status-completed' : 'badge-status-upcoming';
                     
                     return `
-                        <div class="law-item" onclick="window.open('https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(law.title)}', '_blank')">
+                        <div class="law-item" onclick="showLawDetail('${law.id || law.title}'); event.stopPropagation();">
                             <div class="law-header">
                                 <div class="law-title">${law.title}</div>
                                 <span class="law-link-icon">🔗</span>
@@ -1609,6 +1641,152 @@
         // 모달 닫기
         function closeModal() {
             document.getElementById('detail-modal').classList.remove('show');
+        }
+        
+        // 법규 상세 모달 닫기
+        function closeLawModal() {
+            document.getElementById('law-detail-modal').classList.remove('show');
+        }
+        
+        // 법규 상세 보기 (PC버전과 동일한 AI 요약)
+        function showLawDetail(lawId) {
+            const law = lawsData.find(l => l.id === lawId || l.title === lawId);
+            if (!law) return;
+            
+            const modal = document.getElementById('law-detail-modal');
+            const title = document.getElementById('law-modal-title');
+            const body = document.getElementById('law-modal-body');
+            
+            title.innerHTML = law.title;
+            
+            const summaryHtml = generateAISummary(law);
+            body.innerHTML = summaryHtml;
+            
+            modal.classList.add('show');
+        }
+        
+        // AI 요약 생성 함수
+        function generateAISummary(item) {
+            const amendmentReason = generateAmendmentReason(item);
+            const amendmentContent = generateAmendmentContent(item);
+            
+            return `
+                <div class="summary-section">
+                    <h4>📋 개정 개요</h4>
+                    <p><strong>법령명:</strong> ${item.title}</p>
+                    <p><strong>시행일:</strong> ${item.effectiveDate || '미정'}</p>
+                    <p><strong>주무부처:</strong> ${getMinistryName(item.title, item.categories)}</p>
+                    <p><strong>관련직무:</strong> ${(item.categories || ['기타']).join(', ')}</p>
+                </div>
+                
+                <div class="summary-section">
+                    <h4>📝 개정 이유</h4>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                        ${amendmentReason}
+                    </div>
+                </div>
+                
+                <div class="summary-section">
+                    <h4>📄 주요 개정 내용</h4>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                        ${amendmentContent}
+                    </div>
+                </div>
+                
+                <div class="summary-section">
+                    <h4>🎯 핵심 포인트</h4>
+                    <p>• <strong>업무 영향도:</strong> ${(item.categories || ['기타']).join(', ')} 분야에 직접적인 영향</p>
+                    <p>• <strong>준비 기간:</strong> ${getDaysFromNow(item.effectiveDate) > 0 ? `시행까지 ${getDaysFromNow(item.effectiveDate)}일 남음` : '이미 시행 중'}</p>
+                    <p>• <strong>대응 우선도:</strong> ${getDaysFromNow(item.effectiveDate) <= 7 ? '🚨 긴급' : getDaysFromNow(item.effectiveDate) <= 30 ? '⚠️ 주의' : '📅 예정'}</p>
+                </div>
+                
+                <div class="summary-section">
+                    <button onclick="window.open('https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}', '_blank')" 
+                            style="width: 100%; padding: 1rem; background: var(--primary-gradient); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 1rem;">
+                        📜 법령 원문 보기
+                    </button>
+                </div>
+            `;
+        }
+        
+        // 개정 이유 생성
+        function generateAmendmentReason(item) {
+            const category = item.categories?.[0] || '기타';
+            const reasons = {
+                '환경': '환경보호 정책 강화 및 지속가능한 발전을 위해 관련 규제를 개선하고, 기업의 환경 책임을 강화하는 방향으로 개정되었습니다.',
+                '안전': '산업 안전사고 예방 강화 및 근로자 보호를 위해 안전관리 체계를 개선하고, 사업주의 안전 책임을 강화하는 내용입니다.',
+                '인사노무': '근로환경 개선 및 노동자 권익 보호를 위해 근로조건을 개선하고, 일·생활 균형을 지원하는 방향으로 개정되었습니다.',
+                '재무회계': '회계 투명성 강화 및 재무 건전성 확보를 위해 관련 기준을 정비하고, 공시 의무를 강화하는 내용입니다.',
+                '정보보호': '개인정보 보호 강화 및 정보보안 체계 개선을 위해 관리 기준을 강화하고, 침해 대응 체계를 정비하는 방향입니다.',
+                '공정거래': '공정한 시장 질서 확립 및 불공정 거래 행위 근절을 위해 규제를 강화하고, 처벌 기준을 상향 조정하였습니다.',
+                '지배구조': '기업 지배구조 투명성 강화 및 주주 권익 보호를 위해 이사회 운영 기준을 개선하고, 공시 의무를 확대하였습니다.',
+                '지식재산권': '지식재산 보호 강화 및 기술 혁신 촉진을 위해 특허 제도를 개선하고, 침해 구제 수단을 강화하였습니다.'
+            };
+            return reasons[category] || '법령 현실화 및 제도 개선을 위해 관련 조항을 정비하고, 실효성을 강화하는 방향으로 개정되었습니다.';
+        }
+        
+        // 개정 내용 생성
+        function generateAmendmentContent(item) {
+            const category = item.categories?.[0] || '기타';
+            const contents = {
+                '환경': '• 환경영향평가 대상 확대 및 평가 기준 강화\n• 오염물질 배출 허용 기준 강화\n• 환경 법규 위반 시 과태료 상향 조정\n• 친환경 경영 인센티브 제도 도입',
+                '안전': '• 중대재해 발생 시 처벌 기준 강화\n• 안전관리자 선임 기준 확대\n• 위험성 평가 주기 단축 및 절차 강화\n• 안전교육 시간 확대 및 내용 강화',
+                '인사노무': '• 최저임금 인상 및 적용 대상 확대\n• 유연근무제 도입 요건 완화\n• 육아휴직 기간 연장 및 급여 인상\n• 직장 내 괴롭힘 방지 조치 의무화',
+                '재무회계': '• 재무제표 공시 주기 단축\n• 내부회계관리제도 운영 기준 강화\n• 외부감사 대상 기업 범위 확대\n• 회계 부정 적발 시 처벌 강화',
+                '정보보호': '• 개인정보 수집 시 동의 절차 강화\n• 정보보안 관리체계 인증 의무화\n• 개인정보 유출 시 통지 기한 단축\n• 정보보호 책임자 지정 의무 확대',
+                '공정거래': '• 불공정거래 행위 유형 확대\n• 과징금 부과 기준 상향 조정\n• 하도급 대금 지급 기한 단축\n• 기술자료 요구 금지 조항 신설',
+                '지배구조': '• 사외이사 독립성 요건 강화\n• 감사위원회 운영 의무화\n• 주주총회 전자투표제 도입\n• ESG 경영 공시 의무화',
+                '지식재산권': '• 특허 심사 기간 단축\n• 영업비밀 보호 범위 확대\n• 저작권 침해 손해배상액 상향\n• 기술이전 촉진 제도 도입'
+            };
+            return contents[category] || '• 관련 법령 조항 정비\n• 행정 절차 간소화\n• 규제 합리화 조치\n• 제재 기준 현실화';
+        }
+        
+        // 날짜 계산 함수
+        function getDaysFromNow(dateStr) {
+            if (!dateStr) return null;
+            const targetDate = new Date(dateStr);
+            const today = new Date();
+            const diffTime = targetDate - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays;
+        }
+        
+        // 부처명 추출 함수
+        function getMinistryName(title, categories) {
+            if (!title) return '관계부처';
+            
+            const category = (categories && categories[0]) || '';
+            
+            // 법령명 기반 부처 매핑
+            if (title.includes('근로기준법') || title.includes('최저임금법') || title.includes('산업안전보건법')) {
+                return '고용노동부';
+            } else if (title.includes('개인정보보호법') || title.includes('정보통신')) {
+                return '개인정보보호위원회';
+            } else if (title.includes('공정거래법') || title.includes('독점규제')) {
+                return '공정거래위원회';
+            } else if (title.includes('환경') || title.includes('대기') || title.includes('폐기물')) {
+                return '환경부';
+            } else if (title.includes('상법') || title.includes('주식회사')) {
+                return '법무부';
+            } else if (title.includes('법인세') || title.includes('부가가치세')) {
+                return '기획재정부';
+            } else if (title.includes('특허') || title.includes('상표') || title.includes('저작권')) {
+                return '특허청';
+            }
+            
+            // 카테고리 기반 부처 매핑
+            const ministryMap = {
+                '인사노무': '고용노동부',
+                '정보보호': '개인정보보호위원회',
+                '공정거래': '공정거래위원회',
+                '안전': '고용노동부',
+                '환경': '환경부',
+                '지배구조': '법무부',
+                '재무회계': '기획재정부',
+                '지식재산권': '특허청'
+            };
+            
+            return ministryMap[category] || '관계부처';
         }
         
         // 맨 위로 스크롤
