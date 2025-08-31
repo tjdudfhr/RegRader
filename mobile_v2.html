@@ -1009,7 +1009,7 @@
     <!-- 적용법규 탭 -->
     <div class="tab-content" id="registry-tab">
         <div class="search-section">
-            <input type="text" class="search-input" placeholder="법규명 검색..." onkeyup="searchLaws(this.value)">
+            <input type="text" class="search-input" placeholder="207개 기본 법규 검색..." onkeyup="searchLaws(this.value)" onfocus="this.select()">
         </div>
         <div class="job-section">
             <div class="section-title">
@@ -1058,6 +1058,31 @@
                     <div class="job-count">11</div>
                     <div class="job-label">기본 법규</div>
                 </div>
+                
+                <div class="job-card" onclick="showRegistryCategory('지배구조')">
+                    <div class="job-icon-wrapper job-gov">🏛️</div>
+                    <div class="job-name">지배구조</div>
+                    <div class="job-count">7</div>
+                    <div class="job-label">기본 법규</div>
+                </div>
+                
+                <div class="job-card" onclick="showRegistryCategory('지식재산권')">
+                    <div class="job-icon-wrapper job-ip">💡</div>
+                    <div class="job-name">지식재산권</div>
+                    <div class="job-count">7</div>
+                    <div class="job-label">기본 법규</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 검색 결과 영역 -->
+        <div id="search-results-section" style="display: none; padding: 1rem;">
+            <div class="section-title">
+                <span>🔍</span>
+                <span>검색 결과</span>
+            </div>
+            <div id="search-results-list" class="law-list">
+                <!-- 검색 결과가 여기에 표시됩니다 -->
             </div>
         </div>
     </div>
@@ -1396,6 +1421,16 @@
             const modal = document.getElementById('detail-modal');
             const title = document.getElementById('modal-title');
             const body = document.getElementById('modal-body');
+            
+            // 데이터가 로드되지 않았으면 알림
+            if (baseLawsData.length === 0) {
+                body.innerHTML = '<div class="loading"><div class="spinner"></div><p>데이터를 로드하고 있습니다...</p></div>';
+                modal.classList.add('show');
+                loadBaseLaws().then(() => {
+                    showRegistryCategory(category);
+                });
+                return;
+            }
             
             // 해당 카테고리 기본 법규 필터링
             const categoryLaws = baseLawsData.filter(law => 
@@ -1826,6 +1861,65 @@
         // 맨 위로 스크롤
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 법규 검색 함수 (적용법규 탭에서만)
+        function searchLaws(query) {
+            const resultsSection = document.getElementById('search-results-section');
+            const resultsList = document.getElementById('search-results-list');
+            const jobSection = document.querySelector('#registry-tab .job-section');
+            
+            if (!query || query.length < 2) {
+                resultsSection.style.display = 'none';
+                jobSection.style.display = 'block';
+                return;
+            }
+            
+            // 기본 법규가 로드되지 않았으면 종료
+            if (baseLawsData.length === 0) {
+                resultsList.innerHTML = '<div class="empty-state"><div class="empty-icon">⏳</div><div class="empty-text">데이터를 로드하고 있습니다...</div></div>';
+                return;
+            }
+            
+            // 기본 법규에서만 검색
+            const searchResults = baseLawsData.filter(law => 
+                law.title.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            // 카테고리 보기 숨기고 검색 결과 표시
+            jobSection.style.display = 'none';
+            resultsSection.style.display = 'block';
+            
+            if (searchResults.length > 0) {
+                const maxResults = 20;
+                const displayResults = searchResults.slice(0, maxResults);
+                
+                resultsList.innerHTML = displayResults.map((law, index) => {
+                    return `
+                        <div class="law-item" onclick="window.open('https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(law.title)}', '_blank')">
+                            <div class="law-header">
+                                <div class="law-title">${index + 1}. ${law.title}</div>
+                                <span class="law-link-icon">🔗</span>
+                            </div>
+                            <div class="law-meta">
+                                <span class="law-badge badge-type">${law.lawType || '법률'}</span>
+                                <span class="law-badge badge-category">${law.categories?.[0] || '기타'}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                if (searchResults.length > maxResults) {
+                    resultsList.innerHTML += `<p style="text-align: center; padding: 1rem; color: var(--text-muted);">총 ${searchResults.length}개 중 ${maxResults}개 표시</p>`;
+                }
+            } else {
+                resultsList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">😔</div>
+                        <div class="empty-text">"${query}"에 대한 검색 결과가 없습니다</div>
+                    </div>
+                `;
+            }
         }
         
 
