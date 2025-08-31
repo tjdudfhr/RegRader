@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RegRader Mobile · 법규 모니터링</title>
+    <link rel="shortcut icon" href="data:text/plain;base64,📊">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #667eea;
+            --primary-light: #764ba2;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+            --text-muted: #718096;
+            --border: #e2e8f0;
+            --success: #48bb78;
+            --warning: #f093fb;
+            --danger: #fc466b;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 상단 헤더 */
+        .mobile-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .menu-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* 주요 통계 카드 */
+        .stats-container {
+            padding: 1rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .stat-card.primary {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .stat-icon {
+            font-size: 1.3rem;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .mini-stat {
+            text-align: center;
+        }
+
+        .mini-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .mini-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        /* 탭 네비게이션 */
+        .tab-nav {
+            background: white;
+            position: sticky;
+            top: 60px;
+            z-index: 90;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-nav-inner {
+            display: flex;
+            padding: 0 1rem;
+            min-width: max-content;
+        }
+
+        .tab-btn {
+            padding: 1rem 1.2rem;
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* 탭 컨텐츠 */
+        .tab-content {
+            padding: 1rem;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 분기별 카드 */
+        .quarter-cards {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .quarter-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .quarter-card:active {
+            transform: scale(0.98);
+        }
+
+        .quarter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .quarter-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quarter-icon {
+            font-size: 1.5rem;
+        }
+
+        .quarter-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .quarter-count {
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .quarter-details {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* 직무별 리스트 */
+        .job-list {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .job-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            cursor: pointer;
+        }
+
+        .job-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .job-icon {
+            font-size: 1.3rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+        }
+
+        .job-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .job-count {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .job-arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* 법규 리스트 */
+        .law-list {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .law-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+
+        .law-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .law-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .law-badge {
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .badge-category {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary);
+        }
+
+        .badge-status {
+            background: rgba(72, 187, 120, 0.1);
+            color: var(--success);
+        }
+
+        /* 하단 네비게이션 바 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .nav-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* 모달 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.show {
+            display: block;
+        }
+
+        .modal-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+
+        .modal-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        /* 로딩 스피너 */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+
+        .spinner {
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="mobile-header">
+        <div class="header-content">
+            <div class="logo">📊 RegRader</div>
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        </div>
+    </header>
+
+    <!-- 주요 통계 -->
+    <div class="stats-container">
+        <!-- 전체 개정 법령 -->
+        <div class="stat-card primary">
+            <div class="stat-header">
+                <span class="stat-icon">📈</span>
+                <span class="stat-title">2025년 개정 법규 현황</span>
+            </div>
+            <div class="stat-value">2,809</div>
+            <div class="stat-subtitle">전체 개정 법령</div>
+        </div>
+
+        <!-- 당사 매칭 현황 -->
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-icon">🎯</span>
+                <span class="stat-title">당사 적용 법규</span>
+            </div>
+            <div class="stat-grid">
+                <div class="mini-stat">
+                    <div class="mini-stat-value" style="color: var(--primary);">259</div>
+                    <div class="mini-stat-label">총 매칭</div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-value" style="color: var(--success);">200</div>
+                    <div class="mini-stat-label">시행완료</div>
+                </div>
+                <div class="mini-stat">
+                    <div class="mini-stat-value" style="color: var(--warning);">59</div>
+                    <div class="mini-stat-label">시행예정</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 탭 네비게이션 -->
+    <div class="tab-nav">
+        <div class="tab-nav-inner">
+            <button class="tab-btn active" onclick="switchTab('quarterly')">분기별</button>
+            <button class="tab-btn" onclick="switchTab('category')">직무별</button>
+            <button class="tab-btn" onclick="switchTab('registry')">적용법규</button>
+            <button class="tab-btn" onclick="switchTab('search')">검색</button>
+        </div>
+    </div>
+
+    <!-- 분기별 탭 -->
+    <div class="tab-content active" id="quarterly-tab">
+        <div class="quarter-cards">
+            <div class="quarter-card" onclick="showQuarterDetail('Q1')">
+                <div class="quarter-header">
+                    <div class="quarter-title">
+                        <span class="quarter-icon">🌱</span>
+                        <span class="quarter-name">1분기</span>
+                    </div>
+                    <span class="quarter-count">119</span>
+                </div>
+                <div class="quarter-details">2025년 1~3월 시행</div>
+            </div>
+            
+            <div class="quarter-card" onclick="showQuarterDetail('Q2')">
+                <div class="quarter-header">
+                    <div class="quarter-title">
+                        <span class="quarter-icon">☀️</span>
+                        <span class="quarter-name">2분기</span>
+                    </div>
+                    <span class="quarter-count">61</span>
+                </div>
+                <div class="quarter-details">2025년 4~6월 시행</div>
+            </div>
+            
+            <div class="quarter-card" onclick="showQuarterDetail('Q3')">
+                <div class="quarter-header">
+                    <div class="quarter-title">
+                        <span class="quarter-icon">🍂</span>
+                        <span class="quarter-name">3분기</span>
+                    </div>
+                    <span class="quarter-count">64</span>
+                </div>
+                <div class="quarter-details">2025년 7~9월 시행</div>
+            </div>
+            
+            <div class="quarter-card" onclick="showQuarterDetail('Q4')">
+                <div class="quarter-header">
+                    <div class="quarter-title">
+                        <span class="quarter-icon">❄️</span>
+                        <span class="quarter-name">4분기</span>
+                    </div>
+                    <span class="quarter-count">15</span>
+                </div>
+                <div class="quarter-details">2025년 10~12월 시행</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 직무별 탭 -->
+    <div class="tab-content" id="category-tab">
+        <div class="job-list">
+            <div class="job-item" onclick="showJobDetail('환경')">
+                <div class="job-info">
+                    <div class="job-icon">🌱</div>
+                    <div>
+                        <div class="job-name">환경</div>
+                        <div class="job-count">99개 법규</div>
+                    </div>
+                </div>
+                <div class="job-arrow">›</div>
+            </div>
+            
+            <div class="job-item" onclick="showJobDetail('안전')">
+                <div class="job-info">
+                    <div class="job-icon">🛡️</div>
+                    <div>
+                        <div class="job-name">안전</div>
+                        <div class="job-count">52개 법규</div>
+                    </div>
+                </div>
+                <div class="job-arrow">›</div>
+            </div>
+            
+            <div class="job-item" onclick="showJobDetail('재무회계')">
+                <div class="job-info">
+                    <div class="job-icon">💰</div>
+                    <div>
+                        <div class="job-name">재무회계</div>
+                        <div class="job-count">47개 법규</div>
+                    </div>
+                </div>
+                <div class="job-arrow">›</div>
+            </div>
+            
+            <div class="job-item" onclick="showJobDetail('인사노무')">
+                <div class="job-info">
+                    <div class="job-icon">👥</div>
+                    <div>
+                        <div class="job-name">인사노무</div>
+                        <div class="job-count">27개 법규</div>
+                    </div>
+                </div>
+                <div class="job-arrow">›</div>
+            </div>
+            
+            <div class="job-item" onclick="showJobDetail('정보보호')">
+                <div class="job-info">
+                    <div class="job-icon">🔒</div>
+                    <div>
+                        <div class="job-name">정보보호</div>
+                        <div class="job-count">13개 법규</div>
+                    </div>
+                </div>
+                <div class="job-arrow">›</div>
+            </div>
+            
+            <div class="job-item" onclick="showJobDetail('공정거래')">
+                <div class="job-info">
+                    <div class="job-icon">⚖️</div>
+                    <div>
+                        <div class="job-name">공정거래</div>
+                        <div class="job-count">10개 법규</div>
+                    </div>
+                </div>
+                <div class="job-arrow">›</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 적용법규 탭 -->
+    <div class="tab-content" id="registry-tab">
+        <div class="loading">
+            <div class="spinner"></div>
+            <div>법규 목록을 불러오는 중...</div>
+        </div>
+    </div>
+
+    <!-- 검색 탭 -->
+    <div class="tab-content" id="search-tab">
+        <div style="padding: 1rem;">
+            <input type="text" placeholder="법규명 검색..." style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem;">
+        </div>
+        <div class="law-list" id="search-results">
+            <p style="text-align: center; color: var(--text-muted); padding: 2rem;">검색어를 입력하세요</p>
+        </div>
+    </div>
+
+    <!-- 하단 네비게이션 -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchMainSection('home')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">홈</span>
+        </div>
+        <div class="nav-item" onclick="switchMainSection('laws')">
+            <span class="nav-icon">📋</span>
+            <span class="nav-label">법규</span>
+        </div>
+        <div class="nav-item" onclick="switchMainSection('alerts')">
+            <span class="nav-icon">🔔</span>
+            <span class="nav-label">알림</span>
+        </div>
+        <div class="nav-item" onclick="switchMainSection('settings')">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-label">설정</span>
+        </div>
+    </nav>
+
+    <!-- 모달 -->
+    <div class="modal" id="detail-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">상세 정보</h3>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- 동적 컨텐츠 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 탭 전환
+        function switchTab(tabName) {
+            // 탭 버튼 활성화
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 탭 컨텐츠 전환
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // 적용법규 탭이면 데이터 로드
+            if (tabName === 'registry') {
+                loadRegistryLaws();
+            }
+        }
+        
+        // 하단 네비게이션 전환
+        function switchMainSection(section) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // 섹션별 처리
+            if (section === 'home') {
+                window.scrollTo(0, 0);
+            } else if (section === 'alerts') {
+                alert('알림 기능은 준비 중입니다.');
+            } else if (section === 'settings') {
+                alert('설정 기능은 준비 중입니다.');
+            }
+        }
+        
+        // 분기 상세 보기
+        function showQuarterDetail(quarter) {
+            const modal = document.getElementById('detail-modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+            
+            const quarterNames = {
+                'Q1': '1분기 (1~3월)',
+                'Q2': '2분기 (4~6월)',
+                'Q3': '3분기 (7~9월)',
+                'Q4': '4분기 (10~12월)'
+            };
+            
+            title.textContent = quarterNames[quarter] + ' 시행 법령';
+            body.innerHTML = `
+                <div class="law-list">
+                    <div class="law-item">
+                        <div class="law-title">근로기준법</div>
+                        <div class="law-meta">
+                            <span class="law-badge badge-category">인사노무</span>
+                            <span>2025.10.23 시행</span>
+                        </div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-title">자본시장과 금융투자업에 관한 법률</div>
+                        <div class="law-meta">
+                            <span class="law-badge badge-category">재무회계</span>
+                            <span>2025.03.31 시행</span>
+                        </div>
+                    </div>
+                    <p style="text-align: center; padding: 1rem; color: var(--text-muted);">
+                        더 많은 법규 목록은 PC 버전에서 확인하세요
+                    </p>
+                </div>
+            `;
+            
+            modal.classList.add('show');
+        }
+        
+        // 직무 상세 보기
+        function showJobDetail(job) {
+            const modal = document.getElementById('detail-modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+            
+            title.textContent = job + ' 관련 법규';
+            body.innerHTML = `
+                <div class="law-list">
+                    <p style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                        ${job} 직무 관련 법규 목록을 불러오는 중...
+                    </p>
+                </div>
+            `;
+            
+            modal.classList.add('show');
+        }
+        
+        // 적용법규 로드
+        function loadRegistryLaws() {
+            setTimeout(() => {
+                document.getElementById('registry-tab').innerHTML = `
+                    <div class="law-list">
+                        <div class="law-item">
+                            <div class="law-title">파견근로자보호 등에 관한 법률</div>
+                            <div class="law-meta">
+                                <span class="law-badge badge-category">인사노무</span>
+                                <span>법률</span>
+                            </div>
+                        </div>
+                        <div class="law-item">
+                            <div class="law-title">대기환경보전법</div>
+                            <div class="law-meta">
+                                <span class="law-badge badge-category">환경</span>
+                                <span>법률</span>
+                            </div>
+                        </div>
+                        <div class="law-item">
+                            <div class="law-title">산업안전보건법</div>
+                            <div class="law-meta">
+                                <span class="law-badge badge-category">안전</span>
+                                <span>법률</span>
+                            </div>
+                        </div>
+                        <p style="text-align: center; padding: 1rem; color: var(--text-muted);">
+                            총 207개 기본 법규
+                        </p>
+                    </div>
+                `;
+            }, 1000);
+        }
+        
+        // 모달 닫기
+        function closeModal() {
+            document.getElementById('detail-modal').classList.remove('show');
+        }
+        
+        // 메뉴 토글
+        function toggleMenu() {
+            alert('메뉴 기능은 준비 중입니다.');
+        }
+        
+        // 모달 외부 클릭 시 닫기
+        document.getElementById('detail-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
