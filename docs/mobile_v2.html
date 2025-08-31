@@ -73,11 +73,18 @@
             font-weight: 700;
             cursor: pointer;
         }
+        
+        .logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
 
         .header-subtitle {
             font-size: 0.7rem;
             opacity: 0.9;
             margin-top: 0.2rem;
+            margin-left: 2.1rem; /* 이모지 너비 + gap 만큼 들여쓰기 */
         }
 
         .menu-btn {
@@ -733,7 +740,7 @@
     <!-- 헤더 -->
     <header class="mobile-header">
         <div class="header-content">
-            <div onclick="showOverview()" style="cursor: pointer;">
+            <div class="logo-wrapper" onclick="showOverview()">
                 <div class="logo">
                     <span>📊</span>
                     <span>RegRader</span>
