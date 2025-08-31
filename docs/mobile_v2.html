@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RegRader Mobile · AI 법규 모니터링 시스템</title>
-    <link rel="shortcut icon" href="data:text/plain;base64,⚖️">
+    <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -68,7 +68,7 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
             font-size: 1.2rem;
             font-weight: 700;
             cursor: pointer;
@@ -76,15 +76,37 @@
         
         .logo-wrapper {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
             cursor: pointer;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 2.8rem;
+        }
+        
+        .logo-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .logo-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.2;
         }
 
         .header-subtitle {
             font-size: 0.7rem;
             opacity: 0.9;
-            margin-top: 0.2rem;
-            margin-left: 2.1rem; /* 이모지 너비 + gap 만큼 들여쓰기 */
+            margin-top: 0.1rem;
+            line-height: 1;
         }
 
         .menu-btn {
@@ -741,11 +763,11 @@
     <header class="mobile-header">
         <div class="header-content">
             <div class="logo-wrapper" onclick="showOverview()">
-                <div class="logo">
-                    <span>⚖️</span>
-                    <span>RegRader</span>
+                <span class="logo-icon">🏛️</span>
+                <div class="logo-text-wrapper">
+                    <div class="logo-title">RegRader</div>
+                    <div class="header-subtitle">AI 법규 모니터링 시스템</div>
                 </div>
-                <div class="header-subtitle">AI 법규 모니터링 시스템</div>
             </div>
             <button class="menu-btn" onclick="toggleMenu()">☰</button>
         </div>
