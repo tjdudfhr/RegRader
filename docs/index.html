@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAW WATCH · AI를 활용한 법규 개정 모니터링 시스템</title>
+    <title>RegRader · AI를 활용한 법규 개정 모니터링 시스템</title>
     <link rel="shortcut icon" href="data:text/plain;base64,📊">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1600,7 +1600,7 @@
                 ⚙️
             </button>
             <div class="header-content">
-                <h1>LAW WATCH</h1>
+                <h1>RegRader</h1>
                 <div class="subtitle">AI를 활용한 법규 개정 모니터링 시스템</div>
             </div>
             <div class="meta">
@@ -1983,7 +1983,7 @@
                             class="form-input" 
                             id="sender-name" 
                             placeholder="법무팀" 
-                            value="LAW WATCH 시스템"
+                            value="RegRader 시스템"
                         >
                     </div>
 
@@ -2034,7 +2034,7 @@
                                         <p><strong>3단계: 이메일 템플릿 생성</strong></p>
                                         <p>• 대시보드 → "Email Templates" → "Create New Template"</p>
                                         <p>• 필수 템플릿 변수명 (정확히 입력하세요!):</p>
-                                        <pre style="background: var(--bg-card); padding: 0.5rem; margin: 0.5rem 0; border-radius: 4px; font-size: 0.8rem;">제목: [LAW WATCH] {{quarter_info}} 시행 예정 법령 알림
+                                        <pre style="background: var(--bg-card); padding: 0.5rem; margin: 0.5rem 0; border-radius: 4px; font-size: 0.8rem;">제목: [RegRader] {{quarter_info}} 시행 예정 법령 알림
 본문:
 안녕하세요, {{sender_name}}입니다.
 
@@ -2133,7 +2133,7 @@
                             class="form-input" 
                             id="sender-name" 
                             placeholder="법무팀" 
-                            value="LAW WATCH 시스템"
+                            value="RegRader 시스템"
                         >
                     </div>
 
@@ -2184,7 +2184,7 @@
                                         <p><strong>3단계: 이메일 템플릿 생성</strong></p>
                                         <p>• 대시보드 → "Email Templates" → "Create New Template"</p>
                                         <p>• 필수 템플릿 변수명 (정확히 입력하세요!):</p>
-                                        <pre style="background: var(--bg-card); padding: 0.5rem; margin: 0.5rem 0; border-radius: 4px; font-size: 0.8rem;">제목: [LAW WATCH] {{quarter_info}} 시행 예정 법령 알림
+                                        <pre style="background: var(--bg-card); padding: 0.5rem; margin: 0.5rem 0; border-radius: 4px; font-size: 0.8rem;">제목: [RegRader] {{quarter_info}} 시행 예정 법령 알림
 본문:
 안녕하세요, {{sender_name}}입니다.
 
@@ -4202,7 +4202,7 @@
             // 이메일 설정 저장
             const settings = {
                 recipients: recipients,
-                senderName: document.getElementById('sender-name').value.trim() || 'LAW WATCH 시스템',
+                senderName: document.getElementById('sender-name').value.trim() || 'RegRader 시스템',
                 quarters: {
                     Q1: document.getElementById('notify-q1').checked,
                     Q2: document.getElementById('notify-q2').checked,
@@ -4235,7 +4235,7 @@
         function getEmailSettings() {
             const defaultSettings = {
                 recipients: [],
-                senderName: 'LAW WATCH 시스템',
+                senderName: 'RegRader 시스템',
                 quarters: { Q1: true, Q2: true, Q3: true, Q4: true },
                 lastUpdated: null
             };
@@ -4289,9 +4289,9 @@
             const quarterlyData = getQuarterlyData();
             
             const preview = `
-                📧 제목: [LAW WATCH] ${nextQuarter} 시행 예정 법령 알림 (${quarterlyData[nextQuarter]?.count || 0}건)
+                📧 제목: [RegRader] ${nextQuarter} 시행 예정 법령 알림 (${quarterlyData[nextQuarter]?.count || 0}건)
                 
-                안녕하세요, ${document.getElementById('sender-name').value || 'LAW WATCH 시스템'}입니다.
+                안녕하세요, ${document.getElementById('sender-name').value || 'RegRader 시스템'}입니다.
                 
                 🗓️ ${nextQuarter} 시행 예정인 당사 적용 법령 ${quarterlyData[nextQuarter]?.count || 0}건을 안내드립니다.
                 
