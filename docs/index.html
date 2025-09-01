@@ -1609,11 +1609,11 @@
     <div class="container">
         <!-- Glassmorphism Header -->
         <div class="header">
-            <button class="update-btn" onclick="triggerDataUpdate()" title="데이터 업데이트">
-                🔄
+            <button class="update-btn" onclick="openDownloadModal()" title="데이터 다운로드">
+                📥
             </button>
             <button class="settings-btn" onclick="openSettingsModal()" title="이메일 알림 설정">
-                ⚙️
+                ✉️
             </button>
             <div class="header-content">
                 <h1>RegRader</h1>
@@ -1952,6 +1952,85 @@
     </div>
 
     <!-- Settings Modal -->
+    <!-- Download Modal -->
+    <div class="modal" id="download-modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2 style="margin: 0; color: var(--text-primary); font-size: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span>📥</span>
+                    <span>데이터 다운로드</span>
+                </h2>
+                <button class="close-btn" onclick="closeDownloadModal()">×</button>
+            </div>
+            <div class="modal-body" style="padding: 1.5rem;">
+                <div style="display: grid; gap: 1rem;">
+                    <!-- 2025년 전체 법령 -->
+                    <div class="download-item" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); padding: 1.2rem; border-radius: 12px; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(102, 126, 234, 0.2);" onclick="downloadAllLaws()" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <span style="font-size: 1.5rem;">📊</span>
+                                    2025년 전체 법령 (2,809개)
+                                </h3>
+                                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
+                                    2025년 국가법령정보센터에서 수집한 모든 개정 법령
+                                </p>
+                                <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
+                                    <strong>파일명:</strong> 2025_Laws_Complete.xlsx
+                                </p>
+                            </div>
+                            <span style="font-size: 2rem; color: var(--primary);">⬇</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 매칭 결과 -->
+                    <div class="download-item" style="background: linear-gradient(135deg, rgba(72, 187, 120, 0.05) 0%, rgba(56, 178, 172, 0.05) 100%); padding: 1.2rem; border-radius: 12px; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(72, 187, 120, 0.2);" onclick="downloadMatchedLaws()" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(72, 187, 120, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <span style="font-size: 1.5rem;">🎯</span>
+                                    매칭 결과 (259개)
+                                </h3>
+                                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
+                                    당사 207개 기본 법규와 100% 정확 매칭된 개정 법령
+                                </p>
+                                <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
+                                    <strong>파일명:</strong> 매칭결과_259.xlsx
+                                </p>
+                            </div>
+                            <span style="font-size: 2rem; color: var(--success);">⬇</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 기본 적용법규 -->
+                    <div class="download-item" style="background: linear-gradient(135deg, rgba(237, 137, 54, 0.05) 0%, rgba(246, 173, 85, 0.05) 100%); padding: 1.2rem; border-radius: 12px; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(237, 137, 54, 0.2);" onclick="downloadBaseLaws()" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(237, 137, 54, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <span style="font-size: 1.5rem;">📚</span>
+                                    기본 적용법규 (207개)
+                                </h3>
+                                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
+                                    당사가 관리하고 있는 기본 적용 법규 목록
+                                </p>
+                                <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
+                                    <strong>파일명:</strong> base_laws_207.json
+                                </p>
+                            </div>
+                            <span style="font-size: 2rem; color: var(--warning);">⬇</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                    <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin: 0;">
+                        ⚠️ 다운로드된 파일은 업무 목적으로만 사용해주세요
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="settings-modal" class="modal">
         <div class="modal-content settings-modal-content">
             <div class="modal-header">
@@ -4167,6 +4246,61 @@
         };
 
         // 설정 모달 열기/닫기
+        // 다운로드 모달 열기
+        function openDownloadModal() {
+            document.getElementById('download-modal').classList.add('show');
+        }
+        
+        // 다운로드 모달 닫기
+        function closeDownloadModal() {
+            document.getElementById('download-modal').classList.remove('show');
+        }
+        
+        // 전체 법령 다운로드
+        function downloadAllLaws() {
+            alert('현재 개발 중인 기능입니다.\n\n2025년 전체 법령 2,809개를 Excel 파일로 다운로드합니다.');
+            // TODO: 실제 다운로드 기능 구현
+        }
+        
+        // 매칭 결과 다운로드
+        function downloadMatchedLaws() {
+            // index.json 데이터를 Excel로 변환하여 다운로드
+            const data = lawsData.map(law => ({
+                '법령명': law.title,
+                '시행일': law.effectiveDate,
+                '직무': law.categories ? law.categories.join(', ') : '',
+                '부처': law.ministry || '',
+                '법령유형': law.lawType || ''
+            }));
+            
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, '매칭결과');
+            XLSX.writeFile(wb, '매칭결과_259.xlsx');
+        }
+        
+        // 기본 법규 다운로드
+        function downloadBaseLaws() {
+            // base_laws_207.json 파일 다운로드
+            fetch('base_laws_207.json')
+                .then(response => response.json())
+                .then(data => {
+                    const dataStr = JSON.stringify(data, null, 2);
+                    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                    
+                    const link = document.createElement('a');
+                    link.href = dataUri;
+                    link.download = 'base_laws_207.json';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                })
+                .catch(error => {
+                    console.error('Download error:', error);
+                    alert('다운로드 중 오류가 발생했습니다.');
+                });
+        }
+        
         function openSettingsModal() {
             const modal = document.getElementById('settings-modal');
             modal.classList.add('show');
