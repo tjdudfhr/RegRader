@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmailJS 템플릿 설정 가이드</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #667eea;
+            margin-top: 30px;
+        }
+        .code-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            position: relative;
+            overflow-x: auto;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .copy-btn:hover {
+            background: #2980b9;
+        }
+        .variable-list {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .variable-item {
+            margin: 10px 0;
+            padding: 5px 10px;
+            background: white;
+            border-radius: 3px;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        code {
+            background: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #e83e8c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 EmailJS 템플릿 설정 가이드</h1>
+        
+        <div class="warning">
+            <strong>⚠️ 중요:</strong> 이메일 내용이 비어있다면, EmailJS 템플릿의 변수명이 맞지 않기 때문입니다!<br>
+            아래 가이드를 따라 템플릿을 수정해주세요.
+        </div>
+
+        <h2>1️⃣ EmailJS 템플릿 페이지로 이동</h2>
+        <ol>
+            <li><a href="https://www.emailjs.com" target="_blank">EmailJS 사이트</a> 로그인</li>
+            <li>왼쪽 메뉴에서 <strong>Email Templates</strong> 클릭</li>
+            <li><code>template_tu71wgt</code> 템플릿 클릭 (또는 해당 템플릿 ID)</li>
+        </ol>
+
+        <h2>2️⃣ 사용 가능한 변수 목록</h2>
+        <div class="variable-list">
+            <div class="variable-item"><strong>{{email}}</strong> - 받는 사람 이메일 주소</div>
+            <div class="variable-item"><strong>{{name}}</strong> - 받는 사람 이름</div>
+            <div class="variable-item"><strong>{{total}}</strong> - 총 법령 수 (259)</div>
+            <div class="variable-item"><strong>{{q1}}</strong> - 1분기 법령 수 (119)</div>
+            <div class="variable-item"><strong>{{q2}}</strong> - 2분기 법령 수 (61)</div>
+            <div class="variable-item"><strong>{{q3}}</strong> - 3분기 법령 수 (64)</div>
+            <div class="variable-item"><strong>{{q4}}</strong> - 4분기 법령 수 (15)</div>
+            <div class="variable-item"><strong>{{quarterly}}</strong> - 분기별 요약 텍스트</div>
+            <div class="variable-item"><strong>{{job}}</strong> - 직무별 현황 텍스트</div>
+            <div class="variable-item"><strong>{{laws}}</strong> - 최근 개정 법령 목록</div>
+            <div class="variable-item"><strong>{{title}}</strong> - 이메일 제목</div>
+            <div class="variable-item"><strong>{{content}}</strong> - 전체 이메일 내용</div>
+            <div class="variable-item"><strong>{{url}}</strong> - 대시보드 링크</div>
+            <div class="variable-item"><strong>{{date}}</strong> - 발송 날짜</div>
+        </div>
+
+        <h2>3️⃣ 템플릿 설정 방법</h2>
+        
+        <h3>To Email (받는 사람 설정)</h3>
+        <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">복사</button>
+            <pre>{{email}}</pre>
+        </div>
+
+        <h3>Subject (제목 설정)</h3>
+        <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">복사</button>
+            <pre>{{title}}</pre>
+        </div>
+
+        <h3>Content (본문 내용) - 간단한 버전</h3>
+        <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">복사</button>
+            <pre>{{content}}</pre>
+        </div>
+
+        <h3>Content (본문 내용) - 상세한 버전</h3>
+        <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">복사</button>
+            <pre>안녕하세요 {{name}}님,
+
+RegRader 법령 모니터링 시스템에서 2025년 법령 개정 현황을 안내드립니다.
+
+📊 전체 현황
+총 매칭 법령: {{total}}건
+
+📅 분기별 현황
+• 1분기: {{q1}}건
+• 2분기: {{q2}}건
+• 3분기: {{q3}}건
+• 4분기: {{q4}}건
+
+🏢 직무별 현황
+{{job}}
+
+📋 최근 개정 법령
+{{laws}}
+
+자세한 내용은 아래 링크에서 확인하실 수 있습니다:
+{{url}}
+
+발송일: {{date}}
+
+감사합니다.
+RegRader 법령 모니터링 시스템</pre>
+        </div>
+
+        <div class="success">
+            <strong>✅ 팁:</strong> 위 템플릿 중 하나를 복사해서 EmailJS 템플릿의 Content 부분에 붙여넣으세요!
+        </div>
+
+        <h2>4️⃣ HTML 템플릿 (더 예쁜 이메일)</h2>
+        <div class="code-box">
+            <button class="copy-btn" onclick="copyCode(this)">복사</button>
+            <pre>&lt;div style="font-family: 'Malgun Gothic', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;"&gt;
+    &lt;div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px 10px 0 0; text-align: center;"&gt;
+        &lt;h1 style="margin: 0;"&gt;RegRader 법령 모니터링 리포트&lt;/h1&gt;
+    &lt;/div&gt;
+    
+    &lt;div style="background: white; border: 1px solid #ddd; border-radius: 0 0 10px 10px; padding: 20px;"&gt;
+        &lt;p&gt;안녕하세요 &lt;strong&gt;{{name}}&lt;/strong&gt;님,&lt;/p&gt;
+        
+        &lt;div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;"&gt;
+            &lt;h2 style="color: #667eea; margin-top: 0;"&gt;📊 전체 현황&lt;/h2&gt;
+            &lt;p style="font-size: 24px; font-weight: bold; color: #333;"&gt;총 {{total}}건의 법령이 매칭되었습니다&lt;/p&gt;
+        &lt;/div&gt;
+        
+        &lt;div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;"&gt;
+            &lt;h3 style="color: #667eea;"&gt;📅 분기별 현황&lt;/h3&gt;
+            &lt;table style="width: 100%; border-collapse: collapse;"&gt;
+                &lt;tr&gt;
+                    &lt;td style="padding: 8px; border-bottom: 1px solid #ddd;"&gt;1분기&lt;/td&gt;
+                    &lt;td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right; font-weight: bold;"&gt;{{q1}}건&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td style="padding: 8px; border-bottom: 1px solid #ddd;"&gt;2분기&lt;/td&gt;
+                    &lt;td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right; font-weight: bold;"&gt;{{q2}}건&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td style="padding: 8px; border-bottom: 1px solid #ddd;"&gt;3분기&lt;/td&gt;
+                    &lt;td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right; font-weight: bold;"&gt;{{q3}}건&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td style="padding: 8px;"&gt;4분기&lt;/td&gt;
+                    &lt;td style="padding: 8px; text-align: right; font-weight: bold;"&gt;{{q4}}건&lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/table&gt;
+        &lt;/div&gt;
+        
+        &lt;div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;"&gt;
+            &lt;h3 style="color: #667eea;"&gt;🏢 직무별 현황&lt;/h3&gt;
+            &lt;div style="white-space: pre-line;"&gt;{{job}}&lt;/div&gt;
+        &lt;/div&gt;
+        
+        &lt;div style="text-align: center; margin-top: 30px;"&gt;
+            &lt;a href="{{url}}" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold;"&gt;
+                자세히 보기
+            &lt;/a&gt;
+        &lt;/div&gt;
+        
+        &lt;p style="color: #666; font-size: 12px; margin-top: 30px; text-align: center;"&gt;
+            발송일: {{date}} | RegRader 법령 모니터링 시스템
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+        </div>
+
+        <div class="warning">
+            <strong>💡 중요 팁:</strong><br>
+            1. EmailJS 템플릿에서 <strong>Content Type</strong>을 <strong>HTML</strong>로 설정하면 HTML 템플릿을 사용할 수 있습니다<br>
+            2. 변수명은 반드시 <code>{{변수명}}</code> 형식으로 사용하세요<br>
+            3. 저장 후 <strong>Test It</strong> 버튼으로 테스트해보세요
+        </div>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const codeBox = button.parentElement;
+            const code = codeBox.querySelector('pre').textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '복사됨!';
+                button.style.background = '#27ae60';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#3498db';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

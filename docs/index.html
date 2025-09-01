@@ -1627,14 +1627,12 @@
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
             </button>
-            <button class="email-send-btn" onclick="sendMonitoringEmail()" title="현황 이메일 발송" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; padding: 0.6rem 1.2rem; border-radius: 12px; margin-right: 10px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            <button class="settings-btn" onclick="sendMonitoringEmail()" title="이메일 발송">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="4" width="20" height="16" rx="2"></rect>
                     <path d="m22 7-10 5L2 7"></path>
                 </svg>
-                <span>이메일 발송</span>
             </button>
-            <button class="settings-btn" onclick="openSettingsModal()" title="이메일 알림 설정" style="display: none;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="4" width="20" height="16" rx="2"></rect>
                     <path d="m22 7-10 5L2 7"></path>
@@ -5692,9 +5690,9 @@
             }
 
             // 로딩 표시
-            const sendBtn = document.querySelector('.email-send-btn');
+            const sendBtn = document.querySelector('.settings-btn[onclick="sendMonitoringEmail()"]');
             const originalHTML = sendBtn.innerHTML;
-            sendBtn.innerHTML = '⏳ 발송 중...';
+            sendBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-dasharray="15 5" stroke-dashoffset="0"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></circle></svg>';
             sendBtn.disabled = true;
 
             // 분기별 데이터 계산
@@ -5746,29 +5744,48 @@
                 .map(law => `• ${law.title} (${law.effectiveDate})`)
                 .join('\n');
 
-            // 이메일 템플릿 데이터
+            // 이메일 템플릿 데이터 - 간단한 변수명 사용
             const templateParams = {
-                to_email: toEmail,
-                to_name: toEmail.split('@')[0],
-                from_name: 'RegRader 법령 모니터링 시스템',
-                subject: `[RegRader] 2025년 법령 개정 현황 리포트 - 총 ${lawsData.length}건`,
-                message: `안녕하세요,\n\nRegRader 법령 모니터링 시스템에서 2025년 법령 개정 현황을 안내드립니다.`,
-                content: `법령 모니터링 현황을 안내드립니다.`,
-                total_count: lawsData.length.toString(),
-                quarterly_summary: `1분기: ${q1Count}건, 2분기: ${q2Count}건, 3분기: ${q3Count}건, 4분기: ${q4Count}건`,
-                job_summary: jobSummary,
-                recent_laws: recentLaws || '최근 개정된 법령이 없습니다.',
-                q1_count: q1Count.toString(),
-                q2_count: q2Count.toString(),
-                q3_count: q3Count.toString(),
-                q4_count: q4Count.toString(),
-                // 추가 필드들
-                year: '2025',
-                company_name: 'RegRader',
-                dashboard_url: window.location.href,
-                date: new Date().toLocaleDateString('ko-KR'),
-                time: new Date().toLocaleTimeString('ko-KR')
+                // 기본 정보
+                email: toEmail,
+                name: toEmail.split('@')[0],
+                
+                // 법령 데이터
+                total: lawsData.length.toString(),
+                q1: q1Count.toString(),
+                q2: q2Count.toString(),
+                q3: q3Count.toString(),
+                q4: q4Count.toString(),
+                
+                // 텍스트 데이터
+                quarterly: `1분기: ${q1Count}건, 2분기: ${q2Count}건, 3분기: ${q3Count}건, 4분기: ${q4Count}건`,
+                job: jobSummary,
+                laws: recentLaws || '최근 개정된 법령이 없습니다.',
+                
+                // 메시지
+                title: `[RegRader] 2025년 법령 개정 현황 리포트 - 총 ${lawsData.length}건`,
+                content: `안녕하세요,\n\nRegRader 법령 모니터링 시스템에서 2025년 법령 개정 현황을 안내드립니다.\n\n📊 전체 현황\n총 매칭 법령: ${lawsData.length}건\n\n📅 분기별 현황\n1분기: ${q1Count}건\n2분기: ${q2Count}건\n3분기: ${q3Count}건\n4분기: ${q4Count}건\n\n🏢 직무별 현황\n${jobSummary}\n\n📋 최근 개정 법령\n${recentLaws || '최근 개정된 법령이 없습니다.'}\n\n자세한 내용은 아래 링크에서 확인하실 수 있습니다:\n${window.location.href}`,
+                
+                // 추가 정보
+                url: window.location.href,
+                date: new Date().toLocaleDateString('ko-KR')
             };
+            
+            // 콘솔에 발송할 데이터 출력 (디버깅용)
+            console.log('📧 이메일 발송 데이터:', templateParams);
+            console.log('=== EmailJS 템플릿에서 사용 가능한 변수 ===');
+            console.log('{{email}} =', templateParams.email);
+            console.log('{{name}} =', templateParams.name);
+            console.log('{{total}} =', templateParams.total);
+            console.log('{{q1}}, {{q2}}, {{q3}}, {{q4}} =', templateParams.q1, templateParams.q2, templateParams.q3, templateParams.q4);
+            console.log('{{quarterly}} =', templateParams.quarterly);
+            console.log('{{job}} =', templateParams.job);
+            console.log('{{laws}} =', templateParams.laws);
+            console.log('{{title}} =', templateParams.title);
+            console.log('{{content}} =', templateParams.content);
+            console.log('{{url}} =', templateParams.url);
+            console.log('{{date}} =', templateParams.date);
+            console.log('=====================================');
 
             // EmailJS로 이메일 발송
             emailjs.send('service_7tdd8dh', 'template_tu71wgt', templateParams)
