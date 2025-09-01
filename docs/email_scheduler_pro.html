@@ -372,21 +372,42 @@
             // 저장된 이메일 불러오기
             loadSavedEmails();
             
-            // 부모 창에서 데이터 가져오기
-            if (window.opener && window.opener.lawsData) {
-                lawsData = window.opener.lawsData;
-                console.log('법령 데이터 로드:', lawsData.length, '건');
-            } else {
-                // 직접 로드
-                fetch('index.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        lawsData = data;
-                        console.log('법령 데이터 로드:', lawsData.length, '건');
-                    })
-                    .catch(error => console.error('데이터 로드 실패:', error));
-            }
+            // 데이터 즉시 로드 (동기적으로 처리)
+            loadLawsData();
         };
+        
+        // 법령 데이터 로드
+        function loadLawsData() {
+            // 부모 창에서 데이터 가져오기 시도
+            if (window.opener && window.opener.lawsData && Array.isArray(window.opener.lawsData)) {
+                lawsData = window.opener.lawsData;
+                console.log('부모 창에서 법령 데이터 로드:', lawsData.length, '건');
+            } else {
+                // 직접 로드 (동기적으로 처리 필요)
+                console.log('index.json 파일에서 직접 로드 중...');
+                fetch('index.json')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('파일 로드 실패');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (Array.isArray(data)) {
+                            lawsData = data;
+                        } else {
+                            lawsData = [];
+                            console.error('데이터가 배열이 아닙니다:', data);
+                        }
+                        console.log('법령 데이터 로드 완료:', lawsData.length, '건');
+                    })
+                    .catch(error => {
+                        console.error('데이터 로드 실패:', error);
+                        lawsData = []; // 빈 배열로 초기화
+                        alert('데이터 로드에 실패했습니다. 페이지를 새로고침해주세요.');
+                    });
+            }
+        }
         
         // 저장된 이메일 불러오기
         function loadSavedEmails() {
@@ -491,6 +512,15 @@
                 return;
             }
             
+            // 데이터 로드 확인
+            if (!lawsData || !Array.isArray(lawsData) || lawsData.length === 0) {
+                showStatus('error', '⚠️ 데이터가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.');
+                console.error('lawsData 상태:', lawsData);
+                // 데이터 재로드 시도
+                loadLawsData();
+                return;
+            }
+            
             const progressBar = document.getElementById('progressBar');
             const progressFill = document.getElementById('progressFill');
             progressBar.classList.add('active');
@@ -527,6 +557,12 @@
         // 이메일 발송 함수 (index.html과 동일한 방식)
         function sendEmailWithTemplate(template, toEmail) {
             return new Promise((resolve, reject) => {
+                // 데이터 검증
+                if (!lawsData || !Array.isArray(lawsData)) {
+                    console.error('lawsData가 없거나 배열이 아닙니다:', lawsData);
+                    lawsData = []; // 빈 배열로 초기화
+                }
+                
                 let templateParams = {};
                 
                 if (template === 'current') {
@@ -668,6 +704,15 @@
         
         // 테스트 발송
         function testEmail() {
+            // 데이터 로드 확인
+            if (!lawsData || !Array.isArray(lawsData) || lawsData.length === 0) {
+                showStatus('error', '⚠️ 데이터가 아직 로드되지 않았습니다. 잠시 후 다시 시도해주세요.');
+                console.error('lawsData 상태:', lawsData);
+                // 데이터 재로드 시도
+                loadLawsData();
+                return;
+            }
+            
             const testEmail = prompt('테스트 이메일을 받을 주소를 입력하세요:', 'test@example.com');
             if (testEmail && validateEmail(testEmail)) {
                 showStatus('', '⏳ 발송 중...');
