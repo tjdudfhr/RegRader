@@ -1789,7 +1789,7 @@
                 <!-- Business Filter -->
         <div class="business-filter">
             <div class="filter-title">
-                🏢 업무별 법령 필터링
+                🏢 직무별 현황
             </div>
             <div class="filter-tabs">
                 <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">0</span>)</div>
@@ -2720,16 +2720,16 @@
                 <div class="quarterly-detail-header">
                     <div class="detail-title">
                         <span class="detail-icon">${info.icon}</span>
-                        <h3>${info.title}</h3>
+                        <h3>${info.title} (${info.period}, 총 ${quarterLaws.length}건)</h3>
                         <button class="close-detail-btn" onclick="closeQuarterlyDetail()">×</button>
                     </div>
-                    <div class="detail-period">${info.period} · 총 ${quarterLaws.length}건</div>
+                    <div class="detail-period" style="display: none;">${info.period} · 총 ${quarterLaws.length}건</div>
                 </div>
 
                 <!-- Business Filter (Similar to Business Tab) -->
                 <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
                     <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                        🏢 업무별 법령 필터링
+                        🏢 직무별 현황
                     </div>
                     <div style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
                         ${businessFilterTabs}
