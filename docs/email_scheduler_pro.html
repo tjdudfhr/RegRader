@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegRader 이메일 발송 관리</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+        }
+        
+        .form-section h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .email-list {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 120px;
+        }
+        
+        .email-item {
+            display: inline-block;
+            background: white;
+            border: 1px solid #667eea;
+            color: #667eea;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin: 5px;
+            position: relative;
+            padding-right: 30px;
+        }
+        
+        .email-item .remove {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .email-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .email-input-group input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn-large {
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+        
+        .template-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .template-card {
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .template-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .template-card.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .template-card h4 {
+            color: #495057;
+            margin-bottom: 5px;
+        }
+        
+        .template-card p {
+            color: #6c757d;
+            font-size: 12px;
+        }
+        
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .progress-bar.active {
+            display: block;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📧 RegRader 이메일 발송 관리</h1>
+            <p>법령 모니터링 현황을 이메일로 발송하세요</p>
+        </div>
+        
+        <div class="content">
+            <div class="form-section">
+                <h3>📮 받는 사람 (여러 명 추가 가능)</h3>
+                <div class="email-input-group">
+                    <input type="email" id="emailInput" placeholder="이메일 주소 입력 (예: example@company.com)">
+                    <button class="btn btn-primary" onclick="addEmail()">추가</button>
+                </div>
+                
+                <div class="email-list" id="emailList">
+                    <span style="color: #6c757d;">이메일 주소를 추가해주세요</span>
+                </div>
+                <p style="margin-top: 10px; color: #6c757d; font-size: 13px;">
+                    💡 팁: 쉼표(,)나 세미콜론(;)으로 구분하여 여러 이메일을 한 번에 붙여넣을 수 있습니다.
+                </p>
+            </div>
+            
+            <div class="form-section">
+                <h3>📝 발송 내용 선택</h3>
+                <div class="template-selector">
+                    <div class="template-card selected" onclick="selectTemplate('current', this)">
+                        <h4>📊 현재 전체 현황</h4>
+                        <p>2025년 전체 259건</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('q1', this)">
+                        <h4>🌱 1분기 현황</h4>
+                        <p>1~3월 119건</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('q2', this)">
+                        <h4>☀️ 2분기 현황</h4>
+                        <p>4~6월 61건</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('q3', this)">
+                        <h4>🍂 3분기 현황</h4>
+                        <p>7~9월 64건</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('q4', this)">
+                        <h4>❄️ 4분기 현황</h4>
+                        <p>10~12월 15건</p>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate('all', this)">
+                        <h4>📅 전체 분기별</h4>
+                        <p>모든 분기 상세</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
+            </div>
+            
+            <div id="statusMessage" class="status-message"></div>
+            
+            <div class="btn-group">
+                <button class="btn btn-success btn-large" onclick="sendEmailsNow()">
+                    📤 선택한 사람들에게 발송
+                </button>
+                <button class="btn btn-secondary btn-large" onclick="testEmail()">
+                    🧪 테스트 발송
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // EmailJS 초기화
+        emailjs.init("Nt6PrPKpsL1ruZEIH");
+        
+        let selectedEmails = [];
+        let selectedTemplate = 'current';
+        let lawsData = [];
+        
+        // 페이지 로드 시 초기화
+        window.onload = function() {
+            // 부모 창에서 데이터 가져오기
+            if (window.opener && window.opener.lawsData) {
+                lawsData = window.opener.lawsData;
+                console.log('법령 데이터 로드:', lawsData.length, '건');
+            } else {
+                // 직접 로드
+                fetch('index.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        lawsData = data;
+                        console.log('법령 데이터 로드:', lawsData.length, '건');
+                    })
+                    .catch(error => console.error('데이터 로드 실패:', error));
+            }
+        };
+        
+        // 이메일 추가
+        function addEmail() {
+            const input = document.getElementById('emailInput');
+            const emails = input.value.split(/[,;]/).map(e => e.trim()).filter(e => e);
+            
+            emails.forEach(email => {
+                if (validateEmail(email) && !selectedEmails.includes(email)) {
+                    selectedEmails.push(email);
+                }
+            });
+            
+            updateEmailList();
+            input.value = '';
+        }
+        
+        // 이메일 제거
+        function removeEmail(email) {
+            selectedEmails = selectedEmails.filter(e => e !== email);
+            updateEmailList();
+        }
+        
+        // 이메일 목록 업데이트
+        function updateEmailList() {
+            const list = document.getElementById('emailList');
+            if (selectedEmails.length === 0) {
+                list.innerHTML = '<span style="color: #6c757d;">이메일 주소를 추가해주세요</span>';
+            } else {
+                list.innerHTML = selectedEmails.map(email => 
+                    `<span class="email-item">${email}<span class="remove" onclick="removeEmail('${email}')">×</span></span>`
+                ).join('');
+            }
+        }
+        
+        // 템플릿 선택
+        function selectTemplate(template, element) {
+            selectedTemplate = template;
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            console.log('선택된 템플릿:', selectedTemplate);
+        }
+        
+        // 이메일 유효성 검사
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+        
+        // 즉시 발송
+        async function sendEmailsNow() {
+            if (selectedEmails.length === 0) {
+                showStatus('error', '받는 사람을 추가해주세요.');
+                return;
+            }
+            
+            const progressBar = document.getElementById('progressBar');
+            const progressFill = document.getElementById('progressFill');
+            progressBar.classList.add('active');
+            
+            let successCount = 0;
+            let failCount = 0;
+            
+            for (let i = 0; i < selectedEmails.length; i++) {
+                const email = selectedEmails[i];
+                const progress = Math.round(((i + 1) / selectedEmails.length) * 100);
+                
+                progressFill.style.width = progress + '%';
+                progressFill.textContent = `${progress}% (${i + 1}/${selectedEmails.length})`;
+                
+                try {
+                    await sendSingleEmail(email);
+                    successCount++;
+                } catch (error) {
+                    failCount++;
+                    console.error(`Failed to send to ${email}:`, error);
+                }
+                
+                // 딜레이 추가 (EmailJS 제한 방지)
+                if (i < selectedEmails.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
+            
+            progressBar.classList.remove('active');
+            showStatus('success', `✅ 발송 완료! 성공: ${successCount}명, 실패: ${failCount}명`);
+        }
+        
+        // 단일 이메일 발송
+        function sendSingleEmail(email) {
+            return new Promise((resolve, reject) => {
+                const templateParams = prepareTemplateParams(email);
+                
+                emailjs.send('service_7tdd8dh', 'template_tu71wgt', templateParams)
+                    .then(response => {
+                        console.log(`✅ Email sent to ${email}`);
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        console.error(`❌ Failed to send to ${email}:`, error);
+                        reject(error);
+                    });
+            });
+        }
+        
+        // 템플릿 파라미터 준비 (분기별 필터링 수정)
+        function prepareTemplateParams(email) {
+            let templateParams = {};
+            
+            if (selectedTemplate === 'current' || selectedTemplate === 'all') {
+                // 전체 현황
+                const q1Count = lawsData.filter(law => {
+                    if (!law.effectiveDate) return false;
+                    const month = new Date(law.effectiveDate).getMonth() + 1;
+                    return month >= 1 && month <= 3;
+                }).length;
+                
+                const q2Count = lawsData.filter(law => {
+                    if (!law.effectiveDate) return false;
+                    const month = new Date(law.effectiveDate).getMonth() + 1;
+                    return month >= 4 && month <= 6;
+                }).length;
+                
+                const q3Count = lawsData.filter(law => {
+                    if (!law.effectiveDate) return false;
+                    const month = new Date(law.effectiveDate).getMonth() + 1;
+                    return month >= 7 && month <= 9;
+                }).length;
+                
+                const q4Count = lawsData.filter(law => {
+                    if (!law.effectiveDate) return false;
+                    const month = new Date(law.effectiveDate).getMonth() + 1;
+                    return month >= 10 && month <= 12;
+                }).length;
+                
+                const jobCategories = {};
+                lawsData.forEach(law => {
+                    const category = (law.categories && law.categories[0]) || '기타';
+                    jobCategories[category] = (jobCategories[category] || 0) + 1;
+                });
+                
+                const jobSummary = Object.entries(jobCategories)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([cat, count]) => `${cat}: ${count}건`)
+                    .join('\n');
+                
+                templateParams = {
+                    email: email,
+                    name: email.split('@')[0],
+                    total: lawsData.length.toString(),
+                    q1: q1Count.toString(),
+                    q2: q2Count.toString(),
+                    q3: q3Count.toString(),
+                    q4: q4Count.toString(),
+                    quarterly: `1분기: ${q1Count}건, 2분기: ${q2Count}건, 3분기: ${q3Count}건, 4분기: ${q4Count}건`,
+                    job: jobSummary,
+                    laws: '최근 개정 법령',
+                    title: `[RegRader] 2025년 전체 법령 현황 - ${lawsData.length}건`,
+                    content: `2025년 전체 법령 현황입니다.\n\n총 ${lawsData.length}건\n\n분기별: 1분기(${q1Count}건), 2분기(${q2Count}건), 3분기(${q3Count}건), 4분기(${q4Count}건)\n\n직무별:\n${jobSummary}`,
+                    url: 'https://tjdudfhr.github.io/RegRader/',
+                    date: new Date().toLocaleDateString('ko-KR')
+                };
+                
+            } else if (selectedTemplate.startsWith('q')) {
+                // 분기별 - 해당 분기 데이터만 필터링
+                const quarterNum = selectedTemplate.substring(1);
+                const quarterMonths = {
+                    'q1': [1, 2, 3],
+                    'q2': [4, 5, 6],
+                    'q3': [7, 8, 9],
+                    'q4': [10, 11, 12]
+                };
+                
+                const months = quarterMonths[selectedTemplate];
+                
+                // 해당 분기 법령만 필터링
+                const quarterLaws = lawsData.filter(law => {
+                    if (!law.effectiveDate) return false;
+                    const month = new Date(law.effectiveDate).getMonth() + 1;
+                    const year = new Date(law.effectiveDate).getFullYear();
+                    return year === 2025 && months.includes(month);
+                });
+                
+                // 분기별 직무 통계
+                const quarterJobs = {};
+                quarterLaws.forEach(law => {
+                    const category = (law.categories && law.categories[0]) || '기타';
+                    quarterJobs[category] = (quarterJobs[category] || 0) + 1;
+                });
+                
+                const quarterJobSummary = Object.entries(quarterJobs)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([cat, count]) => `${cat}: ${count}건`)
+                    .join('\n');
+                
+                // 분기별로 다른 파라미터 전송
+                templateParams = {
+                    email: email,
+                    name: email.split('@')[0],
+                    total: quarterLaws.length.toString(), // 해당 분기 총 개수
+                    q1: selectedTemplate === 'q1' ? quarterLaws.length.toString() : '0',
+                    q2: selectedTemplate === 'q2' ? quarterLaws.length.toString() : '0',
+                    q3: selectedTemplate === 'q3' ? quarterLaws.length.toString() : '0',
+                    q4: selectedTemplate === 'q4' ? quarterLaws.length.toString() : '0',
+                    quarterly: `${quarterNum}분기: ${quarterLaws.length}건`,
+                    job: quarterJobSummary || '데이터 없음',
+                    laws: `${quarterNum}분기 법령`,
+                    title: `[RegRader] 2025년 ${quarterNum}분기 법령 현황 - ${quarterLaws.length}건`,
+                    content: `2025년 ${quarterNum}분기(${months[0]}~${months[2]}월) 법령 현황입니다.\n\n총 ${quarterLaws.length}건\n\n직무별:\n${quarterJobSummary || '데이터 없음'}`,
+                    url: 'https://tjdudfhr.github.io/RegRader/',
+                    date: new Date().toLocaleDateString('ko-KR')
+                };
+            }
+            
+            console.log('발송 템플릿:', selectedTemplate);
+            console.log('발송 데이터:', templateParams);
+            
+            return templateParams;
+        }
+        
+        // 테스트 발송
+        function testEmail() {
+            const testEmail = prompt('테스트 이메일을 받을 주소를 입력하세요:', 'test@example.com');
+            if (testEmail && validateEmail(testEmail)) {
+                sendSingleEmail(testEmail)
+                    .then(() => showStatus('success', '✅ 테스트 이메일이 발송되었습니다.'))
+                    .catch(() => showStatus('error', '❌ 테스트 이메일 발송에 실패했습니다.'));
+            }
+        }
+        
+        // 상태 메시지 표시
+        function showStatus(type, message) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.className = 'status-message ' + type;
+            statusEl.textContent = message;
+            
+            setTimeout(() => {
+                statusEl.className = 'status-message';
+            }, 5000);
+        }
+        
+        // 엔터키로 이메일 추가
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('emailInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addEmail();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
