@@ -1787,7 +1787,7 @@
             <!-- Business Tab Content - Redesigned -->
             <div class="tab-pane" id="business-content">
                 <!-- Modern Header with Gradient -->
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);">
+                <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; box-shadow: 0 15px 35px rgba(30, 60, 114, 0.3);">
                     <h2 style="color: white; margin: 0 0 1rem 0; font-size: 1.8rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
                         <span style="font-size: 1.5rem;">🎯</span> 직무별 개정현황
                     </h2>
@@ -1797,31 +1797,47 @@
                     
                     <!-- Modern Filter Pills -->
                     <div class="filter-tabs" style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
-                        <div class="filter-tab active" data-filter="all" style="background: rgba(255, 255, 255, 0.3); color: white; border: 2px solid white; padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);">
+                        <div class="filter-tab active" data-filter="all" style="background: rgba(255, 255, 255, 0.95); color: #1e3c72; border: 2px solid white; padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);">
                             ✨ 전체 (<span id="count-all">0</span>)
                         </div>
-                        <div class="filter-tab" data-filter="인사노무" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        <div class="filter-tab" data-filter="인사노무" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);" 
+                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
+                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
                             👥 인사노무 (<span id="count-인사노무">0</span>)
                         </div>
-                        <div class="filter-tab" data-filter="공정거래" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        <div class="filter-tab" data-filter="공정거래" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
+                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
+                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
                             ⚖️ 공정거래 (<span id="count-공정거래">0</span>)
                         </div>
-                        <div class="filter-tab" data-filter="정보보호" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        <div class="filter-tab" data-filter="정보보호" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
+                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
+                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
                             🔒 정보보호 (<span id="count-정보보호">0</span>)
                         </div>
-                        <div class="filter-tab" data-filter="지식재산권" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        <div class="filter-tab" data-filter="지식재산권" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
+                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
+                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
                             💡 지식재산 (<span id="count-지식재산권">0</span>)
                         </div>
-                        <div class="filter-tab" data-filter="재무회계" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        <div class="filter-tab" data-filter="재무회계" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
+                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
+                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
                             💰 재무회계 (<span id="count-재무회계">0</span>)
                         </div>
-                        <div class="filter-tab" data-filter="안전" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        <div class="filter-tab" data-filter="안전" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
+                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
+                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
                             🛡️ 안전/보건 (<span id="count-안전">0</span>)
                         </div>
-                        <div class="filter-tab" data-filter="환경" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        <div class="filter-tab" data-filter="환경" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
+                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
+                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
                             🌱 환경/에너지 (<span id="count-환경">0</span>)
                         </div>
-                        <div class="filter-tab" data-filter="지배구조" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                        <div class="filter-tab" data-filter="지배구조" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
+                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
+                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
                             🏛️ 지배구조 (<span id="count-지배구조">0</span>)
                         </div>
                     </div>
@@ -1830,7 +1846,7 @@
                 <!-- Main Content Grid -->
                 <div class="main-content" style="display: grid; grid-template-columns: 420px 1fr; gap: 2rem;">
                     <!-- Left: Enhanced Chart Card -->
-                    <div style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+                    <div style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
                         <div style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);">
                             <h3 style="margin: 0 0 1.5rem 0; color: #2d3748; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
                                 <span>📊</span> 직무별 분포 현황
@@ -1846,11 +1862,11 @@
                         <!-- Statistics Cards -->
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
                             <div style="background: white; border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);">
-                                <div style="color: #667eea; font-size: 2rem; font-weight: 700;" id="total-laws-stat">259</div>
+                                <div style="color: #2a5298; font-size: 2rem; font-weight: 700;" id="total-laws-stat">259</div>
                                 <div style="color: #718096; font-size: 0.85rem; margin-top: 0.3rem;">총 법령 수</div>
                             </div>
                             <div style="background: white; border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);">
-                                <div style="color: #48bb78; font-size: 2rem; font-weight: 700;" id="active-filter-stat">0</div>
+                                <div style="color: #0ea5e9; font-size: 2rem; font-weight: 700;" id="active-filter-stat">0</div>
                                 <div style="color: #718096; font-size: 0.85rem; margin-top: 0.3rem;">필터링 결과</div>
                             </div>
                         </div>
@@ -1859,7 +1875,7 @@
                     <!-- Right: Enhanced Law List -->
                     <div style="background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); overflow: hidden;">
                         <!-- Header with Search -->
-                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem;">
+                        <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 1.5rem;">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
                                 <h3 style="color: white; margin: 0; font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
                                     <span>📋</span> 시행 법령 목록
@@ -1871,9 +1887,9 @@
                             
                             <!-- Modern Search Bar -->
                             <div style="background: white; border-radius: 15px; padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 0.8rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
-                                <span style="color: #667eea; font-size: 1.2rem;">🔍</span>
+                                <span style="color: #2a5298; font-size: 1.2rem;">🔍</span>
                                 <input type="text" id="searchInput" placeholder="법령명, 부처명으로 검색..." style="flex: 1; border: none; outline: none; font-size: 1rem; color: #2d3748;">
-                                <button onclick="searchLaws()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.5rem 1.2rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                                <button onclick="searchLaws()" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); color: white; border: none; padding: 0.5rem 1.2rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);">
                                     검색
                                 </button>
                             </div>
@@ -3548,10 +3564,10 @@
                         '기타': '📋'
                     };
                     return `
-                        <div class="legend-item" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: #f7fafc; border-radius: 8px;">
-                            <div class="legend-dot" style="background: ${color}; width: 12px; height: 12px; border-radius: 50%;"></div>
-                            <div style="flex: 1; font-size: 0.9rem; color: #4a5568;">${category}</div>
-                            <div style="background: ${color}20; color: ${color}; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.85rem; font-weight: 600;">${count}</div>
+                        <div class="legend-item" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 8px; border: 1px solid #bae6fd;">
+                            <div class="legend-dot" style="background: ${color}; width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 2px 4px ${color}40;"></div>
+                            <div style="flex: 1; font-size: 0.9rem; color: #1e293b; font-weight: 500;">${category}</div>
+                            <div style="background: ${color}20; color: ${color}; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.85rem; font-weight: 600; border: 1px solid ${color}40;">${count}</div>
                         </div>
                     `;
                 }).join('');
@@ -3568,17 +3584,18 @@
                     filterTabs.forEach(t => {
                         t.classList.remove('active');
                         // Reset to inactive style
-                        t.style.background = 'rgba(255, 255, 255, 0.2)';
+                        t.style.background = 'rgba(255, 255, 255, 0.15)';
                         t.style.color = 'white';
-                        t.style.border = '2px solid rgba(255, 255, 255, 0.5)';
+                        t.style.border = '2px solid rgba(255, 255, 255, 0.4)';
+                        t.style.boxShadow = 'none';
                     });
                     
                     this.classList.add('active');
                     // Apply active style
-                    this.style.background = 'rgba(255, 255, 255, 0.3)';
-                    this.style.color = 'white';
+                    this.style.background = 'rgba(255, 255, 255, 0.95)';
+                    this.style.color = '#1e3c72';
                     this.style.border = '2px solid white';
-                    this.style.backdropFilter = 'blur(10px)';
+                    this.style.boxShadow = '0 4px 15px rgba(255, 255, 255, 0.3)';
                     
                     // Filter laws
                     currentFilter = this.dataset.filter;
@@ -3753,7 +3770,7 @@
 
                 return `
                     <div class="law-item" style="background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%); border: 1px solid #e2e8f0; border-radius: 15px; padding: 1.2rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);" 
-                         onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.15)';" 
+                         onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 25px rgba(14, 165, 233, 0.2)';" 
                          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0, 0, 0, 0.05)';"
                          onclick="showLawDetail('${item.id}')">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem;">
@@ -3762,7 +3779,7 @@
                                     ${item.title || '제목 없음'}
                                 </div>
                             </div>
-                            <div style="background: ${dateClass === 'urgent' ? 'linear-gradient(135deg, #f56565, #ed64a6)' : dateClass === 'soon' ? 'linear-gradient(135deg, #f6ad55, #ed8936)' : 'linear-gradient(135deg, #48bb78, #38a169)'}; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">
+                            <div style="background: ${dateClass === 'urgent' ? 'linear-gradient(135deg, #ef4444, #dc2626)' : dateClass === 'soon' ? 'linear-gradient(135deg, #f59e0b, #d97706)' : 'linear-gradient(135deg, #10b981, #059669)'}; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; box-shadow: 0 2px 6px ${dateClass === 'urgent' ? 'rgba(239, 68, 68, 0.3)' : dateClass === 'soon' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(16, 185, 129, 0.3)'};">
                                 ${dateText}
                             </div>
                         </div>
@@ -3778,7 +3795,7 @@
                             ${item.categories && item.categories.length > 0 ? `
                             <div style="display: flex; align-items: center; gap: 0.3rem;">
                                 ${item.categories.slice(0, 2).map(cat => `
-                                    <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.2rem 0.6rem; border-radius: 10px; font-size: 0.8rem; font-weight: 500;">
+                                    <span style="background: linear-gradient(135deg, #0ea5e9, #0284c7); color: white; padding: 0.2rem 0.6rem; border-radius: 10px; font-size: 0.8rem; font-weight: 500;">
                                         ${cat}
                                     </span>
                                 `).join('')}
