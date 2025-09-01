@@ -1787,59 +1787,21 @@
             <!-- Business Tab Content - Redesigned -->
             <div class="tab-pane" id="business-content">
                 <!-- Modern Header with Gradient -->
-                <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; box-shadow: 0 15px 35px rgba(30, 60, 114, 0.3);">
-                    <h2 style="color: white; margin: 0 0 1rem 0; font-size: 1.8rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="font-size: 1.5rem;">🎯</span> 직무별 개정현황
-                    </h2>
-                    <p style="color: rgba(255, 255, 255, 0.9); margin: 0 0 1.5rem 0; font-size: 1rem;">
-                        2025년 시행 예정 법령을 직무별로 분석하고 관리하세요
-                    </p>
+                <div class="business-filter" style="margin-bottom: 1.5rem;">
+                    <div class="filter-title">
+                        🏢 직무별 현황
+                    </div>
                     
-                    <!-- Modern Filter Pills -->
-                    <div class="filter-tabs" style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
-                        <div class="filter-tab active" data-filter="all" style="background: rgba(255, 255, 255, 0.95); color: #1e3c72; border: 2px solid white; padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);">
-                            ✨ 전체 (<span id="count-all">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="인사노무" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);" 
-                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
-                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
-                            👥 인사노무 (<span id="count-인사노무">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="공정거래" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
-                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
-                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
-                            ⚖️ 공정거래 (<span id="count-공정거래">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="정보보호" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
-                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
-                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
-                            🔒 정보보호 (<span id="count-정보보호">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="지식재산권" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
-                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
-                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
-                            💡 지식재산 (<span id="count-지식재산권">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="재무회계" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
-                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
-                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
-                            💰 재무회계 (<span id="count-재무회계">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="안전" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
-                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
-                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
-                            🛡️ 안전/보건 (<span id="count-안전">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="환경" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
-                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
-                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
-                            🌱 환경/에너지 (<span id="count-환경">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="지배구조" style="background: rgba(255, 255, 255, 0.15); color: white; border: 2px solid rgba(255, 255, 255, 0.4); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
-                             onmouseover="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.6)'; }" 
-                             onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'; }">
-                            🏛️ 지배구조 (<span id="count-지배구조">0</span>)
-                        </div>
+                    <div class="filter-tabs">
+                        <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">0</span>)</div>
+                        <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">0</span>)</div>
+                        <div class="filter-tab" data-filter="공정거래">⚖️ 공정거래 (<span id="count-공정거래">0</span>)</div>
+                        <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">0</span>)</div>
+                        <div class="filter-tab" data-filter="지식재산권">💡 지식재산 (<span id="count-지식재산권">0</span>)</div>
+                        <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">0</span>)</div>
+                        <div class="filter-tab" data-filter="안전">🛡️ 안전/보건 (<span id="count-안전">0</span>)</div>
+                        <div class="filter-tab" data-filter="환경">🌱 환경/에너지 (<span id="count-환경">0</span>)</div>
+                        <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">0</span>)</div>
                     </div>
                 </div>
 
@@ -3564,10 +3526,10 @@
                         '기타': '📋'
                     };
                     return `
-                        <div class="legend-item" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 8px; border: 1px solid #bae6fd;">
-                            <div class="legend-dot" style="background: ${color}; width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 2px 4px ${color}40;"></div>
-                            <div style="flex: 1; font-size: 0.9rem; color: #1e293b; font-weight: 500;">${category}</div>
-                            <div style="background: ${color}20; color: ${color}; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.85rem; font-weight: 600; border: 1px solid ${color}40;">${count}</div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: ${color};"></div>
+                            <div class="legend-text">${category}</div>
+                            <div class="legend-count">${count}</div>
                         </div>
                     `;
                 }).join('');
@@ -3580,31 +3542,17 @@
             
             filterTabs.forEach(tab => {
                 tab.addEventListener('click', function() {
-                    // Update active tab styling for new design
+                    // Remove active class from all tabs
                     filterTabs.forEach(t => {
                         t.classList.remove('active');
-                        // Reset to inactive style
-                        t.style.background = 'rgba(255, 255, 255, 0.15)';
-                        t.style.color = 'white';
-                        t.style.border = '2px solid rgba(255, 255, 255, 0.4)';
-                        t.style.boxShadow = 'none';
                     });
                     
+                    // Add active class to clicked tab
                     this.classList.add('active');
-                    // Apply active style
-                    this.style.background = 'rgba(255, 255, 255, 0.95)';
-                    this.style.color = '#1e3c72';
-                    this.style.border = '2px solid white';
-                    this.style.boxShadow = '0 4px 15px rgba(255, 255, 255, 0.3)';
                     
                     // Filter laws
                     currentFilter = this.dataset.filter;
                     filterLaws();
-                    
-                    // Update stats
-                    const filteredCount = currentFilter === 'all' ? lawsData.length : 
-                        lawsData.filter(law => law.categories && law.categories.includes(currentFilter)).length;
-                    document.getElementById('active-filter-stat').textContent = filteredCount;
                 });
             });
         }
@@ -3739,9 +3687,7 @@
             
             document.getElementById('law-count').textContent = `${items.length.toLocaleString()}건`;
             
-            // Update statistics
-            document.getElementById('total-laws-stat').textContent = lawsData.length;
-            document.getElementById('active-filter-stat').textContent = items.length;
+            // Statistics removed for consistent design
 
             if (displayItems.length === 0) {
                 document.getElementById('law-list').innerHTML = '<div style="text-align: center; padding: 3rem; color: #718096;"><div style="font-size: 3rem; margin-bottom: 1rem;">😔</div>해당 조건의 법령이 없습니다.</div>';
@@ -3769,38 +3715,28 @@
 
 
                 return `
-                    <div class="law-item" style="background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%); border: 1px solid #e2e8f0; border-radius: 15px; padding: 1.2rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);" 
-                         onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 25px rgba(14, 165, 233, 0.2)';" 
-                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0, 0, 0, 0.05)';"
-                         onclick="showLawDetail('${item.id}')">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem;">
-                            <div style="flex: 1;">
-                                <div style="color: #2d3748; font-size: 1.05rem; font-weight: 600; line-height: 1.4;">
-                                    ${item.title || '제목 없음'}
-                                </div>
+                    <div class="law-item" onclick="showLawDetail('${item.id}')" style="cursor: pointer;">
+                        <div class="law-item-header">
+                            <div class="law-title">
+                                ${item.title || '제목 없음'}
                             </div>
-                            <div style="background: ${dateClass === 'urgent' ? 'linear-gradient(135deg, #ef4444, #dc2626)' : dateClass === 'soon' ? 'linear-gradient(135deg, #f59e0b, #d97706)' : 'linear-gradient(135deg, #10b981, #059669)'}; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; box-shadow: 0 2px 6px ${dateClass === 'urgent' ? 'rgba(239, 68, 68, 0.3)' : dateClass === 'soon' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(16, 185, 129, 0.3)'};">
+                            <div class="date-badge ${dateClass}">
                                 ${dateText}
                             </div>
                         </div>
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                            <div style="display: flex; align-items: center; gap: 0.3rem; color: #718096; font-size: 0.9rem;">
+                        <div class="law-meta">
+                            <div class="meta-item">
                                 <span>🏛️</span>
                                 <span>${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</span>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 0.3rem; color: #718096; font-size: 0.9rem;">
+                            <div class="meta-item">
                                 <span>📄</span>
                                 <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
                             </div>
-                            ${item.categories && item.categories.length > 0 ? `
-                            <div style="display: flex; align-items: center; gap: 0.3rem;">
-                                ${item.categories.slice(0, 2).map(cat => `
-                                    <span style="background: linear-gradient(135deg, #0ea5e9, #0284c7); color: white; padding: 0.2rem 0.6rem; border-radius: 10px; font-size: 0.8rem; font-weight: 500;">
-                                        ${cat}
-                                    </span>
-                                `).join('')}
+                            <div class="meta-item">
+                                <span>📋</span>
+                                <span style="color: var(--primary);">상세보기</span>
                             </div>
-                            ` : ''}
                         </div>
                     </div>
                 `;
