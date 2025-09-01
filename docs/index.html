@@ -5677,40 +5677,20 @@
         
         // 📧 이메일 발송
         function openEmailScheduler() {
-            // 분기 선택 다이얼로그
-            const options = `
-📧 이메일 발송 옵션을 선택하세요:
-
-1: 전체 현황 (259건)
-2: 1분기 (119건)
-3: 2분기 (61건)
-4: 3분기 (64건)
-5: 4분기 (15건)
-
-번호를 입력하세요:`;
+            const width = 1100;
+            const height = 900;
+            const left = (window.screen.width - width) / 2;
+            const top = (window.screen.height - height) / 2;
             
-            const choice = prompt(options, '1');
+            const popup = window.open(
+                'email_popup.html',
+                'RegRaderEmailCenter',
+                `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
+            );
             
-            if (!choice) return;
-            
-            switch(choice) {
-                case '1':
-                    sendEmailWithTemplate('current');
-                    break;
-                case '2':
-                    sendEmailWithTemplate('q1');
-                    break;
-                case '3':
-                    sendEmailWithTemplate('q2');
-                    break;
-                case '4':
-                    sendEmailWithTemplate('q3');
-                    break;
-                case '5':
-                    sendEmailWithTemplate('q4');
-                    break;
-                default:
-                    alert('올바른 번호를 선택해주세요.');
+            // 팝업이 차단된 경우
+            if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+                alert('팝업이 차단되었습니다. 팝업 차단을 해제해주세요.');
             }
         }
         
