@@ -5677,16 +5677,41 @@
         
         // 📧 이메일 발송
         function openEmailScheduler() {
-            const width = 1000;
-            const height = 800;
-            const left = (window.screen.width - width) / 2;
-            const top = (window.screen.height - height) / 2;
+            // 분기 선택 다이얼로그
+            const options = `
+📧 이메일 발송 옵션을 선택하세요:
+
+1: 전체 현황 (259건)
+2: 1분기 (119건)
+3: 2분기 (61건)
+4: 3분기 (64건)
+5: 4분기 (15건)
+
+번호를 입력하세요:`;
             
-            const popup = window.open(
-                'email_scheduler_pro.html',
-                'EmailScheduler',
-                `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
-            );
+            const choice = prompt(options, '1');
+            
+            if (!choice) return;
+            
+            switch(choice) {
+                case '1':
+                    sendEmailWithTemplate('current');
+                    break;
+                case '2':
+                    sendEmailWithTemplate('q1');
+                    break;
+                case '3':
+                    sendEmailWithTemplate('q2');
+                    break;
+                case '4':
+                    sendEmailWithTemplate('q3');
+                    break;
+                case '5':
+                    sendEmailWithTemplate('q4');
+                    break;
+                default:
+                    alert('올바른 번호를 선택해주세요.');
+            }
         }
         
         // 템플릿별 이메일 발송
@@ -5745,6 +5770,7 @@
                     .join('\n');
                 
                 templateParams = {
+                    to_email: toEmail,
                     email: toEmail,
                     name: toEmail.split('@')[0],
                     total: lawsData.length.toString(),
@@ -5756,7 +5782,7 @@
                     job: jobSummary,
                     laws: '최근 개정 법령',
                     title: `[RegRader] 2025년 전체 법령 현황 - ${lawsData.length}건`,
-                    content: `2025년 전체 법령 현황: ${lawsData.length}건\n\n분기별: ${q1Count}+${q2Count}+${q3Count}+${q4Count}건\n\n${jobSummary}`,
+                    content: `2025년 전체 법령 현황입니다.\n\n📊 총 ${lawsData.length}건\n\n📅 분기별 현황:\n• 1분기(1~3월): ${q1Count}건\n• 2분기(4~6월): ${q2Count}건\n• 3분기(7~9월): ${q3Count}건\n• 4분기(10~12월): ${q4Count}건\n\n📂 직무별 현황:\n${jobSummary}`,
                     url: window.location.href,
                     date: new Date().toLocaleDateString('ko-KR')
                 };
@@ -5791,6 +5817,7 @@
                     .join('\n');
                 
                 templateParams = {
+                    to_email: toEmail,
                     email: toEmail,
                     name: toEmail.split('@')[0],
                     total: quarterLaws.length.toString(),
@@ -5800,9 +5827,9 @@
                     q4: template === 'q4' ? quarterLaws.length.toString() : '0',
                     quarterly: `${quarterNum}분기: ${quarterLaws.length}건`,
                     job: quarterJobSummary || '데이터 없음',
-                    laws: '분기별 법령',
+                    laws: quarterLaws.slice(0, 10).map(law => law.title).join(', ') || '분기별 법령',
                     title: `[RegRader] 2025년 ${quarterNum}분기 법령 현황 - ${quarterLaws.length}건`,
-                    content: `2025년 ${quarterNum}분기 법령 현황: ${quarterLaws.length}건\n\n${quarterJobSummary || '데이터 없음'}`,
+                    content: `2025년 ${quarterNum}분기(${months[0]}~${months[2]}월) 법령 현황입니다.\n\n📊 총 ${quarterLaws.length}건\n\n📂 직무별 현황:\n${quarterJobSummary || '데이터 없음'}\n\n📋 주요 법령(상위 10개):\n${quarterLaws.slice(0, 10).map((law, idx) => `${idx+1}. ${law.title}`).join('\n')}`,
                     url: window.location.href,
                     date: new Date().toLocaleDateString('ko-KR')
                 };
