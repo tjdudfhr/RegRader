@@ -1,0 +1,169 @@
+name: Quarterly Email Notification
+# 분기별 법령 현황 자동 이메일 발송
+
+on:
+  schedule:
+    # 매 분기 시작 일주일 전 오전 9시 (한국 시간)
+    # Cron은 UTC 기준이므로 한국시간 -9시간
+    - cron: '0 0 25 2,5,8,11 *'  # 3월, 6월, 9월, 12월 25일 오전 9시 (KST)
+    - cron: '0 0 18 11 *'         # 12월 18일 (특별히 1분기는 일주일 더 일찍)
+  
+  workflow_dispatch: # 수동 실행 가능
+    inputs:
+      email:
+        description: '받을 이메일 주소'
+        required: true
+        default: 'test@example.com'
+      quarter:
+        description: '분기 선택'
+        required: true
+        type: choice
+        options:
+          - '1분기'
+          - '2분기'
+          - '3분기'
+          - '4분기'
+          - '전체'
+
+jobs:
+  send-quarterly-email:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Install dependencies
+      run: |
+        npm install @emailjs/nodejs
+        npm install node-fetch
+    
+    - name: Determine Quarter
+      id: quarter
+      run: |
+        MONTH=$(date +%m)
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          QUARTER="${{ github.event.inputs.quarter }}"
+        elif [ $MONTH -eq 12 ] || [ $MONTH -eq 11 ]; then
+          QUARTER="1분기"
+          QUARTER_MONTHS="1,2,3"
+        elif [ $MONTH -eq 3 ]; then
+          QUARTER="2분기"
+          QUARTER_MONTHS="4,5,6"
+        elif [ $MONTH -eq 6 ]; then
+          QUARTER="3분기"
+          QUARTER_MONTHS="7,8,9"
+        elif [ $MONTH -eq 9 ]; then
+          QUARTER="4분기"
+          QUARTER_MONTHS="10,11,12"
+        fi
+        echo "quarter=$QUARTER" >> $GITHUB_OUTPUT
+        echo "months=$QUARTER_MONTHS" >> $GITHUB_OUTPUT
+    
+    - name: Send Email via EmailJS
+      env:
+        EMAILJS_PUBLIC_KEY: ${{ secrets.EMAILJS_PUBLIC_KEY }}
+        EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
+        EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+        RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL || github.event.inputs.email }}
+      run: |
+        cat > send-email.js << 'EOF'
+        const emailjs = require('@emailjs/nodejs');
+        const fs = require('fs');
+        
+        // EmailJS 초기화
+        emailjs.init({
+          publicKey: process.env.EMAILJS_PUBLIC_KEY || 'Nt6PrPKpsL1ruZEIH',
+        });
+        
+        // 법령 데이터 로드
+        const lawsData = JSON.parse(fs.readFileSync('docs/index.json', 'utf8'));
+        
+        // 분기 결정
+        const quarter = '${{ steps.quarter.outputs.quarter }}';
+        const quarterMonths = '${{ steps.quarter.outputs.months }}'.split(',').map(Number);
+        
+        // 분기별 법령 필터링
+        const quarterLaws = lawsData.filter(law => {
+          if (!law.effectiveDate) return false;
+          const month = new Date(law.effectiveDate).getMonth() + 1;
+          const year = new Date(law.effectiveDate).getFullYear();
+          return year === 2025 && quarterMonths.includes(month);
+        });
+        
+        // 직무별 집계
+        const jobCategories = {};
+        quarterLaws.forEach(law => {
+          const category = (law.categories && law.categories[0]) || '기타';
+          jobCategories[category] = (jobCategories[category] || 0) + 1;
+        });
+        
+        // 직무별 현황 텍스트
+        let jobSummary = '';
+        Object.entries(jobCategories)
+          .sort((a, b) => b[1] - a[1])
+          .forEach(([category, count]) => {
+            jobSummary += `${category}: ${count}건\n`;
+          });
+        
+        // 최근 법령 5개
+        const recentLaws = quarterLaws
+          .sort((a, b) => new Date(b.effectiveDate) - new Date(a.effectiveDate))
+          .slice(0, 5)
+          .map(law => `• ${law.title} (${law.effectiveDate})`)
+          .join('\n');
+        
+        // 이메일 파라미터
+        const templateParams = {
+          email: process.env.RECIPIENT_EMAIL || 'test@example.com',
+          name: '담당자',
+          total: quarterLaws.length.toString(),
+          quarter: quarter,
+          quarterly: `${quarter}: ${quarterLaws.length}건`,
+          job: jobSummary,
+          laws: recentLaws,
+          title: `[RegRader] 2025년 ${quarter} 법령 시행 예정 안내 - ${quarterLaws.length}건`,
+          content: `안녕하세요,\n\n2025년 ${quarter}에 시행 예정인 법령 ${quarterLaws.length}건을 안내드립니다.\n\n${jobSummary}\n\n주요 개정 법령:\n${recentLaws}\n\n자세한 내용은 https://tjdudfhr.github.io/RegRader/ 에서 확인하세요.`,
+          url: 'https://tjdudfhr.github.io/RegRader/',
+          date: new Date().toLocaleDateString('ko-KR')
+        };
+        
+        // 이메일 발송
+        emailjs.send(
+          process.env.EMAILJS_SERVICE_ID || 'service_7tdd8dh',
+          process.env.EMAILJS_TEMPLATE_ID || 'template_tu71wgt',
+          templateParams
+        ).then(
+          (response) => {
+            console.log('SUCCESS!', response.status, response.text);
+            console.log(`Email sent to ${templateParams.email} for ${quarter}`);
+          },
+          (error) => {
+            console.error('FAILED...', error);
+            process.exit(1);
+          }
+        );
+        EOF
+        
+        node send-email.js
+    
+    - name: Create Issue for tracking
+      if: success()
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const quarter = '${{ steps.quarter.outputs.quarter }}';
+          const date = new Date().toLocaleDateString('ko-KR');
+          
+          github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: `📧 ${quarter} 법령 현황 이메일 발송 완료 - ${date}`,
+            body: `## ✅ 분기별 이메일 발송 완료\n\n- **분기**: ${quarter}\n- **발송일**: ${date}\n- **받는 사람**: ${{ env.RECIPIENT_EMAIL }}\n- **상태**: 성공\n\n[대시보드 확인하기](https://tjdudfhr.github.io/RegRader/)`,
+            labels: ['email-notification', 'automated']
+          })

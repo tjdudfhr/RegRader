@@ -617,7 +617,7 @@
                         laws: '최근 개정 법령',
                         title: `[RegRader] 2025년 전체 법령 현황 - ${lawsData.length}건`,
                         content: `2025년 전체 법령 현황입니다.\n\n총 ${lawsData.length}건\n\n분기별: 1분기(${q1Count}건), 2분기(${q2Count}건), 3분기(${q3Count}건), 4분기(${q4Count}건)\n\n직무별:\n${jobSummary}`,
-                        url: window.location.href || 'https://tjdudfhr.github.io/RegRader/',
+                        url: 'https://tjdudfhr.github.io/RegRader/',
                         date: new Date().toLocaleDateString('ko-KR')
                     };
                     
@@ -665,7 +665,7 @@
                         laws: `${quarterNum}분기 법령`,
                         title: `[RegRader] 2025년 ${quarterNum}분기 법령 현황 - ${quarterLaws.length}건`,
                         content: `2025년 ${quarterNum}분기(${months[0]}~${months[2]}월) 법령 현황입니다.\n\n총 ${quarterLaws.length}건\n\n직무별:\n${jobSummary || '데이터 없음'}`,
-                        url: window.location.href || 'https://tjdudfhr.github.io/RegRader/',
+                        url: 'https://tjdudfhr.github.io/RegRader/',
                         date: new Date().toLocaleDateString('ko-KR')
                     };
                 }
@@ -695,7 +695,8 @@
                     .then(function(response) {
                         console.log('이메일 발송 성공!', response.status, response.text);
                         resolve(response);
-                    }, function(error) {
+                    })
+                    .catch(function(error) {
                         console.error('이메일 발송 실패!', error);
                         reject(error);
                     });
