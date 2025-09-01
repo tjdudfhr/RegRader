@@ -1627,7 +1627,7 @@
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
             </button>
-            <button class="settings-btn" onclick="sendMonitoringEmail()" title="이메일 발송">
+            <button class="settings-btn" onclick="openEmailScheduler()" title="이메일 발송 설정">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="4" width="20" height="16" rx="2"></rect>
                     <path d="m22 7-10 5L2 7"></path>
@@ -5673,6 +5673,156 @@
                 '정보보호': '🔒', '지배구조': '🏛️', '공정거래': '⚖️', '기타': '📋'
             };
             return icons[category] || '📋';
+        }
+        
+        // 📧 이메일 발송
+        function openEmailScheduler() {
+            // 분기 선택 팝업
+            const quarterSelect = confirm('📧 이메일 발송 옵션\n\n• 확인: 전체 현황 발송\n• 취소: 분기별 선택');
+            
+            if (quarterSelect) {
+                // 전체 현황 발송
+                sendEmailWithTemplate('current');
+            } else {
+                // 분기 선택
+                const quarter = prompt('분기를 선택하세요 (1, 2, 3, 4):', '1');
+                if (quarter && ['1', '2', '3', '4'].includes(quarter)) {
+                    sendEmailWithTemplate('q' + quarter);
+                }
+            }
+        }
+        
+        // 템플릿별 이메일 발송
+        function sendEmailWithTemplate(template) {
+            const toEmail = prompt('📧 받을 이메일 주소:', 'example@company.com');
+            
+            if (!toEmail || toEmail === 'example@company.com') {
+                alert('올바른 이메일 주소를 입력해주세요.');
+                return;
+            }
+            
+            // 로딩 표시
+            const sendBtn = document.querySelector('.settings-btn[onclick="openEmailScheduler()"]');
+            const originalHTML = sendBtn.innerHTML;
+            sendBtn.innerHTML = '⏳';
+            sendBtn.disabled = true;
+            
+            let templateParams = {};
+            
+            if (template === 'current') {
+                // 전체 현황
+                const q1Count = lawsData.filter(law => {
+                    if (!law.effectiveDate) return false;
+                    const month = new Date(law.effectiveDate).getMonth() + 1;
+                    return month >= 1 && month <= 3;
+                }).length;
+                
+                const q2Count = lawsData.filter(law => {
+                    if (!law.effectiveDate) return false;
+                    const month = new Date(law.effectiveDate).getMonth() + 1;
+                    return month >= 4 && month <= 6;
+                }).length;
+                
+                const q3Count = lawsData.filter(law => {
+                    if (!law.effectiveDate) return false;
+                    const month = new Date(law.effectiveDate).getMonth() + 1;
+                    return month >= 7 && month <= 9;
+                }).length;
+                
+                const q4Count = lawsData.filter(law => {
+                    if (!law.effectiveDate) return false;
+                    const month = new Date(law.effectiveDate).getMonth() + 1;
+                    return month >= 10 && month <= 12;
+                }).length;
+                
+                const jobCategories = {};
+                lawsData.forEach(law => {
+                    const category = (law.categories && law.categories[0]) || '기타';
+                    jobCategories[category] = (jobCategories[category] || 0) + 1;
+                });
+                
+                const jobSummary = Object.entries(jobCategories)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([cat, count]) => `${getCategoryIcon(cat)} ${cat}: ${count}건`)
+                    .join('\n');
+                
+                templateParams = {
+                    email: toEmail,
+                    name: toEmail.split('@')[0],
+                    total: lawsData.length.toString(),
+                    q1: q1Count.toString(),
+                    q2: q2Count.toString(),
+                    q3: q3Count.toString(),
+                    q4: q4Count.toString(),
+                    quarterly: `1분기: ${q1Count}건, 2분기: ${q2Count}건, 3분기: ${q3Count}건, 4분기: ${q4Count}건`,
+                    job: jobSummary,
+                    laws: '최근 개정 법령',
+                    title: `[RegRader] 2025년 전체 법령 현황 - ${lawsData.length}건`,
+                    content: `2025년 전체 법령 현황: ${lawsData.length}건\n\n분기별: ${q1Count}+${q2Count}+${q3Count}+${q4Count}건\n\n${jobSummary}`,
+                    url: window.location.href,
+                    date: new Date().toLocaleDateString('ko-KR')
+                };
+            } else {
+                // 분기별
+                const quarterNum = template.substring(1);
+                const quarterMonths = {
+                    'q1': [1, 2, 3],
+                    'q2': [4, 5, 6],
+                    'q3': [7, 8, 9],
+                    'q4': [10, 11, 12]
+                };
+                
+                const months = quarterMonths[template];
+                const quarterLaws = lawsData.filter(law => {
+                    if (!law.effectiveDate) return false;
+                    const month = new Date(law.effectiveDate).getMonth() + 1;
+                    const year = new Date(law.effectiveDate).getFullYear();
+                    return year === 2025 && months.includes(month);
+                });
+                
+                const quarterJobs = {};
+                quarterLaws.forEach(law => {
+                    const category = (law.categories && law.categories[0]) || '기타';
+                    quarterJobs[category] = (quarterJobs[category] || 0) + 1;
+                });
+                
+                const quarterJobSummary = Object.entries(quarterJobs)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5)
+                    .map(([cat, count]) => `${getCategoryIcon(cat)} ${cat}: ${count}건`)
+                    .join('\n');
+                
+                templateParams = {
+                    email: toEmail,
+                    name: toEmail.split('@')[0],
+                    total: quarterLaws.length.toString(),
+                    q1: template === 'q1' ? quarterLaws.length.toString() : '0',
+                    q2: template === 'q2' ? quarterLaws.length.toString() : '0',
+                    q3: template === 'q3' ? quarterLaws.length.toString() : '0',
+                    q4: template === 'q4' ? quarterLaws.length.toString() : '0',
+                    quarterly: `${quarterNum}분기: ${quarterLaws.length}건`,
+                    job: quarterJobSummary || '데이터 없음',
+                    laws: '분기별 법령',
+                    title: `[RegRader] 2025년 ${quarterNum}분기 법령 현황 - ${quarterLaws.length}건`,
+                    content: `2025년 ${quarterNum}분기 법령 현황: ${quarterLaws.length}건\n\n${quarterJobSummary || '데이터 없음'}`,
+                    url: window.location.href,
+                    date: new Date().toLocaleDateString('ko-KR')
+                };
+            }
+            
+            // 이메일 발송
+            emailjs.send('service_7tdd8dh', 'template_tu71wgt', templateParams)
+                .then(function(response) {
+                    alert(`✅ 이메일 발송 성공!\n${toEmail}`);
+                    sendBtn.innerHTML = originalHTML;
+                    sendBtn.disabled = false;
+                })
+                .catch(function(error) {
+                    alert(`❌ 발송 실패: ${error.text || '오류'}`);
+                    sendBtn.innerHTML = originalHTML;
+                    sendBtn.disabled = false;
+                });
         }
 
         // 📧 이메일 발송 함수
