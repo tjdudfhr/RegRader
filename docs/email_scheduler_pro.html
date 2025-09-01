@@ -461,6 +461,7 @@
                     .join('\n');
                 
                 templateParams = {
+                    to_email: email,
                     email: email,
                     name: email.split('@')[0],
                     total: lawsData.length.toString(),
@@ -512,6 +513,7 @@
                 
                 // 분기별로 다른 파라미터 전송
                 templateParams = {
+                    to_email: email,
                     email: email,
                     name: email.split('@')[0],
                     total: quarterLaws.length.toString(), // 해당 분기 총 개수
