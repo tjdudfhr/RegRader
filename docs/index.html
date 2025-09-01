@@ -1784,106 +1784,66 @@
                 </div>
             </div>
 
-            <!-- Business Tab Content - Unified with Site Design -->
+            <!-- Business Tab Content -->
             <div class="tab-pane" id="business-content">
-                <!-- 직무별 전체 현황 - 사이트 디자인과 통일 -->
-                <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
-                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-                        <div style="display: flex; align-items: center; gap: 0.8rem;">
-                            <span style="font-size: 1.5rem;">🏢</span>
-                            <div>
-                                <div style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary);">직무별 법령 개정 현황</div>
-                                <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">2025년 당사 적용 법규 분석</div>
-                            </div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
-                            <div style="text-align: center;">
-                                <div style="font-size: 2rem; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">259</div>
-                                <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">총 적용 법령</div>
-                            </div>
-                        </div>
+                <!-- Business Filter -->
+        <div class="business-filter">
+            <div class="filter-title">
+                🏢 직무별 현황
+            </div>
+            <div class="filter-tabs">
+                <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">0</span>)</div>
+                <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">0</span>)</div>
+                <div class="filter-tab" data-filter="공정거래">⚖️ 공정거래 (<span id="count-공정거래">0</span>)</div>
+                <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">0</span>)</div>
+                <div class="filter-tab" data-filter="지식재산권">💡 지식재산 (<span id="count-지식재산권">0</span>)</div>
+                <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">0</span>)</div>
+                <div class="filter-tab" data-filter="안전">🛡️ 안전/보건 (<span id="count-안전">0</span>)</div>
+                <div class="filter-tab" data-filter="환경">🌱 환경/에너지 (<span id="count-환경">0</span>)</div>
+                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">0</span>)</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar with Charts -->
+            <div class="sidebar">
+                <!-- Category Distribution Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">📈 직무별 분포</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    <div class="category-legend" id="categoryLegend">
+                        <!-- 범례가 여기에 동적으로 생성됩니다 -->
                     </div>
                 </div>
 
-                <!-- 직무별 필터 섹션 - 기존 사이트 스타일 활용 -->
-                <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
-                    <div class="filter-title" style="margin-bottom: 1rem;">
-                        🎯 직무별 필터링
+            </div>
+
+            <!-- Law List -->
+            <div class="law-card">
+                <div class="law-list-header">
+                    <div class="law-list-title">
+                        📋 시행 법령 목록
+                        <div class="law-count" id="law-count">로딩 중...</div>
                     </div>
-                    <div class="filter-tabs">
-                        <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">259</span>)</div>
-                        <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">0</span>)</div>
-                        <div class="filter-tab" data-filter="공정거래">⚖️ 공정거래 (<span id="count-공정거래">0</span>)</div>
-                        <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">0</span>)</div>
-                        <div class="filter-tab" data-filter="지식재산권">💡 지식재산 (<span id="count-지식재산권">0</span>)</div>
-                        <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">0</span>)</div>
-                        <div class="filter-tab" data-filter="안전">🛡️ 안전보건 (<span id="count-안전">0</span>)</div>
-                        <div class="filter-tab" data-filter="환경">🌱 환경에너지 (<span id="count-환경">0</span>)</div>
-                        <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">0</span>)</div>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" class="search-input" id="searchInput" placeholder="법령명, 부처명으로 검색...">
+                        <button onclick="searchLaws()" style="background: none; border: none; color: var(--primary); cursor: pointer;">검색</button>
                     </div>
                 </div>
 
-                <!-- 메인 콘텐츠 영역 -->
-                <div style="display: grid; grid-template-columns: 380px 1fr; gap: 1.5rem;">
-                    <!-- 좌측: 차트 및 통계 -->
-                    <div>
-                        <!-- 도넛 차트 카드 -->
-                        <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; box-shadow: var(--glass-shadow); margin-bottom: 1.5rem;">
-                            <h3 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 1.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
-                                <span>📊</span> 직무별 분포
-                            </h3>
-                            <div style="position: relative; height: 280px; margin-bottom: 1.5rem;">
-                                <canvas id="categoryChart"></canvas>
-                            </div>
-                            <div id="categoryLegend" style="display: grid; gap: 0.5rem;">
-                                <!-- 범례 동적 생성 -->
-                            </div>
-                        </div>
-
-                        <!-- 주요 지표 카드 -->
-                        <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; box-shadow: var(--glass-shadow);">
-                            <h4 style="color: var(--text-primary); font-size: 1rem; font-weight: 600; margin: 0 0 1rem 0;">📈 현황 요약</h4>
-                            <div style="display: grid; gap: 0.75rem;">
-                                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--glass-border);">
-                                    <span style="color: var(--text-muted); font-size: 0.85rem;">최다 개정 분야</span>
-                                    <span style="color: var(--primary); font-weight: 600; font-size: 0.85rem;" id="top-category-stat">인사노무</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--glass-border);">
-                                    <span style="color: var(--text-muted); font-size: 0.85rem;">긴급 대응 필요</span>
-                                    <span style="color: #ef4444; font-weight: 600; font-size: 0.85rem;" id="urgent-count-stat">0건</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
-                                    <span style="color: var(--text-muted); font-size: 0.85rem;">이번달 시행</span>
-                                    <span style="color: #f59e0b; font-weight: 600; font-size: 0.85rem;" id="this-month-stat">0건</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 우측: 법령 목록 -->
-                    <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; box-shadow: var(--glass-shadow);">
-                        <!-- 검색 헤더 -->
-                        <div style="background: rgba(102, 126, 234, 0.05); padding: 1.25rem; border-bottom: 1px solid var(--glass-border);">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                <h3 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0;">시행 법령 목록</h3>
-                                <div style="background: var(--primary); color: white; padding: 0.375rem 0.875rem; border-radius: 20px; font-size: 0.875rem; font-weight: 600;">
-                                    <span id="law-count">0</span>건
-                                </div>
-                            </div>
-                            <div class="search-container">
-                                <input type="text" id="searchInput" placeholder="법령명, 부처명으로 검색..." class="search-input" onkeyup="searchLaws()">
-                                <button onclick="searchLaws()" class="search-button">검색</button>
-                            </div>
-                        </div>
-                        
-                        <!-- 법령 목록 -->
-                        <div class="law-list" id="law-list" style="max-height: 600px; overflow-y: auto;">
-                            <div class="loading">
-                                <div class="spinner"></div>
-                                데이터를 로딩 중입니다...
-                            </div>
-                        </div>
-                    </div>
+                <div class="law-list" id="law-list">
+                    <div class="loading">데이터를 로딩 중입니다...</div>
+                </div>
+            </div>
                 </div>
             </div>
 
@@ -3285,8 +3245,6 @@
             initializeFilters();
             initializeSearch();
             updateTodayDate();
-            updateQuickStats(); // Update quick stats for new design
-            updateBusinessStats(); // Update business tab stats
         });
         
         function updateTodayDate() {
@@ -3547,12 +3505,9 @@
                         '기타': '📋'
                     };
                     return `
-                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                <div style="width: 8px; height: 8px; background: ${color}; border-radius: 50%;"></div>
-                                <span style="font-size: 0.85rem; color: #475569;">${category}</span>
-                            </div>
-                            <span style="font-size: 0.85rem; color: #94a3b8; font-weight: 500;">${count}</span>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: ${color};"></div>
+                            <div class="legend-text">${category} (${count})</div>
                         </div>
                     `;
                 }).join('');
@@ -3561,36 +3516,13 @@
         }
 
         function initializeFilters() {
-            // Handle both old filter tabs and new filter pills
             const filterTabs = document.querySelectorAll('.filter-tab');
-            const filterPills = document.querySelectorAll('.filter-pill');
             
-            // Old filter tabs (for other tabs)
             filterTabs.forEach(tab => {
                 tab.addEventListener('click', function() {
+                    // Update active tab
                     filterTabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
-                    currentFilter = this.dataset.filter;
-                    filterLaws();
-                });
-            });
-            
-            // New filter pills (for business tab)
-            filterPills.forEach(pill => {
-                pill.addEventListener('click', function() {
-                    // Remove active styling from all pills
-                    filterPills.forEach(p => {
-                        p.classList.remove('active');
-                        p.style.background = '#f8fafc';
-                        p.style.color = '#475569';
-                        p.style.border = '1px solid #e2e8f0';
-                    });
-                    
-                    // Add active styling to clicked pill
-                    this.classList.add('active');
-                    this.style.background = '#667eea';
-                    this.style.color = 'white';
-                    this.style.border = 'none';
                     
                     // Filter laws
                     currentFilter = this.dataset.filter;
@@ -3609,12 +3541,6 @@
                 allCountElement.textContent = totalCount;
             }
             
-            // Update pill counts for new design
-            const pillAllCount = document.getElementById('pill-count-all');
-            if (pillAllCount) {
-                pillAllCount.textContent = totalCount;
-            }
-            
             // Update category counts
             const categories = ['인사노무', '공정거래', '정보보호', '지식재산권', '재무회계', '안전', '환경', '지배구조'];
             
@@ -3626,11 +3552,6 @@
                 const countElement = document.getElementById(`count-${category}`);
                 if (countElement) {
                     countElement.textContent = count;
-                }
-                // Also update pill counts
-                const pillCountElement = document.getElementById(`pill-count-${category}`);
-                if (pillCountElement) {
-                    pillCountElement.textContent = count;
                 }
             });
             
@@ -3738,10 +3659,10 @@
             // Show all items, not just first 100
             const displayItems = sortedItems;
             
-            document.getElementById('law-count').textContent = items.length.toLocaleString();
+            document.getElementById('law-count').textContent = `${items.length.toLocaleString()}건`;
 
             if (displayItems.length === 0) {
-                document.getElementById('law-list').innerHTML = '<div style="text-align: center; padding: 3rem; color: #94a3b8; font-size: 0.9rem;">해당 조건의 법령이 없습니다.</div>';
+                document.getElementById('law-list').innerHTML = '<div class="error">해당 조건의 법령이 없습니다.</div>';
                 return;
             }
 
@@ -3765,32 +3686,23 @@
 
 
 
-                const dateColor = dateClass === 'urgent' ? '#ef4444' : 
-                               dateClass === 'soon' ? '#f59e0b' : '#10b981';
-
                 return `
-                    <div style="padding: 1rem; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: all 0.15s;"
-                         onmouseover="this.style.backgroundColor='#f8fafc';"
-                         onmouseout="this.style.backgroundColor='transparent';"
-                         onclick="showLawDetail('${item.id}')">
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-                            <div style="flex: 1;">
-                                <div style="color: #1e293b; font-size: 0.9rem; font-weight: 500; line-height: 1.4;">
-                                    ${item.title || '제목 없음'}
-                                </div>
+                    <div class="law-item">
+                        <div class="law-item-header">
+                            <div class="law-title" onclick="showLawDetail('${item.id}')">${item.title || '제목 없음'}</div>
+                            <div class="date-badge ${dateClass}">${dateText}</div>
+                        </div>
+                        <div class="law-meta">
+                            <div class="meta-item">
+                                <span>🏛️</span>
+                                <span>${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</span>
                             </div>
-                            <div style="background: ${dateColor}15; color: ${dateColor}; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; white-space: nowrap;">
-                                ${dateText}
+                            <div class="meta-item">
+                                <span>📄</span>
+                                <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
                             </div>
                         </div>
-                        
-                        <div style="display: flex; gap: 1rem; align-items: center; color: #94a3b8; font-size: 0.8rem;">
-                            <span>${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</span>
-                            <span>·</span>
-                            <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
-                            ${item.categories && item.categories[0] ? `<span>·</span><span style="color: #667eea;">${item.categories[0]}</span>` : ''}
-                        </div>
+
                     </div>
                 `;
             }).join('');
@@ -4998,109 +4910,6 @@
             console.log('1. https://www.emailjs.com/ 에서 계정 생성');
             console.log('2. 서비스 및 템플릿 설정');
         });
-
-        // Update business tab statistics
-        function updateBusinessStats() {
-            // Calculate statistics
-            let categoryCount = {};
-            let urgentCount = 0;
-            let thisMonthCount = 0;
-            const today = new Date();
-            const currentMonth = today.getMonth() + 1;
-            const currentYear = today.getFullYear();
-            
-            lawsData.forEach(law => {
-                // Count by category
-                if (law.categories) {
-                    law.categories.forEach(cat => {
-                        categoryCount[cat] = (categoryCount[cat] || 0) + 1;
-                    });
-                }
-                
-                // Count urgent (within 7 days)
-                const days = getDaysFromNow(law.effectiveDate);
-                if (days > 0 && days <= 7) {
-                    urgentCount++;
-                }
-                
-                // Count this month
-                if (law.effectiveDate) {
-                    const lawDate = new Date(law.effectiveDate);
-                    if (lawDate.getMonth() + 1 === currentMonth && lawDate.getFullYear() === currentYear) {
-                        thisMonthCount++;
-                    }
-                }
-            });
-            
-            // Update top category
-            const topCategoryElement = document.getElementById('top-category-stat');
-            if (topCategoryElement && Object.keys(categoryCount).length > 0) {
-                const topCat = Object.entries(categoryCount)
-                    .sort((a, b) => b[1] - a[1])[0][0];
-                topCategoryElement.textContent = topCat;
-            }
-            
-            // Update urgent count
-            const urgentElement = document.getElementById('urgent-count-stat');
-            if (urgentElement) {
-                urgentElement.textContent = urgentCount + '건';
-            }
-            
-            // Update this month count
-            const thisMonthElement = document.getElementById('this-month-stat');
-            if (thisMonthElement) {
-                thisMonthElement.textContent = thisMonthCount + '건';
-            }
-        }
-
-        // Update quick stats in the new design
-        function updateQuickStats() {
-            // Calculate average days until effective
-            let totalDays = 0;
-            let countWithDates = 0;
-            let categoryCount = {};
-            
-            lawsData.forEach(law => {
-                if (law.effectiveDate) {
-                    const days = getDaysFromNow(law.effectiveDate);
-                    if (days > 0) {
-                        totalDays += days;
-                        countWithDates++;
-                    }
-                }
-                
-                if (law.categories) {
-                    law.categories.forEach(cat => {
-                        categoryCount[cat] = (categoryCount[cat] || 0) + 1;
-                    });
-                }
-            });
-            
-            // Update average days
-            const avgDaysElement = document.getElementById('avg-days');
-            if (avgDaysElement && countWithDates > 0) {
-                avgDaysElement.textContent = Math.round(totalDays / countWithDates) + '일';
-            }
-            
-            // Update top category
-            const topCategoryElement = document.getElementById('top-category');
-            if (topCategoryElement && Object.keys(categoryCount).length > 0) {
-                const topCat = Object.entries(categoryCount)
-                    .sort((a, b) => b[1] - a[1])[0][0];
-                topCategoryElement.textContent = topCat;
-            }
-            
-            // Update completion rate (example: based on passed effective dates)
-            const completionRateElement = document.getElementById('completion-rate');
-            if (completionRateElement) {
-                const passed = lawsData.filter(law => {
-                    const days = getDaysFromNow(law.effectiveDate);
-                    return days !== null && days <= 0;
-                }).length;
-                const rate = lawsData.length > 0 ? Math.round((passed / lawsData.length) * 100) : 0;
-                completionRateElement.textContent = rate + '%';
-            }
-        }
 
         // 데이터 업데이트 함수
         function triggerDataUpdate() {
