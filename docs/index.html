@@ -24,6 +24,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // EmailJS 초기화
+        (function(){
+            emailjs.init("Nt6PrPKpsL1ruZEIH");
+        })();
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         :root {
@@ -1621,7 +1627,14 @@
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
             </button>
-            <button class="settings-btn" onclick="openSettingsModal()" title="이메일 알림 설정">
+            <button class="email-send-btn" onclick="sendMonitoringEmail()" title="현황 이메일 발송" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; padding: 0.6rem 1.2rem; border-radius: 12px; margin-right: 10px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="m22 7-10 5L2 7"></path>
+                </svg>
+                <span>이메일 발송</span>
+            </button>
+            <button class="settings-btn" onclick="openSettingsModal()" title="이메일 알림 설정" style="display: none;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="4" width="20" height="16" rx="2"></rect>
                     <path d="m22 7-10 5L2 7"></path>
@@ -5666,6 +5679,114 @@
                 '정보보호': '🔒', '지배구조': '🏛️', '공정거래': '⚖️', '기타': '📋'
             };
             return icons[category] || '📋';
+        }
+
+        // 📧 이메일 발송 함수
+        function sendMonitoringEmail() {
+            // 이메일 주소 입력받기
+            const toEmail = prompt('📧 법령 모니터링 현황을 받을 이메일 주소를 입력하세요:', 'example@company.com');
+            
+            if (!toEmail || toEmail === 'example@company.com') {
+                alert('올바른 이메일 주소를 입력해주세요.');
+                return;
+            }
+
+            // 로딩 표시
+            const sendBtn = document.querySelector('.email-send-btn');
+            const originalHTML = sendBtn.innerHTML;
+            sendBtn.innerHTML = '⏳ 발송 중...';
+            sendBtn.disabled = true;
+
+            // 분기별 데이터 계산
+            const q1Count = lawsData.filter(law => {
+                if (!law.effectiveDate) return false;
+                const month = new Date(law.effectiveDate).getMonth() + 1;
+                return month >= 1 && month <= 3;
+            }).length;
+
+            const q2Count = lawsData.filter(law => {
+                if (!law.effectiveDate) return false;
+                const month = new Date(law.effectiveDate).getMonth() + 1;
+                return month >= 4 && month <= 6;
+            }).length;
+
+            const q3Count = lawsData.filter(law => {
+                if (!law.effectiveDate) return false;
+                const month = new Date(law.effectiveDate).getMonth() + 1;
+                return month >= 7 && month <= 9;
+            }).length;
+
+            const q4Count = lawsData.filter(law => {
+                if (!law.effectiveDate) return false;
+                const month = new Date(law.effectiveDate).getMonth() + 1;
+                return month >= 10 && month <= 12;
+            }).length;
+
+            // 직무별 데이터 계산
+            const jobCategories = {};
+            lawsData.forEach(law => {
+                const category = (law.categories && law.categories[0]) || '기타';
+                jobCategories[category] = (jobCategories[category] || 0) + 1;
+            });
+
+            // 직무별 현황 텍스트 생성
+            let jobSummary = '';
+            Object.entries(jobCategories)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5)
+                .forEach(([category, count]) => {
+                    jobSummary += `${getCategoryIcon(category)} ${category}: ${count}건\n`;
+                });
+
+            // 최근 법령 목록 (최대 5개)
+            const recentLaws = lawsData
+                .filter(law => law.effectiveDate)
+                .sort((a, b) => new Date(b.effectiveDate) - new Date(a.effectiveDate))
+                .slice(0, 5)
+                .map(law => `• ${law.title} (${law.effectiveDate})`)
+                .join('\n');
+
+            // 이메일 템플릿 데이터
+            const templateParams = {
+                to_email: toEmail,
+                to_name: toEmail.split('@')[0],
+                from_name: 'RegRader 법령 모니터링 시스템',
+                subject: `[RegRader] 2025년 법령 개정 현황 리포트 - 총 ${lawsData.length}건`,
+                message: `안녕하세요,\n\nRegRader 법령 모니터링 시스템에서 2025년 법령 개정 현황을 안내드립니다.`,
+                content: `법령 모니터링 현황을 안내드립니다.`,
+                total_count: lawsData.length.toString(),
+                quarterly_summary: `1분기: ${q1Count}건, 2분기: ${q2Count}건, 3분기: ${q3Count}건, 4분기: ${q4Count}건`,
+                job_summary: jobSummary,
+                recent_laws: recentLaws || '최근 개정된 법령이 없습니다.',
+                q1_count: q1Count.toString(),
+                q2_count: q2Count.toString(),
+                q3_count: q3Count.toString(),
+                q4_count: q4Count.toString(),
+                // 추가 필드들
+                year: '2025',
+                company_name: 'RegRader',
+                dashboard_url: window.location.href,
+                date: new Date().toLocaleDateString('ko-KR'),
+                time: new Date().toLocaleTimeString('ko-KR')
+            };
+
+            // EmailJS로 이메일 발송
+            emailjs.send('service_7tdd8dh', 'template_tu71wgt', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    alert(`✅ 이메일이 성공적으로 발송되었습니다!\n\n📧 받는 사람: ${toEmail}\n📊 총 ${lawsData.length}건의 법령 정보가 포함되었습니다.`);
+                    
+                    // 버튼 원상복구
+                    sendBtn.innerHTML = originalHTML;
+                    sendBtn.disabled = false;
+                }, function(error) {
+                    console.error('FAILED...', error);
+                    alert(`❌ 이메일 발송에 실패했습니다.\n\n오류: ${error.text || '알 수 없는 오류'}\n\n다시 시도해주세요.`);
+                    
+                    // 버튼 원상복구
+                    sendBtn.innerHTML = originalHTML;
+                    sendBtn.disabled = false;
+                });
         }
     </script>
 </body>
