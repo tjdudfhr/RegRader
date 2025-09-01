@@ -5677,19 +5677,16 @@
         
         // 📧 이메일 발송
         function openEmailScheduler() {
-            // 분기 선택 팝업
-            const quarterSelect = confirm('📧 이메일 발송 옵션\n\n• 확인: 전체 현황 발송\n• 취소: 분기별 선택');
+            const width = 1000;
+            const height = 800;
+            const left = (window.screen.width - width) / 2;
+            const top = (window.screen.height - height) / 2;
             
-            if (quarterSelect) {
-                // 전체 현황 발송
-                sendEmailWithTemplate('current');
-            } else {
-                // 분기 선택
-                const quarter = prompt('분기를 선택하세요 (1, 2, 3, 4):', '1');
-                if (quarter && ['1', '2', '3', '4'].includes(quarter)) {
-                    sendEmailWithTemplate('q' + quarter);
-                }
-            }
+            const popup = window.open(
+                'email_scheduler_pro.html',
+                'EmailScheduler',
+                `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
+            );
         }
         
         // 템플릿별 이메일 발송
