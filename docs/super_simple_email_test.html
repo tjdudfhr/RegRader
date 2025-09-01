@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>초간단 이메일 테스트</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .help {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .help h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .help-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 3px;
+        }
+        .help-item strong {
+            color: #e74c3c;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            color: #666;
+            margin: 10px 0;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 초간단 이메일 테스트</h1>
+        
+        <div class="help">
+            <h3>📌 EmailJS에서 이 3개 값을 찾아서 아래에 입력하세요:</h3>
+            <div class="help-item">
+                <strong>Public Key</strong> = EmailJS 사이트 → Account → API Keys → Public Key
+            </div>
+            <div class="help-item">
+                <strong>Service ID</strong> = EmailJS 사이트 → Email Services → 서비스 이름 옆의 ID (service_xxxxx)
+            </div>
+            <div class="help-item">
+                <strong>Template ID</strong> = EmailJS 사이트 → Email Templates → 템플릿 이름 옆의 ID (template_xxxxx)
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Public Key (예: BH4k2m_XyZ9Lp3Q8R)</label>
+            <input type="text" id="publicKey" placeholder="EmailJS Public Key 입력">
+        </div>
+
+        <div class="input-group">
+            <label>Service ID (예: service_gmail)</label>
+            <input type="text" id="serviceId" placeholder="EmailJS Service ID 입력">
+        </div>
+
+        <div class="input-group">
+            <label>Template ID (예: template_law_monitor)</label>
+            <input type="text" id="templateId" placeholder="EmailJS Template ID 입력">
+        </div>
+
+        <div class="input-group">
+            <label>받을 이메일 주소</label>
+            <input type="email" id="toEmail" placeholder="test@example.com">
+        </div>
+
+        <button onclick="sendTestEmail()">테스트 이메일 보내기</button>
+        
+        <div class="loading" id="loading">
+            ⏳ 이메일 보내는 중... 잠시만 기다려주세요...
+        </div>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function sendTestEmail() {
+            // 입력값 가져오기
+            const publicKey = document.getElementById('publicKey').value.trim();
+            const serviceId = document.getElementById('serviceId').value.trim();
+            const templateId = document.getElementById('templateId').value.trim();
+            const toEmail = document.getElementById('toEmail').value.trim();
+            
+            // 입력값 확인
+            if (!publicKey || !serviceId || !templateId || !toEmail) {
+                showResult('error', '❌ 모든 항목을 입력해주세요!');
+                return;
+            }
+            
+            // 버튼 비활성화 및 로딩 표시
+            document.querySelector('button').disabled = true;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+            
+            try {
+                // EmailJS 초기화
+                emailjs.init(publicKey);
+                
+                // 테스트 데이터
+                const testData = {
+                    to_email: toEmail,
+                    to_name: "테스트 사용자",
+                    from_name: "법령 모니터링 시스템",
+                    subject: "법령 모니터링 테스트 이메일",
+                    message: "이메일이 정상적으로 작동합니다!",
+                    content: "법령 모니터링 시스템 테스트 메시지입니다.",
+                    total_count: "259",
+                    quarterly_summary: "1분기: 119건, 2분기: 61건, 3분기: 64건, 4분기: 15건",
+                    job_summary: "안전보건: 50건, 환경: 45건, 소방: 30건",
+                    recent_laws: "최근 개정 법령 목록이 여기에 표시됩니다.",
+                    // 추가 변수들 (템플릿에서 사용할 수 있는 모든 변수)
+                    q1_count: "119",
+                    q2_count: "61", 
+                    q3_count: "64",
+                    q4_count: "15",
+                    safety_count: "50",
+                    environment_count: "45",
+                    fire_count: "30"
+                };
+                
+                // 이메일 발송
+                emailjs.send(serviceId, templateId, testData)
+                    .then(function(response) {
+                        showResult('success', 
+                            `✅ 이메일 발송 성공!<br><br>` +
+                            `📧 ${toEmail} 주소로 이메일이 발송되었습니다.<br>` +
+                            `이메일함을 확인해보세요!<br><br>` +
+                            `Status: ${response.status} - ${response.text}`
+                        );
+                    })
+                    .catch(function(error) {
+                        let errorMessage = '❌ 이메일 발송 실패!<br><br>';
+                        
+                        if (error.text) {
+                            if (error.text.includes('public key')) {
+                                errorMessage += 'Public Key가 잘못되었습니다. 다시 확인해주세요.';
+                            } else if (error.text.includes('service')) {
+                                errorMessage += 'Service ID가 잘못되었습니다. 다시 확인해주세요.';
+                            } else if (error.text.includes('template')) {
+                                errorMessage += 'Template ID가 잘못되었습니다. 다시 확인해주세요.';
+                            } else {
+                                errorMessage += `오류: ${error.text}`;
+                            }
+                        } else {
+                            errorMessage += '알 수 없는 오류가 발생했습니다.';
+                        }
+                        
+                        showResult('error', errorMessage);
+                        console.error('EmailJS Error:', error);
+                    });
+                    
+            } catch (err) {
+                showResult('error', `❌ 오류 발생: ${err.message}`);
+                console.error('Error:', err);
+            }
+        }
+        
+        function showResult(type, message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result ' + type;
+            resultDiv.innerHTML = message;
+            resultDiv.style.display = 'block';
+            
+            // 버튼 활성화 및 로딩 숨기기
+            document.querySelector('button').disabled = false;
+            document.getElementById('loading').style.display = 'none';
+        }
+        
+        // 엔터키로 전송
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendTestEmail();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
