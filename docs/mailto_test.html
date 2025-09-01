@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>진짜 초간단 이메일 테스트</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .emoji {
+            font-size: 48px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .big-button {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            transition: transform 0.2s;
+        }
+        .big-button:hover {
+            transform: scale(1.05);
+        }
+        .info-box {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .step {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .step-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        .test-data {
+            background: #f1f3f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .copy-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .copy-button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">📧</div>
+        <h1>정말 진짜 초간단 이메일 테스트</h1>
+        
+        <div class="info-box">
+            <strong>✨ 이번엔 진짜 간단해요!</strong><br>
+            아래 버튼 클릭하면 바로 이메일 프로그램이 열려요!
+        </div>
+
+        <a href="mailto:test@example.com?subject=법령 모니터링 테스트&body=안녕하세요!%0A%0A법령 모니터링 시스템 테스트입니다.%0A%0A총 법령 수: 259건%0A1분기: 119건%0A2분기: 61건%0A3분기: 64건%0A4분기: 15건%0A%0A직무별 현황:%0A- 안전보건: 50건%0A- 환경: 45건%0A- 소방: 30건%0A%0A이메일이 정상적으로 작동합니다!" 
+           class="big-button">
+            📮 클릭하면 이메일 프로그램 열림!
+        </a>
+
+        <div class="warning-box">
+            <strong>📌 사용법:</strong><br>
+            1. 위 버튼 클릭<br>
+            2. 이메일 프로그램(Outlook, Gmail 등)이 자동으로 열림<br>
+            3. 받는 사람 주소를 실제 이메일로 변경<br>
+            4. 보내기 버튼 클릭!
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 20px;">
+        <h2>🔧 아니면 이 방법도 있어요!</h2>
+        
+        <div class="step">
+            <div class="step-title">방법 1: Gmail에서 직접 보내기</div>
+            1. <a href="https://mail.google.com/mail/?view=cm&fs=1&to=test@example.com&su=법령 모니터링 테스트&body=법령 모니터링 테스트 이메일입니다." target="_blank">Gmail 열기 (클릭!)</a><br>
+            2. Gmail 로그인<br>
+            3. 받는 사람 주소 수정<br>
+            4. 보내기!
+        </div>
+
+        <div class="step">
+            <div class="step-title">방법 2: 복사해서 이메일에 붙여넣기</div>
+            아래 내용을 복사해서 이메일에 붙여넣으세요:
+            <div class="test-data" id="emailContent">제목: 법령 모니터링 일일 리포트
+
+안녕하세요,
+
+법령 모니터링 시스템 일일 리포트입니다.
+
+[전체 현황]
+총 매칭 법령 수: 259건
+
+[분기별 현황]
+• 1분기: 119건
+• 2분기: 61건
+• 3분기: 64건
+• 4분기: 15건
+
+[직무별 현황]
+• 안전보건: 50건
+• 환경: 45건
+• 소방: 30건
+• 산업안전: 20건
+• 기타: 114건
+
+[최근 개정 법령]
+1. 산업안전보건법 시행령
+2. 환경정책기본법
+3. 소방시설법 시행규칙
+
+이메일 테스트가 정상적으로 완료되었습니다.
+
+감사합니다.</div>
+            <button class="copy-button" onclick="copyText()">📋 복사하기</button>
+        </div>
+
+        <div class="step">
+            <div class="step-title">방법 3: 네이버 메일로 보내기</div>
+            1. <a href="https://mail.naver.com" target="_blank">네이버 메일 열기</a><br>
+            2. 로그인 → 메일쓰기<br>
+            3. 위 내용 복사해서 붙여넣기<br>
+            4. 보내기!
+        </div>
+    </div>
+
+    <script>
+        function copyText() {
+            const text = document.getElementById('emailContent').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('복사되었습니다! 이메일에 붙여넣기(Ctrl+V) 하세요.');
+            }).catch(() => {
+                // 구 브라우저용 fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('복사되었습니다! 이메일에 붙여넣기(Ctrl+V) 하세요.');
+            });
+        }
+    </script>
+</body>
+</html>
