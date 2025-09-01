@@ -379,12 +379,19 @@
         // 법령 데이터 로드
         function loadLawsData() {
             // 부모 창에서 데이터 가져오기 시도
-            if (window.opener && window.opener.lawsData && Array.isArray(window.opener.lawsData)) {
-                lawsData = window.opener.lawsData;
-                console.log('부모 창에서 법령 데이터 로드:', lawsData.length, '건');
-            } else {
-                // 직접 로드 (동기적으로 처리 필요)
-                console.log('index.json 파일에서 직접 로드 중...');
+            if (window.opener && window.opener.lawsData) {
+                if (Array.isArray(window.opener.lawsData)) {
+                    lawsData = window.opener.lawsData;
+                } else if (window.opener.lawsData.items && Array.isArray(window.opener.lawsData.items)) {
+                    lawsData = window.opener.lawsData.items;
+                }
+                if (lawsData.length > 0) {
+                    console.log('부모 창에서 법령 데이터 로드:', lawsData.length, '건');
+                    return; // 부모 창에서 데이터를 성공적으로 가져왔으면 리턴
+                }
+            }
+            // 직접 로드 (동기적으로 처리 필요)
+            console.log('index.json 파일에서 직접 로드 중...');
                 fetch('index.json')
                     .then(response => {
                         if (!response.ok) {
@@ -395,9 +402,11 @@
                     .then(data => {
                         if (Array.isArray(data)) {
                             lawsData = data;
+                        } else if (data && data.items && Array.isArray(data.items)) {
+                            lawsData = data.items;
                         } else {
                             lawsData = [];
-                            console.error('데이터가 배열이 아닙니다:', data);
+                            console.error('예상치 못한 데이터 구조:', data);
                         }
                         console.log('법령 데이터 로드 완료:', lawsData.length, '건');
                     })
