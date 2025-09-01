@@ -5237,6 +5237,7 @@
                         '필요조치사항': analysis.uniqueActions,
                         '담당부서': '',
                         '담당자': '',
+                        '조치사항': '',  // 새로 추가된 칸
                         '이행상태': '',
                         '완료예정일': ''
                     };
@@ -5385,7 +5386,7 @@
         
         // 📋 상세 시트 스타일링
         function applyDetailedSheetStyling(worksheet, dataLength) {
-            // 10컬럼 구조: 순번, 시행일자, 법령명, 개정법률조항, 주요개정내용, 필요조치사항, 담당부서, 담당자, 이행상태, 완료예정일
+            // 11컬럼 구조: 순번, 시행일자, 법령명, 개정법률조항, 주요개정내용, 필요조치사항, 담당부서, 담당자, 조치사항, 이행상태, 완료예정일
             worksheet['!cols'] = [
                 { wch: 8 },   // 순번
                 { wch: 12 },  // 시행일자  
@@ -5395,6 +5396,7 @@
                 { wch: 45 },  // 필요조치사항
                 { wch: 15 },  // 담당부서
                 { wch: 12 },  // 담당자
+                { wch: 30 },  // 조치사항 (새로 추가)
                 { wch: 12 },  // 이행상태
                 { wch: 12 }   // 완료예정일
             ];
@@ -5514,13 +5516,14 @@
                     const analysis = generateUniqueAmendmentContent(law);
                     return {
                         '순번': index + 1,
-                        '시행일자': law.effectiveDate || law.effective_date || '',
+                        '시행일자': law.effectiveDate || '',  // effective_date 제거, effectiveDate만 사용
                         '법령명': law.title || '',
                         '개정법률조항': generateAmendmentClause(law),
                         '주요개정내용': analysis.uniqueContent,
                         '필요조치사항': analysis.uniqueActions,
                         '담당부서': '',
                         '담당자': '',
+                        '조치사항': '',  // 새로 추가된 칸
                         '이행상태': '',
                         '완료예정일': ''
                     };
@@ -5547,7 +5550,7 @@
         
         // 🏢 카테고리별 시트 스타일링
         function applyCategorySheetStyling(worksheet, dataLength, category) {
-            // 상세 시트와 동일한 10컬럼 구조
+            // 상세 시트와 동일한 11컬럼 구조
             worksheet['!cols'] = [
                 { wch: 8 },   // 순번
                 { wch: 12 },  // 시행일자
@@ -5557,6 +5560,7 @@
                 { wch: 45 },  // 필요조치사항
                 { wch: 15 },  // 담당부서
                 { wch: 12 },  // 담당자
+                { wch: 30 },  // 조치사항 (새로 추가)
                 { wch: 12 },  // 이행상태
                 { wch: 12 }   // 완료예정일
             ];
