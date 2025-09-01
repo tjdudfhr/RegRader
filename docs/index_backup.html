@@ -177,11 +177,6 @@
             transform: scale(1.1);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
-        
-        .update-btn svg, .settings-btn svg {
-            width: 20px;
-            height: 20px;
-        }
 
         .update-btn:active {
             transform: scale(0.95);
@@ -1614,18 +1609,11 @@
     <div class="container">
         <!-- Glassmorphism Header -->
         <div class="header">
-            <button class="update-btn" onclick="openDownloadModal()" title="데이터 다운로드">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
+            <button class="update-btn" onclick="triggerDataUpdate()" title="데이터 업데이트">
+                🔄
             </button>
             <button class="settings-btn" onclick="openSettingsModal()" title="이메일 알림 설정">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                    <path d="m22 7-10 5L2 7"></path>
-                </svg>
+                ⚙️
             </button>
             <div class="header-content">
                 <h1>RegRader</h1>
@@ -1784,109 +1772,66 @@
                 </div>
             </div>
 
-            <!-- Business Tab Content - Redesigned -->
+            <!-- Business Tab Content -->
             <div class="tab-pane" id="business-content">
-                <!-- Modern Header with Gradient -->
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);">
-                    <h2 style="color: white; margin: 0 0 1rem 0; font-size: 1.8rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                        <span style="font-size: 1.5rem;">🎯</span> 직무별 개정현황
-                    </h2>
-                    <p style="color: rgba(255, 255, 255, 0.9); margin: 0 0 1.5rem 0; font-size: 1rem;">
-                        2025년 시행 예정 법령을 직무별로 분석하고 관리하세요
-                    </p>
-                    
-                    <!-- Modern Filter Pills -->
-                    <div class="filter-tabs" style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
-                        <div class="filter-tab active" data-filter="all" style="background: rgba(255, 255, 255, 0.3); color: white; border: 2px solid white; padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);">
-                            ✨ 전체 (<span id="count-all">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="인사노무" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                            👥 인사노무 (<span id="count-인사노무">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="공정거래" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                            ⚖️ 공정거래 (<span id="count-공정거래">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="정보보호" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                            🔒 정보보호 (<span id="count-정보보호">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="지식재산권" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                            💡 지식재산 (<span id="count-지식재산권">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="재무회계" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                            💰 재무회계 (<span id="count-재무회계">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="안전" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                            🛡️ 안전/보건 (<span id="count-안전">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="환경" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                            🌱 환경/에너지 (<span id="count-환경">0</span>)
-                        </div>
-                        <div class="filter-tab" data-filter="지배구조" style="background: rgba(255, 255, 255, 0.2); color: white; border: 2px solid rgba(255, 255, 255, 0.5); padding: 0.6rem 1.2rem; border-radius: 25px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                            🏛️ 지배구조 (<span id="count-지배구조">0</span>)
-                        </div>
+                <!-- Business Filter -->
+        <div class="business-filter">
+            <div class="filter-title">
+                🏢 업무별 법령 필터링
+            </div>
+            <div class="filter-tabs">
+                <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">0</span>)</div>
+                <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">0</span>)</div>
+                <div class="filter-tab" data-filter="공정거래">⚖️ 공정거래 (<span id="count-공정거래">0</span>)</div>
+                <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">0</span>)</div>
+                <div class="filter-tab" data-filter="지식재산권">💡 지식재산 (<span id="count-지식재산권">0</span>)</div>
+                <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">0</span>)</div>
+                <div class="filter-tab" data-filter="안전">🛡️ 안전/보건 (<span id="count-안전">0</span>)</div>
+                <div class="filter-tab" data-filter="환경">🌱 환경/에너지 (<span id="count-환경">0</span>)</div>
+                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">0</span>)</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar with Charts -->
+            <div class="sidebar">
+                <!-- Category Distribution Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">📈 업무 분야별 분포</div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    <div class="category-legend" id="categoryLegend">
+                        <!-- 범례가 여기에 동적으로 생성됩니다 -->
                     </div>
                 </div>
 
-                <!-- Main Content Grid -->
-                <div class="main-content" style="display: grid; grid-template-columns: 420px 1fr; gap: 2rem;">
-                    <!-- Left: Enhanced Chart Card -->
-                    <div style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
-                        <div style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);">
-                            <h3 style="margin: 0 0 1.5rem 0; color: #2d3748; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                                <span>📊</span> 직무별 분포 현황
-                            </h3>
-                            <div class="chart-container" style="position: relative; height: 280px; margin-bottom: 1.5rem;">
-                                <canvas id="categoryChart"></canvas>
-                            </div>
-                            <div id="categoryLegend" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
-                                <!-- 범례 동적 생성 -->
-                            </div>
-                        </div>
-                        
-                        <!-- Statistics Cards -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
-                            <div style="background: white; border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);">
-                                <div style="color: #667eea; font-size: 2rem; font-weight: 700;" id="total-laws-stat">259</div>
-                                <div style="color: #718096; font-size: 0.85rem; margin-top: 0.3rem;">총 법령 수</div>
-                            </div>
-                            <div style="background: white; border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);">
-                                <div style="color: #48bb78; font-size: 2rem; font-weight: 700;" id="active-filter-stat">0</div>
-                                <div style="color: #718096; font-size: 0.85rem; margin-top: 0.3rem;">필터링 결과</div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
 
-                    <!-- Right: Enhanced Law List -->
-                    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); overflow: hidden;">
-                        <!-- Header with Search -->
-                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem;">
-                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-                                <h3 style="color: white; margin: 0; font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                                    <span>📋</span> 시행 법령 목록
-                                </h3>
-                                <div style="background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; border-radius: 20px; color: white; font-weight: 600;" id="law-count">
-                                    로딩 중...
-                                </div>
-                            </div>
-                            
-                            <!-- Modern Search Bar -->
-                            <div style="background: white; border-radius: 15px; padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 0.8rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
-                                <span style="color: #667eea; font-size: 1.2rem;">🔍</span>
-                                <input type="text" id="searchInput" placeholder="법령명, 부처명으로 검색..." style="flex: 1; border: none; outline: none; font-size: 1rem; color: #2d3748;">
-                                <button onclick="searchLaws()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.5rem 1.2rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
-                                    검색
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Law Cards List -->
-                        <div class="law-list" style="max-height: 600px; overflow-y: auto; padding: 1.5rem;" id="law-list">
-                            <div class="loading" style="text-align: center; padding: 3rem; color: #718096;">
-                                <div style="font-size: 2rem; margin-bottom: 1rem;">🔄</div>
-                                데이터를 로딩 중입니다...
-                            </div>
-                        </div>
+            <!-- Law List -->
+            <div class="law-card">
+                <div class="law-list-header">
+                    <div class="law-list-title">
+                        📋 시행 법령 목록
+                        <div class="law-count" id="law-count">로딩 중...</div>
                     </div>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" class="search-input" id="searchInput" placeholder="법령명, 부처명으로 검색...">
+                        <button onclick="searchLaws()" style="background: none; border: none; color: var(--primary); cursor: pointer;">검색</button>
+                    </div>
+                </div>
+
+                <div class="law-list" id="law-list">
+                    <div class="loading">데이터를 로딩 중입니다...</div>
+                </div>
+            </div>
                 </div>
             </div>
 
@@ -2007,84 +1952,6 @@
     </div>
 
     <!-- Settings Modal -->
-    <!-- Download Modal -->
-    <div class="modal" id="download-modal" onclick="if(event.target === this) closeDownloadModal()">
-        <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <h2 style="margin: 0; color: var(--text-primary); font-size: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                    <span>📥</span>
-                    <span>데이터 다운로드</span>
-                </h2>
-            </div>
-            <div class="modal-body" style="padding: 1.5rem;">
-                <div style="display: grid; gap: 1rem;">
-                    <!-- 2025년 전체 법령 -->
-                    <div class="download-item" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); padding: 1.2rem; border-radius: 12px; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(102, 126, 234, 0.2);" onclick="downloadAllLaws()" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
-                                    <span style="font-size: 1.5rem;">📊</span>
-                                    2025년 전체 법령 (2,809개)
-                                </h3>
-                                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
-                                    2025년 국가법령정보센터에서 수집한 모든 개정 법령
-                                </p>
-                                <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
-                                    <strong>파일명:</strong> 2025_Laws_Complete.xlsx
-                                </p>
-                            </div>
-                            <span style="font-size: 2rem; color: var(--primary);">⬇</span>
-                        </div>
-                    </div>
-                    
-                    <!-- 매칭 결과 -->
-                    <div class="download-item" style="background: linear-gradient(135deg, rgba(72, 187, 120, 0.05) 0%, rgba(56, 178, 172, 0.05) 100%); padding: 1.2rem; border-radius: 12px; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(72, 187, 120, 0.2);" onclick="downloadMatchedLaws()" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(72, 187, 120, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
-                                    <span style="font-size: 1.5rem;">🎯</span>
-                                    매칭 결과 (259개)
-                                </h3>
-                                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
-                                    당사 207개 기본 법규와 100% 정확 매칭된 개정 법령
-                                </p>
-                                <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
-                                    <strong>파일명:</strong> 매칭결과_259.xlsx
-                                </p>
-                            </div>
-                            <span style="font-size: 2rem; color: var(--success);">⬇</span>
-                        </div>
-                    </div>
-                    
-                    <!-- 기본 적용법규 -->
-                    <div class="download-item" style="background: linear-gradient(135deg, rgba(237, 137, 54, 0.05) 0%, rgba(246, 173, 85, 0.05) 100%); padding: 1.2rem; border-radius: 12px; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(237, 137, 54, 0.2);" onclick="downloadBaseLaws()" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(237, 137, 54, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
-                                    <span style="font-size: 1.5rem;">📚</span>
-                                    기본 적용법규 (207개)
-                                </h3>
-                                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
-                                    당사가 관리하고 있는 기본 적용 법규 목록
-                                </p>
-                                <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
-                                    <strong>파일명:</strong> 기본적용법규_207.xlsx
-                                </p>
-                            </div>
-                            <span style="font-size: 2rem; color: var(--warning);">⬇</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
-                    <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin: 0;">
-                        ⚠️ 다운로드된 파일은 업무 목적으로만 사용해주세요
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="settings-modal" class="modal">
         <div class="modal-content settings-modal-content">
             <div class="modal-header">
@@ -2763,16 +2630,16 @@
                 <div class="quarterly-detail-header">
                     <div class="detail-title">
                         <span class="detail-icon">${info.icon}</span>
-                        <h3>${info.title} (${info.period}, 총 ${quarterLaws.length}건)</h3>
+                        <h3>${info.title}</h3>
                         <button class="close-detail-btn" onclick="closeQuarterlyDetail()">×</button>
                     </div>
-                    <div class="detail-period" style="display: none;">${info.period} · 총 ${quarterLaws.length}건</div>
+                    <div class="detail-period">${info.period} · 총 ${quarterLaws.length}건</div>
                 </div>
 
                 <!-- Business Filter (Similar to Business Tab) -->
                 <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
                     <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                        🏢 직무별 현황
+                        🏢 업무별 법령 필터링
                     </div>
                     <div style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
                         ${businessFilterTabs}
@@ -2840,119 +2707,110 @@
         }
 
         function filterQuarterlyLaws(quarter, filterCategory) {
-            console.log('🔍 Filtering quarterly laws:', quarter, filterCategory);
-            
-            // Get quarter info
-            const quarterInfo = {
-                'Q1': { title: '1분기 시행 법령', period: '2025년 1~3월', months: [1, 2, 3], icon: '🌱' },
-                'Q2': { title: '2분기 시행 법령', period: '2025년 4~6월', months: [4, 5, 6], icon: '☀️' },
-                'Q3': { title: '3분기 시행 법령', period: '2025년 7~9월', months: [7, 8, 9], icon: '🍂' },
-                'Q4': { title: '4분기 시행 법령', period: '2025년 10~12월', months: [10, 11, 12], icon: '❄️' }
-            };
-            
-            const info = quarterInfo[quarter];
-            if (!info) {
-                console.error('Invalid quarter:', quarter);
-                return;
-            }
-            
-            // Filter laws from already loaded lawsData for this quarter
-            const quarterLaws = lawsData.filter(law => {
-                if (!law.effectiveDate) return false;
-                const date = new Date(law.effectiveDate);
-                const month = date.getMonth() + 1;
-                const year = date.getFullYear();
-                
-                // Only 2025 laws
-                if (year !== 2025) return false;
-                
-                // Check if in this quarter
-                return info.months.includes(month);
-            });
-            
-            // Filter by category if not 'all'
-            let filteredLaws = quarterLaws;
-            if (filterCategory !== 'all') {
-                filteredLaws = quarterLaws.filter(law => 
-                    law.categories && law.categories.includes(filterCategory)
-                );
-            }
-            
-            // Sort by title (가나다순)
-            filteredLaws.sort((a, b) => {
-                const titleCompare = a.title.localeCompare(b.title, 'ko-KR');
-                if (titleCompare !== 0) return titleCompare;
-                
-                // Same title, sort by effective date
-                const dateA = a.effectiveDate || '2099-12-31';
-                const dateB = b.effectiveDate || '2099-12-31';
-                return dateA.localeCompare(dateB);
-            });
-            
-            console.log(`✅ Filtered ${filteredLaws.length} laws for ${quarter} - ${filterCategory}`);
-
-            // Update active filter tab
-            const filterTabs = document.querySelectorAll(`[data-quarter="${quarter}"]`);
-            filterTabs.forEach(tab => tab.classList.remove('active'));
-            const targetTab = document.querySelector(`[data-quarter="${quarter}"][data-filter="${filterCategory}"]`);
-            if (targetTab) targetTab.classList.add('active');
-
-            // Generate filtered law list HTML using the same format as showQuarterlyModal
-            const lawListHtml = filteredLaws.map(item => {
-                const effectiveDate = item.effectiveDate || '미정';
-                const daysUntil = getDaysFromNow(effectiveDate);
-                let dateClass = 'active';
-                let dateText = effectiveDate;
-                
-                if (daysUntil > 0) {
-                    if (daysUntil <= 7) {
-                        dateClass = 'urgent';
-                        dateText = `D-${daysUntil}`;
-                    } else if (daysUntil <= 30) {
-                        dateClass = 'soon';
-                        dateText = `D-${daysUntil}`;
-                    } else {
-                        dateClass = 'soon';
-                        dateText = effectiveDate;
+            // 분기별 데이터를 다시 로드하여 필터링
+            fetch('quarterly_details.json')
+                .then(response => response.json())
+                .then(quarterlyData => {
+                    const quarterLaws = quarterlyData.quarters[quarter].laws || [];
+                    
+                    // Filter by category if not 'all'
+                    let filteredLaws = quarterLaws;
+                    if (filterCategory !== 'all') {
+                        filteredLaws = quarterLaws.filter(law => 
+                            law.categories && law.categories.includes(filterCategory)
+                        );
                     }
-                }
 
-                // Use showLawDetail function with the item.id
-                return `
-                    <div class="law-item" onclick="showLawDetail('${item.id}')" style="cursor: pointer;">
-                        <div class="law-item-header">
-                            <div class="law-title">${item.title || '제목 없음'}</div>
-                            <div class="date-badge ${dateClass}">${dateText}</div>
-                        </div>
-                        <div class="law-meta">
-                            <div class="meta-item">
-                                <span>🏛️</span>
-                                <span>${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</span>
-                            </div>
-                            <div class="meta-item">
-                                <span>📄</span>
-                                <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
-                            </div>
-                            <div class="meta-item">
-                                <span>📋</span>
-                                <span style="color: var(--primary);">상세보기</span>
-                            </div>
-                        </div>
-                    </div>`;
-            }).join('');
+                    // Update active filter tab
+                    const filterTabs = document.querySelectorAll(`[data-quarter="${quarter}"]`);
+                    filterTabs.forEach(tab => tab.classList.remove('active'));
+                    const targetTab = document.querySelector(`[data-quarter="${quarter}"][data-filter="${filterCategory}"]`);
+                    if (targetTab) targetTab.classList.add('active');
 
-            // Update the law list
-            const lawListContainer = document.getElementById('quarterly-law-list');
-            if (lawListContainer) {
-                lawListContainer.innerHTML = filteredLaws.length > 0 ? lawListHtml : 
-                    '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">해당 조건의 법령이 없습니다.</div>';
-            }
+                    // Generate filtered law list HTML using the same format as showQuarterlyModal
+                    const categoryIcons = {
+                        '인사노무': '👥',
+                        '공정거래': '⚖️',
+                        '정보보호': '🔒',
+                        '지식재산권': '💡',
+                        '재무회계': '💰',
+                        '안전': '🛡️',
+                        '환경': '🌱',
+                        '지배구조': '🏛️'
+                    };
 
-            // Update header count
-            const headerTitle = document.querySelector('#quarterly-detail .detail-period');
-            if (headerTitle && info) {
-                headerTitle.textContent = `${info.period} · ${filterCategory === 'all' ? '전체' : filterCategory} ${filteredLaws.length}건`;
-            }
+                    const lawListHtml = filteredLaws.map(item => {
+                        const effectiveDate = item.effective_date || item.effectiveDate || '미정';
+                        const daysUntil = getDaysFromNow(effectiveDate);
+                        let dateClass = 'active';
+                        let dateText = effectiveDate;
+                        
+                        if (daysUntil > 0) {
+                            if (daysUntil <= 7) {
+                                dateClass = 'urgent';
+                                dateText = `D-${daysUntil}`;
+                            } else if (daysUntil <= 30) {
+                                dateClass = 'soon';
+                                dateText = `D-${daysUntil}`;
+                            } else {
+                                dateClass = 'soon';
+                                dateText = effectiveDate;
+                            }
+                        }
+
+                        // 링크 URL 생성
+                        const lawUrl = item.detail_url || item.search_url || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`;
+
+                        return `
+                            <div class="law-item" onclick="showQuarterlyLawModal('${item.title.replace(/'/g, "\\'")}', '${lawUrl}')" style="cursor: pointer;">
+                                <div class="law-item-header">
+                                    <div class="law-title">${item.title || '제목 없음'}</div>
+                                    <div class="date-badge ${dateClass}">${dateText}</div>
+                                </div>
+                                <div class="law-meta">
+                                    <div class="meta-item">
+                                        <span>🏛️</span>
+                                        <span>${item.ministry || '관계부처'}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span>📄</span>
+                                        <span>${item.law_type || '일부개정'}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span>🔗</span>
+                                        <span style="color: var(--primary);">법령정보</span>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }).join('');
+
+                    // Update the law list
+                    const lawListContainer = document.getElementById('quarterly-law-list');
+                    if (lawListContainer) {
+                        lawListContainer.innerHTML = filteredLaws.length > 0 ? lawListHtml : 
+                            '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">해당 조건의 법령이 없습니다.</div>';
+                    }
+
+                    // Update header count
+                    const quarterInfo = {
+                        'Q1': { title: '1분기 시행 법령', period: '2025년 1~3월', months: [1, 2, 3], icon: '🌱' },
+                        'Q2': { title: '2분기 시행 법령', period: '2025년 4~6월', months: [4, 5, 6], icon: '☀️' },
+                        'Q3': { title: '3분기 시행 법령', period: '2025년 7~9월', months: [7, 8, 9], icon: '🍂' },
+                        'Q4': { title: '4분기 시행 법령', period: '2025년 10~12월', months: [10, 11, 12], icon: '❄️' }
+                    };
+                    const info = quarterInfo[quarter];
+                    const headerTitle = document.querySelector('#quarterly-detail .detail-period');
+                    if (headerTitle && info) {
+                        headerTitle.textContent = `${info.period} · ${filterCategory === 'all' ? '전체' : filterCategory} ${filteredLaws.length}건`;
+                    }
+                })
+                .catch(error => {
+                    console.error('분기별 데이터 로드 실패:', error);
+                    const lawListContainer = document.getElementById('quarterly-law-list');
+                    if (lawListContainer) {
+                        lawListContainer.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">데이터 로드에 실패했습니다.</div>';
+                    }
+                });
         }
 
         async function showQuarterlyLawModal(lawTitle, lawUrl) {
@@ -3548,10 +3406,9 @@
                         '기타': '📋'
                     };
                     return `
-                        <div class="legend-item" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: #f7fafc; border-radius: 8px;">
-                            <div class="legend-dot" style="background: ${color}; width: 12px; height: 12px; border-radius: 50%;"></div>
-                            <div style="flex: 1; font-size: 0.9rem; color: #4a5568;">${category}</div>
-                            <div style="background: ${color}20; color: ${color}; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.85rem; font-weight: 600;">${count}</div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: ${color};"></div>
+                            <div class="legend-text">${category} (${count})</div>
                         </div>
                     `;
                 }).join('');
@@ -3564,59 +3421,37 @@
             
             filterTabs.forEach(tab => {
                 tab.addEventListener('click', function() {
-                    // Update active tab styling for new design
-                    filterTabs.forEach(t => {
-                        t.classList.remove('active');
-                        // Reset to inactive style
-                        t.style.background = 'rgba(255, 255, 255, 0.2)';
-                        t.style.color = 'white';
-                        t.style.border = '2px solid rgba(255, 255, 255, 0.5)';
-                    });
-                    
+                    // Update active tab
+                    filterTabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
-                    // Apply active style
-                    this.style.background = 'rgba(255, 255, 255, 0.3)';
-                    this.style.color = 'white';
-                    this.style.border = '2px solid white';
-                    this.style.backdropFilter = 'blur(10px)';
                     
                     // Filter laws
                     currentFilter = this.dataset.filter;
                     filterLaws();
-                    
-                    // Update stats
-                    const filteredCount = currentFilter === 'all' ? lawsData.length : 
-                        lawsData.filter(law => law.categories && law.categories.includes(currentFilter)).length;
-                    document.getElementById('active-filter-stat').textContent = filteredCount;
                 });
             });
         }
         
         function updateTabCounts() {
-            console.log('📊 Updating tab counts...');
+            const filterTabs = document.querySelectorAll('.filter-tab');
             
-            // Update total count
-            const totalCount = lawsData.length;
-            const allCountElement = document.getElementById('count-all');
-            if (allCountElement) {
-                allCountElement.textContent = totalCount;
-            }
-            
-            // Update category counts
-            const categories = ['인사노무', '공정거래', '정보보호', '지식재산권', '재무회계', '안전', '환경', '지배구조'];
-            
-            categories.forEach(category => {
-                const count = lawsData.filter(law => 
-                    law.categories && law.categories.includes(category)
-                ).length;
+            filterTabs.forEach(tab => {
+                const filter = tab.dataset.filter;
+                let count = 0;
                 
-                const countElement = document.getElementById(`count-${category}`);
-                if (countElement) {
-                    countElement.textContent = count;
+                if (filter === 'all') {
+                    count = lawsData.length;
+                } else {
+                    count = lawsData.filter(law => 
+                        law.categories && law.categories.includes(filter)
+                    ).length;
+                }
+                
+                const countSpan = tab.querySelector('span');
+                if (countSpan) {
+                    countSpan.textContent = count;
                 }
             });
-            
-            console.log('✅ Tab counts updated');
         }
 
         function updateQuarterlyCounts() {
@@ -3649,7 +3484,6 @@
         }
 
         function filterLaws() {
-            console.log('🔍 Filtering laws for:', currentFilter);
             if (currentFilter === 'all') {
                 filteredLaws = [...lawsData];
             } else {
@@ -3657,7 +3491,6 @@
                     law.categories && law.categories.includes(currentFilter)
                 );
             }
-            console.log(`✅ Filtered ${filteredLaws.length} laws for ${currentFilter}`);
             displayLawList(filteredLaws);
             setTimeout(() => {
                 if (typeof Chart !== 'undefined') {
@@ -3703,8 +3536,6 @@
         }
 
         function displayLawList(items) {
-            console.log(`📋 Displaying ${items.length} laws`);
-            
             const sortedItems = items
                 .sort((a, b) => {
                     // 법령명 가나다순 정렬
@@ -3715,23 +3546,17 @@
                     const dateA = a.effectiveDate || '1900-01-01';
                     const dateB = b.effectiveDate || '1900-01-01';
                     return dateA.localeCompare(dateB);
-                });
+                })
+                .slice(0, 100);
 
-            // Show all items, not just first 100
-            const displayItems = sortedItems;
-            
             document.getElementById('law-count').textContent = `${items.length.toLocaleString()}건`;
-            
-            // Update statistics
-            document.getElementById('total-laws-stat').textContent = lawsData.length;
-            document.getElementById('active-filter-stat').textContent = items.length;
 
-            if (displayItems.length === 0) {
-                document.getElementById('law-list').innerHTML = '<div style="text-align: center; padding: 3rem; color: #718096;"><div style="font-size: 3rem; margin-bottom: 1rem;">😔</div>해당 조건의 법령이 없습니다.</div>';
+            if (sortedItems.length === 0) {
+                document.getElementById('law-list').innerHTML = '<div class="error">해당 조건의 법령이 없습니다.</div>';
                 return;
             }
 
-            const lawListHtml = displayItems.map(item => {
+            const lawListHtml = sortedItems.map(item => {
                 const daysUntil = getDaysFromNow(item.effectiveDate);
                 let dateClass = 'active';
                 let dateText = item.effectiveDate || '미정';
@@ -3752,39 +3577,22 @@
 
 
                 return `
-                    <div class="law-item" style="background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%); border: 1px solid #e2e8f0; border-radius: 15px; padding: 1.2rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);" 
-                         onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.15)';" 
-                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0, 0, 0, 0.05)';"
-                         onclick="showLawDetail('${item.id}')">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem;">
-                            <div style="flex: 1;">
-                                <div style="color: #2d3748; font-size: 1.05rem; font-weight: 600; line-height: 1.4;">
-                                    ${item.title || '제목 없음'}
-                                </div>
-                            </div>
-                            <div style="background: ${dateClass === 'urgent' ? 'linear-gradient(135deg, #f56565, #ed64a6)' : dateClass === 'soon' ? 'linear-gradient(135deg, #f6ad55, #ed8936)' : 'linear-gradient(135deg, #48bb78, #38a169)'}; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">
-                                ${dateText}
-                            </div>
+                    <div class="law-item">
+                        <div class="law-item-header">
+                            <div class="law-title" onclick="showLawDetail('${item.id}')">${item.title || '제목 없음'}</div>
+                            <div class="date-badge ${dateClass}">${dateText}</div>
                         </div>
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                            <div style="display: flex; align-items: center; gap: 0.3rem; color: #718096; font-size: 0.9rem;">
+                        <div class="law-meta">
+                            <div class="meta-item">
                                 <span>🏛️</span>
                                 <span>${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</span>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 0.3rem; color: #718096; font-size: 0.9rem;">
+                            <div class="meta-item">
                                 <span>📄</span>
                                 <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
                             </div>
-                            ${item.categories && item.categories.length > 0 ? `
-                            <div style="display: flex; align-items: center; gap: 0.3rem;">
-                                ${item.categories.slice(0, 2).map(cat => `
-                                    <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.2rem 0.6rem; border-radius: 10px; font-size: 0.8rem; font-weight: 500;">
-                                        ${cat}
-                                    </span>
-                                `).join('')}
-                            </div>
-                            ` : ''}
                         </div>
+
                     </div>
                 `;
             }).join('');
@@ -4359,162 +4167,6 @@
         };
 
         // 설정 모달 열기/닫기
-        // 다운로드 모달 열기
-        function openDownloadModal() {
-            document.getElementById('download-modal').classList.add('show');
-        }
-        
-        // 다운로드 모달 닫기
-        function closeDownloadModal() {
-            document.getElementById('download-modal').classList.remove('show');
-        }
-        
-        // 전체 법령 다운로드
-        function downloadAllLaws() {
-            // 전체 2,809개 법령 데이터 생성 (샘플)
-            const allLawsData = [];
-            
-            // 실제 매칭된 259개 데이터 먼저 추가
-            fetch('index.json')
-                .then(response => response.json())
-                .then(data => {
-                    // 매칭된 데이터 추가
-                    data.items.forEach(law => {
-                        allLawsData.push({
-                            '번호': allLawsData.length + 1,
-                            '법령명': law.title,
-                            '시행일': law.effectiveDate || '',
-                            '직무': law.categories ? law.categories.join(', ') : '',
-                            '부처': law.ministry || getMinistryName(law.title, law.categories) || '',
-                            '법령유형': law.lawType || '일부개정',
-                            '매칭여부': 'O'
-                        });
-                    });
-                    
-                    // 나머지 2,550개 샘플 데이터 생성
-                    const sampleLaws = [
-                        '행정절차법', '행정심판법', '민원 처리에 관한 법률', '전자정부법', '공공기관의 정보공개에 관한 법률',
-                        '부패방지 및 국민권익위원회의 설치와 운영에 관한 법률', '공익신고자 보호법', '청탁금지법',
-                        '국가계약법', '지방계약법', '조달사업에 관한 법률', '중소기업제품 구매촉진 및 판로지원에 관한 법률',
-                        '건설산업기본법', '건설기술 진흥법', '건축법', '건축기본법', '주택법', '도시개발법',
-                        '국토의 계획 및 이용에 관한 법률', '산업입지 및 개발에 관한 법률'
-                    ];
-                    
-                    const ministries = ['기획재정부', '행정안전부', '산업통상자원부', '보건복지부', '국토교통부', '과학기술정보통신부'];
-                    const lawTypes = ['일부개정', '전부개정', '제정', '시행령', '시행규칙'];
-                    const categories = ['기타', '행정', '조달', '건설', '산업', '복지'];
-                    
-                    // 2,550개 추가 데이터 생성
-                    while (allLawsData.length < 2809) {
-                        const randomLaw = sampleLaws[Math.floor(Math.random() * sampleLaws.length)];
-                        const randomMinistry = ministries[Math.floor(Math.random() * ministries.length)];
-                        const randomType = lawTypes[Math.floor(Math.random() * lawTypes.length)];
-                        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-                        const randomMonth = Math.floor(Math.random() * 12) + 1;
-                        const randomDay = Math.floor(Math.random() * 28) + 1;
-                        
-                        allLawsData.push({
-                            '번호': allLawsData.length + 1,
-                            '법령명': `${randomLaw} ${randomType === '시행령' ? '시행령' : randomType === '시행규칙' ? '시행규칙' : ''}`.trim(),
-                            '시행일': `2025-${String(randomMonth).padStart(2, '0')}-${String(randomDay).padStart(2, '0')}`,
-                            '직무': randomCategory,
-                            '부처': randomMinistry,
-                            '법령유형': randomType,
-                            '매칭여부': 'X'
-                        });
-                    }
-                    
-                    // Excel 파일 생성
-                    const ws = XLSX.utils.json_to_sheet(allLawsData);
-                    const wb = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(wb, ws, '2025년_전체법령');
-                    XLSX.writeFile(wb, '2025_Laws_Complete.xlsx');
-                })
-                .catch(error => {
-                    console.error('Failed to generate complete laws:', error);
-                    alert('데이터 생성 중 오류가 발생했습니다.');
-                });
-        }
-        
-        // 매칭 결과 다운로드
-        function downloadMatchedLaws() {
-            // lawsData가 없으면 index.json 로드
-            if (!window.lawsData || lawsData.length === 0) {
-                fetch('index.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        const excelData = data.items.map(law => ({
-                            '법령명': law.title,
-                            '시행일': law.effectiveDate,
-                            '직무': law.categories ? law.categories.join(', ') : '',
-                            '부처': law.ministry || '',
-                            '법령유형': law.lawType || ''
-                        }));
-                        
-                        const ws = XLSX.utils.json_to_sheet(excelData);
-                        const wb = XLSX.utils.book_new();
-                        XLSX.utils.book_append_sheet(wb, ws, '매칭결과');
-                        XLSX.writeFile(wb, '매칭결과_259.xlsx');
-                    })
-                    .catch(error => {
-                        console.error('Failed to load data:', error);
-                        alert('데이터 로드 실패. 잠시 후 다시 시도해주세요.');
-                    });
-            } else {
-                const data = lawsData.map(law => ({
-                    '법령명': law.title,
-                    '시행일': law.effectiveDate,
-                    '직무': law.categories ? law.categories.join(', ') : '',
-                    '부처': law.ministry || '',
-                    '법령유형': law.lawType || ''
-                }));
-                
-                const ws = XLSX.utils.json_to_sheet(data);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, '매칭결과');
-                XLSX.writeFile(wb, '매칭결과_259.xlsx');
-            }
-        }
-        
-        // 기본 법규 다운로드 (Excel 형식으로 변환)
-        function downloadBaseLaws() {
-            // base_laws_207.json을 Excel로 변환하여 다운로드
-            fetch('base_laws_207.json')
-                .then(response => response.json())
-                .then(data => {
-                    const excelData = data.items.map((law, index) => ({
-                        '번호': index + 1,
-                        '법령명': law.title,
-                        '직무분류': law.categories ? law.categories.join(', ') : '',
-                        '법령유형': law.lawType || '법률',
-                        '주무부처': law.ministry || getMinistryName(law.title, law.categories) || '관계부처',
-                        '비고': law.note || ''
-                    }));
-                    
-                    // Excel 파일 생성
-                    const ws = XLSX.utils.json_to_sheet(excelData);
-                    const wb = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(wb, ws, '기본적용법규_207');
-                    
-                    // 컬럼 너비 조정
-                    const colWidths = [
-                        { wch: 8 },  // 번호
-                        { wch: 50 }, // 법령명
-                        { wch: 20 }, // 직무분류
-                        { wch: 15 }, // 법령유형
-                        { wch: 20 }, // 주무부처
-                        { wch: 15 }  // 비고
-                    ];
-                    ws['!cols'] = colWidths;
-                    
-                    XLSX.writeFile(wb, '기본적용법규_207.xlsx');
-                })
-                .catch(error => {
-                    console.error('Download error:', error);
-                    alert('다운로드 중 오류가 발생했습니다.');
-                });
-        }
-        
         function openSettingsModal() {
             const modal = document.getElementById('settings-modal');
             modal.classList.add('show');
@@ -5319,7 +4971,6 @@
                         '필요조치사항': analysis.uniqueActions,
                         '담당부서': '',
                         '담당자': '',
-                        '조치사항': '',  // 새로 추가된 칸
                         '이행상태': '',
                         '완료예정일': ''
                     };
@@ -5428,39 +5079,21 @@
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!worksheet[cellRef]) continue;
                     
-                    // 기본 셀 설정 (완벽한 가운데 정렬)
-                    if (!worksheet[cellRef].s) worksheet[cellRef].s = {};
-                    
+                    // 기본 셀 설정 (가운데 정렬)
                     worksheet[cellRef].s = {
-                        alignment: { 
-                            horizontal: 'center',  // 가로 가운데 정렬
-                            vertical: 'center',    // 세로 가운데 정렬
-                            wrapText: true,        // 텍스트 줄바꿈
-                            indent: 0,             // 들여쓰기 없음
-                            readingOrder: 0,       // 읽기 순서
-                            textRotation: 0        // 텍스트 회전 없음
-                        },
+                        alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
                         border: {
                             top: { style: 'thin', color: { rgb: 'CCCCCC' } },
                             bottom: { style: 'thin', color: { rgb: 'CCCCCC' } },
                             left: { style: 'thin', color: { rgb: 'CCCCCC' } },
                             right: { style: 'thin', color: { rgb: 'CCCCCC' } }
-                        },
-                        font: {
-                            name: '맑은 고딕',
-                            sz: 10
                         }
                     };
                     
                     // 헤더 행 스타일링 (색상 코딩)
                     if (R === 0) {
                         worksheet[cellRef].s.fill = { fgColor: { rgb: '4F46E5' } };
-                        worksheet[cellRef].s.font = { 
-                            bold: true, 
-                            color: { rgb: 'FFFFFF' }, 
-                            sz: 12,
-                            name: '맑은 고딕'
-                        };
+                        worksheet[cellRef].s.font = { bold: true, color: { rgb: 'FFFFFF' }, size: 12 };
                     }
                 }
             }
@@ -5468,7 +5101,7 @@
         
         // 📋 상세 시트 스타일링
         function applyDetailedSheetStyling(worksheet, dataLength) {
-            // 11컬럼 구조: 순번, 시행일자, 법령명, 개정법률조항, 주요개정내용, 필요조치사항, 담당부서, 담당자, 조치사항, 이행상태, 완료예정일
+            // 10컬럼 구조: 순번, 시행일자, 법령명, 개정법률조항, 주요개정내용, 필요조치사항, 담당부서, 담당자, 이행상태, 완료예정일
             worksheet['!cols'] = [
                 { wch: 8 },   // 순번
                 { wch: 12 },  // 시행일자  
@@ -5478,7 +5111,6 @@
                 { wch: 45 },  // 필요조치사항
                 { wch: 15 },  // 담당부서
                 { wch: 12 },  // 담당자
-                { wch: 30 },  // 조치사항 (새로 추가)
                 { wch: 12 },  // 이행상태
                 { wch: 12 }   // 완료예정일
             ];
@@ -5496,17 +5128,17 @@
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!worksheet[cellRef]) continue;
                     
-                    // 완벽한 Excel 가운데 정렬 (모든 셀에 적용)
-                    if (!worksheet[cellRef].s) worksheet[cellRef].s = {};
-                    
+                    // 최강 Excel 가운데 정렬 (셀서식 방식)
                     worksheet[cellRef].s = {
                         alignment: { 
-                            horizontal: 'center',  // 가로 가운데 정렬
-                            vertical: 'center',    // 세로 가운데 정렬
-                            wrapText: true,        // 텍스트 줄바꿈
-                            indent: 0,             // 들여쓰기 없음
+                            vertical: 'center',    // Excel 표준 center
+                            horizontal: 'center',  // Excel 표준 center
+                            wrapText: true,
                             readingOrder: 0,       // 읽기 순서
-                            textRotation: 0        // 텍스트 회전 없음
+                            textRotation: 0,       // 텍스트 회전 없음
+                            shrinkToFit: false,    // 크기 맞춤 비활성화
+                            justifyLastLine: false,// 마지막 줄 양쪽 맞춤 비활성화
+                            indent: 0              // 들여쓰기 0
                         },
                         border: {
                             top: { style: 'thin', color: { rgb: 'CCCCCC' } },
@@ -5515,9 +5147,11 @@
                             right: { style: 'thin', color: { rgb: 'CCCCCC' } }
                         },
                         font: { 
-                            name: '맑은 고딕',
-                            sz: 10,
-                            bold: false
+                            name: 'Arial',
+                            sz: 10,               // size 대신 sz 사용
+                            bold: false,
+                            italic: false,
+                            underline: false
                         }
                     };
                     
@@ -5528,13 +5162,16 @@
                             bold: true, 
                             color: { rgb: 'FFFFFF' }, 
                             sz: 11,
-                            name: '맑은 고딕'
+                            name: 'Arial'
                         };
-                        // 헤더도 가운데 정렬 유지
                         worksheet[cellRef].s.alignment = {
-                            horizontal: 'center',    // 가로 가운데
-                            vertical: 'center',      // 세로 가운데
+                            vertical: 'center',      // Excel 표준
+                            horizontal: 'center',    // Excel 표준
                             wrapText: true,
+                            readingOrder: 0,
+                            textRotation: 0,
+                            shrinkToFit: false,
+                            justifyLastLine: false,
                             indent: 0
                         };
                     }
@@ -5598,14 +5235,13 @@
                     const analysis = generateUniqueAmendmentContent(law);
                     return {
                         '순번': index + 1,
-                        '시행일자': law.effectiveDate || '',  // effective_date 제거, effectiveDate만 사용
+                        '시행일자': law.effective_date || '',
                         '법령명': law.title || '',
                         '개정법률조항': generateAmendmentClause(law),
                         '주요개정내용': analysis.uniqueContent,
                         '필요조치사항': analysis.uniqueActions,
                         '담당부서': '',
                         '담당자': '',
-                        '조치사항': '',  // 새로 추가된 칸
                         '이행상태': '',
                         '완료예정일': ''
                     };
@@ -5632,7 +5268,7 @@
         
         // 🏢 카테고리별 시트 스타일링
         function applyCategorySheetStyling(worksheet, dataLength, category) {
-            // 상세 시트와 동일한 11컬럼 구조
+            // 상세 시트와 동일한 10컬럼 구조
             worksheet['!cols'] = [
                 { wch: 8 },   // 순번
                 { wch: 12 },  // 시행일자
@@ -5642,7 +5278,6 @@
                 { wch: 45 },  // 필요조치사항
                 { wch: 15 },  // 담당부서
                 { wch: 12 },  // 담당자
-                { wch: 30 },  // 조치사항 (새로 추가)
                 { wch: 12 },  // 이행상태
                 { wch: 12 }   // 완료예정일
             ];
@@ -5663,15 +5298,17 @@
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!worksheet[cellRef]) continue;
                     
-                    // 카테고리 시트 완벽한 가운데 정렬
-                    if (!worksheet[cellRef].s) worksheet[cellRef].s = {};
-                    
+                    // 카테고리 시트 최강 가운데 정렬
                     worksheet[cellRef].s = {
                         alignment: { 
-                            horizontal: 'center',  // 가로 가운데 정렬
-                            vertical: 'center',    // 세로 가운데 정렬
-                            wrapText: true,        // 텍스트 줄바꿈
-                            indent: 0              // 들여쓰기 없음
+                            vertical: 'center',
+                            horizontal: 'center', 
+                            wrapText: true,
+                            readingOrder: 0,
+                            textRotation: 0,
+                            shrinkToFit: false,
+                            justifyLastLine: false,
+                            indent: 0
                         },
                         border: {
                             top: { style: 'thin', color: { rgb: 'CCCCCC' } },
@@ -5680,9 +5317,11 @@
                             right: { style: 'thin', color: { rgb: 'CCCCCC' } }
                         },
                         font: {
-                            name: '맑은 고딕',
+                            name: 'Arial',
                             sz: 10,
-                            bold: false
+                            bold: false,
+                            italic: false,
+                            underline: false
                         }
                     };
                     
@@ -5691,13 +5330,12 @@
                         worksheet[cellRef].s.font = { 
                             bold: true, 
                             color: { rgb: 'FFFFFF' },
-                            sz: 11,
-                            name: '맑은 고딕'
+                            name: 'Arial',
+                            size: 11
                         };
-                        // 헤더도 가운데 정렬 유지
                         worksheet[cellRef].s.alignment = {
-                            horizontal: 'center',  // 가로 가운데
-                            vertical: 'center',    // 세로 가운데
+                            vertical: 'middle',
+                            horizontal: 'center',
                             wrapText: true,
                             indent: 0
                         };
