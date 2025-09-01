@@ -5345,21 +5345,39 @@
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!worksheet[cellRef]) continue;
                     
-                    // 기본 셀 설정 (가운데 정렬)
+                    // 기본 셀 설정 (완벽한 가운데 정렬)
+                    if (!worksheet[cellRef].s) worksheet[cellRef].s = {};
+                    
                     worksheet[cellRef].s = {
-                        alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+                        alignment: { 
+                            horizontal: 'center',  // 가로 가운데 정렬
+                            vertical: 'center',    // 세로 가운데 정렬
+                            wrapText: true,        // 텍스트 줄바꿈
+                            indent: 0,             // 들여쓰기 없음
+                            readingOrder: 0,       // 읽기 순서
+                            textRotation: 0        // 텍스트 회전 없음
+                        },
                         border: {
                             top: { style: 'thin', color: { rgb: 'CCCCCC' } },
                             bottom: { style: 'thin', color: { rgb: 'CCCCCC' } },
                             left: { style: 'thin', color: { rgb: 'CCCCCC' } },
                             right: { style: 'thin', color: { rgb: 'CCCCCC' } }
+                        },
+                        font: {
+                            name: '맑은 고딕',
+                            sz: 10
                         }
                     };
                     
                     // 헤더 행 스타일링 (색상 코딩)
                     if (R === 0) {
                         worksheet[cellRef].s.fill = { fgColor: { rgb: '4F46E5' } };
-                        worksheet[cellRef].s.font = { bold: true, color: { rgb: 'FFFFFF' }, size: 12 };
+                        worksheet[cellRef].s.font = { 
+                            bold: true, 
+                            color: { rgb: 'FFFFFF' }, 
+                            sz: 12,
+                            name: '맑은 고딕'
+                        };
                     }
                 }
             }
@@ -5394,17 +5412,17 @@
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!worksheet[cellRef]) continue;
                     
-                    // 최강 Excel 가운데 정렬 (셀서식 방식)
+                    // 완벽한 Excel 가운데 정렬 (모든 셀에 적용)
+                    if (!worksheet[cellRef].s) worksheet[cellRef].s = {};
+                    
                     worksheet[cellRef].s = {
                         alignment: { 
-                            vertical: 'center',    // Excel 표준 center
-                            horizontal: 'center',  // Excel 표준 center
-                            wrapText: true,
+                            horizontal: 'center',  // 가로 가운데 정렬
+                            vertical: 'center',    // 세로 가운데 정렬
+                            wrapText: true,        // 텍스트 줄바꿈
+                            indent: 0,             // 들여쓰기 없음
                             readingOrder: 0,       // 읽기 순서
-                            textRotation: 0,       // 텍스트 회전 없음
-                            shrinkToFit: false,    // 크기 맞춤 비활성화
-                            justifyLastLine: false,// 마지막 줄 양쪽 맞춤 비활성화
-                            indent: 0              // 들여쓰기 0
+                            textRotation: 0        // 텍스트 회전 없음
                         },
                         border: {
                             top: { style: 'thin', color: { rgb: 'CCCCCC' } },
@@ -5413,11 +5431,9 @@
                             right: { style: 'thin', color: { rgb: 'CCCCCC' } }
                         },
                         font: { 
-                            name: 'Arial',
-                            sz: 10,               // size 대신 sz 사용
-                            bold: false,
-                            italic: false,
-                            underline: false
+                            name: '맑은 고딕',
+                            sz: 10,
+                            bold: false
                         }
                     };
                     
@@ -5428,16 +5444,13 @@
                             bold: true, 
                             color: { rgb: 'FFFFFF' }, 
                             sz: 11,
-                            name: 'Arial'
+                            name: '맑은 고딕'
                         };
+                        // 헤더도 가운데 정렬 유지
                         worksheet[cellRef].s.alignment = {
-                            vertical: 'center',      // Excel 표준
-                            horizontal: 'center',    // Excel 표준
+                            horizontal: 'center',    // 가로 가운데
+                            vertical: 'center',      // 세로 가운데
                             wrapText: true,
-                            readingOrder: 0,
-                            textRotation: 0,
-                            shrinkToFit: false,
-                            justifyLastLine: false,
                             indent: 0
                         };
                     }
@@ -5501,7 +5514,7 @@
                     const analysis = generateUniqueAmendmentContent(law);
                     return {
                         '순번': index + 1,
-                        '시행일자': law.effective_date || '',
+                        '시행일자': law.effectiveDate || law.effective_date || '',
                         '법령명': law.title || '',
                         '개정법률조항': generateAmendmentClause(law),
                         '주요개정내용': analysis.uniqueContent,
@@ -5564,17 +5577,15 @@
                     const cellRef = XLSX.utils.encode_cell({ r: R, c: C });
                     if (!worksheet[cellRef]) continue;
                     
-                    // 카테고리 시트 최강 가운데 정렬
+                    // 카테고리 시트 완벽한 가운데 정렬
+                    if (!worksheet[cellRef].s) worksheet[cellRef].s = {};
+                    
                     worksheet[cellRef].s = {
                         alignment: { 
-                            vertical: 'center',
-                            horizontal: 'center', 
-                            wrapText: true,
-                            readingOrder: 0,
-                            textRotation: 0,
-                            shrinkToFit: false,
-                            justifyLastLine: false,
-                            indent: 0
+                            horizontal: 'center',  // 가로 가운데 정렬
+                            vertical: 'center',    // 세로 가운데 정렬
+                            wrapText: true,        // 텍스트 줄바꿈
+                            indent: 0              // 들여쓰기 없음
                         },
                         border: {
                             top: { style: 'thin', color: { rgb: 'CCCCCC' } },
@@ -5583,11 +5594,9 @@
                             right: { style: 'thin', color: { rgb: 'CCCCCC' } }
                         },
                         font: {
-                            name: 'Arial',
+                            name: '맑은 고딕',
                             sz: 10,
-                            bold: false,
-                            italic: false,
-                            underline: false
+                            bold: false
                         }
                     };
                     
@@ -5596,12 +5605,13 @@
                         worksheet[cellRef].s.font = { 
                             bold: true, 
                             color: { rgb: 'FFFFFF' },
-                            name: 'Arial',
-                            size: 11
+                            sz: 11,
+                            name: '맑은 고딕'
                         };
+                        // 헤더도 가운데 정렬 유지
                         worksheet[cellRef].s.alignment = {
-                            vertical: 'middle',
-                            horizontal: 'center',
+                            horizontal: 'center',  // 가로 가운데
+                            vertical: 'center',    // 세로 가운데
                             wrapText: true,
                             indent: 0
                         };
