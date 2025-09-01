@@ -2797,110 +2797,119 @@
         }
 
         function filterQuarterlyLaws(quarter, filterCategory) {
-            // 분기별 데이터를 다시 로드하여 필터링
-            fetch('quarterly_details.json')
-                .then(response => response.json())
-                .then(quarterlyData => {
-                    const quarterLaws = quarterlyData.quarters[quarter].laws || [];
-                    
-                    // Filter by category if not 'all'
-                    let filteredLaws = quarterLaws;
-                    if (filterCategory !== 'all') {
-                        filteredLaws = quarterLaws.filter(law => 
-                            law.categories && law.categories.includes(filterCategory)
-                        );
+            console.log('🔍 Filtering quarterly laws:', quarter, filterCategory);
+            
+            // Get quarter info
+            const quarterInfo = {
+                'Q1': { title: '1분기 시행 법령', period: '2025년 1~3월', months: [1, 2, 3], icon: '🌱' },
+                'Q2': { title: '2분기 시행 법령', period: '2025년 4~6월', months: [4, 5, 6], icon: '☀️' },
+                'Q3': { title: '3분기 시행 법령', period: '2025년 7~9월', months: [7, 8, 9], icon: '🍂' },
+                'Q4': { title: '4분기 시행 법령', period: '2025년 10~12월', months: [10, 11, 12], icon: '❄️' }
+            };
+            
+            const info = quarterInfo[quarter];
+            if (!info) {
+                console.error('Invalid quarter:', quarter);
+                return;
+            }
+            
+            // Filter laws from already loaded lawsData for this quarter
+            const quarterLaws = lawsData.filter(law => {
+                if (!law.effectiveDate) return false;
+                const date = new Date(law.effectiveDate);
+                const month = date.getMonth() + 1;
+                const year = date.getFullYear();
+                
+                // Only 2025 laws
+                if (year !== 2025) return false;
+                
+                // Check if in this quarter
+                return info.months.includes(month);
+            });
+            
+            // Filter by category if not 'all'
+            let filteredLaws = quarterLaws;
+            if (filterCategory !== 'all') {
+                filteredLaws = quarterLaws.filter(law => 
+                    law.categories && law.categories.includes(filterCategory)
+                );
+            }
+            
+            // Sort by title (가나다순)
+            filteredLaws.sort((a, b) => {
+                const titleCompare = a.title.localeCompare(b.title, 'ko-KR');
+                if (titleCompare !== 0) return titleCompare;
+                
+                // Same title, sort by effective date
+                const dateA = a.effectiveDate || '2099-12-31';
+                const dateB = b.effectiveDate || '2099-12-31';
+                return dateA.localeCompare(dateB);
+            });
+            
+            console.log(`✅ Filtered ${filteredLaws.length} laws for ${quarter} - ${filterCategory}`);
+
+            // Update active filter tab
+            const filterTabs = document.querySelectorAll(`[data-quarter="${quarter}"]`);
+            filterTabs.forEach(tab => tab.classList.remove('active'));
+            const targetTab = document.querySelector(`[data-quarter="${quarter}"][data-filter="${filterCategory}"]`);
+            if (targetTab) targetTab.classList.add('active');
+
+            // Generate filtered law list HTML using the same format as showQuarterlyModal
+            const lawListHtml = filteredLaws.map(item => {
+                const effectiveDate = item.effectiveDate || '미정';
+                const daysUntil = getDaysFromNow(effectiveDate);
+                let dateClass = 'active';
+                let dateText = effectiveDate;
+                
+                if (daysUntil > 0) {
+                    if (daysUntil <= 7) {
+                        dateClass = 'urgent';
+                        dateText = `D-${daysUntil}`;
+                    } else if (daysUntil <= 30) {
+                        dateClass = 'soon';
+                        dateText = `D-${daysUntil}`;
+                    } else {
+                        dateClass = 'soon';
+                        dateText = effectiveDate;
                     }
+                }
 
-                    // Update active filter tab
-                    const filterTabs = document.querySelectorAll(`[data-quarter="${quarter}"]`);
-                    filterTabs.forEach(tab => tab.classList.remove('active'));
-                    const targetTab = document.querySelector(`[data-quarter="${quarter}"][data-filter="${filterCategory}"]`);
-                    if (targetTab) targetTab.classList.add('active');
+                // Use showLawDetail function with the item.id
+                return `
+                    <div class="law-item" onclick="showLawDetail('${item.id}')" style="cursor: pointer;">
+                        <div class="law-item-header">
+                            <div class="law-title">${item.title || '제목 없음'}</div>
+                            <div class="date-badge ${dateClass}">${dateText}</div>
+                        </div>
+                        <div class="law-meta">
+                            <div class="meta-item">
+                                <span>🏛️</span>
+                                <span>${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📄</span>
+                                <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📋</span>
+                                <span style="color: var(--primary);">상세보기</span>
+                            </div>
+                        </div>
+                    </div>`;
+            }).join('');
 
-                    // Generate filtered law list HTML using the same format as showQuarterlyModal
-                    const categoryIcons = {
-                        '인사노무': '👥',
-                        '공정거래': '⚖️',
-                        '정보보호': '🔒',
-                        '지식재산권': '💡',
-                        '재무회계': '💰',
-                        '안전': '🛡️',
-                        '환경': '🌱',
-                        '지배구조': '🏛️'
-                    };
+            // Update the law list
+            const lawListContainer = document.getElementById('quarterly-law-list');
+            if (lawListContainer) {
+                lawListContainer.innerHTML = filteredLaws.length > 0 ? lawListHtml : 
+                    '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">해당 조건의 법령이 없습니다.</div>';
+            }
 
-                    const lawListHtml = filteredLaws.map(item => {
-                        const effectiveDate = item.effective_date || item.effectiveDate || '미정';
-                        const daysUntil = getDaysFromNow(effectiveDate);
-                        let dateClass = 'active';
-                        let dateText = effectiveDate;
-                        
-                        if (daysUntil > 0) {
-                            if (daysUntil <= 7) {
-                                dateClass = 'urgent';
-                                dateText = `D-${daysUntil}`;
-                            } else if (daysUntil <= 30) {
-                                dateClass = 'soon';
-                                dateText = `D-${daysUntil}`;
-                            } else {
-                                dateClass = 'soon';
-                                dateText = effectiveDate;
-                            }
-                        }
-
-                        // 링크 URL 생성
-                        const lawUrl = item.detail_url || item.search_url || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`;
-
-                        return `
-                            <div class="law-item" onclick="showQuarterlyLawModal('${item.title.replace(/'/g, "\\'")}', '${lawUrl}')" style="cursor: pointer;">
-                                <div class="law-item-header">
-                                    <div class="law-title">${item.title || '제목 없음'}</div>
-                                    <div class="date-badge ${dateClass}">${dateText}</div>
-                                </div>
-                                <div class="law-meta">
-                                    <div class="meta-item">
-                                        <span>🏛️</span>
-                                        <span>${item.ministry || '관계부처'}</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span>📄</span>
-                                        <span>${item.law_type || '일부개정'}</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span>🔗</span>
-                                        <span style="color: var(--primary);">법령정보</span>
-                                    </div>
-                                </div>
-                            </div>`;
-                    }).join('');
-
-                    // Update the law list
-                    const lawListContainer = document.getElementById('quarterly-law-list');
-                    if (lawListContainer) {
-                        lawListContainer.innerHTML = filteredLaws.length > 0 ? lawListHtml : 
-                            '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">해당 조건의 법령이 없습니다.</div>';
-                    }
-
-                    // Update header count
-                    const quarterInfo = {
-                        'Q1': { title: '1분기 시행 법령', period: '2025년 1~3월', months: [1, 2, 3], icon: '🌱' },
-                        'Q2': { title: '2분기 시행 법령', period: '2025년 4~6월', months: [4, 5, 6], icon: '☀️' },
-                        'Q3': { title: '3분기 시행 법령', period: '2025년 7~9월', months: [7, 8, 9], icon: '🍂' },
-                        'Q4': { title: '4분기 시행 법령', period: '2025년 10~12월', months: [10, 11, 12], icon: '❄️' }
-                    };
-                    const info = quarterInfo[quarter];
-                    const headerTitle = document.querySelector('#quarterly-detail .detail-period');
-                    if (headerTitle && info) {
-                        headerTitle.textContent = `${info.period} · ${filterCategory === 'all' ? '전체' : filterCategory} ${filteredLaws.length}건`;
-                    }
-                })
-                .catch(error => {
-                    console.error('분기별 데이터 로드 실패:', error);
-                    const lawListContainer = document.getElementById('quarterly-law-list');
-                    if (lawListContainer) {
-                        lawListContainer.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">데이터 로드에 실패했습니다.</div>';
-                    }
-                });
+            // Update header count
+            const headerTitle = document.querySelector('#quarterly-detail .detail-period');
+            if (headerTitle && info) {
+                headerTitle.textContent = `${info.period} · ${filterCategory === 'all' ? '전체' : filterCategory} ${filteredLaws.length}건`;
+            }
         }
 
         async function showQuarterlyLawModal(lawTitle, lawUrl) {
@@ -3523,25 +3532,30 @@
         }
         
         function updateTabCounts() {
-            const filterTabs = document.querySelectorAll('.filter-tab');
+            console.log('📊 Updating tab counts...');
             
-            filterTabs.forEach(tab => {
-                const filter = tab.dataset.filter;
-                let count = 0;
+            // Update total count
+            const totalCount = lawsData.length;
+            const allCountElement = document.getElementById('count-all');
+            if (allCountElement) {
+                allCountElement.textContent = totalCount;
+            }
+            
+            // Update category counts
+            const categories = ['인사노무', '공정거래', '정보보호', '지식재산권', '재무회계', '안전', '환경', '지배구조'];
+            
+            categories.forEach(category => {
+                const count = lawsData.filter(law => 
+                    law.categories && law.categories.includes(category)
+                ).length;
                 
-                if (filter === 'all') {
-                    count = lawsData.length;
-                } else {
-                    count = lawsData.filter(law => 
-                        law.categories && law.categories.includes(filter)
-                    ).length;
-                }
-                
-                const countSpan = tab.querySelector('span');
-                if (countSpan) {
-                    countSpan.textContent = count;
+                const countElement = document.getElementById(`count-${category}`);
+                if (countElement) {
+                    countElement.textContent = count;
                 }
             });
+            
+            console.log('✅ Tab counts updated');
         }
 
         function updateQuarterlyCounts() {
@@ -3574,6 +3588,7 @@
         }
 
         function filterLaws() {
+            console.log('🔍 Filtering laws for:', currentFilter);
             if (currentFilter === 'all') {
                 filteredLaws = [...lawsData];
             } else {
@@ -3581,6 +3596,7 @@
                     law.categories && law.categories.includes(currentFilter)
                 );
             }
+            console.log(`✅ Filtered ${filteredLaws.length} laws for ${currentFilter}`);
             displayLawList(filteredLaws);
             setTimeout(() => {
                 if (typeof Chart !== 'undefined') {
@@ -3626,6 +3642,8 @@
         }
 
         function displayLawList(items) {
+            console.log(`📋 Displaying ${items.length} laws`);
+            
             const sortedItems = items
                 .sort((a, b) => {
                     // 법령명 가나다순 정렬
@@ -3636,17 +3654,19 @@
                     const dateA = a.effectiveDate || '1900-01-01';
                     const dateB = b.effectiveDate || '1900-01-01';
                     return dateA.localeCompare(dateB);
-                })
-                .slice(0, 100);
+                });
 
+            // Show all items, not just first 100
+            const displayItems = sortedItems;
+            
             document.getElementById('law-count').textContent = `${items.length.toLocaleString()}건`;
 
-            if (sortedItems.length === 0) {
+            if (displayItems.length === 0) {
                 document.getElementById('law-list').innerHTML = '<div class="error">해당 조건의 법령이 없습니다.</div>';
                 return;
             }
 
-            const lawListHtml = sortedItems.map(item => {
+            const lawListHtml = displayItems.map(item => {
                 const daysUntil = getDaysFromNow(item.effectiveDate);
                 let dateClass = 'active';
                 let dateText = item.effectiveDate || '미정';
