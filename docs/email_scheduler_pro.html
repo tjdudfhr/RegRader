@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이메일 발송 관리</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("Nt6PrPKpsL1ruZEIH");
+        })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -364,9 +369,6 @@
         
         // 페이지 로드 시 초기화
         window.onload = function() {
-            // EmailJS 초기화
-            emailjs.init("Nt6PrPKpsL1ruZEIH");
-            
             // 저장된 이메일 불러오기
             loadSavedEmails();
             
@@ -579,7 +581,7 @@
                         laws: '최근 개정 법령',
                         title: `[RegRader] 2025년 전체 법령 현황 - ${lawsData.length}건`,
                         content: `2025년 전체 법령 현황입니다.\n\n총 ${lawsData.length}건\n\n분기별: 1분기(${q1Count}건), 2분기(${q2Count}건), 3분기(${q3Count}건), 4분기(${q4Count}건)\n\n직무별:\n${jobSummary}`,
-                        url: 'https://tjdudfhr.github.io/RegRader/',
+                        url: window.location.href || 'https://tjdudfhr.github.io/RegRader/',
                         date: new Date().toLocaleDateString('ko-KR')
                     };
                     
@@ -627,21 +629,38 @@
                         laws: `${quarterNum}분기 법령`,
                         title: `[RegRader] 2025년 ${quarterNum}분기 법령 현황 - ${quarterLaws.length}건`,
                         content: `2025년 ${quarterNum}분기(${months[0]}~${months[2]}월) 법령 현황입니다.\n\n총 ${quarterLaws.length}건\n\n직무별:\n${jobSummary || '데이터 없음'}`,
-                        url: 'https://tjdudfhr.github.io/RegRader/',
+                        url: window.location.href || 'https://tjdudfhr.github.io/RegRader/',
                         date: new Date().toLocaleDateString('ko-KR')
                     };
                 }
                 
                 console.log('발송 데이터:', templateParams);
+                console.log('=====================================');
+                console.log('EmailJS 템플릿 변수 확인:');
+                console.log('{{to_email}} =', templateParams.to_email);
+                console.log('{{email}} =', templateParams.email);
+                console.log('{{name}} =', templateParams.name);
+                console.log('{{total}} =', templateParams.total);
+                console.log('{{q1}} =', templateParams.q1);
+                console.log('{{q2}} =', templateParams.q2);
+                console.log('{{q3}} =', templateParams.q3);
+                console.log('{{q4}} =', templateParams.q4);
+                console.log('{{quarterly}} =', templateParams.quarterly);
+                console.log('{{job}} =', templateParams.job);
+                console.log('{{laws}} =', templateParams.laws);
+                console.log('{{title}} =', templateParams.title);
+                console.log('{{content}} =', templateParams.content);
+                console.log('{{url}} =', templateParams.url);
+                console.log('{{date}} =', templateParams.date);
+                console.log('=====================================');
                 
-                // EmailJS로 발송
+                // EmailJS로 발송 (index.html과 동일한 방식)
                 emailjs.send('service_7tdd8dh', 'template_tu71wgt', templateParams)
                     .then(function(response) {
-                        console.log('SUCCESS!', response);
+                        console.log('이메일 발송 성공!', response.status, response.text);
                         resolve(response);
-                    })
-                    .catch(function(error) {
-                        console.error('FAILED...', error);
+                    }, function(error) {
+                        console.error('이메일 발송 실패!', error);
                         reject(error);
                     });
             });
