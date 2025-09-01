@@ -1784,84 +1784,163 @@
                 </div>
             </div>
 
-            <!-- Business Tab Content - Redesigned -->
+            <!-- Business Tab Content - Completely Redesigned -->
             <div class="tab-pane" id="business-content">
-                <!-- Modern Header with Gradient -->
-                <div class="business-filter" style="margin-bottom: 1.5rem;">
-                    <div class="filter-title">
-                        🏢 직무별 현황
-                    </div>
-                    
-                    <div class="filter-tabs">
-                        <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">0</span>)</div>
-                        <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">0</span>)</div>
-                        <div class="filter-tab" data-filter="공정거래">⚖️ 공정거래 (<span id="count-공정거래">0</span>)</div>
-                        <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">0</span>)</div>
-                        <div class="filter-tab" data-filter="지식재산권">💡 지식재산 (<span id="count-지식재산권">0</span>)</div>
-                        <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">0</span>)</div>
-                        <div class="filter-tab" data-filter="안전">🛡️ 안전/보건 (<span id="count-안전">0</span>)</div>
-                        <div class="filter-tab" data-filter="환경">🌱 환경/에너지 (<span id="count-환경">0</span>)</div>
-                        <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">0</span>)</div>
+                <!-- Professional Header Section -->
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 20px; margin-bottom: 2rem; position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); border-radius: 50%;"></div>
+                    <div style="position: relative; z-index: 1;">
+                        <h2 style="color: white; margin: 0 0 0.5rem 0; font-size: 1.8rem; font-weight: 700;">
+                            직무별 법령 현황 대시보드
+                        </h2>
+                        <p style="color: rgba(255, 255, 255, 0.9); margin: 0; font-size: 1rem;">
+                            2025년 시행 예정 법령을 직무별로 한눈에 파악하고 관리하세요
+                        </p>
                     </div>
                 </div>
 
-                <!-- Main Content Grid -->
-                <div class="main-content" style="display: grid; grid-template-columns: 420px 1fr; gap: 2rem;">
-                    <!-- Left: Enhanced Chart Card -->
-                    <div style="background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
-                        <div style="background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);">
-                            <h3 style="margin: 0 0 1.5rem 0; color: #2d3748; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                                <span>📊</span> 직무별 분포 현황
-                            </h3>
-                            <div class="chart-container" style="position: relative; height: 280px; margin-bottom: 1.5rem;">
+                <!-- Key Metrics Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.07); border-left: 4px solid #667eea;">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <div style="color: #64748b; font-size: 0.875rem; margin-bottom: 0.5rem;">전체 법령</div>
+                                <div style="color: #1e293b; font-size: 2rem; font-weight: 700;" id="total-laws-count">259</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #667eea20, #764ba220); padding: 0.75rem; border-radius: 12px;">
+                                <span style="font-size: 1.5rem;">📚</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.07); border-left: 4px solid #ec4899;">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <div style="color: #64748b; font-size: 0.875rem; margin-bottom: 0.5rem;">긴급 대응</div>
+                                <div style="color: #1e293b; font-size: 2rem; font-weight: 700;" id="urgent-laws-count">0</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #ec489920, #f9731620); padding: 0.75rem; border-radius: 12px;">
+                                <span style="font-size: 1.5rem;">⚡</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.07); border-left: 4px solid #10b981;">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <div style="color: #64748b; font-size: 0.875rem; margin-bottom: 0.5rem;">이번 분기</div>
+                                <div style="color: #1e293b; font-size: 2rem; font-weight: 700;" id="current-quarter-count">119</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #10b98120, #34d39920); padding: 0.75rem; border-radius: 12px;">
+                                <span style="font-size: 1.5rem;">📅</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.07); border-left: 4px solid #f59e0b;">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <div style="color: #64748b; font-size: 0.875rem; margin-bottom: 0.5rem;">필터링 결과</div>
+                                <div style="color: #1e293b; font-size: 2rem; font-weight: 700;" id="filtered-count">0</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #f59e0b20, #f9731620); padding: 0.75rem; border-radius: 12px;">
+                                <span style="font-size: 1.5rem;">🔍</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modern Filter Pills -->
+                <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.07); margin-bottom: 2rem;">
+                    <h3 style="color: #1e293b; font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0;">직무별 필터</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                        <button class="filter-pill active" data-filter="all" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.625rem 1.25rem; border-radius: 50px; font-weight: 500; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 6px rgba(102, 126, 234, 0.25);">
+                            ✨ 전체 <span class="filter-count" id="pill-count-all">259</span>
+                        </button>
+                        <button class="filter-pill" data-filter="인사노무" style="background: white; color: #64748b; border: 2px solid #e2e8f0; padding: 0.625rem 1.25rem; border-radius: 50px; font-weight: 500; cursor: pointer; transition: all 0.3s;">
+                            👥 인사노무 <span class="filter-count" id="pill-count-인사노무">0</span>
+                        </button>
+                        <button class="filter-pill" data-filter="공정거래" style="background: white; color: #64748b; border: 2px solid #e2e8f0; padding: 0.625rem 1.25rem; border-radius: 50px; font-weight: 500; cursor: pointer; transition: all 0.3s;">
+                            ⚖️ 공정거래 <span class="filter-count" id="pill-count-공정거래">0</span>
+                        </button>
+                        <button class="filter-pill" data-filter="정보보호" style="background: white; color: #64748b; border: 2px solid #e2e8f0; padding: 0.625rem 1.25rem; border-radius: 50px; font-weight: 500; cursor: pointer; transition: all 0.3s;">
+                            🔒 정보보호 <span class="filter-count" id="pill-count-정보보호">0</span>
+                        </button>
+                        <button class="filter-pill" data-filter="지식재산권" style="background: white; color: #64748b; border: 2px solid #e2e8f0; padding: 0.625rem 1.25rem; border-radius: 50px; font-weight: 500; cursor: pointer; transition: all 0.3s;">
+                            💡 지식재산 <span class="filter-count" id="pill-count-지식재산권">0</span>
+                        </button>
+                        <button class="filter-pill" data-filter="재무회계" style="background: white; color: #64748b; border: 2px solid #e2e8f0; padding: 0.625rem 1.25rem; border-radius: 50px; font-weight: 500; cursor: pointer; transition: all 0.3s;">
+                            💰 재무회계 <span class="filter-count" id="pill-count-재무회계">0</span>
+                        </button>
+                        <button class="filter-pill" data-filter="안전" style="background: white; color: #64748b; border: 2px solid #e2e8f0; padding: 0.625rem 1.25rem; border-radius: 50px; font-weight: 500; cursor: pointer; transition: all 0.3s;">
+                            🛡️ 안전보건 <span class="filter-count" id="pill-count-안전">0</span>
+                        </button>
+                        <button class="filter-pill" data-filter="환경" style="background: white; color: #64748b; border: 2px solid #e2e8f0; padding: 0.625rem 1.25rem; border-radius: 50px; font-weight: 500; cursor: pointer; transition: all 0.3s;">
+                            🌱 환경에너지 <span class="filter-count" id="pill-count-환경">0</span>
+                        </button>
+                        <button class="filter-pill" data-filter="지배구조" style="background: white; color: #64748b; border: 2px solid #e2e8f0; padding: 0.625rem 1.25rem; border-radius: 50px; font-weight: 500; cursor: pointer; transition: all 0.3s;">
+                            🏛️ 지배구조 <span class="filter-count" id="pill-count-지배구조">0</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Content Area with Better Layout -->
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem;">
+                    <!-- Left: Visual Chart & Stats -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- Chart Card -->
+                        <div style="background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.07);">
+                            <h3 style="color: #1e293b; font-size: 1.1rem; font-weight: 600; margin: 0 0 1.5rem 0;">📊 직무별 분포</h3>
+                            <div style="position: relative; height: 280px; margin-bottom: 1rem;">
                                 <canvas id="categoryChart"></canvas>
                             </div>
-                            <div id="categoryLegend" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
-                                <!-- 범례 동적 생성 -->
+                            <div id="categoryLegend" style="display: grid; grid-template-columns: 1fr; gap: 0.5rem; margin-top: 1rem;">
+                                <!-- Dynamic legend -->
                             </div>
                         </div>
                         
-                        <!-- Statistics Cards -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
-                            <div style="background: white; border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);">
-                                <div style="color: #2a5298; font-size: 2rem; font-weight: 700;" id="total-laws-stat">259</div>
-                                <div style="color: #718096; font-size: 0.85rem; margin-top: 0.3rem;">총 법령 수</div>
-                            </div>
-                            <div style="background: white; border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);">
-                                <div style="color: #0ea5e9; font-size: 2rem; font-weight: 700;" id="active-filter-stat">0</div>
-                                <div style="color: #718096; font-size: 0.85rem; margin-top: 0.3rem;">필터링 결과</div>
+                        <!-- Quick Stats -->
+                        <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 16px; padding: 1.5rem; border: 1px solid #bae6fd;">
+                            <h4 style="color: #0369a1; font-size: 1rem; font-weight: 600; margin: 0 0 1rem 0;">📈 주요 통계</h4>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #7dd3fc40;">
+                                    <span style="color: #0c4a6e; font-size: 0.875rem;">평균 시행일까지</span>
+                                    <span style="color: #0369a1; font-weight: 600; font-size: 0.875rem;" id="avg-days">45일</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #7dd3fc40;">
+                                    <span style="color: #0c4a6e; font-size: 0.875rem;">최다 개정 분야</span>
+                                    <span style="color: #0369a1; font-weight: 600; font-size: 0.875rem;" id="top-category">인사노무</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
+                                    <span style="color: #0c4a6e; font-size: 0.875rem;">완료율</span>
+                                    <span style="color: #0369a1; font-weight: 600; font-size: 0.875rem;" id="completion-rate">0%</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Right: Enhanced Law List -->
-                    <div style="background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); overflow: hidden;">
-                        <!-- Header with Search -->
-                        <div style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); padding: 1.5rem;">
-                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-                                <h3 style="color: white; margin: 0; font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                                    <span>📋</span> 시행 법령 목록
-                                </h3>
-                                <div style="background: rgba(255, 255, 255, 0.2); padding: 0.5rem 1rem; border-radius: 20px; color: white; font-weight: 600;" id="law-count">
-                                    로딩 중...
+                    <div style="background: white; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.07); overflow: hidden;">
+                        <!-- Search Header -->
+                        <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); padding: 1.5rem; border-bottom: 1px solid #e2e8f0;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h3 style="color: #1e293b; font-size: 1.2rem; font-weight: 600; margin: 0;">시행 예정 법령</h3>
+                                <div style="background: #667eea; color: white; padding: 0.375rem 0.875rem; border-radius: 20px; font-size: 0.875rem; font-weight: 600;">
+                                    <span id="law-count">0</span>건
                                 </div>
                             </div>
-                            
-                            <!-- Modern Search Bar -->
-                            <div style="background: white; border-radius: 15px; padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 0.8rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
-                                <span style="color: #2a5298; font-size: 1.2rem;">🔍</span>
-                                <input type="text" id="searchInput" placeholder="법령명, 부처명으로 검색..." style="flex: 1; border: none; outline: none; font-size: 1rem; color: #2d3748;">
-                                <button onclick="searchLaws()" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); color: white; border: none; padding: 0.5rem 1.2rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);">
-                                    검색
-                                </button>
+                            <div style="position: relative;">
+                                <input type="text" id="searchInput" placeholder="법령명, 부처명, 키워드로 검색..." 
+                                       style="width: 100%; padding: 0.75rem 1rem 0.75rem 3rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 0.95rem; transition: all 0.3s;"
+                                       onfocus="this.style.borderColor='#667eea'; this.style.boxShadow='0 0 0 3px rgba(102, 126, 234, 0.1)';"
+                                       onblur="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none';"
+                                       onkeyup="searchLaws()">
+                                <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-size: 1.25rem;">🔍</span>
                             </div>
                         </div>
                         
-                        <!-- Law Cards List -->
-                        <div class="law-list" style="max-height: 600px; overflow-y: auto; padding: 1.5rem;" id="law-list">
-                            <div class="loading" style="text-align: center; padding: 3rem; color: #718096;">
-                                <div style="font-size: 2rem; margin-bottom: 1rem;">🔄</div>
-                                데이터를 로딩 중입니다...
+                        <!-- Scrollable Law List -->
+                        <div style="max-height: 600px; overflow-y: auto; padding: 1rem;" id="law-list">
+                            <div style="text-align: center; padding: 3rem; color: #94a3b8;">
+                                <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                                데이터를 불러오는 중...
                             </div>
                         </div>
                     </div>
@@ -3266,6 +3345,7 @@
             initializeFilters();
             initializeSearch();
             updateTodayDate();
+            updateQuickStats(); // Update quick stats for new design
         });
         
         function updateTodayDate() {
@@ -3526,10 +3606,10 @@
                         '기타': '📋'
                     };
                     return `
-                        <div class="legend-item">
-                            <div class="legend-dot" style="background: ${color};"></div>
-                            <div class="legend-text">${category}</div>
-                            <div class="legend-count">${count}</div>
+                        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem; background: ${color}10; border-radius: 8px; border-left: 3px solid ${color};">
+                            <div style="width: 10px; height: 10px; background: ${color}; border-radius: 50%;"></div>
+                            <div style="flex: 1; font-size: 0.875rem; color: #475569;">${category}</div>
+                            <div style="background: ${color}20; color: ${color}; padding: 0.125rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">${count}</div>
                         </div>
                     `;
                 }).join('');
@@ -3538,21 +3618,47 @@
         }
 
         function initializeFilters() {
+            // Handle both old filter tabs and new filter pills
             const filterTabs = document.querySelectorAll('.filter-tab');
+            const filterPills = document.querySelectorAll('.filter-pill');
             
+            // Old filter tabs (for other tabs)
             filterTabs.forEach(tab => {
                 tab.addEventListener('click', function() {
-                    // Remove active class from all tabs
-                    filterTabs.forEach(t => {
-                        t.classList.remove('active');
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    filterLaws();
+                });
+            });
+            
+            // New filter pills (for business tab)
+            filterPills.forEach(pill => {
+                pill.addEventListener('click', function() {
+                    // Remove active styling from all pills
+                    filterPills.forEach(p => {
+                        p.classList.remove('active');
+                        p.style.background = 'white';
+                        p.style.color = '#64748b';
+                        p.style.border = '2px solid #e2e8f0';
+                        p.style.boxShadow = 'none';
                     });
                     
-                    // Add active class to clicked tab
+                    // Add active styling to clicked pill
                     this.classList.add('active');
+                    this.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                    this.style.color = 'white';
+                    this.style.border = 'none';
+                    this.style.boxShadow = '0 4px 6px rgba(102, 126, 234, 0.25)';
                     
                     // Filter laws
                     currentFilter = this.dataset.filter;
                     filterLaws();
+                    
+                    // Update filtered count
+                    const filteredCount = currentFilter === 'all' ? lawsData.length : 
+                        lawsData.filter(law => law.categories && law.categories.includes(currentFilter)).length;
+                    document.getElementById('filtered-count').textContent = filteredCount;
                 });
             });
         }
@@ -3567,6 +3673,12 @@
                 allCountElement.textContent = totalCount;
             }
             
+            // Update pill counts for new design
+            const pillAllCount = document.getElementById('pill-count-all');
+            if (pillAllCount) {
+                pillAllCount.textContent = totalCount;
+            }
+            
             // Update category counts
             const categories = ['인사노무', '공정거래', '정보보호', '지식재산권', '재무회계', '안전', '환경', '지배구조'];
             
@@ -3578,6 +3690,11 @@
                 const countElement = document.getElementById(`count-${category}`);
                 if (countElement) {
                     countElement.textContent = count;
+                }
+                // Also update pill counts
+                const pillCountElement = document.getElementById(`pill-count-${category}`);
+                if (pillCountElement) {
+                    pillCountElement.textContent = count;
                 }
             });
             
@@ -3685,9 +3802,32 @@
             // Show all items, not just first 100
             const displayItems = sortedItems;
             
-            document.getElementById('law-count').textContent = `${items.length.toLocaleString()}건`;
+            document.getElementById('law-count').textContent = items.length.toLocaleString();
             
-            // Statistics removed for consistent design
+            // Update statistics for new design
+            const totalLawsCount = document.getElementById('total-laws-count');
+            if (totalLawsCount) totalLawsCount.textContent = lawsData.length;
+            
+            const filteredCount = document.getElementById('filtered-count');
+            if (filteredCount) filteredCount.textContent = items.length;
+            
+            // Calculate urgent laws (within 7 days)
+            const urgentCount = items.filter(law => {
+                const days = getDaysFromNow(law.effectiveDate);
+                return days > 0 && days <= 7;
+            }).length;
+            const urgentLawsCount = document.getElementById('urgent-laws-count');
+            if (urgentLawsCount) urgentLawsCount.textContent = urgentCount;
+            
+            // Update current quarter count (Q1 2025)
+            const currentQuarterCount = document.getElementById('current-quarter-count');
+            if (currentQuarterCount) {
+                const q1Laws = lawsData.filter(law => {
+                    const date = law.effectiveDate;
+                    return date && date >= '2025-01-01' && date <= '2025-03-31';
+                }).length;
+                currentQuarterCount.textContent = q1Laws;
+            }
 
             if (displayItems.length === 0) {
                 document.getElementById('law-list').innerHTML = '<div style="text-align: center; padding: 3rem; color: #718096;"><div style="font-size: 3rem; margin-bottom: 1rem;">😔</div>해당 조건의 법령이 없습니다.</div>';
@@ -3714,28 +3854,57 @@
 
 
 
+                const categoryColors = {
+                    '인사노무': '#3b82f6',
+                    '공정거래': '#8b5cf6', 
+                    '정보보호': '#ef4444',
+                    '지식재산권': '#f59e0b',
+                    '재무회계': '#10b981',
+                    '안전': '#ec4899',
+                    '환경': '#22c55e',
+                    '지배구조': '#6366f1'
+                };
+                
+                const categoryTags = item.categories ? item.categories.slice(0, 2).map(cat => {
+                    const color = categoryColors[cat] || '#94a3b8';
+                    return `<span style="background: ${color}15; color: ${color}; padding: 0.25rem 0.625rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid ${color}30;">${cat}</span>`;
+                }).join(' ') : '';
+
                 return `
-                    <div class="law-item" onclick="showLawDetail('${item.id}')" style="cursor: pointer;">
-                        <div class="law-item-header">
-                            <div class="law-title">
-                                ${item.title || '제목 없음'}
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; cursor: pointer; transition: all 0.2s; position: relative;"
+                         onmouseover="this.style.borderColor='#667eea'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.15)'; this.style.transform='translateY(-2px)';"
+                         onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='none'; this.style.transform='translateY(0)';"
+                         onclick="showLawDetail('${item.id}')">
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem;">
+                            <div style="flex: 1; margin-right: 1rem;">
+                                <div style="color: #1e293b; font-size: 0.95rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem;">
+                                    ${item.title || '제목 없음'}
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                    ${categoryTags}
+                                </div>
                             </div>
-                            <div class="date-badge ${dateClass}">
+                            <div style="background: ${dateClass === 'urgent' ? 'linear-gradient(135deg, #ef4444, #dc2626)' : 
+                                                    dateClass === 'soon' ? 'linear-gradient(135deg, #f59e0b, #d97706)' : 
+                                                    'linear-gradient(135deg, #10b981, #059669)'}; 
+                                     color: white; padding: 0.375rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; white-space: nowrap;">
                                 ${dateText}
                             </div>
                         </div>
-                        <div class="law-meta">
-                            <div class="meta-item">
-                                <span>🏛️</span>
+                        
+                        <div style="display: flex; gap: 1rem; align-items: center; color: #64748b; font-size: 0.8rem;">
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <span style="font-size: 0.9rem;">🏛️</span>
                                 <span>${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</span>
                             </div>
-                            <div class="meta-item">
-                                <span>📄</span>
+                            <div style="display: flex; align-items: center; gap: 0.25rem;">
+                                <span style="font-size: 0.9rem;">📄</span>
                                 <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
                             </div>
-                            <div class="meta-item">
-                                <span>📋</span>
-                                <span style="color: var(--primary);">상세보기</span>
+                            <div style="margin-left: auto; color: #667eea; font-weight: 600; display: flex; align-items: center; gap: 0.25rem;">
+                                <span>상세보기</span>
+                                <span style="font-size: 0.9rem;">→</span>
                             </div>
                         </div>
                     </div>
@@ -4945,6 +5114,55 @@
             console.log('1. https://www.emailjs.com/ 에서 계정 생성');
             console.log('2. 서비스 및 템플릿 설정');
         });
+
+        // Update quick stats in the new design
+        function updateQuickStats() {
+            // Calculate average days until effective
+            let totalDays = 0;
+            let countWithDates = 0;
+            let categoryCount = {};
+            
+            lawsData.forEach(law => {
+                if (law.effectiveDate) {
+                    const days = getDaysFromNow(law.effectiveDate);
+                    if (days > 0) {
+                        totalDays += days;
+                        countWithDates++;
+                    }
+                }
+                
+                if (law.categories) {
+                    law.categories.forEach(cat => {
+                        categoryCount[cat] = (categoryCount[cat] || 0) + 1;
+                    });
+                }
+            });
+            
+            // Update average days
+            const avgDaysElement = document.getElementById('avg-days');
+            if (avgDaysElement && countWithDates > 0) {
+                avgDaysElement.textContent = Math.round(totalDays / countWithDates) + '일';
+            }
+            
+            // Update top category
+            const topCategoryElement = document.getElementById('top-category');
+            if (topCategoryElement && Object.keys(categoryCount).length > 0) {
+                const topCat = Object.entries(categoryCount)
+                    .sort((a, b) => b[1] - a[1])[0][0];
+                topCategoryElement.textContent = topCat;
+            }
+            
+            // Update completion rate (example: based on passed effective dates)
+            const completionRateElement = document.getElementById('completion-rate');
+            if (completionRateElement) {
+                const passed = lawsData.filter(law => {
+                    const days = getDaysFromNow(law.effectiveDate);
+                    return days !== null && days <= 0;
+                }).length;
+                const rate = lawsData.length > 0 ? Math.round((passed / lawsData.length) * 100) : 0;
+                completionRateElement.textContent = rate + '%';
+            }
+        }
 
         // 데이터 업데이트 함수
         function triggerDataUpdate() {
