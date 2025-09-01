@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>초간단 이메일 테스트 (Formspree 버전)</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: #155724;
+        }
+        .input-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .step-number {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: #007bff;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        code {
+            background: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #e83e8c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 초간단 이메일 폼 테스트</h1>
+        <p class="subtitle">복잡한 설정 없이 바로 테스트!</p>
+        
+        <div class="success">
+            <strong>✅ 이 페이지는 바로 작동합니다!</strong><br>
+            아무 설정 없이 아래 폼을 작성하고 전송 버튼만 누르세요.
+        </div>
+
+        <!-- Formspree 폼 - 무료 서비스 -->
+        <form action="https://formspree.io/f/mkggzqwv" method="POST">
+            <div class="input-group">
+                <label>보내는 사람 이메일*</label>
+                <input type="email" name="email" required placeholder="your@email.com">
+            </div>
+            
+            <div class="input-group">
+                <label>이름</label>
+                <input type="text" name="name" placeholder="홍길동">
+            </div>
+            
+            <div class="input-group">
+                <label>제목</label>
+                <input type="text" name="subject" value="법령 모니터링 테스트 이메일">
+            </div>
+            
+            <div class="input-group">
+                <label>메시지*</label>
+                <textarea name="message" required>안녕하세요!
+
+법령 모니터링 시스템 이메일 테스트입니다.
+
+총 법령 수: 259건
+1분기: 119건
+2분기: 61건
+3분기: 64건
+4분기: 15건
+
+안전보건: 50건
+환경: 45건
+소방: 30건
+
+이메일이 정상적으로 발송됩니다!</textarea>
+            </div>
+            
+            <button type="submit">📨 테스트 이메일 전송</button>
+        </form>
+        
+        <div class="warning" style="margin-top: 30px;">
+            <strong>💡 작동 원리:</strong><br>
+            • 이 폼은 Formspree라는 무료 서비스를 사용합니다<br>
+            • 전송 버튼을 누르면 formspree.io 페이지로 이동합니다<br>
+            • 첫 번째 전송 시 이메일 인증이 필요할 수 있습니다<br>
+            • 인증 후에는 바로 이메일이 전송됩니다
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 20px;">
+        <h2>🎯 이메일 폼을 직접 만들고 싶다면?</h2>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Formspree 접속</strong><br>
+            https://formspree.io 사이트 방문
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>무료 가입</strong><br>
+            이메일 주소만 있으면 가입 가능
+        </div>
+        
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>새 폼 만들기</strong><br>
+            "New Form" 버튼 클릭 → 폼 이름 입력
+        </div>
+        
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>폼 ID 복사</strong><br>
+            생성된 폼의 엔드포인트 URL 복사<br>
+            예: <code>https://formspree.io/f/YOUR_FORM_ID</code>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>HTML에 적용</strong><br>
+            위 HTML 코드의 <code>action="..."</code> 부분에 URL 넣기
+        </div>
+    </div>
+</body>
+</html>
