@@ -3868,19 +3868,19 @@
                 <div class="summary-section">
                     <h4>🔗 관련 링크</h4>
                     <div class="external-links">
-                        <a href="${item.meta?.lsId ? `https://www.law.go.kr/LSW/lsInfoP.do?lsId=${item.meta.lsId}` : `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`}" target="_blank" class="external-link law-link">
+                        <a href="https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}&ancYd=&ancNo=&efYd=&nwJoYnInfo=Y&searchPutTyp=&efGubun=Y&chrClsCd=010202&sortSeq=desc" target="_blank" class="external-link law-link">
                             <div class="link-icon">📜</div>
                             <div class="link-content">
                                 <div class="link-title">법령 원문 보기</div>
-                                <div class="link-desc">국가법령정보센터 (법령ID: ${item.meta?.lsId || '검색'})</div>
+                                <div class="link-desc">국가법령정보센터에서 확인</div>
                             </div>
                             <div class="link-arrow">→</div>
                         </a>
-                        <a href="https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}" target="_blank" class="external-link search-link">
+                        <a href="https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title.replace('시행령', '').replace('시행규칙', '').trim())}" target="_blank" class="external-link search-link">
                             <div class="link-icon">🔍</div>
                             <div class="link-content">
                                 <div class="link-title">관련 법령 검색</div>
-                                <div class="link-desc">법령 검색 서비스</div>
+                                <div class="link-desc">관련 법률/시행령/규칙 검색</div>
                             </div>
                             <div class="link-arrow">→</div>
                         </a>
