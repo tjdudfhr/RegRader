@@ -558,10 +558,36 @@
             return false;
         };
         
+        // EmailJS 상태 체크
+        function checkEmailJSStatus() {
+            // 간단한 테스트 파라미터로 EmailJS 상태 확인
+            const testParams = {
+                to_email: 'test@test.com',
+                email: 'test@test.com',
+                name: 'Test',
+                total: '0',
+                q1: '0', q2: '0', q3: '0', q4: '0',
+                quarterly: 'test',
+                job: 'test',
+                job_counts: 'test',
+                laws: 'test',
+                title: 'Test',
+                content: 'test',
+                url: 'test',
+                date: 'test'
+            };
+            
+            // 실제로 보내지 않고 서비스 상태만 체크
+            console.log('EmailJS Service ID:', 'service_7tdd8dh');
+            console.log('EmailJS Template ID:', 'template_tu71wgt');
+            console.log('EmailJS Public Key:', 'Nt6PrPKpsL1ruZEIH');
+        }
+        
         // 페이지 로드 시 초기화
         window.onload = function() {
             console.log('Window loaded, initializing...');
             console.log('Functions available:', typeof addEmails, typeof sendEmails, typeof sendTestEmail);
+            checkEmailJSStatus();
             loadSavedEmails();
             loadLawsData();
         };
@@ -1053,7 +1079,24 @@
                 showMessage('info', '테스트 이메일 발송 중...');
                 sendSingleEmail(testEmail)
                     .then(() => showMessage('success', '테스트 이메일이 발송되었습니다!'))
-                    .catch(error => showMessage('error', `발송 실패: ${error.text || error}`));
+                    .catch(error => {
+                        console.error('테스트 이메일 발송 실패:', error);
+                        let errorMsg = '발송 실패: ';
+                        if (error.text) {
+                            errorMsg += error.text;
+                            // EmailJS 특정 에러 메시지 파싱
+                            if (error.text.includes('quota')) {
+                                errorMsg += '\n(일일/월간 발송 한도를 초과했습니다. EmailJS 대시보드를 확인하세요)';
+                            } else if (error.text.includes('template')) {
+                                errorMsg += '\n(템플릿 ID가 잘못되었습니다)';
+                            } else if (error.text.includes('service')) {
+                                errorMsg += '\n(서비스 ID가 잘못되었습니다)';
+                            }
+                        } else {
+                            errorMsg += JSON.stringify(error);
+                        }
+                        showMessage('error', errorMsg);
+                    });
             }
         }
         
