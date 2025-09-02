@@ -773,34 +773,35 @@
                         jobDetails[category].push(law);
                     });
                     
-                    // 직무별 아이콘과 건수를 함께 표시
-                    let jobIconSummary = '';
+                    // 직무별 박스 형태로 표시 (각 직무별로 건수 포함)
+                    let jobBoxes = '';
                     Object.entries(jobCategories)
                         .sort((a, b) => b[1] - a[1])
                         .forEach(([category, count]) => {
                             const icon = getCategoryIcon(category);
-                            jobIconSummary += `${icon} ${category}(${count}건) `;
+                            jobBoxes += `[${icon} ${category}]\n${count}건\n\n`;
                         });
                     
-                    // 텍스트 형식으로 직무별 법령 목록 생성
+                    // 직무별 법령 목록을 깔끔한 리스트로 생성
                     let lawListText = '';
                     Object.entries(jobDetails)
                         .sort((a, b) => b[1].length - a[1].length)
                         .slice(0, 3)  // 전체 현황은 상위 3개 직무만
                         .forEach(([category, laws]) => {
                             const icon = getCategoryIcon(category);
-                            lawListText += `\n\n【${icon} ${category} - ${laws.length}건】\n`;
-                            lawListText += '―――――――――――――――――――――\n';
+                            lawListText += `\n◆ ${icon} ${category} (${laws.length}건)\n`;
+                            lawListText += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
                             
                             laws.slice(0, 5).forEach((law, idx) => {
                                 const date = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR') : '날짜 미정';
-                                lawListText += `${idx + 1}. ${law.title}\n`;
-                                lawListText += `   ➤ 시행일: ${date}\n\n`;
+                                lawListText += `  ${idx + 1}. ${law.title}\n`;
+                                lawListText += `     → 시행일: ${date}\n`;
                             });
                             
                             if (laws.length > 5) {
-                                lawListText += `   ... 외 ${laws.length - 5}건\n`;
+                                lawListText += `\n  ... 외 ${laws.length - 5}건의 법령이 더 있습니다.\n`;
                             }
+                            lawListText += '\n';
                         });
                     
                     // 직무별 개수를 하나의 문자열로 만들기
@@ -835,7 +836,7 @@
                         q3: q3Count.toString(),
                         q4: q4Count.toString(),
                         quarterly: `전체`,
-                        job: jobIconSummary,  // 아이콘과 함께 직무별 건수 표시
+                        job: jobBoxes,  // 박스 형태로 직무별 건수 표시
                         job_counts: jobCounts,  // 직무별 개수 문자열
                         laws: '최근 개정 법령',
                         title: `[RegRader] 2025년 전체 법령 현황 - ${lawsData.length}건`,
@@ -873,13 +874,13 @@
                         .map(([cat, count]) => `${cat}: ${count}건`)
                         .join(' / ');
                     
-                    // 직무별 아이콘과 건수를 함께 표시
-                    let jobIconSummary = '';
+                    // 직무별 박스 형태로 표시 (각 직무별로 건수 포함)
+                    let jobBoxes = '';
                     Object.entries(jobCategories)
                         .sort((a, b) => b[1] - a[1])
                         .forEach(([category, count]) => {
                             const icon = getCategoryIcon(category);
-                            jobIconSummary += `${icon} ${category}(${count}건) `;
+                            jobBoxes += `[${icon} ${category}]\n${count}건\n\n`;
                         });
                     
                     // 직무별 상세 법령 목록 생성
@@ -892,20 +893,21 @@
                         jobDetails[category].push(law);
                     });
                     
-                    // 텍스트 형식으로 직무별 법령 목록 생성 (분기별)
+                    // 직무별 법령 목록을 깔끔한 리스트로 생성 (분기별)
                     let lawListText = '';
                     Object.entries(jobDetails)
                         .sort((a, b) => b[1].length - a[1].length)
                         .forEach(([category, laws]) => {
                             const icon = getCategoryIcon(category);
-                            lawListText += `\n\n【${icon} ${category} - ${laws.length}건】\n`;
-                            lawListText += '─────────────────────────\n';
+                            lawListText += `\n◆ ${icon} ${category} (${laws.length}건)\n`;
+                            lawListText += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
                             
                             laws.forEach((law, idx) => {
                                 const date = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR') : '날짜 미정';
-                                lawListText += `${idx + 1}. ${law.title}\n`;
-                                lawListText += `   ➤ 시행일: ${date}\n\n`;
+                                lawListText += `  ${idx + 1}. ${law.title}\n`;
+                                lawListText += `     → 시행일: ${date}\n`;
                             });
+                            lawListText += '\n';
                         });
                     
                     // 직무별 개수를 하나의 문자열로 만들기
@@ -959,7 +961,7 @@
                         q3: selectedTemplate === 'q3' ? quarterLaws.length.toString() : '0',
                         q4: selectedTemplate === 'q4' ? quarterLaws.length.toString() : '0',
                         quarterly: `${quarterNum}분기`,
-                        job: jobIconSummary || '데이터 없음',  // 아이콘과 함께 직무별 건수 표시
+                        job: jobBoxes || '데이터 없음',  // 박스 형태로 직무별 건수 표시
                         job_counts: jobCounts,  // 직무별 개수 문자열
                         laws: sortedByDate || `${quarterNum}분기 법령`,
                         title: `[RegRader] 2025년 ${quarterNum}분기 법령 개정 안내 - ${quarterLaws.length}건`,
