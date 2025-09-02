@@ -736,9 +736,8 @@
                     
                     const jobSummary = Object.entries(jobCategories)
                         .sort((a, b) => b[1] - a[1])
-                        .slice(0, 5)
                         .map(([cat, count]) => `${cat}: ${count}건`)
-                        .join('\n');
+                        .join(' / ');
                     
                     // 직무별 상세 법령 목록 생성
                     const jobDetails = {};
@@ -837,9 +836,8 @@
                     
                     const jobSummary = Object.entries(jobCategories)
                         .sort((a, b) => b[1] - a[1])
-                        .slice(0, 5)
                         .map(([cat, count]) => `${cat}: ${count}건`)
-                        .join('\n');
+                        .join(' / ');
                     
                     // 직무별 상세 법령 목록 생성
                     const jobDetails = {};

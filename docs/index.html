@@ -5745,9 +5745,8 @@
                 
                 const jobSummary = Object.entries(jobCategories)
                     .sort((a, b) => b[1] - a[1])
-                    .slice(0, 5)
                     .map(([cat, count]) => `${getCategoryIcon(cat)} ${cat}: ${count}건`)
-                    .join('\n');
+                    .join(' / ');
                 
                 templateParams = {
                     to_email: toEmail,
@@ -5792,9 +5791,8 @@
                 
                 const quarterJobSummary = Object.entries(quarterJobs)
                     .sort((a, b) => b[1] - a[1])
-                    .slice(0, 5)
                     .map(([cat, count]) => `${getCategoryIcon(cat)} ${cat}: ${count}건`)
-                    .join('\n');
+                    .join(' / ');
                 
                 templateParams = {
                     to_email: toEmail,
