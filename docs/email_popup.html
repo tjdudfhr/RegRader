@@ -825,25 +825,8 @@
                         content: lawTableHTML,  // HTML 테이블 형식
                         url: 'https://tjdudfhr.github.io/RegRader/',
                         date: new Date().toLocaleDateString('ko-KR')
-                    }; `2025년 법령 개정 현황을 안내드립니다.\n\n` +
-                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                                `📊 전체 현황: 총 ${lawsData.length}건\n` +
-                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-                                `📅 분기별 시행 예정\n` +
-                                `• 1분기(1-3월): ${q1Count}건\n` +
-                                `• 2분기(4-6월): ${q2Count}건\n` +
-                                `• 3분기(7-9월): ${q3Count}건\n` +
-                                `• 4분기(10-12월): ${q4Count}건\n\n` +
-                                `📆 월별 시행 일정\n${monthlySchedule}\n\n` +
-                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                                `📂 직무별 주요 개정 법령\n` +
-                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                                `${detailedJobContent}\n\n` +
-                                `💡 자세한 내용은 RegRader 대시보드에서 확인하세요.\n` +
-                                `🔗 ${window.location.protocol}//${window.location.host}/RegRader/`,
-                        url: 'https://tjdudfhr.github.io/RegRader/',
-                        date: new Date().toLocaleDateString('ko-KR')
                     };
+
                 } else {
                     // 분기별
                     const quarterNum = selectedTemplate.substring(1);
