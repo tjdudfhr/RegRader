@@ -3851,21 +3851,6 @@
                 </div>
                 
                 <div class="summary-section">
-                    <h4>🎯 핵심 포인트</h4>
-                    <p>• <strong>업무 영향도:</strong> ${(item.categories || ['기타']).join(', ')} 분야에 직접적인 영향</p>
-                    <p>• <strong>준비 기간:</strong> ${getDaysFromNow(item.effectiveDate) > 0 ? `시행까지 ${getDaysFromNow(item.effectiveDate)}일 남음` : '이미 시행 중'}</p>
-                    <p>• <strong>대응 우선도:</strong> ${getDaysFromNow(item.effectiveDate) <= 7 ? '🚨 긴급' : getDaysFromNow(item.effectiveDate) <= 30 ? '⚠️ 주의' : '📅 예정'}</p>
-                </div>
-                
-                <div class="summary-section">
-                    <h4>💡 실무 가이드</h4>
-                    <p>• 해당 법령의 상세 내용은 국가법령정보센터에서 확인 가능합니다.</p>
-                    <p>• 개정 사항이 업무에 미치는 영향을 사전에 검토하시기 바랍니다.</p>
-                    <p>• 관련 부서와 협의하여 적절한 대응 방안을 수립하세요.</p>
-                    ${getDaysFromNow(item.effectiveDate) <= 30 ? '<p>• <strong>시행일이 임박했으니 즉시 대응 계획을 세우세요!</strong></p>' : ''}
-                </div>
-                
-                <div class="summary-section">
                     <h4>🔗 관련 링크</h4>
                     <div class="external-links">
                         <a href="https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}&ancYd=&ancNo=&efYd=&nwJoYnInfo=Y&searchPutTyp=&efGubun=Y&chrClsCd=010202&sortSeq=desc" target="_blank" class="external-link law-link">
