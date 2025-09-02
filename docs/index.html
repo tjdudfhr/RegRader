@@ -11,22 +11,7 @@
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="./icon-192.png">
     
-    <!-- 모바일 기기 감지 및 자동 리다이렉션 -->
-    <script>
-        (function() {
-            // 모바일 기기 감지
-            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            // 화면 크기도 체크 (768px 이하)
-            var isSmallScreen = window.innerWidth <= 768;
-            
-            // 모바일이거나 작은 화면이면 모바일 버전으로 리다이렉션
-            // PWA로 실행 중이면 리다이렉션하지 않음
-            var isPWA = window.matchMedia('(display-mode: standalone)').matches;
-            if ((isMobile || isSmallScreen) && !window.location.pathname.includes('mobile') && !isPWA) {
-                // window.location.href = 'mobile_v2.html';  // PWA는 반응형으로 작동하므로 주석처리
-            }
-        })();
-    </script>
+    <!-- 모바일 반응형 지원 - 리다이렉션 제거됨 -->
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1139,6 +1124,75 @@
             /* 차트 섹션을 세로로 배치 */
             div[style*="grid-template-columns: 1fr 1fr"] {
                 grid-template-columns: 1fr !important;
+            }
+            
+            /* 모바일 최적화 */
+            .container {
+                padding: 0.5rem;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .tab {
+                min-width: 80px;
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+            
+            .law-card {
+                padding: 1rem;
+            }
+            
+            .modal {
+                padding: 1rem;
+            }
+            
+            .modal-dialog {
+                margin: 0.5rem;
+                max-width: calc(100vw - 1rem);
+            }
+            
+            .modal-content {
+                max-height: calc(100vh - 2rem);
+            }
+            
+            /* 터치 친화적 버튼 크기 */
+            button {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            /* 작은 화면에서 그리드 단순화 */
+            .law-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+            
+            /* 텍스트 크기 조정 */
+            body {
+                font-size: 14px;
+            }
+            
+            /* 스크롤 개선 */
+            .content-container {
+                -webkit-overflow-scrolling: touch;
+                overflow-y: auto;
             }
         }
 
