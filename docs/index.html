@@ -6,6 +6,11 @@
     <title>RegRader · AI를 활용한 법규 개정 모니터링 시스템</title>
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
+    <!-- PWA 설정 -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <link rel="apple-touch-icon" href="/icon-192.png">
+    
     <!-- 모바일 기기 감지 및 자동 리다이렉션 -->
     <script>
         (function() {
@@ -15,8 +20,10 @@
             var isSmallScreen = window.innerWidth <= 768;
             
             // 모바일이거나 작은 화면이면 모바일 버전으로 리다이렉션
-            if ((isMobile || isSmallScreen) && !window.location.pathname.includes('mobile')) {
-                window.location.href = 'mobile_v2.html';
+            // PWA로 실행 중이면 리다이렉션하지 않음
+            var isPWA = window.matchMedia('(display-mode: standalone)').matches;
+            if ((isMobile || isSmallScreen) && !window.location.pathname.includes('mobile') && !isPWA) {
+                // window.location.href = 'mobile_v2.html';  // PWA는 반응형으로 작동하므로 주석처리
             }
         })();
     </script>
@@ -5970,6 +5977,17 @@
                     sendBtn.innerHTML = originalHTML;
                     sendBtn.disabled = false;
                 });
+        }
+    </script>
+    
+    <!-- PWA Service Worker 등록 -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => console.log('ServiceWorker registered'))
+                    .catch(err => console.log('ServiceWorker registration failed'));
+            });
         }
     </script>
 </body>

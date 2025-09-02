@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegRader 앱 설치 가이드</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .step {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .step h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        .emoji {
+            font-size: 2em;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+        .device-info {
+            text-align: center;
+            color: #666;
+            margin: 20px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏛️ RegRader 앱 설치</h1>
+        
+        <div class="device-info" id="deviceInfo">
+            기기 확인 중...
+        </div>
+        
+        <div class="emoji">📲</div>
+        
+        <h2>5초만에 앱 설치하기!</h2>
+        
+        <div id="androidGuide" style="display:none;">
+            <div class="step">
+                <h3>📱 Android (Chrome)</h3>
+                <p>1️⃣ 아래 "앱 열기" 버튼 클릭</p>
+                <p>2️⃣ 주소창 옆 ⋮ 메뉴 클릭</p>
+                <p>3️⃣ "앱 설치" 또는 "홈 화면에 추가" 선택</p>
+                <p>4️⃣ "설치" 버튼 클릭</p>
+                <p>✅ 완료! 홈 화면에서 앱 실행</p>
+            </div>
+        </div>
+        
+        <div id="iosGuide" style="display:none;">
+            <div class="step">
+                <h3>🍎 iPhone/iPad (Safari)</h3>
+                <p>1️⃣ 아래 "앱 열기" 버튼 클릭</p>
+                <p>2️⃣ 하단 공유 버튼 <span style="font-size:1.2em;">⬆️</span> 클릭</p>
+                <p>3️⃣ "홈 화면에 추가" 선택</p>
+                <p>4️⃣ "추가" 버튼 클릭</p>
+                <p>✅ 완료! 홈 화면에서 앱 실행</p>
+            </div>
+        </div>
+        
+        <div id="desktopGuide" style="display:none;">
+            <div class="step">
+                <h3>💻 데스크톱 (Chrome/Edge)</h3>
+                <p>1️⃣ 아래 "앱 열기" 버튼 클릭</p>
+                <p>2️⃣ 주소창 끝 설치 아이콘 🔧 클릭</p>
+                <p>3️⃣ "설치" 버튼 클릭</p>
+                <p>✅ 완료! 앱이 자동 실행됩니다</p>
+            </div>
+        </div>
+        
+        <a href="/" class="button">🚀 RegRader 앱 열기</a>
+        
+        <div style="text-align: center; margin-top: 30px; color: #666;">
+            <p>💡 팁: 설치 후 인터넷 없이도 사용 가능!</p>
+            <p>📧 문의: support@regrader.com</p>
+        </div>
+    </div>
+    
+    <script>
+        // 기기 감지 및 가이드 표시
+        const userAgent = navigator.userAgent;
+        const deviceInfo = document.getElementById('deviceInfo');
+        
+        if (/iPhone|iPad|iPod/.test(userAgent)) {
+            document.getElementById('iosGuide').style.display = 'block';
+            deviceInfo.textContent = '🍎 iOS 기기에서 접속 중';
+        } else if (/Android/.test(userAgent)) {
+            document.getElementById('androidGuide').style.display = 'block';
+            deviceInfo.textContent = '🤖 Android 기기에서 접속 중';
+        } else {
+            document.getElementById('desktopGuide').style.display = 'block';
+            deviceInfo.textContent = '💻 데스크톱에서 접속 중';
+        }
+        
+        // PWA 설치 프롬프트
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+    </script>
+</body>
+</html>

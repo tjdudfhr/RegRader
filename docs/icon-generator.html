@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+</head>
+<body>
+    <h2>RegRader 아이콘 생성기</h2>
+    <canvas id="icon192" width="192" height="192"></canvas>
+    <canvas id="icon512" width="512" height="512"></canvas>
+    <br>
+    <button onclick="downloadIcons()">아이콘 다운로드</button>
+    
+    <script>
+        function createIcon(canvas) {
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+            
+            // 배경 - 그라데이션
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // 둥근 모서리 효과
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.15);
+            ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // 텍스트 - RR
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.35}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('RR', size / 2, size / 2 - size * 0.05);
+            
+            // 서브 텍스트 - 법령
+            ctx.font = `${size * 0.08}px sans-serif`;
+            ctx.fillText('법령 모니터링', size / 2, size / 2 + size * 0.25);
+        }
+        
+        // 아이콘 생성
+        createIcon(document.getElementById('icon192'));
+        createIcon(document.getElementById('icon512'));
+        
+        function downloadIcons() {
+            // 192x192 다운로드
+            const link192 = document.createElement('a');
+            link192.download = 'icon-192.png';
+            link192.href = document.getElementById('icon192').toDataURL();
+            link192.click();
+            
+            // 512x512 다운로드
+            setTimeout(() => {
+                const link512 = document.createElement('a');
+                link512.download = 'icon-512.png';
+                link512.href = document.getElementById('icon512').toDataURL();
+                link512.click();
+            }, 500);
+        }
+    </script>
+</body>
+</html>
