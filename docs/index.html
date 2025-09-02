@@ -3892,6 +3892,18 @@
         }
         
         function generateAmendmentReason(item) {
+            // 실제 개정 이유가 있으면 사용
+            if (item.amendments && item.amendments.length > 0 && item.amendments[0].reason) {
+                const ministry = item.ministry || item.meta?.ministry || '관련 부처';
+                return `
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                        <p style="margin: 0 0 10px 0;"><strong>${ministry}</strong>에서 「${item.title}」을 개정하였습니다.</p>
+                        <p style="margin: 0; color: #495057;">${item.amendments[0].reason}</p>
+                    </div>
+                `;
+            }
+            
+            // 없으면 기존 템플릿 사용
             const category = item.categories?.[0] || '기타';
             const ministry = item.meta?.ministry || '관련 부처';
             
@@ -3943,6 +3955,23 @@
         }
         
         function generateAmendmentContent(item) {
+            // 실제 개정 내용이 있으면 사용
+            if (item.amendments && item.amendments.length > 0 && item.amendments[0].mainContents) {
+                const contents = item.amendments[0].mainContents;
+                const summary = item.summary || '';
+                
+                return `
+                    <div style="background: #fff; border-left: 4px solid #667eea; padding: 15px; margin: 10px 0;">
+                        ${summary ? `<p style="margin: 0 0 15px 0; font-weight: 600; color: #495057;">${summary}</p>` : ''}
+                        <p style="margin: 0 0 10px 0;"><strong>주요 개정사항:</strong></p>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            ${contents.map(content => `<li style="margin: 5px 0; color: #495057;">${content}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            // 없으면 기존 템플릿 사용
             const category = item.categories?.[0] || '기타';
             const lawType = item.lawType || '일부개정';
             

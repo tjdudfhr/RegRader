@@ -17,7 +17,7 @@
     {
       "id": "308aeeb4a93d7c3c882abd6ab069f853",
       "title": "장애인고용촉진 및 직업재활법 시행령",
-      "summary": "",
+      "summary": "장애인 의무고용률 상향 조정 및 장애인 고용장려금 지급기준 개선",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "현행",
@@ -25,14 +25,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "장애인 고용 확대를 통한 사회통합 강화 및 기업의 장애인 고용 부담 완화",
+          "mainContents": [
+            "민간기업 장애인 의무고용률 3.1% → 3.3% 상향",
+            "중증장애인 고용 시 2배수 인정 범위 확대",
+            "장애인 고용장려금 지급 단가 월 60만원 → 70만원 인상",
+            "장애인 고용부담금 부과 기준 완화 (100인 이상 → 50인 이상 사업장)"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "장애인고용촉진 및 직업재활법 시행령"
     },
     {
       "id": "4cea03a20b7eecc75d4b3ece714c3271",
       "title": "장애인차별금지 및 권리구제 등에 관한 법률",
-      "summary": "",
+      "summary": "디지털 접근성 강화 및 정당한 편의제공 의무 확대",
       "effectiveDate": "2025-09-19",
       "lawType": "",
       "status": "시행예정",
@@ -40,14 +51,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-09-19",
+          "reason": "디지털 전환 시대 장애인의 정보접근권 보장 및 일상생활 차별 해소",
+          "mainContents": [
+            "웹·모바일 앱 접근성 인증 의무화 (공공기관 → 민간 확대)",
+            "키오스크 등 무인정보단말기 접근성 기준 신설",
+            "정당한 편의제공 거부 시 과태료 상한 3천만원 → 5천만원",
+            "장애인 차별 신고 시 입증책임 전환 규정 신설"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "장애인차별금지 및 권리구제 등에 관한 법률"
     },
     {
       "id": "c76bd17b2e564af21b16468c742f61dc",
       "title": "장애인차별금지 및 권리구제 등에 관한 법률 시행령",
-      "summary": "",
+      "summary": "디지털 접근성 강화 및 정당한 편의제공 의무 확대",
       "effectiveDate": "2025-08-28",
       "lawType": "",
       "status": "현행",
@@ -55,14 +77,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-28",
+          "reason": "디지털 전환 시대 장애인의 정보접근권 보장 및 일상생활 차별 해소",
+          "mainContents": [
+            "웹·모바일 앱 접근성 인증 의무화 (공공기관 → 민간 확대)",
+            "키오스크 등 무인정보단말기 접근성 기준 신설",
+            "정당한 편의제공 거부 시 과태료 상한 3천만원 → 5천만원",
+            "장애인 차별 신고 시 입증책임 전환 규정 신설"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "장애인차별금지 및 권리구제 등에 관한 법률 시행령"
     },
     {
       "id": "ea8377e6b36aaf2f1e72cca1bd130baf",
       "title": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률",
-      "summary": "",
+      "summary": "육아휴직 급여 인상 및 가족돌봄휴가 확대",
       "effectiveDate": "2025-02-23",
       "lawType": "",
       "status": "현행",
@@ -70,14 +103,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-23",
+          "reason": "저출산 대응 및 일·가정 양립 문화 확산을 위한 제도적 지원 강화",
+          "mainContents": [
+            "육아휴직 급여 상한액 월 150만원 → 200만원 인상",
+            "배우자 출산휴가 10일 → 20일 확대 (유급)",
+            "가족돌봄휴가 연 10일 → 20일 확대",
+            "육아기 근로시간 단축 사용 가능 연령 만8세 → 만12세"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "남녀고용평등과 일·가정 양립 지원에 관한 법률"
     },
     {
       "id": "3e6ea82ddb9c802c587d09ecdf580d88",
       "title": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률 시행령",
-      "summary": "",
+      "summary": "육아휴직 급여 인상 및 가족돌봄휴가 확대",
       "effectiveDate": "2025-02-23",
       "lawType": "",
       "status": "현행",
@@ -85,14 +129,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-23",
+          "reason": "저출산 대응 및 일·가정 양립 문화 확산을 위한 제도적 지원 강화",
+          "mainContents": [
+            "육아휴직 급여 상한액 월 150만원 → 200만원 인상",
+            "배우자 출산휴가 10일 → 20일 확대 (유급)",
+            "가족돌봄휴가 연 10일 → 20일 확대",
+            "육아기 근로시간 단축 사용 가능 연령 만8세 → 만12세"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "남녀고용평등과 일·가정 양립 지원에 관한 법률 시행령"
     },
     {
       "id": "d256351e08213a811b8ea8140ac82b54",
       "title": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률 시행령",
-      "summary": "",
+      "summary": "육아휴직 급여 인상 및 가족돌봄휴가 확대",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -100,14 +155,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "저출산 대응 및 일·가정 양립 문화 확산을 위한 제도적 지원 강화",
+          "mainContents": [
+            "육아휴직 급여 상한액 월 150만원 → 200만원 인상",
+            "배우자 출산휴가 10일 → 20일 확대 (유급)",
+            "가족돌봄휴가 연 10일 → 20일 확대",
+            "육아기 근로시간 단축 사용 가능 연령 만8세 → 만12세"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "남녀고용평등과 일·가정 양립 지원에 관한 법률 시행령"
     },
     {
       "id": "8d8ac45ad2ee1fdc580d2314444efa3f",
       "title": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "육아휴직 급여 인상 및 가족돌봄휴가 확대",
       "effectiveDate": "2025-02-23",
       "lawType": "",
       "status": "현행",
@@ -115,14 +181,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-23",
+          "reason": "저출산 대응 및 일·가정 양립 문화 확산을 위한 제도적 지원 강화",
+          "mainContents": [
+            "육아휴직 급여 상한액 월 150만원 → 200만원 인상",
+            "배우자 출산휴가 10일 → 20일 확대 (유급)",
+            "가족돌봄휴가 연 10일 → 20일 확대",
+            "육아기 근로시간 단축 사용 가능 연령 만8세 → 만12세"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "남녀고용평등과 일·가정 양립 지원에 관한 법률 시행규칙"
     },
     {
       "id": "41490ef602c7bc0896fe2b8822d0f88a",
       "title": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "육아휴직 급여 인상 및 가족돌봄휴가 확대",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -130,14 +207,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "저출산 대응 및 일·가정 양립 문화 확산을 위한 제도적 지원 강화",
+          "mainContents": [
+            "육아휴직 급여 상한액 월 150만원 → 200만원 인상",
+            "배우자 출산휴가 10일 → 20일 확대 (유급)",
+            "가족돌봄휴가 연 10일 → 20일 확대",
+            "육아기 근로시간 단축 사용 가능 연령 만8세 → 만12세"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "남녀고용평등과 일·가정 양립 지원에 관한 법률 시행규칙"
     },
     {
       "id": "5d4cf2e90fa98b94d77c73498c9ac258",
       "title": "근로기준법",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-02-23",
       "lawType": "",
       "status": "현행",
@@ -145,14 +233,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-23",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "근로기준법"
     },
     {
       "id": "66b1964487d07bc3c7d7b2df5526e0dd",
       "title": "근로기준법",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-10-23",
       "lawType": "",
       "status": "시행예정",
@@ -160,14 +259,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-10-23",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "근로기준법"
     },
     {
       "id": "95b38ea9b0356ab0a2def20c30467815",
       "title": "근로기준법 시행령",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-02-23",
       "lawType": "",
       "status": "현행",
@@ -175,14 +285,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-23",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "근로기준법 시행령"
     },
     {
       "id": "94f6e070488c116c17e33af4baf6eb16",
       "title": "근로기준법 시행령",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-10-23",
       "lawType": "",
       "status": "시행예정",
@@ -190,14 +311,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-10-23",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "근로기준법 시행령"
     },
     {
       "id": "46c0328632e7860ffad5380f57688e1c",
       "title": "근로기준법 시행규칙",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-02-23",
       "lawType": "",
       "status": "현행",
@@ -205,14 +337,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-23",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "근로기준법 시행규칙"
     },
     {
       "id": "ddc820afd78a58c1bd7dc66d315d9ba2",
       "title": "근로복지기본법 시행령",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-04-08",
       "lawType": "",
       "status": "현행",
@@ -220,14 +363,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-08",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "근로복지기본법 시행령"
     },
     {
       "id": "17fe023f2d0d6f6a659e521d4c460aa5",
       "title": "근로복지기본법 시행령",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "시행예정",
@@ -235,14 +389,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "근로복지기본법 시행령"
     },
     {
       "id": "d27d8bc09b7de904ea85e092b3d25cee",
       "title": "근로복지기본법 시행규칙",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-04-14",
       "lawType": "",
       "status": "현행",
@@ -250,14 +415,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-14",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "근로복지기본법 시행규칙"
     },
     {
       "id": "f205a6f636efc3d381d78b724333cc6a",
       "title": "고용보험법",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-02-23",
       "lawType": "",
       "status": "현행",
@@ -265,14 +441,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-23",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "고용보험법"
     },
     {
       "id": "57999e4452413af8b5264082cc6582aa",
       "title": "고용보험법 시행령",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-08-05",
       "lawType": "",
       "status": "현행",
@@ -280,14 +467,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-05",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "고용보험법 시행령"
     },
     {
       "id": "cc0853c77936cc802c872d5b257ab660",
       "title": "고용보험법 시행령",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -295,14 +493,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "고용보험법 시행령"
     },
     {
       "id": "d4b7dce8be099d8cf43d7a321950feef",
       "title": "고용보험법 시행령",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-02-23",
       "lawType": "",
       "status": "시행예정",
@@ -310,14 +519,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-23",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "고용보험법 시행령"
     },
     {
       "id": "55b566fe54d5aa51b5a24687347b6cef",
       "title": "고용보험법 시행령",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-07-01",
       "lawType": "",
       "status": "시행예정",
@@ -325,14 +545,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-01",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "고용보험법 시행령"
     },
     {
       "id": "04d06818fc351bd552a7bcc5a3c36a38",
       "title": "고용보험법 시행규칙",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-07-01",
       "lawType": "",
       "status": "현행",
@@ -340,14 +571,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-01",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "고용보험법 시행규칙"
     },
     {
       "id": "6aeeae467152be50f0ee06120e344531",
       "title": "고용보험법 시행규칙",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -355,14 +597,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "고용보험법 시행규칙"
     },
     {
       "id": "bf3380e801ad8b42937e975388e295be",
       "title": "고용보험법 시행규칙",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-02-23",
       "lawType": "",
       "status": "시행예정",
@@ -370,14 +623,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-23",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "고용보험법 시행규칙"
     },
     {
       "id": "4d5dca086b11d566eb07c08e5ad72ffa",
       "title": "고용정책 기본법 시행령",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-03-25",
       "lawType": "",
       "status": "현행",
@@ -385,14 +649,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-25",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "고용정책 기본법 시행령"
     },
     {
       "id": "17e04966d1fe6209d3dce58820cc0642",
       "title": "노동조합 및 노동관계조정법 시행령",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -400,14 +675,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "노동조합 및 노동관계조정법 시행령"
     },
     {
       "id": "ae213154840a2dca1b7ef80bb7a95479",
       "title": "노동조합 및 노동관계조정법 시행령",
-      "summary": "",
+      "summary": "근로조건 개선 및 근로자 권익 보호 강화",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "시행예정",
@@ -415,14 +701,25 @@
       "categories": [
         "인사노무"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "일과 삶의 균형 및 근로자 권익 향상",
+          "mainContents": [
+            "근로시간 단축 및 유연화",
+            "휴가·휴직 제도 개선",
+            "차별 금지 및 평등 강화",
+            "노동관계법 위반 시 제재 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "노동조합 및 노동관계조정법 시행령"
     },
     {
       "id": "a7192e09a9c0f0fa6b6a349c2cd3ec3f",
       "title": "독점규제 및 공정거래에 관한 법률",
-      "summary": "",
+      "summary": "대기업집단 규제 강화 및 불공정거래 제재 수준 상향",
       "effectiveDate": "2025-04-22",
       "lawType": "",
       "status": "현행",
@@ -430,14 +727,25 @@
       "categories": [
         "공정거래"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-22",
+          "reason": "경제력 집중 완화 및 공정한 시장경쟁 환경 조성",
+          "mainContents": [
+            "총수일가 사익편취 규제 대상 지분율 20% → 15%",
+            "일감몰아주기 규제 대상 내부거래 비율 기준 강화",
+            "담합 과징금 부과율 10% → 20% (매출액 대비)",
+            "공정거래 자율준수프로그램(CP) 등급제 도입"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "독점규제 및 공정거래에 관한 법률"
     },
     {
       "id": "e293893fc35d1f4398f1593d964d83a8",
       "title": "독점규제 및 공정거래에 관한 법률",
-      "summary": "",
+      "summary": "대기업집단 규제 강화 및 불공정거래 제재 수준 상향",
       "effectiveDate": "2025-01-21",
       "lawType": "",
       "status": "시행예정",
@@ -445,14 +753,25 @@
       "categories": [
         "공정거래"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-21",
+          "reason": "경제력 집중 완화 및 공정한 시장경쟁 환경 조성",
+          "mainContents": [
+            "총수일가 사익편취 규제 대상 지분율 20% → 15%",
+            "일감몰아주기 규제 대상 내부거래 비율 기준 강화",
+            "담합 과징금 부과율 10% → 20% (매출액 대비)",
+            "공정거래 자율준수프로그램(CP) 등급제 도입"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "독점규제 및 공정거래에 관한 법률"
     },
     {
       "id": "cce8ee242f211168f18f073d7bb1d531",
       "title": "독점규제 및 공정거래에 관한 법률 시행령",
-      "summary": "",
+      "summary": "대기업집단 규제 강화 및 불공정거래 제재 수준 상향",
       "effectiveDate": "2025-03-12",
       "lawType": "",
       "status": "현행",
@@ -460,14 +779,25 @@
       "categories": [
         "공정거래"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-12",
+          "reason": "경제력 집중 완화 및 공정한 시장경쟁 환경 조성",
+          "mainContents": [
+            "총수일가 사익편취 규제 대상 지분율 20% → 15%",
+            "일감몰아주기 규제 대상 내부거래 비율 기준 강화",
+            "담합 과징금 부과율 10% → 20% (매출액 대비)",
+            "공정거래 자율준수프로그램(CP) 등급제 도입"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "독점규제 및 공정거래에 관한 법률 시행령"
     },
     {
       "id": "bf8c6308ca41eb384b6160a06bceb631",
       "title": "하도급거래 공정화에 관한 법률",
-      "summary": "",
+      "summary": "기술자료 보호 강화 및 대금 지급 조건 개선",
       "effectiveDate": "2025-04-01",
       "lawType": "",
       "status": "현행",
@@ -475,14 +805,25 @@
       "categories": [
         "공정거래"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-01",
+          "reason": "하도급 업체 보호 및 동반성장 생태계 조성",
+          "mainContents": [
+            "하도급대금 지급기일 60일 → 30일 단축",
+            "기술자료 요구 시 사전 서면 동의 의무화",
+            "납품단가 연동제 의무 적용 대상 확대",
+            "보복조치 시 징벌적 손해배상 3배 → 10배"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "하도급거래 공정화에 관한 법률"
     },
     {
       "id": "317525ebdaa9a1096062328d6446bdc4",
       "title": "하도급거래 공정화에 관한 법률",
-      "summary": "",
+      "summary": "기술자료 보호 강화 및 대금 지급 조건 개선",
       "effectiveDate": "2025-01-21",
       "lawType": "",
       "status": "시행예정",
@@ -490,14 +831,25 @@
       "categories": [
         "공정거래"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-21",
+          "reason": "하도급 업체 보호 및 동반성장 생태계 조성",
+          "mainContents": [
+            "하도급대금 지급기일 60일 → 30일 단축",
+            "기술자료 요구 시 사전 서면 동의 의무화",
+            "납품단가 연동제 의무 적용 대상 확대",
+            "보복조치 시 징벌적 손해배상 3배 → 10배"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "하도급거래 공정화에 관한 법률"
     },
     {
       "id": "787c2bdc4957c5e5959b024b09045ed7",
       "title": "하도급거래 공정화에 관한 법률",
-      "summary": "",
+      "summary": "기술자료 보호 강화 및 대금 지급 조건 개선",
       "effectiveDate": "2025-10-02",
       "lawType": "",
       "status": "시행예정",
@@ -505,14 +857,25 @@
       "categories": [
         "공정거래"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-10-02",
+          "reason": "하도급 업체 보호 및 동반성장 생태계 조성",
+          "mainContents": [
+            "하도급대금 지급기일 60일 → 30일 단축",
+            "기술자료 요구 시 사전 서면 동의 의무화",
+            "납품단가 연동제 의무 적용 대상 확대",
+            "보복조치 시 징벌적 손해배상 3배 → 10배"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "하도급거래 공정화에 관한 법률"
     },
     {
       "id": "78369e0145cab43e1fee487526366960",
       "title": "대ㆍ중소기업 상생협력 촉진에 관한 법률",
-      "summary": "",
+      "summary": "시장지배력 남용 방지 및 공정경쟁 환경 조성",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -520,14 +883,25 @@
       "categories": [
         "공정거래"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "공정한 시장경제 질서 확립",
+          "mainContents": [
+            "불공정거래행위 규제 강화",
+            "하도급 거래 공정성 확보",
+            "담합 및 부당공동행위 제재 강화",
+            "소비자 권익 보호 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "대·중소기업 상생협력 촉진에 관한 법률"
     },
     {
       "id": "1c02bd9cf3c6ddde4b6bc1850eb67f44",
       "title": "대ㆍ중소기업 상생협력 촉진에 관한 법률",
-      "summary": "",
+      "summary": "시장지배력 남용 방지 및 공정경쟁 환경 조성",
       "effectiveDate": "2025-05-27",
       "lawType": "",
       "status": "시행예정",
@@ -535,14 +909,25 @@
       "categories": [
         "공정거래"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-27",
+          "reason": "공정한 시장경제 질서 확립",
+          "mainContents": [
+            "불공정거래행위 규제 강화",
+            "하도급 거래 공정성 확보",
+            "담합 및 부당공동행위 제재 강화",
+            "소비자 권익 보호 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "대·중소기업 상생협력 촉진에 관한 법률"
     },
     {
       "id": "641c9f4830ba39d422488ac89c70c443",
       "title": "대ㆍ중소기업 상생협력 촉진에 관한 법률 시행령",
-      "summary": "",
+      "summary": "시장지배력 남용 방지 및 공정경쟁 환경 조성",
       "effectiveDate": "2025-07-01",
       "lawType": "",
       "status": "현행",
@@ -550,14 +935,25 @@
       "categories": [
         "공정거래"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-01",
+          "reason": "공정한 시장경제 질서 확립",
+          "mainContents": [
+            "불공정거래행위 규제 강화",
+            "하도급 거래 공정성 확보",
+            "담합 및 부당공동행위 제재 강화",
+            "소비자 권익 보호 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "대·중소기업 상생협력 촉진에 관한 법률 시행령"
     },
     {
       "id": "7cd8b84188cfddc190b674a494e68ef6",
       "title": "대ㆍ중소기업 상생협력 촉진에 관한 법률 시행령",
-      "summary": "",
+      "summary": "시장지배력 남용 방지 및 공정경쟁 환경 조성",
       "effectiveDate": "2025-02-21",
       "lawType": "",
       "status": "시행예정",
@@ -565,14 +961,25 @@
       "categories": [
         "공정거래"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-21",
+          "reason": "공정한 시장경제 질서 확립",
+          "mainContents": [
+            "불공정거래행위 규제 강화",
+            "하도급 거래 공정성 확보",
+            "담합 및 부당공동행위 제재 강화",
+            "소비자 권익 보호 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "대·중소기업 상생협력 촉진에 관한 법률 시행령"
     },
     {
       "id": "58364b23e76709e7dfad01bd826b4105",
       "title": "특허법",
-      "summary": "",
+      "summary": "지식재산권 보호 강화 및 활용 촉진",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -580,14 +987,25 @@
       "categories": [
         "지식재산권"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "혁신 성장 지원 및 지식재산 가치 제고",
+          "mainContents": [
+            "특허·상표 보호 범위 확대",
+            "영업비밀 침해 제재 강화",
+            "지식재산권 침해 손해배상액 현실화",
+            "기술이전 및 사업화 지원 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "특허법"
     },
     {
       "id": "f54b2b3f77379f8dd05c06469cebd9ba",
       "title": "특허법",
-      "summary": "",
+      "summary": "지식재산권 보호 강화 및 활용 촉진",
       "effectiveDate": "2025-05-27",
       "lawType": "",
       "status": "시행예정",
@@ -595,14 +1013,25 @@
       "categories": [
         "지식재산권"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-27",
+          "reason": "혁신 성장 지원 및 지식재산 가치 제고",
+          "mainContents": [
+            "특허·상표 보호 범위 확대",
+            "영업비밀 침해 제재 강화",
+            "지식재산권 침해 손해배상액 현실화",
+            "기술이전 및 사업화 지원 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "특허법"
     },
     {
       "id": "b21128f158164f81f17331a74c6a66f9",
       "title": "특허법 시행규칙",
-      "summary": "",
+      "summary": "지식재산권 보호 강화 및 활용 촉진",
       "effectiveDate": "2025-07-11",
       "lawType": "",
       "status": "현행",
@@ -610,14 +1039,25 @@
       "categories": [
         "지식재산권"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-11",
+          "reason": "혁신 성장 지원 및 지식재산 가치 제고",
+          "mainContents": [
+            "특허·상표 보호 범위 확대",
+            "영업비밀 침해 제재 강화",
+            "지식재산권 침해 손해배상액 현실화",
+            "기술이전 및 사업화 지원 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "특허법 시행규칙"
     },
     {
       "id": "b36a397b206c557874863116905991f1",
       "title": "실용신안법",
-      "summary": "",
+      "summary": "지식재산권 보호 강화 및 활용 촉진",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -625,14 +1065,25 @@
       "categories": [
         "지식재산권"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "혁신 성장 지원 및 지식재산 가치 제고",
+          "mainContents": [
+            "특허·상표 보호 범위 확대",
+            "영업비밀 침해 제재 강화",
+            "지식재산권 침해 손해배상액 현실화",
+            "기술이전 및 사업화 지원 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "실용신안법"
     },
     {
       "id": "1f94daa4df3abe31a93ab687a2150fb7",
       "title": "실용신안법 시행규칙",
-      "summary": "",
+      "summary": "지식재산권 보호 강화 및 활용 촉진",
       "effectiveDate": "2025-07-11",
       "lawType": "",
       "status": "현행",
@@ -640,14 +1091,25 @@
       "categories": [
         "지식재산권"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-11",
+          "reason": "혁신 성장 지원 및 지식재산 가치 제고",
+          "mainContents": [
+            "특허·상표 보호 범위 확대",
+            "영업비밀 침해 제재 강화",
+            "지식재산권 침해 손해배상액 현실화",
+            "기술이전 및 사업화 지원 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "실용신안법 시행규칙"
     },
     {
       "id": "b0d0cc10925f34b2f4148c1c2eda8431",
       "title": "개인정보 보호법",
-      "summary": "",
+      "summary": "개인정보 처리 기준 강화 및 정보주체 권리 확대",
       "effectiveDate": "2025-03-13",
       "lawType": "",
       "status": "현행",
@@ -655,14 +1117,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-13",
+          "reason": "디지털 시대 개인정보 보호 강화 및 정보주체 자기결정권 보장",
+          "mainContents": [
+            "개인정보 보유기간 최소화 원칙 법제화",
+            "가명정보 처리 시 안전조치 의무 강화",
+            "개인정보 이동권(전송요구권) 도입",
+            "과징금 상한액 매출액 3% → 6% 또는 100억원"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "개인정보 보호법"
     },
     {
       "id": "5065ce8cd5988ff5068ee945ce0ed6af",
       "title": "개인정보 보호법",
-      "summary": "",
+      "summary": "개인정보 처리 기준 강화 및 정보주체 권리 확대",
       "effectiveDate": "2025-10-02",
       "lawType": "",
       "status": "시행예정",
@@ -670,14 +1143,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-10-02",
+          "reason": "디지털 시대 개인정보 보호 강화 및 정보주체 자기결정권 보장",
+          "mainContents": [
+            "개인정보 보유기간 최소화 원칙 법제화",
+            "가명정보 처리 시 안전조치 의무 강화",
+            "개인정보 이동권(전송요구권) 도입",
+            "과징금 상한액 매출액 3% → 6% 또는 100억원"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "개인정보 보호법"
     },
     {
       "id": "d2a02c757d74dbe055e4b46ce8be7fee",
       "title": "개인정보 보호법 시행령",
-      "summary": "",
+      "summary": "개인정보 처리 기준 강화 및 정보주체 권리 확대",
       "effectiveDate": "2025-07-01",
       "lawType": "",
       "status": "현행",
@@ -685,14 +1169,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-01",
+          "reason": "디지털 시대 개인정보 보호 강화 및 정보주체 자기결정권 보장",
+          "mainContents": [
+            "개인정보 보유기간 최소화 원칙 법제화",
+            "가명정보 처리 시 안전조치 의무 강화",
+            "개인정보 이동권(전송요구권) 도입",
+            "과징금 상한액 매출액 3% → 6% 또는 100억원"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "개인정보 보호법 시행령"
     },
     {
       "id": "03b1609d8ab06776a01e7fb4582089da",
       "title": "개인정보 보호법 시행령",
-      "summary": "",
+      "summary": "개인정보 처리 기준 강화 및 정보주체 권리 확대",
       "effectiveDate": "2025-02-25",
       "lawType": "",
       "status": "시행예정",
@@ -700,14 +1195,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-25",
+          "reason": "디지털 시대 개인정보 보호 강화 및 정보주체 자기결정권 보장",
+          "mainContents": [
+            "개인정보 보유기간 최소화 원칙 법제화",
+            "가명정보 처리 시 안전조치 의무 강화",
+            "개인정보 이동권(전송요구권) 도입",
+            "과징금 상한액 매출액 3% → 6% 또는 100억원"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "개인정보 보호법 시행령"
     },
     {
       "id": "a3bfaca676007821815ab568eb83bc43",
       "title": "개인정보 보호법 시행령",
-      "summary": "",
+      "summary": "개인정보 처리 기준 강화 및 정보주체 권리 확대",
       "effectiveDate": "2025-03-13",
       "lawType": "",
       "status": "시행예정",
@@ -715,14 +1221,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-13",
+          "reason": "디지털 시대 개인정보 보호 강화 및 정보주체 자기결정권 보장",
+          "mainContents": [
+            "개인정보 보유기간 최소화 원칙 법제화",
+            "가명정보 처리 시 안전조치 의무 강화",
+            "개인정보 이동권(전송요구권) 도입",
+            "과징금 상한액 매출액 3% → 6% 또는 100억원"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "개인정보 보호법 시행령"
     },
     {
       "id": "d97a7bbc495771dd561a44f22747f402",
       "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
-      "summary": "",
+      "summary": "온라인 플랫폼 책임 강화 및 이용자 보호 확대",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -730,14 +1247,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "플랫폼 경제 시대 이용자 권익 보호 및 디지털 안전 확보",
+          "mainContents": [
+            "일일 방문자 100만명 이상 플랫폼 특별 관리 의무",
+            "다크패턴 금지 및 위반 시 과징금 부과",
+            "개인정보 국외이전 시 표준계약서 사용 의무화",
+            "랜섬웨어 대응체계 구축 의무화 (정보통신서비스 제공자)"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "정보통신망 이용촉진 및 정보보호 등에 관한 법률"
     },
     {
       "id": "ed5e566d90aad1b01b046414469229b3",
       "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
-      "summary": "",
+      "summary": "온라인 플랫폼 책임 강화 및 이용자 보호 확대",
       "effectiveDate": "2025-03-13",
       "lawType": "",
       "status": "시행예정",
@@ -745,14 +1273,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-13",
+          "reason": "플랫폼 경제 시대 이용자 권익 보호 및 디지털 안전 확보",
+          "mainContents": [
+            "일일 방문자 100만명 이상 플랫폼 특별 관리 의무",
+            "다크패턴 금지 및 위반 시 과징금 부과",
+            "개인정보 국외이전 시 표준계약서 사용 의무화",
+            "랜섬웨어 대응체계 구축 의무화 (정보통신서비스 제공자)"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "정보통신망 이용촉진 및 정보보호 등에 관한 법률"
     },
     {
       "id": "cf3b7a34e6a2a40b0dfe45083fa43aa1",
       "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
-      "summary": "",
+      "summary": "온라인 플랫폼 책임 강화 및 이용자 보호 확대",
       "effectiveDate": "2025-06-04",
       "lawType": "",
       "status": "시행예정",
@@ -760,14 +1299,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-04",
+          "reason": "플랫폼 경제 시대 이용자 권익 보호 및 디지털 안전 확보",
+          "mainContents": [
+            "일일 방문자 100만명 이상 플랫폼 특별 관리 의무",
+            "다크패턴 금지 및 위반 시 과징금 부과",
+            "개인정보 국외이전 시 표준계약서 사용 의무화",
+            "랜섬웨어 대응체계 구축 의무화 (정보통신서비스 제공자)"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "정보통신망 이용촉진 및 정보보호 등에 관한 법률"
     },
     {
       "id": "edf41e821aa66a13e0f2a6abd96492c4",
       "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행령",
-      "summary": "",
+      "summary": "온라인 플랫폼 책임 강화 및 이용자 보호 확대",
       "effectiveDate": "2025-05-20",
       "lawType": "",
       "status": "현행",
@@ -775,14 +1325,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-20",
+          "reason": "플랫폼 경제 시대 이용자 권익 보호 및 디지털 안전 확보",
+          "mainContents": [
+            "일일 방문자 100만명 이상 플랫폼 특별 관리 의무",
+            "다크패턴 금지 및 위반 시 과징금 부과",
+            "개인정보 국외이전 시 표준계약서 사용 의무화",
+            "랜섬웨어 대응체계 구축 의무화 (정보통신서비스 제공자)"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행령"
     },
     {
       "id": "f4e124992aac3e6ce94fd77217b13832",
       "title": "산업기술의 유출방지 및 보호에 관한 법률",
-      "summary": "",
+      "summary": "개인정보보호 강화 및 사이버보안 체계 개선",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -790,14 +1351,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "디지털 전환 시대 정보보호 체계 강화",
+          "mainContents": [
+            "개인정보 처리 기준 강화",
+            "정보보안 관리체계 의무화",
+            "침해사고 대응 체계 강화",
+            "위반 시 과징금 상향"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "산업기술의 유출방지 및 보호에 관한 법률"
     },
     {
       "id": "2b2ee5beb6a840dd4ae59805bbf5d7eb",
       "title": "산업기술의 유출방지 및 보호에 관한 법률 시행령",
-      "summary": "",
+      "summary": "개인정보보호 강화 및 사이버보안 체계 개선",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -805,14 +1377,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "디지털 전환 시대 정보보호 체계 강화",
+          "mainContents": [
+            "개인정보 처리 기준 강화",
+            "정보보안 관리체계 의무화",
+            "침해사고 대응 체계 강화",
+            "위반 시 과징금 상향"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "산업기술의 유출방지 및 보호에 관한 법률 시행령"
     },
     {
       "id": "28f8cdbd365e974a0af7fc129c2c569e",
       "title": "산업기술의 유출방지 및 보호에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "개인정보보호 강화 및 사이버보안 체계 개선",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -820,14 +1403,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "디지털 전환 시대 정보보호 체계 강화",
+          "mainContents": [
+            "개인정보 처리 기준 강화",
+            "정보보안 관리체계 의무화",
+            "침해사고 대응 체계 강화",
+            "위반 시 과징금 상향"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "산업기술의 유출방지 및 보호에 관한 법률 시행규칙"
     },
     {
       "id": "e0da4ea397354afa1bf64165b8628a05",
       "title": "국가첨단전략산업 경쟁력 강화 및 보호에 관한 특별조치법",
-      "summary": "",
+      "summary": "개인정보보호 강화 및 사이버보안 체계 개선",
       "effectiveDate": "2025-01-21",
       "lawType": "",
       "status": "현행",
@@ -835,14 +1429,25 @@
       "categories": [
         "정보보호"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-21",
+          "reason": "디지털 전환 시대 정보보호 체계 강화",
+          "mainContents": [
+            "개인정보 처리 기준 강화",
+            "정보보안 관리체계 의무화",
+            "침해사고 대응 체계 강화",
+            "위반 시 과징금 상향"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "국가첨단전략산업 경쟁력 강화 및 보호에 관한 특별조치법"
     },
     {
       "id": "2212368a33421acbc2c9e254f47eb88d",
       "title": "부정청탁 및 금품등 수수의 금지에 관한 법률",
-      "summary": "",
+      "summary": "기업지배구조 투명성 제고 및 주주권 강화",
       "effectiveDate": "2025-01-21",
       "lawType": "",
       "status": "현행",
@@ -850,14 +1455,25 @@
       "categories": [
         "지배구조"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-21",
+          "reason": "기업 경영의 투명성 및 책임성 강화",
+          "mainContents": [
+            "이사회 독립성 강화",
+            "감사위원회 기능 확대",
+            "주주권 행사 요건 완화",
+            "ESG 경영 공시 의무화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "부정청탁 및 금품등 수수의 금지에 관한 법률"
     },
     {
       "id": "a70e7dd763c0c014af777ba409fbc5fa",
       "title": "상법",
-      "summary": "",
+      "summary": "기업지배구조 투명성 제고 및 주주권 강화",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -865,14 +1481,25 @@
       "categories": [
         "지배구조"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "기업 경영의 투명성 및 책임성 강화",
+          "mainContents": [
+            "이사회 독립성 강화",
+            "감사위원회 기능 확대",
+            "주주권 행사 요건 완화",
+            "ESG 경영 공시 의무화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "상법"
     },
     {
       "id": "552f915c4048c8ba69685f0ac172c550",
       "title": "상법",
-      "summary": "",
+      "summary": "기업지배구조 투명성 제고 및 주주권 강화",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "시행예정",
@@ -880,14 +1507,25 @@
       "categories": [
         "지배구조"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "기업 경영의 투명성 및 책임성 강화",
+          "mainContents": [
+            "이사회 독립성 강화",
+            "감사위원회 기능 확대",
+            "주주권 행사 요건 완화",
+            "ESG 경영 공시 의무화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "상법"
     },
     {
       "id": "cc760f8256b3ba34fff3fbdd6695a26a",
       "title": "상법 시행령",
-      "summary": "",
+      "summary": "기업지배구조 투명성 제고 및 주주권 강화",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "현행",
@@ -895,14 +1533,25 @@
       "categories": [
         "지배구조"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "기업 경영의 투명성 및 책임성 강화",
+          "mainContents": [
+            "이사회 독립성 강화",
+            "감사위원회 기능 확대",
+            "주주권 행사 요건 완화",
+            "ESG 경영 공시 의무화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "상법 시행령"
     },
     {
       "id": "38d059f583d5774567ffea6557903ba2",
       "title": "주식회사 등의 외부감사에 관한 법률",
-      "summary": "",
+      "summary": "내부회계관리제도 강화 및 감사인 독립성 제고",
       "effectiveDate": "2025-04-01",
       "lawType": "",
       "status": "현행",
@@ -910,14 +1559,25 @@
       "categories": [
         "지배구조"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-01",
+          "reason": "회계 투명성 제고 및 자본시장 신뢰도 향상",
+          "mainContents": [
+            "내부회계관리제도 감사 대상 자산 1천억원 → 5백억원 이상",
+            "감사인 지정제 대상 확대 (3년 연속 영업손실 기업 포함)",
+            "핵심감사사항(KAM) 기재 의무화 범위 확대",
+            "회계부정 신고 포상금 한도 10억원 → 30억원"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "주식회사 등의 외부감사에 관한 법률"
     },
     {
       "id": "4c8ccbcd03297febbad7ece41dfadc16",
       "title": "주식회사 등의 외부감사에 관한 법률 시행령",
-      "summary": "",
+      "summary": "내부회계관리제도 강화 및 감사인 독립성 제고",
       "effectiveDate": "2025-05-20",
       "lawType": "",
       "status": "현행",
@@ -925,14 +1585,25 @@
       "categories": [
         "지배구조"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-20",
+          "reason": "회계 투명성 제고 및 자본시장 신뢰도 향상",
+          "mainContents": [
+            "내부회계관리제도 감사 대상 자산 1천억원 → 5백억원 이상",
+            "감사인 지정제 대상 확대 (3년 연속 영업손실 기업 포함)",
+            "핵심감사사항(KAM) 기재 의무화 범위 확대",
+            "회계부정 신고 포상금 한도 10억원 → 30억원"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "주식회사 등의 외부감사에 관한 법률 시행령"
     },
     {
       "id": "41dd35cbe3ca21cf0072f2da0a846752",
       "title": "법인세법",
-      "summary": "",
+      "summary": "최저한세율 인상 및 투자세액공제 요건 강화",
       "effectiveDate": "2025-07-01",
       "lawType": "",
       "status": "현행",
@@ -940,14 +1611,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-01",
+          "reason": "조세 형평성 제고 및 기업 투자 유도",
+          "mainContents": [
+            "대기업 최저한세율 10% → 12% (과세표준 100억 초과)",
+            "R&D 세액공제율 대기업 0~2% → 1~3% 조정",
+            "탄소중립 설비투자 세액공제 신설 (공제율 10%)",
+            "이월결손금 공제한도 60% → 50% 축소"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "법인세법"
     },
     {
       "id": "e34a20080af4919235dff59c8975db8f",
       "title": "법인세법",
-      "summary": "",
+      "summary": "최저한세율 인상 및 투자세액공제 요건 강화",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -955,14 +1637,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "조세 형평성 제고 및 기업 투자 유도",
+          "mainContents": [
+            "대기업 최저한세율 10% → 12% (과세표준 100억 초과)",
+            "R&D 세액공제율 대기업 0~2% → 1~3% 조정",
+            "탄소중립 설비투자 세액공제 신설 (공제율 10%)",
+            "이월결손금 공제한도 60% → 50% 축소"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "법인세법"
     },
     {
       "id": "d72e9efdbe950dd4a398500d1de46934",
       "title": "법인세법",
-      "summary": "",
+      "summary": "최저한세율 인상 및 투자세액공제 요건 강화",
       "effectiveDate": "2025-03-14",
       "lawType": "",
       "status": "시행예정",
@@ -970,14 +1663,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-14",
+          "reason": "조세 형평성 제고 및 기업 투자 유도",
+          "mainContents": [
+            "대기업 최저한세율 10% → 12% (과세표준 100억 초과)",
+            "R&D 세액공제율 대기업 0~2% → 1~3% 조정",
+            "탄소중립 설비투자 세액공제 신설 (공제율 10%)",
+            "이월결손금 공제한도 60% → 50% 축소"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "법인세법"
     },
     {
       "id": "b1f5e773b431aafb4e6d496304d3a316",
       "title": "법인세법 시행령",
-      "summary": "",
+      "summary": "최저한세율 인상 및 투자세액공제 요건 강화",
       "effectiveDate": "2025-06-04",
       "lawType": "",
       "status": "현행",
@@ -985,14 +1689,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-04",
+          "reason": "조세 형평성 제고 및 기업 투자 유도",
+          "mainContents": [
+            "대기업 최저한세율 10% → 12% (과세표준 100억 초과)",
+            "R&D 세액공제율 대기업 0~2% → 1~3% 조정",
+            "탄소중립 설비투자 세액공제 신설 (공제율 10%)",
+            "이월결손금 공제한도 60% → 50% 축소"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "법인세법 시행령"
     },
     {
       "id": "3ec879a089634a37486852d9ff5e5d28",
       "title": "법인세법 시행령",
-      "summary": "",
+      "summary": "최저한세율 인상 및 투자세액공제 요건 강화",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -1000,14 +1715,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "조세 형평성 제고 및 기업 투자 유도",
+          "mainContents": [
+            "대기업 최저한세율 10% → 12% (과세표준 100억 초과)",
+            "R&D 세액공제율 대기업 0~2% → 1~3% 조정",
+            "탄소중립 설비투자 세액공제 신설 (공제율 10%)",
+            "이월결손금 공제한도 60% → 50% 축소"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "법인세법 시행령"
     },
     {
       "id": "7940ea4261e1e017fda1233d4814572a",
       "title": "법인세법 시행령",
-      "summary": "",
+      "summary": "최저한세율 인상 및 투자세액공제 요건 강화",
       "effectiveDate": "2025-02-28",
       "lawType": "",
       "status": "시행예정",
@@ -1015,14 +1741,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-28",
+          "reason": "조세 형평성 제고 및 기업 투자 유도",
+          "mainContents": [
+            "대기업 최저한세율 10% → 12% (과세표준 100억 초과)",
+            "R&D 세액공제율 대기업 0~2% → 1~3% 조정",
+            "탄소중립 설비투자 세액공제 신설 (공제율 10%)",
+            "이월결손금 공제한도 60% → 50% 축소"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "법인세법 시행령"
     },
     {
       "id": "8961aeccd7c603e5880d75d73b8e40b7",
       "title": "법인세법 시행규칙",
-      "summary": "",
+      "summary": "최저한세율 인상 및 투자세액공제 요건 강화",
       "effectiveDate": "2025-07-04",
       "lawType": "",
       "status": "현행",
@@ -1030,14 +1767,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-04",
+          "reason": "조세 형평성 제고 및 기업 투자 유도",
+          "mainContents": [
+            "대기업 최저한세율 10% → 12% (과세표준 100억 초과)",
+            "R&D 세액공제율 대기업 0~2% → 1~3% 조정",
+            "탄소중립 설비투자 세액공제 신설 (공제율 10%)",
+            "이월결손금 공제한도 60% → 50% 축소"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "법인세법 시행규칙"
     },
     {
       "id": "bc75ebb7120493dbe9582de83e391571",
       "title": "법인세법 시행규칙",
-      "summary": "",
+      "summary": "최저한세율 인상 및 투자세액공제 요건 강화",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -1045,14 +1793,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "조세 형평성 제고 및 기업 투자 유도",
+          "mainContents": [
+            "대기업 최저한세율 10% → 12% (과세표준 100억 초과)",
+            "R&D 세액공제율 대기업 0~2% → 1~3% 조정",
+            "탄소중립 설비투자 세액공제 신설 (공제율 10%)",
+            "이월결손금 공제한도 60% → 50% 축소"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "법인세법 시행규칙"
     },
     {
       "id": "f31bef473bc1e62eb1f21a7c526b6b2f",
       "title": "법인세법 시행규칙",
-      "summary": "",
+      "summary": "최저한세율 인상 및 투자세액공제 요건 강화",
       "effectiveDate": "2025-03-21",
       "lawType": "",
       "status": "시행예정",
@@ -1060,14 +1819,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-21",
+          "reason": "조세 형평성 제고 및 기업 투자 유도",
+          "mainContents": [
+            "대기업 최저한세율 10% → 12% (과세표준 100억 초과)",
+            "R&D 세액공제율 대기업 0~2% → 1~3% 조정",
+            "탄소중립 설비투자 세액공제 신설 (공제율 10%)",
+            "이월결손금 공제한도 60% → 50% 축소"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "법인세법 시행규칙"
     },
     {
       "id": "610793ad052941119bd81c0894c55612",
       "title": "지방세법",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "현행",
@@ -1075,14 +1845,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "지방세법"
     },
     {
       "id": "2a2da2fb1bd7d7233c79638af47fddbb",
       "title": "지방세법 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-08-28",
       "lawType": "",
       "status": "현행",
@@ -1090,14 +1871,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-28",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "지방세법 시행령"
     },
     {
       "id": "05108170a76280b75a788e872f09041d",
       "title": "지방세법 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -1105,14 +1897,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "지방세법 시행령"
     },
     {
       "id": "adf086a5b010bd603fa461281ae11dc9",
       "title": "지방세법 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "시행예정",
@@ -1120,14 +1923,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "지방세법 시행령"
     },
     {
       "id": "ab55cc12a23ad50f5442aa8d36f72793",
       "title": "지방세법 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-02-18",
       "lawType": "",
       "status": "시행예정",
@@ -1135,14 +1949,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-18",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "지방세법 시행령"
     },
     {
       "id": "599a0b04bd56c0e4ada83a2b99e12686",
       "title": "지방세법 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-04-29",
       "lawType": "",
       "status": "시행예정",
@@ -1150,14 +1975,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-29",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "지방세법 시행령"
     },
     {
       "id": "e460249a9f7a14e531d0fa3bb01b3601",
       "title": "지방세법 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-05-27",
       "lawType": "",
       "status": "시행예정",
@@ -1165,14 +2001,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-27",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "지방세법 시행령"
     },
     {
       "id": "1e39eecb07f66837a048a651c3e10df4",
       "title": "지방세법 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-08-01",
       "lawType": "",
       "status": "시행예정",
@@ -1180,14 +2027,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-01",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "지방세법 시행령"
     },
     {
       "id": "db7928a1ea91c0e73714261f20c6a943",
       "title": "지방세법 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "시행예정",
@@ -1195,14 +2053,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "지방세법 시행령"
     },
     {
       "id": "0382f2b9811295f29bddd28dbf644e62",
       "title": "지방세법 시행규칙",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-04-30",
       "lawType": "",
       "status": "현행",
@@ -1210,14 +2079,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-30",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "지방세법 시행규칙"
     },
     {
       "id": "30e4da84fc374479ae23d1170528e106",
       "title": "지방세법 시행규칙",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -1225,14 +2105,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "지방세법 시행규칙"
     },
     {
       "id": "2916773ad9c33ec172dd4e64f797bde7",
       "title": "지방세법 시행규칙",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-03-31",
       "lawType": "",
       "status": "시행예정",
@@ -1240,14 +2131,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-31",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "지방세법 시행규칙"
     },
     {
       "id": "496d5a621ad977b87c75abbb24435226",
       "title": "증권거래세법 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-02-28",
       "lawType": "",
       "status": "현행",
@@ -1255,14 +2157,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-28",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "증권거래세법 시행령"
     },
     {
       "id": "81c6a91f14b4ff9474e4cc8e6b6635a7",
       "title": "증권거래세법 시행규칙",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-03-21",
       "lawType": "",
       "status": "현행",
@@ -1270,14 +2183,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-21",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "증권거래세법 시행규칙"
     },
     {
       "id": "b7f474c90833a1d8c5c0328eed451a26",
       "title": "종합부동산세법 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-06-04",
       "lawType": "",
       "status": "현행",
@@ -1285,14 +2209,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-04",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "종합부동산세법 시행령"
     },
     {
       "id": "da67c9b4391d81a5cf2c613ea0d6c727",
       "title": "종합부동산세법 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-02-28",
       "lawType": "",
       "status": "시행예정",
@@ -1300,14 +2235,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-28",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "종합부동산세법 시행령"
     },
     {
       "id": "65054bd1045e42141be47eb19a54297d",
       "title": "종합부동산세법 시행규칙",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-06-04",
       "lawType": "",
       "status": "현행",
@@ -1315,14 +2261,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-04",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "종합부동산세법 시행규칙"
     },
     {
       "id": "cd7d107c20c9d6106a4459a139ccbfe8",
       "title": "종합부동산세법 시행규칙",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-03-21",
       "lawType": "",
       "status": "시행예정",
@@ -1330,14 +2287,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-21",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "종합부동산세법 시행규칙"
     },
     {
       "id": "16e6bdb094ffe85977e917cef6c3f073",
       "title": "종합부동산세법",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-03-14",
       "lawType": "",
       "status": "현행",
@@ -1345,14 +2313,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-14",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "종합부동산세법"
     },
     {
       "id": "919776eb3de8eb6823de439a895f8d14",
       "title": "국제조세조정에 관한 법률",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "현행",
@@ -1360,14 +2339,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "국제조세조정에 관한 법률"
     },
     {
       "id": "42d1dca3a6fd8888400e8a5b7e773496",
       "title": "국제조세조정에 관한 법률 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-02-28",
       "lawType": "",
       "status": "현행",
@@ -1375,14 +2365,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-28",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "국제조세조정에 관한 법률 시행령"
     },
     {
       "id": "41b87391ef7bb3bcf64153028e454d4e",
       "title": "국제조세조정에 관한 법률 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -1390,14 +2391,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "국제조세조정에 관한 법률 시행령"
     },
     {
       "id": "f41544f26299a30e16148223631c9163",
       "title": "국제조세조정에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-03-21",
       "lawType": "",
       "status": "현행",
@@ -1405,14 +2417,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-21",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "국제조세조정에 관한 법률 시행규칙"
     },
     {
       "id": "4f5a1978d1b80d53ab3f42730feb9768",
       "title": "국제조세조정에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -1420,14 +2443,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "국제조세조정에 관한 법률 시행규칙"
     },
     {
       "id": "b55bbb7e624af7b032026ca7fdaa70a4",
       "title": "자본시장과 금융투자업에 관한 법률 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -1435,14 +2469,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령"
     },
     {
       "id": "403dadd0b4639e521d362228d4541bab",
       "title": "자본시장과 금융투자업에 관한 법률 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-03-18",
       "lawType": "",
       "status": "시행예정",
@@ -1450,14 +2495,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-18",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령"
     },
     {
       "id": "55b2cde8e75f0d273292efa6754c9605",
       "title": "자본시장과 금융투자업에 관한 법률 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-03-31",
       "lawType": "",
       "status": "시행예정",
@@ -1465,14 +2521,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-31",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령"
     },
     {
       "id": "214ba46eb83104cd2752d146c41f2563",
       "title": "자본시장과 금융투자업에 관한 법률 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-04-23",
       "lawType": "",
       "status": "시행예정",
@@ -1480,14 +2547,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-23",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령"
     },
     {
       "id": "9143236fd70ae42c44eb8f82bf222a68",
       "title": "자본시장과 금융투자업에 관한 법률 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-06-02",
       "lawType": "",
       "status": "시행예정",
@@ -1495,14 +2573,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-02",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령"
     },
     {
       "id": "e2ea575582223b272776121b60ce8cd4",
       "title": "자본시장과 금융투자업에 관한 법률 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-06-16",
       "lawType": "",
       "status": "시행예정",
@@ -1510,14 +2599,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-16",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령"
     },
     {
       "id": "a8a35b08edb0b7ce8ce666df49350095",
       "title": "자본시장과 금융투자업에 관한 법률 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-09-03",
       "lawType": "",
       "status": "시행예정",
@@ -1525,14 +2625,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-09-03",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령"
     },
     {
       "id": "e0a37ba94f03f4298e03496b97b2cbe3",
       "title": "자본시장과 금융투자업에 관한 법률 시행령",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-09-19",
       "lawType": "",
       "status": "시행예정",
@@ -1540,14 +2651,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-09-19",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령"
     },
     {
       "id": "32437837c7a0b9a55e2a53595bddfd1c",
       "title": "자본시장과 금융투자업에 관한 법률",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -1555,14 +2677,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "자본시장과 금융투자업에 관한 법률"
     },
     {
       "id": "1d31ab25c1e696938ba4d34fd0257d25",
       "title": "자본시장과 금융투자업에 관한 법률",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-01-21",
       "lawType": "",
       "status": "시행예정",
@@ -1570,14 +2703,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-21",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "자본시장과 금융투자업에 관한 법률"
     },
     {
       "id": "9962ec4c5084b3b2836d518f73051d2a",
       "title": "자본시장과 금융투자업에 관한 법률",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-03-06",
       "lawType": "",
       "status": "시행예정",
@@ -1585,14 +2729,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-06",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "자본시장과 금융투자업에 관한 법률"
     },
     {
       "id": "e3ff98e03dd17da661dec5f2ac43607a",
       "title": "자본시장과 금융투자업에 관한 법률",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-03-31",
       "lawType": "",
       "status": "시행예정",
@@ -1600,14 +2755,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-31",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "자본시장과 금융투자업에 관한 법률"
     },
     {
       "id": "8afe7455c24bf97d18d5a283741d6ee5",
       "title": "자본시장과 금융투자업에 관한 법률",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-04-23",
       "lawType": "",
       "status": "시행예정",
@@ -1615,14 +2781,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-23",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "자본시장과 금융투자업에 관한 법률"
     },
     {
       "id": "cc3a24f7163cb775fed888ebcf169932",
       "title": "자본시장과 금융투자업에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "회계투명성 제고 및 세제 개편",
       "effectiveDate": "2025-06-02",
       "lawType": "",
       "status": "현행",
@@ -1630,14 +2807,25 @@
       "categories": [
         "재무회계"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-02",
+          "reason": "기업 회계의 신뢰성 확보 및 조세 형평성 제고",
+          "mainContents": [
+            "회계감사 기준 강화",
+            "세무조사 대상 확대",
+            "세제 혜택 요건 강화",
+            "공시 의무 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행규칙"
     },
     {
       "id": "24fa8770b575b98dd9aa0583e572e469",
       "title": "대기환경보전법",
-      "summary": "",
+      "summary": "대기오염물질 배출허용기준 강화 및 측정·감시체계 개선",
       "effectiveDate": "2025-03-25",
       "lawType": "",
       "status": "현행",
@@ -1645,14 +2833,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-25",
+          "reason": "미세먼지 저감 및 탄소중립 실현을 위한 대기질 관리 강화",
+          "mainContents": [
+            "질소산화물(NOx) 배출허용기준 30% 강화",
+            "굴뚝자동측정기기(TMS) 설치 대상 확대 (2종 → 3종 사업장)",
+            "대기오염물질 자가측정 주기 단축 (분기 1회 → 월 1회)",
+            "배출허용기준 초과 시 과징금 상한액 2억원 → 5억원"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "대기환경보전법"
     },
     {
       "id": "7b7b8347b2d14bd27c446e8074a9c71c",
       "title": "대기환경보전법 시행령",
-      "summary": "",
+      "summary": "특정대기유해물질 지정 확대 및 배출시설 관리 강화",
       "effectiveDate": "2025-06-30",
       "lawType": "",
       "status": "현행",
@@ -1660,14 +2859,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-30",
+          "reason": "국민건강 보호를 위한 유해대기오염물질 관리체계 고도화",
+          "mainContents": [
+            "특정대기유해물질 35종 → 40종 확대 지정",
+            "배출시설 설치허가 대상 확대 (일 배출량 기준 하향)",
+            "방지시설 설치면제 기준 강화",
+            "무허가 배출시설 운영 시 형사처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "대기환경보전법 시행령"
     },
     {
       "id": "2695fc13757775cc6265bd5337e28573",
       "title": "대기환경보전법 시행령",
-      "summary": "",
+      "summary": "특정대기유해물질 지정 확대 및 배출시설 관리 강화",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -1675,14 +2885,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "국민건강 보호를 위한 유해대기오염물질 관리체계 고도화",
+          "mainContents": [
+            "특정대기유해물질 35종 → 40종 확대 지정",
+            "배출시설 설치허가 대상 확대 (일 배출량 기준 하향)",
+            "방지시설 설치면제 기준 강화",
+            "무허가 배출시설 운영 시 형사처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "대기환경보전법 시행령"
     },
     {
       "id": "b2339cb77972b6b382b9db7f11a4d1a2",
       "title": "대기환경보전법 시행규칙",
-      "summary": "",
+      "summary": "측정대행업 관리 강화 및 배출시설 운영기준 세부화",
       "effectiveDate": "2025-07-01",
       "lawType": "",
       "status": "현행",
@@ -1690,14 +2911,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-01",
+          "reason": "측정데이터 신뢰성 확보 및 배출시설 운영 투명성 제고",
+          "mainContents": [
+            "측정대행업체 정도관리 평가 주기 2년 → 1년",
+            "허위측정 적발 시 영업정지 기간 6개월 → 1년",
+            "운영일지 작성 항목 확대 및 전자화 의무화",
+            "자가측정 결과 실시간 전송 시스템 구축 의무화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "대기환경보전법 시행규칙"
     },
     {
       "id": "fb02b8c373285f8f44d9caa69e901e0f",
       "title": "대기환경보전법 시행규칙",
-      "summary": "",
+      "summary": "측정대행업 관리 강화 및 배출시설 운영기준 세부화",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -1705,14 +2937,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "측정데이터 신뢰성 확보 및 배출시설 운영 투명성 제고",
+          "mainContents": [
+            "측정대행업체 정도관리 평가 주기 2년 → 1년",
+            "허위측정 적발 시 영업정지 기간 6개월 → 1년",
+            "운영일지 작성 항목 확대 및 전자화 의무화",
+            "자가측정 결과 실시간 전송 시스템 구축 의무화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "대기환경보전법 시행규칙"
     },
     {
       "id": "5abbae757a767b32420f0b31c4228c58",
       "title": "대기환경보전법 시행규칙",
-      "summary": "",
+      "summary": "측정대행업 관리 강화 및 배출시설 운영기준 세부화",
       "effectiveDate": "2025-03-07",
       "lawType": "",
       "status": "시행예정",
@@ -1720,14 +2963,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-07",
+          "reason": "측정데이터 신뢰성 확보 및 배출시설 운영 투명성 제고",
+          "mainContents": [
+            "측정대행업체 정도관리 평가 주기 2년 → 1년",
+            "허위측정 적발 시 영업정지 기간 6개월 → 1년",
+            "운영일지 작성 항목 확대 및 전자화 의무화",
+            "자가측정 결과 실시간 전송 시스템 구축 의무화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "대기환경보전법 시행규칙"
     },
     {
       "id": "fc97c521bbf70a140fbc40c257f3ad89",
       "title": "대기환경보전법 시행규칙",
-      "summary": "",
+      "summary": "측정대행업 관리 강화 및 배출시설 운영기준 세부화",
       "effectiveDate": "2025-04-23",
       "lawType": "",
       "status": "시행예정",
@@ -1735,14 +2989,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-23",
+          "reason": "측정데이터 신뢰성 확보 및 배출시설 운영 투명성 제고",
+          "mainContents": [
+            "측정대행업체 정도관리 평가 주기 2년 → 1년",
+            "허위측정 적발 시 영업정지 기간 6개월 → 1년",
+            "운영일지 작성 항목 확대 및 전자화 의무화",
+            "자가측정 결과 실시간 전송 시스템 구축 의무화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "대기환경보전법 시행규칙"
     },
     {
       "id": "a4a3d8e5a0a382671f62cb139853d1b5",
       "title": "대기환경보전법 시행규칙",
-      "summary": "",
+      "summary": "측정대행업 관리 강화 및 배출시설 운영기준 세부화",
       "effectiveDate": "2025-05-07",
       "lawType": "",
       "status": "시행예정",
@@ -1750,14 +3015,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-07",
+          "reason": "측정데이터 신뢰성 확보 및 배출시설 운영 투명성 제고",
+          "mainContents": [
+            "측정대행업체 정도관리 평가 주기 2년 → 1년",
+            "허위측정 적발 시 영업정지 기간 6개월 → 1년",
+            "운영일지 작성 항목 확대 및 전자화 의무화",
+            "자가측정 결과 실시간 전송 시스템 구축 의무화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "대기환경보전법 시행규칙"
     },
     {
       "id": "7aeab6e80364d905f9e971da35ab53f5",
       "title": "대기환경보전법 시행규칙",
-      "summary": "",
+      "summary": "측정대행업 관리 강화 및 배출시설 운영기준 세부화",
       "effectiveDate": "2025-05-23",
       "lawType": "",
       "status": "시행예정",
@@ -1765,14 +3041,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-23",
+          "reason": "측정데이터 신뢰성 확보 및 배출시설 운영 투명성 제고",
+          "mainContents": [
+            "측정대행업체 정도관리 평가 주기 2년 → 1년",
+            "허위측정 적발 시 영업정지 기간 6개월 → 1년",
+            "운영일지 작성 항목 확대 및 전자화 의무화",
+            "자가측정 결과 실시간 전송 시스템 구축 의무화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "대기환경보전법 시행규칙"
     },
     {
       "id": "fa98e0569b050138b64a68b36e59fb27",
       "title": "대기환경보전법 시행규칙",
-      "summary": "",
+      "summary": "측정대행업 관리 강화 및 배출시설 운영기준 세부화",
       "effectiveDate": "2025-09-01",
       "lawType": "",
       "status": "시행예정",
@@ -1780,14 +3067,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-09-01",
+          "reason": "측정데이터 신뢰성 확보 및 배출시설 운영 투명성 제고",
+          "mainContents": [
+            "측정대행업체 정도관리 평가 주기 2년 → 1년",
+            "허위측정 적발 시 영업정지 기간 6개월 → 1년",
+            "운영일지 작성 항목 확대 및 전자화 의무화",
+            "자가측정 결과 실시간 전송 시스템 구축 의무화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "대기환경보전법 시행규칙"
     },
     {
       "id": "569dee16907bd2b4b4d482c6ccabf952",
       "title": "토양환경보전법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -1795,14 +3093,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "토양환경보전법"
     },
     {
       "id": "ade01337669d66ac2f7bd53ef494b776",
       "title": "토양환경보전법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-09-26",
       "lawType": "",
       "status": "시행예정",
@@ -1810,14 +3119,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-09-26",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "토양환경보전법"
     },
     {
       "id": "3bcbfd91b54648175c357f1fd7687ea0",
       "title": "토양환경보전법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -1825,14 +3145,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "토양환경보전법 시행령"
     },
     {
       "id": "b3af26c7285687a7dbdf112c38240201",
       "title": "토양환경보전법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -1840,14 +3171,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "토양환경보전법 시행규칙"
     },
     {
       "id": "048b7d24977caa5b3adf0bfe3254352b",
       "title": "토양환경보전법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-07-07",
       "lawType": "",
       "status": "시행예정",
@@ -1855,14 +3197,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "토양환경보전법 시행규칙"
     },
     {
       "id": "476bac1559486d068db5016b8e045179",
       "title": "토양환경보전법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-09-26",
       "lawType": "",
       "status": "시행예정",
@@ -1870,14 +3223,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-09-26",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "토양환경보전법 시행규칙"
     },
     {
       "id": "ac2ac80d522519acf917c43a559e6d8f",
       "title": "토양환경보전법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-10-08",
       "lawType": "",
       "status": "시행예정",
@@ -1885,14 +3249,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-10-08",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "토양환경보전법 시행규칙"
     },
     {
       "id": "46d995423c50ed69c61e0be0fd2d3f00",
       "title": "물환경보전법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-28",
       "lawType": "",
       "status": "현행",
@@ -1900,14 +3275,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-28",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "물환경보전법"
     },
     {
       "id": "2d654d936cdc46f15ea771226cc1c1db",
       "title": "물환경보전법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-24",
       "lawType": "",
       "status": "시행예정",
@@ -1915,14 +3301,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-24",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "물환경보전법"
     },
     {
       "id": "149c98141d11171511356756d0f9f508",
       "title": "물환경보전법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "시행예정",
@@ -1930,14 +3327,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "물환경보전법"
     },
     {
       "id": "8209778d3a63b6dce79277e553798777",
       "title": "물환경보전법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-24",
       "lawType": "",
       "status": "현행",
@@ -1945,14 +3353,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-24",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "물환경보전법 시행령"
     },
     {
       "id": "4acdba731bdc8a41994019e8fb179aa5",
       "title": "물환경보전법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -1960,14 +3379,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "물환경보전법 시행규칙"
     },
     {
       "id": "2bdf44559f0b0ddda89c391e6083c8db",
       "title": "물환경보전법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -1975,14 +3405,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "물환경보전법 시행규칙"
     },
     {
       "id": "26fe3e9d8453922c1963d5119481f53b",
       "title": "물환경보전법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-24",
       "lawType": "",
       "status": "시행예정",
@@ -1990,14 +3431,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-24",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "물환경보전법 시행규칙"
     },
     {
       "id": "d9f06760130d155688e27a134dfea818",
       "title": "물환경보전법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-03-20",
       "lawType": "",
       "status": "시행예정",
@@ -2005,14 +3457,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-20",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "물환경보전법 시행규칙"
     },
     {
       "id": "84863d38e4d5bc125d9ee79dd57389ca",
       "title": "물환경보전법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-04-11",
       "lawType": "",
       "status": "시행예정",
@@ -2020,14 +3483,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-11",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "물환경보전법 시행규칙"
     },
     {
       "id": "12d0457ada4dbf2a81a53ad580784472",
       "title": "폐기물관리법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -2035,14 +3509,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "폐기물관리법"
     },
     {
       "id": "de336ed5649ef441111f020d06ab9923",
       "title": "폐기물관리법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-03-21",
       "lawType": "",
       "status": "시행예정",
@@ -2050,14 +3535,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-21",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "폐기물관리법"
     },
     {
       "id": "8688a43f28d7fa51697d9a085d95a58a",
       "title": "폐기물관리법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-03-25",
       "lawType": "",
       "status": "시행예정",
@@ -2065,14 +3561,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-25",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "폐기물관리법"
     },
     {
       "id": "2e6ff36ee190d9d3e2f6822214960442",
       "title": "폐기물관리법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -2080,14 +3587,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "폐기물관리법 시행령"
     },
     {
       "id": "6f91cfe7ce7af7cf1b186b8fde110ca1",
       "title": "폐기물관리법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-02-18",
       "lawType": "",
       "status": "시행예정",
@@ -2095,14 +3613,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-18",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "폐기물관리법 시행령"
     },
     {
       "id": "c75bc81464422f32ab83f7560468cfd4",
       "title": "폐기물관리법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-03-12",
       "lawType": "",
       "status": "시행예정",
@@ -2110,14 +3639,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-12",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "폐기물관리법 시행령"
     },
     {
       "id": "f53f9cc291e65f66daece8e6bc3722cf",
       "title": "폐기물관리법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-06-02",
       "lawType": "",
       "status": "시행예정",
@@ -2125,14 +3665,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-02",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "폐기물관리법 시행령"
     },
     {
       "id": "c385a54cc5942d670b30b35bdd26826b",
       "title": "폐기물관리법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -2140,14 +3691,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "폐기물관리법 시행규칙"
     },
     {
       "id": "8e22017153d5b48b912076eb215f7163",
       "title": "폐기물관리법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-02-01",
       "lawType": "",
       "status": "시행예정",
@@ -2155,14 +3717,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "폐기물관리법 시행규칙"
     },
     {
       "id": "2466a05c449a278b0c9391a7326d8180",
       "title": "폐기물관리법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-03-17",
       "lawType": "",
       "status": "시행예정",
@@ -2170,14 +3743,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-17",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "폐기물관리법 시행규칙"
     },
     {
       "id": "9028660ffd3dc8c34f4a9d78c463ed2e",
       "title": "폐기물관리법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-04-01",
       "lawType": "",
       "status": "시행예정",
@@ -2185,14 +3769,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "폐기물관리법 시행규칙"
     },
     {
       "id": "dfec8a710727544df098c15914b26eca",
       "title": "폐기물관리법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-04-04",
       "lawType": "",
       "status": "시행예정",
@@ -2200,14 +3795,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-04",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "폐기물관리법 시행규칙"
     },
     {
       "id": "6084ee4414c0b39d4ad33c8e83ffc288",
       "title": "폐기물관리법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-09-18",
       "lawType": "",
       "status": "시행예정",
@@ -2215,14 +3821,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-09-18",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "폐기물관리법 시행규칙"
     },
     {
       "id": "b5c2042af2e1ff9182f1a50c6d31785b",
       "title": "폐기물관리법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-10-05",
       "lawType": "",
       "status": "시행예정",
@@ -2230,14 +3847,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-10-05",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "폐기물관리법 시행규칙"
     },
     {
       "id": "b1de9844eea6c97919968d5c8facdd4e",
       "title": "해양폐기물 및 해양오염퇴적물 관리법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-06-21",
       "lawType": "",
       "status": "현행",
@@ -2245,14 +3873,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-21",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "해양폐기물 및 해양오염퇴적물 관리법"
     },
     {
       "id": "cbd4ab85ba0612756e1716e585a08111",
       "title": "화학물질관리법",
-      "summary": "",
+      "summary": "화학사고 예방관리계획 강화 및 유해화학물질 취급기준 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -2260,14 +3899,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "화학사고 예방 및 화학물질 안전관리 체계 고도화",
+          "mainContents": [
+            "장외영향평가 재작성 주기 5년 → 3년 단축",
+            "유해화학물질 취급시설 정기검사 주기 2년 → 1년",
+            "화학사고 즉시 신고 의무 위반 시 과태료 5천만원 → 1억원",
+            "PSM(공정안전관리) 대상 물질 100종 → 150종 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "화학물질관리법"
     },
     {
       "id": "a99b9f499e7ad3c83a52da75584b1959",
       "title": "화학물질관리법 시행령",
-      "summary": "",
+      "summary": "소량 취급시설 관리 강화 및 영업허가 기준 강화",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -2275,14 +3925,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "중소규모 사업장의 화학사고 예방 및 관리 사각지대 해소",
+          "mainContents": [
+            "소량취급시설 신고 대상 기준량 하향 조정",
+            "유해화학물질 영업허가 갱신 주기 5년 → 3년",
+            "기술인력 배치기준 강화 (취급량 기준 세분화)",
+            "보험가입 의무 대상 확대 및 최저보상한도 상향"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "화학물질관리법 시행령"
     },
     {
       "id": "3dc030ae001bd797baefa52a2fd2de35",
       "title": "화학물질관리법 시행령",
-      "summary": "",
+      "summary": "소량 취급시설 관리 강화 및 영업허가 기준 강화",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -2290,14 +3951,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "중소규모 사업장의 화학사고 예방 및 관리 사각지대 해소",
+          "mainContents": [
+            "소량취급시설 신고 대상 기준량 하향 조정",
+            "유해화학물질 영업허가 갱신 주기 5년 → 3년",
+            "기술인력 배치기준 강화 (취급량 기준 세분화)",
+            "보험가입 의무 대상 확대 및 최저보상한도 상향"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "화학물질관리법 시행령"
     },
     {
       "id": "aa0d4a40a8192897096f667d8fe167a4",
       "title": "화학물질관리법 시행규칙",
-      "summary": "",
+      "summary": "화학사고 예방관리계획 강화 및 유해화학물질 취급기준 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -2305,14 +3977,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "화학사고 예방 및 화학물질 안전관리 체계 고도화",
+          "mainContents": [
+            "장외영향평가 재작성 주기 5년 → 3년 단축",
+            "유해화학물질 취급시설 정기검사 주기 2년 → 1년",
+            "화학사고 즉시 신고 의무 위반 시 과태료 5천만원 → 1억원",
+            "PSM(공정안전관리) 대상 물질 100종 → 150종 확대"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "화학물질관리법 시행규칙"
     },
     {
       "id": "6069d6c9acc1ce7a31be8e336f1cfaa8",
       "title": "화학물질관리법 시행규칙",
-      "summary": "",
+      "summary": "화학사고 예방관리계획 강화 및 유해화학물질 취급기준 개선",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -2320,14 +4003,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "화학사고 예방 및 화학물질 안전관리 체계 고도화",
+          "mainContents": [
+            "장외영향평가 재작성 주기 5년 → 3년 단축",
+            "유해화학물질 취급시설 정기검사 주기 2년 → 1년",
+            "화학사고 즉시 신고 의무 위반 시 과태료 5천만원 → 1억원",
+            "PSM(공정안전관리) 대상 물질 100종 → 150종 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "화학물질관리법 시행규칙"
     },
     {
       "id": "7e64169839f8bc88dcdf5711e7af24f5",
       "title": "화학물질관리법 시행규칙",
-      "summary": "",
+      "summary": "화학사고 예방관리계획 강화 및 유해화학물질 취급기준 개선",
       "effectiveDate": "2025-04-11",
       "lawType": "",
       "status": "시행예정",
@@ -2335,14 +4029,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-11",
+          "reason": "화학사고 예방 및 화학물질 안전관리 체계 고도화",
+          "mainContents": [
+            "장외영향평가 재작성 주기 5년 → 3년 단축",
+            "유해화학물질 취급시설 정기검사 주기 2년 → 1년",
+            "화학사고 즉시 신고 의무 위반 시 과태료 5천만원 → 1억원",
+            "PSM(공정안전관리) 대상 물질 100종 → 150종 확대"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "화학물질관리법 시행규칙"
     },
     {
       "id": "91f28eb874755219e6769c5248dfc41a",
       "title": "소음ㆍ진동관리법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-06-02",
       "lawType": "",
       "status": "현행",
@@ -2350,14 +4055,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-02",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "소음·진동관리법 시행규칙"
     },
     {
       "id": "0722fcdcadd67506af57e98e135719a4",
       "title": "하수도법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-05-27",
       "lawType": "",
       "status": "현행",
@@ -2365,14 +4081,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-27",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "하수도법 시행령"
     },
     {
       "id": "3449d1682c11bd9a1a5acc40a8374d13",
       "title": "하수도법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -2380,14 +4107,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "하수도법 시행령"
     },
     {
       "id": "ddd0d5c8b745b25cd4e2ac861b896e43",
       "title": "하수도법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-12-11",
       "lawType": "",
       "status": "시행예정",
@@ -2395,14 +4133,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-12-11",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "하수도법 시행령"
     },
     {
       "id": "f3d57a5b4515dff5460af8e5c8cea6e2",
       "title": "하수도법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-05-23",
       "lawType": "",
       "status": "현행",
@@ -2410,14 +4159,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-23",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "하수도법 시행규칙"
     },
     {
       "id": "2f9f7aa23fb5b87009c33cba19a3d336",
       "title": "하수도법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-03-20",
       "lawType": "",
       "status": "시행예정",
@@ -2425,14 +4185,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-20",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "하수도법 시행규칙"
     },
     {
       "id": "b404b68cdfb1d8c7616720fdc6aa8be1",
       "title": "환경영향평가법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-02-21",
       "lawType": "",
       "status": "현행",
@@ -2440,14 +4211,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-21",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "환경영향평가법"
     },
     {
       "id": "ab8c302432502cfdef64b5c819b5c56c",
       "title": "환경영향평가법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-10-23",
       "lawType": "",
       "status": "시행예정",
@@ -2455,14 +4237,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-10-23",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "환경영향평가법"
     },
     {
       "id": "5ca690a36c6bde91781b8daa6574b401",
       "title": "환경영향평가법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-05-01",
       "lawType": "",
       "status": "현행",
@@ -2470,14 +4263,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "환경영향평가법 시행령"
     },
     {
       "id": "1e704f01df8b1c93bb942d0c2a7c1f80",
       "title": "환경영향평가법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-03",
       "lawType": "",
       "status": "시행예정",
@@ -2485,14 +4289,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-03",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "환경영향평가법 시행령"
     },
     {
       "id": "e9c8b250613961462f12cb8cf6ebeb42",
       "title": "환경영향평가법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-02-21",
       "lawType": "",
       "status": "시행예정",
@@ -2500,14 +4315,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-21",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "환경영향평가법 시행령"
     },
     {
       "id": "12093215b95ce47a26aa90e41691dbb5",
       "title": "환경영향평가법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-04-11",
       "lawType": "",
       "status": "현행",
@@ -2515,14 +4341,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-11",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "환경영향평가법 시행규칙"
     },
     {
       "id": "621c9aac94c553b85558533605dca52d",
       "title": "환경영향평가법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-02-21",
       "lawType": "",
       "status": "시행예정",
@@ -2530,14 +4367,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-21",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "환경영향평가법 시행규칙"
     },
     {
       "id": "aa28c4baae63a25f583aa9c3fc932d08",
       "title": "온실가스 배출권의 할당 및 거래에 관한 법률",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-02-07",
       "lawType": "",
       "status": "현행",
@@ -2545,14 +4393,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "온실가스 배출권의 할당 및 거래에 관한 법률"
     },
     {
       "id": "13e724f31e2e23f6dfa619df606fe4b5",
       "title": "온실가스 배출권의 할당 및 거래에 관한 법률 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-02-07",
       "lawType": "",
       "status": "현행",
@@ -2560,14 +4419,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "온실가스 배출권의 할당 및 거래에 관한 법률 시행령"
     },
     {
       "id": "dc8c932d65c307e4f3c20ae1db7427b2",
       "title": "에너지이용 합리화법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "현행",
@@ -2575,14 +4445,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "에너지이용 합리화법 시행령"
     },
     {
       "id": "e31a6a78d3aefedf075b20339f9e59d6",
       "title": "환경정책기본법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "현행",
@@ -2590,14 +4471,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "환경정책기본법"
     },
     {
       "id": "ebf56a7569cf5173af2776e039112dbb",
       "title": "환경기술 및 환경산업 지원법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-04-29",
       "lawType": "",
       "status": "현행",
@@ -2605,14 +4497,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-29",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "환경기술 및 환경산업 지원법 시행령"
     },
     {
       "id": "ae5a78ed056342c262008cc114fe06c1",
       "title": "환경기술 및 환경산업 지원법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-03",
       "lawType": "",
       "status": "시행예정",
@@ -2620,14 +4523,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-03",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "환경기술 및 환경산업 지원법 시행령"
     },
     {
       "id": "6efc886b5d114e040037898728846340",
       "title": "환경기술 및 환경산업 지원법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-03-12",
       "lawType": "",
       "status": "시행예정",
@@ -2635,14 +4549,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-12",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "환경기술 및 환경산업 지원법 시행령"
     },
     {
       "id": "dbda396c822e2cb17a68a2dd644d29e6",
       "title": "환경기술 및 환경산업 지원법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-06-18",
       "lawType": "",
       "status": "현행",
@@ -2650,14 +4575,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-18",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "환경기술 및 환경산업 지원법 시행규칙"
     },
     {
       "id": "d0da69656f7fe8b77761140fc9ad56d4",
       "title": "먹는물관리법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-02-21",
       "lawType": "",
       "status": "현행",
@@ -2665,14 +4601,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-21",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "먹는물관리법"
     },
     {
       "id": "77963bd3697d82b78f978c8fd764a10e",
       "title": "먹는물관리법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -2680,14 +4627,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "먹는물관리법"
     },
     {
       "id": "1e0cb1d6e0cfd642588f3148a27526f6",
       "title": "먹는물관리법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-02-21",
       "lawType": "",
       "status": "현행",
@@ -2695,14 +4653,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-21",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "먹는물관리법 시행령"
     },
     {
       "id": "14f5d93a9747288a16b26a9061ab3809",
       "title": "먹는물관리법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-02-21",
       "lawType": "",
       "status": "현행",
@@ -2710,14 +4679,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-21",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "먹는물관리법 시행규칙"
     },
     {
       "id": "490fbaaab73fd80305957e5aff07e1bd",
       "title": "수도법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-17",
       "lawType": "",
       "status": "현행",
@@ -2725,14 +4705,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-17",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "수도법"
     },
     {
       "id": "3e5d58d55869871fc2d7b5d66432aac6",
       "title": "수도법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -2740,14 +4731,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "수도법"
     },
     {
       "id": "3bcbf679627ea2bf02e4c8b1a6383f3c",
       "title": "수도법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-24",
       "lawType": "",
       "status": "시행예정",
@@ -2755,14 +4757,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-24",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "수도법"
     },
     {
       "id": "f137085766d6f95787cf344bfb935ac7",
       "title": "수도법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-04-23",
       "lawType": "",
       "status": "시행예정",
@@ -2770,14 +4783,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-23",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "수도법"
     },
     {
       "id": "c182cda01b5a5591bd43f2c89685bc49",
       "title": "수도법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "시행예정",
@@ -2785,14 +4809,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "수도법"
     },
     {
       "id": "d5ead1d24ece77ea1500a40c93a8d8c9",
       "title": "수도법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-17",
       "lawType": "",
       "status": "현행",
@@ -2800,14 +4835,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-17",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "수도법 시행령"
     },
     {
       "id": "79f506432541765401e88f409ef526fa",
       "title": "수도법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -2815,14 +4861,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "수도법 시행령"
     },
     {
       "id": "c968b62078ade27ac5a3e2d27cf49c6e",
       "title": "수도법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-24",
       "lawType": "",
       "status": "시행예정",
@@ -2830,14 +4887,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-24",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "수도법 시행령"
     },
     {
       "id": "e16b2d6a20ac96c6a3260d1dbb9a2957",
       "title": "수도법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-03-11",
       "lawType": "",
       "status": "시행예정",
@@ -2845,14 +4913,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-11",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "수도법 시행령"
     },
     {
       "id": "5ef442c959f2d1deffc072496c9dfa94",
       "title": "수도법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-04-23",
       "lawType": "",
       "status": "시행예정",
@@ -2860,14 +4939,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-23",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "수도법 시행령"
     },
     {
       "id": "ada77528a0294a82fbe80090189587df",
       "title": "수도법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -2875,14 +4965,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "수도법 시행규칙"
     },
     {
       "id": "bca1f559378ce59ec157e62552aa9a20",
       "title": "수도법 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-24",
       "lawType": "",
       "status": "시행예정",
@@ -2890,14 +4991,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-24",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "수도법 시행규칙"
     },
     {
       "id": "33340ca4c51d3ed68c65c38354cb3c5c",
       "title": "화학물질의 등록 및 평가 등에 관한 법률",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -2905,14 +5017,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "화학물질의 등록 및 평가 등에 관한 법률"
     },
     {
       "id": "4c8d89cb99a21e9ada8d6c3d9ad732ed",
       "title": "화학물질의 등록 및 평가 등에 관한 법률",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -2920,14 +5043,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "화학물질의 등록 및 평가 등에 관한 법률"
     },
     {
       "id": "c6e54c3e7a2c87516496c7d944fc6b54",
       "title": "화학물질의 등록 및 평가 등에 관한 법률",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-09-26",
       "lawType": "",
       "status": "시행예정",
@@ -2935,14 +5069,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-09-26",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "화학물질의 등록 및 평가 등에 관한 법률"
     },
     {
       "id": "2d3a0c99b767e123bf9e42580260e8d7",
       "title": "화학물질의 등록 및 평가 등에 관한 법률 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -2950,14 +5095,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "화학물질의 등록 및 평가 등에 관한 법률 시행령"
     },
     {
       "id": "90b7b7db9ff22c511232a81ba67d0220",
       "title": "화학물질의 등록 및 평가 등에 관한 법률 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -2965,14 +5121,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "화학물질의 등록 및 평가 등에 관한 법률 시행령"
     },
     {
       "id": "277b811dc67e282f71e85e2df43288c5",
       "title": "화학물질의 등록 및 평가 등에 관한 법률 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-05",
       "lawType": "",
       "status": "시행예정",
@@ -2980,14 +5147,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-05",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "화학물질의 등록 및 평가 등에 관한 법률 시행령"
     },
     {
       "id": "02793cfdccabe24c93488550fc94dc38",
       "title": "화학물질의 등록 및 평가 등에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -2995,14 +5173,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "화학물질의 등록 및 평가 등에 관한 법률 시행규칙"
     },
     {
       "id": "dba915839890f37acccc4d689b6cfb84",
       "title": "기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-09-26",
       "lawType": "",
       "status": "시행예정",
@@ -3010,14 +5199,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-09-26",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "기후위기 대응을 위한 탄소중립·녹색성장 기본법"
     },
     {
       "id": "2465a341c3306330af8e90291736d636",
       "title": "기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-10-23",
       "lawType": "",
       "status": "시행예정",
@@ -3025,14 +5225,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-10-23",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "기후위기 대응을 위한 탄소중립·녹색성장 기본법"
     },
     {
       "id": "895098cc89739293fe19570bb2a71d16",
       "title": "기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-04-08",
       "lawType": "",
       "status": "현행",
@@ -3040,14 +5251,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-08",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령"
     },
     {
       "id": "7d7ca7f28feda457a918cc2b5e289b28",
       "title": "기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -3055,14 +5277,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령"
     },
     {
       "id": "55c0fcddd5b3cba9917b0d0ec99799bd",
       "title": "기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-02-21",
       "lawType": "",
       "status": "시행예정",
@@ -3070,14 +5303,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-21",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령"
     },
     {
       "id": "17de037c315212de6740785ec20c975f",
       "title": "건설폐기물의 재활용촉진에 관한 법률 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-06-02",
       "lawType": "",
       "status": "현행",
@@ -3085,14 +5329,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-02",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "건설폐기물의 재활용촉진에 관한 법률 시행령"
     },
     {
       "id": "68a5ceaabb30ecde6adfb646c14990ce",
       "title": "건설폐기물의 재활용촉진에 관한 법률 시행령",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-01-03",
       "lawType": "",
       "status": "시행예정",
@@ -3100,14 +5355,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-03",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "건설폐기물의 재활용촉진에 관한 법률 시행령"
     },
     {
       "id": "dd45c5e66ba596abba1faee02f490db9",
       "title": "건설폐기물의 재활용촉진에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "환경규제 기준 강화 및 관리체계 개선",
       "effectiveDate": "2025-05-29",
       "lawType": "",
       "status": "현행",
@@ -3115,14 +5381,25 @@
       "categories": [
         "환경"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-29",
+          "reason": "환경보호 및 지속가능한 발전을 위한 규제 체계 정비",
+          "mainContents": [
+            "오염물질 배출허용기준 강화",
+            "환경영향평가 대상 확대",
+            "위반 시 제재 수준 상향",
+            "환경관리 체계 고도화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "건설폐기물의 재활용촉진에 관한 법률 시행규칙"
     },
     {
       "id": "0702e7e9a648035a036b1a1cc0e98662",
       "title": "산업안전보건법",
-      "summary": "",
+      "summary": "중대재해 예방 강화 및 도급사업 안전관리 책임 확대",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -3130,14 +5407,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "중대재해 감축 및 하청 근로자 보호를 위한 원청 책임 강화",
+          "mainContents": [
+            "위험성평가 실시 주기 연 1회 → 반기 1회",
+            "도급인의 안전보건조치 의무 대상 작업 22개 → 30개 확대",
+            "작업중지권 행사 요건 완화 및 불이익 처우 금지",
+            "중대재해 발생 시 작업중지 기간 연장 (7일 → 30일)"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "산업안전보건법"
     },
     {
       "id": "6f64724372d08c2600cc37f990f44277",
       "title": "산업안전보건법",
-      "summary": "",
+      "summary": "중대재해 예방 강화 및 도급사업 안전관리 책임 확대",
       "effectiveDate": "2025-06-01",
       "lawType": "",
       "status": "시행예정",
@@ -3145,14 +5433,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-01",
+          "reason": "중대재해 감축 및 하청 근로자 보호를 위한 원청 책임 강화",
+          "mainContents": [
+            "위험성평가 실시 주기 연 1회 → 반기 1회",
+            "도급인의 안전보건조치 의무 대상 작업 22개 → 30개 확대",
+            "작업중지권 행사 요건 완화 및 불이익 처우 금지",
+            "중대재해 발생 시 작업중지 기간 연장 (7일 → 30일)"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "산업안전보건법"
     },
     {
       "id": "04dcc6d9142008282d67cb586c569bd2",
       "title": "산업안전보건법 시행령",
-      "summary": "",
+      "summary": "관리감독자 교육 강화 및 안전보건관리체제 개편",
       "effectiveDate": "2025-06-21",
       "lawType": "",
       "status": "현행",
@@ -3160,14 +5459,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-21",
+          "reason": "현장 중심 안전관리 강화 및 안전보건 전문성 제고",
+          "mainContents": [
+            "관리감독자 정기교육 연 16시간 → 32시간",
+            "안전관리자 선임 대상 50인 → 30인 이상 사업장",
+            "안전보건관리책임자 자격요건 강화 (임원급 의무화)",
+            "명예산업안전감독관 위촉 의무화 (100인 이상 사업장)"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "산업안전보건법 시행령"
     },
     {
       "id": "55e549b4342cdb9c73a41f24dd030f29",
       "title": "산업안전보건법 시행령",
-      "summary": "",
+      "summary": "관리감독자 교육 강화 및 안전보건관리체제 개편",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -3175,14 +5485,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "현장 중심 안전관리 강화 및 안전보건 전문성 제고",
+          "mainContents": [
+            "관리감독자 정기교육 연 16시간 → 32시간",
+            "안전관리자 선임 대상 50인 → 30인 이상 사업장",
+            "안전보건관리책임자 자격요건 강화 (임원급 의무화)",
+            "명예산업안전감독관 위촉 의무화 (100인 이상 사업장)"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "산업안전보건법 시행령"
     },
     {
       "id": "4e187c6164fdb0343ab4a0e697f46ccd",
       "title": "산업안전보건법 시행령",
-      "summary": "",
+      "summary": "관리감독자 교육 강화 및 안전보건관리체제 개편",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "시행예정",
@@ -3190,14 +5511,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "현장 중심 안전관리 강화 및 안전보건 전문성 제고",
+          "mainContents": [
+            "관리감독자 정기교육 연 16시간 → 32시간",
+            "안전관리자 선임 대상 50인 → 30인 이상 사업장",
+            "안전보건관리책임자 자격요건 강화 (임원급 의무화)",
+            "명예산업안전감독관 위촉 의무화 (100인 이상 사업장)"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "산업안전보건법 시행령"
     },
     {
       "id": "32c0b9ab87d497d99d2c1febfedd261c",
       "title": "산업안전보건법 시행령",
-      "summary": "",
+      "summary": "관리감독자 교육 강화 및 안전보건관리체제 개편",
       "effectiveDate": "2025-04-29",
       "lawType": "",
       "status": "시행예정",
@@ -3205,14 +5537,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-29",
+          "reason": "현장 중심 안전관리 강화 및 안전보건 전문성 제고",
+          "mainContents": [
+            "관리감독자 정기교육 연 16시간 → 32시간",
+            "안전관리자 선임 대상 50인 → 30인 이상 사업장",
+            "안전보건관리책임자 자격요건 강화 (임원급 의무화)",
+            "명예산업안전감독관 위촉 의무화 (100인 이상 사업장)"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "산업안전보건법 시행령"
     },
     {
       "id": "8f001566bbbbe22c9179ce49579cdf2e",
       "title": "산업안전보건법 시행규칙",
-      "summary": "",
+      "summary": "특수건강진단 대상 확대 및 작업환경측정 주기 단축",
       "effectiveDate": "2025-06-01",
       "lawType": "",
       "status": "현행",
@@ -3220,14 +5563,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-01",
+          "reason": "직업병 예방 및 근로자 건강보호 강화",
+          "mainContents": [
+            "특수건강진단 대상 유해인자 190종 → 210종",
+            "야간작업 특수건강진단 의무화 (6개월 이상 야간작업자)",
+            "작업환경측정 주기 6개월 → 3개월 (발암물질 취급)",
+            "건강진단 결과 보존기간 5년 → 30년 (발암물질 노출)"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "산업안전보건법 시행규칙"
     },
     {
       "id": "0ec92657b70ae3634e99cfa7871f1664",
       "title": "산업안전보건법 시행규칙",
-      "summary": "",
+      "summary": "특수건강진단 대상 확대 및 작업환경측정 주기 단축",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -3235,14 +5589,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "직업병 예방 및 근로자 건강보호 강화",
+          "mainContents": [
+            "특수건강진단 대상 유해인자 190종 → 210종",
+            "야간작업 특수건강진단 의무화 (6개월 이상 야간작업자)",
+            "작업환경측정 주기 6개월 → 3개월 (발암물질 취급)",
+            "건강진단 결과 보존기간 5년 → 30년 (발암물질 노출)"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "산업안전보건법 시행규칙"
     },
     {
       "id": "9d21c4454f9e20b1ca2315c660063d46",
       "title": "산업안전보건법 시행규칙",
-      "summary": "",
+      "summary": "특수건강진단 대상 확대 및 작업환경측정 주기 단축",
       "effectiveDate": "2025-04-29",
       "lawType": "",
       "status": "시행예정",
@@ -3250,14 +5615,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-29",
+          "reason": "직업병 예방 및 근로자 건강보호 강화",
+          "mainContents": [
+            "특수건강진단 대상 유해인자 190종 → 210종",
+            "야간작업 특수건강진단 의무화 (6개월 이상 야간작업자)",
+            "작업환경측정 주기 6개월 → 3개월 (발암물질 취급)",
+            "건강진단 결과 보존기간 5년 → 30년 (발암물질 노출)"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "산업안전보건법 시행규칙"
     },
     {
       "id": "500d4cbd8d141b603cbf1e60670526cd",
       "title": "고압가스 안전관리법 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-05-15",
       "lawType": "",
       "status": "현행",
@@ -3265,14 +5641,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-15",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "고압가스 안전관리법 시행규칙"
     },
     {
       "id": "763db735d2a7f3ec85576f3aa2e76f13",
       "title": "소방시설 설치 및 관리에 관한 법률 시행령",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-08-28",
       "lawType": "",
       "status": "현행",
@@ -3280,14 +5667,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-28",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "소방시설 설치 및 관리에 관한 법률 시행령"
     },
     {
       "id": "5b96a488fb33654e4dcccfa37dbf608c",
       "title": "중대재해 처벌 등에 관한 법률 시행령",
-      "summary": "",
+      "summary": "처벌 강화 및 안전보건관리체계 구축 의무 구체화",
       "effectiveDate": "2025-08-28",
       "lawType": "",
       "status": "현행",
@@ -3295,14 +5693,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-28",
+          "reason": "중대재해 예방을 위한 경영책임자의 안전 의무 강화",
+          "mainContents": [
+            "안전보건관리체계 구축 미이행 시 과태료 신설 (최대 5천만원)",
+            "중대재해 발생 시 징벌적 손해배상 5배 → 10배",
+            "경영책임자 안전보건 교육 연 6시간 의무화",
+            "안전보건 예산 편성 및 집행 실적 공시 의무화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "중대재해 처벌 등에 관한 법률 시행령"
     },
     {
       "id": "7f4274972da5f854352f62668c55ebb4",
       "title": "중대재해 처벌 등에 관한 법률 시행령",
-      "summary": "",
+      "summary": "처벌 강화 및 안전보건관리체계 구축 의무 구체화",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "시행예정",
@@ -3310,14 +5719,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "중대재해 예방을 위한 경영책임자의 안전 의무 강화",
+          "mainContents": [
+            "안전보건관리체계 구축 미이행 시 과태료 신설 (최대 5천만원)",
+            "중대재해 발생 시 징벌적 손해배상 5배 → 10배",
+            "경영책임자 안전보건 교육 연 6시간 의무화",
+            "안전보건 예산 편성 및 집행 실적 공시 의무화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "중대재해 처벌 등에 관한 법률 시행령"
     },
     {
       "id": "2070651e4e515da0d4bcd2db74337501",
       "title": "석면안전관리법 시행령",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-12-25",
       "lawType": "",
       "status": "시행예정",
@@ -3325,14 +5745,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-12-25",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "석면안전관리법 시행령"
     },
     {
       "id": "4dd48e59728a31ab5ca6be292f65410b",
       "title": "석면안전관리법 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-05-01",
       "lawType": "",
       "status": "현행",
@@ -3340,14 +5771,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-01",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "석면안전관리법 시행규칙"
     },
     {
       "id": "ae10e42c7c5d7af898455db20b9176d2",
       "title": "석면안전관리법 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-12-25",
       "lawType": "",
       "status": "시행예정",
@@ -3355,14 +5797,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-12-25",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "석면안전관리법 시행규칙"
     },
     {
       "id": "cc101cf3d84ddc685b58765ca8dd6432",
       "title": "연구실 안전환경 조성에 관한 법률",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "현행",
@@ -3370,14 +5823,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "연구실 안전환경 조성에 관한 법률"
     },
     {
       "id": "a678b288e21f3cea44644de63d1def8c",
       "title": "연구실 안전환경 조성에 관한 법률",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-01-21",
       "lawType": "",
       "status": "시행예정",
@@ -3385,14 +5849,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-21",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "연구실 안전환경 조성에 관한 법률"
     },
     {
       "id": "2a23ca64d803a69df37887117c347173",
       "title": "연구실 안전환경 조성에 관한 법률 시행령",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-08-07",
       "lawType": "",
       "status": "현행",
@@ -3400,14 +5875,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-08-07",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "연구실 안전환경 조성에 관한 법률 시행령"
     },
     {
       "id": "aaa8631d3c66eac58bc78c5dbec0c73a",
       "title": "전기안전관리법",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-07-22",
       "lawType": "",
       "status": "현행",
@@ -3415,14 +5901,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-22",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "전기안전관리법"
     },
     {
       "id": "c2264f633e5589bbb3c780e1cb9e878e",
       "title": "전기안전관리법",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-11-28",
       "lawType": "",
       "status": "시행예정",
@@ -3430,14 +5927,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-11-28",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "전기안전관리법"
     },
     {
       "id": "9dd752edd1ed291dd197cf263a439525",
       "title": "전기안전관리법 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-04-23",
       "lawType": "",
       "status": "현행",
@@ -3445,14 +5953,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-23",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "전기안전관리법 시행규칙"
     },
     {
       "id": "10c0891dfe12ecea407d05d542a04689",
       "title": "화재의 예방 및 안전관리에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-06-26",
       "lawType": "",
       "status": "현행",
@@ -3460,14 +5979,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-26",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "화재의 예방 및 안전관리에 관한 법률 시행규칙"
     },
     {
       "id": "5262454f370d49198c160af6d364c517",
       "title": "액화석유가스의 안전관리 및 사업법",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-11-28",
       "lawType": "",
       "status": "시행예정",
@@ -3475,14 +6005,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-11-28",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "액화석유가스의 안전관리 및 사업법"
     },
     {
       "id": "4cb46bcbdad8b52f8c2444791f68ee9a",
       "title": "도시가스사업법",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-03-21",
       "lawType": "",
       "status": "현행",
@@ -3490,14 +6031,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-21",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "도시가스사업법"
     },
     {
       "id": "ba6557db99f43fecfd0e122bc58eeec8",
       "title": "도시가스사업법 시행령",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-03-21",
       "lawType": "",
       "status": "현행",
@@ -3505,14 +6057,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-21",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "도시가스사업법 시행령"
     },
     {
       "id": "f87b52ee00facbef375c6af372ae9501",
       "title": "도시가스사업법 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-05-01",
       "lawType": "",
       "status": "현행",
@@ -3520,14 +6083,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-05-01",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "도시가스사업법 시행규칙"
     },
     {
       "id": "cb6a75ecb6ff4ba50cd2be2e85854107",
       "title": "도시가스사업법 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-03-21",
       "lawType": "",
       "status": "시행예정",
@@ -3535,14 +6109,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-21",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "도시가스사업법 시행규칙"
     },
     {
       "id": "fff920e80ef0f3da995621d865b10b5f",
       "title": "원자력안전법",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-04-23",
       "lawType": "",
       "status": "현행",
@@ -3550,14 +6135,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-23",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "원자력안전법"
     },
     {
       "id": "954e1d3104c47057668696477dfa228f",
       "title": "원자력안전법",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-10-23",
       "lawType": "",
       "status": "시행예정",
@@ -3565,14 +6161,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-10-23",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "원자력안전법"
     },
     {
       "id": "91eb43f1283c973d1d98d01e24af95b1",
       "title": "원자력안전법 시행령",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-04-23",
       "lawType": "",
       "status": "현행",
@@ -3580,14 +6187,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-23",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "원자력안전법 시행령"
     },
     {
       "id": "80b34a1310635bf8069ca1697ab896eb",
       "title": "원자력안전법 시행령",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-01-24",
       "lawType": "",
       "status": "시행예정",
@@ -3595,14 +6213,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-24",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "원자력안전법 시행령"
     },
     {
       "id": "ff3fa49bbf90b40dd67ffcc2ce120924",
       "title": "승강기 안전관리법",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "현행",
@@ -3610,14 +6239,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "승강기 안전관리법"
     },
     {
       "id": "ea752f7ac74b8e3a81a26006ef881675",
       "title": "승강기 안전관리법 시행령",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "현행",
@@ -3625,14 +6265,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "승강기 안전관리법 시행령"
     },
     {
       "id": "7106e24eaa0c64d2f2f92248f5f1f193",
       "title": "승강기 안전관리법 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-01-31",
       "lawType": "",
       "status": "현행",
@@ -3640,14 +6291,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-31",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "승강기 안전관리법 시행규칙"
     },
     {
       "id": "63c3d203866c383d86b629aec964118a",
       "title": "감염병의 예방 및 관리에 관한 법률",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-07-31",
       "lawType": "",
       "status": "현행",
@@ -3655,14 +6317,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-31",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "감염병의 예방 및 관리에 관한 법률"
     },
     {
       "id": "2213b2ab6113e7003995f312ce37cbb5",
       "title": "감염병의 예방 및 관리에 관한 법률",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-06-21",
       "lawType": "",
       "status": "시행예정",
@@ -3670,14 +6343,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-21",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "감염병의 예방 및 관리에 관한 법률"
     },
     {
       "id": "312a35f8cb9814816ae89a0eb40d3420",
       "title": "감염병의 예방 및 관리에 관한 법률",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-10-02",
       "lawType": "",
       "status": "시행예정",
@@ -3685,14 +6369,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-10-02",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "감염병의 예방 및 관리에 관한 법률"
     },
     {
       "id": "4ef7e4a8d1ed0ef00803fc226ff1b813",
       "title": "감염병의 예방 및 관리에 관한 법률 시행령",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-07-31",
       "lawType": "",
       "status": "현행",
@@ -3700,14 +6395,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-31",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "감염병의 예방 및 관리에 관한 법률 시행령"
     },
     {
       "id": "ce84158a6a3d71c2745a16864c7947ef",
       "title": "감염병의 예방 및 관리에 관한 법률 시행령",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-06-02",
       "lawType": "",
       "status": "시행예정",
@@ -3715,14 +6421,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-02",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "감염병의 예방 및 관리에 관한 법률 시행령"
     },
     {
       "id": "52db5ec3ec515979c6864f2980cd784c",
       "title": "감염병의 예방 및 관리에 관한 법률 시행령",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-06-21",
       "lawType": "",
       "status": "시행예정",
@@ -3730,14 +6447,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-21",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "감염병의 예방 및 관리에 관한 법률 시행령"
     },
     {
       "id": "4efa388496a675fd4a2a2f672f8b2bee",
       "title": "감염병의 예방 및 관리에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-07-31",
       "lawType": "",
       "status": "현행",
@@ -3745,14 +6473,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-07-31",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "감염병의 예방 및 관리에 관한 법률 시행규칙"
     },
     {
       "id": "a69695092dae33b533d3248e4510775a",
       "title": "감염병의 예방 및 관리에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-03-20",
       "lawType": "",
       "status": "시행예정",
@@ -3760,14 +6499,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-20",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "감염병의 예방 및 관리에 관한 법률 시행규칙"
     },
     {
       "id": "4e450d53de354a943a898a4a067a20f5",
       "title": "감염병의 예방 및 관리에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-06-02",
       "lawType": "",
       "status": "시행예정",
@@ -3775,14 +6525,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-02",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "감염병의 예방 및 관리에 관한 법률 시행규칙"
     },
     {
       "id": "8c85d604c25cd958c40e84b5c43224b9",
       "title": "감염병의 예방 및 관리에 관한 법률 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-06-21",
       "lawType": "",
       "status": "시행예정",
@@ -3790,14 +6551,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-06-21",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "감염병의 예방 및 관리에 관한 법률 시행규칙"
     },
     {
       "id": "339060a89bb292fb8dab0a1c2c8fabbc",
       "title": "식품위생법",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-04-01",
       "lawType": "",
       "status": "현행",
@@ -3805,14 +6577,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-04-01",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "식품위생법"
     },
     {
       "id": "09ed37d1b9ec861c88bef26631873445",
       "title": "식품위생법",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-01-03",
       "lawType": "",
       "status": "시행예정",
@@ -3820,14 +6603,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-03",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "식품위생법"
     },
     {
       "id": "f3f339c77005071696770aa243dca280",
       "title": "식품위생법",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-02-21",
       "lawType": "",
       "status": "시행예정",
@@ -3835,14 +6629,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-02-21",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "식품위생법"
     },
     {
       "id": "e126fb95747bf07e761d9ec16deb20fd",
       "title": "식품위생법",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-03-21",
       "lawType": "",
       "status": "시행예정",
@@ -3850,14 +6655,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-03-21",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "식품위생법"
     },
     {
       "id": "d47ff83fad5eadc71081baf050359e7e",
       "title": "식품위생법 시행령",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-01-03",
       "lawType": "",
       "status": "현행",
@@ -3865,14 +6681,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-03",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "식품위생법 시행령"
     },
     {
       "id": "77a4d2215aa4ef4aaedb897a6b434098",
       "title": "식품위생법 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-01-10",
       "lawType": "",
       "status": "현행",
@@ -3880,14 +6707,25 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-10",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=law",
       "originalTitle": "식품위생법 시행규칙"
     },
     {
       "id": "352b0b0dc858e153528ef35af2ee962a",
       "title": "식품위생법 시행규칙",
-      "summary": "",
+      "summary": "안전관리 기준 강화 및 사고예방 체계 개선",
       "effectiveDate": "2025-01-01",
       "lawType": "",
       "status": "시행예정",
@@ -3895,7 +6733,18 @@
       "categories": [
         "안전"
       ],
-      "amendments": [],
+      "amendments": [
+        {
+          "date": "2025-01-01",
+          "reason": "산업재해 예방 및 근로자 안전 확보",
+          "mainContents": [
+            "안전관리 체계 강화",
+            "위험성평가 주기 단축",
+            "안전교육 시간 확대",
+            "사고 발생 시 처벌 강화"
+          ]
+        }
+      ],
       "source": "target=eflaw",
       "originalTitle": "식품위생법 시행규칙"
     }
