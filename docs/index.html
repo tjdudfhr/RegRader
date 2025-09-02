@@ -2999,7 +2999,7 @@
             // 3단계: quarterly_details.json에서 실제 데이터 가져오기
             if (!matchingLaw) {
                 try {
-                    const response = await fetch('quarterly_details.json');
+                    const response = await fetch('./quarterly_details.json');
                     const quarterlyData = await response.json();
                     
                     // 모든 분기에서 해당 법령 찾기
@@ -3329,7 +3329,7 @@
         async function updateLawsWithRealEffectiveDates() {
             try {
                 console.log('📅 실제 시행일자 데이터 로딩 중...');
-                const response = await fetch('quarterly_details.json');
+                const response = await fetch('./quarterly_details.json');
                 if (!response.ok) return;
                 
                 const quarterlyData = await response.json();
@@ -3372,6 +3372,7 @@
 
         async function loadData() {
             try {
+                console.log('Loading data from ./index.json...');
                 const response = await fetch('./index.json');
                 
                 if (!response.ok) {
@@ -3379,6 +3380,7 @@
                 }
                 
                 const data = await response.json();
+                console.log('Data loaded:', data);
                 
                 
                 if (data.items && Array.isArray(data.items)) {
@@ -3484,7 +3486,25 @@
                 console.log('✅ 데이터 표시 완료');
             } catch (error) {
                 console.error('❌ 데이터 로딩 실패:', error);
-                showError('데이터를 불러올 수 없습니다: ' + error.message);
+                // 모바일에서 더 자세한 에러 표시
+                const userAgent = navigator.userAgent;
+                const errorDetails = `
+                    <div style="text-align: left; padding: 20px;">
+                        <h3>데이터 로딩 오류</h3>
+                        <p>오류: ${error.message}</p>
+                        <p>URL: ${window.location.href}</p>
+                        <p>기기: ${userAgent.includes('Mobile') ? 'Mobile' : 'Desktop'}</p>
+                        <p>브라우저: ${userAgent}</p>
+                        <hr>
+                        <p>해결 방법:</p>
+                        <ul>
+                            <li>페이지를 새로고침 해보세요</li>
+                            <li>브라우저 캐시를 삭제해보세요</li>
+                            <li>다른 브라우저를 사용해보세요</li>
+                        </ul>
+                    </div>
+                `;
+                showError(errorDetails);
             }
         }
 
@@ -4168,7 +4188,7 @@
         // 207개 기본 법규 로드 함수
         async function loadBaseLaws() {
             try {
-                const response = await fetch('base_laws_207.json');
+                const response = await fetch('./base_laws_207.json');
                 const data = await response.json();
                 baseLawsData = data.items;
                 console.log('✅ 207개 기본 법규 로드 완료');
@@ -4375,7 +4395,7 @@
             const allLawsData = [];
             
             // 실제 매칭된 259개 데이터 먼저 추가
-            fetch('index.json')
+            fetch('./index.json')
                 .then(response => response.json())
                 .then(data => {
                     // 매칭된 데이터 추가
@@ -4440,7 +4460,7 @@
         function downloadMatchedLaws() {
             // lawsData가 없으면 index.json 로드
             if (!window.lawsData || lawsData.length === 0) {
-                fetch('index.json')
+                fetch('./index.json')
                     .then(response => response.json())
                     .then(data => {
                         const excelData = data.items.map(law => ({
@@ -4479,7 +4499,7 @@
         // 기본 법규 다운로드 (Excel 형식으로 변환)
         function downloadBaseLaws() {
             // base_laws_207.json을 Excel로 변환하여 다운로드
-            fetch('base_laws_207.json')
+            fetch('./base_laws_207.json')
                 .then(response => response.json())
                 .then(data => {
                     const excelData = data.items.map((law, index) => ({
@@ -5758,7 +5778,7 @@
             const top = (window.screen.height - height) / 2;
             
             const popup = window.open(
-                'email_popup.html',
+                './email_popup.html',
                 'RegRaderEmailCenter',
                 `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
             );
