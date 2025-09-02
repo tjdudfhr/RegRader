@@ -839,7 +839,7 @@
                         .map(([cat, count]) => `${cat}: ${count}건`)
                         .join(' / ');
                     
-                    // 직무별 상세 법령 목록 생성
+                    // 직무별 상세 법령 목록 생성 (HTML 형식)
                     const jobDetails = {};
                     quarterLaws.forEach(law => {
                         const category = (law.categories && law.categories[0]) || '기타';
@@ -849,18 +849,44 @@
                         jobDetails[category].push(law);
                     });
                     
-                    // 직무별 상세 내용 생성 (모든 직무 포함)
-                    const detailedJobContent = Object.entries(jobDetails)
+                    // 카테고리 아이콘 매핑
+                    const getCategoryIcon = (category) => {
+                        const icons = {
+                            '환경': '🌿',
+                            '안전': '🛡️',
+                            '재무회계': '💰',
+                            '인사노무': '👥',
+                            '정보보호': '🔒',
+                            '공정거래': '⚖️',
+                            '지배구조': '🏛️',
+                            '지식재산권': '💡'
+                        };
+                        return icons[category] || '📋';
+                    };
+                    
+                    // HTML 형식의 직무별 법령 목록 생성
+                    const detailedJobContentHTML = Object.entries(jobDetails)
                         .sort((a, b) => b[1].length - a[1].length)
                         .map(([category, laws]) => {
+                            const icon = getCategoryIcon(category);
                             const lawsList = laws.map(law => {
                                 const date = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR') : '날짜 미정';
-                                const month = law.effectiveDate ? new Date(law.effectiveDate).getMonth() + 1 : null;
-                                const monthStr = month ? `${month}월` : '';
-                                return `  • ${law.title}\n    → 시행일: ${date} ${monthStr}`;
-                            }).join('\n');
-                            return `\n【${category}】 ${laws.length}건\n━━━━━━━━━━━━━━━━━━━━━━━━\n${lawsList}`;
-                        }).join('\n\n');
+                                return `<div style="padding: 12px 0; border-bottom: 1px solid #e0e0e0;">
+                                    <div style="font-weight: 500; color: #333; margin-bottom: 5px;">${law.title}</div>
+                                    <div style="font-size: 13px; color: #666;">시행일: ${date}</div>
+                                </div>`;
+                            }).join('');
+                            
+                            return `<div style="margin-bottom: 25px;">
+                                <div style="background: #667eea; color: white; padding: 12px 15px; border-radius: 8px 8px 0 0; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+                                    <span>${icon} ${category}</span>
+                                    <span style="background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; font-size: 13px;">${laws.length}건</span>
+                                </div>
+                                <div style="background: #f8f9fa; padding: 15px; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px;">
+                                    ${lawsList}
+                                </div>
+                            </div>`;
+                        }).join('');
                     
                     // 월별 시행 일정
                     const monthlyBreakdown = {};
@@ -907,27 +933,11 @@
                         q2: selectedTemplate === 'q2' ? quarterLaws.length.toString() : '0',
                         q3: selectedTemplate === 'q3' ? quarterLaws.length.toString() : '0',
                         q4: selectedTemplate === 'q4' ? quarterLaws.length.toString() : '0',
-                        quarterly: `${quarterNum}분기: ${quarterLaws.length}건`,
+                        quarterly: `${quarterNum}분기`,
                         job: jobSummary || '데이터 없음',
                         laws: sortedByDate || `${quarterNum}분기 법령`,
                         title: `[RegRader] 2025년 ${quarterNum}분기 법령 개정 안내 - ${quarterLaws.length}건`,
-                        content: `2025년 ${quarterNames[quarterNum]} 법령 개정 상세 안내드립니다.\n\n` +
-                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                                `📊 ${quarterNum}분기 전체 현황: ${quarterLaws.length}건\n` +
-                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-                                `📅 월별 시행 일정\n${monthlySchedule}\n\n` +
-                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                                `🎯 직무별 개정 법령 상세\n` +
-                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                                `${detailedJobContent}\n\n` +
-                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-                                `⏰ 시행 임박 법령 (시행일순 상위 10개)\n` +
-                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-                                `${sortedByDate}\n\n` +
-                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-                                `💡 RegRader 대시보드에서 상세 내용을 확인하세요.\n` +
-                                `🔗 ${window.location.protocol}//${window.location.host}/RegRader/\n\n` +
-                                `※ 본 메일은 자동 발송되었습니다.`,
+                        content: detailedJobContentHTML,  // HTML 형식의 직무별 법령 목록
                         url: 'https://tjdudfhr.github.io/RegRader/',
                         date: new Date().toLocaleDateString('ko-KR')
                     };
