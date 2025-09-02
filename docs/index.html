@@ -5762,7 +5762,7 @@
                     job: jobSummary,
                     laws: '최근 개정 법령',
                     title: `[RegRader] 2025년 전체 법령 현황 - ${lawsData.length}건`,
-                    content: `2025년 전체 법령 현황입니다.\n\n📊 총 ${lawsData.length}건\n\n📅 분기별 현황:\n• 1분기(1~3월): ${q1Count}건\n• 2분기(4~6월): ${q2Count}건\n• 3분기(7~9월): ${q3Count}건\n• 4분기(10~12월): ${q4Count}건\n\n📂 직무별 현황:\n${jobSummary}`,
+                    content: `2025년 법령 개정 현황을 안내드립니다.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📊 전체 현황: 총 ${lawsData.length}건\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📅 분기별 시행 예정\n• 1분기(1-3월): ${q1Count}건\n• 2분기(4-6월): ${q2Count}건\n• 3분기(7-9월): ${q3Count}건\n• 4분기(10-12월): ${q4Count}건\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📂 직무별 현황\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n${jobSummary}\n\n💡 자세한 내용은 RegRader 대시보드에서 확인하세요.`,
                     url: window.location.href,
                     date: new Date().toLocaleDateString('ko-KR')
                 };
@@ -5809,7 +5809,11 @@
                     job: quarterJobSummary || '데이터 없음',
                     laws: quarterLaws.slice(0, 10).map(law => law.title).join(', ') || '분기별 법령',
                     title: `[RegRader] 2025년 ${quarterNum}분기 법령 현황 - ${quarterLaws.length}건`,
-                    content: `2025년 ${quarterNum}분기(${months[0]}~${months[2]}월) 법령 현황입니다.\n\n📊 총 ${quarterLaws.length}건\n\n📂 직무별 현황:\n${quarterJobSummary || '데이터 없음'}\n\n📋 주요 법령(상위 10개):\n${quarterLaws.slice(0, 10).map((law, idx) => `${idx+1}. ${law.title}`).join('\n')}`,
+                    content: `2025년 ${quarterNum}분기(${months[0]}~${months[2]}월) 법령 개정 상세 안내드립니다.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📊 ${quarterNum}분기 전체 현황: ${quarterLaws.length}건\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n📂 직무별 현황\n${quarterJobSummary || '데이터 없음'}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📋 주요 개정 법령 (상위 10개)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n${quarterLaws.slice(0, 10).map((law, idx) => {
+                        const date = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR') : '날짜 미정';
+                        const category = (law.categories && law.categories[0]) || '기타';
+                        return `\n${idx+1}. ${law.title}\n   [${category}] ${date} 시행`;
+                    }).join('\n')}\n\n💡 RegRader 대시보드에서 상세 내용을 확인하세요.`,
                     url: window.location.href,
                     date: new Date().toLocaleDateString('ko-KR')
                 };

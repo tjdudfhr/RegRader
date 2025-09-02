@@ -740,6 +740,45 @@
                         .map(([cat, count]) => `${cat}: ${count}건`)
                         .join('\n');
                     
+                    // 직무별 상세 법령 목록 생성
+                    const jobDetails = {};
+                    lawsData.forEach(law => {
+                        const category = (law.categories && law.categories[0]) || '기타';
+                        if (!jobDetails[category]) {
+                            jobDetails[category] = [];
+                        }
+                        jobDetails[category].push(law);
+                    });
+                    
+                    // 직무별 상세 내용 생성 (상위 3개 직무)
+                    const detailedJobContent = Object.entries(jobDetails)
+                        .sort((a, b) => b[1].length - a[1].length)
+                        .slice(0, 3)
+                        .map(([category, laws]) => {
+                            const lawsList = laws.slice(0, 5).map(law => {
+                                const date = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR') : '날짜 미정';
+                                return `  • ${law.title} (${date})`;
+                            }).join('\n');
+                            return `\n【${category}】 ${laws.length}건\n${lawsList}${laws.length > 5 ? `\n  ... 외 ${laws.length - 5}건` : ''}`;
+                        }).join('\n');
+                    
+                    // 월별 시행 예정 법령
+                    const monthlyLaws = {};
+                    lawsData.forEach(law => {
+                        if (law.effectiveDate) {
+                            const month = new Date(law.effectiveDate).getMonth() + 1;
+                            if (!monthlyLaws[month]) {
+                                monthlyLaws[month] = [];
+                            }
+                            monthlyLaws[month].push(law);
+                        }
+                    });
+                    
+                    const monthlySchedule = Object.entries(monthlyLaws)
+                        .sort((a, b) => a[0] - b[0])
+                        .map(([month, laws]) => `${month}월: ${laws.length}건`)
+                        .join(', ');
+                    
                     templateParams = {
                         to_email: toEmail,
                         email: toEmail,
@@ -753,7 +792,22 @@
                         job: jobSummary,
                         laws: '최근 개정 법령',
                         title: `[RegRader] 2025년 전체 법령 현황 - ${lawsData.length}건`,
-                        content: `2025년 전체 법령 현황입니다.\n\n📊 총 ${lawsData.length}건\n\n📅 분기별 현황:\n• 1분기: ${q1Count}건\n• 2분기: ${q2Count}건\n• 3분기: ${q3Count}건\n• 4분기: ${q4Count}건\n\n📂 직무별 현황:\n${jobSummary}`,
+                        content: `2025년 법령 개정 현황을 안내드립니다.\n\n` +
+                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                                `📊 전체 현황: 총 ${lawsData.length}건\n` +
+                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+                                `📅 분기별 시행 예정\n` +
+                                `• 1분기(1-3월): ${q1Count}건\n` +
+                                `• 2분기(4-6월): ${q2Count}건\n` +
+                                `• 3분기(7-9월): ${q3Count}건\n` +
+                                `• 4분기(10-12월): ${q4Count}건\n\n` +
+                                `📆 월별 시행 일정\n${monthlySchedule}\n\n` +
+                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                                `📂 직무별 주요 개정 법령\n` +
+                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                                `${detailedJobContent}\n\n` +
+                                `💡 자세한 내용은 RegRader 대시보드에서 확인하세요.\n` +
+                                `🔗 ${window.location.protocol}//${window.location.host}/RegRader/`,
                         url: 'https://tjdudfhr.github.io/RegRader/',
                         date: new Date().toLocaleDateString('ko-KR')
                     };
@@ -787,10 +841,64 @@
                         .map(([cat, count]) => `${cat}: ${count}건`)
                         .join('\n');
                     
-                    const lawsList = quarterLaws
-                        .slice(0, 10)
-                        .map((law, idx) => `${idx+1}. ${law.title}`)
+                    // 직무별 상세 법령 목록 생성
+                    const jobDetails = {};
+                    quarterLaws.forEach(law => {
+                        const category = (law.categories && law.categories[0]) || '기타';
+                        if (!jobDetails[category]) {
+                            jobDetails[category] = [];
+                        }
+                        jobDetails[category].push(law);
+                    });
+                    
+                    // 직무별 상세 내용 생성 (모든 직무 포함)
+                    const detailedJobContent = Object.entries(jobDetails)
+                        .sort((a, b) => b[1].length - a[1].length)
+                        .map(([category, laws]) => {
+                            const lawsList = laws.map(law => {
+                                const date = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR') : '날짜 미정';
+                                const month = law.effectiveDate ? new Date(law.effectiveDate).getMonth() + 1 : null;
+                                const monthStr = month ? `${month}월` : '';
+                                return `  • ${law.title}\n    → 시행일: ${date} ${monthStr}`;
+                            }).join('\n');
+                            return `\n【${category}】 ${laws.length}건\n━━━━━━━━━━━━━━━━━━━━━━━━\n${lawsList}`;
+                        }).join('\n\n');
+                    
+                    // 월별 시행 일정
+                    const monthlyBreakdown = {};
+                    quarterLaws.forEach(law => {
+                        if (law.effectiveDate) {
+                            const month = new Date(law.effectiveDate).getMonth() + 1;
+                            const monthName = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'][month - 1];
+                            if (!monthlyBreakdown[monthName]) {
+                                monthlyBreakdown[monthName] = 0;
+                            }
+                            monthlyBreakdown[monthName]++;
+                        }
+                    });
+                    
+                    const monthlySchedule = Object.entries(monthlyBreakdown)
+                        .map(([month, count]) => `• ${month}: ${count}건`)
                         .join('\n');
+                    
+                    // 시행일 기준 정렬된 법령 목록 (상위 10개)
+                    const sortedByDate = quarterLaws
+                        .filter(law => law.effectiveDate)
+                        .sort((a, b) => new Date(a.effectiveDate) - new Date(b.effectiveDate))
+                        .slice(0, 10)
+                        .map((law, idx) => {
+                            const date = new Date(law.effectiveDate).toLocaleDateString('ko-KR');
+                            const category = (law.categories && law.categories[0]) || '기타';
+                            return `${idx+1}. ${law.title}\n   [${category}] ${date} 시행`;
+                        }).join('\n\n');
+                    
+                    // 분기 이름
+                    const quarterNames = {
+                        '1': '1분기 (1-3월)',
+                        '2': '2분기 (4-6월)', 
+                        '3': '3분기 (7-9월)',
+                        '4': '4분기 (10-12월)'
+                    };
                     
                     templateParams = {
                         to_email: toEmail,
@@ -803,9 +911,25 @@
                         q4: selectedTemplate === 'q4' ? quarterLaws.length.toString() : '0',
                         quarterly: `${quarterNum}분기: ${quarterLaws.length}건`,
                         job: jobSummary || '데이터 없음',
-                        laws: lawsList || `${quarterNum}분기 법령`,
-                        title: `[RegRader] 2025년 ${quarterNum}분기 법령 현황 - ${quarterLaws.length}건`,
-                        content: `2025년 ${quarterNum}분기(${months[0]}~${months[2]}월) 법령 현황입니다.\n\n📊 총 ${quarterLaws.length}건\n\n📂 직무별 현황:\n${jobSummary}\n\n📋 주요 법령:\n${lawsList}`,
+                        laws: sortedByDate || `${quarterNum}분기 법령`,
+                        title: `[RegRader] 2025년 ${quarterNum}분기 법령 개정 안내 - ${quarterLaws.length}건`,
+                        content: `2025년 ${quarterNames[quarterNum]} 법령 개정 상세 안내드립니다.\n\n` +
+                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                                `📊 ${quarterNum}분기 전체 현황: ${quarterLaws.length}건\n` +
+                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+                                `📅 월별 시행 일정\n${monthlySchedule}\n\n` +
+                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                                `🎯 직무별 개정 법령 상세\n` +
+                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                                `${detailedJobContent}\n\n` +
+                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+                                `⏰ 시행 임박 법령 (시행일순 상위 10개)\n` +
+                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+                                `${sortedByDate}\n\n` +
+                                `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+                                `💡 RegRader 대시보드에서 상세 내용을 확인하세요.\n` +
+                                `🔗 ${window.location.protocol}//${window.location.host}/RegRader/\n\n` +
+                                `※ 본 메일은 자동 발송되었습니다.`,
                         url: 'https://tjdudfhr.github.io/RegRader/',
                         date: new Date().toLocaleDateString('ko-KR')
                     };
