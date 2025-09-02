@@ -7,9 +7,9 @@
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
     <!-- PWA 설정 -->
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#667eea">
-    <link rel="apple-touch-icon" href="/icon-192.png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
     
     <!-- 모바일 기기 감지 및 자동 리다이렉션 -->
     <script>
@@ -5984,7 +5984,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
+                navigator.serviceWorker.register('./service-worker.js')
                     .then(registration => console.log('ServiceWorker registered'))
                     .catch(err => console.log('ServiceWorker registration failed'));
             });

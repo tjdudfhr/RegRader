@@ -1,11 +1,11 @@
 // Service Worker for PWA
 const CACHE_NAME = 'regrader-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/index.json',
-  '/email_popup.html',
-  '/manifest.json'
+  './',
+  './index.html',
+  './index.json',
+  './email_popup.html',
+  './manifest.json'
 ];
 
 // Install event - cache files
