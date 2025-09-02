@@ -558,6 +558,20 @@
             return false;
         };
         
+        // 메시지 표시 함수 (맨 위로 이동)
+        function showMessage(type, text) {
+            const messageEl = document.getElementById('message');
+            if (messageEl) {
+                messageEl.className = 'message ' + type;
+                messageEl.textContent = text;
+                messageEl.style.display = 'block';
+                
+                setTimeout(() => {
+                    messageEl.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
         // EmailJS 상태 체크
         function checkEmailJSStatus() {
             // 간단한 테스트 파라미터로 EmailJS 상태 확인
@@ -757,10 +771,15 @@
         
         // 개별 이메일 발송 (index.html과 동일한 로직)
         function sendSingleEmail(toEmail) {
+            console.log('sendSingleEmail called with:', toEmail);
+            console.log('selectedTemplate:', selectedTemplate);
+            console.log('lawsData length:', lawsData.length);
+            
             return new Promise((resolve, reject) => {
-                let templateParams = {};
-                
-                if (selectedTemplate === 'all') {
+                try {
+                    let templateParams = {};
+                    
+                    if (selectedTemplate === 'all') {
                     // 전체 현황
                     const q1Count = lawsData.filter(law => {
                         if (!law.effectiveDate) return false;
@@ -1013,18 +1032,22 @@
                     };
                 }
                 
-                // EmailJS로 발송
-                console.log('Sending email with params:', templateParams);
-                emailjs.send('service_7tdd8dh', 'template_tu71wgt', templateParams)
-                    .then(function(response) {
-                        console.log('SUCCESS!', response);
-                        resolve(response);
-                    })
-                    .catch(function(error) {
-                        console.error('FAILED...', error);
-                        console.error('Error details:', error.text || error.message || error);
-                        reject(error);
-                    });
+                    // EmailJS로 발송
+                    console.log('Sending email with params:', templateParams);
+                    emailjs.send('service_7tdd8dh', 'template_tu71wgt', templateParams)
+                        .then(function(response) {
+                            console.log('SUCCESS!', response);
+                            resolve(response);
+                        })
+                        .catch(function(error) {
+                            console.error('FAILED...', error);
+                            console.error('Error details:', error.text || error.message || error);
+                            reject(error);
+                        });
+                } catch (error) {
+                    console.error('Error creating templateParams:', error);
+                    reject(error);
+                }
             });
         }
         
@@ -1063,18 +1086,7 @@
         window.selectTemplate = selectTemplate;
         window.removeEmail = removeEmail;
         window.addSavedEmail = addSavedEmail;
-        
-        // 메시지 표시
-        function showMessage(type, text) {
-            const messageEl = document.getElementById('message');
-            messageEl.className = 'message ' + type;
-            messageEl.textContent = text;
-            messageEl.style.display = 'block';
-            
-            setTimeout(() => {
-                messageEl.style.display = 'none';
-            }, 5000);
-        }
+
     </script>
 </body>
 </html>
