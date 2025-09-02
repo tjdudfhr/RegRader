@@ -3868,7 +3868,7 @@
                 <div class="summary-section">
                     <h4>🔗 관련 링크</h4>
                     <div class="external-links">
-                        <a href="${item.source?.url || (item.meta?.lsId ? `https://www.law.go.kr/LSW/lsInfoP.do?lsId=${item.meta.lsId}` : `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`)}" target="_blank" class="external-link law-link">
+                        <a href="${item.meta?.lsId ? `https://www.law.go.kr/LSW/lsInfoP.do?lsId=${item.meta.lsId}` : `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`}" target="_blank" class="external-link law-link">
                             <div class="link-icon">📜</div>
                             <div class="link-content">
                                 <div class="link-title">법령 원문 보기</div>
@@ -3876,7 +3876,7 @@
                             </div>
                             <div class="link-arrow">→</div>
                         </a>
-                        <a href="${item.source?.search || `https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}`}" target="_blank" class="external-link search-link">
+                        <a href="https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}" target="_blank" class="external-link search-link">
                             <div class="link-icon">🔍</div>
                             <div class="link-content">
                                 <div class="link-title">관련 법령 검색</div>
