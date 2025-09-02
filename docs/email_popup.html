@@ -749,10 +749,9 @@
                         jobDetails[category].push(law);
                     });
                     
-                    // 직무별 상세 내용 생성 (상위 3개 직무)
+                    // 직무별 상세 내용 생성
                     const detailedJobContent = Object.entries(jobDetails)
                         .sort((a, b) => b[1].length - a[1].length)
-                        .slice(0, 3)
                         .map(([category, laws]) => {
                             const lawsList = laws.slice(0, 5).map(law => {
                                 const date = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR') : '날짜 미정';
@@ -760,6 +759,16 @@
                             }).join('\n');
                             return `\n【${category}】 ${laws.length}건\n${lawsList}${laws.length > 5 ? `\n  ... 외 ${laws.length - 5}건` : ''}`;
                         }).join('\n');
+                    
+                    // 각 직무별 개수 (전체)
+                    const envCount = jobCategories['환경'] || 0;
+                    const safetyCount = jobCategories['안전'] || 0;
+                    const financeCount = jobCategories['재무회계'] || 0;
+                    const hrCount = jobCategories['인사노무'] || 0;
+                    const itCount = jobCategories['정보보호'] || 0;
+                    const tradeCount = jobCategories['공정거래'] || 0;
+                    const govCount = jobCategories['지배구조'] || 0;
+                    const ipCount = jobCategories['지식재산권'] || 0;
                     
                     // 월별 시행 예정 법령
                     const monthlyLaws = {};
@@ -787,10 +796,19 @@
                         q2: q2Count.toString(),
                         q3: q3Count.toString(),
                         q4: q4Count.toString(),
-                        quarterly: `1분기: ${q1Count}건, 2분기: ${q2Count}건, 3분기: ${q3Count}건, 4분기: ${q4Count}건`,
+                        quarterly: `전체`,
                         job: jobSummary,
                         laws: '최근 개정 법령',
                         title: `[RegRader] 2025년 전체 법령 현황 - ${lawsData.length}건`,
+                        // 각 직무별 개수 전달
+                        env_count: envCount.toString(),
+                        safety_count: safetyCount.toString(),
+                        finance_count: financeCount.toString(),
+                        hr_count: hrCount.toString(),
+                        it_count: itCount.toString(),
+                        trade_count: tradeCount.toString(),
+                        gov_count: govCount.toString(),
+                        ip_count: ipCount.toString(),
                         content: `2025년 법령 개정 현황을 안내드립니다.\n\n` +
                                 `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
                                 `📊 전체 현황: 총 ${lawsData.length}건\n` +
@@ -864,29 +882,28 @@
                         return icons[category] || '📋';
                     };
                     
-                    // HTML 형식의 직무별 법령 목록 생성
-                    const detailedJobContentHTML = Object.entries(jobDetails)
+                    // 텍스트 형식의 직무별 법령 목록 생성 (EmailJS는 HTML 변수 삽입 제한)
+                    const detailedJobContent = Object.entries(jobDetails)
                         .sort((a, b) => b[1].length - a[1].length)
                         .map(([category, laws]) => {
                             const icon = getCategoryIcon(category);
-                            const lawsList = laws.map(law => {
+                            const lawsList = laws.map((law, idx) => {
                                 const date = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR') : '날짜 미정';
-                                return `<div style="padding: 12px 0; border-bottom: 1px solid #e0e0e0;">
-                                    <div style="font-weight: 500; color: #333; margin-bottom: 5px;">${law.title}</div>
-                                    <div style="font-size: 13px; color: #666;">시행일: ${date}</div>
-                                </div>`;
-                            }).join('');
+                                return `  ${idx + 1}. ${law.title}\n     시행일: ${date}`;
+                            }).join('\n');
                             
-                            return `<div style="margin-bottom: 25px;">
-                                <div style="background: #667eea; color: white; padding: 12px 15px; border-radius: 8px 8px 0 0; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
-                                    <span>${icon} ${category}</span>
-                                    <span style="background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; font-size: 13px;">${laws.length}건</span>
-                                </div>
-                                <div style="background: #f8f9fa; padding: 15px; border: 1px solid #e0e0e0; border-top: none; border-radius: 0 0 8px 8px;">
-                                    ${lawsList}
-                                </div>
-                            </div>`;
-                        }).join('');
+                            return `\n[${icon} ${category}] - ${laws.length}건\n────────────────────────\n${lawsList}`;
+                        }).join('\n\n');
+                    
+                    // 각 직무별 개수 계산
+                    const envCount = jobDetails['환경'] ? jobDetails['환경'].length : 0;
+                    const safetyCount = jobDetails['안전'] ? jobDetails['안전'].length : 0;
+                    const financeCount = jobDetails['재무회계'] ? jobDetails['재무회계'].length : 0;
+                    const hrCount = jobDetails['인사노무'] ? jobDetails['인사노무'].length : 0;
+                    const itCount = jobDetails['정보보호'] ? jobDetails['정보보호'].length : 0;
+                    const tradeCount = jobDetails['공정거래'] ? jobDetails['공정거래'].length : 0;
+                    const govCount = jobDetails['지배구조'] ? jobDetails['지배구조'].length : 0;
+                    const ipCount = jobDetails['지식재산권'] ? jobDetails['지식재산권'].length : 0;
                     
                     // 월별 시행 일정
                     const monthlyBreakdown = {};
@@ -937,7 +954,16 @@
                         job: jobSummary || '데이터 없음',
                         laws: sortedByDate || `${quarterNum}분기 법령`,
                         title: `[RegRader] 2025년 ${quarterNum}분기 법령 개정 안내 - ${quarterLaws.length}건`,
-                        content: detailedJobContentHTML,  // HTML 형식의 직무별 법령 목록
+                        content: detailedJobContent,  // 텍스트 형식의 직무별 법령 목록
+                        // 각 직무별 개수 전달
+                        env_count: envCount.toString(),
+                        safety_count: safetyCount.toString(),
+                        finance_count: financeCount.toString(),
+                        hr_count: hrCount.toString(),
+                        it_count: itCount.toString(),
+                        trade_count: tradeCount.toString(),
+                        gov_count: govCount.toString(),
+                        ip_count: ipCount.toString(),
                         url: 'https://tjdudfhr.github.io/RegRader/',
                         date: new Date().toLocaleDateString('ko-KR')
                     };
