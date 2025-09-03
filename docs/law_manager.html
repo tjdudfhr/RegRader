@@ -541,10 +541,22 @@
             }
         }
         
-        // 국가법령 DB 로드 (시뮬레이션)
+        // 국가법령 DB 로드
         async function loadNationalLawDB() {
-            // 실제로는 2,809개 법규 데이터를 로드
-            // 여기서는 시뮬레이션을 위해 샘플 데이터 생성
+            // 먼저 localStorage에서 API로 가져온 데이터 확인
+            const storedData = localStorage.getItem('national_laws_2025');
+            if (storedData) {
+                try {
+                    const data = JSON.parse(storedData);
+                    nationalLawDB = data.laws;
+                    console.log(`API로 가져온 2025년 시행 법규: ${nationalLawDB.length}개 로드`);
+                    return;
+                } catch (e) {
+                    console.error('저장된 데이터 파싱 실패:', e);
+                }
+            }
+            
+            // 저장된 데이터가 없으면 시뮬레이션 데이터 생성
             nationalLawDB = generateSampleNationalDB();
         }
         
