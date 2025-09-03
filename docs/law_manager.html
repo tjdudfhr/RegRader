@@ -1140,32 +1140,40 @@
                 localStorage.setItem('updated_laws_data', JSON.stringify(updatedData));
                 
                 // 서버가 실행 중인지 확인하고 API 호출 시도
-                try {
-                    const response = await fetch('http://localhost:3001/api/laws', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(updatedData)
-                    });
-                    
-                    if (response.ok) {
-                        const result = await response.json();
-                        showToast(`파일 저장 성공! 적용법규: ${result.total}개`, 'success');
-                    } else {
-                        throw new Error('Server response not OK');
+                // GitHub Pages에서는 서버 API를 사용할 수 없으므로 localStorage만 사용
+                const isGitHubPages = window.location.hostname.includes('github.io');
+                
+                if (!isGitHubPages) {
+                    // 로컬 개발 환경에서만 서버 API 호출 시도
+                    try {
+                        const response = await fetch('http://localhost:3001/api/laws', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(updatedData)
+                        });
+                        
+                        if (response.ok) {
+                            const result = await response.json();
+                            showToast(`파일 저장 성공! 적용법규: ${result.total}개`, 'success');
+                        } else {
+                            throw new Error('Server response not OK');
+                        }
+                    } catch (apiError) {
+                        console.log('API 호출 실패 (서버가 실행되지 않음):', apiError);
                     }
-                } catch (apiError) {
-                    console.log('API 호출 실패 (서버가 실행되지 않음):', apiError);
-                    
-                    // API 호출 실패 시 다운로드 옵션 제공
+                }
+                
+                // GitHub Pages 환경이거나 API 호출 실패 시 다운로드 옵션 제공
+                if (isGitHubPages) {
                     const blob = new Blob([JSON.stringify(updatedData, null, 2)], { type: 'application/json' });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
                     a.download = 'index_updated.json';
                     
-                    const confirmDownload = confirm(`localStorage에 저장되었습니다.\n\n적용법규: ${appliedLaws.length}개\n매칭법규: ${matchedLaws.length}개\n\n서버 연결에 실패했습니다.\n업데이트된 파일을 다운로드하시겠습니까?\n(다운로드 후 index.json으로 교체하세요)`);
+                    const confirmDownload = confirm(`localStorage에 저장되었습니다.\n\n적용법규: ${appliedLaws.length}개\n매칭법규: ${matchedLaws.length}개\n\nGitHub Pages에서는 파일을 직접 수정할 수 없습니다.\n업데이트된 파일을 다운로드하시겠습니까?\n(다운로드 후 index.json으로 교체하세요)`);
                     
                     if (confirmDownload) {
                         a.click();
