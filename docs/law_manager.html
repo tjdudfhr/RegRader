@@ -512,32 +512,8 @@
         
         // 초기화
         async function init() {
-            // localStorage에서 업데이트된 데이터가 있는지 확인
-            const updatedFlag = localStorage.getItem('laws_updated_flag');
-            const updatedData = localStorage.getItem('updated_laws_data');
-            
-            if (updatedFlag === 'true' && updatedData) {
-                try {
-                    const data = JSON.parse(updatedData);
-                    if (data.items && data.items.length > 0) {
-                        appliedLaws = data.items;
-                        console.log(`Loaded ${appliedLaws.length} laws from localStorage (updated)`);
-                        renderAppliedLaws();
-                        updateStats();
-                    } else {
-                        await loadAppliedLaws();
-                    }
-                } catch (error) {
-                    console.error('Failed to load from localStorage:', error);
-                    await loadAppliedLaws();
-                }
-            } else {
-                await loadAppliedLaws();
-            }
-            
-            await loadNationalLawDB();
-            setupEventListeners();
-        }
+            // 항상 base_laws_207.json에서 먼저 로드
+            await
         
         // 적용법규 로드 - base_laws_207.json에서 207개 로드
         async function loadAppliedLaws() {
