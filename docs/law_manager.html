@@ -548,14 +548,14 @@
             nationalLawDB = generateSampleNationalDB();
         }
         
-        // 실제 국가법령정보센터 전체 DB 시뮬레이션 (실제 2,809개 법규)
+        // 2025년 개정법규 DB (2,809개) - 실제로는 index.json의 259개만 있음
         function generateSampleNationalDB() {
             const laws = [];
             
-            // 먼저 index.json의 259개 법규를 모두 포함 (시행일 포함)
+            // index.json의 259개가 실제 2025년 개정법규의 일부
+            // 나머지 2,550개는 우리가 아직 데이터를 갖고 있지 않음
             if (window.indexLawsData) {
                 window.indexLawsData.forEach((law, idx) => {
-                    // 중복 법규도 시행일이 다르면 모두 추가
                     laws.push({
                         id: `nl_index_${idx}`,
                         title: law.title,
@@ -564,13 +564,16 @@
                         ministry: law.ministry || '관계부처',
                         effectiveDate: law.effectiveDate || '2025-01-01',
                         isFromIndex: true,
-                        originalId: law.id // 원본 ID 유지
+                        originalId: law.id
                     });
                 });
-                console.log(`Loaded ${laws.length} laws from index.json with all effective dates`);
+                console.log(`Loaded ${laws.length} laws from index.json (2025년 개정법규 중 일부)`);
             }
             
-            // 국가법령정보센터의 주요 법률들 (형법, 민법 등 포함)
+            // 2025년에 추가로 개정되는 법규들은 실제 데이터가 필요함
+            // 현재는 index.json의 259개만 사용
+            
+            /* 주의: 아래 법률들은 2025년 개정 여부와 무관하게 나열된 것이므로 사용하지 않음
             const majorLaws = [
                 // 형사법 (모든 형사 관련 법률 포함)
                 '형법', '형사소송법', '형의 실효 등에 관한 법률', '형사보상 및 명예회복에 관한 법률',
@@ -671,9 +674,10 @@
                 '사회보장기본법', '국민기초생활보장법', '장애인복지법', '노인복지법',
                 '아동복지법', '한부모가족지원법', '다문화가족지원법'
             ];
+            */
             
-            // 주요 법률들을 DB에 추가 (시행령, 시행규칙 포함)
-            majorLaws.forEach(lawName => {
+            // 실제 2025년 개정법규 2,809개 중 259개만 현재 보유
+            // 나머지는 추후 데이터 추가 필요
                 // 이미 index.json에서 추가한 법규가 아닌 경우만 추가
                 const existingCount = laws.filter(l => l.title === lawName).length;
                 
@@ -709,10 +713,8 @@
                             effectiveDate: '2025-01-01'
                         });
                     }
-                }
-            });
             
-            console.log(`Generated ${laws.length} laws in national DB (including 259 from index.json)`);
+            console.log(`2025년 개정법규 DB: ${laws.length}개 (전체 2,809개 중 일부)`);
             return laws;
         }
         
