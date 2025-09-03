@@ -987,12 +987,15 @@
             showToast('자동 매칭 시작...', 'info');
             matchedLaws = [];
             
+            console.log(`매칭 시작: 적용법규 ${appliedLaws.length}개 vs 개정법규 ${nationalLawDB.length}개`);
+            
             // 현재 적용법규(207개 + 추가된 것)를 2,809개 개정법규(nationalLawDB)와 매칭
             appliedLaws.forEach(appliedLaw => {
                 // 2,809개 개정법규에서 매칭 찾기
                 nationalLawDB.forEach(nationalLaw => {
                     // 법규명이 완전히 같으면 100% 매칭
                     if (appliedLaw.title === nationalLaw.title) {
+                        console.log(`매칭 발견: ${appliedLaw.title}`);
                         matchedLaws.push({
                             id: `matched_${matchedLaws.length}`,
                             title: nationalLaw.title,
