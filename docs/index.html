@@ -1707,6 +1707,12 @@
                     <path d="m22 7-10 5L2 7"></path>
                 </svg>
             </button>
+            <button class="settings-btn" onclick="openDataDownload()" title="데이터 다운로드">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
             </button>
             <div class="header-content">
                 <h1>RegRader</h1>
@@ -6110,6 +6116,132 @@
                     sendBtn.disabled = false;
                 });
         }
+    </script>
+    
+    <!-- 데이터 다운로드 모달 -->
+    <div id="dataDownloadModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 16px; padding: 2rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                <h2 style="margin: 0; color: #333; font-size: 1.5rem;">📥 2025년 법령 데이터 다운로드</h2>
+                <button onclick="closeDataDownload()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999;">×</button>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                <h3 style="margin: 0 0 0.5rem 0; font-size: 1.2rem;">📊 2025년 시행법령 전체 데이터</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold;">2,971</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">총 법령</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold;">1,716</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">현행</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold;">213</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">예정</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold;">1,042</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">연혁</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="border: 1px solid #e0e0e0; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                <h4 style="margin: 0 0 1rem 0; color: #333;">다운로드 가능한 파일</h4>
+                
+                <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                    <a href="./2025_laws_complete.xlsx" download style="display: flex; align-items: center; padding: 1rem; background: #f5f5f5; border-radius: 8px; text-decoration: none; color: #333; transition: all 0.2s ease;" 
+                       onmouseover="this.style.background='#e8e8e8'" onmouseout="this.style.background='#f5f5f5'">
+                        <span style="font-size: 1.5rem; margin-right: 1rem;">📊</span>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600;">2025년 시행법령 전체 (Excel)</div>
+                            <div style="font-size: 0.85rem; color: #666;">2,971개 법령 · 상태별/월별/부처별 통계 포함 · 약 2MB</div>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </a>
+                    
+                    <a href="./laws_2025_complete.json" download style="display: flex; align-items: center; padding: 1rem; background: #f5f5f5; border-radius: 8px; text-decoration: none; color: #333; transition: all 0.2s ease;" 
+                       onmouseover="this.style.background='#e8e8e8'" onmouseout="this.style.background='#f5f5f5'">
+                        <span style="font-size: 1.5rem; margin-right: 1rem;">📄</span>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600;">2025년 시행법령 전체 (JSON)</div>
+                            <div style="font-size: 0.85rem; color: #666;">원본 데이터 · API 연동 가능 · 상세 메타데이터 포함</div>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </a>
+                    
+                    <a href="./base_laws_207.json" download style="display: flex; align-items: center; padding: 1rem; background: #f5f5f5; border-radius: 8px; text-decoration: none; color: #333; transition: all 0.2s ease;" 
+                       onmouseover="this.style.background='#e8e8e8'" onmouseout="this.style.background='#f5f5f5'">
+                        <span style="font-size: 1.5rem; margin-right: 1rem;">🏢</span>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600;">우리 회사 적용법규 207개</div>
+                            <div style="font-size: 0.85rem; color: #666;">기본 적용법규 목록 · JSON 형식</div>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div style="background: #f0f4f8; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <div style="display: flex; align-items: start; gap: 0.5rem;">
+                    <span style="color: #667eea;">ℹ️</span>
+                    <div style="font-size: 0.9rem; color: #666;">
+                        <strong>데이터 출처:</strong> 국가법령정보센터 Open API<br>
+                        <strong>최종 업데이트:</strong> ${new Date().toLocaleDateString('ko-KR')}<br>
+                        <strong>API Endpoint:</strong> www.law.go.kr/DRF/lawSearch.do
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+                <button onclick="closeDataDownload()" style="padding: 0.8rem 1.5rem; background: #e0e0e0; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    닫기
+                </button>
+                <button onclick="window.open('./law_manager.html', '_blank')" style="padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    법규 관리자 열기
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openDataDownload() {
+            const modal = document.getElementById('dataDownloadModal');
+            modal.style.display = 'flex';
+        }
+        
+        function closeDataDownload() {
+            const modal = document.getElementById('dataDownloadModal');
+            modal.style.display = 'none';
+        }
+        
+        // ESC 키로 닫기
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDataDownload();
+            }
+        });
+        
+        // 모달 외부 클릭시 닫기
+        document.getElementById('dataDownloadModal').addEventListener('click', (e) => {
+            if (e.target.id === 'dataDownloadModal') {
+                closeDataDownload();
+            }
+        });
     </script>
     
     <!-- PWA Service Worker 등록 -->
