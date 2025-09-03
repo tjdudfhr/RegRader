@@ -3390,16 +3390,35 @@
 
         async function loadData() {
             try {
-                console.log('Loading data from ./index.json...');
-                const response = await fetch('./index.json');
+                let data;
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                // 1. localStorage에서 업데이트된 법규 데이터 확인
+                const updatedFlag = localStorage.getItem('laws_updated_flag');
+                const updatedData = localStorage.getItem('updated_laws_data');
+                
+                if (updatedFlag === 'true' && updatedData) {
+                    console.log('Loading updated laws from localStorage...');
+                    try {
+                        data = JSON.parse(updatedData);
+                        console.log('Updated data loaded:', data.items ? data.items.length : 0, '개');
+                    } catch (e) {
+                        console.error('Failed to parse localStorage data:', e);
+                        data = null;
+                    }
                 }
                 
-                const data = await response.json();
-                console.log('Data loaded:', data);
-                
+                // 2. localStorage에 없으면 index.json에서 로드
+                if (!data) {
+                    console.log('Loading data from ./index.json...');
+                    const response = await fetch('./index.json');
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    data = await response.json();
+                    console.log('Data loaded from index.json:', data);
+                }
                 
                 if (data.items && Array.isArray(data.items)) {
                     console.log('📋 데이터 로드 완료:', data.items.length, '건');
@@ -4206,10 +4225,18 @@
         // 207개 기본 법규 로드 함수
         async function loadBaseLaws() {
             try {
-                const response = await fetch('./base_laws_207.json');
-                const data = await response.json();
-                baseLawsData = data.items;
-                console.log('✅ 207개 기본 법규 로드 완료');
+                let data;
+                
+                // localStorage에서 업데이트된 적용법규 확인
+                const updatedFlag = localStorage.getItem('laws_updated_flag');
+                const appliedLawsData = localStorage.getItem('applied_laws');
+                
+                if (updatedFlag === 'true' && appliedLawsData) {
+                    console.log('Loading updated applied laws from localStorage...');
+                    try {
+                        data = JSON.parse(appliedLawsData);
+                        console.log(`✅ localStorage에서 ${data.items ? data.items.length : 0}개 적용법규 로드`);
+                    } catch (e
                 
                 // 적용법규 탭 카운트 업데이트
                 updateRegistryTabCounts();
