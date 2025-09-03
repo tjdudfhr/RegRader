@@ -6,15 +6,23 @@
     <title>RegRader Mobile · AI 법규 개정 모니터링 시스템</title>
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
-    <!-- 모바일 버전 유지 - 캐시된 사용자를 위함 -->
+    <!-- PC에서 접속 시 PC 버전으로 리다이렉션 (선택사항) -->
     <script>
-        console.log('Mobile version loaded - keeping for cached users');
-        // Service Worker 캐시 클리어 시도
-        if ('serviceWorker' in navigator) {
-            caches.keys().then(function(names) {
-                for (let name of names) caches.delete(name);
-            });
-        }
+        (function() {
+            // 모바일 기기 감지
+            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            var isSmallScreen = window.innerWidth <= 768;
+            
+            // PC에서 접속했고 강제 모바일 모드가 아니면 PC 버전 제안
+            if (!isMobile && !isSmallScreen && !localStorage.getItem('forceMobile')) {
+                if (confirm('PC 버전으로 보시겠습니까? (더 나은 경험을 제공합니다)')) {
+                    window.location.href = './index.html';
+                } else {
+                    // 사용자가 모바일 버전을 선택한 경우 기억
+                    localStorage.setItem('forceMobile', 'true');
+                }
+            }
+        })();
     </script>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">

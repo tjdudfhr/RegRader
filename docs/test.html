@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+</head>
+<body>
+    <h1>GitHub Pages Test</h1>
+    <p>If you can see this, GitHub Pages is working!</p>
+    <p>Current time: <span id="time"></span></p>
+    <p>User Agent: <span id="ua"></span></p>
+    <p>Screen Size: <span id="size"></span></p>
+    <hr>
+    <h2>Links to test:</h2>
+    <ul>
+        <li><a href="./index.html">Index.html</a></li>
+        <li><a href="./mobile_v2.html">Mobile_v2.html</a></li>
+        <li><a href="./index.json">Index.json (should download)</a></li>
+    </ul>
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleString();
+        document.getElementById('ua').textContent = navigator.userAgent;
+        document.getElementById('size').textContent = window.innerWidth + 'x' + window.innerHeight;
+    </script>
+</body>
+</html>
