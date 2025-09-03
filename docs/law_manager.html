@@ -543,21 +543,60 @@
         
         // 국가법령 DB 로드
         async function loadNationalLawDB() {
-            // 먼저 localStorage에서 API로 가져온 데이터 확인
+            // 1. 먼저 실제 API로 가져온 완전한 데이터 확인 (laws_2025_complete.json)
+            try {
+                const response = await fetch('./laws_2025_complete.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.laws && data.laws.length > 0) {
+                        nationalLawDB = data.laws.map(law => ({
+                            id: law.법령ID || law.id,
+                            title: law.법령명 || law.법령명한글,
+                            type: law.법령구분 || '법률',
+                            categories: inferCategories(law.법령명 || ''),
+                            ministry: law.소관부처 || '관계부처',
+                            effectiveDate: formatDate(law.시행일자),
+                            status: law.법령상태 || '현행',
+                            amendmentType: law.제개정구분 || '',
+                            lawNumber: law.공포번호 || '',
+                            isFromAPI: true
+                        }));
+                        console.log(`✅ 국가법령정보센터 API 데이터: ${nationalLawDB.length}개 법규 로드 완료`);
+                        console.log(`  - 현행: ${data.statistics?.byStatus?.현행 || 0}개`);
+                        console.log(`  - 예정: ${data.statistics?.byStatus?.예정 || 0}개`);
+                        console.log(`  - 연혁: ${data.statistics?.byStatus?.연혁 || 0}개`);
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.log('laws_2025_complete.json 로드 실패, 대체 방법 시도');
+            }
+            
+            // 2. localStorage에서 API로 가져온 데이터 확인
             const storedData = localStorage.getItem('national_laws_2025');
             if (storedData) {
                 try {
                     const data = JSON.parse(storedData);
                     nationalLawDB = data.laws;
-                    console.log(`API로 가져온 2025년 시행 법규: ${nationalLawDB.length}개 로드`);
+                    console.log(`localStorage에서 2025년 시행 법규: ${nationalLawDB.length}개 로드`);
                     return;
                 } catch (e) {
                     console.error('저장된 데이터 파싱 실패:', e);
                 }
             }
             
-            // 저장된 데이터가 없으면 시뮬레이션 데이터 생성
+            // 3. 마지막으로 시뮬레이션 데이터 생성
             nationalLawDB = generateSampleNationalDB();
+        }
+        
+        // 날짜 포맷 변환 (YYYYMMDD -> YYYY-MM-DD)
+        function formatDate(dateStr) {
+            if (!dateStr) return '2025-01-01';
+            if (dateStr.includes('-')) return dateStr;
+            if (dateStr.length === 8) {
+                return `${dateStr.substring(0, 4)}-${dateStr.substring(4, 6)}-${dateStr.substring(6, 8)}`;
+            }
+            return dateStr;
         }
         
         // 2025년 시행 법규 DB 생성 (실제 2,809개)
