@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "puppeteer": "^24.17.1"
+  },
+  "devDependencies": {
+    "pm2": "^6.0.10"
   }
 }
