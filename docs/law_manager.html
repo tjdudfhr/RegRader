@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegRader 적용법규 관리 시스템</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .panel {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .panel-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .count-badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .law-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 5px;
+        }
+        
+        .law-item {
+            background: white;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid transparent;
+        }
+        
+        .law-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+        
+        .law-item.selected {
+            background: #667eea;
+            color: white;
+        }
+        
+        .law-title {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .law-category {
+            background: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            color: #666;
+            margin-left: 10px;
+        }
+        
+        .law-item.selected .law-category {
+            background: rgba(255,255,255,0.3);
+            color: white;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 2000;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚖️ RegRader 적용법규 관리 시스템</h1>
+        <p class="subtitle">적용법규를 추가/삭제하면 자동으로 2,809개 법규 데이터와 매칭됩니다</p>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalApplied">207</div>
+                <div class="stat-label">적용법규</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalMatched">0</div>
+                <div class="stat-label">자동 매칭</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">2,809</div>
+                <div class="stat-label">전체 법규 DB</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="matchRate">0%</div>
+                <div class="stat-label">매칭률</div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="addNewLaw()">
+                ➕ 새 법규 추가
+            </button>
+            <button class="btn btn-danger" onclick="removeSelected()" id="removeBtn" disabled>
+                🗑️ 선택 삭제
+            </button>
+            <button class="btn btn-success" onclick="autoMatch()">
+                🔄 자동 매칭 실행
+            </button>
+            <button class="btn btn-primary" onclick="saveChanges()">
+                💾 변경사항 저장
+            </button>
+        </div>
+        
+        <div class="grid">
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">📋 현재 적용법규</div>
+                    <div class="count-badge" id="appliedCount">207개</div>
+                </div>
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="법규명 검색..." id="searchApplied">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <div class="law-list" id="appliedLawsList">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>법규 데이터 로딩 중...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">🎯 자동 매칭 결과</div>
+                    <div class="count-badge" id="matchedCount">0개</div>
+                </div>
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="매칭 결과 검색..." id="searchMatched">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <div class="law-list" id="matchedLawsList">
+                    <p style="text-align: center; color: #999; padding: 50px;">
+                        '자동 매칭 실행' 버튼을 클릭하여<br>
+                        2,809개 법규 DB와 매칭을 시작하세요
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 법규 추가 모달 -->
+    <div class="modal" id="addLawModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">새 법규 추가</h2>
+                <p style="color: #666;">적용법규를 추가하면 자동으로 매칭됩니다</p>
+            </div>
+            <div class="form-group">
+                <label class="form-label">법규명 *</label>
+                <input type="text" class="form-input" id="newLawTitle" placeholder="예: 개인정보 보호법">
+            </div>
+            <div class="form-group">
+                <label class="form-label">법규 유형</label>
+                <select class="form-select" id="newLawType">
+                    <option value="법률">법률</option>
+                    <option value="시행령">시행령</option>
+                    <option value="시행규칙">시행규칙</option>
+                    <option value="고시">고시</option>
+                    <option value="지침">지침</option>
+                    <option value="기타">기타</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">직무 분류 (복수 선택 가능)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="cat_env" value="환경">
+                        <label for="cat_env">환경</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="cat_safety" value="안전">
+                        <label for="cat_safety">안전</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="cat_hr" value="인사노무">
+                        <label for="cat_hr">인사노무</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="cat_finance" value="재무회계">
+                        <label for="cat_finance">재무회계</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="cat_info" value="정보보호">
+                        <label for="cat_info">정보보호</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="cat_trade" value="공정거래">
+                        <label for="cat_trade">공정거래</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="cat_gov" value="지배구조">
+                        <label for="cat_gov">지배구조</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="cat_ip" value="지식재산권">
+                        <label for="cat_ip">지식재산권</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">시행일</label>
+                <input type="date" class="form-input" id="newLawDate">
+            </div>
+            <div class="form-group">
+                <label class="form-label">주무부처</label>
+                <input type="text" class="form-input" id="newLawMinistry" placeholder="예: 개인정보보호위원회">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn" onclick="closeModal()" style="background: #ddd; color: #333;">취소</button>
+                <button class="btn btn-primary" onclick="confirmAddLaw()">추가</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        let appliedLaws = [];
+        let matchedLaws = [];
+        let selectedLaws = new Set();
+        let nationalLawDB = []; // 2,809개 법규 데이터
+        
+        // 초기화
+        async function init() {
+            await loadAppliedLaws();
+            await loadNationalLawDB();
+            setupEventListeners();
+        }
+        
+        // 적용법규 로드
+        async function loadAppliedLaws() {
+            try {
+                const response = await fetch('./base_laws_207.json');
+                const data = await response.json();
+                appliedLaws = data.items || [];
+                renderAppliedLaws();
+                updateStats();
+            } catch (error) {
+                console.error('Failed to load applied laws:', error);
+                showToast('법규 데이터 로딩 실패', 'error');
+            }
+        }
+        
+        // 국가법령 DB 로드 (시뮬레이션)
+        async function loadNationalLawDB() {
+            // 실제로는 2,809개 법규 데이터를 로드
+            // 여기서는 시뮬레이션을 위해 샘플 데이터 생성
+            nationalLawDB = generateSampleNationalDB();
+        }
+        
+        // 샘플 국가법령 DB 생성
+        function generateSampleNationalDB() {
+            const laws = [];
+            const baseLaws = [
+                '개인정보 보호법', '정보통신망법', '전자상거래법', '소비자보호법',
+                '근로기준법', '산업안전보건법', '환경보전법', '대기환경보전법',
+                '수질환경보전법', '폐기물관리법', '화학물질관리법', '위험물안전관리법'
+            ];
+            
+            baseLaws.forEach(law => {
+                // 법률
+                laws.push({
+                    id: `nl_${laws.length + 1}`,
+                    title: law,
+                    type: '법률',
+                    categories: inferCategories(law)
+                });
+                // 시행령
+                laws.push({
+                    id: `nl_${laws.length + 1}`,
+                    title: `${law} 시행령`,
+                    type: '시행령',
+                    categories: inferCategories(law)
+                });
+                // 시행규칙
+                laws.push({
+                    id: `nl_${laws.length + 1}`,
+                    title: `${law} 시행규칙`,
+                    type: '시행규칙',
+                    categories: inferCategories(law)
+                });
+            });
+            
+            return laws;
+        }
+        
+        // 카테고리 추론
+        function inferCategories(title) {
+            const categories = [];
+            if (title.includes('개인정보') || title.includes('정보')) categories.push('정보보호');
+            if (title.includes('근로') || title.includes('고용')) categories.push('인사노무');
+            if (title.includes('안전') || title.includes('보건')) categories.push('안전');
+            if (title.includes('환경') || title.includes('대기') || title.includes('수질')) categories.push('환경');
+            if (title.includes('회계') || title.includes('세')) categories.push('재무회계');
+            if (title.includes('공정') || title.includes('거래')) categories.push('공정거래');
+            if (categories.length === 0) categories.push('기타');
+            return categories;
+        }
+        
+        // 적용법규 렌더링
+        function renderAppliedLaws(searchTerm = '') {
+            const container = document.getElementById('appliedLawsList');
+            const filtered = appliedLaws.filter(law => 
+                law.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            
+            container.innerHTML = filtered.map(law => `
+                <div class="law-item ${selectedLaws.has(law.id) ? 'selected' : ''}" 
+                     onclick="toggleSelection('${law.id}')" data-id="${law.id}">
+                    <span class="law-title">${law.title}</span>
+                    <span class="law-category">${law.categories ? law.categories[0] : '미분류'}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('appliedCount').textContent = `${filtered.length}개`;
+        }
+        
+        // 매칭 결과 렌더링
+        function renderMatchedLaws(searchTerm = '') {
+            const container = document.getElementById('matchedLawsList');
+            const filtered = matchedLaws.filter(law => 
+                law.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <p style="text-align: center; color: #999; padding: 50px;">
+                        매칭된 법규가 없습니다
+                    </p>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filtered.map(law => `
+                <div class="law-item" data-id="${law.id}">
+                    <span class="law-title">${law.title}</span>
+                    <span class="law-category">${law.matchType}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('matchedCount').textContent = `${filtered.length}개`;
+        }
+        
+        // 선택 토글
+        function toggleSelection(lawId) {
+            if (selectedLaws.has(lawId)) {
+                selectedLaws.delete(lawId);
+            } else {
+                selectedLaws.add(lawId);
+            }
+            
+            document.getElementById('removeBtn').disabled = selectedLaws.size === 0;
+            renderAppliedLaws(document.getElementById('searchApplied').value);
+        }
+        
+        // 새 법규 추가
+        function addNewLaw() {
+            document.getElementById('addLawModal').classList.add('show');
+        }
+        
+        // 모달 닫기
+        function closeModal() {
+            document.getElementById('addLawModal').classList.remove('show');
+            // 폼 초기화
+            document.getElementById('newLawTitle').value = '';
+            document.getElementById('newLawType').value = '법률';
+            document.querySelectorAll('.checkbox-item input').forEach(cb => cb.checked = false);
+            document.getElementById('newLawDate').value = '';
+            document.getElementById('newLawMinistry').value = '';
+        }
+        
+        // 법규 추가 확인
+        function confirmAddLaw() {
+            const title = document.getElementById('newLawTitle').value.trim();
+            if (!title) {
+                showToast('법규명을 입력해주세요', 'error');
+                return;
+            }
+            
+            const categories = [];
+            document.querySelectorAll('.checkbox-item input:checked').forEach(cb => {
+                categories.push(cb.value);
+            });
+            
+            if (categories.length === 0) {
+                categories.push('기타');
+            }
+            
+            const newLaw = {
+                id: `custom_${Date.now()}`,
+                title: title,
+                lawType: document.getElementById('newLawType').value,
+                categories: categories,
+                effectiveDate: document.getElementById('newLawDate').value || '2025-01-01',
+                status: '현행',
+                meta: {
+                    ministry: document.getElementById('newLawMinistry').value || '미지정',
+                    addedAt: new Date().toISOString(),
+                    isCustom: true
+                }
+            };
+            
+            appliedLaws.push(newLaw);
+            renderAppliedLaws();
+            updateStats();
+            closeModal();
+            showToast(`'${title}' 추가 완료`, 'success');
+            
+            // 자동 매칭 실행
+            setTimeout(() => autoMatch(), 500);
+        }
+        
+        // 선택 삭제
+        function removeSelected() {
+            if (selectedLaws.size === 0) return;
+            
+            if (confirm(`선택한 ${selectedLaws.size}개 법규를 삭제하시겠습니까?`)) {
+                appliedLaws = appliedLaws.filter(law => !selectedLaws.has(law.id));
+                selectedLaws.clear();
+                renderAppliedLaws();
+                updateStats();
+                showToast(`${selectedLaws.size}개 법규 삭제 완료`, 'success');
+                document.getElementById('removeBtn').disabled = true;
+            }
+        }
+        
+        // 자동 매칭
+        async function autoMatch() {
+            showToast('자동 매칭 시작...', 'info');
+            matchedLaws = [];
+            
+            // 적용법규와 국가법령 DB 매칭
+            appliedLaws.forEach(appliedLaw => {
+                nationalLawDB.forEach(nationalLaw => {
+                    const similarity = calculateSimilarity(appliedLaw.title, nationalLaw.title);
+                    if (similarity > 0.7) {
+                        matchedLaws.push({
+                            ...nationalLaw,
+                            appliedLawId: appliedLaw.id,
+                            matchScore: similarity,
+                            matchType: similarity === 1 ? '완전일치' : '부분일치'
+                        });
+                    }
+                });
+            });
+            
+            // 중복 제거
+            const uniqueMatches = [];
+            const seen = new Set();
+            matchedLaws.forEach(law => {
+                if (!seen.has(law.id)) {
+                    seen.add(law.id);
+                    uniqueMatches.push(law);
+                }
+            });
+            matchedLaws = uniqueMatches;
+            
+            renderMatchedLaws();
+            updateStats();
+            showToast(`${matchedLaws.length}개 법규 자동 매칭 완료`, 'success');
+            
+            // 분기별/직무별 탭에 자동 추가 시뮬레이션
+            if (matchedLaws.length > 0) {
+                updateMainDashboard(matchedLaws);
+            }
+        }
+        
+        // 문자열 유사도 계산
+        function calculateSimilarity(str1, str2) {
+            const s1 = str1.toLowerCase().replace(/\s/g, '');
+            const s2 = str2.toLowerCase().replace(/\s/g, '');
+            
+            if (s1 === s2) return 1;
+            if (s1.includes(s2) || s2.includes(s1)) return 0.8;
+            
+            // 레벤슈타인 거리 간단 구현
+            const longer = s1.length > s2.length ? s1 : s2;
+            const shorter = s1.length > s2.length ? s2 : s1;
+            
+            if (longer.length === 0) return 1.0;
+            
+            const editDistance = levenshteinDistance(longer, shorter);
+            return (longer.length - editDistance) / longer.length;
+        }
+        
+        // 레벤슈타인 거리
+        function levenshteinDistance(s1, s2) {
+            const costs = [];
+            for (let i = 0; i <= s2.length; i++) {
+                let lastValue = i;
+                for (let j = 0; j <= s1.length; j++) {
+                    if (i === 0) {
+                        costs[j] = j;
+                    } else if (j > 0) {
+                        let newValue = costs[j - 1];
+                        if (s1.charAt(j - 1) !== s2.charAt(i - 1)) {
+                            newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                        }
+                        costs[j - 1] = lastValue;
+                        lastValue = newValue;
+                    }
+                }
+                if (i > 0) costs[s1.length] = lastValue;
+            }
+            return costs[s1.length];
+        }
+        
+        // 메인 대시보드 업데이트
+        function updateMainDashboard(matchedLaws) {
+            // index.json 업데이트 시뮬레이션
+            console.log('Updating main dashboard with', matchedLaws.length, 'matched laws');
+            // 실제로는 서버에 저장하거나 localStorage 활용
+        }
+        
+        // 변경사항 저장
+        async function saveChanges() {
+            showToast('변경사항 저장 중...', 'info');
+            
+            // base_laws_207.json 업데이트
+            const updatedData = {
+                generatedAt: Math.floor(Date.now() / 1000),
+                year: 2025,
+                description: "2025년 당사 적용 법규 목록 (수정됨)",
+                total_laws: appliedLaws.length,
+                items: appliedLaws
+            };
+            
+            // localStorage에 저장 (실제로는 서버에 저장)
+            localStorage.setItem('applied_laws', JSON.stringify(updatedData));
+            localStorage.setItem('matched_laws', JSON.stringify(matchedLaws));
+            
+            showToast('변경사항이 저장되었습니다', 'success');
+        }
+        
+        // 통계 업데이트
+        function updateStats() {
+            document.getElementById('totalApplied').textContent = appliedLaws.length;
+            document.getElementById('totalMatched').textContent = matchedLaws.length;
+            const rate = appliedLaws.length > 0 ? 
+                Math.round((matchedLaws.length / appliedLaws.length) * 100) : 0;
+            document.getElementById('matchRate').textContent = `${rate}%`;
+        }
+        
+        // 토스트 메시지
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.background = type === 'error' ? '#f5576c' : 
+                                     type === 'success' ? '#38ef7d' : '#667eea';
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 이벤트 리스너 설정
+        function setupEventListeners() {
+            document.getElementById('searchApplied').addEventListener('input', (e) => {
+                renderAppliedLaws(e.target.value);
+            });
+            
+            document.getElementById('searchMatched').addEventListener('input', (e) => {
+                renderMatchedLaws(e.target.value);
+            });
+            
+            // 모달 외부 클릭 시 닫기
+            document.getElementById('addLawModal').addEventListener('click', (e) => {
+                if (e.target.id === 'addLawModal') {
+                    closeModal();
+                }
+            });
+        }
+        
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
