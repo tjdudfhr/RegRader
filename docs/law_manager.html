@@ -982,27 +982,32 @@
             }
         }
         
-        // 자동 매칭 - 적용법규를 2025년 개정법규(index.json)와 매칭
+        // 자동 매칭 - 적용법규를 2025년 2,809개 개정법규와 매칭
         async function autoMatch() {
             showToast('자동 매칭 시작...', 'info');
             matchedLaws = [];
             
-            // 현재 index.json의 259개가 이미 매칭된 결과
-            // 실제로는 207개 적용법규가 2025년 1809개 개정법규와 매칭되어 259개가 나온 것
-            if (window.indexLawsData && window.indexLawsData.length > 0) {
-                window.indexLawsData.forEach((law, idx) => {
-                    matchedLaws.push({
-                        id: `matched_${idx}`,
-                        title: law.title,
-                        type: law.lawType || '법률',
-                        categories: law.categories || ['기타'],
-                        ministry: law.ministry || '관계부처',
-                        effectiveDate: law.effectiveDate || '2025-01-01',
-                        matchScore: 1.0,
-                        matchType: '완전일치'
-                    });
+            // 현재 적용법규(207개 + 추가된 것)를 2,809개 개정법규(nationalLawDB)와 매칭
+            appliedLaws.forEach(appliedLaw => {
+                // 2,809개 개정법규에서 매칭 찾기
+                nationalLawDB.forEach(nationalLaw => {
+                    // 법규명이 완전히 같으면 100% 매칭
+                    if (appliedLaw.title === nationalLaw.title) {
+                        matchedLaws.push({
+                            id: `matched_${matchedLaws.length}`,
+                            title: nationalLaw.title,
+                            type: nationalLaw.type || '법률',
+                            categories: nationalLaw.categories || appliedLaw.categories || ['기타'],
+                            ministry: nationalLaw.ministry || appliedLaw.ministry || '관계부처',
+                            effectiveDate: nationalLaw.effectiveDate || '2025-01-01',
+                            appliedLawId: appliedLaw.id,
+                            appliedLawTitle: appliedLaw.title,
+                            matchScore: 1.0,
+                            matchType: '완전일치'
+                        });
+                    }
                 });
-            }
+            });
             
             // 법규명 -> 시행일 순으로 정렬
             matchedLaws.sort((a, b) => {
@@ -1073,21 +1078,20 @@
         function updateMainDashboard(matchedLaws) {
             console.log('Updating main dashboard with', matchedLaws.length, 'matched laws');
             
-            // index.json 형식으로 데이터 구성
-            const indexData = {
+            // 매칭된 법규를 localStorage에 저장
+            const matchedData = {
                 generatedAt: Math.floor(Date.now() / 1000),
                 year: 2025,
-                description: "2025년 당사 적용 법규 목록",
-                total_laws: appliedLaws.length,
-                items: appliedLaws
+                description: "2025년 개정법규 매칭 결과",
+                total_laws: matchedLaws.length,
+                items: matchedLaws
             };
             
-            // localStorage에 저장하여 메인 대시보드에서 읽을 수 있도록 함
-            localStorage.setItem('updated_laws_data', JSON.stringify(indexData));
-            localStorage.setItem('laws_updated_flag', 'true');
-            localStorage.setItem('laws_updated_time', new Date().toISOString());
+            // 매칭 결과를 별도로 저장
+            localStorage.setItem('matched_laws_data', JSON.stringify(matchedData));
+            localStorage.setItem('matched_laws_count', matchedLaws.length);
             
-            console.log('Laws data saved to localStorage for main dashboard');
+            console.log(`매칭 결과 저장: ${matchedLaws.length}개 (적용법규 ${appliedLaws.length}개 중)`);
         }
         
         // 변경사항 저장 (localStorage 자동 반영)
