@@ -1772,7 +1772,7 @@
                     </div>
                     <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
                         <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">2,809</div>
+                            <div style="font-size: 2rem; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">2,971</div>
                             <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">전체 개정 법령</div>
                         </div>
                     </div>
@@ -3486,9 +3486,11 @@
                 if (data.items && Array.isArray(data.items)) {
                     console.log('📋 데이터 로드 완료:', data.items.length, '건');
                     lawsData = data.items;
+                    window.lawsData = data.items; // 전역 변수로도 설정
                 } else {
                     console.error('❌ data.items가 배열이 아닙니다:', data.items);
                     lawsData = [];
+                    window.lawsData = [];
                 }
                 
                 filteredLaws = [...lawsData];
@@ -3985,8 +3987,21 @@
         }
 
         function showLawDetail(lawId) {
+            console.log('🔍 showLawDetail called with lawId:', lawId);
+            console.log('📁 lawsData length:', lawsData ? lawsData.length : 'undefined');
+            
+            if (!lawsData || lawsData.length === 0) {
+                console.error('⚠️ lawsData is empty or undefined!');
+                alert('법령 데이터를 로드하는 중입니다. 잠시 후 다시 시도해주세요.');
+                return;
+            }
+            
             const item = lawsData.find(law => law.id === lawId);
-            if (!item) return;
+            if (!item) {
+                console.error('❌ Law not found with id:', lawId);
+                return;
+            }
+            console.log('✅ Found law item:', item);
 
             document.getElementById('modal-title').textContent = item.title || '법령 제목';
             document.getElementById('modal-subtitle').textContent = 
