@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RegRader · AI를 활용한 법규 개정 모니터링 시스템</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
     <!-- PWA 설정 -->
@@ -1781,15 +1784,15 @@
                     </div>
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
                         <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="total-law-count">259</div>
+                            <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="total-law-count">276</div>
                             <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 매칭 법규</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">200</div>
+                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">255</div>
                             <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행완료</div>
                         </div>
                         <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb;" id="amendment-law-count">59</div>
+                            <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb;" id="amendment-law-count">21</div>
                             <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행예정</div>
                         </div>
                     </div>
@@ -2073,13 +2076,13 @@
                             <div>
                                 <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
                                     <span style="font-size: 1.5rem;">📊</span>
-                                    2025년 전체 법령 (2,809개)
+                                    2025년 전체 법령 (2,971개)
                                 </h3>
                                 <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
                                     2025년 국가법령정보센터에서 수집한 모든 개정 법령
                                 </p>
                                 <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
-                                    <strong>파일명:</strong> 2025_Laws_Complete.xlsx
+                                    <strong>파일명:</strong> 2025_laws_complete.xlsx
                                 </p>
                             </div>
                             <span style="font-size: 2rem; color: var(--primary);">⬇</span>
@@ -2092,13 +2095,13 @@
                             <div>
                                 <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
                                     <span style="font-size: 1.5rem;">🎯</span>
-                                    매칭 결과 (259개)
+                                    매칭 결과 (276건)
                                 </h3>
                                 <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
-                                    당사 207개 기본 법규와 100% 정확 매칭된 개정 법령
+                                    당사 207개 중 121개 법규와 100% 정확 매칭된 2025년 법령
                                 </p>
                                 <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
-                                    <strong>파일명:</strong> 매칭결과_259.xlsx
+                                    <strong>파일명:</strong> matched_laws_2025.xlsx
                                 </p>
                             </div>
                             <span style="font-size: 2rem; color: var(--success);">⬇</span>
@@ -2416,27 +2419,27 @@
 
     <script>
     
-        // 2025년 100% 정확한 매칭 된 259개 법규
+        // 2025년 100% 정확한 매칭 된 276건 법규 (121개 기본법규)
         const matched2025LawData = {
-            "total_laws": 259,
-            "matched_2025": 92,
-            "matching_rate": 44.4,
+            "total_laws": 276,
+            "matched_base_laws": 121,
+            "matching_rate": 58.5,
             "description": "2025년 실제 시행 매칭 법규",
             "by_quarter": {
-                "Q1": 10,
-                "Q2": 28,
-                "Q3": 40,
+                "Q1": 134,
+                "Q2": 61,
+                "Q3": 67,
                 "Q4": 14
             },
             "by_category": {
-                "환경": 30,
-                "인사노무": 9,
-                "안전": 21,
-                "재무회계": 15,
-                "정보보호": 7,
-                "공정거래": 3,
-                "지식재산권": 4,
-                "지배구조": 3
+                "환경": 105,
+                "재무회계": 61,
+                "안전": 56,
+                "인사노무": 23,
+                "정보보호": 13,
+                "공정거래": 7,
+                "지배구조": 6,
+                "지식재산권": 5
             },
             "coverage": "100% 정확한 제목 매칭",
             "source": "국가법령정보센터 2025년 실제 데이터"
@@ -2456,11 +2459,11 @@
             // 2025년 실제 매칭 데이터 사용
             const quarterCounts = matched2025LawData.by_quarter;
             
-            // 각 분기 박스의 수치 업데이트 (실제 분석 데이터)
-            document.querySelector('#q1-count').textContent = 119;
-            document.querySelector('#q2-count').textContent = 61;
-            document.querySelector('#q3-count').textContent = 64;
-            document.querySelector('#q4-count').textContent = 15;
+            // 각 분기 박스의 수치 업데이트 (실제 276건 매칭 데이터)
+            document.querySelector('#q1-count').textContent = quarterCounts.Q1; // 134
+            document.querySelector('#q2-count').textContent = quarterCounts.Q2; // 61
+            document.querySelector('#q3-count').textContent = quarterCounts.Q3; // 67
+            document.querySelector('#q4-count').textContent = quarterCounts.Q4; // 14
             
             console.log('✅ 100% 정확한 분기별 데이터 업데이트 완료:', quarterCounts);
         }
@@ -3398,25 +3401,40 @@
             try {
                 let data;
                 
-                // 1. localStorage에서 업데이트된 법규 데이터 확인
-                const updatedFlag = localStorage.getItem('laws_updated_flag');
-                const updatedData = localStorage.getItem('updated_laws_data');
+                // 1. 매칭된 2025년 데이터 우선 시도
+                try {
+                    const matchedResponse = await fetch('./matched_index_2025.json');
+                    if (matchedResponse.ok) {
+                        data = await matchedResponse.json();
+                        console.log('✅ 2025년 매칭 데이터 로드:', data.total_laws, '건');
+                        console.log('  - 매칭된 기본법규:', data.matched_base_laws, '개');
+                    }
+                } catch (e) {
+                    console.log('📄 매칭 데이터 없음, 기본 데이터 사용');
+                }
                 
-                if (updatedFlag === 'true' && updatedData) {
-                    console.log('Loading updated laws from localStorage...');
-                    try {
-                        data = JSON.parse(updatedData);
-                        console.log('Updated data loaded:', data.items ? data.items.length : 0, '개');
-                    } catch (e) {
-                        console.error('Failed to parse localStorage data:', e);
-                        data = null;
+                // 2. localStorage에서 업데이트된 법규 데이터 확인 (폴백)
+                if (!data) {
+                    const updatedFlag = localStorage.getItem('laws_updated_flag');
+                    const updatedData = localStorage.getItem('updated_laws_data');
+                    
+                    if (updatedFlag === 'true' && updatedData) {
+                        console.log('Loading updated laws from localStorage...');
+                        try {
+                            data = JSON.parse(updatedData);
+                            console.log('Updated data loaded:', data.items ? data.items.length : 0, '개');
+                        } catch (e) {
+                            console.error('Failed to parse localStorage data:', e);
+                            data = null;
+                        }
                     }
                 }
                 
-                // 2. localStorage에 없으면 index.json에서 로드
+                // 2. localStorage에 없으면 index.json에서 로드 (캐시 방지)
                 if (!data) {
+                    const version = new Date().getTime();
                     console.log('Loading data from ./index.json...');
-                    const response = await fetch('./index.json');
+                    const response = await fetch(`./index.json?v=${version}`);
                     
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
@@ -3450,18 +3468,18 @@
                 updateQuarterlyCounts();
                 updateJobFunctionCounts();
                 
-                // 66개 정확한 약칭 매칭 결과로 업데이트 (최종 선택) - 비활성화 (실제 데이터 사용)
-                // updateWith2025MatchedData();
+                // 실제 276건 매칭 데이터로 업데이트
+                updateQuarterlyDataWithFinalPrecise(); // 분기별 데이터 업데이트
                 updateJobFunctionDataWithCompanyLaws();
                 updateMainDashboardWithCompanyLaws();
                 
                 // 정확한 법령 상세 데이터 로드
                 // 66개 약칭 매칭 데이터를 사용하여 단순화
                 
-                // 전체 법규 개수 업데이트 (실제 분석 데이터 기반)
+                // 전체 법규 개수 업데이트 (276건 매칭 데이터)
                 const totalLawCountElement = document.getElementById('total-law-count');
                 if (totalLawCountElement) {
-                    totalLawCountElement.textContent = 259; // 우리 회사 적용법규 259개
+                    totalLawCountElement.textContent = matched2025LawData.total_laws; // 276건
                 }
                 
                 // 2025년 법규 분류 및 개수 업데이트
@@ -3481,12 +3499,12 @@
                         
                         console.log('📊 92개 매칭 법규 로드 완료:', all92Laws.length);
                         
-                        // 시행 완료/예정 현황 (8월 29일 기준 실제 분석)
+                        // 시행 완료/예정 현황 (9월 4일 기준 실제 분석)
                         const implementedLawCountElement = document.getElementById('implemented-law-count');
                         if (implementedLawCountElement) {
-                            // Q1(119) + Q2(61) + Q3 8월까지(20) = 200개 (시행완료)
-                            implementedLawCountElement.textContent = 200;
-                            console.log('✅ 시행완료 (8/29 기준):', 200);
+                            // 실제 계산된 값: 255개 (시행완료)
+                            implementedLawCountElement.textContent = 255;
+                            console.log('✅ 시행완료 (9/4 기준):', 255);
                         }
                         
                         const amendmentLawCountElement = document.getElementById('amendment-law-count');
@@ -4455,73 +4473,28 @@
         
         // 전체 법령 다운로드
         function downloadAllLaws() {
-            // 전체 2,809개 법령 데이터 생성 (샘플)
-            const allLawsData = [];
-            
-            // 실제 매칭된 259개 데이터 먼저 추가
-            fetch('./index.json')
-                .then(response => response.json())
-                .then(data => {
-                    // 매칭된 데이터 추가
-                    data.items.forEach(law => {
-                        allLawsData.push({
-                            '번호': allLawsData.length + 1,
-                            '법령명': law.title,
-                            '시행일': law.effectiveDate || '',
-                            '직무': law.categories ? law.categories.join(', ') : '',
-                            '부처': law.ministry || getMinistryName(law.title, law.categories) || '',
-                            '법령유형': law.lawType || '일부개정',
-                            '매칭여부': 'O'
-                        });
-                    });
-                    
-                    // 나머지 2,550개 샘플 데이터 생성
-                    const sampleLaws = [
-                        '행정절차법', '행정심판법', '민원 처리에 관한 법률', '전자정부법', '공공기관의 정보공개에 관한 법률',
-                        '부패방지 및 국민권익위원회의 설치와 운영에 관한 법률', '공익신고자 보호법', '청탁금지법',
-                        '국가계약법', '지방계약법', '조달사업에 관한 법률', '중소기업제품 구매촉진 및 판로지원에 관한 법률',
-                        '건설산업기본법', '건설기술 진흥법', '건축법', '건축기본법', '주택법', '도시개발법',
-                        '국토의 계획 및 이용에 관한 법률', '산업입지 및 개발에 관한 법률'
-                    ];
-                    
-                    const ministries = ['기획재정부', '행정안전부', '산업통상자원부', '보건복지부', '국토교통부', '과학기술정보통신부'];
-                    const lawTypes = ['일부개정', '전부개정', '제정', '시행령', '시행규칙'];
-                    const categories = ['기타', '행정', '조달', '건설', '산업', '복지'];
-                    
-                    // 2,550개 추가 데이터 생성
-                    while (allLawsData.length < 2809) {
-                        const randomLaw = sampleLaws[Math.floor(Math.random() * sampleLaws.length)];
-                        const randomMinistry = ministries[Math.floor(Math.random() * ministries.length)];
-                        const randomType = lawTypes[Math.floor(Math.random() * lawTypes.length)];
-                        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-                        const randomMonth = Math.floor(Math.random() * 12) + 1;
-                        const randomDay = Math.floor(Math.random() * 28) + 1;
-                        
-                        allLawsData.push({
-                            '번호': allLawsData.length + 1,
-                            '법령명': `${randomLaw} ${randomType === '시행령' ? '시행령' : randomType === '시행규칙' ? '시행규칙' : ''}`.trim(),
-                            '시행일': `2025-${String(randomMonth).padStart(2, '0')}-${String(randomDay).padStart(2, '0')}`,
-                            '직무': randomCategory,
-                            '부처': randomMinistry,
-                            '법령유형': randomType,
-                            '매칭여부': 'X'
-                        });
-                    }
-                    
-                    // Excel 파일 생성
-                    const ws = XLSX.utils.json_to_sheet(allLawsData);
-                    const wb = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(wb, ws, '2025년_전체법령');
-                    XLSX.writeFile(wb, '2025_Laws_Complete.xlsx');
-                })
-                .catch(error => {
-                    console.error('Failed to generate complete laws:', error);
-                    alert('데이터 생성 중 오류가 발생했습니다.');
-                });
+            // 실제 2025년 전체 법령 파일 다운로드
+            const link = document.createElement('a');
+            link.href = './2025_laws_complete.xlsx';
+            link.download = '2025_laws_complete.xlsx';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
         
         // 매칭 결과 다운로드
         function downloadMatchedLaws() {
+            // 실제 매칭 결과 파일 다운로드
+            const link = document.createElement('a');
+            link.href = './matched_laws_2025.xlsx';
+            link.download = 'matched_laws_2025.xlsx';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        // 기존 매칭 함수 백업 (필요시 사용)
+        function downloadMatchedLawsOld() {
             // lawsData가 없으면 index.json 로드
             if (!window.lawsData || lawsData.length === 0) {
                 fetch('./index.json')
@@ -4546,7 +4519,6 @@
                     });
             } else {
                 const data = lawsData.map(law => ({
-                    '법령명': law.title,
                     '시행일': law.effectiveDate,
                     '직무': law.categories ? law.categories.join(', ') : '',
                     '부처': law.ministry || '',
