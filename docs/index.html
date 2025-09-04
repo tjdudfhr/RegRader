@@ -15,42 +15,61 @@
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="./icon-192.png">
     
-    <!-- 모바일 기기 감지 및 자동 리다이렉션 -->
+    <!-- 모바일 기기 감지 및 선택적 리다이렉션 -->
     <script>
         (function() {
             // 강제로 PC 버전을 원하는 경우 체크
             var urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('desktop') === 'true' || localStorage.getItem('forceDesktop') === 'true') {
+                console.log('Force desktop mode enabled');
+                return;
+            }
+            
+            // 이미 모바일 페이지에서 왔는지 확인 (무한 루프 방지)
+            if (document.referrer && document.referrer.includes('mobile_v2.html')) {
+                console.log('User came from mobile version, staying on desktop');
+                localStorage.setItem('forceDesktop', 'true');
                 return;
             }
             
             // 모바일 기기 감지
             var isMobile = false;
             
-            // 1. User Agent 체크 (가장 신뢰할 수 있는 방법)
-            var mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS|FxiOS|EdgiOS|SamsungBrowser/i;
-            if (mobileRegex.test(navigator.userAgent)) {
-                isMobile = true;
-                console.log('Mobile detected by User Agent');
+            // 1. User Agent 체크 - 더 엄격한 모바일 체크
+            var mobileOnlyRegex = /Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i;
+            var tabletRegex = /iPad|Android.*tablet|tablet.*Android/i;
+            
+            // 태블릿은 PC 버전으로 보내기
+            if (tabletRegex.test(navigator.userAgent)) {
+                console.log('Tablet detected, staying on desktop version');
+                return;
             }
             
-            // 2. 화면 크기 체크 (768px 이하) - User Agent와 함께 사용
-            if (window.innerWidth <= 768 && window.innerHeight <= 1024) {
+            // 모바일 폰만 모바일 버전으로
+            if (mobileOnlyRegex.test(navigator.userAgent)) {
                 isMobile = true;
-                console.log('Mobile detected by screen size');
+                console.log('Mobile phone detected by User Agent');
             }
             
-            // 3. 터치 지원과 화면 크기 조합
+            // 2. 화면 크기 체크 - 더 엄격하게 (600px 이하만)
+            if (!isMobile && window.innerWidth <= 600) {
+                isMobile = true;
+                console.log('Small screen detected (<=600px)');
+            }
+            
+            // 3. 터치 지원과 화면 크기 조합 - 더 엄격하게
             var hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-            if (hasTouch && window.innerWidth <= 768) {
+            if (!isMobile && hasTouch && window.innerWidth <= 600 && window.orientation !== undefined) {
                 isMobile = true;
-                console.log('Mobile detected by touch + screen size');
+                console.log('Mobile detected by touch + small screen + orientation');
             }
             
             // 모바일이면 리디렉션
             if (isMobile) {
                 console.log('Redirecting to mobile version...');
-                window.location.href = './mobile_v2.html';
+                // 한 번만 리다이렉트되도록 플래그 설정
+                sessionStorage.setItem('mobileRedirected', 'true');
+                window.location.replace('./mobile_v2.html');
             }
         })();
     </script>

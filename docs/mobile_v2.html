@@ -1124,67 +1124,67 @@
     <!-- 적용법규 탭 -->
     <div class="tab-content" id="registry-tab">
         <div class="search-section">
-            <input type="text" class="search-input" placeholder="276개 매칭 법규 검색..." onkeyup="searchLaws(this.value)" onfocus="this.select()">
+            <input type="text" class="search-input" placeholder="207개 기본 법규 검색..." onkeyup="searchLaws(this.value)" onfocus="this.select()">
         </div>
         <div class="job-section">
             <div class="section-title">
                 <span>📚</span>
-                <span>276개 매칭 적용법규</span>
+                <span><span id="registry-total-count">207</span>개 당사 적용법규</span>
             </div>
             <div class="job-grid">
                 <div class="job-card" onclick="showRegistryCategory('환경')">
                     <div class="job-icon-wrapper job-env">🌱</div>
                     <div class="job-name">환경</div>
-                    <div class="job-count">65</div>
+                    <div class="job-count" id="registry-count-환경">0</div>
                     <div class="job-label">기본 법규</div>
                 </div>
                 
                 <div class="job-card" onclick="showRegistryCategory('안전')">
                     <div class="job-icon-wrapper job-safety">🛡️</div>
                     <div class="job-name">안전</div>
-                    <div class="job-count">41</div>
+                    <div class="job-count" id="registry-count-안전">0</div>
                     <div class="job-label">기본 법규</div>
                 </div>
                 
                 <div class="job-card" onclick="showRegistryCategory('인사노무')">
                     <div class="job-icon-wrapper job-hr">👥</div>
                     <div class="job-name">인사노무</div>
-                    <div class="job-count">41</div>
-                    <div class="job-label">기본 법규</div>
+                    <div class="job-count" id="registry-count-인사노무">0</div>
+                    <div class="job-label">기본 법귍</div>
                 </div>
                 
                 <div class="job-card" onclick="showRegistryCategory('재무회계')">
                     <div class="job-icon-wrapper job-fin">💰</div>
                     <div class="job-name">재무회계</div>
-                    <div class="job-count">19</div>
+                    <div class="job-count" id="registry-count-재무회계">0</div>
                     <div class="job-label">기본 법규</div>
                 </div>
                 
                 <div class="job-card" onclick="showRegistryCategory('정보보호')">
                     <div class="job-icon-wrapper job-info">🔒</div>
                     <div class="job-name">정보보호</div>
-                    <div class="job-count">16</div>
+                    <div class="job-count" id="registry-count-정보보호">0</div>
                     <div class="job-label">기본 법규</div>
                 </div>
                 
                 <div class="job-card" onclick="showRegistryCategory('공정거래')">
                     <div class="job-icon-wrapper job-fair">⚖️</div>
                     <div class="job-name">공정거래</div>
-                    <div class="job-count">11</div>
+                    <div class="job-count" id="registry-count-공정거래">0</div>
                     <div class="job-label">기본 법규</div>
                 </div>
                 
                 <div class="job-card" onclick="showRegistryCategory('지배구조')">
                     <div class="job-icon-wrapper job-gov">🏛️</div>
                     <div class="job-name">지배구조</div>
-                    <div class="job-count">7</div>
+                    <div class="job-count" id="registry-count-지배구조">0</div>
                     <div class="job-label">기본 법규</div>
                 </div>
                 
                 <div class="job-card" onclick="showRegistryCategory('지식재산권')">
                     <div class="job-icon-wrapper job-ip">💡</div>
                     <div class="job-name">지식재산권</div>
-                    <div class="job-count">7</div>
+                    <div class="job-count" id="registry-count-지식재산권">0</div>
                     <div class="job-label">기본 법규</div>
                 </div>
             </div>
@@ -1257,12 +1257,25 @@
         let baseLawsData = [];
         
         // 페이지 로드 시 데이터 가져오기
+        // localStorage 청소 함수 (잘못된 데이터 방지)
+        function clearLawsLocalStorage() {
+            localStorage.removeItem('laws_updated_flag');
+            localStorage.removeItem('applied_laws');
+            localStorage.removeItem('updated_laws_data');
+            console.log('✅ localStorage에서 법규 관련 데이터 삭제 완료');
+        }
+        
         document.addEventListener('DOMContentLoaded', async function() {
-            await loadLawsData();
-            await loadBaseLaws();
-            updateAllCounts();
+            // localStorage 청소 (잘못된 데이터 방지)
+            clearLawsLocalStorage();
+            
+            // 데이터 로드
+            await loadLawsData();  // 276개 매칭 법규 (index.json)
+            await loadBaseLaws();  // 207개 기본 법규 (base_laws_207.json)
+            await updateAllCounts();  // quarterly_details.json에서 최신 데이터 로드
             updateWeeklyLaws();
             updateWeekInfo();
+            updateRegistryCounts();  // 적용법규 탭 카운트 업데이트
         });
         
         // 이번주 정보 업데이트
@@ -1351,20 +1364,35 @@
             }
         }
         
-        // 276개 매칭 법규 데이터 로드
+        // 207개 기본 법규 데이터 로드 (적용법규 탭용)
         async function loadBaseLaws() {
             try {
-                const response = await fetch('./index.json');  // 최신 매칭 데이터 사용
+                // ALWAYS load from base_laws_207.json for 적용법규 tab
+                const response = await fetch('./base_laws_207.json');
                 const data = await response.json();
                 baseLawsData = data.items || [];
-                console.log('Loaded', baseLawsData.length, 'base laws');
+                console.log('📊 적용법규 탭: 기본 법규 데이터(base_laws_207.json)', baseLawsData.length, '개 로드');
             } catch (error) {
                 console.error('Failed to load base laws:', error);
             }
         }
         
-        // 모든 카운트 업데이트
-        function updateAllCounts() {
+        // 모든 카운트 업데이트 (quarterly_details.json 사용)
+        async function updateAllCounts() {
+            // quarterly_details.json에서 최신 데이터 로드
+            try {
+                const response = await fetch('./quarterly_details.json');
+                const quarterlyData = await response.json();
+                
+                // quarterly_details.json의 items 사용 (276개 매칭 법규)
+                if (quarterlyData.items && quarterlyData.items.length > 0) {
+                    lawsData = quarterlyData.items;
+                    console.log('📊 quarterly_details.json에서', lawsData.length, '개 매칭 법규 로드');
+                }
+            } catch (error) {
+                console.error('quarterly_details.json 로드 실패:', error);
+            }
+            
             if (lawsData.length === 0) return;
             
             // 분기별 카운트 계산
@@ -1461,6 +1489,55 @@
             
             // TOP 3 직무별 개정 현황 업데이트
             updateTop3Categories(categoryCounts);
+            
+            // 적용법규 탭 카운트 업데이트 (207개 기본 법규 기준)
+            if (baseLawsData.length > 0) {
+                updateRegistryCounts();
+            }
+        }
+        
+        // 적용법규 탭 카운트 업데이트 함수 (207개 기본 법규 기준)
+        function updateRegistryCounts() {
+            if (baseLawsData.length === 0) return;
+            
+            // 카테고리별 카운트 계산
+            const categoryCounts = {
+                "환경": 0,
+                "인사노무": 0,
+                "안전": 0,
+                "재무회계": 0,
+                "정보보호": 0,
+                "공정거래": 0,
+                "지식재산권": 0,
+                "지배구조": 0
+            };
+            
+            baseLawsData.forEach(law => {
+                if (law.categories && law.categories.length > 0) {
+                    law.categories.forEach(category => {
+                        if (categoryCounts.hasOwnProperty(category)) {
+                            categoryCounts[category]++;
+                        }
+                    });
+                }
+            });
+            
+            // 각 직무별 카운트 UI 업데이트
+            Object.keys(categoryCounts).forEach(category => {
+                const countElement = document.getElementById(`registry-count-${category}`);
+                if (countElement) {
+                    countElement.textContent = categoryCounts[category];
+                }
+            });
+            
+            // 전체 카운트 업데이트
+            const totalElement = document.getElementById('registry-total-count');
+            if (totalElement) {
+                totalElement.textContent = baseLawsData.length;
+            }
+            
+            console.log('✅ 적용법규 탭 카운트 업데이트 완료 - 총', baseLawsData.length, '개 (207개 기본 법규)');
+            console.log('카테고리별:', categoryCounts);
         }
         
         // TOP 3 카테고리 동적 업데이트 함수
@@ -1527,8 +1604,14 @@
             document.getElementById(tabName + '-tab').style.display = 'block';
             
             // 적용법규 탭이면 데이터 로드
-            if (tabName === 'registry' && baseLawsData.length === 0) {
-                loadBaseLaws();
+            if (tabName === 'registry') {
+                if (baseLawsData.length === 0) {
+                    loadBaseLaws().then(() => {
+                        updateRegistryCounts();
+                    });
+                } else {
+                    updateRegistryCounts();
+                }
             }
         }
         
