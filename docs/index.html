@@ -7,6 +7,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <meta name="cache-version" content="2025.09.04.001">
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
     <!-- PWA 설정 -->
@@ -1717,6 +1718,12 @@
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
             </button>
+            <button class="settings-btn" onclick="openSettingsModal()" title="메일 발송 설정">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </button>
             <div class="header-content">
                 <h1>RegRader</h1>
                 <div class="subtitle">AI를 활용한 법규 개정 모니터링 시스템</div>
@@ -2418,6 +2425,23 @@
     </div>
 
     <script>
+        // 캐시 버전 확인 및 자동 리로드 (최초 1회만)
+        (function() {
+            const CACHE_VERSION = '2025.09.04.002';
+            const storedVersion = localStorage.getItem('cache_version');
+            
+            if (storedVersion !== CACHE_VERSION) {
+                localStorage.setItem('cache_version', CACHE_VERSION);
+                // 캐시 클리어 및 리로드
+                if ('caches' in window) {
+                    caches.keys().then(names => {
+                        names.forEach(name => caches.delete(name));
+                    });
+                }
+                // 페이지 리로드 (새로고침)
+                window.location.reload(true);
+            }
+        })();
     
         // 2025년 100% 정확한 매칭 된 276건 법규 (121개 기본법규)
         const matched2025LawData = {
@@ -3401,10 +3425,17 @@
             try {
                 let data;
                 
-                // 1. 매칭된 2025년 데이터 우선 시도 (캐시 방지)
+                // 1. 매칭된 2025년 데이터 우선 시도 (강력한 캐시 방지)
                 const version = new Date().getTime();
+                const cacheBuster = Math.random().toString(36).substring(7);
                 try {
-                    const matchedResponse = await fetch(`./matched_index_2025.json?v=${version}`);
+                    const matchedResponse = await fetch(`./matched_index_2025.json?v=${version}&cb=${cacheBuster}`, {
+                        cache: 'no-store',
+                        headers: {
+                            'Cache-Control': 'no-cache',
+                            'Pragma': 'no-cache'
+                        }
+                    });
                     if (matchedResponse.ok) {
                         data = await matchedResponse.json();
                         console.log('✅ 2025년 매칭 데이터 로드:', data.total_laws, '건');
@@ -3431,11 +3462,18 @@
                     }
                 }
                 
-                // 2. localStorage에 없으면 index.json에서 로드 (캐시 방지)
+                // 2. localStorage에 없으면 index.json에서 로드 (강력한 캐시 방지)
                 if (!data) {
                     const version = new Date().getTime();
+                    const cacheBuster = Math.random().toString(36).substring(7);
                     console.log('Loading data from ./index.json...');
-                    const response = await fetch(`./index.json?v=${version}`);
+                    const response = await fetch(`./index.json?v=${version}&cb=${cacheBuster}`, {
+                        cache: 'no-store',
+                        headers: {
+                            'Cache-Control': 'no-cache',
+                            'Pragma': 'no-cache'
+                        }
+                    });
                     
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
