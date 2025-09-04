@@ -2121,13 +2121,13 @@
                             <div>
                                 <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
                                     <span style="font-size: 1.5rem;">📚</span>
-                                    기본 적용법규 (207개)
+                                    매칭된 적용법규 (276개)
                                 </h3>
                                 <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
-                                    당사가 관리하고 있는 기본 적용 법규 목록
+                                    2025년 시행 법규와 매칭된 적용법규 목록 (최신)
                                 </p>
                                 <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
-                                    <strong>파일명:</strong> 기본적용법규_207.xlsx
+                                    <strong>파일명:</strong> 매칭법규_276.xlsx
                                 </p>
                             </div>
                             <span style="font-size: 2rem; color: var(--warning);">⬇</span>
@@ -4504,14 +4504,15 @@
                     }
                 }
                 
-                // localStorage에 없거나 파싱 실패 시 base_laws_207.json 로드
+                // 최신 index.json 사용 (276개 매칭된 법규)
                 if (!data) {
-                    const response = await fetch('./base_laws_207.json');
+                    const response = await fetch('./index.json');
                     data = await response.json();
+                    console.log('📊 최신 매칭된 법규 데이터(index.json) 사용');
                 }
                 
                 baseLawsData = data.items || [];
-                console.log(`✅ ${baseLawsData.length}개 기본 법규 로드 완료`);
+                console.log(`✅ ${baseLawsData.length}개 적용법규 로드 완료 (최신 데이터)`);
                 
                 // 적용법규 탭 카운트 업데이트
                 updateRegistryTabCounts();
@@ -4789,7 +4790,7 @@
                     // Excel 파일 생성
                     const ws = XLSX.utils.json_to_sheet(excelData);
                     const wb = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(wb, ws, '기본적용법규_207');
+                    XLSX.utils.book_append_sheet(wb, ws, '매칭법규_276');
                     
                     // 컬럼 너비 조정
                     const colWidths = [
@@ -4802,7 +4803,7 @@
                     ];
                     ws['!cols'] = colWidths;
                     
-                    XLSX.writeFile(wb, '기본적용법규_207.xlsx');
+                    XLSX.writeFile(wb, '매칭법규_276.xlsx');
                 })
                 .catch(error => {
                     console.error('Download error:', error);

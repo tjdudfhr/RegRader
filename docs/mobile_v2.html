@@ -924,7 +924,7 @@
                         <span class="stat-icon">🎯</span>
                         <div>
                             <div class="stat-title">당사 적용 법규 매칭 현황</div>
-                            <div class="stat-subtitle">207개 기본 법규 중 매칭 결과</div>
+                            <div class="stat-subtitle">2025년 시행 법규 매칭 결과</div>
                         </div>
                     </div>
                 </div>
@@ -1116,12 +1116,12 @@
     <!-- 적용법규 탭 -->
     <div class="tab-content" id="registry-tab">
         <div class="search-section">
-            <input type="text" class="search-input" placeholder="207개 기본 법규 검색..." onkeyup="searchLaws(this.value)" onfocus="this.select()">
+            <input type="text" class="search-input" placeholder="276개 매칭 법규 검색..." onkeyup="searchLaws(this.value)" onfocus="this.select()">
         </div>
         <div class="job-section">
             <div class="section-title">
                 <span>📚</span>
-                <span>207개 기본 적용법규</span>
+                <span>276개 매칭 적용법규</span>
             </div>
             <div class="job-grid">
                 <div class="job-card" onclick="showRegistryCategory('환경')">
@@ -1343,10 +1343,10 @@
             }
         }
         
-        // 207개 기본 법규 데이터 로드
+        // 276개 매칭 법규 데이터 로드
         async function loadBaseLaws() {
             try {
-                const response = await fetch('./base_laws_207.json');
+                const response = await fetch('./index.json');  // 최신 매칭 데이터 사용
                 const data = await response.json();
                 baseLawsData = data.items || [];
                 console.log('Loaded', baseLawsData.length, 'base laws');
@@ -1889,12 +1889,12 @@
                     </div>
                     <div class="law-item" onclick="alert('PC 버전에서 다운로드 가능합니다')">
                         <div class="law-header">
-                            <div class="law-title">기본 적용법규 (207개)</div>
+                            <div class="law-title">매칭 적용법규 (276개)</div>
                             <span class="law-link-icon">📄</span>
                         </div>
                         <div class="law-meta">
                             <span class="law-badge badge-type">JSON</span>
-                            <span>base_laws_207.json</span>
+                            <span>매칭법규_276.json</span>
                         </div>
                     </div>
                 </div>
