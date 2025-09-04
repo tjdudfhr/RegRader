@@ -2786,7 +2786,7 @@
                 }
 
                 return `
-                    <div class="law-item" onclick="showLawDetail('${item.id}')" style="cursor: pointer;">
+                    <div class="law-item" onclick="window.showLawDetail('${item.id}')" style="cursor: pointer;">
                         <div class="law-item-header">
                             <div class="law-title">${item.title || '제목 없음'}</div>
                             <div class="date-badge ${dateClass}">${dateText}</div>
@@ -2995,7 +2995,7 @@
 
                 // Use showLawDetail function with the item.id
                 return `
-                    <div class="law-item" onclick="showLawDetail('${item.id}')" style="cursor: pointer;">
+                    <div class="law-item" onclick="window.showLawDetail('${item.id}')" style="cursor: pointer;">
                         <div class="law-item-header">
                             <div class="law-title">${item.title || '제목 없음'}</div>
                             <div class="date-badge ${dateClass}">${dateText}</div>
@@ -3364,6 +3364,24 @@
             initializeFilters();
             initializeSearch();
             updateTodayDate();
+            
+            // 법규 클릭 이벤트 위임 처리 (모든 law-item에 대해)
+            document.addEventListener('click', function(e) {
+                const lawItem = e.target.closest('.law-item[onclick*="showLawDetail"]');
+                if (lawItem) {
+                    e.preventDefault();
+                    const onclickAttr = lawItem.getAttribute('onclick');
+                    const match = onclickAttr.match(/showLawDetail\(['"]([^'"]+)['"]\)/);
+                    if (match && match[1]) {
+                        console.log('🎯 Law item clicked, ID:', match[1]);
+                        if (typeof window.showLawDetail === 'function') {
+                            window.showLawDetail(match[1]);
+                        } else {
+                            console.error('❌ showLawDetail function not found!');
+                        }
+                    }
+                }
+            });
         });
         
         function updateTodayDate() {
@@ -3879,7 +3897,7 @@
                 return `
                     <div class="law-item">
                         <div class="law-item-header">
-                            <div class="law-title" onclick="showLawDetail('${item.id}')">${item.title || '제목 없음'}</div>
+                            <div class="law-title" onclick="window.showLawDetail('${item.id}')">${item.title || '제목 없음'}</div>
                             <div class="date-badge ${dateClass}">${dateText}</div>
                         </div>
                         <div class="law-meta">
