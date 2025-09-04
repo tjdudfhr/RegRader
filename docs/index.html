@@ -4186,13 +4186,34 @@
         }
         
         function generateAmendmentReason(item) {
+            // 개정유형 확인
+            const amendmentType = item.amendments?.[0]?.amendmentType || 
+                                 item.amendments?.[0]?.reason || 
+                                 '일부개정';
+            
+            // 개정유형이 단순한 경우 (일부개정, 타법개정, 제정, 전부개정)
+            if (['일부개정', '타법개정', '제정', '전부개정'].includes(amendmentType)) {
+                const ministry = item.ministry || item.meta?.ministry || '관련 부처';
+                return `
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                        <p style="margin: 0 0 10px 0;"><strong>${ministry}</strong>에서 「${item.title}」을 <strong>${amendmentType}</strong>하였습니다.</p>
+                        ${item.amendments?.[0]?.mainContents ? 
+                          `<ul style="margin: 10px 0 0 0; padding-left: 20px; color: #495057;">
+                            ${item.amendments[0].mainContents.map(content => 
+                              `<li>${content}</li>`
+                            ).join('')}
+                          </ul>` : ''}
+                    </div>
+                `;
+            }
+            
             // 실제 개정 이유가 있고 상세한 경우에만 사용 (50자 이상의 상세한 설명)
             if (item.amendments && item.amendments.length > 0 && item.amendments[0].reason 
                 && item.amendments[0].reason.length > 50) {
                 const ministry = item.ministry || item.meta?.ministry || '관련 부처';
                 return `
                     <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
-                        <p style="margin: 0 0 10px 0;"><strong>${ministry}</strong>에서 「${item.title}」을 개정하였습니다.</p>
+                        <p style="margin: 0 0 10px 0;"><strong>${ministry}</strong>에서 「${item.title}」을 <strong>${amendmentType}</strong>하였습니다.</p>
                         <p style="margin: 0; color: #495057;">${item.amendments[0].reason}</p>
                     </div>
                 `;
