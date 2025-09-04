@@ -541,35 +541,32 @@
             }
         }
         
-        // 국가법령 DB 로드
+        // 국가법령 DB 로드 - 실제 매칭된 276개 법규만 사용
         async function loadNationalLawDB() {
-            // 1. 먼저 실제 API로 가져온 완전한 데이터 확인 (laws_2025_complete.json)
+            // index.json에서 276개 매칭 법규 로드
             try {
-                const response = await fetch('./laws_2025_complete.json');
+                const response = await fetch('./index.json');
                 if (response.ok) {
                     const data = await response.json();
-                    if (data.laws && data.laws.length > 0) {
-                        nationalLawDB = data.laws.map(law => ({
-                            id: law.법령ID || law.id,
-                            title: law.법령명 || law.법령명한글,
-                            type: law.법령구분 || '법률',
-                            categories: inferCategories(law.법령명 || ''),
-                            ministry: law.소관부처 || '관계부처',
-                            effectiveDate: formatDate(law.시행일자),
-                            status: law.법령상태 || '현행',
-                            amendmentType: law.제개정구분 || '',
-                            lawNumber: law.공포번호 || '',
+                    if (data.items && data.items.length > 0) {
+                        nationalLawDB = data.items.map((law, idx) => ({
+                            id: law.id || `law_${idx}`,
+                            title: law.title,
+                            type: law.lawType || '법률',
+                            categories: law.categories || inferCategories(law.title || ''),
+                            ministry: law.ministry || '관계부처',
+                            effectiveDate: law.effectiveDate || '2025-01-01',
+                            status: '현행',
+                            amendmentType: law.amendments?.[0]?.type || '일부개정',
+                            lawNumber: law.lawNumber || '',
                             isFromAPI: true
                         }));
-                        console.log(`✅ 국가법령정보센터 API 데이터: ${nationalLawDB.length}개 법규 로드 완료`);
-                        console.log(`  - 현행: ${data.statistics?.byStatus?.현행 || 0}개`);
-                        console.log(`  - 예정: ${data.statistics?.byStatus?.예정 || 0}개`);
-                        console.log(`  - 연혁: ${data.statistics?.byStatus?.연혁 || 0}개`);
+                        console.log(`✅ 매칭된 법규 데이터: ${nationalLawDB.length}개 로드 완료 (index.json)`);
                         return;
                     }
                 }
             } catch (e) {
-                console.log('laws_2025_complete.json 로드 실패, 대체 방법 시도');
+                console.log('index.json 로드 실패:', e);
             }
             
             // 2. localStorage에서 API로 가져온 데이터 확인
@@ -577,16 +574,19 @@
             if (storedData) {
                 try {
                     const data = JSON.parse(storedData);
-                    nationalLawDB = data.laws;
-                    console.log(`localStorage에서 2025년 시행 법규: ${nationalLawDB.length}개 로드`);
-                    return;
+                    if (data.laws && Array.isArray(data.laws)) {
+                        nationalLawDB = data.laws;
+                        console.log(`localStorage에서 법규: ${nationalLawDB.length}개 로드`);
+                        return;
+                    }
                 } catch (e) {
                     console.error('저장된 데이터 파싱 실패:', e);
                 }
             }
             
-            // 3. 마지막으로 시뮬레이션 데이터 생성
-            nationalLawDB = generateSampleNationalDB();
+            // 3. 데이터가 없으면 빈 배열 사용 (시뮬레이션 데이터 생성하지 않음)
+            nationalLawDB = [];
+            console.log('⚠️ 국가법령 DB가 비어있습니다. index.json을 확인해주세요.');
         }
         
         // 날짜 포맷 변환 (YYYYMMDD -> YYYY-MM-DD)
@@ -599,8 +599,14 @@
             return dateStr;
         }
         
-        // 2025년 시행 법규 DB 생성 (실제 2,809개)
+        // 시뮬레이션 데이터 생성 함수 (더 이상 사용하지 않음)
         function generateSampleNationalDB() {
+            // 실제 데이터를 사용하므로 시뮬레이션 데이터 생성하지 않음
+            return [];
+        }
+        
+        // 원래 generateSampleNationalDB 함수 (비활성화)
+        function generateSampleNationalDB_old() {
             const laws = [];
             const lawMap = new Map(); // 중복 제거용
             
