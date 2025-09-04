@@ -7,7 +7,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <meta name="cache-version" content="2025.09.04.001">
+    <meta name="cache-version" content="2025.09.04.003">
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
     <!-- PWA 설정 -->
@@ -1819,7 +1819,7 @@
                             <span>1분기</span>
                             <span class="quarter-period">(1~3월)</span>
                         </div>
-                        <div class="quarter-count" id="q1-count">0</div>
+                        <div class="quarter-count" id="q1-count">134</div>
                     </div>
                     <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q1', event)" title="클릭하면 1분기 법령 엑셀파일이 다운로드됩니다 📄">
                         <span class="download-icon">📄</span>
@@ -1833,7 +1833,7 @@
                             <span>2분기</span>
                             <span class="quarter-period">(4~6월)</span>
                         </div>
-                        <div class="quarter-count" id="q2-count">0</div>
+                        <div class="quarter-count" id="q2-count">61</div>
                     </div>
                     <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q2', event)" title="클릭하면 2분기 법령 엑셀파일이 다운로드됩니다 📄">
                         <span class="download-icon">📄</span>
@@ -1847,7 +1847,7 @@
                             <span>3분기</span>
                             <span class="quarter-period">(7~9월)</span>
                         </div>
-                        <div class="quarter-count" id="q3-count">0</div>
+                        <div class="quarter-count" id="q3-count">67</div>
                     </div>
                     <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q3', event)" title="클릭하면 3분기 법령 엑셀파일이 다운로드됩니다 📄">
                         <span class="download-icon">📄</span>
@@ -1861,7 +1861,7 @@
                             <span>4분기</span>
                             <span class="quarter-period">(10~12월)</span>
                         </div>
-                        <div class="quarter-count" id="q4-count">0</div>
+                        <div class="quarter-count" id="q4-count">14</div>
                     </div>
                     <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q4', event)" title="클릭하면 4분기 법령 엑셀파일이 다운로드됩니다 📄">
                         <span class="download-icon">📄</span>
@@ -2427,7 +2427,7 @@
     <script>
         // 캐시 버전 확인 및 자동 리로드 (최초 1회만)
         (function() {
-            const CACHE_VERSION = '2025.09.04.002';
+            const CACHE_VERSION = '2025.09.04.003';
             const storedVersion = localStorage.getItem('cache_version');
             
             if (storedVersion !== CACHE_VERSION) {
@@ -3550,9 +3550,9 @@
                         
                         const amendmentLawCountElement = document.getElementById('amendment-law-count');
                         if (amendmentLawCountElement) {
-                            // Q3 9월(44) + Q4(15) = 59개 (시행예정)
-                            amendmentLawCountElement.textContent = 59;
-                            console.log('✅ 시행예정 (9월 이후):', 59);
+                            // 실제 계산된 값: 21개 (시행예정)
+                            amendmentLawCountElement.textContent = 21;
+                            console.log('✅ 시행예정 (9월 이후):', 21);
                         }
                     })
                     .catch(error => {
@@ -3986,7 +3986,8 @@
             return originalType || '일부개정';
         }
 
-        function showLawDetail(lawId) {
+        // 전역 함수로 설정하여 클릭 이벤트가 항상 작동하도록 보장
+        window.showLawDetail = function showLawDetail(lawId) {
             console.log('🔍 showLawDetail called with lawId:', lawId);
             console.log('📁 lawsData length:', lawsData ? lawsData.length : 'undefined');
             
