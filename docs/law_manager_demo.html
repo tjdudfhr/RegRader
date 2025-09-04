@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>적용법규 자동 매핑 시스템 데모</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --success: #48bb78;
+            --warning: #f093fb;
+            --danger: #fc466b;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+            --text-muted: #718096;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            background: linear-gradient(135deg, var(--primary) 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .add-law-section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .matching-results {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .match-item {
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .match-score {
+            background: var(--success);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .flow-diagram {
+            background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border-radius: 8px;
+            margin: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .arrow {
+            display: inline-block;
+            margin: 0 1rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .success-message {
+            background: rgba(72, 187, 120, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 적용법규 자동 매핑 시스템</h1>
+
+        <!-- 통계 현황 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="total-base">207</div>
+                <div class="stat-label">기본 적용법규</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-2025">2,971</div>
+                <div class="stat-label">2025년 전체 법규</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-matched">276</div>
+                <div class="stat-label">매칭된 법규</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="match-rate">133%</div>
+                <div class="stat-label">매칭률</div>
+            </div>
+        </div>
+
+        <!-- 프로세스 플로우 -->
+        <div class="flow-diagram">
+            <div class="flow-step">➕ 법규 추가</div>
+            <span class="arrow">→</span>
+            <div class="flow-step">🔍 자동 매칭</div>
+            <span class="arrow">→</span>
+            <div class="flow-step">✅ 검증</div>
+            <span class="arrow">→</span>
+            <div class="flow-step">📊 통계 업데이트</div>
+        </div>
+
+        <!-- 법규 추가 폼 -->
+        <div class="add-law-section">
+            <h2>새 적용법규 추가</h2>
+            <div class="form-group">
+                <label for="law-title">법령명 *</label>
+                <input type="text" id="law-title" placeholder="예: 개인정보 보호법 시행령">
+            </div>
+            <div class="form-group">
+                <label for="law-category">카테고리</label>
+                <select id="law-category">
+                    <option value="">선택하세요</option>
+                    <option value="환경">환경</option>
+                    <option value="안전">안전</option>
+                    <option value="인사노무">인사노무</option>
+                    <option value="재무회계">재무회계</option>
+                    <option value="정보보호">정보보호</option>
+                    <option value="공정거래">공정거래</option>
+                    <option value="지배구조">지배구조</option>
+                    <option value="지식재산권">지식재산권</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="law-ministry">주무부처</label>
+                <input type="text" id="law-ministry" placeholder="예: 개인정보보호위원회">
+            </div>
+            <button onclick="addAndMatchLaw()">🚀 법규 추가 및 자동 매칭</button>
+            <div class="success-message" id="success-msg"></div>
+        </div>
+
+        <!-- 매칭 결과 -->
+        <div class="matching-results" id="matching-results" style="display: none;">
+            <h2>🎯 자동 매칭 결과</h2>
+            <div id="match-list"></div>
+        </div>
+    </div>
+
+    <script>
+        // 더미 2025년 법규 데이터
+        const laws2025 = [
+            { title: "개인정보 보호법", effectiveDate: "2025-03-15", category: "정보보호" },
+            { title: "개인정보 보호법 시행령", effectiveDate: "2025-03-15", category: "정보보호" },
+            { title: "개인정보 보호법 시행규칙", effectiveDate: "2025-03-15", category: "정보보호" },
+            { title: "근로기준법", effectiveDate: "2025-01-01", category: "인사노무" },
+            { title: "근로기준법 시행령", effectiveDate: "2025-01-01", category: "인사노무" },
+            { title: "환경정책기본법", effectiveDate: "2025-07-01", category: "환경" },
+            { title: "대기환경보전법", effectiveDate: "2025-07-01", category: "환경" },
+            { title: "산업안전보건법", effectiveDate: "2025-01-01", category: "안전" },
+            { title: "중대재해처벌법", effectiveDate: "2025-01-01", category: "안전" }
+        ];
+
+        let baseLaws = 207;
+        let matchedLaws = 276;
+
+        function addAndMatchLaw() {
+            const title = document.getElementById('law-title').value;
+            const category = document.getElementById('law-category').value;
+            const ministry = document.getElementById('law-ministry').value;
+
+            if (!title) {
+                alert('법령명을 입력해주세요');
+                return;
+            }
+
+            // 자동 매칭 수행
+            const matches = findMatches(title, category);
+
+            // 통계 업데이트
+            baseLaws++;
+            if (matches.length > 0) {
+                matchedLaws++;
+            }
+            updateStatistics();
+
+            // 결과 표시
+            showMatchingResults(title, matches);
+
+            // 성공 메시지
+            showSuccess(title, matches.length);
+
+            // 폼 초기화
+            document.getElementById('law-title').value = '';
+            document.getElementById('law-category').value = '';
+            document.getElementById('law-ministry').value = '';
+        }
+
+        function findMatches(title, category) {
+            const matches = [];
+            const normalizedTitle = title.toLowerCase().replace(/\s/g, '');
+
+            for (const law of laws2025) {
+                const normalizedLaw = law.title.toLowerCase().replace(/\s/g, '');
+                let score = 0;
+
+                // 제목 유사도
+                if (normalizedLaw === normalizedTitle) {
+                    score = 100;
+                } else if (normalizedLaw.includes(normalizedTitle) || normalizedTitle.includes(normalizedLaw)) {
+                    score = 70;
+                } else {
+                    // 키워드 매칭
+                    const keywords = title.split(' ').filter(word => word.length > 1);
+                    let matchCount = 0;
+                    for (const keyword of keywords) {
+                        if (law.title.includes(keyword)) {
+                            matchCount++;
+                        }
+                    }
+                    score = (matchCount / keywords.length) * 50;
+                }
+
+                // 카테고리 보너스
+                if (category && law.category === category) {
+                    score += 20;
+                }
+
+                if (score >= 30) {
+                    matches.push({ ...law, score: Math.round(score) });
+                }
+            }
+
+            return matches.sort((a, b) => b.score - a.score).slice(0, 3);
+        }
+
+        function showMatchingResults(title, matches) {
+            const resultsDiv = document.getElementById('matching-results');
+            const matchList = document.getElementById('match-list');
+
+            resultsDiv.style.display = 'block';
+
+            if (matches.length === 0) {
+                matchList.innerHTML = `
+                    <div class="match-item">
+                        <div>매칭되는 2025년 법규가 없습니다</div>
+                    </div>
+                `;
+            } else {
+                matchList.innerHTML = matches.map(match => `
+                    <div class="match-item">
+                        <div>
+                            <strong>${match.title}</strong><br>
+                            <small>시행일: ${match.effectiveDate} | 카테고리: ${match.category}</small>
+                        </div>
+                        <div class="match-score">${match.score}% 일치</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function updateStatistics() {
+            document.getElementById('total-base').textContent = baseLaws;
+            document.getElementById('total-matched').textContent = matchedLaws;
+            const rate = Math.round((matchedLaws / baseLaws) * 100);
+            document.getElementById('match-rate').textContent = rate + '%';
+        }
+
+        function showSuccess(title, matchCount) {
+            const msg = document.getElementById('success-msg');
+            msg.innerHTML = `✅ "${title}" 법규가 추가되었습니다. ${matchCount}개의 2025년 법규와 매칭되었습니다.`;
+            msg.style.display = 'block';
+            
+            // 메인 대시보드 업데이트 시뮬레이션
+            console.log('📊 메인 대시보드 통계 업데이트 트리거');
+            
+            setTimeout(() => {
+                msg.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
