@@ -1746,8 +1746,9 @@
                     <span class="tab-text">직무별 개정 현황</span>
                 </div>
                 <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')">
-                    <span class="tab-icon">📚</span>
-                    <span class="tab-text">적용법규</span>
+                    <span class="tab-icon">⚙️</span>
+                    <span class="tab-text">적용법규 관리</span>
+                    <span id="lawregistry-tab-count" style="background: var(--primary); color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.75rem; margin-left: 5px;">276</span>
                 </div>
             </div>
         </div>
@@ -2544,6 +2545,12 @@
             const registryTotalElement = document.getElementById('registry-total-count');
             if (registryTotalElement) {
                 registryTotalElement.textContent = totalCount;
+            }
+            
+            // 적용법규 관리 탭 카운트 업데이트
+            const tabCountElement = document.getElementById('lawregistry-tab-count');
+            if (tabCountElement) {
+                tabCountElement.textContent = totalCount;
             }
             
             console.log('✅ 적용법규 데이터 업데이트 완료 - 총', totalCount, '개');
@@ -4571,6 +4578,12 @@
                 registryTotalElement.textContent = totalCount;
             }
             
+            // 적용법규 관리 탭 카운트 업데이트
+            const tabCountElement = document.getElementById('lawregistry-tab-count');
+            if (tabCountElement) {
+                tabCountElement.textContent = totalCount;
+            }
+            
             console.log('✅ 적용법규 탭 카운트 업데이트 완료 - 총', totalCount, '개 (207개 기본 법규)');
             console.log('카테고리별:', categoryCounts);
         }
@@ -4774,8 +4787,8 @@
         
         // 기본 법규 다운로드 (Excel 형식으로 변환)
         function downloadBaseLaws() {
-            // base_laws_207.json을 Excel로 변환하여 다운로드
-            fetch('./base_laws_207.json')
+            // index.json(최신 매칭 법규)을 Excel로 변환하여 다운로드
+            fetch('./index.json')
                 .then(response => response.json())
                 .then(data => {
                     const excelData = data.items.map((law, index) => ({
