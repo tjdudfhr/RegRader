@@ -1962,12 +1962,7 @@
                                     <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="registry-total-count">0</div>
                                     <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 법규 수</div>
                                 </div>
-                                <button onclick="window.open('./law_manager.html', '_blank')" style="padding: 10px 20px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); color: var(--primary); border: 2px solid var(--primary); border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 0.9rem; transition: all 0.3s; display: flex; align-items: center; gap: 0.5rem;" 
-                                        onmouseover="this.style.background='linear-gradient(135deg, #667eea, #764ba2)'; this.style.color='white'; this.style.transform='translateY(-2px)';" 
-                                        onmouseout="this.style.background='linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1))'; this.style.color='var(--primary)'; this.style.transform='translateY(0)';">
-                                    <span>⚙️</span>
-                                    <span>적용법규 관리</span>
-                                </button>
+
 
                             </div>
                         </div>
@@ -2547,7 +2542,7 @@
                 registryTotalElement.textContent = totalCount;
             }
             
-            // 적용법규 관리 탭 카운트 업데이트
+            // 적용법규 탭 카운트 업데이트
             const tabCountElement = document.getElementById('lawregistry-tab-count');
             if (tabCountElement) {
                 tabCountElement.textContent = totalCount;
@@ -4578,7 +4573,7 @@
                 registryTotalElement.textContent = totalCount;
             }
             
-            // 적용법규 관리 탭 카운트 업데이트
+            // 적용법규 탭 카운트 업데이트
             const tabCountElement = document.getElementById('lawregistry-tab-count');
             if (tabCountElement) {
                 tabCountElement.textContent = totalCount;
@@ -6436,9 +6431,7 @@
                 <button onclick="closeDataDownload()" style="padding: 0.8rem 1.5rem; background: #e0e0e0; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
                     닫기
                 </button>
-                <button onclick="window.open('./law_manager.html', '_blank')" style="padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                    법규 관리자 열기
-                </button>
+
             </div>
         </div>
     </div>
