@@ -551,16 +551,7 @@
                     if (data.laws && data.laws.length > 0) {
                         nationalLawDB = data.laws;
                         console.log(`✅ 2025년 전체 개정법규: ${nationalLawDB.length}개 로드 완료`);
-                        
-                        // 오른쪽 패널 제목 업데이트
-                        const rightPanelTitle = document.querySelector('.panel:nth-child(2) .panel-title');
-                        if (rightPanelTitle) {
-                            rightPanelTitle.textContent = `📚 2025년 개정 법규 (${nationalLawDB.length}개)`;
-                        }
-                        const rightPanelCount = document.querySelector('.panel:nth-child(2) .count-badge');
-                        if (rightPanelCount) {
-                            rightPanelCount.textContent = nationalLawDB.length;
-                        }
+                        updateNationalLawsDisplay();
                         return;
                     }
                 }
@@ -571,6 +562,22 @@
             // 2. 대체 방안: 전체 2,971개 법규 데이터 생성
             nationalLawDB = generateFullNationalDB();
             console.log(`✅ 2025년 개정법규 DB 생성: ${nationalLawDB.length}개`);
+            updateNationalLawsDisplay();
+        }
+        
+        // 국가법령 DB 표시 업데이트
+        function updateNationalLawsDisplay() {
+            // 오른쪽 패널 제목 업데이트
+            const rightPanelTitle = document.querySelector('.panel:nth-child(2) .panel-title');
+            if (rightPanelTitle) {
+                rightPanelTitle.textContent = `📚 2025년 개정 법규 (${nationalLawDB.length}개)`;
+            }
+            const rightPanelCount = document.querySelector('.panel:nth-child(2) .count-badge');
+            if (rightPanelCount) {
+                rightPanelCount.textContent = nationalLawDB.length;
+            }
+            // 통계 업데이트
+            updateStats();
         }
         
         // 날짜 포맷 변환 (YYYYMMDD -> YYYY-MM-DD)
