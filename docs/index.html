@@ -3217,6 +3217,120 @@
             });
         }
 
+        // 모바일 버전의 AI 요약 생성 함수 추가
+        function generateAISummary(item) {
+            const amendmentReason = generateAmendmentReason(item);
+            const amendmentContent = generateAmendmentContent(item);
+            const amendmentArticles = generateAmendmentArticles(item);
+            
+            return `
+                <div class="summary-section" style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">📋 개정 개요</h4>
+                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--primary);">
+                        <p style="margin: 0 0 0.5rem 0;"><strong>법령명:</strong> ${item.title}</p>
+                        <p style="margin: 0 0 0.5rem 0;"><strong>개정 유형:</strong> ${getDetailedLawType(item.title, item.lawType) || '일부개정'}</p>
+                        <p style="margin: 0 0 0.5rem 0;"><strong>시행 시기:</strong> ${item.effectiveDate || '미정'}</p>
+                        <p style="margin: 0;"><strong>주무 부처:</strong> ${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</p>
+                    </div>
+                </div>
+                
+                <div class="summary-section" style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">📝 개정 이유</h4>
+                    <div class="amendment-box" style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                        ${amendmentReason}
+                    </div>
+                </div>
+                
+                <div class="summary-section" style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">📄 개정 내용</h4>
+                    <div class="amendment-box" style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border-left: 3px solid #667eea;">
+                        ${amendmentContent}
+                    </div>
+                </div>
+                
+                <div class="summary-section" style="margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">⚖️ 주요 개정 조항</h4>
+                    <div class="amendment-box" style="background: var(--bg-card); padding: 1rem; border-radius: 8px;">
+                        ${amendmentArticles}
+                    </div>
+                </div>
+                
+                <div class="summary-section">
+                    <h4 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">🔗 관련 링크</h4>
+                    <div class="external-links" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <button onclick="window.open('https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}&ancYd=&ancNo=&efYd=&nwJoYnInfo=Y&searchPutTyp=&efGubun=Y&chrClsCd=010202&sortSeq=desc', '_blank')" 
+                                style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 0.95rem; text-align: left; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: transform 0.2s ease;"
+                                onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                            📜 법령 원문 보기
+                        </button>
+                        <button onclick="window.open('https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title.replace('시행령', '').replace('시행규칙', '').trim())}', '_blank')" 
+                                style="width: 100%; padding: 1rem; background: white; color: #667eea; border: 1px solid #667eea; border-radius: 12px; font-weight: 600; font-size: 0.95rem; text-align: left; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: all 0.2s ease;"
+                                onmouseover="this.style.background='#f7f8fa'" onmouseout="this.style.background='white'">
+                            🔍 관련 법령 검색
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // 부처명 추출 함수
+        function getMinistryName(title, categories) {
+            if (!title) return '관계부처';
+            
+            const category = (categories && categories[0]) || '';
+            
+            // 법령명 기반 부처 매핑
+            if (title.includes('근로기준법') || title.includes('최저임금법') || title.includes('산업안전보건법')) {
+                return '고용노동부';
+            } else if (title.includes('개인정보보호법') || title.includes('정보통신')) {
+                return '개인정보보호위원회';
+            } else if (title.includes('공정거래법') || title.includes('독점규제')) {
+                return '공정거래위원회';
+            } else if (title.includes('환경') || title.includes('대기') || title.includes('폐기물')) {
+                return '환경부';
+            } else if (title.includes('상법') || title.includes('주식회사')) {
+                return '법무부';
+            } else if (title.includes('법인세') || title.includes('부가가치세')) {
+                return '기획재정부';
+            } else if (title.includes('특허') || title.includes('상표') || title.includes('저작권')) {
+                return '특허청';
+            }
+            
+            // 카테고리 기반 부처 매핑
+            const ministryMap = {
+                '인사노무': '고용노동부',
+                '정보보호': '개인정보보호위원회',
+                '공정거래': '공정거래위원회',
+                '안전': '고용노동부',
+                '환경': '환경부',
+                '지배구조': '법무부',
+                '재무회계': '기획재정부',
+                '지식재산권': '특허청'
+            };
+            
+            return ministryMap[category] || '관계부처';
+        }
+        
+        // 상세 법령 유형 추출 함수
+        function getDetailedLawType(title, originalType) {
+            if (title.includes('시행령')) {
+                return '대통령령 일부개정';
+            } else if (title.includes('시행규칙')) {
+                return '부령 일부개정';
+            } else if (title.includes('규정') || title.includes('규칙')) {
+                return '규칙 일부개정';
+            } else if (title.includes('고시')) {
+                return '고시 일부개정';
+            } else if (title.includes('지침') || title.includes('기준')) {
+                return '행정규칙 일부개정';
+            } else if (title.includes('법') && !title.includes('시행')) {
+                return '법률 일부개정';
+            }
+            
+            // 원본 타입이 있으면 사용, 없으면 기본값
+            return originalType || '일부개정';
+        }
+
         function showLawModal(lawId) {
             const law = lawsData.find(l => l.id === lawId);
             if (!law) {
@@ -3251,8 +3365,9 @@
                 backdrop-filter: blur(20px);
                 border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2));
                 border-radius: 20px;
-                max-width: 600px;
-                max-height: 80vh;
+                max-width: 700px;
+                width: 90%;
+                max-height: 85vh;
                 overflow-y: auto;
                 box-shadow: var(--glass-shadow, 0 8px 32px 0 rgba(31, 38, 135, 0.37));
                 animation: slideIn 0.3s ease;
@@ -3260,68 +3375,20 @@
                 color: var(--text-primary, #1a202c);
             `;
 
-            const categories = law.categories && law.categories.length > 0 ? law.categories : ['기타'];
-            const categoryIcons = {
-                '인사노무': '👥',
-                '공정거래': '⚖️',
-                '정보보호': '🔒',
-                '지식재산권': '💡',
-                '재무회계': '💰',
-                '안전': '🛡️',
-                '환경': '🌱',
-                '지배구조': '🏛️'
-            };
+            // 모바일 버전과 동일한 AI 요약 사용
+            const summaryHtml = generateAISummary(law);
             
-            const categoryLabel = categories.map(cat => `${categoryIcons[cat] || '📋'} ${cat}`).join(', ');
-            const effectiveDate = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR') : '미정';
-
             modalContent.innerHTML = `
                 <div style="padding: 2rem;">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
                         <div>
-                            <h2 style="color: var(--text-primary); font-size: 1.4rem; font-weight: 700; margin: 0 0 0.5rem 0; line-height: 1.4;">
+                            <h2 style="color: var(--text-primary); font-size: 1.5rem; font-weight: 700; margin: 0 0 0.5rem 0; line-height: 1.4;">
                                 ${law.title}
                             </h2>
-                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
-                                <span style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">${categoryLabel}</span>
-                                <span style="color: var(--text-muted); font-size: 0.9rem;">시행일: ${effectiveDate}</span>
-                            </div>
                         </div>
                         <button onclick="closeLawModal()" style="background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; padding: 0.5rem; border-radius: 50%; transition: all 0.2s ease;" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='none'">×</button>
                     </div>
-
-                    ${law.summary ? `
-                        <div style="background: var(--bg-card); border-left: 4px solid var(--primary); padding: 1.2rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                            <h3 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">📋 주요 내용</h3>
-                            <p style="color: var(--text-secondary); line-height: 1.6; margin: 0;">${law.summary}</p>
-                        </div>
-                    ` : ''}
-
-                    ${law.amendmentDetails && law.amendmentDetails.length > 0 ? `
-                        <div style="background: var(--bg-card); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem;">
-                            <h3 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0;">📝 개정 세부사항</h3>
-                            ${law.amendmentDetails.map(detail => `
-                                <div style="margin-bottom: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px; border-left: 3px solid var(--primary);">
-                                    <p style="color: var(--text-secondary); line-height: 1.5; margin: 0;">${detail}</p>
-                                </div>
-                            `).join('')}
-                        </div>
-                    ` : ''}
-
-                    ${law.links && law.links.length > 0 ? `
-                        <div style="background: var(--bg-card); border-radius: 12px; padding: 1.2rem;">
-                            <h3 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0;">🔗 관련 링크</h3>
-                            ${law.links.map(link => `
-                                <a href="${link.url}" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 0.8rem; padding: 0.8rem; background: rgba(102, 126, 234, 0.05); border: 1px solid rgba(102, 126, 234, 0.1); border-radius: 8px; text-decoration: none; color: var(--text-primary); margin-bottom: 0.5rem; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(102, 126, 234, 0.1)'" onmouseout="this.style.background='rgba(102, 126, 234, 0.05)'">
-                                    <span style="font-size: 1.1rem;">🌐</span>
-                                    <div>
-                                        <div style="font-weight: 500; margin-bottom: 0.2rem;">${link.title}</div>
-                                        <div style="font-size: 0.8rem; color: var(--text-muted);">${link.url}</div>
-                                    </div>
-                                </a>
-                            `).join('')}
-                        </div>
-                    ` : ''}
+                    ${summaryHtml}
                 </div>
             `;
 
