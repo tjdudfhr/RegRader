@@ -3510,24 +3510,24 @@
             try {
                 let data;
                 
-                // 1. 매칭된 2025년 데이터 우선 시도 (강력한 캐시 방지)
+                // 1. index.json 로드 (모바일과 동일하게 - 상세한 데이터가 있음)
                 const version = new Date().getTime();
                 const cacheBuster = Math.random().toString(36).substring(7);
                 try {
-                    const matchedResponse = await fetch(`./matched_index_2025.json?v=${version}&cb=${cacheBuster}`, {
+                    const response = await fetch(`./index.json?v=${version}&cb=${cacheBuster}`, {
                         cache: 'no-store',
                         headers: {
                             'Cache-Control': 'no-cache',
                             'Pragma': 'no-cache'
                         }
                     });
-                    if (matchedResponse.ok) {
-                        data = await matchedResponse.json();
-                        console.log('✅ 2025년 매칭 데이터 로드:', data.total_laws, '건');
-                        console.log('  - 매칭된 기본법규:', data.matched_base_laws, '개');
+                    if (response.ok) {
+                        data = await response.json();
+                        console.log('✅ index.json 데이터 로드:', data.items ? data.items.length : 0, '건');
+                        console.log('📄 상세한 개정 이유와 내용이 포함된 데이터 사용');
                     }
                 } catch (e) {
-                    console.log('📄 매칭 데이터 없음, 기본 데이터 사용');
+                    console.log('❌ index.json 로드 실패:', e);
                 }
                 
                 // 2. localStorage에서 업데이트된 법규 데이터 확인 (폴백)
@@ -3547,25 +3547,26 @@
                     }
                 }
                 
-                // 2. localStorage에 없으면 index.json에서 로드 (강력한 캐시 방지)
+                // 3. index.json을 못 불러왔을 때만 matched_index_2025.json 사용 (폴백)
                 if (!data) {
-                    const version = new Date().getTime();
-                    const cacheBuster = Math.random().toString(36).substring(7);
-                    console.log('Loading data from ./index.json...');
-                    const response = await fetch(`./index.json?v=${version}&cb=${cacheBuster}`, {
-                        cache: 'no-store',
-                        headers: {
-                            'Cache-Control': 'no-cache',
-                            'Pragma': 'no-cache'
+                    const version2 = new Date().getTime();
+                    const cacheBuster2 = Math.random().toString(36).substring(7);
+                    console.log('index.json 실패, matched_index_2025.json 시도...');
+                    try {
+                        const matchedResponse = await fetch(`./matched_index_2025.json?v=${version2}&cb=${cacheBuster2}`, {
+                            cache: 'no-store',
+                            headers: {
+                                'Cache-Control': 'no-cache',
+                                'Pragma': 'no-cache'
+                            }
+                        });
+                        if (matchedResponse.ok) {
+                            data = await matchedResponse.json();
+                            console.log('📄 matched_index_2025.json 사용 (상세 내용 없음)');
                         }
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                    } catch (e) {
+                        console.log('❌ matched_index_2025.json도 실패');
                     }
-                    
-                    data = await response.json();
-                    console.log('Data loaded from index.json:', data);
                 }
                 
                 if (data.items && Array.isArray(data.items)) {
