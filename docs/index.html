@@ -3401,9 +3401,10 @@
             try {
                 let data;
                 
-                // 1. 매칭된 2025년 데이터 우선 시도
+                // 1. 매칭된 2025년 데이터 우선 시도 (캐시 방지)
+                const version = new Date().getTime();
                 try {
-                    const matchedResponse = await fetch('./matched_index_2025.json');
+                    const matchedResponse = await fetch(`./matched_index_2025.json?v=${version}`);
                     if (matchedResponse.ok) {
                         data = await matchedResponse.json();
                         console.log('✅ 2025년 매칭 데이터 로드:', data.total_laws, '건');
