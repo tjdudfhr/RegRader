@@ -1746,9 +1746,8 @@
                     <span class="tab-text">직무별 개정 현황</span>
                 </div>
                 <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')">
-                    <span class="tab-icon">⚙️</span>
-                    <span class="tab-text">적용법규 관리</span>
-                    <span id="lawregistry-tab-count" style="background: var(--primary); color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.75rem; margin-left: 5px;">276</span>
+                    <span class="tab-icon">📚</span>
+                    <span class="tab-text">적용법규</span>
                 </div>
             </div>
         </div>
@@ -1787,7 +1786,7 @@
                         <span style="font-size: 1.3rem;">🎯</span>
                         <div>
                             <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">2025년 당사 적용 법규 개정 현황</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">207개 기본 법규 중 매칭 결과</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">276개 적용 법규 매칭 결과</div>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
@@ -1954,12 +1953,7 @@
                             <div style="display: flex; align-items: center; gap: 0.8rem;">
                                 <span style="font-size: 1.3rem;">📚</span>
                                 <div>
-                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">적용법규(법규등록부)</div>
-                                        <button onclick="window.open('./law_manager.html', '_blank')" style="padding: 8px 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem;">
-                                            ⚙️ 적용법규 관리
-                                        </button>
-                                    </div>
+                                    <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">적용법규(법규등록부)</div>
                                     <div style="font-size: 0.9rem; color: var(--text-muted);">직무별 적용되는 법규 리스트</div>
                                 </div>
                             </div>
@@ -1968,6 +1962,12 @@
                                     <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="registry-total-count">0</div>
                                     <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 법규 수</div>
                                 </div>
+                                <button onclick="window.open('./law_manager.html', '_blank')" style="padding: 10px 20px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); color: var(--primary); border: 2px solid var(--primary); border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 0.9rem; transition: all 0.3s; display: flex; align-items: center; gap: 0.5rem;" 
+                                        onmouseover="this.style.background='linear-gradient(135deg, #667eea, #764ba2)'; this.style.color='white'; this.style.transform='translateY(-2px)';" 
+                                        onmouseout="this.style.background='linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1))'; this.style.color='var(--primary)'; this.style.transform='translateY(0)';">
+                                    <span>⚙️</span>
+                                    <span>적용법규 관리</span>
+                                </button>
 
                             </div>
                         </div>
@@ -2671,9 +2671,15 @@
                 closeQuarterlyDetail();
             }
             
-            // 적용법규 탭을 클릭하면 207개 기본 법규 로드
-            if (tabName === 'lawregistry' && baseLawsData.length === 0) {
-                loadBaseLaws();
+            // 적용법규 탭을 클릭하면 276개 적용법규 표시
+            if (tabName === 'lawregistry') {
+                // 데이터가 없을 때만 로드, 있으면 바로 표시
+                if (baseLawsData.length === 0) {
+                    loadBaseLaws();
+                } else {
+                    // 이미 데이터가 있으면 바로 전체 법규 표시
+                    showJobFunctionLaws('all', '전체');
+                }
             }
         }
 
@@ -3598,10 +3604,15 @@
                     console.log('📋 데이터 로드 완료:', data.items.length, '건');
                     lawsData = data.items;
                     window.lawsData = data.items; // 전역 변수로도 설정
+                    
+                    // 적용법규 탭을 위한 baseLawsData도 동기화 (276개 법규)
+                    baseLawsData = data.items;
+                    console.log('✅ 적용법규 탭 데이터 동기화:', baseLawsData.length, '건');
                 } else {
                     console.error('❌ data.items가 배열이 아닙니다:', data.items);
                     lawsData = [];
                     window.lawsData = [];
+                    baseLawsData = [];
                 }
                 
                 filteredLaws = [...lawsData];
@@ -4488,12 +4499,20 @@
 
 
 
-        // 207개 기본 법규 데이터 저장용 전역 변수
+        // 276개 적용법규 데이터 저장용 전역 변수
         let baseLawsData = [];
         
-        // 207개 기본 법규 로드 함수
+        // 276개 적용법규 로드 함수 (이미 로드되어 있으면 스킵)
         async function loadBaseLaws() {
             try {
+                // 이미 baseLawsData가 있으면 바로 표시
+                if (baseLawsData && baseLawsData.length > 0) {
+                    console.log(`✅ 이미 로드된 ${baseLawsData.length}개 적용법규 사용`);
+                    updateRegistryTabCounts();
+                    showJobFunctionLaws('all', '전체');
+                    return;
+                }
+                
                 let data;
                 
                 // localStorage에서 업데이트된 적용법규 확인
@@ -4531,7 +4550,7 @@
             }
         }
         
-        // 적용법규 탭 카운트 업데이트 (207개 기본 법규 기준)
+        // 적용법규 탭 카운트 업데이트 (276개 적용법규 기준)
         function updateRegistryTabCounts() {
             if (baseLawsData.length === 0) return;
             
@@ -4598,7 +4617,7 @@
             });
             document.querySelector(`[data-job="${jobFunction}"]`).classList.add('active');
             
-            // 207개 기본 법규 사용
+            // 276개 매칭 법규 사용 (index.json)
             const baseLaws = baseLawsData;
             
             // Filter laws based on job function
