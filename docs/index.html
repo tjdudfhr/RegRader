@@ -4167,7 +4167,8 @@
             if (item.amendments && item.amendments.length > 0 && item.amendments[0].reason 
                 && item.amendments[0].reason.length > 20 
                 && !item.amendments[0].reason.includes('타법개정') 
-                && !item.amendments[0].reason.includes('일부개정')) {
+                && !item.amendments[0].reason.includes('일부개정')
+                && !item.amendments[0].reason.includes('개정')) {
                 const ministry = item.ministry || item.meta?.ministry || '관련 부처';
                 return `
                     <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
