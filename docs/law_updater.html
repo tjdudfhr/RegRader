@@ -364,6 +364,9 @@
             <button class="tab" onclick="switchTab('manual')">
                 ✏️ 수동 데이터 관리
             </button>
+            <button class="tab" onclick="switchTab('appliedlaws')">
+                📋 적용법규 관리
+            </button>
         </div>
         
         <!-- 법규 데이터 수집 탭 -->
@@ -537,6 +540,104 @@
                 </div>
             </div>
         </div>
+        
+        <!-- 적용법규 관리 탭 -->
+        <div class="tab-content" id="appliedlaws-tab">
+            <div class="input-section">
+                <h3 style="margin-bottom: 20px; color: #333;">📋 현재 적용법규 관리 (207개)</h3>
+                <div class="form-group">
+                    <div class="form-field">
+                        <label for="newLawName">새 법규명</label>
+                        <input type="text" id="newLawName" placeholder="추가할 법규명 입력">
+                    </div>
+                    <div class="form-field">
+                        <label for="newLawCategory">카테고리</label>
+                        <select id="newLawCategory">
+                            <option value="">선택하세요</option>
+                            <option value="환경">환경</option>
+                            <option value="안전">안전</option>
+                            <option value="인사노무">인사노무</option>
+                            <option value="재무회계">재무회계</option>
+                            <option value="정보보호">정보보호</option>
+                            <option value="공정거래">공정거래</option>
+                            <option value="지배구조">지배구조</option>
+                            <option value="지식재산권">지식재산권</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="newLawType">법령 유형</label>
+                        <select id="newLawType">
+                            <option value="법률">법률</option>
+                            <option value="시행령">시행령</option>
+                            <option value="시행규칙">시행규칙</option>
+                            <option value="규정">규정</option>
+                            <option value="지침">지침</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="addNewBaseLaw()">
+                        <span>➕</span>
+                        적용법규 추가
+                    </button>
+                    <button class="btn btn-secondary" onclick="searchForMatches()">
+                        <span>🔍</span>
+                        수집된 법규와 매칭 검색
+                    </button>
+                    <button class="btn btn-success" onclick="saveAppliedLaws()">
+                        <span>💾</span>
+                        변경사항 저장
+                    </button>
+                </div>
+            </div>
+            
+            <div class="status-section">
+                <h3 style="margin-bottom: 10px; color: #333;">📈 적용법규 현황</h3>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <div class="status-value" id="appliedTotalCount">207</div>
+                        <div class="status-label">전체 적용법규</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="status-value" id="appliedMatchedCount">0</div>
+                        <div class="status-label">매칭된 개정법규</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="status-value" id="appliedNewCount">0</div>
+                        <div class="status-label">신규 추가</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="status-value" id="appliedDeletedCount">0</div>
+                        <div class="status-label">삭제된 항목</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-section">
+                <div class="result-header">
+                    <h3 class="result-title">📑 현재 적용법규 목록</h3>
+                    <div class="result-actions">
+                        <input type="text" id="appliedLawSearch" placeholder="법규 검색..." onkeyup="filterAppliedLaws(this.value)" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; width: 200px;">
+                        <button class="btn btn-small btn-primary" onclick="exportAppliedLaws()">
+                            <span>💾</span>
+                            Excel 내보내기
+                        </button>
+                    </div>
+                </div>
+                <div class="result-content" id="appliedLawsList" style="max-height: 400px; overflow-y: auto;">
+                    <p style="text-align: center; color: #999;">적용법규를 로드하고 있습니다...</p>
+                </div>
+            </div>
+            
+            <div class="result-section" style="margin-top: 20px;">
+                <div class="result-header">
+                    <h3 class="result-title">🔄 매칭 검색 결과</h3>
+                </div>
+                <div class="result-content" id="matchingResults" style="max-height: 300px; overflow-y: auto;">
+                    <p style="text-align: center; color: #999;">매칭 검색을 실행하면 결과가 표시됩니다.</p>
+                </div>
+            </div>
+        </div>
     </div>
     
     <script>
@@ -544,6 +645,9 @@
         let collectedLaws = [];
         let matchedLaws = [];
         let baseLaws = [];
+        let appliedLaws = []; // 207개 기본 적용법규
+        let newlyAddedLaws = []; // 신규 추가된 법규
+        let deletedLaws = []; // 삭제된 법규
         
         // 탭 전환
         function switchTab(tabName) {
@@ -558,6 +662,10 @@
             // 현재 데이터 탭이면 데이터 로드
             if (tabName === 'current') {
                 loadCurrentData();
+            }
+            // 적용법규 관리 탭이면 데이터 로드
+            if (tabName === 'appliedlaws') {
+                loadAppliedLaws();
             }
         }
         
@@ -985,6 +1093,237 @@
             URL.revokeObjectURL(url);
             
             showMessage('백업 파일이 생성되었습니다.', 'success');
+        }
+        
+        // 적용법규 관리 함수들
+        async function loadAppliedLaws() {
+            try {
+                const response = await fetch('./base_laws_207.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    appliedLaws = data.items || [];
+                    document.getElementById('appliedTotalCount').textContent = appliedLaws.length;
+                    displayAppliedLaws();
+                    showMessage(`적용법규 ${appliedLaws.length}개를 로드했습니다.`, 'success');
+                }
+            } catch (e) {
+                console.error('Failed to load applied laws:', e);
+                showMessage('적용법규를 로드하는데 실패했습니다.', 'error');
+            }
+        }
+        
+        function displayAppliedLaws() {
+            const listElement = document.getElementById('appliedLawsList');
+            if (appliedLaws.length === 0) {
+                listElement.innerHTML = '<p style="text-align: center; color: #999;">적용법규가 없습니다.</p>';
+                return;
+            }
+            
+            let html = '';
+            appliedLaws.forEach((law, index) => {
+                const categories = law.categories ? law.categories.join(', ') : '미분류';
+                html += `
+                    <div class="law-item" data-index="${index}">
+                        <div class="law-info">
+                            <div class="law-title">${index + 1}. ${law.title}</div>
+                            <div class="law-meta">
+                                ${categories} | ${law.lawType || '법률'} | ${law.meta?.ministry || '관계부처'}
+                            </div>
+                        </div>
+                        <div class="law-actions" style="display: flex; gap: 10px;">
+                            <button class="btn btn-small" onclick="deleteLaw(${index})" style="background: #ff5252; color: white;">
+                                🗑️ 삭제
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            listElement.innerHTML = html;
+        }
+        
+        function addNewBaseLaw() {
+            const name = document.getElementById('newLawName').value.trim();
+            const category = document.getElementById('newLawCategory').value;
+            const type = document.getElementById('newLawType').value;
+            
+            if (!name) {
+                showMessage('법규명을 입력해주세요.', 'warning');
+                return;
+            }
+            
+            if (!category) {
+                showMessage('카테고리를 선택해주세요.', 'warning');
+                return;
+            }
+            
+            // 중복 체크
+            const exists = appliedLaws.some(law => law.title === name);
+            if (exists) {
+                showMessage('이미 존재하는 법규입니다.', 'warning');
+                return;
+            }
+            
+            // 새 법규 추가
+            const newLaw = {
+                id: `law_new_${Date.now()}`,
+                title: name,
+                categories: [category],
+                lawType: type,
+                effectiveDate: new Date().toISOString().split('T')[0],
+                status: '현행',
+                meta: {
+                    ministry: getMinistry(name),
+                    lastUpdated: new Date().toISOString()
+                }
+            };
+            
+            appliedLaws.push(newLaw);
+            newlyAddedLaws.push(newLaw);
+            
+            // UI 업데이트
+            document.getElementById('appliedTotalCount').textContent = appliedLaws.length;
+            document.getElementById('appliedNewCount').textContent = newlyAddedLaws.length;
+            displayAppliedLaws();
+            
+            // 입력 필드 초기화
+            document.getElementById('newLawName').value = '';
+            document.getElementById('newLawCategory').value = '';
+            
+            showMessage(`"${name}"이(가) 추가되었습니다.`, 'success');
+        }
+        
+        function deleteLaw(index) {
+            const law = appliedLaws[index];
+            if (!confirm(`"${law.title}"을(를) 삭제하시겠습니까?`)) {
+                return;
+            }
+            
+            deletedLaws.push(law);
+            appliedLaws.splice(index, 1);
+            
+            // UI 업데이트
+            document.getElementById('appliedTotalCount').textContent = appliedLaws.length;
+            document.getElementById('appliedDeletedCount').textContent = deletedLaws.length;
+            displayAppliedLaws();
+            
+            showMessage(`"${law.title}"이(가) 삭제되었습니다.`, 'success');
+        }
+        
+        function filterAppliedLaws(searchTerm) {
+            const items = document.querySelectorAll('#appliedLawsList .law-item');
+            items.forEach(item => {
+                const title = item.querySelector('.law-title').textContent.toLowerCase();
+                const meta = item.querySelector('.law-meta').textContent.toLowerCase();
+                const matches = title.includes(searchTerm.toLowerCase()) || meta.includes(searchTerm.toLowerCase());
+                item.style.display = matches ? 'flex' : 'none';
+            });
+        }
+        
+        function searchForMatches() {
+            if (collectedLaws.length === 0) {
+                showMessage('먼저 법규 데이터를 수집해주세요.', 'warning');
+                return;
+            }
+            
+            let matchCount = 0;
+            let matchHTML = '';
+            
+            appliedLaws.forEach(baseLaw => {
+                const matches = collectedLaws.filter(law => {
+                    // 제목 유사도 매칭
+                    return law.title === baseLaw.title ||
+                           law.title.includes(baseLaw.title) ||
+                           baseLaw.title.includes(law.title.replace(' 시행령', '').replace(' 시행규칙', ''));
+                });
+                
+                if (matches.length > 0) {
+                    matchCount += matches.length;
+                    matchHTML += `
+                        <div class="law-item" style="background: #e8f5e9;">
+                            <div class="law-info">
+                                <div class="law-title"🎯 ${baseLaw.title}</div>
+                                <div class="law-meta">매칭된 개정법규: ${matches.length}건</div>
+                            </div>
+                        </div>
+                    `;
+                    matches.forEach(match => {
+                        matchHTML += `
+                            <div class="law-item" style="margin-left: 20px; opacity: 0.8;">
+                                <div class="law-info">
+                                    <div class="law-title">- ${match.title}</div>
+                                    <div class="law-meta">${match.effectiveDate} | ${match.amendmentType}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            });
+            
+            document.getElementById('appliedMatchedCount').textContent = matchCount;
+            const resultsElement = document.getElementById('matchingResults');
+            
+            if (matchCount > 0) {
+                resultsElement.innerHTML = matchHTML;
+                showMessage(`🎯 ${matchCount}개의 매칭된 법규를 찾았습니다!`, 'success');
+            } else {
+                resultsElement.innerHTML = '<p style="text-align: center; color: #999;">매칭되는 법규가 없습니다.</p>';
+                showMessage('매칭되는 법규가 없습니다.', 'warning');
+            }
+        }
+        
+        function saveAppliedLaws() {
+            if (!confirm(`현재 적용법규 ${appliedLaws.length}개를 저장하시겠습니까?\n신규: ${newlyAddedLaws.length}개, 삭제: ${deletedLaws.length}개`)) {
+                return;
+            }
+            
+            // 데이터 구조 생성
+            const saveData = {
+                generatedAt: Math.floor(Date.now() / 1000),
+                year: new Date().getFullYear(),
+                description: "2025년 당사 적용 법규 목록",
+                total_laws: appliedLaws.length,
+                items: appliedLaws
+            };
+            
+            // localStorage에 저장 (실제로는 서버에 저장해야 함)
+            localStorage.setItem('applied_laws', JSON.stringify(saveData));
+            localStorage.setItem('laws_updated_flag', 'true');
+            localStorage.setItem('laws_update_date', new Date().toISOString());
+            
+            // JSON 파일로 다운로드
+            const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `base_laws_${appliedLaws.length}_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showMessage(`✅ 적용법규가 저장되었습니다! (${appliedLaws.length}개)`, 'success');
+            
+            // 카운터 리셋
+            newlyAddedLaws = [];
+            deletedLaws = [];
+            document.getElementById('appliedNewCount').textContent = '0';
+            document.getElementById('appliedDeletedCount').textContent = '0';
+        }
+        
+        function exportAppliedLaws() {
+            const dataStr = JSON.stringify({
+                export_date: new Date().toISOString(),
+                total_count: appliedLaws.length,
+                laws: appliedLaws
+            }, null, 2);
+            
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `applied_laws_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showMessage('적용법규가 내보내기 되었습니다.', 'success');
         }
         
         // 페이지 로드시 초기화
