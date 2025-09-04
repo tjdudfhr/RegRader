@@ -9,18 +9,19 @@
     <!-- PC에서 접속 시 PC 버전으로 리다이렉션 (선택사항) -->
     <script>
         (function() {
-            // 모바일 기기 감지
-            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            var isSmallScreen = window.innerWidth <= 768;
+            // sessionStorage 초기화 (무한 루프 방지)
+            sessionStorage.removeItem('redirecting');
             
-            // PC에서 접속했고 강제 모바일 모드가 아니면 PC 버전 제안
-            if (!isMobile && !isSmallScreen && !localStorage.getItem('forceMobile')) {
-                if (confirm('PC 버전으로 보시겠습니까? (더 나은 경험을 제공합니다)')) {
-                    window.location.href = './index.html';
-                } else {
-                    // 사용자가 모바일 버전을 선택한 경우 기억
-                    localStorage.setItem('forceMobile', 'true');
-                }
+            // 모바일 기기 감지
+            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(navigator.userAgent) ||
+                          ('ontouchstart' in window) ||
+                          (navigator.maxTouchPoints > 0) ||
+                          (window.innerWidth <= 768);
+            
+            // PC에서 접속했고 강제 모바일 모드가 아니면 PC 버전으로 자동 이동
+            if (!isMobile && !sessionStorage.getItem('stayMobile')) {
+                sessionStorage.setItem('redirecting', 'true');
+                window.location.replace('./index.html');
             }
         })();
     </script>
