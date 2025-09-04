@@ -4164,12 +4164,9 @@
         }
         
         function generateAmendmentReason(item) {
-            // 실제 개정 이유가 있고 상세한 경우에만 사용 (타법개정, 일부개정 같은 단순한 것 제외)
+            // 실제 개정 이유가 있고 상세한 경우에만 사용 (50자 이상의 상세한 설명)
             if (item.amendments && item.amendments.length > 0 && item.amendments[0].reason 
-                && item.amendments[0].reason.length > 20 
-                && !item.amendments[0].reason.includes('타법개정') 
-                && !item.amendments[0].reason.includes('일부개정')
-                && !item.amendments[0].reason.includes('개정')) {
+                && item.amendments[0].reason.length > 50) {
                 const ministry = item.ministry || item.meta?.ministry || '관련 부처';
                 return `
                     <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
@@ -4241,18 +4238,13 @@
         }
         
         function generateAmendmentContent(item) {
-            // 실제 개정 내용이 있고 상세한 경우에만 사용 (단순한 "개정사항" 문구 제외)
+            // 실제 개정 내용이 있고 상세한 경우에만 사용
             if (item.amendments && item.amendments.length > 0 && item.amendments[0].mainContents) {
                 const contents = item.amendments[0].mainContents;
                 const summary = item.summary || '';
                 
-                // 단순한 내용인지 확인
-                const isSimpleContent = typeof contents === 'string' && 
-                    (contents.includes('개정사항') || contents.length < 50);
-                
-                // contents가 배열이고 상세한 경우
-                if (Array.isArray(contents) && contents.length > 0 && 
-                    !contents[0].includes('개정사항')) {
+                // contents가 배열이고 내용이 있는 경우
+                if (Array.isArray(contents) && contents.length > 0) {
                     return `
                         <div style="background: #fff; border-left: 4px solid #667eea; padding: 15px; margin: 10px 0;">
                             ${summary ? `<p style="margin: 0 0 15px 0; font-weight: 600; color: #495057;">${summary}</p>` : ''}
@@ -4262,7 +4254,7 @@
                             </ul>
                         </div>
                     `;
-                } else if (typeof contents === 'string' && !isSimpleContent) {
+                } else if (typeof contents === 'string' && contents.length > 20) {
                     // contents가 문자열이면서 상세한 경우
                     return `
                         <div style="background: #fff; border-left: 4px solid #667eea; padding: 15px; margin: 10px 0;">
