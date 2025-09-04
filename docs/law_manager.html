@@ -365,7 +365,7 @@
 <body>
     <div class="container">
         <h1>⚖️ RegRader 적용법규 관리 시스템</h1>
-        <p class="subtitle">적용법규를 추가/삭제하면 2025년 2,809개 개정법규와 자동 매칭됩니다</p>
+        <p class="subtitle">적용법규를 추가/삭제하면 2025년 개정법규와 자동 매칭됩니다</p>
         
         <div class="stats">
             <div class="stat-card">
@@ -377,7 +377,7 @@
                 <div class="stat-label">자동 매칭</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">2,809</div>
+                <div class="stat-value" id="totalNationalLaws">276</div>
                 <div class="stat-label">2025 개정법규</div>
             </div>
             <div class="stat-card">
@@ -431,7 +431,7 @@
                 <div class="law-list" id="matchedLawsList">
                     <p style="text-align: center; color: #999; padding: 50px;">
                         '자동 매칭 실행' 버튼을 클릭하여<br>
-                        2,809개 법규 DB와 매칭을 시작하세요
+                        개정법규 DB와 매칭을 시작하세요
                     </p>
                 </div>
             </div>
@@ -508,7 +508,7 @@
         let appliedLaws = [];
         let matchedLaws = [];
         let selectedLaws = new Set();
-        let nationalLawDB = []; // 2,809개 법규 데이터
+        let nationalLawDB = []; // 개정법규 데이터
         
         // 초기화
         async function init() {
@@ -543,6 +543,21 @@
         
         // 국가법령 DB 로드 - 실제 매칭된 276개 법규만 사용
         async function loadNationalLawDB() {
+            // 잘못된 localStorage 데이터 제거 (2809개 등 과거 데이터 삭제)
+            const storedData = localStorage.getItem('national_laws_2025');
+            if (storedData) {
+                try {
+                    const data = JSON.parse(storedData);
+                    if (data.laws && data.laws.length > 500) {
+                        // 500개 이상이면 과거 시뮬레이션 데이터로 판단하고 삭제
+                        console.log('⚠️ 과거 시뮬레이션 데이터 삭제:', data.laws.length, '개');
+                        localStorage.removeItem('national_laws_2025');
+                    }
+                } catch (e) {
+                    localStorage.removeItem('national_laws_2025');
+                }
+            }
+            
             // index.json에서 276개 매칭 법규 로드
             try {
                 const response = await fetch('./index.json');
@@ -562,6 +577,16 @@
                             isFromAPI: true
                         }));
                         console.log(`✅ 매칭된 법규 데이터: ${nationalLawDB.length}개 로드 완료 (index.json)`);
+                        
+                        // 오른쪽 패널 제목 업데이트
+                        const rightPanelTitle = document.querySelector('.panel:nth-child(2) .panel-title');
+                        if (rightPanelTitle) {
+                            rightPanelTitle.textContent = `📚 2025년 개정 법규 (${nationalLawDB.length}개)`;
+                        }
+                        const rightPanelCount = document.querySelector('.panel:nth-child(2) .count-badge');
+                        if (rightPanelCount) {
+                            rightPanelCount.textContent = nationalLawDB.length;
+                        }
                         return;
                     }
                 }
@@ -569,22 +594,7 @@
                 console.log('index.json 로드 실패:', e);
             }
             
-            // 2. localStorage에서 API로 가져온 데이터 확인
-            const storedData = localStorage.getItem('national_laws_2025');
-            if (storedData) {
-                try {
-                    const data = JSON.parse(storedData);
-                    if (data.laws && Array.isArray(data.laws)) {
-                        nationalLawDB = data.laws;
-                        console.log(`localStorage에서 법규: ${nationalLawDB.length}개 로드`);
-                        return;
-                    }
-                } catch (e) {
-                    console.error('저장된 데이터 파싱 실패:', e);
-                }
-            }
-            
-            // 3. 데이터가 없으면 빈 배열 사용 (시뮬레이션 데이터 생성하지 않음)
+            // 데이터가 없으면 빈 배열 사용
             nationalLawDB = [];
             console.log('⚠️ 국가법령 DB가 비어있습니다. index.json을 확인해주세요.');
         }
@@ -635,7 +645,7 @@
                 console.log(`2025년 시행 법규: ${laws.length}개 로드 (index.json에서)`);
             }
             
-            // 2025년 실제 개정 법규들 (총 2,809개를 만들기 위해 추가)
+            // 2025년 실제 개정 법규들 (비활성화된 코드)
             // 실제로 2025년에 개정되어 시행되는 법규들만 포함
             const additional2025Laws = [
                 // 세법 관련 (매년 개정되는 주요 법률들)
@@ -879,7 +889,7 @@
             
             // 나머지 2025년 개정법규들을 시뮬레이션 (실제로는 국가법령정보센터 API 필요)
             // 여기서는 현실적인 법규명과 날짜로 생성
-            const remainingLawCount = 2809 - lawMap.size;
+            const remainingLawCount = 0; // 비활성화
             if (remainingLawCount > 0) {
                 // 실제 존재하는 법규들의 추가 개정일자 생성
                 const moreLaws = [
@@ -1046,7 +1056,7 @@
                 return new Date(a.effectiveDate) - new Date(b.effectiveDate);
             });
             
-            console.log(`2025년 시행 법규 DB: 총 ${allLaws.length}개 로드 완료 (목표: 2,809개)`);
+            console.log(`2025년 시행 법규 DB: 총 ${allLaws.length}개 로드 완료`);
             return allLaws;
         }
         
@@ -1331,16 +1341,16 @@
             }
         }
         
-        // 자동 매칭 - 적용법규를 2025년 2,809개 개정법규와 매칭
+        // 자동 매칭 - 적용법규를 2025년 개정법규와 매칭
         async function autoMatch() {
             showToast('자동 매칭 시작...', 'info');
             matchedLaws = [];
             
             console.log(`매칭 시작: 적용법규 ${appliedLaws.length}개 vs 개정법규 ${nationalLawDB.length}개`);
             
-            // 현재 적용법규(207개 + 추가된 것)를 2,809개 개정법규(nationalLawDB)와 매칭
+            // 현재 적용법규(207개 + 추가된 것)를 개정법규(nationalLawDB)와 매칭
             appliedLaws.forEach(appliedLaw => {
-                // 2,809개 개정법규에서 매칭 찾기
+                // 개정법규에서 매칭 찾기
                 nationalLawDB.forEach(nationalLaw => {
                     // 법규명이 완전히 같으면 100% 매칭
                     if (appliedLaw.title === nationalLaw.title) {
@@ -1479,6 +1489,7 @@
         function updateStats() {
             document.getElementById('totalApplied').textContent = appliedLaws.length;
             document.getElementById('totalMatched').textContent = matchedLaws.length;
+            document.getElementById('totalNationalLaws').textContent = nationalLawDB.length;
             const rate = appliedLaws.length > 0 ? 
                 Math.round((matchedLaws.length / appliedLaws.length) * 100) : 0;
             document.getElementById('matchRate').textContent = `${rate}%`;
