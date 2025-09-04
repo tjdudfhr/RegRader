@@ -2798,7 +2798,7 @@
                             </div>
                             <div class="meta-item">
                                 <span>📄</span>
-                                <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
+                                <span>${getDetailedLawType(item) || '일부개정'}</span>
                             </div>
                             <div class="meta-item">
                                 <span>📋</span>
@@ -3007,7 +3007,7 @@
                             </div>
                             <div class="meta-item">
                                 <span>📄</span>
-                                <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
+                                <span>${getDetailedLawType(item) || '일부개정'}</span>
                             </div>
                             <div class="meta-item">
                                 <span>📋</span>
@@ -3228,7 +3228,7 @@
                     <h4 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">📋 개정 개요</h4>
                     <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--primary);">
                         <p style="margin: 0 0 0.5rem 0;"><strong>법령명:</strong> ${item.title}</p>
-                        <p style="margin: 0 0 0.5rem 0;"><strong>개정 유형:</strong> ${getDetailedLawType(item.title, item.lawType) || '일부개정'}</p>
+                        <p style="margin: 0 0 0.5rem 0;"><strong>개정 유형:</strong> ${getDetailedLawType(item) || '일부개정'}</p>
                         <p style="margin: 0 0 0.5rem 0;"><strong>시행 시기:</strong> ${item.effectiveDate || '미정'}</p>
                         <p style="margin: 0;"><strong>주무 부처:</strong> ${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</p>
                     </div>
@@ -3311,24 +3311,41 @@
             return ministryMap[category] || '관계부처';
         }
         
-        // 상세 법령 유형 추출 함수
-        function getDetailedLawType(title, originalType) {
-            if (title.includes('시행령')) {
-                return '대통령령 일부개정';
-            } else if (title.includes('시행규칙')) {
-                return '부령 일부개정';
-            } else if (title.includes('규정') || title.includes('규칙')) {
-                return '규칙 일부개정';
-            } else if (title.includes('고시')) {
-                return '고시 일부개정';
-            } else if (title.includes('지침') || title.includes('기준')) {
-                return '행정규칙 일부개정';
-            } else if (title.includes('법') && !title.includes('시행')) {
-                return '법률 일부개정';
+        // 통합된 개정유형 추출 함수 - 실제 데이터에서 읽어옴
+        function getDetailedLawType(item) {
+            // item이 객체인 경우 amendments에서 amendmentType을 읽음
+            if (typeof item === 'object' && item !== null) {
+                if (item.amendments && item.amendments.length > 0 && item.amendments[0].amendmentType) {
+                    return item.amendments[0].amendmentType;
+                }
+                // 만약 item.lawType이 있다면 그것을 사용
+                if (item.lawType) {
+                    return item.lawType;
+                }
             }
             
-            // 원본 타입이 있으면 사용, 없으면 기본값
-            return originalType || '일부개정';
+            // item이 문자열이거나 다른 경우 (하위 호환성)
+            // 이 경우는 점진적으로 제거될 예정
+            if (typeof item === 'string') {
+                // 기존 로직을 폴백으로 유지 (하위 호환성)
+                const title = item;
+                if (title.includes('시행령')) {
+                    return '일부개정';
+                } else if (title.includes('시행규칙')) {
+                    return '일부개정';
+                } else if (title.includes('규정') || title.includes('규칙')) {
+                    return '일부개정';
+                } else if (title.includes('고시')) {
+                    return '일부개정';
+                } else if (title.includes('지침') || title.includes('기준')) {
+                    return '일부개정';
+                } else if (title.includes('법') && !title.includes('시행')) {
+                    return '일부개정';
+                }
+            }
+            
+            // 기본값
+            return '일부개정';
         }
 
         function showLawModal(lawId) {
@@ -3997,7 +4014,7 @@
                             </div>
                             <div class="meta-item">
                                 <span>📄</span>
-                                <span>${getDetailedLawType(item.title, item.lawType) || '일부개정'}</span>
+                                <span>${getDetailedLawType(item) || '일부개정'}</span>
                             </div>
                         </div>
 
@@ -4061,38 +4078,8 @@
             }
         }
         
-        // 법령명 기반으로 구체적인 개정유형 반환
-        function getDetailedLawType(title, originalType) {
-            if (!title) return '일부개정';
-            
-            // 법령명에서 개정유형 추출
-            if (title.includes('전부개정') || title.includes('전면개정')) {
-                return '전면개정';
-            } else if (title.includes('타법개정') || title.includes('다른 법률')) {
-                return '타법개정';
-            } else if (title.includes('폐지')) {
-                return '폐지';
-            } else if (title.includes('제정') || title.includes('신설')) {
-                return '제정';
-            }
-            
-            // 일반적인 개정 패턴 분석
-            const lawTypes = [
-                { keyword: ['시행령', '시행규칙'], type: '일부개정' },
-                { keyword: ['기본법', '기본계획'], type: '일부개정' },
-                { keyword: ['특별법', '특례법'], type: '일부개정' },
-                { keyword: ['개정법률', '개정안'], type: '일부개정' }
-            ];
-            
-            for (const lawType of lawTypes) {
-                if (lawType.keyword.some(keyword => title.includes(keyword))) {
-                    return lawType.type;
-                }
-            }
-            
-            // 원본 타입이 있으면 사용, 없으면 기본값
-            return originalType || '일부개정';
-        }
+        // 이 함수는 위에서 이미 정의됨 (중복 제거)
+        // getDetailedLawType 함수는 3315행에서 통합 버전으로 정의되어 있음
 
         // 전역 함수로 설정하여 클릭 이벤트가 항상 작동하도록 보장
         window.showLawDetail = function showLawDetail(lawId) {
