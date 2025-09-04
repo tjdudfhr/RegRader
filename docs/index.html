@@ -3452,7 +3452,8 @@
         });
         
         function updateTodayDate() {
-            const today = new Date();
+            // 2025년 시뮬레이션을 위한 날짜 설정
+            const today = new Date('2025-09-04');
             const month = today.getMonth() + 1;
             const day = today.getDate();
             const dateElement = document.getElementById('today-date');
@@ -3626,39 +3627,60 @@
                         
                         console.log('📊 92개 매칭 법규 로드 완료:', all92Laws.length);
                         
-                        // 시행 완료/예정 현황 (9월 4일 기준 실제 분석)
+                        // 시행 완료/예정 현황 동적 계산
+                        const today = new Date('2025-09-04'); // 2025년 시뮬레이션
+                        let implementedCount = 0;
+                        let pendingCount = 0;
+                        
+                        if (lawsData && lawsData.length > 0) {
+                            lawsData.forEach(law => {
+                                const effectiveDate = new Date(law.effectiveDate);
+                                if (effectiveDate <= today) {
+                                    implementedCount++;
+                                } else {
+                                    pendingCount++;
+                                }
+                            });
+                        }
+                        
                         const implementedLawCountElement = document.getElementById('implemented-law-count');
                         if (implementedLawCountElement) {
-                            // 실제 계산된 값: 255개 (시행완료)
-                            implementedLawCountElement.textContent = 255;
-                            console.log('✅ 시행완료 (9/4 기준):', 255);
+                            implementedLawCountElement.textContent = implementedCount;
+                            console.log('✅ 시행완료 (9/4 기준):', implementedCount);
                         }
                         
                         const amendmentLawCountElement = document.getElementById('amendment-law-count');
                         if (amendmentLawCountElement) {
-                            // 실제 계산된 값: 21개 (시행예정)
-                            amendmentLawCountElement.textContent = 21;
-                            console.log('✅ 시행예정 (9월 이후):', 21);
+                            amendmentLawCountElement.textContent = pendingCount;
+                            console.log('✅ 시행예정 (9월 이후):', pendingCount);
                         }
                     })
                     .catch(error => {
                         console.error('❌ 92개 매칭 데이터 로드 실패:', error);
-                        // 폴백: matched2025LawData의 분기별 개수를 사용해서 대략 계산
-                        const implementedLawCountElement = document.getElementById('implemented-law-count');
-                        const amendmentLawCountElement = document.getElementById('amendment-law-count');
+                        // 폴백: lawsData를 사용하여 동적 계산
+                        const today = new Date('2025-09-04');
+                        let implementedCount = 0;
+                        let pendingCount = 0;
                         
+                        if (lawsData && lawsData.length > 0) {
+                            lawsData.forEach(law => {
+                                const effectiveDate = new Date(law.effectiveDate);
+                                if (effectiveDate <= today) {
+                                    implementedCount++;
+                                } else {
+                                    pendingCount++;
+                                }
+                            });
+                        }
+                        
+                        const implementedLawCountElement = document.getElementById('implemented-law-count');
                         if (implementedLawCountElement) {
-                            // Q1(1~3월) + Q2(4~6월) + Q3 일부(7~8월) ≈ 대략 70건 정도
-                            const implementedCount = matched2025LawData.by_quarter.Q1 + 
-                                                   matched2025LawData.by_quarter.Q2 + 
-                                                   Math.floor(matched2025LawData.by_quarter.Q3 * 0.7); // Q3의 70%
                             implementedLawCountElement.textContent = implementedCount;
                         }
                         
+                        const amendmentLawCountElement = document.getElementById('amendment-law-count');
                         if (amendmentLawCountElement) {
-                            // 나머지 = 92 - 시행완료
-                            const totalImplemented = parseInt(implementedLawCountElement.textContent) || 0;
-                            amendmentLawCountElement.textContent = 92 - totalImplemented;
+                            amendmentLawCountElement.textContent = pendingCount;
                         }
                     });
                 
@@ -4632,7 +4654,8 @@
         function getDaysFromNow(dateStr) {
             if (!dateStr) return null;
             const targetDate = new Date(dateStr);
-            const today = new Date();
+            // 2025년 시뮬레이션을 위한 날짜 설정
+            const today = new Date('2025-09-04');
             const diffTime = targetDate - today;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             return diffDays;
