@@ -10,6 +10,18 @@
     <title>RegRader 이메일 발송 센터</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
+        // 캐시 버전 체크 및 자동 리로드
+        (function() {
+            const CACHE_VERSION = '2025.09.04.003';
+            const storedVersion = localStorage.getItem('email_popup_cache_version');
+            
+            if (storedVersion !== CACHE_VERSION) {
+                localStorage.setItem('email_popup_cache_version', CACHE_VERSION);
+                window.location.reload(true);
+                return;
+            }
+        })();
+        
         (function(){
             try {
                 emailjs.init("Nt6PrPKpsL1ruZEIH");

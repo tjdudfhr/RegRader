@@ -4007,17 +4007,21 @@
         // 전역 함수로 설정하여 클릭 이벤트가 항상 작동하도록 보장
         window.showLawDetail = function showLawDetail(lawId) {
             console.log('🔍 showLawDetail called with lawId:', lawId);
-            console.log('📁 lawsData length:', lawsData ? lawsData.length : 'undefined');
             
-            if (!lawsData || lawsData.length === 0) {
-                console.error('⚠️ lawsData is empty or undefined!');
+            // lawsData가 없으면 window.lawsData 사용
+            const dataSource = window.lawsData || lawsData;
+            console.log('📁 dataSource length:', dataSource ? dataSource.length : 'undefined');
+            
+            if (!dataSource || dataSource.length === 0) {
+                console.error('⚠️ Data is empty or undefined!');
                 alert('법령 데이터를 로드하는 중입니다. 잠시 후 다시 시도해주세요.');
                 return;
             }
             
-            const item = lawsData.find(law => law.id === lawId);
+            const item = dataSource.find(law => law.id === lawId);
             if (!item) {
                 console.error('❌ Law not found with id:', lawId);
+                console.log('🔍 Available IDs:', dataSource.slice(0, 5).map(l => l.id));
                 return;
             }
             console.log('✅ Found law item:', item);
@@ -4160,15 +4164,26 @@
                 const contents = item.amendments[0].mainContents;
                 const summary = item.summary || '';
                 
-                return `
-                    <div style="background: #fff; border-left: 4px solid #667eea; padding: 15px; margin: 10px 0;">
-                        ${summary ? `<p style="margin: 0 0 15px 0; font-weight: 600; color: #495057;">${summary}</p>` : ''}
-                        <p style="margin: 0 0 10px 0;"><strong>주요 개정사항:</strong></p>
-                        <ul style="margin: 0; padding-left: 20px;">
-                            ${contents.map(content => `<li style="margin: 5px 0; color: #495057;">${content}</li>`).join('')}
-                        </ul>
-                    </div>
-                `;
+                // contents가 배열인지 확인
+                if (Array.isArray(contents)) {
+                    return `
+                        <div style="background: #fff; border-left: 4px solid #667eea; padding: 15px; margin: 10px 0;">
+                            ${summary ? `<p style="margin: 0 0 15px 0; font-weight: 600; color: #495057;">${summary}</p>` : ''}
+                            <p style="margin: 0 0 10px 0;"><strong>주요 개정사항:</strong></p>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                ${contents.map(content => `<li style="margin: 5px 0; color: #495057;">${content}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                } else if (typeof contents === 'string') {
+                    // contents가 문자열인 경우
+                    return `
+                        <div style="background: #fff; border-left: 4px solid #667eea; padding: 15px; margin: 10px 0;">
+                            ${summary ? `<p style="margin: 0 0 15px 0; font-weight: 600; color: #495057;">${summary}</p>` : ''}
+                            <p style="margin: 0; color: #495057;">${contents}</p>
+                        </div>
+                    `;
+                }
             }
             
             // 없으면 기존 템플릿 사용
