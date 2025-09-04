@@ -3653,18 +3653,21 @@
                 const currentDate = new Date('2025-08-26'); // 현재 날짜
                 const currentDateStr = '2025-08-26';
                 
-                // 92개 매칭 법규 기준으로 시행완료/시행예정 계산
-                // quarterly_details.json에서 실제 92개 데이터를 가져와서 계산
+                // 276개 매칭 법규 기준으로 시행완료/시행예정 계산
+                // quarterly_details.json에서 실제 276개 데이터를 가져와서 계산
                 fetch('quarterly_details.json')
                     .then(response => response.json())
                     .then(quarterlyData => {
-                        // 모든 분기의 법규를 하나로 합침
-                        let all92Laws = [];
-                        Object.values(quarterlyData.quarters).forEach(quarter => {
-                            all92Laws = all92Laws.concat(quarter.laws || []);
-                        });
+                        // 모든 분기의 법규를 하나로 합침 또는 items 사용
+                        let allMatchedLaws = quarterlyData.items || [];
+                        if (allMatchedLaws.length === 0) {
+                            // items가 없으면 quarters에서 추출
+                            Object.values(quarterlyData.quarters || {}).forEach(quarter => {
+                                allMatchedLaws = allMatchedLaws.concat(quarter.laws || []);
+                            });
+                        }
                         
-                        console.log('📊 92개 매칭 법규 로드 완료:', all92Laws.length);
+                        console.log('📊 매칭 법규 로드 완료:', allMatchedLaws.length, '개');
                         
                         // 시행 완료/예정 현황 동적 계산
                         const today = new Date('2025-09-04'); // 2025년 시뮬레이션
@@ -3695,7 +3698,7 @@
                         }
                     })
                     .catch(error => {
-                        console.error('❌ 92개 매칭 데이터 로드 실패:', error);
+                        console.error('❌ 매칭 데이터 로드 실패:', error);
                         // 폴백: lawsData를 사용하여 동적 계산
                         const today = new Date('2025-09-04');
                         let implementedCount = 0;
@@ -4509,29 +4512,11 @@
         // 207개 기본 법규 로드 함수
         async function loadBaseLaws() {
             try {
-                let data;
-                
-                // localStorage에서 업데이트된 적용법규 확인
-                const updatedFlag = localStorage.getItem('laws_updated_flag');
-                const appliedLawsData = localStorage.getItem('applied_laws');
-                
-                if (updatedFlag === 'true' && appliedLawsData) {
-                    console.log('Loading updated applied laws from localStorage...');
-                    try {
-                        data = JSON.parse(appliedLawsData);
-                        console.log(`✅ localStorage에서 ${data.items ? data.items.length : 0}개 적용법규 로드`);
-                    } catch (e) {
-                        console.error('Failed to parse localStorage data:', e);
-                        data = null;
-                    }
-                }
-                
-                // base_laws_207.json 파일 사용
-                if (!data) {
-                    const response = await fetch('./base_laws_207.json');
-                    data = await response.json();
-                    console.log('📊 기본 법규 데이터(base_laws_207.json) 사용');
-                }
+                // ALWAYS load from base_laws_207.json - ignore localStorage for law registry
+                // localStorage는 다른 용도로 사용될 수 있으므로 적용법규 탭은 항상 207개 기본 법규만 사용
+                const response = await fetch('./base_laws_207.json');
+                const data = await response.json();
+                console.log('📊 적용법규 탭: 기본 법규 데이터(base_laws_207.json) 207개 로드');
                 
                 baseLawsData = data.items || [];
                 console.log(`✅ ${baseLawsData.length}개 기본 법규 로드 완료`);
@@ -4716,6 +4701,18 @@
             }
         });
 
+        // ===========================================
+        // localStorage 청소 함수 (디버깅용)
+        function clearLawsLocalStorage() {
+            localStorage.removeItem('laws_updated_flag');
+            localStorage.removeItem('applied_laws');
+            localStorage.removeItem('updated_laws_data');
+            console.log('✅ localStorage에서 법규 관련 데이터 삭제 완료');
+        }
+        
+        // 페이지 로드 시 localStorage 청소 (잘못된 데이터 방지)
+        clearLawsLocalStorage();
+        
         // ===========================================
         // 이메일 알림 설정 시스템
         // ===========================================
