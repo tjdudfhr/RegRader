@@ -1786,7 +1786,7 @@
                         <span style="font-size: 1.3rem;">🎯</span>
                         <div>
                             <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">2025년 당사 적용 법규 개정 현황</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">276개 적용 법규 매칭 결과</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">207개 기본 법규 중 매칭 결과</div>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
@@ -2671,15 +2671,9 @@
                 closeQuarterlyDetail();
             }
             
-            // 적용법규 탭을 클릭하면 276개 적용법규 표시
-            if (tabName === 'lawregistry') {
-                // 데이터가 없을 때만 로드, 있으면 바로 표시
-                if (baseLawsData.length === 0) {
-                    loadBaseLaws();
-                } else {
-                    // 이미 데이터가 있으면 바로 전체 법규 표시
-                    showJobFunctionLaws('all', '전체');
-                }
+            // 적용법규 탭을 클릭하면 207개 기본 법규 로드
+            if (tabName === 'lawregistry' && baseLawsData.length === 0) {
+                loadBaseLaws();
             }
         }
 
@@ -3604,15 +3598,10 @@
                     console.log('📋 데이터 로드 완료:', data.items.length, '건');
                     lawsData = data.items;
                     window.lawsData = data.items; // 전역 변수로도 설정
-                    
-                    // 적용법규 탭을 위한 baseLawsData도 동기화 (276개 법규)
-                    baseLawsData = data.items;
-                    console.log('✅ 적용법규 탭 데이터 동기화:', baseLawsData.length, '건');
                 } else {
                     console.error('❌ data.items가 배열이 아닙니다:', data.items);
                     lawsData = [];
                     window.lawsData = [];
-                    baseLawsData = [];
                 }
                 
                 filteredLaws = [...lawsData];
@@ -4499,20 +4488,12 @@
 
 
 
-        // 276개 적용법규 데이터 저장용 전역 변수
+        // 207개 기본 법규 데이터 저장용 전역 변수
         let baseLawsData = [];
         
-        // 276개 적용법규 로드 함수 (이미 로드되어 있으면 스킵)
+        // 207개 기본 법규 로드 함수
         async function loadBaseLaws() {
             try {
-                // 이미 baseLawsData가 있으면 바로 표시
-                if (baseLawsData && baseLawsData.length > 0) {
-                    console.log(`✅ 이미 로드된 ${baseLawsData.length}개 적용법규 사용`);
-                    updateRegistryTabCounts();
-                    showJobFunctionLaws('all', '전체');
-                    return;
-                }
-                
                 let data;
                 
                 // localStorage에서 업데이트된 적용법규 확인
@@ -4530,15 +4511,15 @@
                     }
                 }
                 
-                // 최신 index.json 사용 (276개 매칭된 법규)
+                // base_laws_207.json 파일 사용
                 if (!data) {
-                    const response = await fetch('./index.json');
+                    const response = await fetch('./base_laws_207.json');
                     data = await response.json();
-                    console.log('📊 최신 매칭된 법규 데이터(index.json) 사용');
+                    console.log('📊 기본 법규 데이터(base_laws_207.json) 사용');
                 }
                 
                 baseLawsData = data.items || [];
-                console.log(`✅ ${baseLawsData.length}개 적용법규 로드 완료 (최신 데이터)`);
+                console.log(`✅ ${baseLawsData.length}개 기본 법규 로드 완료`);
                 
                 // 적용법규 탭 카운트 업데이트
                 updateRegistryTabCounts();
@@ -4550,7 +4531,7 @@
             }
         }
         
-        // 적용법규 탭 카운트 업데이트 (276개 적용법규 기준)
+        // 적용법규 탭 카운트 업데이트 (207개 기본 법규 기준)
         function updateRegistryTabCounts() {
             if (baseLawsData.length === 0) return;
             
@@ -4617,7 +4598,7 @@
             });
             document.querySelector(`[data-job="${jobFunction}"]`).classList.add('active');
             
-            // 276개 매칭 법규 사용 (index.json)
+            // 207개 기본 법규 사용 (base_laws_207.json)
             const baseLaws = baseLawsData;
             
             // Filter laws based on job function
