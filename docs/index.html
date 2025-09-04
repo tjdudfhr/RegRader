@@ -2117,13 +2117,13 @@
                             <div>
                                 <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
                                     <span style="font-size: 1.5rem;">📚</span>
-                                    매칭된 적용법규 (276개)
+                                    당사 적용법규 (207개)
                                 </h3>
                                 <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
-                                    2025년 시행 법규와 매칭된 적용법규 목록 (최신)
+                                    당사 기본 적용법규 목록 (기준 법규)
                                 </p>
                                 <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
-                                    <strong>파일명:</strong> 매칭법규_276.xlsx
+                                    <strong>파일명:</strong> base_laws_207.xlsx
                                 </p>
                             </div>
                             <span style="font-size: 2rem; color: var(--warning);">⬇</span>
@@ -4782,8 +4782,8 @@
         
         // 기본 법규 다운로드 (Excel 형식으로 변환)
         function downloadBaseLaws() {
-            // index.json(최신 매칭 법규)을 Excel로 변환하여 다운로드
-            fetch('./index.json')
+            // base_laws_207.json(당사 기본 적용법규)을 Excel로 변환하여 다운로드
+            fetch('./base_laws_207.json')
                 .then(response => response.json())
                 .then(data => {
                     const excelData = data.items.map((law, index) => ({
@@ -4798,7 +4798,7 @@
                     // Excel 파일 생성
                     const ws = XLSX.utils.json_to_sheet(excelData);
                     const wb = XLSX.utils.book_new();
-                    XLSX.utils.book_append_sheet(wb, ws, '매칭법규_276');
+                    XLSX.utils.book_append_sheet(wb, ws, '당사적용법규_207');
                     
                     // 컬럼 너비 조정
                     const colWidths = [
@@ -4811,7 +4811,7 @@
                     ];
                     ws['!cols'] = colWidths;
                     
-                    XLSX.writeFile(wb, '매칭법규_276.xlsx');
+                    XLSX.writeFile(wb, 'base_laws_207.xlsx');
                 })
                 .catch(error => {
                     console.error('Download error:', error);
