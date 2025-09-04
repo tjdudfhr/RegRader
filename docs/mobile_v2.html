@@ -6,22 +6,29 @@
     <title>RegRader Mobile · AI 법규 개정 모니터링 시스템</title>
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
-    <!-- PC에서 접속 시 PC 버전으로 리다이렉션 (선택사항) -->
+    <!-- PC에서 접속 시 안내 (자동 리디렉션 비활성화) -->
     <script>
         (function() {
-            // sessionStorage 초기화 (무한 루프 방지)
-            sessionStorage.removeItem('redirecting');
+            // URL 파라미터 체크 (강제 모바일 모드)
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('mobile') === 'true') {
+                localStorage.setItem('forceMobile', 'true');
+            }
             
             // 모바일 기기 감지
-            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(navigator.userAgent) ||
-                          ('ontouchstart' in window) ||
-                          (navigator.maxTouchPoints > 0) ||
-                          (window.innerWidth <= 768);
+            var mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS|FxiOS|EdgiOS|SamsungBrowser/i;
+            var isMobile = mobileRegex.test(navigator.userAgent);
             
-            // PC에서 접속했고 강제 모바일 모드가 아니면 PC 버전으로 자동 이동
-            if (!isMobile && !sessionStorage.getItem('stayMobile')) {
-                sessionStorage.setItem('redirecting', 'true');
-                window.location.replace('./index.html');
+            // 화면 크기도 체크
+            if (window.innerWidth <= 768) {
+                isMobile = true;
+            }
+            
+            // PC에서 접속했지만 강제 모바일 모드가 아닌 경우에만 안내
+            if (!isMobile && !localStorage.getItem('forceMobile')) {
+                // PC 사용자에게 PC 버전 안내 (자동 리디렉션 하지 않음)
+                console.log('PC user on mobile version - manual switch available');
+                // 필요시 상단에 PC 버전 전환 버튼을 표시할 수 있음
             }
         })();
     </script>

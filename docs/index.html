@@ -18,38 +18,39 @@
     <!-- 모바일 기기 감지 및 자동 리다이렉션 -->
     <script>
         (function() {
-            // 이미 리디렉션 중인지 체크 (무한 루프 방지)
-            if (sessionStorage.getItem('redirecting')) {
+            // 강제로 PC 버전을 원하는 경우 체크
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('desktop') === 'true' || localStorage.getItem('forceDesktop') === 'true') {
                 return;
             }
             
-            // 모바일 기기 감지 - 더 정확한 감지
+            // 모바일 기기 감지
             var isMobile = false;
             
-            // 1. User Agent 체크
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(navigator.userAgent)) {
+            // 1. User Agent 체크 (가장 신뢰할 수 있는 방법)
+            var mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS|FxiOS|EdgiOS|SamsungBrowser/i;
+            if (mobileRegex.test(navigator.userAgent)) {
                 isMobile = true;
+                console.log('Mobile detected by User Agent');
             }
             
-            // 2. 터치 디바이스 체크
-            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+            // 2. 화면 크기 체크 (768px 이하) - User Agent와 함께 사용
+            if (window.innerWidth <= 768 && window.innerHeight <= 1024) {
                 isMobile = true;
+                console.log('Mobile detected by screen size');
             }
             
-            // 3. 화면 크기 체크 (768px 이하)
-            if (window.innerWidth <= 768) {
+            // 3. 터치 지원과 화면 크기 조합
+            var hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            if (hasTouch && window.innerWidth <= 768) {
                 isMobile = true;
+                console.log('Mobile detected by touch + screen size');
             }
             
-            // 4. 미디어 쿼리 체크
-            if (window.matchMedia && window.matchMedia("(max-width: 768px)").matches) {
-                isMobile = true;
-            }
-            
-            // 현재 페이지가 모바일 버전이 아니고, 모바일 기기면 리디렉션
-            if (isMobile && !window.location.pathname.includes('mobile_v2')) {
-                sessionStorage.setItem('redirecting', 'true');
-                window.location.replace('./mobile_v2.html');
+            // 모바일이면 리디렉션
+            if (isMobile) {
+                console.log('Redirecting to mobile version...');
+                window.location.href = './mobile_v2.html';
             }
         })();
     </script>
