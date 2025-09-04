@@ -911,7 +911,7 @@
                         </div>
                     </div>
                     <div style="text-align: right;">
-                        <div class="stat-main-value">2,809</div>
+                        <div class="stat-main-value">2,971</div>
                         <div class="stat-subtitle">전체 개정 법령</div>
                     </div>
                 </div>
@@ -930,7 +930,7 @@
                 </div>
                 <div class="stat-grid">
                     <div class="mini-stat">
-                        <div class="mini-stat-value" style="color: var(--primary);">259</div>
+                        <div class="mini-stat-value" style="color: var(--primary);">276</div>
                         <div class="mini-stat-label">총 매칭</div>
                     </div>
                     <div class="mini-stat">
@@ -1008,7 +1008,7 @@
                     <div class="quarter-period">2025년 1~3월</div>
                     <div class="quarter-stats">
                         <div>
-                            <div class="quarter-count">119</div>
+                            <div class="quarter-count">134</div>
                             <div class="quarter-label">개정 법령</div>
                         </div>
                         <button class="download-btn" onclick="downloadExcel('Q1', event)">
@@ -1040,7 +1040,7 @@
                     <div class="quarter-period">2025년 7~9월</div>
                     <div class="quarter-stats">
                         <div>
-                            <div class="quarter-count">64</div>
+                            <div class="quarter-count">67</div>
                             <div class="quarter-label">개정 법령</div>
                         </div>
                         <button class="download-btn" onclick="downloadExcel('Q3', event)">
@@ -1056,7 +1056,7 @@
                     <div class="quarter-period">2025년 10~12월</div>
                     <div class="quarter-stats">
                         <div>
-                            <div class="quarter-count">15</div>
+                            <div class="quarter-count">14</div>
                             <div class="quarter-label">개정 법령</div>
                         </div>
                         <button class="download-btn" onclick="downloadExcel('Q4', event)">
@@ -1074,34 +1074,34 @@
         <div class="job-section">
             <div class="section-title">
                 <span>🏢</span>
-                <span>직무별 개정 현황 (259개 매칭)</span>
+                <span>직무별 개정 현황 (276개 매칭)</span>
             </div>
             <div class="job-grid">
                 <div class="job-card" onclick="showJobDetail('환경')">
                     <div class="job-icon-wrapper job-env">🌱</div>
                     <div class="job-name">환경</div>
-                    <div class="job-count">99</div>
+                    <div class="job-count">105</div>
                     <div class="job-label">개정 법규</div>
                 </div>
                 
                 <div class="job-card" onclick="showJobDetail('안전')">
                     <div class="job-icon-wrapper job-safety">🛡️</div>
                     <div class="job-name">안전</div>
-                    <div class="job-count">52</div>
+                    <div class="job-count">56</div>
                     <div class="job-label">개정 법규</div>
                 </div>
                 
                 <div class="job-card" onclick="showJobDetail('재무회계')">
                     <div class="job-icon-wrapper job-fin">💰</div>
                     <div class="job-name">재무회계</div>
-                    <div class="job-count">47</div>
+                    <div class="job-count">61</div>
                     <div class="job-label">개정 법규</div>
                 </div>
                 
                 <div class="job-card" onclick="showJobDetail('인사노무')">
                     <div class="job-icon-wrapper job-hr">👥</div>
                     <div class="job-name">인사노무</div>
-                    <div class="job-count">27</div>
+                    <div class="job-count">23</div>
                     <div class="job-label">개정 법규</div>
                 </div>
                 
@@ -1115,7 +1115,7 @@
                 <div class="job-card" onclick="showJobDetail('공정거래')">
                     <div class="job-icon-wrapper job-fair">⚖️</div>
                     <div class="job-name">공정거래</div>
-                    <div class="job-count">10</div>
+                    <div class="job-count">7</div>
                     <div class="job-label">개정 법규</div>
                 </div>
                 
@@ -1282,7 +1282,7 @@
         
         // 이번주 정보 업데이트
         function updateWeekInfo() {
-            const now = new Date();
+            const now = new Date('2025-09-04');
             const weekStart = new Date(now);
             weekStart.setDate(now.getDate() - now.getDay()); // 일요일
             const weekEnd = new Date(weekStart);
@@ -1300,7 +1300,7 @@
         function updateWeeklyLaws() {
             if (lawsData.length === 0) return;
             
-            const now = new Date();
+            const now = new Date('2025-09-04');
             const weekStart = new Date(now);
             weekStart.setDate(now.getDate() - now.getDay());
             weekStart.setHours(0, 0, 0, 0);
@@ -1354,7 +1354,7 @@
             }
         }
         
-        // 259개 매칭 법규 데이터 로드
+        // 276개 매칭 법규 데이터 로드
         async function loadLawsData() {
             try {
                 const response = await fetch('./index.json');
@@ -1510,7 +1510,7 @@
                         day: '2-digit'
                     }).replace(/\. /g, '.').replace(/\.$/, '');
                     
-                    const status = date < new Date() ? '시행완료' : '시행예정';
+                    const status = date < new Date('2025-09-04') ? '시행완료' : '시행예정';
                     const statusClass = status === '시행완료' ? 'badge-status-completed' : 'badge-status-upcoming';
                     
                     // 데이터 속성으로 전달하는 방식으로 변경
@@ -1585,7 +1585,7 @@
                         day: '2-digit'
                     }).replace(/\. /g, '.').replace(/\.$/, '') : '미정';
                     
-                    const status = date && date < new Date() ? '시행완료' : '시행예정';
+                    const status = date && date < new Date('2025-09-04') ? '시행완료' : '시행예정';
                     const statusClass = status === '시행완료' ? 'badge-status-completed' : 'badge-status-upcoming';
                     
                     // 데이터 속성으로 전달하는 방식으로 변경
@@ -1802,12 +1802,12 @@
                     </div>
                     <div class="law-item" onclick="alert('PC 버전에서 다운로드 가능합니다')">
                         <div class="law-header">
-                            <div class="law-title">매칭 결과 (259개)</div>
+                            <div class="law-title">매칭 결과 (276개)</div>
                             <span class="law-link-icon">📄</span>
                         </div>
                         <div class="law-meta">
                             <span class="law-badge badge-type">Excel</span>
-                            <span>매칭결과_259.xlsx</span>
+                            <span>매칭결과_276.xlsx</span>
                         </div>
                     </div>
                     <div class="law-item" onclick="alert('PC 버전에서 다운로드 가능합니다')">
@@ -1950,7 +1950,7 @@
                 <div class="summary-section">
                     <h4>📋 개정 개요</h4>
                     <p><strong>법령명:</strong> ${item.title}</p>
-                    <p><strong>개정 유형:</strong> ${getDetailedLawType(item.title, item.lawType) || '일부개정'}</p>
+                    <p><strong>개정 유형:</strong> ${getDetailedLawType(item) || '일부개정'}</p>
                     <p><strong>시행 시기:</strong> ${item.effectiveDate || '미정'}</p>
                     <p><strong>주무 부처:</strong> ${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</p>
                 </div>
@@ -2105,30 +2105,48 @@
         }
         
         // 법령 타입 상세 정보 함수 - PC 버전과 동일
-        function getDetailedLawType(title, originalType) {
-            if (title.includes('시행령')) {
-                return '대통령령 일부개정';
-            } else if (title.includes('시행규칙')) {
-                return '부령 일부개정';
-            } else if (title.includes('규정') || title.includes('규칙')) {
-                return '규칙 일부개정';
-            } else if (title.includes('고시')) {
-                return '고시 일부개정';
-            } else if (title.includes('지침') || title.includes('기준')) {
-                return '행정규칙 일부개정';
-            } else if (title.includes('법') && !title.includes('시행')) {
-                return '법률 일부개정';
+        // 통합된 개정유형 추출 함수 - 실제 데이터에서 읽어옴
+        function getDetailedLawType(item) {
+            // item이 객체인 경우 amendments에서 amendmentType을 읽음
+            if (typeof item === 'object' && item !== null) {
+                if (item.amendments && item.amendments.length > 0 && item.amendments[0].amendmentType) {
+                    return item.amendments[0].amendmentType;
+                }
+                // 만약 item.lawType이 있다면 그것을 사용
+                if (item.lawType) {
+                    return item.lawType;
+                }
             }
             
-            // 원본 타입이 있으면 사용, 없으면 기본값
-            return originalType || '일부개정';
+            // item이 문자열이거나 다른 경우 (하위 호환성)
+            // 이 경우는 점진적으로 제거될 예정
+            if (typeof item === 'string') {
+                // 기존 로직을 폴백으로 유지 (하위 호환성)
+                const title = item;
+                if (title.includes('시행령')) {
+                    return '일부개정';
+                } else if (title.includes('시행규칙')) {
+                    return '일부개정';
+                } else if (title.includes('규정') || title.includes('규칙')) {
+                    return '일부개정';
+                } else if (title.includes('고시')) {
+                    return '일부개정';
+                } else if (title.includes('지침') || title.includes('기준')) {
+                    return '일부개정';
+                } else if (title.includes('법') && !title.includes('시행')) {
+                    return '일부개정';
+                }
+            }
+            
+            // 기본값
+            return '일부개정';
         }
         
         // 날짜 계산 함수
         function getDaysFromNow(dateStr) {
             if (!dateStr) return null;
             const targetDate = new Date(dateStr);
-            const today = new Date();
+            const today = new Date('2025-09-04');
             const diffTime = targetDate - today;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             return diffDays;
