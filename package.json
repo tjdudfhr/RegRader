@@ -1,5 +1,24 @@
 {
+  "name": "regrader",
+  "version": "2.1.0",
+  "description": "RegRader - 법령 모니터링 앱",
+  "private": true,
+  "scripts": {
+    "build": "echo 'No build step needed for static HTML'",
+    "cap:add:ios": "npx cap add ios",
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npx cap sync",
+    "cap:open:ios": "npx cap open ios",
+    "cap:open:android": "npx cap open android",
+    "cap:run:ios": "npx cap run ios",
+    "cap:run:android": "npx cap run android"
+  },
   "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/ios": "^6.0.0",
+    "@capacitor/splash-screen": "^6.0.0",
+    "@capacitor/status-bar": "^6.0.0",
     "axios": "^1.11.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
@@ -8,6 +27,7 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
+    "@capacitor/cli": "^6.0.0",
     "pm2": "^6.0.10"
   }
 }
