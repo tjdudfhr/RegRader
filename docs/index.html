@@ -12,7 +12,7 @@
     
     <!-- PWA 설정 -->
     <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#667eea"
     <link rel="apple-touch-icon" href="./icon-192.png">
     
     <!-- 모바일 기기 감지 및 선택적 리다이렉션 -->
@@ -2747,7 +2747,7 @@
                 const year = date.getFullYear();
                 
                 // 2025년 법령만 필터링
-                if (year !== 2025) return false;
+                if (year !== 2026) return false;
                 
                 // 분기별 필터링
                 return info.months.includes(month);
@@ -2981,7 +2981,7 @@
                 const year = date.getFullYear();
                 
                 // Only 2025 laws
-                if (year !== 2025) return false;
+                if (year !== 2026) return false;
                 
                 // Check if in this quarter
                 return info.months.includes(month);
@@ -3111,7 +3111,7 @@
                             categories: quarterlyLaw.categories || ['기타'],
                             effectiveDate: quarterlyLaw.effective_date,
                             lawType: quarterlyLaw.law_type,
-                            summary: `이 법령은 ${quarterlyLaw.effective_date}에 시행되는 2025년 시행 법령입니다. ${quarterlyLaw.ministry}에서 관장하며, ${quarterlyLaw.law_type}으로 개정됩니다.`,
+                            summary: `이 법령은 ${quarterlyLaw.effective_date}에 시행되는 2026년 시행 법령입니다. ${quarterlyLaw.ministry}에서 관장하며, ${quarterlyLaw.law_type}으로 개정됩니다.`,
                             amendmentDetails: [
                                 `개정 시기: ${quarterlyLaw.effective_date}`,
                                 `개정 유형: ${quarterlyLaw.law_type}`,
