@@ -7,7 +7,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <meta name="cache-version" content="2026.02.18.001">
+    <meta name="cache-version" content="2026.02.18.001"
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
     <!-- PWA 설정 -->
@@ -4228,12 +4228,15 @@
                 return `
                     <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
                         <p style="margin: 0 0 10px 0;"><strong>${ministry}</strong>에서 「${item.title}」을 <strong>${amendmentType}</strong>하였습니다.</p>
-                        ${item.amendments?.[0]?.mainContents ? 
-                          `<ul style="margin: 10px 0 0 0; padding-left: 20px; color: #495057;">
-                            ${item.amendments[0].mainContents.map(content => 
-                              `<li>${content}</li>`
-                            ).join('')}
-                          </ul>` : ''}
+            ${item.amendments?.[0]?.mainContents ?
+                (Array.isArray(item.amendments[0].mainContents) ?
+                    `<ul style="margin: 10px 0 0 0; padding-left: 20px; color: #495057;">
+                        ${item.amendments[0].mainContents.map(content =>
+                            `<li>${content}</li>`
+                        ).join('')}
+                    </ul>` :
+                    `<p style="margin: 10px 0 0 0; color: #495057; white-space: pre-wrap;">${item.amendments[0].mainContents}</p>`)
+                : ''}
                     </div>
                 `;
             }
