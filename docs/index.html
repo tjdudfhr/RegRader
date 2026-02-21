@@ -4218,124 +4218,83 @@
         
         function generateAmendmentReason(item) {
     const amendment = item.amendments?.[0];
-    if (!amendment) return '';
+    if (!amendment) return '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 이유 정보가 없습니다.</p>';
 
     const rawReason = amendment.reason || '';
-    const ministry = item.ministry || '';
-    const title = item.title || '';
-    const effectiveDate = amendment.date || item.effectiveDate || '';
 
-    // --- law.go.kr 원문 텍스트 파싱 ---
+    // law.go.kr 원문 파싱: [일부개정] ◇ 개정이유 ... ◇ 주요내용 가. 나. ... 【개정문】(제외)
     function parseRawReason(text) {
-        if (!text) return { amendmentType: '', reason: '', mainPoints: [] };
+        if (!text || text.length < 5) return { reason: '', mainPoints: [] };
 
-        // 개정 유형 추출: [일부개정], [전부개정], [제정] 등
-        let amendmentType = '';
-        const typeMatch = text.match(/^\[([^\]]+)\]/);
-        if (typeMatch) {
-            amendmentType = typeMatch[1];
-        }
-
-        // 개정문 이하 제거
-        let cleanText = text;
-        const cutIdx = cleanText.search(/【개정문】|<법제처 제공>/);
-        if (cutIdx >= 0) {
-            cleanText = cleanText.substring(0, cutIdx);
-        }
+        // 개정문 이하 제거 (법률 조문 원문은 불필요)
+        let clean = text;
+        const cutIdx = clean.search(/【개정문】|<법제처 제공>/);
+        if (cutIdx >= 0) clean = clean.substring(0, cutIdx);
 
         // ◇ 개정이유 섹션 추출
         let reason = '';
-        const reasonMatch = cleanText.match(/◇\s*개정이유\s*([\s\S]*?)(?=◇\s*주요내용|$)/);
-        if (reasonMatch) {
-            reason = reasonMatch[1].trim();
-        } else if (!amendmentType && cleanText.length > 10) {
-            reason = cleanText.trim();
+        const rMatch = clean.match(/◇\s*개정이유\s*([\s\S]*?)(?=◇\s*주요내용|$)/);
+        if (rMatch) {
+            reason = rMatch[1].trim();
+        } else {
+            // 구조화되지 않은 경우 전체 텍스트 사용 (브래킷 제외)
+            reason = clean.replace(/^\[[^\]]+\]\s*/, '').trim();
         }
 
-        // ◇ 주요내용 섹션 추출 및 항목 파싱
+        // ◇ 주요내용 섹션 → 가.나.다. 항목별로 분리
         let mainPoints = [];
-        const mainMatch = cleanText.match(/◇\s*주요내용\s*([\s\S]*)$/);
-        if (mainMatch) {
-            const mainText = mainMatch[1].trim();
-            // 가., 나., 다. 등 한글 기호로 분리
-            const parts = mainText.split(/(?=\n?\s*[가나다라마바사아자차카타파하]\.)/)
-                .map(s => s.trim()).filter(s => s.length > 2);
-            if (parts.length > 1) {
-                mainPoints = parts;
-            } else {
-                // 줄바꿈으로 분리
-                mainPoints = mainText.split('\n').map(s => s.trim()).filter(s => s.length > 2);
-            }
+        const mMatch = clean.match(/◇\s*주요내용\s*([\s\S]*)$/);
+        if (mMatch) {
+            const mText = mMatch[1].trim();
+            // 가., 나., 다. 등으로 분리
+            const parts = mText.split(/(?=\n\s*[가나다라마바사아자차카타파하]\.)/)
+                .map(s => s.trim()).filter(s => s.length > 3);
+            mainPoints = parts.length > 1 ? parts : mText.split('\n').map(s => s.trim()).filter(s => s.length > 3);
         }
 
-        return { amendmentType, reason, mainPoints };
+        // 구형 mainContents 배열 지원
+        if (mainPoints.length === 0 && Array.isArray(amendment.mainContents) && amendment.mainContents.length > 0) {
+            mainPoints = amendment.mainContents;
+        }
+
+        return { reason, mainPoints };
     }
 
     const parsed = parseRawReason(rawReason);
 
-    // 표시할 개정 유형 결정
-    const knownTypes = ['일부개정', '타법개정', '제정', '전부개정', '일부개정(타법개정)'];
-    let displayType = amendment.amendmentType || '';
-    if (!displayType || !knownTypes.includes(displayType)) {
-        displayType = parsed.amendmentType || '개정';
-    }
+    // 비동기로 '개정 내용' 및 '주요 개정 조항' 섹션도 업데이트
+    setTimeout(() => {
+        const summary = document.getElementById('modal-summary');
+        if (!summary || summary.children.length < 4) return;
 
-    // 시행일 포맷팅
-    const dateStr = effectiveDate
-        ? String(effectiveDate).replace(/(\d{4})(\d{2})(\d{2})/, '$1년 $2월 $3일')
-        : '';
-
-    let html = '';
-
-    // ── 개정 개요 ──
-    html += `<div style="background: #f8f9fa; border-radius: 8px; padding: 15px; margin-bottom: 15px; border: 1px solid #dee2e6;">
-        <h4 style="margin: 0 0 10px 0; color: #495057; font-size: 14px; font-weight: 600;">📋 개정 개요</h4>
-        <p style="margin: 0; color: #212529; font-size: 14px; line-height: 1.7;">
-            <strong>${ministry}</strong>에서 「${title}」을(를) <strong>[${displayType}]</strong> 하였습니다.
-        </p>
-        ${dateStr ? `<p style="margin: 8px 0 0 0; color: #6c757d; font-size: 13px;">📅 시행일: <strong>${dateStr}</strong></p>` : ''}
-    </div>`;
-
-    // ── 개정 이유 ──
-    if (parsed.reason) {
-        html += `<div style="background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
-        <h4 style="margin: 0 0 10px 0; color: #e65100; font-size: 14px; font-weight: 600;">📝 개정 이유</h4>
-        <p style="margin: 0; color: #4e342e; font-size: 13px; line-height: 1.8; white-space: pre-wrap;">${parsed.reason}</p>
-    </div>`;
-    }
-
-    // ── 주요 개정 내용 ──
-    if (parsed.mainPoints.length > 0) {
-        html += `<div style="background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
-        <h4 style="margin: 0 0 10px 0; color: #1b5e20; font-size: 14px; font-weight: 600;">📄 주요 개정 내용</h4>
-        <ul style="margin: 0; padding-left: 18px; color: #2e7d32; font-size: 13px; line-height: 1.8;">
-            ${parsed.mainPoints.map(pt => `<li style="margin-bottom: 8px;">${pt}</li>`).join('')}
-        </ul>
-    </div>`;
-    } else if (parsed.reason && rawReason.length > 200) {
-        // mainContents 배열 형식 지원 (구 포맷)
-        const mc = amendment.mainContents;
-        if (Array.isArray(mc) && mc.length > 0) {
-            html += `<div style="background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
-        <h4 style="margin: 0 0 10px 0; color: #1b5e20; font-size: 14px; font-weight: 600;">📄 주요 개정 내용</h4>
-        <ul style="margin: 0; padding-left: 18px; color: #2e7d32; font-size: 13px; line-height: 1.8;">
-            ${mc.map(pt => `<li style="margin-bottom: 8px;">${pt}</li>`).join('')}
-        </ul>
-    </div>`;
+        // section[2] = 📄 개정 내용
+        const contSection = summary.children[2];
+        const contDiv = contSection?.children[1];
+        if (contDiv) {
+            if (parsed.mainPoints.length > 0) {
+                contDiv.innerHTML = `<ul style="margin:0;padding-left:20px;color:#1b5e20;font-size:13px;line-height:1.9;">
+                    ${parsed.mainPoints.map(pt => `<li style="margin-bottom:7px;">${pt}</li>`).join('')}
+                </ul>`;
+            } else {
+                contDiv.innerHTML = '<p style="color:#6c757d;font-size:13px;font-style:italic;">주요 개정 내용 정보가 없습니다.</p>';
+            }
         }
+
+        // section[3] = ⚖️ 주요 개정 조항
+        const clauseSection = summary.children[3];
+        const clauseDiv = clauseSection?.children[1];
+        if (clauseDiv) {
+            clauseDiv.innerHTML = '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 내용 섹션의 주요 내용을 참고하세요. 조문별 상세 내용은 하단 국가법령정보센터 링크에서 확인하실 수 있습니다.</p>';
+        }
+    }, 0);
+
+    // '개정 이유' 섹션 본문만 반환
+    if (!parsed.reason && rawReason.length < 5) {
+        return '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 이유 정보가 없습니다.</p>';
     }
 
-    // ── 관련 링크 ──
-    const lawTitle = encodeURIComponent(title);
-    html += `<div style="background: #e3f2fd; border: 1px solid #90caf9; border-radius: 8px; padding: 12px 15px; margin-bottom: 5px;">
-        <h4 style="margin: 0 0 8px 0; color: #0d47a1; font-size: 14px; font-weight: 600;">🔗 관련 링크</h4>
-        <a href="https://www.law.go.kr/법령/${lawTitle}" target="_blank"
-           style="color: #1565c0; font-size: 13px; text-decoration: none; display: inline-block; margin-bottom: 4px;">
-            📖 국가법령정보센터에서 전문 보기 →
-        </a>
-    </div>`;
-
-    return html;
+    const reasonText = parsed.reason || rawReason.replace(/^\[[^\]]+\]\s*/, '').trim();
+    return `<div style="color:#4e342e;font-size:13px;line-height:1.9;white-space:pre-wrap;">${reasonText}</div>`;
 }
         
         function generateAmendmentContent(item) {
