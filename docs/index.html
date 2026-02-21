@@ -4230,18 +4230,21 @@
         const cutIdx = clean.search(/【개정문】|<법제처 제공>/);
         if (cutIdx >= 0) clean = clean.substring(0, cutIdx);
 
-        // 개정이유 추출
+        // 개정이유 추출: '◇ 개정이유 및 주요내용' 합산 형식도 처리
         let reason = '';
-        const rMatch = clean.match(/◇\s*개정이유\s*([\s\S]*?)(?=◇\s*주요내용|$)/);
-        if (rMatch) reason = rMatch[1].trim();
-        else reason = clean.replace(/^\[[^\]]+\]\s*/, '').trim();
+        const rMatch = clean.match(/◇\s*개정이유(?:\s*및\s*주요내용)?\s*([\s\S]*?)(?=◇\s*주요내용[\s\r\n]|$)/);
+        if (rMatch) {
+            reason = rMatch[1].trim();
+        } else {
+            reason = clean.replace(/^\[[^\]]+\]\s*/, '').trim();
+        }
 
-        // 주요내용 섹션 추출
+        // 주요내용 섹션 추출 (별도 ◇ 주요내용 마커가 있을 때만)
         let mainPoints = [];
-        const mMatch = clean.match(/◇\s*주요내용\s*([\s\S]*)$/);
+        const mMatch = clean.match(/◇\s*주요내용[\s\r\n]+([\s\S]*)$/);
         if (mMatch) {
             const mText = mMatch[1].trim();
-            // 핵심 수정: 줄바꿈(\n) OR 연속공백(\s{2,}) 뒤에 오는 가.나.다. 기준으로 분리
+            // 줄바꿈 OR 연속공백 뒤 가/나/다. 기준 분리
             const parts = mText
                 .split(/(?:\n\s*|\s{2,})(?=[가나다라마바사아자차카타파하]\.)/)
                 .map(s => s.trim()).filter(s => s.length > 3);
@@ -4249,8 +4252,23 @@
                 mainPoints = parts;
             } else if (mText.includes('\n')) {
                 mainPoints = mText.split('\n').map(s => s.trim()).filter(s => s.length > 3);
-            } else {
-                mainPoints = [mText.trim()].filter(s => s.length > 3);
+            } else if (mText.length > 3) {
+                mainPoints = [mText];
+            }
+        }
+
+        // 합산 형식(및 주요내용)에서 가/나/다 항목이 있으면 추출
+        if (mainPoints.length === 0 && reason.length > 0) {
+            const inlineMatch = reason.match(/^([\s\S]*?)(?=\s+가\.\s)/);
+            const listStart = reason.search(/\s+가\.\s/);
+            if (listStart > 0) {
+                const beforeList = reason.substring(0, listStart).trim();
+                const listText = reason.substring(listStart).trim();
+                reason = beforeList;
+                const parts = listText
+                    .split(/(?:\n\s*|\s{2,})(?=[가나다라마바사아자차카타파하]\.)/)
+                    .map(s => s.trim()).filter(s => s.length > 3);
+                mainPoints = parts.length > 1 ? parts : [listText];
             }
         }
 
@@ -4259,18 +4277,13 @@
             mainPoints = amendment.mainContents;
         }
 
-        // 조항 번호 추출: 괄호 안에서 제X조 파싱
+        // 조항 번호 추출: 괄호 안 제X조 파싱 후 오름차순 정렬
         const articleSet = new Set();
         mainPoints.forEach(pt => {
-            const pMatches = pt.match(/\(([^)]+)\)/g) || [];
-            pMatches.forEach(pm => {
-                const inside = pm.slice(1, -1);
-                const aMatches = inside.match(/제(\d+)조(?:의(\d+))?/g) || [];
-                aMatches.forEach(a => articleSet.add(a));
+            (pt.match(/\(([^)]+)\)/g) || []).forEach(pm => {
+                (pm.slice(1,-1).match(/제(\d+)조(?:의(\d+))?/g) || []).forEach(a => articleSet.add(a));
             });
         });
-
-        // 조항 번호 오름차순 정렬
         const articles = [...articleSet].sort((a, b) =>
             parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0])
         );
@@ -4280,14 +4293,11 @@
 
     const parsed = parseRaw(rawReason);
 
-    // 각 항목 요약: 가./나. 접두어 제거 → 괄호 조항 제거 → 첫 주요 구절만 남김
+    // 각 항목 요약: 접두어·조항 제거 → 첫 주요 구절만 남김 (80자 이내)
     function summarize(text) {
         let s = text.replace(/^[가-힣]\.[\s\n]*/, '').trim();
         s = s.replace(/\n\s*/g, ' ').replace(/\s+/g, ' ');
-        // 말미 괄호(제X조...) 제거
-        s = s.replace(/\([^)]*제\d+조[^)]*\)\.?\s*$/, '').trim();
-        s = s.replace(/\.\s*$/, '').trim();
-        // 80자 초과 시 첫 의미 단위에서 자름
+        s = s.replace(/\([^)]*제\d+조[^)]*\)\.?\s*$/, '').replace(/\.\s*$/, '').trim();
         if (s.length > 80) {
             const cuts = ['하고,', '하며,', '하되,', '하여,'];
             let cutAt = -1;
@@ -4308,7 +4318,6 @@
         if (!summary) return;
         const secs = summary.children;
 
-        // 📄 개정 내용 (index 2)
         if (secs[2]) {
             const cd = secs[2].children[1];
             if (cd) {
@@ -4320,7 +4329,6 @@
             }
         }
 
-        // ⚖️ 주요 개정 조항 (index 3)
         if (secs[3]) {
             const cd = secs[3].children[1];
             if (cd) {
@@ -4335,7 +4343,6 @@
         }
     }, 0);
 
-    // 개정 이유 본문 반환
     const reasonText = parsed.reason || rawReason.replace(/^\[[^\]]+\]\s*/, '').trim();
     if (!reasonText) return '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 이유 정보가 없습니다.</p>';
     return `<div style="color:#4e342e;font-size:13px;line-height:1.9;white-space:pre-wrap;">${reasonText}</div>`;
