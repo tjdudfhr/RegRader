@@ -4217,102 +4217,126 @@
         }
         
         function generateAmendmentReason(item) {
-            // 개정유형 확인
-            const amendmentType = item.amendments?.[0]?.amendmentType || 
-                                 item.amendments?.[0]?.reason || 
-                                 '일부개정';
-            
-            // 개정유형이 단순한 경우 (일부개정, 타법개정, 제정, 전부개정)
-            if (['일부개정', '타법개정', '제정', '전부개정'].includes(amendmentType)) {
-                const ministry = item.ministry || item.meta?.ministry || '관련 부처';
-                return `
-                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
-                        <p style="margin: 0 0 10px 0;"><strong>${ministry}</strong>에서 「${item.title}」을 <strong>${amendmentType}</strong>하였습니다.</p>
-            ${item.amendments?.[0]?.mainContents ?
-                (Array.isArray(item.amendments[0].mainContents) ?
-                    `<ul style="margin: 10px 0 0 0; padding-left: 20px; color: #495057;">
-                        ${item.amendments[0].mainContents.map(content =>
-                            `<li>${content}</li>`
-                        ).join('')}
-                    </ul>` :
-                    `<p style="margin: 10px 0 0 0; color: #495057; white-space: pre-wrap;">${item.amendments[0].mainContents}</p>`)
-                : ''}
-                    </div>
-                `;
-            }
-            
-            // 실제 개정 이유가 있고 상세한 경우에만 사용 (50자 이상의 상세한 설명)
-            if (item.amendments && item.amendments.length > 0 && item.amendments[0].reason 
-                && item.amendments[0].reason.length > 50) {
-                const ministry = item.ministry || item.meta?.ministry || '관련 부처';
-                return `
-                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0;">
-                        <p style="margin: 0 0 10px 0;"><strong>${ministry}</strong>에서 「${item.title}」을 <strong>${amendmentType}</strong>하였습니다.</p>
-                        <p style="margin: 0; color: #495057;">${item.amendments[0].reason}</p>
-                    </div>
-                `;
-            }
-            
-            // 없으면 기존 템플릿 사용
-            const category = item.categories?.[0] || '기타';
-            const ministry = item.meta?.ministry || '관련 부처';
-            
-            const reasonTemplates = {
-                '안전': [
-                    `최근 발생한 중대재해 사고를 계기로 산업안전 규정을 전면 재검토하여, 사업장 안전관리 체계를 대폭 강화하고 안전관리자의 권한과 책임을 명확히 하며, 위반 시 처벌 수준을 상향 조정`,
-                    `국제노동기구(ILO) 권고사항 및 선진국 안전기준을 반영하여 작업장 안전설비 기준을 상향하고, 안전교육 시간을 확대하며, 안전사고 예방을 위한 사전점검 제도를 의무화`,
-                    `4차 산업혁명에 따른 새로운 형태의 산업현장 위험요소에 대응하기 위해 AI 기반 안전관리 시스템 도입 근거를 마련하고, 스마트 안전장비 착용 의무화 및 실시간 모니터링 체계 구축`
-                ],
-                '환경': [
-                    `2050 탄소중립 목표 달성을 위한 단계별 이행계획에 따라 온실가스 배출 규제를 강화하고, 친환경 기술 도입 기업에 대한 인센티브를 확대하며, 환경영향평가 절차를 개선하여 지속가능한 발전 도모`,
-                    `미세먼지 저감 및 대기질 개선을 위해 사업장 배출허용기준을 강화하고, 실시간 모니터링 시스템을 구축하며, 위반 시 과징금 부과 기준을 상향 조정하여 환경오염 방지 효과 극대화`,
-                    `순환경제 활성화를 위해 폐기물 재활용 의무 비율을 상향하고, 일회용품 사용 규제를 확대하며, 재생원료 사용 기업에 대한 세제 혜택을 신설하여 자원순환 체계 고도화`
-                ],
-                '인사노무': [
-                    `저출산·고령화 시대에 대응하여 일·가정 양립 지원을 대폭 강화하고, 육아휴직 급여 상한액을 월 200만원으로 인상하며, 배우자 출산휴가를 20일로 확대하여 양성평등한 육아문화 조성 및 경력단절 예방`,
-                    `디지털 전환 시대 장애인의 정보접근권 보장을 위해 웹·모바일 앱 접근성 인증을 의무화하고, 키오스크 등 무인정보단말기 접근성 기준을 신설하며, 정당한 편의제공 거부 시 과태료를 5천만원으로 상향`,
-                    `플랫폼 노동 등 새로운 고용형태 확산에 따라 근로자성 판단기준을 명확히 하고, 특수형태근로종사자 보호 범위를 확대하며, 디지털 노동권 보장을 위한 제도적 기반 마련`
-                ],
-                '재무회계': [
-                    `ESG 공시 의무화 확대 및 지속가능경영보고서 작성 기준 강화를 통해 기업의 비재무적 성과 투명성을 제고하고, 기후변화 관련 재무정보 공개(TCFD) 의무화로 투자자 보호 및 지속가능 금융 활성화`,
-                    `회계부정 방지를 위해 내부회계관리제도 운영 기준을 강화하고, 외부감사인 선임위원회 설치 의무화 대상을 확대하며, 감사인 독립성 확보를 위한 비감사용역 제한 강화 및 감사인 주기적 지정제 확대 시행`,
-                    `디지털 자산 회계처리 기준 신설 및 가상자산 과세체계 정비를 통해 신산업 분야 회계 투명성을 확보하고, 전자세금계산서 의무화 대상 확대 및 AI 기반 세무조사 시스템 도입으로 조세행정 효율화`
-                ],
-                '정보보호': [
-                    `생체인식정보 등 민감정보 처리 기준을 강화하고, 개인정보 자동화 의사결정에 대한 설명요구권을 신설하며, 아동·청소년 개인정보 보호 특별규정 도입으로 취약계층 프라이버시 권리 강화`,
-                    `랜섬웨어 등 사이버 공격 급증에 따라 정보보호 관리체계(ISMS) 인증 의무 대상을 확대하고, 보안사고 발생 시 24시간 내 신고 의무화, 최고정보보호책임자(CISO) 지정 의무 대상 기업 확대`,
-                    `AI·빅데이터 활용 확산에 따른 가명정보 결합 및 활용 절차를 구체화하고, 데이터 국외이전 사전승인제 도입, 정보보호 손해배상책임보험 가입 의무화로 데이터 경제 활성화와 보호의 균형 도모`
-                ],
-                '지배구조': [
-                    `대규모 상장회사의 독립이사 비율을 과반수로 확대하고, 이사회 내 ESG위원회 설치를 의무화하며, 감사위원 분리선출제 도입으로 이사회의 경영진 견제 기능 강화 및 책임경영 체계 확립`,
-                    `주주총회 전자투표제 의무화 대상을 확대하고, 집중투표제 도입 권고를 강화하며, 다중대표소송제 도입으로 소액주주 권익 보호 및 경영진의 불법행위에 대한 책임 추궁 체계 강화`,
-                    `임원보수 공시 기준을 개인별 5억원으로 하향하고, 보수산정 기준 및 지급방법 상세 공개를 의무화하며, 장기성과연동형 주식보상 비중 확대 권고로 주주가치와 경영성과 연계 강화`
-                ],
-                '공정거래': [
-                    `디지털 플랫폼 시장의 독점 규제 강화를 위해 온라인 플랫폼 사업자의 시장지배적 지위 남용행위 금지 규정을 신설하고, 알고리즘 담합 규제 근거를 마련하며, 플랫폼 중립성 의무를 부과하여 공정한 디지털 경제 생태계 조성`,
-                    `대중소기업 간 공정거래 문화 정착을 위해 기술탈취 및 부당한 기술자료 요구행위에 대한 징벌적 손해배상제를 도입하고, 납품단가 조정협의 의무화, 하도급대금 지급기한 단축으로 중소기업 보호 강화`,
-                    `소비자 권익 보호 강화를 위해 집단분쟁조정제도를 확대하고, 소비자 피해 입증책임을 완화하며, 리콜명령 불이행 시 과징금을 매출액의 3%로 상향하여 기업의 소비자 안전 책임 강화`
-                ],
-                '지식재산권': [
-                    `AI 창작물 및 메타버스 내 창작물에 대한 저작권 보호 체계를 신설하고, NFT 관련 저작권 침해 대응 방안을 마련하며, 디지털 환경에서의 공정이용 범위를 재정립하여 신기술 시대 창작자 권리 보호`,
-                    `특허 무효심판 제도를 개선하여 특허괴물(NPE)의 권리 남용을 방지하고, 표준필수특허(SEP) FRAND 확약 위반에 대한 제재 근거를 마련하며, 중소기업 특허 방어 지원 제도를 확대하여 혁신 생태계 보호`,
-                    `영업비밀 보호 강화를 위해 전직금지 기간을 2년에서 3년으로 연장하고, 영업비밀 침해 시 징벌적 손해배상 한도를 5배에서 10배로 상향하며, 해외 유출 시 형사처벌을 강화하여 기업 핵심기술 보호`
-                ]
-            };
-            
-            const templates = reasonTemplates[category] || [
-                `관련 법령의 실효성 제고 및 제도 개선을 위해`,
-                `규제 합리화 및 행정효율성 향상 목적으로`,
-                `사회 변화 반영 및 법령 체계 정비를 위해`
-            ];
-            
-            const selectedReason = templates[Math.floor(Math.random() * templates.length)];
-            
-            return `
-                <p>${ministry}에서는 ${selectedReason} 「${item.title}」을 개정하였습니다.</p>
-                <p>이번 개정은 현행 제도의 미비점을 보완하고, 관련 업계의 요구사항을 반영하여 법령의 실효성을 높이는데 중점을 두었습니다.</p>
-            `;
+    const amendment = item.amendments?.[0];
+    if (!amendment) return '';
+
+    const rawReason = amendment.reason || '';
+    const ministry = item.ministry || '';
+    const title = item.title || '';
+    const effectiveDate = amendment.date || item.effectiveDate || '';
+
+    // --- law.go.kr 원문 텍스트 파싱 ---
+    function parseRawReason(text) {
+        if (!text) return { amendmentType: '', reason: '', mainPoints: [] };
+
+        // 개정 유형 추출: [일부개정], [전부개정], [제정] 등
+        let amendmentType = '';
+        const typeMatch = text.match(/^\[([^\]]+)\]/);
+        if (typeMatch) {
+            amendmentType = typeMatch[1];
         }
+
+        // 개정문 이하 제거
+        let cleanText = text;
+        const cutIdx = cleanText.search(/【개정문】|<법제처 제공>/);
+        if (cutIdx >= 0) {
+            cleanText = cleanText.substring(0, cutIdx);
+        }
+
+        // ◇ 개정이유 섹션 추출
+        let reason = '';
+        const reasonMatch = cleanText.match(/◇\s*개정이유\s*([\s\S]*?)(?=◇\s*주요내용|$)/);
+        if (reasonMatch) {
+            reason = reasonMatch[1].trim();
+        } else if (!amendmentType && cleanText.length > 10) {
+            reason = cleanText.trim();
+        }
+
+        // ◇ 주요내용 섹션 추출 및 항목 파싱
+        let mainPoints = [];
+        const mainMatch = cleanText.match(/◇\s*주요내용\s*([\s\S]*)$/);
+        if (mainMatch) {
+            const mainText = mainMatch[1].trim();
+            // 가., 나., 다. 등 한글 기호로 분리
+            const parts = mainText.split(/(?=\n?\s*[가나다라마바사아자차카타파하]\.)/)
+                .map(s => s.trim()).filter(s => s.length > 2);
+            if (parts.length > 1) {
+                mainPoints = parts;
+            } else {
+                // 줄바꿈으로 분리
+                mainPoints = mainText.split('\n').map(s => s.trim()).filter(s => s.length > 2);
+            }
+        }
+
+        return { amendmentType, reason, mainPoints };
+    }
+
+    const parsed = parseRawReason(rawReason);
+
+    // 표시할 개정 유형 결정
+    const knownTypes = ['일부개정', '타법개정', '제정', '전부개정', '일부개정(타법개정)'];
+    let displayType = amendment.amendmentType || '';
+    if (!displayType || !knownTypes.includes(displayType)) {
+        displayType = parsed.amendmentType || '개정';
+    }
+
+    // 시행일 포맷팅
+    const dateStr = effectiveDate
+        ? String(effectiveDate).replace(/(\d{4})(\d{2})(\d{2})/, '$1년 $2월 $3일')
+        : '';
+
+    let html = '';
+
+    // ── 개정 개요 ──
+    html += `<div style="background: #f8f9fa; border-radius: 8px; padding: 15px; margin-bottom: 15px; border: 1px solid #dee2e6;">
+        <h4 style="margin: 0 0 10px 0; color: #495057; font-size: 14px; font-weight: 600;">📋 개정 개요</h4>
+        <p style="margin: 0; color: #212529; font-size: 14px; line-height: 1.7;">
+            <strong>${ministry}</strong>에서 「${title}」을(를) <strong>[${displayType}]</strong> 하였습니다.
+        </p>
+        ${dateStr ? `<p style="margin: 8px 0 0 0; color: #6c757d; font-size: 13px;">📅 시행일: <strong>${dateStr}</strong></p>` : ''}
+    </div>`;
+
+    // ── 개정 이유 ──
+    if (parsed.reason) {
+        html += `<div style="background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+        <h4 style="margin: 0 0 10px 0; color: #e65100; font-size: 14px; font-weight: 600;">📝 개정 이유</h4>
+        <p style="margin: 0; color: #4e342e; font-size: 13px; line-height: 1.8; white-space: pre-wrap;">${parsed.reason}</p>
+    </div>`;
+    }
+
+    // ── 주요 개정 내용 ──
+    if (parsed.mainPoints.length > 0) {
+        html += `<div style="background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+        <h4 style="margin: 0 0 10px 0; color: #1b5e20; font-size: 14px; font-weight: 600;">📄 주요 개정 내용</h4>
+        <ul style="margin: 0; padding-left: 18px; color: #2e7d32; font-size: 13px; line-height: 1.8;">
+            ${parsed.mainPoints.map(pt => `<li style="margin-bottom: 8px;">${pt}</li>`).join('')}
+        </ul>
+    </div>`;
+    } else if (parsed.reason && rawReason.length > 200) {
+        // mainContents 배열 형식 지원 (구 포맷)
+        const mc = amendment.mainContents;
+        if (Array.isArray(mc) && mc.length > 0) {
+            html += `<div style="background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+        <h4 style="margin: 0 0 10px 0; color: #1b5e20; font-size: 14px; font-weight: 600;">📄 주요 개정 내용</h4>
+        <ul style="margin: 0; padding-left: 18px; color: #2e7d32; font-size: 13px; line-height: 1.8;">
+            ${mc.map(pt => `<li style="margin-bottom: 8px;">${pt}</li>`).join('')}
+        </ul>
+    </div>`;
+        }
+    }
+
+    // ── 관련 링크 ──
+    const lawTitle = encodeURIComponent(title);
+    html += `<div style="background: #e3f2fd; border: 1px solid #90caf9; border-radius: 8px; padding: 12px 15px; margin-bottom: 5px;">
+        <h4 style="margin: 0 0 8px 0; color: #0d47a1; font-size: 14px; font-weight: 600;">🔗 관련 링크</h4>
+        <a href="https://www.law.go.kr/법령/${lawTitle}" target="_blank"
+           style="color: #1565c0; font-size: 13px; text-decoration: none; display: inline-block; margin-bottom: 4px;">
+            📖 국가법령정보센터에서 전문 보기 →
+        </a>
+    </div>`;
+
+    return html;
+}
         
         function generateAmendmentContent(item) {
             // 실제 개정 내용이 있고 상세한 경우에만 사용
