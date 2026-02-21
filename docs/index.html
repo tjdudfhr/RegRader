@@ -4222,31 +4222,26 @@
 
     const rawReason = amendment.reason || '';
 
-    // law.go.kr 원문 파싱: [일부개정] ◇ 개정이유 ... ◇ 주요내용 가. 나. ... 【개정문】(제외)
-    function parseRawReason(text) {
-        if (!text || text.length < 5) return { reason: '', mainPoints: [] };
+    // law.go.kr 원문 파싱
+    function parseRaw(text) {
+        if (!text || text.length < 5) return { reason: '', mainPoints: [], articles: [] };
 
-        // 개정문 이하 제거 (법률 조문 원문은 불필요)
+        // 개정문 이하 제거
         let clean = text;
         const cutIdx = clean.search(/【개정문】|<법제처 제공>/);
         if (cutIdx >= 0) clean = clean.substring(0, cutIdx);
 
-        // ◇ 개정이유 섹션 추출
+        // ◇ 개정이유 추출
         let reason = '';
         const rMatch = clean.match(/◇\s*개정이유\s*([\s\S]*?)(?=◇\s*주요내용|$)/);
-        if (rMatch) {
-            reason = rMatch[1].trim();
-        } else {
-            // 구조화되지 않은 경우 전체 텍스트 사용 (브래킷 제외)
-            reason = clean.replace(/^\[[^\]]+\]\s*/, '').trim();
-        }
+        if (rMatch) reason = rMatch[1].trim();
+        else reason = clean.replace(/^\[[^\]]+\]\s*/, '').trim();
 
-        // ◇ 주요내용 섹션 → 가.나.다. 항목별로 분리
+        // ◇ 주요내용 → 가./나./다. 항목 분리
         let mainPoints = [];
         const mMatch = clean.match(/◇\s*주요내용\s*([\s\S]*)$/);
         if (mMatch) {
             const mText = mMatch[1].trim();
-            // 가., 나., 다. 등으로 분리
             const parts = mText.split(/(?=\n\s*[가나다라마바사아자차카타파하]\.)/)
                 .map(s => s.trim()).filter(s => s.length > 3);
             mainPoints = parts.length > 1 ? parts : mText.split('\n').map(s => s.trim()).filter(s => s.length > 3);
@@ -4257,43 +4252,97 @@
             mainPoints = amendment.mainContents;
         }
 
-        return { reason, mainPoints };
+        // 조항 번호 추출: 주요내용 각 항목의 괄호 안에서 제X조 형태 파싱
+        const articleSet = new Set();
+        const pRex = /\(([^)]+)\)/g;
+        const aRex = /제(\d+)조(?:의(\d+))?/g;
+        mainPoints.forEach(pt => {
+            let pm;
+            const pRexLocal = /\(([^)]+)\)/g;
+            while ((pm = pRexLocal.exec(pt)) !== null) {
+                const inside = pm[1];
+                let am;
+                const aRexLocal = /제(\d+)조(?:의(\d+))?/g;
+                while ((am = aRexLocal.exec(inside)) !== null) {
+                    articleSet.add(am[0]);
+                }
+            }
+        });
+
+        // 조항 번호 오름차순 정렬
+        const articles = [...articleSet].sort((a, b) => {
+            const na = parseInt(a.match(/\d+/)[0]);
+            const nb = parseInt(b.match(/\d+/)[0]);
+            return na - nb;
+        });
+
+        return { reason, mainPoints, articles };
     }
 
-    const parsed = parseRawReason(rawReason);
+    const parsed = parseRaw(rawReason);
 
-    // 비동기로 '개정 내용' 및 '주요 개정 조항' 섹션도 업데이트
+    // 개정 내용 요약: 가./나. 제거 + 괄호 조항 제거 + 첫 주요 구절만 추출
+    function summarize(text) {
+        let s = text.replace(/^[가-힣]\.[\s\n]*/, '').trim();
+        // 줄바꿈 병합
+        s = s.replace(/\n\s*/g, ' ').replace(/\s+/g, ' ');
+        // 말미 괄호(제X조...) 제거
+        s = s.replace(/\([^)]*제\d+조[^)]*\)\.?/g, '').trim();
+        s = s.replace(/\.?$/, '');
+        // 80자 이내로 첫 구절만 추출 (하고,/하며,/하되, 앞에서 자름)
+        if (s.length > 80) {
+            const cutPoints = ['하고,', '하며,', '하되,', '하여,', '하도록,'];
+            let cut = -1;
+            for (const cp of cutPoints) {
+                const idx = s.indexOf(cp, 20);
+                if (idx > 20 && idx < 80) { cut = idx + cp.length - 1; break; }
+            }
+            if (cut > 0) s = s.substring(0, cut) + '…';
+            else s = s.substring(0, 78) + '…';
+        }
+        return s.trim();
+    }
+
+    const summaryPoints = parsed.mainPoints.map(summarize).filter(s => s.length > 0);
+
+    // 비동기로 다른 섹션 업데이트
     setTimeout(() => {
         const summary = document.getElementById('modal-summary');
-        if (!summary || summary.children.length < 4) return;
+        if (!summary) return;
+        const secs = summary.children;
 
-        // section[2] = 📄 개정 내용
-        const contSection = summary.children[2];
-        const contDiv = contSection?.children[1];
-        if (contDiv) {
-            if (parsed.mainPoints.length > 0) {
-                contDiv.innerHTML = `<ul style="margin:0;padding-left:20px;color:#1b5e20;font-size:13px;line-height:1.9;">
-                    ${parsed.mainPoints.map(pt => `<li style="margin-bottom:7px;">${pt}</li>`).join('')}
-                </ul>`;
-            } else {
-                contDiv.innerHTML = '<p style="color:#6c757d;font-size:13px;font-style:italic;">주요 개정 내용 정보가 없습니다.</p>';
+        // 📄 개정 내용 (index 2)
+        if (secs[2]) {
+            const cd = secs[2].children[1];
+            if (cd) {
+                if (summaryPoints.length > 0) {
+                    cd.innerHTML = `<ul style="margin:0;padding-left:18px;color:#1b5e20;font-size:13px;line-height:1.85;">
+                        ${summaryPoints.map(p => `<li style="margin-bottom:5px;">${p}</li>`).join('')}
+                    </ul>`;
+                } else {
+                    cd.innerHTML = '<p style="color:#6c757d;font-size:13px;font-style:italic;">세부 개정 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
+                }
             }
         }
 
-        // section[3] = ⚖️ 주요 개정 조항
-        const clauseSection = summary.children[3];
-        const clauseDiv = clauseSection?.children[1];
-        if (clauseDiv) {
-            clauseDiv.innerHTML = '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 내용 섹션의 주요 내용을 참고하세요. 조문별 상세 내용은 하단 국가법령정보센터 링크에서 확인하실 수 있습니다.</p>';
+        // ⚖️ 주요 개정 조항 (index 3)
+        if (secs[3]) {
+            const cd = secs[3].children[1];
+            if (cd) {
+                if (parsed.articles.length > 0) {
+                    cd.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px;padding:2px 0;">
+                        ${parsed.articles.map(a => `<span style="background:#e8eaf6;color:#283593;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;border:1px solid #c5cae9;">${a}</span>`).join('')}
+                    </div>`;
+                } else {
+                    cd.innerHTML = '<p style="color:#6c757d;font-size:13px;font-style:italic;">조문별 상세 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
+                }
+            }
         }
     }, 0);
 
-    // '개정 이유' 섹션 본문만 반환
-    if (!parsed.reason && rawReason.length < 5) {
-        return '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 이유 정보가 없습니다.</p>';
-    }
-
+    // 개정 이유 본문만 반환
     const reasonText = parsed.reason || rawReason.replace(/^\[[^\]]+\]\s*/, '').trim();
+    if (!reasonText) return '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 이유 정보가 없습니다.</p>';
     return `<div style="color:#4e342e;font-size:13px;line-height:1.9;white-space:pre-wrap;">${reasonText}</div>`;
 }
         
