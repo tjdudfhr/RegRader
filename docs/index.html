@@ -4216,315 +4216,200 @@
             document.getElementById('modal-summary').innerHTML = summaryHtml;
         }
         
-        function generateAmendmentReason(item) {
-    const amendment = item.amendments?.[0];
-    if (!amendment) return '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 이유 정보가 없습니다.</p>';
+        // ─────────────────────────────────────────────────────────────
+        // 공통 파서: 법제처 raw text → { reason, mainPoints, articleTitleMap }
+        // ─────────────────────────────────────────────────────────────
+        function _parseAmendmentRaw(item) {
+            if (item._parsedAmendment) return item._parsedAmendment;
 
-    const rawReason = amendment.reason || '';
+            const amendment = item.amendments?.[0];
+            const text = amendment?.reason || '';
 
-    function parseRaw(text) {
-        if (!text || text.length < 5) return { reason: '', mainPoints: [], articles: [] };
+            if (!text || text.length < 5)
+                return (item._parsedAmendment = { reason: '', mainPoints: [], articleTitleMap: {} });
 
-        // 개정문 이하 제거
-        let clean = text;
-        const cutIdx = clean.search(/【개정문】|<법제처 제공>/);
-        if (cutIdx >= 0) clean = clean.substring(0, cutIdx);
+            // 개정문 위치 분리
+            const cutIdx  = text.search(/【개정문】|<법제처 제공>/);
+            const beforeCut = cutIdx >= 0 ? text.substring(0, cutIdx) : text;
+            const afterCut  = cutIdx >= 0 ? text.substring(cutIdx)    : '';
 
-        // 개정이유 추출: '◇ 개정이유 및 주요내용' 합산 형식도 처리
-        let reason = '';
-        const rMatch = clean.match(/◇\s*개정이유(?:\s*및\s*주요내용)?\s*([\s\S]*?)(?=◇\s*주요내용[\s\r\n]|$)/);
-        if (rMatch) {
-            reason = rMatch[1].trim();
-        } else {
-            reason = clean.replace(/^\[[^\]]+\]\s*/, '').trim();
-        }
+            // 개정이유 추출 (「◇ 개정이유 및 주요내용」합산 형식 포함)
+            let reason = '';
+            const rMatch = beforeCut.match(/◇\s*개정이유(?:\s*및\s*주요내용)?\s*([\s\S]*?)(?=◇\s*주요내용[\s\r\n]|$)/);
+            if (rMatch) reason = rMatch[1].trim();
+            else        reason = beforeCut.replace(/^\[[^\]]+\]\s*/, '').trim();
 
-        // 주요내용 섹션 추출 (별도 ◇ 주요내용 마커가 있을 때만)
-        let mainPoints = [];
-        const mMatch = clean.match(/◇\s*주요내용[\s\r\n]+([\s\S]*)$/);
-        if (mMatch) {
-            const mText = mMatch[1].trim();
-            // 줄바꿈 OR 연속공백 뒤 가/나/다. 기준 분리
-            const parts = mText
-                .split(/(?:\n\s*|\s{2,})(?=[가나다라마바사아자차카타파하]\.)/)
-                .map(s => s.trim()).filter(s => s.length > 3);
-            if (parts.length > 1) {
-                mainPoints = parts;
-            } else if (mText.includes('\n')) {
-                mainPoints = mText.split('\n').map(s => s.trim()).filter(s => s.length > 3);
-            } else if (mText.length > 3) {
-                mainPoints = [mText];
-            }
-        }
-
-        // 합산 형식(및 주요내용)에서 가/나/다 항목이 있으면 추출
-        if (mainPoints.length === 0 && reason.length > 0) {
-            const inlineMatch = reason.match(/^([\s\S]*?)(?=\s+가\.\s)/);
-            const listStart = reason.search(/\s+가\.\s/);
-            if (listStart > 0) {
-                const beforeList = reason.substring(0, listStart).trim();
-                const listText = reason.substring(listStart).trim();
-                reason = beforeList;
-                const parts = listText
+            // 주요내용 항목 추출
+            let mainPoints = [];
+            const mMatch = beforeCut.match(/◇\s*주요내용[\s\r\n]+([\s\S]*)$/);
+            if (mMatch) {
+                const mText = mMatch[1].trim();
+                const parts = mText
                     .split(/(?:\n\s*|\s{2,})(?=[가나다라마바사아자차카타파하]\.)/)
                     .map(s => s.trim()).filter(s => s.length > 3);
-                mainPoints = parts.length > 1 ? parts : [listText];
+                if (parts.length > 1)        mainPoints = parts;
+                else if (mText.includes('\n')) mainPoints = mText.split('\n').map(s=>s.trim()).filter(s=>s.length>3);
+                else if (mText.length > 3)   mainPoints = [mText];
             }
-        }
 
-        // 구형 mainContents 배열 지원
-        if (mainPoints.length === 0 && Array.isArray(amendment.mainContents) && amendment.mainContents.length > 0) {
-            mainPoints = amendment.mainContents;
-        }
-
-        // 조항 번호 추출: 괄호 안 제X조 파싱 후 오름차순 정렬
-        const articleSet = new Set();
-        mainPoints.forEach(pt => {
-            (pt.match(/\(([^)]+)\)/g) || []).forEach(pm => {
-                (pm.slice(1,-1).match(/제(\d+)조(?:의(\d+))?/g) || []).forEach(a => articleSet.add(a));
-            });
-        });
-        const articles = [...articleSet].sort((a, b) =>
-            parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0])
-        );
-
-        return { reason, mainPoints, articles };
-    }
-
-    const parsed = parseRaw(rawReason);
-
-    // 각 항목 요약: 접두어·조항 제거 → 첫 주요 구절만 남김 (80자 이내)
-    function summarize(text) {
-        let s = text.replace(/^[가-힣]\.[\s\n]*/, '').trim();
-        s = s.replace(/\n\s*/g, ' ').replace(/\s+/g, ' ');
-        s = s.replace(/\([^)]*제\d+조[^)]*\)\.?\s*$/, '').replace(/\.\s*$/, '').trim();
-        if (s.length > 80) {
-            const cuts = ['하고,', '하며,', '하되,', '하여,'];
-            let cutAt = -1;
-            for (const c of cuts) {
-                const idx = s.indexOf(c, 25);
-                if (idx >= 25 && idx <= 75) { cutAt = idx + c.length - 1; break; }
+            // 앩산 형식에서 가/나/다 항목 추출
+            if (mainPoints.length === 0 && reason.length > 0) {
+                const listStart = reason.search(/\s+가\.\s/);
+                if (listStart > 0) {
+                    const beforeList = reason.substring(0, listStart).trim();
+                    const listText   = reason.substring(listStart).trim();
+                    reason = beforeList;
+                    const parts = listText
+                        .split(/(?:\n\s*|\s{2,})(?=[가나다라마바사아자차카타파하]\.)/)
+                        .map(s => s.trim()).filter(s => s.length > 3);
+                    mainPoints = parts.length > 1 ? parts : [listText];
+                }
             }
-            s = cutAt > 0 ? s.substring(0, cutAt) + '…' : s.substring(0, 78) + '…';
-        }
-        return s.trim();
-    }
 
-    const summaryPoints = parsed.mainPoints.map(summarize).filter(s => s.length > 0);
+            // 구형 mainContents 배열 지원
+            if (mainPoints.length === 0 && Array.isArray(amendment?.mainContents) && amendment.mainContents.length > 0)
+                mainPoints = amendment.mainContents;
 
-    // 비동기로 개정 내용 & 주요 개정 조항 업데이트
-    setTimeout(() => {
-        const summary = document.getElementById('modal-summary');
-        if (!summary) return;
-        const secs = summary.children;
-
-        if (secs[2]) {
-            const cd = secs[2].children[1];
-            if (cd) {
-                cd.innerHTML = summaryPoints.length > 0
-                    ? `<ul style="margin:0;padding-left:18px;color:#1b5e20;font-size:13px;line-height:1.85;">
-                        ${summaryPoints.map(p => `<li style="margin-bottom:5px;">${p}</li>`).join('')}
-                       </ul>`
-                    : '<p style="color:#6c757d;font-size:13px;font-style:italic;">세부 개정 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
+            // 개정문에서 조항 제목 파싱: 제X조(제목) 패턴 (법률명·개정 헤더 제외)
+            const articleTitleMap = {};
+            if (afterCut) {
+                [...afterCut.matchAll(/제(\d+)조(?:의(\d+))?\(([^)]{2,20})\)/g)].forEach(m => {
+                    const title = m[3].trim();
+                    if (!title.includes('법') && !title.includes('규정') && !title.includes('의 개정')) {
+                        const key = m[2] ? `제${m[1]}조의${m[2]}` : `제${m[1]}조`;
+                        if (!articleTitleMap[key]) articleTitleMap[key] = title;
+                    }
+                });
             }
+
+            return (item._parsedAmendment = { reason, mainPoints, articleTitleMap });
         }
 
-        if (secs[3]) {
-            const cd = secs[3].children[1];
-            if (cd) {
-                cd.innerHTML = parsed.articles.length > 0
-                    ? `<div style="display:flex;flex-wrap:wrap;gap:8px;padding:2px 0;">
-                        ${parsed.articles.map(a =>
-                            `<span style="background:#e8eaf6;color:#283593;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;border:1px solid #c5cae9;">${a}</span>`
-                        ).join('')}
-                       </div>`
-                    : '<p style="color:#6c757d;font-size:13px;font-style:italic;">조문별 상세 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
-            }
-        }
-    }, 0);
+        // ─── 📝 개정 이유 ───────────────────────────────────────────────
+        function generateAmendmentReason(item) {
+            const parsed = _parseAmendmentRaw(item);
+            const amendment = item.amendments?.[0];
+            const reasonText = parsed.reason || (amendment?.reason || '').replace(/^\[[^\]]+\]\s*/, '').trim();
 
-    const reasonText = parsed.reason || rawReason.replace(/^\[[^\]]+\]\s*/, '').trim();
-    if (!reasonText) return '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 이유 정보가 없습니다.</p>';
-    return `<div style="color:#4e342e;font-size:13px;line-height:1.9;white-space:pre-wrap;">${reasonText}</div>`;
-}
+            if (!reasonText)
+                return '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 이유 정보가 없습니다.</p>';
+
+            return `<div style="color:#4e342e;font-size:13px;line-height:1.9;white-space:pre-wrap;">${reasonText}</div>`;
+        }
         
         function generateAmendmentContent(item) {
-            // 실제 개정 내용이 있고 상세한 경우에만 사용
-            if (item.amendments && item.amendments.length > 0 && item.amendments[0].mainContents) {
-                const contents = item.amendments[0].mainContents;
-                const summary = item.summary || '';
-                
-                // contents가 배열이고 내용이 있는 경우
-                if (Array.isArray(contents) && contents.length > 0) {
-                    return `
-                        <div style="background: #fff; border-left: 4px solid #667eea; padding: 15px; margin: 10px 0;">
-                            ${summary ? `<p style="margin: 0 0 15px 0; font-weight: 600; color: #495057;">${summary}</p>` : ''}
-                            <p style="margin: 0 0 10px 0;"><strong>주요 개정사항:</strong></p>
-                            <ul style="margin: 0; padding-left: 20px;">
-                                ${contents.map(content => `<li style="margin: 5px 0; color: #495057;">${content}</li>`).join('')}
-                            </ul>
-                        </div>
-                    `;
-                } else if (typeof contents === 'string' && contents.length > 20) {
-                    // contents가 문자열이면서 상세한 경우
-                    return `
-                        <div style="background: #fff; border-left: 4px solid #667eea; padding: 15px; margin: 10px 0;">
-                            ${summary ? `<p style="margin: 0 0 15px 0; font-weight: 600; color: #495057;">${summary}</p>` : ''}
-                            <p style="margin: 0; color: #495057;">${contents}</p>
-                        </div>
-                    `;
-                }
+            const parsed = _parseAmendmentRaw(item);
+
+            if (parsed.mainPoints.length === 0) {
+                return '<p style="color:#6c757d;font-size:13px;font-style:italic;">세부 개정 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
             }
-            
-            // 없으면 기존 템플릿 사용
-            const category = item.categories?.[0] || '기타';
-            const lawType = item.lawType || '일부개정';
-            
-            const contentTemplates = {
-                '안전': [
-                    `중대재해 처벌 강화 - 사망사고 발생 시 사업주 처벌 상한을 7년 이상 징역으로 상향`,
-                    `안전보건관리체계 구축 의무 - 50인 이상 사업장 안전보건관리책임자 선임 의무화`,
-                    `위험성평가 주기 단축 - 연 1회에서 분기 1회로 강화, 고위험 작업장은 매월 실시`,
-                    `안전투자 의무화 - 매출액 대비 최소 안전투자 비율 설정 및 미이행 시 과태료 부과`
-                ],
-                '환경': [
-                    `탄소중립 이행 - 온실가스 배출량 2030년까지 40% 감축 의무화, 탄소세 도입`,
-                    `RE100 대응 - 재생에너지 사용 비율 단계적 의무화, 녹색프리미엄 요금제 확대`,
-                    `순환경제 전환 - 플라스틱 재활용률 70% 달성 의무, EPR 제도 대상 품목 확대`,
-                    `환경정보 공개 - TCFD 기준 기후리스크 공시 의무화, 환경회계 도입`
-                ],
-                '인사노무': [
-                    `주 52시간제 정착 - 연장근로 한도 축소, 11시간 연속휴식권 보장`,
-                    `일·가정 양립 - 육아휴직 급여 상한 월 200만원, 배우자 출산휴가 20일`,
-                    `플랫폼 노동자 보호 - 고용보험 적용 확대, 산재보험 당연가입`,
-                    `임금격차 해소 - 성별 임금공시제 의무화, 최저임금 대비 중위임금 60% 달성`
-                ],
-                '재무회계': [
-                    `ESG 공시 의무화 - 지속가능경영보고서 의무 공시, TCFD 기준 적용`,
-                    `내부회계관리제도 강화 - 연결재무제표 기준 적용, CEO/CFO 인증 의무`,
-                    `회계투명성 제고 - 감사인 주기적 지정제 확대, 표준감사시간 상향`,
-                    `디지털 자산 회계 - 가상자산 회계처리 기준 신설, 전자세금계산서 의무화`
-                ],
-                '정보보호': [
-                    `개인정보 자기결정권 강화 - 개인정보 이동권 보장, AI 의사결정 설명요구권`,
-                    `사이버보안 강화 - ISMS-P 인증 의무 확대, 랜섬웨어 대응체계 구축`,
-                    `데이터 활용 촉진 - 가명정보 결합 절차 간소화, 마이데이터 산업 확대`,
-                    `침해사고 대응 - 24시간 내 신고 의무, 손해배상책임보험 가입 의무화`
-                ],
-                '지배구조': [
-                    `이사회 독립성 - 독립이사 과반수 의무화, 이사회 의장 분리선임`,
-                    `주주권 강화 - 전자투표제 의무화, 집중투표제 도입, 다중대표소송제`,
-                    `ESG 경영 - ESG위원회 설치 의무, 이해관계자 자본주의 도입`,
-                    `경영 투명성 - 임원보수 개별공시 5억원, 스톡옵션 행사가격 조정 금지`
-                ]
-            };
-            
-            const templates = contentTemplates[category] || [
-                `관련 규정의 명확화 및 절차 간소화`,
-                `행정처분 기준 합리화 및 구제절차 개선`,
-                `관련 기관 간 협력체계 강화`
-            ];
-            
-            // 공정거래와 지식재산권 카테고리 추가
-            if (!contentTemplates[category]) {
-                if (category === '공정거래') {
-                    contentTemplates[category] = [
-                        `온라인 플랫폼 규제 강화 - 시장지배적 지위 남용 금지, 알고리즘 담합 규제`,
-                        `하도급 공정거래 - 기술탈취 징벌적 손해배상, 납품단가 조정협의 의무화`,
-                        `소비자 보호 강화 - 집단분쟁조정 확대, 리콜 불이행 과징금 3% 상향`
-                    ];
-                } else if (category === '지식재산권') {
-                    contentTemplates[category] = [
-                        `신기술 저작권 - AI 창작물 보호체계, NFT 저작권, 메타버스 창작물 보호`,
-                        `특허 제도 개선 - 특허괴물 방지, 표준필수특허 FRAND 의무, 중소기업 지원`,
-                        `영업비밀 보호 - 전직금지 3년 연장, 징벌적 손해배상 10배, 해외유출 엄벌`
-                    ];
-                }
+
+            // 가/나/다 접두어 + 말미 조항 참조 제거 → 완전한 문장 표시 (잘림 없음)
+            const cleanedItems = parsed.mainPoints.map(text => {
+                let s = text.replace(/^[가-힣]\.[\s\n]*/, '').trim();
+                s = s.replace(/\n\s*/g, ' ').replace(/\s+/g, ' ');
+                s = s.replace(/\([^)]*제\d+조[^)]*\)\.?\s*$/, '').trim();
+                return s.replace(/\.\s*$/, '').trim();
+            }).filter(s => s.length > 0);
+
+            if (cleanedItems.length === 0) {
+                return '<p style="color:#6c757d;font-size:13px;font-style:italic;">세부 개정 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
             }
-            
-            const selectedContent = templates[Math.floor(Math.random() * templates.length)];
-            
-            return `
-                <p><strong>주요 개정사항:</strong></p>
-                <ul>
-                    <li>${selectedContent}</li>
-                    <li>관련 용어 정의 명확화 및 적용범위 조정</li>
-                    <li>행정절차 간소화 및 민원인 편의 증진</li>
-                    <li>제재 수준 조정 및 구제절차 개선</li>
-                </ul>
-                <p><strong>개정 형태:</strong> ${lawType}</p>
-            `;
+
+            return `<ul style="margin:0;padding-left:20px;color:#1b5e20;font-size:13px;line-height:2.0;">
+                        ${cleanedItems.map(p => `<li style="margin-bottom:5px;">${p}</li>`).join('')}
+                    </ul>`;
         }
         
+        // ─── ⚖️ 주요 개정 조항 ──────────────────────────────────────────
         function generateAmendmentArticles(item) {
-            const category = item.categories?.[0] || '기타';
-            
-            const articleTemplates = {
-                '안전': [
-                    `제5조(중대산업재해) - 사망 시 1명당 10억원 이상, 부상 시 2억원 이상 손해배상`,
-                    `제16조(안전보건관리체제) - 50인 이상 사업장 책임자 선임 의무, 미선임 시 5천만원 과태료`,
-                    `제36조(위험성평가) - 분기 1회 실시, 고위험 작업장 매월 실시, 평가 미실시 시 작업중지명령`,
-                    `제162조(벨칙) - 작업중지명령 위반 시 5년 이하 징역 또는 5천만원 이하 벌금`
-                ],
-                '환경': [
-                    `제16조(배출허용기준) - 질소산화물(NOx) 30% 강화, 총인(T-P) 0.1mg/L 이하`,
-                    `제31조(TMS 설치) - 2종 사업장까지 확대, 실시간 전송의무, 조작 시 5년 이하 징역`,
-                    `제42조(탄소중립) - 2030년 온실가스 40% 감축, 2050년 탄소중립 달성 의무`,
-                    `제94조(과징금) - 배출기준 초과 시 최대 5억원, 허위측정 시 영업정지 1년`
-                ],
-                '인사노무': [
-                    `제50조(근로시간) - 주 52시간 제한, 연장근로 연 300시간 이내, 11시간 연속휴식`,
-                    `제74조(육아휴직) - 급여 상한 월 200만원, 부부 동시 사용 가능, 기간 2년까지 연장`,
-                    `제76조의2(직장내 괴롭힘) - 가해자 즉시 격리, 1천만원 이하 과태료, 3회 이상 시 형사처벌`,
-                    `제115조(성별 임금공시) - 임금 차이 이유 설명 의무, 미공시 시 2천만원 과태료`
-                ],
-                '재무회계': [
-                    `제161조(ESG 공시) - 사업보고서에 지속가능경영 포함, TCFD 기준 준수`,
-                    `제290조(내부회계관리) - CEO/CFO 인증 의무, 위반 시 5년 이하 징역 또는 5억원 벌금`,
-                    `제542조(감사인 지정) - 주기적 지정제 적용, 연속 4기 초과 금지, 비감사용역 제한 강화`,
-                    `제116조(전자세금계산서) - 2025년 7월부터 의무화, 미제출 시 1% 가산세`
-                ],
-                '정보보호': [
-                    `제22조(개인정보 수집) - 생체정보 엄격 관리, 아동 정보 특별보호, 14세 미만 동의 금지`,
-                    `제34조의2(ISMS-P) - 연매출 100억 이상 의무, 미인증 시 3% 과징금`,
-                    `제39조(유출신고) - 24시간 내 신고, 3일 내 통지, 은폐 시 5년 이하 징역`,
-                    `제75조(CISO) - 1천명 이상 개인정보 처리 시 CISO 지정 의무`
-                ],
-                '지배구조': [
-                    `제382조(독립이사) - 상장회사 과반수 의무, 자산 2조원 이상 기업 적용`,
-                    `제434조(전자투표) - 자산 1조원 이상 의무화, 미실시 시 1억원 과태료`,
-                    `제570조(임원보수) - 개별 5억원 이상 공시, 보수위원회 설치 의무`,
-                    `제542조의2(ESG위원회) - 자산 2조원 이상 설치 의무, 연 2회 이상 공시`
-                ],
-                '공정거래': [
-                    `제3조의2(시장지배적 지위) - 온라인 플랫폼 30% 이상 점유 시 규제, 알고리즘 공개 의무`,
-                    `제6조(기술탈취) - 징벌적 손해배상 3배, 형사처벌 3년 이하 징역`,
-                    `제19조(하도급대금) - 30일 이내 지급 의무, 연체 시 15% 지연이자`,
-                    `제85조(소비자피해) - 집단소송 허용, 입증책임 전환, 리콜 불이행 시 3% 과징금`
-                ],
-                '지식재산권': [
-                    `제2조의2(AI 저작물) - AI 생성물 저작권 인정, NFT 저작권 보호, 공정이용 범위 확대`,
-                    `제100조(특허무효) - NPE 권리행사 제한, FRAND 위반 시 특허권 제한`,
-                    `제129조(영업비밀) - 전직금지 3년, 위반 시 10배 배상, 해외유출 시 10년 이하 징역`,
-                    `제163조(중소기업 지원) - 특허 방어비용 지원, 소송비용 대여 제도`
-                ]
-            };
-            
-            const templates = articleTemplates[category] || [
-                `제4조(적용범위) - 적용 대상 및 범위 명확화`,
-                `제10조(절차규정) - 행정절차 간소화 및 처리기한 단축`,
-                `제17조(벌칙규정) - 위반 시 제재 수준 조정 및 구제절차 개선`
-            ];
-            
-            const selectedArticles = [...templates].sort(() => 0.5 - Math.random()).slice(0, 3);
-            
-            return `
-                <p><strong>주요 개정 조항:</strong></p>
-                <ul>
-                    ${selectedArticles.map(article => `<li>${article}</li>`).join('')}
-                </ul>
-                <p><em>※ 상세한 조문 내용은 국가법령정보센터에서 확인하시기 바랍니다.</em></p>
-            `;
+            const parsed = _parseAmendmentRaw(item);
+
+            if (parsed.mainPoints.length === 0) {
+                return '<p style="color:#6c757d;font-size:13px;font-style:italic;">조문별 상세 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
+            }
+
+            // 항목별 조항번호 그룹 + 맥락 설명 추출
+            const groups = [];
+            parsed.mainPoints.forEach(rawItem => {
+                // 끝 괄호에서 조항 번호 추출
+                const parenMatch = rawItem.match(/\(([^)]+)\)\s*\.?\s*$/);
+                if (!parenMatch) return;
+
+                const artNums = [...parenMatch[1].matchAll(/제(\d+)조(?:의(\d+))?/g)]
+                    .map(m => {
+                        // 부칙 다음의 조항 번호는 제외 (본문 조항만)
+                        const before = parenMatch[1].substring(0, m.index);
+                        if (/부칙\s*$/.test(before)) return null;
+                        return m[2] ? `제${m[1]}조의${m[2]}` : `제${m[1]}조`;
+                    })
+                    .filter(a => a !== null);
+                if (artNums.length === 0) return;
+
+                // 맥락 설명: 가/나/다 + 말미 조항 제거 후 첫 절까지
+                let desc = rawItem
+                    .replace(/^[가-힣]\.[\s\n]*/, '')
+                    .replace(/\([^)]*제\d+조[^)]*\)\.?\s*$/, '')
+                    .trim()
+                    .replace(/\n\s*/g, ' ')
+                    .replace(/\s+/g, ' ');
+
+                // 자연스러운 절 경계에서 끊기
+                const cutMatch1 = desc.match(/^.{8,52}(?:하고|하며|하여|하되|두고|두되|되고|로 함),\s/);
+                const cutMatch2 = !cutMatch1 && desc.match(/^.{8,45}(?:하고|하며) /);
+                if (cutMatch1) {
+                    desc = cutMatch1[0].trimEnd().replace(/,\s*$/, '');
+                } else if (cutMatch2) {
+                    desc = cutMatch2[0].trimEnd();
+                } else if (desc.length > 60) {
+                    desc = desc.substring(0, 58) + '…';
+                }
+
+                // 오름차순 정렬
+                const sortedNums = [...new Set(artNums)].sort((a, b) =>
+                    parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0]));
+
+                groups.push({ artNums: sortedNums, desc });
+            });
+
+            if (groups.length === 0) {
+                // 폴백: 모든 조항 pill 표시
+                const articleSet = new Set();
+                parsed.mainPoints.forEach(pt => {
+                    (pt.match(/\(([^)]+)\)/g) || []).forEach(pm => {
+                        (pm.slice(1,-1).match(/제(\d+)조(?:의(\d+))?/g) || []).forEach(a => articleSet.add(a));
+                    });
+                });
+                const articles = [...articleSet].sort((a, b) =>
+                    parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0]));
+
+                if (articles.length === 0)
+                    return '<p style="color:#6c757d;font-size:13px;font-style:italic;">조문별 상세 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
+
+                return `<div style="display:flex;flex-wrap:wrap;gap:8px;padding:2px 0;">
+                    ${articles.map(a => `<span style="background:#e8eaf6;color:#283593;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;border:1px solid #c5cae9;">${a}</span>`).join('')}
+                </div>`;
+            }
+
+            // 조항 태그 + 설명 행 레이아웃
+            const rows = groups.map(g => {
+                const pills = g.artNums.map(a => {
+                    const title = parsed.articleTitleMap[a];
+                    const label = title
+                        ? `${a}<span style="font-weight:400;font-size:11px;color:#5c6bc0;margin-left:4px;">${title}</span>`
+                        : a;
+                    return `<span style="display:inline-block;background:#e8eaf6;color:#283593;` +
+                           `padding:4px 12px;border-radius:14px;font-size:12px;font-weight:700;` +
+                           `border:1px solid #c5cae9;white-space:nowrap;line-height:1.6;">${label}</span>`;
+                }).join(' ');
+
+                return `<div style="display:flex;align-items:flex-start;gap:12px;padding:7px 0;border-bottom:1px solid #f0f4f8;">` +
+                       `<div style="flex:0 0 auto;display:flex;flex-wrap:wrap;gap:5px;">${pills}</div>` +
+                       `<div style="flex:1;color:#37474f;font-size:12.5px;line-height:1.7;padding-top:3px;">${g.desc}</div>` +
+                       `</div>`;
+            });
+
+            return `<div style="padding:0;">${rows.join('')}</div>`;
         }
 
 
