@@ -4286,6 +4286,7 @@
         }
 
         // ─── 📝 개정 이유 ───────────────────────────────────────────────
+        // ─── 📝 개정 이유 ───────────────────────────────────────────────
         function generateAmendmentReason(item) {
             const parsed = _parseAmendmentRaw(item);
             const amendment = item.amendments?.[0];
@@ -4294,123 +4295,79 @@
             if (!reasonText)
                 return '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 이유 정보가 없습니다.</p>';
 
-            return `<div style="color:#4e342e;font-size:13px;line-height:1.9;white-space:pre-wrap;">${reasonText}</div>`;
+            // 핕숳 화�Ӵ 뭔수 추출: 출 "��함." / "츨榀." 느하荱 뭔수
+            const m1 = reasonText.match(/^([\s\S]{20,350}?(?:ᬔ간|촄��).)/);
+            const m2 = !m1 && reasonText.match(/^([\s\S]{20,200}[.。])\s/);
+            const summary = m1 ? m1[1].trim()
+                          : m2 ? m2[1].trim()
+                          : (reasonText.length > 180 ? reasonText.substring(0, 178) + '…' : reasonText);
+
+            return `<div style="color:#4e342e;font-size:13px;line-height:1.8;">${summary}</div>`;
         }
+
         
+        // ─── 📠 개정 내용 ────────────────────────────────────────────
         function generateAmendmentContent(item) {
             const parsed = _parseAmendmentRaw(item);
 
-            if (parsed.mainPoints.length === 0) {
+            if (parsed.mainPoints.length === 0)
                 return '<p style="color:#6c757d;font-size:13px;font-style:italic;">세부 개정 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
-            }
 
-            // 가/나/다 접두어 + 말미 조항 참조 제거 → 완전한 문장 표시 (잘림 없음)
             const cleanedItems = parsed.mainPoints.map(text => {
                 let s = text.replace(/^[가-힣]\.[\s\n]*/, '').trim();
                 s = s.replace(/\n\s*/g, ' ').replace(/\s+/g, ' ');
-                s = s.replace(/\([^)]*제\d+조[^)]*\)\.?\s*$/, '').trim();
-                return s.replace(/\.\s*$/, '').trim();
+                s = s.replace(/\([^)]*宜בl豩�[^)]*\)\.?\s*$/, '').trim();
+                s = s.replace(/\.\s*$/, '').trim();
+                // 관寬귘: 75자 char마하는 잘림
+                return s.length > 75 ? s.substring(0, 73) + '…' : s;
             }).filter(s => s.length > 0);
 
-            if (cleanedItems.length === 0) {
+            if (cleanedItems.length === 0)
                 return '<p style="color:#6c757d;font-size:13px;font-style:italic;">세부 개정 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
-            }
 
-            return `<ul style="margin:0;padding-left:20px;color:#1b5e20;font-size:13px;line-height:2.0;">
-                        ${cleanedItems.map(p => `<li style="margin-bottom:5px;">${p}</li>`).join('')}
-                    </ul>`;
+            return `<ul style="margin:0;padding-left:18px;color:#1b5e20;font-size:13px;line-height:1.9;">
+                ${cleanedItems.map(p => `<li style="margin-bottom:3px;">${p}</li>`).join('')}
+            </ul>`;
         }
+
         
+        // ─── ⚖️ 주요 개정 조항 ──────────────────────────────────────────
         // ─── ⚖️ 주요 개정 조항 ──────────────────────────────────────────
         function generateAmendmentArticles(item) {
             const parsed = _parseAmendmentRaw(item);
 
-            if (parsed.mainPoints.length === 0) {
-                return '<p style="color:#6c757d;font-size:13px;font-style:italic;">조문별 상세 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
-            }
+            if (parsed.mainPoints.length === 0)
+                return '<p style="color:#6c757d;font-size:13px;font-style:italic;">졌문별 상세 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
 
-            // 항목별 조항번호 그룹 + 맥락 설명 추출
-            const groups = [];
-            parsed.mainPoints.forEach(rawItem => {
-                // 끝 괄호에서 조항 번호 추출
-                const parenMatch = rawItem.match(/\(([^)]+)\)\s*\.?\s*$/);
+            // 모든 조항별 수종 (별제 제: base2 excluded in original) // 부칙 역서 설명 추출
+            const articleSet = new Set();
+            parsed.mainPoints.forEach(pt => {
+                const parenMatch = pt.match(/\(([^)]+)\)\s*\.?\s*$/);
                 if (!parenMatch) return;
-
-                const artNums = [...parenMatch[1].matchAll(/제(\d+)조(?:의(\d+))?/g)]
-                    .map(m => {
-                        // 부칙 다음의 조항 번호는 제외 (본문 조항만)
-                        const before = parenMatch[1].substring(0, m.index);
-                        if (/부칙\s*$/.test(before)) return null;
-                        return m[2] ? `제${m[1]}조의${m[2]}` : `제${m[1]}조`;
-                    })
-                    .filter(a => a !== null);
-                if (artNums.length === 0) return;
-
-                // 맥락 설명: 가/나/다 + 말미 조항 제거 후 첫 절까지
-                let desc = rawItem
-                    .replace(/^[가-힣]\.[\s\n]*/, '')
-                    .replace(/\([^)]*제\d+조[^)]*\)\.?\s*$/, '')
-                    .trim()
-                    .replace(/\n\s*/g, ' ')
-                    .replace(/\s+/g, ' ');
-
-                // 자연스러운 절 경계에서 끊기
-                const cutMatch1 = desc.match(/^.{8,52}(?:하고|하며|하여|하되|두고|두되|되고|로 함),\s/);
-                const cutMatch2 = !cutMatch1 && desc.match(/^.{8,45}(?:하고|하며) /);
-                if (cutMatch1) {
-                    desc = cutMatch1[0].trimEnd().replace(/,\s*$/, '');
-                } else if (cutMatch2) {
-                    desc = cutMatch2[0].trimEnd();
-                } else if (desc.length > 60) {
-                    desc = desc.substring(0, 58) + '…';
-                }
-
-                // 오름차순 정렬
-                const sortedNums = [...new Set(artNums)].sort((a, b) =>
-                    parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0]));
-
-                groups.push({ artNums: sortedNums, desc });
-            });
-
-            if (groups.length === 0) {
-                // 폴백: 모든 조항 pill 표시
-                const articleSet = new Set();
-                parsed.mainPoints.forEach(pt => {
-                    (pt.match(/\(([^)]+)\)/g) || []).forEach(pm => {
-                        (pm.slice(1,-1).match(/제(\d+)조(?:의(\d+))?/g) || []).forEach(a => articleSet.add(a));
-                    });
+                [...parenMatch[1].matchAll(/제(\d+)조(?:의(\d+))?/g)].forEach(m => {
+                    const before = parenMatch[1].substring(0, m.index);
+                    if (/부칙\s*$/.test(before)) return;
+                    const key = m[2] ? `제${m[1]}조의${m[2]}` : `제${m[1]}조`;
+                    articleSet.add(key);
                 });
-                const articles = [...articleSet].sort((a, b) =>
-                    parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0]));
-
-                if (articles.length === 0)
-                    return '<p style="color:#6c757d;font-size:13px;font-style:italic;">조문별 상세 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
-
-                return `<div style="display:flex;flex-wrap:wrap;gap:8px;padding:2px 0;">
-                    ${articles.map(a => `<span style="background:#e8eaf6;color:#283593;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;border:1px solid #c5cae9;">${a}</span>`).join('')}
-                </div>`;
-            }
-
-            // 조항 태그 + 설명 행 레이아웃
-            const rows = groups.map(g => {
-                const pills = g.artNums.map(a => {
-                    const title = parsed.articleTitleMap[a];
-                    const label = title
-                        ? `${a}<span style="font-weight:400;font-size:11px;color:#5c6bc0;margin-left:4px;">${title}</span>`
-                        : a;
-                    return `<span style="display:inline-block;background:#e8eaf6;color:#283593;` +
-                           `padding:4px 12px;border-radius:14px;font-size:12px;font-weight:700;` +
-                           `border:1px solid #c5cae9;white-space:nowrap;line-height:1.6;">${label}</span>`;
-                }).join(' ');
-
-                return `<div style="display:flex;align-items:flex-start;gap:12px;padding:7px 0;border-bottom:1px solid #f0f4f8;">` +
-                       `<div style="flex:0 0 auto;display:flex;flex-wrap:wrap;gap:5px;">${pills}</div>` +
-                       `<div style="flex:1;color:#37474f;font-size:12.5px;line-height:1.7;padding-top:3px;">${g.desc}</div>` +
-                       `</div>`;
             });
 
-            return `<div style="padding:0;">${rows.join('')}</div>`;
+            const articles = [...articleSet].sort((a, b) =>
+                parseInt(a.match(/\d+/)[0]) - parseInt(b.match(/\d+/)[0]));
+
+            if (articles.length === 0)
+                return '<p style="color:#6c757d;font-size:13px;font-style:italic;">졌문별 상세 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
+
+            // 제X조(l��목) ㄯï�항�$ 쯼문 pill 미욨
+            const pills = articles.map(a => {
+                const title = parsed.articleTitleMap[a];
+                const label = title ? `${a}(${title})` : a;
+                return `<span style="display:inline-block;background:#e8eaf6;color:#283593;padding:4px 14px;border-radius:16px;font-size:13px;font-weight:600;border:1px solid #c5cae9;margin:3px 4px 3px 0;white-space:nowrap;">${label}</span>`;
+            });
+
+            return `<div style="display:flex;flex-wrap:wrap;padding:4px 0;">${pills.join('')}</div>`;
         }
+
 
 
         function closeLawModal() {
