@@ -4287,23 +4287,44 @@
 
         // ─── 📝 개정 이유 ───────────────────────────────────────────────
         // ─── 📝 개정 이유 ───────────────────────────────────────────────
-        function generateAmendmentReason(item) {
-            const parsed = _parseAmendmentRaw(item);
-            const amendment = item.amendments?.[0];
-            const reasonText = parsed.reason || (amendment?.reason || '').replace(/^\[[^\]]+\]\s*/, '').trim();
+function generateAmendmentReason(item) {
+    const parsed = _parseAmendmentRaw(item);
+    const amendment = item.amendments?.[0];
+    const reasonText = parsed.reason || (amendment?.reason || '').replace(/^\[[^\]]+\]\s*/, '').trim();
+    if (!reasonText)
+        return '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 이유 정보가 없습니다.</p>';
 
-            if (!reasonText)
-                return '<p style="color:#6c757d;font-size:13px;font-style:italic;">개정 이유 정보가 없습니다.</p>';
+    // 전략 1: 첫 "것임."/"위함." 까지 (600자 이내) — 중간 절단 없이 완전한 목적 문장
+    const m1 = reasonText.match(/^([\s\S]{10,600}?(?:것임|위함)\.)/);
+    if (m1) {
+        return `<div style="color:#4e342e;font-size:13px;line-height:1.8;">${m1[1].trim()}</div>`;
+    }
 
-            // 핕숳 화�Ӵ 뭔수 추출: 출 "��함." / "츨榀." 느하荱 뭔수
-            const m1 = reasonText.match(/^([\s\S]{20,350}?(?:ᬔ간|촄��).)/);
-            const m2 = !m1 && reasonText.match(/^([\s\S]{20,200}[.。])\s/);
-            const summary = m1 ? m1[1].trim()
-                          : m2 ? m2[1].trim()
-                          : (reasonText.length > 180 ? reasonText.substring(0, 178) + '…' : reasonText);
+    // 전략 2: 600자 초과하는 긴 이유 → 마지막 "것임."/"위함." 앞 핵심 절 추출
+    const lastKeyIdx = Math.max(reasonText.lastIndexOf('것임.'), reasonText.lastIndexOf('위함.'));
+    if (lastKeyIdx > 0) {
+        const searchStart = Math.max(0, lastKeyIdx - 200);
+        const chunk = reasonText.substring(searchStart, lastKeyIdx + 3);
+        // 쉼표 또는 마침표 뒤 새 절 시작점 탐색
+        const relStart = chunk.search(/[.。,，]\s+\S/);
+        const summary = relStart >= 0 ? chunk.substring(relStart + 2).trim() : chunk.trim();
+        return `<div style="color:#4e342e;font-size:13px;line-height:1.8;">${summary}</div>`;
+    }
 
-            return `<div style="color:#4e342e;font-size:13px;line-height:1.8;">${summary}</div>`;
-        }
+    // 전략 3: "것임."/"위함." 없음 → 첫 완전한 문장 (400자 이내)
+    const dotIdx = reasonText.search(/[.。]\s/);
+    if (dotIdx > 10 && dotIdx <= 400) {
+        return `<div style="color:#4e342e;font-size:13px;line-height:1.8;">${reasonText.substring(0, dotIdx + 1).trim()}</div>`;
+    }
+
+    // 전략 4: 최후 폴백 — 어절 경계에서 끊기 (절단 이유 없음)
+    if (reasonText.length <= 300) {
+        return `<div style="color:#4e342e;font-size:13px;line-height:1.8;">${reasonText}</div>`;
+    }
+    const cut = reasonText.substring(0, 300);
+    const lastSpace = cut.lastIndexOf(' ');
+    return `<div style="color:#4e342e;font-size:13px;line-height:1.8;">${cut.substring(0, lastSpace > 150 ? lastSpace : 300)}</div>`;
+}
 
         
         // ─── 📄 개정 내용 ────────────────────────────────────────────────
@@ -4311,10 +4332,9 @@ function generateAmendmentContent(item) {
     const parsed = _parseAmendmentRaw(item);
     let points = parsed.mainPoints;
 
-    // mainPoints가 없을 때: reason 텍스트를 접속어 기준으로 분리해서 사용
+    // mainPoints가 없을 때: reason 텍스트를 접속어 기준으로 분리
     if (points.length === 0 && parsed.reason.length > 20) {
         const reasonText = parsed.reason;
-        // 스페이스 앞 접속어(한편/또한/아울러/이와 함께/더불어) 기준 분리
         const splitParts = reasonText
             .split(/\s+(?=한편[,\s]|또한[,\s]|아울러[,\s]|이와\s*함께|더불어[,\s])/)
             .map(s => s.replace(/^(?:한편|또한|아울러|이와\s*함께|더불어)[,\s]*/, '').trim())
@@ -4325,19 +4345,30 @@ function generateAmendmentContent(item) {
     if (points.length === 0)
         return '<p style="color:#6c757d;font-size:13px;font-style:italic;">세부 개정 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
 
+    // 항목 정제 (글자 수 절단 없이 완전한 내용 표시)
     const cleanedItems = points.map(text => {
         let s = text.replace(/^[가-힣]\.[\s\n]*/, '').trim();
         s = s.replace(/\n\s*/g, ' ').replace(/\s+/g, ' ');
+        // 말미 조항 참조 괄호 제거 (제X조 참조 부분만)
         s = s.replace(/\([^)]*제\d+조[^)]*\)\.?\s*$/, '').trim();
         s = s.replace(/\.\s*$/, '').trim();
-        return s.length > 75 ? s.substring(0, 73) + '…' : s;
+        return s;
     }).filter(s => s.length > 0);
 
     if (cleanedItems.length === 0)
         return '<p style="color:#6c757d;font-size:13px;font-style:italic;">세부 개정 내용은 하단 국가법령정보센터 링크에서 확인하세요.</p>';
 
+    // 최대 4개 표시 (더 있으면 나머지 건수 안내)
+    const maxItems = 4;
+    const displayItems = cleanedItems.slice(0, maxItems);
+    const extraCount = cleanedItems.length - maxItems;
+    const extraNote = extraCount > 0
+        ? `<li style="color:#6c757d;font-style:italic;font-size:12px;margin-top:4px;">외 ${extraCount}개 항목 — 상세 내용은 아래 링크 참조</li>`
+        : '';
+
     return `<ul style="margin:0;padding-left:18px;color:#1b5e20;font-size:13px;line-height:1.9;">
-        ${cleanedItems.map(p => `<li style="margin-bottom:3px;">${p}</li>`).join('')}
+        ${displayItems.map(p => `<li style="margin-bottom:4px;">${p}</li>`).join('')}
+        ${extraNote}
     </ul>`;
 }
 
@@ -4347,17 +4378,26 @@ function generateAmendmentContent(item) {
 function generateAmendmentArticles(item) {
     const parsed = _parseAmendmentRaw(item);
 
-    // 모든 조항 번호 수집 (부칙 제외) — mainPoints 괄호 참조에서 추출
+    // 조항 번호 수집 (부칙 제외)
     const articleSet = new Set();
     parsed.mainPoints.forEach(pt => {
-        const parenMatch = pt.match(/\(([^)]+)\)\s*\.?\s*$/);
-        if (!parenMatch) return;
-        [...parenMatch[1].matchAll(/제(\d+)조(?:의(\d+))?/g)].forEach(m => {
-            const before = parenMatch[1].substring(0, m.index);
-            if (/부칙\s*$/.test(before)) return;
-            const key = m[2] ? `제${m[1]}조의${m[2]}` : `제${m[1]}조`;
-            articleSet.add(key);
-        });
+        // 방식 1: 문장 끝 괄호 참조 — "...내용(제5조)"
+        const endParen = pt.match(/\(([^)]+)\)\s*\.?\s*$/);
+        if (endParen) {
+            [...endParen[1].matchAll(/제(\d+)조(?:의(\d+))?/g)].forEach(m => {
+                const before = endParen[1].substring(0, m.index);
+                if (/부칙\s*$/.test(before)) return;
+                articleSet.add(m[2] ? `제${m[1]}조의${m[2]}` : `제${m[1]}조`);
+            });
+        }
+        // 방식 2: 소제목 뒤 괄호 참조 — "가. 소제목(제5조)  설명..."
+        const titleParen = pt.match(/^[가-힣]\.\s+[^(\n]+\(([^)]{2,40})\)/);
+        if (titleParen) {
+            [...titleParen[1].matchAll(/제(\d+)조(?:의(\d+))?/g)].forEach(m => {
+                if (/부칙/.test(titleParen[1].substring(0, m.index))) return;
+                articleSet.add(m[2] ? `제${m[1]}조의${m[2]}` : `제${m[1]}조`);
+            });
+        }
     });
 
     // mainPoints에서 못 찾은 경우 → 개정문에서 직접 추출 (조문 경계 패턴)
@@ -4366,10 +4406,8 @@ function generateAmendmentArticles(item) {
         const cutIdx = rawText.search(/【개정문】/);
         if (cutIdx >= 0) {
             const afterCut = rawText.substring(cutIdx);
-            // 부칙 이전까지만 처리
             const buchikIdx = afterCut.search(/\n\s*부칙/);
             const mainBody = buchikIdx > 0 ? afterCut.substring(0, buchikIdx) : afterCut;
-            // "개정한다." 또는 "를 한다." 다음에 오는 제X조 (새 조문 경계)
             [...mainBody.matchAll(/(?:개정한다|을\s*한다|을\s*하고|을\s*하며)\.\s{1,10}(제\d+조(?:의\d+)?)/g)].forEach(m => {
                 articleSet.add(m[1]);
             });
