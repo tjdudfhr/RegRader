@@ -6448,7 +6448,12 @@ function generateAmendmentArticles(item) {
             });
         }
     
-/* ========== RegRader AI Summary v5 ========== */
+/* ========== RegRader AI Summary v6 ========== */
+/* 핵심 수정: generateAISummary 함수명 충돌 제거
+   원본 generateAISummary(sync, HTML반환)는 그대로 유지.
+   Claude API 호출은 _rrClaudeAnalyze() 별도 함수로 분리.
+   showLawDetail 오버라이드: _rrOrig(id) 호출 → 원본 팝업 정상 렌더 →
+   이후 비동기로 AI 요약으로 교체.                              */
 
 /* ── CSS (spinner animation) ── */
 (function() {
@@ -6498,8 +6503,8 @@ function renderAISummary(s) {
     </div>`;
 }
 
-/* ── AI 요약 생성 (Claude API + localStorage 캐싱) ── */
-async function generateAISummary(item) {
+/* ── Claude API 호출 (이름 변경: _rrClaudeAnalyze) ── */
+async function _rrClaudeAnalyze(item) {
     const cacheKey = 'regrader_ai_' + item.id;
     const cached = localStorage.getItem(cacheKey);
     if (cached) {
@@ -6613,44 +6618,44 @@ async function generateAISummary(item) {
             : 'API 키가 삭제되었습니다.');
     });
 
-    // ESC 키로 닫기
     modal.addEventListener('click', e => {
         if (e.target === modal) modal.style.display = 'none';
     });
 })();
 
-/* ── showLawDetail 오버라이드 (AI 요약 통합) ── */
+/* ── showLawDetail 오버라이드 ──
+   _rrOrig(id) 호출 → 원본 generateAISummary(sync)가 HTML 반환 → 팝업 정상 렌더
+   이후 비동기로 _rrClaudeAnalyze() 호출 → sections 교체                     */
 const _rrOrig = window.showLawDetail;
 window.showLawDetail = async function(id) {
-    _rrOrig(id);  // 기존 팝업 열기 (동기)
+    // 1) 원본 팝업 열기 (원본 generateAISummary가 sync로 실행되어 DOM 채워짐)
+    _rrOrig(id);
 
-    const apiKey = getApiKey();
+    // 2) DOM이 완전히 렌더되기를 기다림
+    await new Promise(r => setTimeout(r, 80));
+
     const summaryEl = document.getElementById('modal-summary');
     if (!summaryEl) return;
-
-    // DOM이 완전히 렌더되기를 기다림
-    await new Promise(r => setTimeout(r, 30));
 
     const sections = [...summaryEl.querySelectorAll('.summary-section')];
     // sections[0]=개요, [1]=개정이유, [2]=개정내용, [3]=조항, [4]=링크
 
+    const apiKey = getApiKey();
+
     if (!apiKey) {
-        // API 키 미설정 시 안내 배너 삽입
-        const existingBanner = summaryEl.querySelector('#rr-no-key-banner');
-        if (!existingBanner) {
+        // API 키 미설정 시 안내 배너 삽입 (한 번만)
+        if (!summaryEl.querySelector('#rr-no-key-banner')) {
             const banner = document.createElement('div');
             banner.id = 'rr-no-key-banner';
             banner.style.cssText = 'background:linear-gradient(135deg,#f3e5f5,#e8eaf6);border-radius:10px;padding:13px 17px;margin:0 0 16px;border:1px solid #ce93d8;display:flex;align-items:center;gap:11px;cursor:pointer;';
             banner.innerHTML = '<span style="font-size:20px;">🤖</span><span style="font-size:13px;color:#4527a0;line-height:1.6;"><strong>AI 요약</strong> 기능을 사용하려면 우하단의 <strong>[AI 설정]</strong> 버튼에서 API 키를 입력하세요.</span>';
             banner.onclick = () => document.getElementById('rr-ai-btn').click();
-            if (sections[0]) {
-                sections[0].insertAdjacentElement('afterend', banner);
-            }
+            if (sections[0]) sections[0].insertAdjacentElement('afterend', banner);
         }
         return;
     }
 
-    // 로딩 상태 표시 (sections[1]을 로딩 플레이스홀더로 교체)
+    // 3) 로딩 상태: sections[1]을 스피너로 교체, [2][3] 숨김
     if (sections[1]) {
         sections[1].innerHTML = `
             <h4 style="color:#4527a0;border-color:#b39ddb;">🤖 AI 스마트 요약</h4>
@@ -6664,14 +6669,15 @@ window.showLawDetail = async function(id) {
     if (sections[2]) sections[2].style.display = 'none';
     if (sections[3]) sections[3].style.display = 'none';
 
-    // 해당 법령 데이터 찾기
+    // 4) 해당 법령 데이터 찾기
     const item = (window.lawsData || []).find(x => x.id === id);
     if (!item) return;
 
-    const aiResult = await generateAISummary(item);
+    // 5) Claude API 호출
+    const aiResult = await _rrClaudeAnalyze(item);
 
     if (!aiResult || aiResult._error) {
-        // 실패 시 기존 내용 복원
+        // 실패 시 원본 섹션 복원
         if (sections[1]) {
             sections[1].innerHTML = `
                 <h4>📝 개정 이유</h4>
@@ -6687,14 +6693,14 @@ window.showLawDetail = async function(id) {
         return;
     }
 
-    // AI 요약으로 교체
+    // 6) AI 요약으로 교체 (sections[2][3]은 AI가 대체하므로 숨긴 채 유지)
     if (sections[1]) {
         sections[1].innerHTML = `
             <h4 style="color:#4527a0;border-color:#b39ddb;">🤖 AI 스마트 요약</h4>
             <div class="amendment-box">${renderAISummary(aiResult)}</div>`;
     }
-    // sections[2], [3]은 숨긴 상태 유지 (AI 요약이 이를 대체)
 };
+
 </script>
 </body>
 </html>
