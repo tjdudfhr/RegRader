@@ -6440,14 +6440,6 @@ function generateAmendmentArticles(item) {
     
     <!-- PWA Service Worker 등록 -->
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then(registration => console.log('ServiceWorker registered'))
-                    .catch(err => console.log('ServiceWorker registration failed'));
-            });
-        }
-    
 /* ========== RegRader 개정정보 v9 ========== */
 /* 간결 요약: 개정이유(핵심 한 문장) / 개정내용(가.나.다. 요점) / 개정조항(번호+이름) */
 
@@ -6467,46 +6459,46 @@ function _rrExtract(raw) {
 
     /* 개정이유부 / 개정문 분리 */
     var reasonFull = text, contentFull = '';
-    var cIdx = text.indexOf('\u300090\uac1c\uc815\ubb38\u3001'); // 【개정문】
-    var contentMarker = '\u300090\uac1c\uc815\ubb38\u3001';
-    // 실제 문자로
-    contentMarker = '【개정문】';
-    cIdx = text.indexOf(contentMarker);
+    var contentMarker = '\u3010\uAC1C\uC815\uBB38\u3011'; /* 【개정문】 */
+    var cIdx = text.indexOf(contentMarker);
     if (cIdx !== -1) {
         reasonFull = text.substring(0, cIdx).trim();
         contentFull = text.substring(cIdx + contentMarker.length).trim();
     }
 
-    /* 헤더 제거 */
-    reasonFull = reasonFull
-        .replace(/◇\s*개정이유\s*(?:및\s*주요내용)?\s*/g, '')
-        .replace(/<법제처\s*제공>/g, '')
-        .trim();
+    /* 헤더 제거 - new RegExp 사용으로 인코딩 안전성 확보 */
+    var reHeader = new RegExp('\u25C7\\s*\uAC1C\uC815\uC774\uC720\\s*(?:\uBC0F\\s*\uC8FC\uC694\uB0B4\uC6A9)?\\s*', 'g');
+    var reLej = new RegExp('<\uBC95\uC81C\uCC98\\s*\uC81C\uACF5>', 'g');
+    reasonFull = reasonFull.replace(reHeader, '').replace(reLej, '').trim();
 
     /* 개정이유 vs 주요내용 분리 */
     var reasonShort = reasonFull, bulletsPart = '';
-    var bIdx = reasonFull.indexOf('◇ 주요내용');
-    if (bIdx === -1) bIdx = reasonFull.indexOf('주요내용');
-    if (bIdx!== -1) {
+    var bIdx = reasonFull.indexOf('\u25C7 \uC8FC\uC694\uB0B4\uC6A9'); /* ◇ 주요내용 */
+    if (bIdx === -1) bIdx = reasonFull.indexOf('\uC8FC\uC694\uB0B4\uC6A9'); /* 주요내용 */
+    if (bIdx !== -1) {
         reasonShort = reasonFull.substring(0, bIdx).trim();
-        bulletsPart = reasonFull.substring(bIdx).replace(/^◇?\s*주요내용\s*/, '').trim();
+        var reBulletHeader = new RegExp('^\u25C7?\\s*\uC8FC\uC694\uB0B4\uC6A9\\s*'); /* ◇?주요내용 */
+        bulletsPart = reasonFull.substring(bIdx).replace(reBulletHeader, '').trim();
     }
 
-    /* 개정이유: 첬 문장뇌 (최대 120자) */
+    /* 개정이유: 첫 문장만 (최대 120자) */
     var reason = reasonShort;
-    var dotIdx = reasonShort.search(/것잔[.。=\s*/);
+    var reGeosim = new RegExp('\uAC83\uC784[.\u3002]?\\s'); /* 것임. */
+    var dotIdx = reasonShort.search(reGeosim);
     if (dotIdx !== -1) {
         reason = reasonShort.substring(0, dotIdx + 3).trim();
     } else {
-        dotIdx = reasonShort.search(/[.。=\s)/;
+        var reDot = new RegExp('[.\u3002]\\s'); /* [.。]\s */
+        dotIdx = reasonShort.search(reDot);
         if (dotIdx !== -1 && dotIdx < 180) reason = reasonShort.substring(0, dotIdx + 1).trim();
         else if (reason.length > 120) reason = reason.substring(0, 120) + '...';
     }
 
-    /* 주요내용 가.나.다. 쌌싱
-    var korList = ['가','나','다','��','맄','바','사','아','자','차'];
+    /* 주요내용 가.나.다. 파싱 */
+    var korList = ['\uAC00','\uB098','\uB2E4','\uB77C','\uB9C8','\uBC14','\uC0AC','\uC544','\uC790','\uCC28'];
     var bullets = [];
     if (bulletsPart) {
+        var reEnd = new RegExp('[.\u3002]\\s|\uD568\\.|\uC784\\.\\s|\uB3C4\uB85D\\s'); /* [.。]\s|함.|임.\s|도록\s */
         for (var i = 0; i < korList.length; i++) {
             var marker = korList[i] + '.';
             var next   = korList[i+1] ? korList[i+1] + '.' : null;
@@ -6514,8 +6506,8 @@ function _rrExtract(raw) {
             if (s === -1) continue;
             var e = next ? bulletsPart.indexOf(next, s + 2) : -1;
             var chunk = (e !== -1 ? bulletsPart.substring(s + marker.length, e) : bulletsPart.substring(s + marker.length)).trim();
-            /* 첫 절(括弧 포함'*까지만 */
-            var d = chunk.search(/[.。]\s|함\.|임\.\s|도록\s/);
+            /* 첫 절(括弧 포함)까지만 */
+            var d = chunk.search(reEnd);
             if (d !== -1 && d < 90) chunk = chunk.substring(0, d + 1).trim();
             else if (chunk.length > 80) chunk = chunk.substring(0, 80) + '...';
             if (chunk) bullets.push(chunk);
@@ -6526,11 +6518,11 @@ function _rrExtract(raw) {
     /* 개정조항: 제N조(이름) 추출 */
     var articles = [];
     if (contentFull) {
-        var artRe = /제(\d+)조(?:의\d+)?(?:\s*\(([^)]{1,20})\))?/g;
+        var artRe = new RegExp('\uC81C(\\d+)\uC870(?:\uC758\\d+)?(?:\\s*\\(([^)]{1,20})\\))?', 'g'); /* 제N조(의N)? */
         var seen = {};
         var m;
         while ((m = artRe.exec(contentFull)) !== null) {
-            var key = '제' + m[1] + '조';
+            var key = '\uC81C' + m[1] + '\uC870'; /* 제N조 */
             if (seen[key]) continue;
             seen[key] = true;
             articles.push(m[2] ? key + ' (' + m[2] + ')' : key);
@@ -6544,7 +6536,7 @@ function _rrExtract(raw) {
 /* ── HTML 렌더 ── */
 function _rrRenderInfo(item) {
     var amendment = item.amendments && item.amendments[0];
-    if (!amendment) return '<p style="color:#999;font-size:13px;">개정 정보가 없습니다.</p>';
+    if (!amendment) return '<p style="color:#999;font-size:13px;">\uAC1C\uC815 \uC815\uBCF4\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.</p>';
 
     var parsed = _rrExtract(amendment.reason);
     var reason   = parsed.reason;
@@ -6556,7 +6548,7 @@ function _rrRenderInfo(item) {
     /* 개정이유 */
     if (reason) {
         html += '<div>' +
-            '<div style="font-weight:700;color:#bf360c;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">🔎 개정이유</div>' +
+            '<div style="font-weight:700;color:#bf360c;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">\uD83D\uDD0E \uAC1C\uC815\uC774\uC720</div>' +
             '<div style="color:#4e342e;font-size:13px;line-height:1.75;padding:10px 14px;background:#fff8f0;border-radius:8px;border-left:3px solid #ff8f00;">' +
             reason + '</div></div>';
     }
@@ -6567,7 +6559,7 @@ function _rrRenderInfo(item) {
             return '<li style="margin-bottom:5px;">' + b + '</li>';
         }).join('');
         html += '<div>' +
-            '<div style="font-weight:700;color:#1b5e20;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">📝 주요 개정내용</div>' +
+            '<div style="font-weight:700;color:#1b5e20;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">\uD83D\uDCDD \uC8FC\uC694 \uAC1C\uC815\uB0B4\uC6A9</div>' +
             '<ul style="margin:0;padding:10px 10px 10px 26px;color:#2e4a2e;font-size:13px;line-height:1.75;background:#f1f8e9;border-radius:8px;">' +
             bHtml + '</ul></div>';
     }
@@ -6578,7 +6570,7 @@ function _rrRenderInfo(item) {
             return '<span style="display:inline-block;padding:3px 10px;background:#e8eaf6;color:#283593;border-radius:20px;font-size:12px;margin:2px 3px;">' + a + '</span>';
         }).join('');
         html += '<div>' +
-            '<div style="font-weight:700;color:#283593;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">📌 개정조항</div>' +
+            '<div style="font-weight:700;color:#283593;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">\uD83D\uDCCC \uAC1C\uC815\uC870\uD56D</div>' +
             '<div style="line-height:2.2;">' + aHtml + '</div></div>';
     }
 
@@ -6597,7 +6589,7 @@ window.showLawDetail = function(id) {
         var item = (window.lawsData || []).filter(function(x) { return x.id === id; })[0];
         if (!item || !sections[1]) return;
         sections[1].innerHTML =
-            '<h4 style="color:#4527a0;border-color:#b39ddb;">📋 개정 요약정보</h4>' +
+            '<h4 style="color:#4527a0;border-color:#b39ddb;">\uD83D\uDCCB \uAC1C\uC815 \uC694\uC57D\uC815\uBCF4</h4>' +
             '<div class="amendment-box">' + _rrRenderInfo(item) + '</div>';
     }, 80);
 };
