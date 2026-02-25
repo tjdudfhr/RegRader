@@ -6448,113 +6448,138 @@ function generateAmendmentArticles(item) {
             });
         }
     
-/* ========== RegRader 개정정보 v8 ========== */
-/* 단순 직접 표시: 법령 클릭 즉시 개정이유/개정내용/개정조항 팝업에 바로 표시
-   API 키 불필요, 클릭 없음, 로딩 없음 */
+/* ========== RegRader 개정정보 v9 ========== */
+/* 간결 요약: 개정이유(핵심 한 문장) / 개정내용(가.나.다. 요점) / 개정조항(번호+이름) */
 
-/* ── 기존 v7 부유 버튼/모달 제거 ── */
-(function cleanup() {
-    ['rr-ai-btn', 'rr-key-modal'].forEach(id => {
-        const el = document.getElementById(id);
+/* ── 기존 버튼 정리 ── */
+(function() {
+    ['rr-ai-btn', 'rr-key-modal'].forEach(function(id) {
+        var el = document.getElementById(id);
         if (el) el.remove();
     });
 })();
 
-/* ── 개정 텍스트를 섹션별로 파싱 ── */
-function _rrParseReason(raw) {
-    if (!raw) return { reason: '', content: '', provisions: [] };
+/* ── 텍스트 파싱 ── */
+function _rrExtract(raw) {
+    if (!raw) return { reason: '', bullets: [], articles: [] };
 
-    /* 앞부분 [일부개정] / [전부개정] 태그 제거 */
-    let text = raw.replace(/^\[.+?\]\s*/g, '').trim();
+    var text = raw.replace(/^\[.+?\]\s*/g, '').trim();
 
-    /* 개정이유 vs 개정문 분리 */
-    let reasonText = '';
-    let contentText = '';
-    const contentMarker = '【개정문】';
-    const idx = text.indexOf(contentMarker);
-    if (idx !== -1) {
-        reasonText = text.substring(0, idx).trim();
-        contentText = text.substring(idx + contentMarker.length).trim();
-    } else {
-        reasonText = text;
+    /* 개정이유부 / 개정문 분리 */
+    var reasonFull = text, contentFull = '';
+    var cIdx = text.indexOf('\u300090\uac1c\uc815\ubb38\u3001'); // 【개정문】
+    var contentMarker = '\u300090\uac1c\uc815\ubb38\u3001';
+    // 실제 문자로
+    contentMarker = '【개정문】';
+    cIdx = text.indexOf(contentMarker);
+    if (cIdx !== -1) {
+        reasonFull = text.substring(0, cIdx).trim();
+        contentFull = text.substring(cIdx + contentMarker.length).trim();
     }
 
-    /* 개정이유: "◇ 개정이유 및 주요내용" 헤더와 <법제처 제공> 제거 */
-    reasonText = reasonText
+    /* 헤더 제거 */
+    reasonFull = reasonFull
         .replace(/◇\s*개정이유\s*(?:및\s*주요내용)?\s*/g, '')
         .replace(/<법제처\s*제공>/g, '')
         .trim();
 
-    /* 개정내용: 부칙 이하는 접어서 표시 */
-    let mainContent = contentText;
-    let supplement = '';
-    const suppIdx = contentText.search(/\n\s*부칙/);
-    if (suppIdx !== -1 && suppIdx > 100) {
-        mainContent = contentText.substring(0, suppIdx).trim();
-        supplement = contentText.substring(suppIdx).trim();
+    /* 개정이유 vs 주요내용 분리 */
+    var reasonShort = reasonFull, bulletsPart = '';
+    var bIdx = reasonFull.indexOf('◇ 주요내용');
+    if (bIdx === -1) bIdx = reasonFull.indexOf('주요내용');
+    if (bIdx!== -1) {
+        reasonShort = reasonFull.substring(0, bIdx).trim();
+        bulletsPart = reasonFull.substring(bIdx).replace(/^◇?\s*주요내용\s*/, '').trim();
     }
 
-    /* 개정조항 추출: ⊙법률 또는 제N조 패턴 */
-    const provisionMatches = [...(mainContent.matchAll(/(?:제\d+조(?:의\d+)?(?:\s*제\d+항)?|⊙법률[^\n]+)/g))];
-    const provisions = provisionMatches.slice(0, 10).map(m => m[0].trim());
+    /* 개정이유: 첬 문장뇌 (최대 120자) */
+    var reason = reasonShort;
+    var dotIdx = reasonShort.search(/것잔[.。=\s*/);
+    if (dotIdx !== -1) {
+        reason = reasonShort.substring(0, dotIdx + 3).trim();
+    } else {
+        dotIdx = reasonShort.search(/[.。=\s)/;
+        if (dotIdx !== -1 && dotIdx < 180) reason = reasonShort.substring(0, dotIdx + 1).trim();
+        else if (reason.length > 120) reason = reason.substring(0, 120) + '...';
+    }
 
-    return { reason: reasonText, content: mainContent, supplement, provisions };
+    /* 주요내용 가.나.다. 쌌싱
+    var korList = ['가','나','다','��','맄','바','사','아','자','차'];
+    var bullets = [];
+    if (bulletsPart) {
+        for (var i = 0; i < korList.length; i++) {
+            var marker = korList[i] + '.';
+            var next   = korList[i+1] ? korList[i+1] + '.' : null;
+            var s = bulletsPart.indexOf(marker);
+            if (s === -1) continue;
+            var e = next ? bulletsPart.indexOf(next, s + 2) : -1;
+            var chunk = (e !== -1 ? bulletsPart.substring(s + marker.length, e) : bulletsPart.substring(s + marker.length)).trim();
+            /* 첫 절(括弧 포함'*까지만 */
+            var d = chunk.search(/[.。]\s|함\.|임\.\s|도록\s/);
+            if (d !== -1 && d < 90) chunk = chunk.substring(0, d + 1).trim();
+            else if (chunk.length > 80) chunk = chunk.substring(0, 80) + '...';
+            if (chunk) bullets.push(chunk);
+            if (bullets.length >= 7) break;
+        }
+    }
+
+    /* 개정조항: 제N조(이름) 추출 */
+    var articles = [];
+    if (contentFull) {
+        var artRe = /제(\d+)조(?:의\d+)?(?:\s*\(([^)]{1,20})\))?/g;
+        var seen = {};
+        var m;
+        while ((m = artRe.exec(contentFull)) !== null) {
+            var key = '제' + m[1] + '조';
+            if (seen[key]) continue;
+            seen[key] = true;
+            articles.push(m[2] ? key + ' (' + m[2] + ')' : key);
+            if (articles.length >= 10) break;
+        }
+    }
+
+    return { reason: reason, bullets: bullets, articles: articles };
 }
 
 /* ── HTML 렌더 ── */
 function _rrRenderInfo(item) {
-    const amendment = item.amendments?.[0];
+    var amendment = item.amendments && item.amendments[0];
     if (!amendment) return '<p style="color:#999;font-size:13px;">개정 정보가 없습니다.</p>';
 
-    const { reason, content, supplement, provisions } = _rrParseReason(amendment.reason);
+    var parsed = _rrExtract(amendment.reason);
+    var reason   = parsed.reason;
+    var bullets  = parsed.bullets;
+    var articles = parsed.articles;
 
-    let html = '<div style="display:flex;flex-direction:column;gap:14px;">';
+    var html = '<div style="display:flex;flex-direction:column;gap:12px;">';
 
-    /* 1. 개정이유 */
+    /* 개정이유 */
     if (reason) {
-        html += `
-        <div>
-            <div style="font-weight:700;color:#bf360c;font-size:12px;letter-spacing:.5px;margin-bottom:7px;">🔎 개정이유</div>
-            <div style="color:#4e342e;font-size:13px;line-height:1.85;padding:12px 15px;background:#fff8f0;border-radius:9px;border-left:3px solid #ff8f00;">
-                ${reason.replace(/\n{2,}/g, '</p><p style="margin:8px 0 0 0;">').replace(/\n/g, '<br>')}
-            </div>
-        </div>`;
+        html += '<div>' +
+            '<div style="font-weight:700;color:#bf360c;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">🔎 개정이유</div>' +
+            '<div style="color:#4e342e;font-size:13px;line-height:1.75;padding:10px 14px;background:#fff8f0;border-radius:8px;border-left:3px solid #ff8f00;">' +
+            reason + '</div></div>';
     }
 
-    /* 2. 개정내용 */
-    if (content) {
-        html += `
-        <div>
-            <div style="font-weight:700;color:#1b5e20;font-size:12px;letter-spacing:.5px;margin-bottom:7px;">📝 개정내용</div>
-            <div style="color:#1b5e20;font-size:13px;line-height:1.85;padding:12px 15px;background:#f1f8e9;border-radius:9px;">
-                ${content.replace(/\n/g, '<br>')}
-            </div>
-        </div>`;
+    /* 주요 개정내용 */
+    if (bullets.length > 0) {
+        var bHtml = bullets.map(function(b) {
+            return '<li style="margin-bottom:5px;">' + b + '</li>';
+        }).join('');
+        html += '<div>' +
+            '<div style="font-weight:700;color:#1b5e20;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">📝 주요 개정내용</div>' +
+            '<ul style="margin:0;padding:10px 10px 10px 26px;color:#2e4a2e;font-size:13px;line-height:1.75;background:#f1f8e9;border-radius:8px;">' +
+            bHtml + '</ul></div>';
     }
 
-    /* 3. 개정조항 (있을 경우) */
-    if (provisions.length > 0) {
-        const provHtml = provisions.map(p =>
-            `<li style="margin-bottom:5px;">${p}</li>`
-        ).join('');
-        html += `
-        <div>
-            <div style="font-weight:700;color:#283593;font-size:12px;letter-spacing:.5px;margin-bottom:7px;">📌 개정조항</div>
-            <ul style="margin:0;padding:11px 11px 11px 28px;color:#283593;font-size:13px;line-height:1.75;background:#e8eaf6;border-radius:9px;">
-                ${provHtml}
-            </ul>
-        </div>`;
-    }
-
-    /* 부칙 접기 */
-    if (supplement) {
-        html += `
-        <details style="font-size:12px;color:#888;">
-            <summary style="cursor:pointer;font-size:12px;color:#aaa;padding:4px 0;">부칙 보기</summary>
-            <div style="margin-top:8px;padding:10px 14px;background:#fafafa;border-radius:8px;line-height:1.8;color:#555;">
-                ${supplement.replace(/\n/g, '<br>')}
-            </div>
-        </details>`;
+    /* 개정조항 */
+    if (articles.length > 0) {
+        var aHtml = articles.map(function(a) {
+            return '<span style="display:inline-block;padding:3px 10px;background:#e8eaf6;color:#283593;border-radius:20px;font-size:12px;margin:2px 3px;">' + a + '</span>';
+        }).join('');
+        html += '<div>' +
+            '<div style="font-weight:700;color:#283593;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">📌 개정조항</div>' +
+            '<div style="line-height:2.2;">' + aHtml + '</div></div>';
     }
 
     html += '</div>';
@@ -6562,25 +6587,18 @@ function _rrRenderInfo(item) {
 }
 
 /* ── showLawDetail 오버라이드 ── */
-const _rrOrig = window.showLawDetail;
+var _rrOrig = window.showLawDetail;
 window.showLawDetail = function(id) {
-    /* 1) 원본 실행 → 팝업 정상 표시 */
     _rrOrig(id);
-
-    /* 2) 80ms 후 section[1]에 개정정보 직접 삽입 */
-    setTimeout(() => {
-        const summaryEl = document.getElementById('modal-summary');
+    setTimeout(function() {
+        var summaryEl = document.getElementById('modal-summary');
         if (!summaryEl) return;
-
-        const sections = [...summaryEl.querySelectorAll('.summary-section')];
-        const item = (window.lawsData || []).find(x => x.id === id);
+        var sections = Array.prototype.slice.call(summaryEl.querySelectorAll('.summary-section'));
+        var item = (window.lawsData || []).filter(function(x) { return x.id === id; })[0];
         if (!item || !sections[1]) return;
-
-        sections[1].innerHTML = `
-            <h4 style="color:#4527a0;border-color:#b39ddb;">📋 개정 상세정보</h4>
-            <div class="amendment-box">
-                ${_rrRenderInfo(item)}
-            </div>`;
+        sections[1].innerHTML =
+            '<h4 style="color:#4527a0;border-color:#b39ddb;">📋 개정 요약정보</h4>' +
+            '<div class="amendment-box">' + _rrRenderInfo(item) + '</div>';
     }, 80);
 };
 </script>
