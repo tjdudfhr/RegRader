@@ -6440,158 +6440,172 @@ function generateAmendmentArticles(item) {
     
     <!-- PWA Service Worker 등록 -->
     <script>
-/* ========== RegRader 개정정보 v9 ========== */
-/* 간결 요약: 개정이유(핵심 한 문장) / 개정내용(가.나.다. 요점) / 개정조항(번호+이름) */
+/* ========== RegRader v10 ========== */
+/* 5-section: 개정개요 / 개정이유 / 주요개정내용 / 개정조항 / 관련링크 */
+/* No truncation, complete sentences, no duplication */
 
-/* ── 기존 버튼 정리 ── */
-(function() {
-    ['rr-ai-btn', 'rr-key-modal'].forEach(function(id) {
-        var el = document.getElementById(id);
-        if (el) el.remove();
+(function(){
+    ['rr-ai-btn','rr-key-modal'].forEach(function(id){
+        var el=document.getElementById(id);if(el)el.remove();
     });
 })();
 
-/* ── 텍스트 파싱 ── */
-function _rrExtract(raw) {
-    if (!raw) return { reason: '', bullets: [], articles: [] };
-
-    var text = raw.replace(/^\[.+?\]\s*/g, '').trim();
-
-    /* 개정이유부 / 개정문 분리 */
-    var reasonFull = text, contentFull = '';
-    var contentMarker = '\u3010\uAC1C\uC815\uBB38\u3011'; /* 【개정문】 */
-    var cIdx = text.indexOf(contentMarker);
-    if (cIdx !== -1) {
-        reasonFull = text.substring(0, cIdx).trim();
-        contentFull = text.substring(cIdx + contentMarker.length).trim();
+/* ── Parser ── */
+function _rrExtract(raw){
+    if(!raw)return{reason:'',bullets:[],articles:[]};
+    var text=raw.replace(/^\[.+?\]\s*/g,'').trim();
+    var cM='\u3010\uAC1C\uC815\uBB38\u3011';
+    var ci=text.indexOf(cM);
+    var reasonFull=ci!==-1?text.substring(0,ci).trim():text;
+    var contentFull=ci!==-1?text.substring(ci+cM.length).trim():'';
+    reasonFull=reasonFull
+        .replace(new RegExp('\u25C7\\s*\uAC1C\uC815\uC774\uC720\\s*(?:\uBC0F\\s*\uC8FC\uC694\uB0B4\uC6A9)?\\s*','g'),'')
+        .replace(new RegExp('<\uBC95\uC81C\uCC98\\s*\uC81C\uACF5>','g'),'')
+        .trim();
+    var reasonPart=reasonFull,bulletsPart='';
+    var bi=reasonFull.indexOf('\u25C7 \uC8FC\uC694\uB0B4\uC6A9');
+    if(bi===-1)bi=reasonFull.indexOf('\uC8FC\uC694\uB0B4\uC6A9');
+    if(bi!==-1){
+        reasonPart=reasonFull.substring(0,bi).trim();
+        bulletsPart=reasonFull.substring(bi).replace(new RegExp('^\u25C7?\\s*\uC8FC\uC694\uB0B4\uC6A9\\s*'),'').trim();
     }
-
-    /* 헤더 제거 - new RegExp 사용으로 인코딩 안전성 확보 */
-    var reHeader = new RegExp('\u25C7\\s*\uAC1C\uC815\uC774\uC720\\s*(?:\uBC0F\\s*\uC8FC\uC694\uB0B4\uC6A9)?\\s*', 'g');
-    var reLej = new RegExp('<\uBC95\uC81C\uCC98\\s*\uC81C\uACF5>', 'g');
-    reasonFull = reasonFull.replace(reHeader, '').replace(reLej, '').trim();
-
-    /* 개정이유 vs 주요내용 분리 */
-    var reasonShort = reasonFull, bulletsPart = '';
-    var bIdx = reasonFull.indexOf('\u25C7 \uC8FC\uC694\uB0B4\uC6A9'); /* ◇ 주요내용 */
-    if (bIdx === -1) bIdx = reasonFull.indexOf('\uC8FC\uC694\uB0B4\uC6A9'); /* 주요내용 */
-    if (bIdx !== -1) {
-        reasonShort = reasonFull.substring(0, bIdx).trim();
-        var reBulletHeader = new RegExp('^\u25C7?\\s*\uC8FC\uC694\uB0B4\uC6A9\\s*'); /* ◇?주요내용 */
-        bulletsPart = reasonFull.substring(bIdx).replace(reBulletHeader, '').trim();
-    }
-
-    /* 개정이유: 첫 문장만 (최대 120자) */
-    var reason = reasonShort;
-    var reGeosim = new RegExp('\uAC83\uC784[.\u3002]?\\s'); /* 것임. */
-    var dotIdx = reasonShort.search(reGeosim);
-    if (dotIdx !== -1) {
-        reason = reasonShort.substring(0, dotIdx + 3).trim();
-    } else {
-        var reDot = new RegExp('[.\u3002]\\s'); /* [.。]\s */
-        dotIdx = reasonShort.search(reDot);
-        if (dotIdx !== -1 && dotIdx < 180) reason = reasonShort.substring(0, dotIdx + 1).trim();
-        else if (reason.length > 120) reason = reason.substring(0, 120) + '...';
-    }
-
-    /* 주요내용 가.나.다. 파싱 */
-    var korList = ['\uAC00','\uB098','\uB2E4','\uB77C','\uB9C8','\uBC14','\uC0AC','\uC544','\uC790','\uCC28'];
-    var bullets = [];
-    if (bulletsPart) {
-        var reEnd = new RegExp('[.\u3002]\\s|\uD568\\.|\uC784\\.\\s|\uB3C4\uB85D\\s'); /* [.。]\s|함.|임.\s|도록\s */
-        for (var i = 0; i < korList.length; i++) {
-            var marker = korList[i] + '.';
-            var next   = korList[i+1] ? korList[i+1] + '.' : null;
-            var s = bulletsPart.indexOf(marker);
-            if (s === -1) continue;
-            var e = next ? bulletsPart.indexOf(next, s + 2) : -1;
-            var chunk = (e !== -1 ? bulletsPart.substring(s + marker.length, e) : bulletsPart.substring(s + marker.length)).trim();
-            /* 첫 절(括弧 포함)까지만 */
-            var d = chunk.search(reEnd);
-            if (d !== -1 && d < 90) chunk = chunk.substring(0, d + 1).trim();
-            else if (chunk.length > 80) chunk = chunk.substring(0, 80) + '...';
-            if (chunk) bullets.push(chunk);
-            if (bullets.length >= 7) break;
-        }
-    }
-
-    /* 개정조항: 제N조(이름) 추출 */
-    var articles = [];
-    if (contentFull) {
-        var artRe = new RegExp('\uC81C(\\d+)\uC870(?:\uC758\\d+)?(?:\\s*\\(([^)]{1,20})\\))?', 'g'); /* 제N조(의N)? */
-        var seen = {};
-        var m;
-        while ((m = artRe.exec(contentFull)) !== null) {
-            var key = '\uC81C' + m[1] + '\uC870'; /* 제N조 */
-            if (seen[key]) continue;
-            seen[key] = true;
-            articles.push(m[2] ? key + ' (' + m[2] + ')' : key);
-            if (articles.length >= 10) break;
-        }
-    }
-
-    return { reason: reason, bullets: bullets, articles: articles };
+    return{reason:_rrSentences(reasonPart),bullets:_rrBullets(bulletsPart),articles:_rrArticles(contentFull)};
 }
 
-/* ── HTML 렌더 ── */
-function _rrRenderInfo(item) {
-    var amendment = item.amendments && item.amendments[0];
-    if (!amendment) return '<p style="color:#999;font-size:13px;">\uAC1C\uC815 \uC815\uBCF4\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.</p>';
-
-    var parsed = _rrExtract(amendment.reason);
-    var reason   = parsed.reason;
-    var bullets  = parsed.bullets;
-    var articles = parsed.articles;
-
-    var html = '<div style="display:flex;flex-direction:column;gap:12px;">';
-
-    /* 개정이유 */
-    if (reason) {
-        html += '<div>' +
-            '<div style="font-weight:700;color:#bf360c;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">\uD83D\uDD0E \uAC1C\uC815\uC774\uC720</div>' +
-            '<div style="color:#4e342e;font-size:13px;line-height:1.75;padding:10px 14px;background:#fff8f0;border-radius:8px;border-left:3px solid #ff8f00;">' +
-            reason + '</div></div>';
-    }
-
-    /* 주요 개정내용 */
-    if (bullets.length > 0) {
-        var bHtml = bullets.map(function(b) {
-            return '<li style="margin-bottom:5px;">' + b + '</li>';
-        }).join('');
-        html += '<div>' +
-            '<div style="font-weight:700;color:#1b5e20;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">\uD83D\uDCDD \uC8FC\uC694 \uAC1C\uC815\uB0B4\uC6A9</div>' +
-            '<ul style="margin:0;padding:10px 10px 10px 26px;color:#2e4a2e;font-size:13px;line-height:1.75;background:#f1f8e9;border-radius:8px;">' +
-            bHtml + '</ul></div>';
-    }
-
-    /* 개정조항 */
-    if (articles.length > 0) {
-        var aHtml = articles.map(function(a) {
-            return '<span style="display:inline-block;padding:3px 10px;background:#e8eaf6;color:#283593;border-radius:20px;font-size:12px;margin:2px 3px;">' + a + '</span>';
-        }).join('');
-        html += '<div>' +
-            '<div style="font-weight:700;color:#283593;font-size:11px;letter-spacing:.6px;margin-bottom:6px;">\uD83D\uDCCC \uAC1C\uC815\uC870\uD56D</div>' +
-            '<div style="line-height:2.2;">' + aHtml + '</div></div>';
-    }
-
-    html += '</div>';
-    return html;
+/* Complete sentence extraction - NEVER truncate with "..." */
+function _rrSentences(text){
+    if(!text)return'';
+    /* Priority 1: "것임." - canonical Korean legal ending */
+    var re=new RegExp('\uAC83\uC784[.\u3002]');
+    var m=re.exec(text);
+    if(m)return text.substring(0,m.index+m[0].length).trim();
+    /* Priority 2: "것이다." */
+    re=new RegExp('\uAC83\uC774\uB2E4[.\u3002]');
+    m=re.exec(text);
+    if(m)return text.substring(0,m.index+m[0].length).trim();
+    /* Priority 3: other endings - 바임. 있음. 됨. 함. 하였음. */
+    re=new RegExp('(\uBC14\uC784|\uC788\uC74C|\uB428|\uD568|\uD558\uC600\uC74C)[.\u3002]','g');
+    var last=-1;
+    while((m=re.exec(text))!==null)last=m.index+m[0].length;
+    if(last>0)return text.substring(0,last).trim();
+    /* Priority 4: return full text as-is */
+    return text;
 }
 
-/* ── showLawDetail 오버라이드 ── */
-var _rrOrig = window.showLawDetail;
-window.showLawDetail = function(id) {
+/* 가.나.다. bullet parsing - complete sentences, no "..." */
+function _rrBullets(bp){
+    if(!bp)return[];
+    var k=['\uAC00','\uB098','\uB2E4','\uB77C','\uB9C8','\uBC14','\uC0AC','\uC544','\uC790','\uCC28'];
+    var endRe=new RegExp('(\uAC83\uC784|\uD568|\uB428|\uC784|\uC74C|\uBC14\uC784|\uD558\uC600\uC74C)[.\u3002]','g');
+    var bullets=[];
+    for(var i=0;i<k.length;i++){
+        var mk=k[i]+'.';
+        var nx=k[i+1]?k[i+1]+'.':null;
+        var s=bp.indexOf(mk);if(s===-1)continue;
+        var e=nx?bp.indexOf(nx,s+2):-1;
+        var chunk=(e!==-1?bp.substring(s+mk.length,e):bp.substring(s+mk.length)).trim();
+        endRe.lastIndex=0;
+        var em=endRe.exec(chunk);
+        if(em)chunk=chunk.substring(0,em.index+em[0].length).trim();
+        if(chunk)bullets.push(chunk);
+        if(bullets.length>=7)break;
+    }
+    return bullets;
+}
+
+/* 제N조 extraction */
+function _rrArticles(cf){
+    if(!cf)return[];
+    var arts=[];
+    var re=new RegExp('\uC81C(\\d+)\uC870(?:\uC758\\d+)?(?:\\s*\\(([^)]{1,30})\\))?','g');
+    var seen={},m;
+    while((m=re.exec(cf))!==null){
+        var key='\uC81C'+m[1]+'\uC870';
+        if(seen[key])continue;seen[key]=true;
+        arts.push(m[2]?key+'('+m[2]+')':key);
+        if(arts.length>=15)break;
+    }
+    return arts;
+}
+
+/* ── Section HTML Builders ── */
+function _rrSec(icon,title,inner,hColor){
+    return'<div class="summary-section"><h4 style="color:'+hColor+';border-bottom:2px solid '+hColor+'33;padding-bottom:8px;">'+icon+' '+title+'</h4><div class="amendment-box" style="margin-top:10px;">'+inner+'</div></div>';
+}
+
+function _rrReasonHTML(r){
+    if(!r)return'<p style="color:#999;font-size:13px;">\uAC1C\uC815\uC774\uC720 \uC815\uBCF4\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.</p>';
+    return'<div style="color:#4e342e;font-size:14px;line-height:1.85;padding:14px 16px;background:linear-gradient(135deg,#fff8f0,#fff3e0);border-radius:10px;border-left:4px solid #ff8f00;">'+r+'</div>';
+}
+
+function _rrBulletsHTML(b){
+    if(!b||b.length===0)return'<p style="color:#999;font-size:13px;">\uBCC4\uB3C4 \uD56D\uBAA9 \uC5C6\uC74C</p>';
+    var h='<div style="display:flex;flex-direction:column;gap:8px;">';
+    for(var i=0;i<b.length;i++){
+        h+='<div style="display:flex;gap:10px;padding:10px 14px;background:linear-gradient(135deg,#f1f8e9,#e8f5e9);border-radius:10px;font-size:14px;line-height:1.75;color:#2e4a2e;">'
+        +'<span style="flex-shrink:0;width:22px;height:22px;background:#43a047;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:2px;">'+(i+1)+'</span>'
+        +'<span>'+b[i]+'</span></div>';
+    }
+    h+='</div>';
+    return h;
+}
+
+function _rrArticlesHTML(a){
+    if(!a||a.length===0)return'<p style="color:#999;font-size:13px;">\uAC1C\uC815\uC870\uD56D \uC815\uBCF4 \uC5C6\uC74C</p>';
+    var h='<div style="display:flex;flex-wrap:wrap;gap:8px;">';
+    for(var i=0;i<a.length;i++){
+        h+='<span style="display:inline-block;padding:5px 14px;background:linear-gradient(135deg,#e8eaf6,#c5cae9);color:#1a237e;border-radius:20px;font-size:13px;font-weight:600;">'+a[i]+'</span>';
+    }
+    h+='</div>';
+    return h;
+}
+
+function _rrLinksHTML(item){
+    var title=item.title||'';
+    var enc=encodeURIComponent(title);
+    return'<div style="display:flex;flex-direction:column;gap:10px;">'
+    +'<a href="https://www.law.go.kr/\uBC95\uB839/'+enc+'" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;color:#1565c0;font-size:14px;text-decoration:none;padding:10px 16px;background:linear-gradient(135deg,#e3f2fd,#bbdefb);border-radius:10px;font-weight:500;">'
+    +'\uD83C\uDFDB\uFE0F \uAD6D\uAC00\uBC95\uB839\uC815\uBCF4\uC13C\uD130\uC5D0\uC11C \uBCF4\uAE30</a>'
+    +'</div>';
+}
+
+/* ── Override showLawDetail ── */
+var _rrOrig=window.showLawDetail;
+window.showLawDetail=function(id){
     _rrOrig(id);
-    setTimeout(function() {
-        var summaryEl = document.getElementById('modal-summary');
-        if (!summaryEl) return;
-        var sections = Array.prototype.slice.call(summaryEl.querySelectorAll('.summary-section'));
-        var item = (window.lawsData || []).filter(function(x) { return x.id === id; })[0];
-        if (!item || !sections[1]) return;
-        sections[1].innerHTML =
-            '<h4 style="color:#4527a0;border-color:#b39ddb;">\uD83D\uDCCB \uAC1C\uC815 \uC694\uC57D\uC815\uBCF4</h4>' +
-            '<div class="amendment-box">' + _rrRenderInfo(item) + '</div>';
-    }, 80);
+    setTimeout(function(){
+        var summaryEl=document.getElementById('modal-summary');
+        if(!summaryEl)return;
+        var sections=Array.prototype.slice.call(summaryEl.querySelectorAll('.summary-section'));
+        var item=(window.lawsData||[]).filter(function(x){return x.id===id;})[0];
+        if(!item)return;
+        var amendment=item.amendments&&item.amendments[0];
+        var parsed=amendment?_rrExtract(amendment.reason):{reason:'',bullets:[],articles:[]};
+
+        /* 1. Fix overview alignment */
+        if(sections[0]){
+            var box=sections[0].querySelector('.amendment-box');
+            if(!box){var h4=sections[0].querySelector('h4');if(h4&&h4.nextElementSibling)box=h4.nextElementSibling;}
+            if(box){
+                var rows=box.children;
+                for(var r=0;r<rows.length;r++){
+                    rows[r].style.cssText='display:flex;align-items:center;gap:12px;margin-bottom:10px;';
+                    if(rows[r].firstElementChild){
+                        rows[r].firstElementChild.style.cssText='min-width:88px;text-align:center;flex-shrink:0;';
+                    }
+                }
+            }
+        }
+
+        /* 2-5. Remove old sections[1+], add new */
+        for(var i=sections.length-1;i>=1;i--)sections[i].remove();
+        var html='';
+        html+=_rrSec('\uD83D\uDD0E','\uAC1C\uC815\uC774\uC720',_rrReasonHTML(parsed.reason),'#e65100');
+        html+=_rrSec('\uD83D\uDCDD','\uC8FC\uC694 \uAC1C\uC815\uB0B4\uC6A9',_rrBulletsHTML(parsed.bullets),'#2e7d32');
+        html+=_rrSec('\uD83D\uDCCC','\uAC1C\uC815\uC870\uD56D',_rrArticlesHTML(parsed.articles),'#283593');
+        html+=_rrSec('\uD83D\uDD17','\uAD00\uB828\uB9C1\uD06C',_rrLinksHTML(item),'#1565c0');
+        summaryEl.insertAdjacentHTML('beforeend',html);
+    },80);
 };
 </script>
 </body>
