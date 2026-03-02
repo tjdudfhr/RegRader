@@ -6547,15 +6547,20 @@ function _rrBullets(bp){
 /* ── 제N조(이름) extraction - 이름까지 표시 ── */
 function _rrArticles(cf){
     if(!cf)return[];
-    var arts=[];
+    var map={},order=[];
     var re=new RegExp('\uC81C(\\d+)\uC870(?:\uC758(\\d+))?(?:\\s*\\(([^)]{1,40})\\))?','g');
-    var seen={},m;
+    var m;
     while((m=re.exec(cf))!==null){
         var key='\uC81C'+m[1]+'\uC870';
         if(m[2])key+='\uC758'+m[2];
-        if(seen[key])continue;seen[key]=true;
-        arts.push(m[3]?key+'('+m[3]+')':key);
-        if(arts.length>=15)break;
+        var hasKey=(map[key]!==undefined);
+        if(!hasKey){map[key]=m[3]||'';order.push(key);}
+        else if(m[3]&&!map[key]){map[key]=m[3];}
+    }
+    var arts=[];
+    for(var i=0;i<order.length&&i<15;i++){
+        var k=order[i];
+        arts.push(map[k]?k+'('+map[k]+')':k);
     }
     return arts;
 }
@@ -6597,7 +6602,6 @@ function _rrLinksHTML(item){
     var base='https://www.law.go.kr/lsSc.do?query='+enc;
     return'<div class="external-links">'
     +'<a href="'+base+'" target="_blank" rel="noopener" class="external-link law-link"><div class="link-icon">\uD83D\uDCDC</div><div class="link-content"><strong>\uBC95\uB839 \uC6D0\uBB38 \uBCF4\uAE30</strong><span>\uAD6D\uAC00\uBC95\uB839\uC815\uBCF4\uC13C\uD130\uC5D0\uC11C \uD655\uC778</span></div><div class="link-arrow">\u2192</div></a>'
-    +'<a href="'+base+'" target="_blank" rel="noopener" class="external-link search-link"><div class="link-icon">\uD83D\uDD0D</div><div class="link-content"><strong>\uAD00\uB828 \uBC95\uB839 \uAC80\uC0C9</strong><span>\uAD00\uB828 \uBC95\uB960/\uC2DC\uD589\uB839/\uADDC\uCE59 \uAC80\uC0C9</span></div><div class="link-arrow">\u2192</div></a>'
     +'</div>';
 }
 
