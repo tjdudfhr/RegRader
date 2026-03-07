@@ -4157,40 +4157,53 @@
         }
 
         function generateAISummary(item) {
-            const amendmentReason = generateAmendmentReason(item);
-            const amendmentContent = generateAmendmentContent(item);
-            const amendmentArticles = generateAmendmentArticles(item);
-            
+            // 실제 amendments 데이터에서 텍스트 파싱
+            const rawReason = (item.amendments && item.amendments[0] && item.amendments[0].reason) || '';
+            const parsed = parseAmendmentText(rawReason, item);
+
+            const ministry = item.ministry || getMinistryName(item.title, item.categories) || '관계부처';
+            const lawType = getDetailedLawType(item.title, item.lawType) || '일부개정';
+            const effectiveDate = item.effectiveDate || '미정';
+            const today = new Date();
+            const effDate = new Date(effectiveDate);
+            const isEnacted = effDate <= today;
+            const statusBadge = isEnacted
+                ? '<span style="background:#10b981;color:#fff;padding:2px 8px;border-radius:4px;font-size:0.8rem;">시행완료</span>'
+                : '<span style="background:#6366f1;color:#fff;padding:2px 8px;border-radius:4px;font-size:0.8rem;">시행예정</span>';
+
             const summaryHtml = `
                 <div class="summary-section">
                     <h4>📋 개정 개요</h4>
-                    <p><strong>법령명:</strong> ${item.title}</p>
-                    <p><strong>개정 유형:</strong> ${getDetailedLawType(item.title, item.lawType) || '일부개정'}</p>
-                    <p><strong>시행 시기:</strong> ${item.effectiveDate || '미정'}</p>
-                    <p><strong>주무 부처:</strong> ${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</p>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;background:#f8f9fa;padding:14px 16px;border-radius:8px;">
+                        <div><span style="color:#6b7280;font-size:0.85rem;">법령명</span><br><strong>${item.title}</strong></div>
+                        <div><span style="color:#6b7280;font-size:0.85rem;">개정 유형</span><br><strong>${parsed.type || lawType}</strong></div>
+                        <div><span style="color:#6b7280;font-size:0.85rem;">시행일</span><br><strong>${effectiveDate}</strong> ${statusBadge}</div>
+                        <div><span style="color:#6b7280;font-size:0.85rem;">주무 부처</span><br><strong>${ministry}</strong></div>
+                    </div>
                 </div>
-                
+
                 <div class="summary-section">
                     <h4>📝 개정 이유</h4>
-                    <div class="amendment-box">
-                        ${amendmentReason}
+                    <div class="amendment-box" style="background:#f0f4ff;border-left:4px solid #667eea;padding:14px 16px;border-radius:0 8px 8px 0;">
+                        ${parsed.reason || '<p style="color:#6b7280;">개정 이유 정보가 없습니다.</p>'}
                     </div>
                 </div>
-                
+
                 <div class="summary-section">
-                    <h4>📄 개정 내용</h4>
-                    <div class="amendment-box">
-                        ${amendmentContent}
+                    <h4>📄 주요 내용</h4>
+                    <div class="amendment-box" style="background:#f0fdf4;border-left:4px solid #10b981;padding:14px 16px;border-radius:0 8px 8px 0;">
+                        ${parsed.contents || '<p style="color:#6b7280;">주요 내용 정보가 없습니다.</p>'}
                     </div>
                 </div>
-                
+
+                ${parsed.articles ? `
                 <div class="summary-section">
                     <h4>⚖️ 주요 개정 조항</h4>
-                    <div class="amendment-box">
-                        ${amendmentArticles}
+                    <div class="amendment-box" style="background:#fef3c7;border-left:4px solid #f59e0b;padding:14px 16px;border-radius:0 8px 8px 0;">
+                        ${parsed.articles}
                     </div>
-                </div>
-                
+                </div>` : ''}
+
                 <div class="summary-section">
                     <h4>🔗 관련 링크</h4>
                     <div class="external-links">
@@ -4216,12 +4229,190 @@
 
             document.getElementById('modal-summary').innerHTML = summaryHtml;
         }
+
+        // 법령 개정 원문 텍스트를 구조화된 섹션으로 파싱
+        function parseAmendmentText(rawText, item) {
+            const result = { type: '', reason: '', contents: '', articles: '' };
+            if (!rawText || rawText.length < 10) return result;
+
+            // 1. 개정 유형 추출 [일부개정], [제정], [전부개정] 등
+            const typeMatch = rawText.match(/^\[(.*?)\]/);
+            result.type = typeMatch ? typeMatch[1] : '';
+
+            // 2. 【개정문】 이전까지만 사용 (개정문은 조항 파싱용)
+            let mainText = rawText;
+            let articleText = '';
+            const gaejungIdx = rawText.indexOf('【개정문】');
+            if (gaejungIdx > 0) {
+                mainText = rawText.substring(0, gaejungIdx).trim();
+                articleText = rawText.substring(gaejungIdx);
+            }
+
+            // <법제처 제공> 태그 제거
+            mainText = mainText.replace(/<법제처 제공>/g, '').trim();
+
+            // 3. ◇ 마커로 섹션 분리
+            // 패턴: ◇ 개정이유 및 주요내용 / ◇ 개정이유 ... ◇ 주요내용 / ◇ 제정이유 ... ◇ 주요내용
+            const sections = mainText.split(/◇\s*/);
+
+            let reasonText = '';
+            let contentsText = '';
+
+            sections.forEach(section => {
+                const trimmed = section.trim();
+                if (trimmed.startsWith('개정이유 및 주요내용')) {
+                    // 개정이유와 주요내용이 합쳐진 경우
+                    const body = trimmed.replace(/^개정이유 및 주요내용\s*/, '').trim();
+                    reasonText = body;
+                } else if (trimmed.startsWith('개정이유') || trimmed.startsWith('제정이유')) {
+                    reasonText = trimmed.replace(/^(개정|제정)이유\s*/, '').trim();
+                } else if (trimmed.startsWith('주요내용') || trimmed.startsWith('주요 내용')) {
+                    contentsText = trimmed.replace(/^주요\s*내용\s*/, '').trim();
+                }
+            });
+
+            // 4. 개정이유 포맷팅
+            if (reasonText) {
+                result.reason = formatTextBlock(reasonText);
+            }
+
+            // 5. 주요내용 포맷팅 (가. 나. 다. 등 항목 파싱)
+            if (contentsText) {
+                result.contents = formatContentItems(contentsText);
+            } else if (reasonText && !contentsText) {
+                // 개정이유만 있을 때 (개정이유 및 주요내용인 경우)
+                // 이유 부분에서 주요내용도 함께 보여줌
+                result.contents = '<p style="color:#6b7280;">개정 이유에 주요 내용이 포함되어 있습니다.</p>';
+            }
+
+            // 6. 개정 조항 추출
+            if (articleText) {
+                result.articles = formatArticleText(articleText, item.title);
+            } else {
+                // 본문에서 제X조 패턴 추출
+                const articleRefs = extractArticleRefs(mainText);
+                if (articleRefs.length > 0) {
+                    result.articles = '<ul style="margin:0;padding-left:18px;">' +
+                        articleRefs.map(a => `<li style="margin:4px 0;color:#92400e;">${a}</li>`).join('') + '</ul>';
+                }
+            }
+
+            return result;
+        }
+
+        // 텍스트 블록을 읽기 쉽게 포맷팅
+        function formatTextBlock(text) {
+            // 문장 끝에서 적절히 줄바꿈
+            let cleaned = text.replace(/\s+/g, ' ').trim();
+            // 「」 인용 부분 강조
+            cleaned = cleaned.replace(/「(.*?)」/g, '<strong style="color:#4f46e5;">「$1」</strong>');
+            // ~하려는 것임. 으로 끝나는 문장 처리
+            if (cleaned.length > 200) {
+                // 긴 텍스트는 핵심만 요약 표시 + 더보기
+                const shortText = cleaned.substring(0, 200);
+                const lastPeriod = shortText.lastIndexOf('.');
+                const cutPoint = lastPeriod > 100 ? lastPeriod + 1 : 200;
+                const uid = 'reason_' + Math.random().toString(36).substr(2, 6);
+                return `
+                    <p style="margin:0;line-height:1.7;color:#374151;" id="${uid}_short">${cleaned.substring(0, cutPoint)}
+                        <a href="javascript:void(0)" onclick="document.getElementById('${uid}_short').style.display='none';document.getElementById('${uid}_full').style.display='block';" style="color:#6366f1;font-weight:600;text-decoration:none;"> ...더보기</a>
+                    </p>
+                    <p style="margin:0;line-height:1.7;color:#374151;display:none;" id="${uid}_full">${cleaned}
+                        <a href="javascript:void(0)" onclick="document.getElementById('${uid}_full').style.display='none';document.getElementById('${uid}_short').style.display='block';" style="color:#6366f1;font-weight:600;text-decoration:none;"> 접기</a>
+                    </p>`;
+            }
+            return `<p style="margin:0;line-height:1.7;color:#374151;">${cleaned}</p>`;
+        }
+
+        // 주요내용 항목들 (가. 나. 다. 또는 1. 2. 3.) 파싱
+        function formatContentItems(text) {
+            // 가. 나. 다. 라. 마. 바. 사. 아. 자. 차. 카. 타. 파. 하. 패턴
+            const itemPattern = /\s*(가|나|다|라|마|바|사|아|자|차|카|타|파|하)\.\s*/g;
+            const parts = text.split(itemPattern);
+
+            if (parts.length >= 3) {
+                // 항목이 발견된 경우
+                let items = [];
+                for (let i = 1; i < parts.length; i += 2) {
+                    const label = parts[i];
+                    const content = (parts[i + 1] || '').trim()
+                        .replace(/\s+/g, ' ')
+                        .replace(/「(.*?)」/g, '<strong style="color:#4f46e5;">「$1」</strong>');
+                    if (content) {
+                        // 조항 번호 강조 (제X조, 제X조의2 등)
+                        const highlighted = content.replace(/(제\d+조(?:의\d+)?(?:제\d+항)?)/g,
+                            '<span style="background:#dbeafe;padding:1px 4px;border-radius:3px;font-size:0.85rem;">$1</span>');
+                        items.push(`<li style="margin:6px 0;line-height:1.6;"><strong>${label}.</strong> ${highlighted}</li>`);
+                    }
+                }
+                if (items.length > 0) {
+                    return '<ul style="margin:0;padding-left:18px;list-style:none;">' + items.join('') + '</ul>';
+                }
+            }
+
+            // 항목 패턴이 없으면 일반 텍스트로 포맷
+            return formatTextBlock(text);
+        }
+
+        // 개정문에서 조항 정보 추출
+        function formatArticleText(text, lawTitle) {
+            // 해당 법률 관련 조항만 추출
+            const lines = text.split(/\s\s+/);
+            const relevant = [];
+
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                // 제X조 패턴이 있고 의미있는 내용인 경우
+                if (trimmed.match(/제\d+조/) && trimmed.length > 10 && trimmed.length < 200) {
+                    const cleaned = trimmed
+                        .replace(/「(.*?)」/g, '<strong>「$1」</strong>')
+                        .replace(/(제\d+조(?:의\d+)?(?:제\d+항)?(?:제\d+호)?)/g,
+                            '<span style="background:#fef3c7;padding:1px 4px;border-radius:3px;">$1</span>');
+                    relevant.push(cleaned);
+                }
+            });
+
+            if (relevant.length > 0) {
+                const display = relevant.slice(0, 5); // 최대 5개
+                return '<ul style="margin:0;padding-left:18px;">' +
+                    display.map(a => `<li style="margin:5px 0;line-height:1.5;color:#92400e;font-size:0.9rem;">${a}</li>`).join('') +
+                    '</ul>' +
+                    (relevant.length > 5 ? `<p style="margin:8px 0 0;color:#6b7280;font-size:0.85rem;">외 ${relevant.length - 5}건 - 법령 원문에서 확인</p>` : '');
+            }
+            return '';
+        }
+
+        // 본문에서 제X조 참조 추출
+        function extractArticleRefs(text) {
+            const refs = [];
+            // 제X조(명칭) 패턴
+            const pattern = /제(\d+)조(?:의(\d+))?\s*\(([^)]+)\)/g;
+            let match;
+            const seen = new Set();
+            while ((match = pattern.exec(text)) !== null) {
+                const ref = match[0];
+                if (!seen.has(ref)) {
+                    seen.add(ref);
+                    refs.push(ref);
+                }
+            }
+            // 제X조(명칭) 없이 제X조만 있는 경우
+            if (refs.length === 0) {
+                const simplePattern = /제(\d+)조(?:의(\d+))?(?:제(\d+)항)?/g;
+                while ((match = simplePattern.exec(text)) !== null) {
+                    const ref = match[0];
+                    if (!seen.has(ref)) {
+                        seen.add(ref);
+                        refs.push(ref);
+                    }
+                }
+            }
+            return refs.slice(0, 8); // 최대 8개
+        }
         
-        function generateAmendmentReason(item) {
-            // 개정유형 확인
-            const amendmentType = item.amendments?.[0]?.amendmentType || 
-                                 item.amendments?.[0]?.reason || 
-                                 '일부개정';
+        // Legacy template functions removed - now using parseAmendmentText
+        function generateAmendmentReason_legacy(item) {
+            const amendmentType = item.amendments?.[0]?.amendmentType || '일부개정';
             
             // 개정유형이 단순한 경우 (일부개정, 타법개정, 제정, 전부개정)
             if (['일부개정', '타법개정', '제정', '전부개정'].includes(amendmentType)) {
