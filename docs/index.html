@@ -1768,7 +1768,7 @@
                 <div class="subtitle">AI를 활용한 법규 개정 모니터링 시스템</div>
             </div>
             <div class="meta">
-                <span id="year">2025</span>년 법령 개정 현황 · 
+                <span id="year">2026</span>년 법령 개정 현황 · 
                 최종 업데이트: <span id="timestamp">로딩 중...</span>
             </div>
         </div>
@@ -2747,8 +2747,8 @@
                 const month = date.getMonth() + 1; // 0-11 → 1-12
                 const year = date.getFullYear();
                 
-                // 2025년 법령만 필터링
-                if (year !== 2025) return false;
+                // 2026년 법령만 필터링
+                if (year !== 2026) return false;
                 
                 // 분기별 필터링
                 return info.months.includes(month);
@@ -2981,8 +2981,8 @@
                 const month = date.getMonth() + 1;
                 const year = date.getFullYear();
                 
-                // Only 2025 laws
-                if (year !== 2025) return false;
+                // Only 2026 laws
+                if (year !== 2026) return false;
                 
                 // Check if in this quarter
                 return info.months.includes(month);
@@ -3643,9 +3643,9 @@
                 
                 
                 // 헤더 정보 업데이트
-                document.getElementById('year').textContent = data.year || 2025;
-                const date = new Date((data.generatedAt || 0) * 1000);
-                document.getElementById('timestamp').textContent = date.toLocaleString('ko-KR');
+                document.getElementById('year').textContent = data.year || 2026;
+                const date = typeof data.generatedAt === 'string' ? new Date(data.generatedAt) : new Date((data.generatedAt || 0) * 1000);
+                document.getElementById('timestamp').textContent = isNaN(date.getTime()) ? (data.generatedAt || '') : date.toLocaleString('ko-KR');
 
                 // 실제 2025년 시행일자 데이터를 병합 - 중복 문제로 비활성화
                 // await updateLawsWithRealEffectiveDates();
@@ -3669,9 +3669,9 @@
                     totalLawCountElement.textContent = matched2025LawData.total_laws; // 276건
                 }
                 
-                // 2025년 법규 분류 및 개수 업데이트
-                const currentDate = new Date('2025-08-26'); // 현재 날짜
-                const currentDateStr = '2025-08-26';
+                // 2026년 법규 분류 및 개수 업데이트
+                const currentDate = new Date(); // 실제 현재 날짜
+                const currentDateStr = currentDate.toISOString().split('T')[0];
                 
                 // 276개 매칭 법규 기준으로 시행완료/시행예정 계산
                 // quarterly_details.json에서 실제 276개 데이터를 가져와서 계산
@@ -3690,7 +3690,7 @@
                         console.log('📊 매칭 법규 로드 완료:', allMatchedLaws.length, '개');
                         
                         // 시행 완료/예정 현황 동적 계산
-                        const today = new Date('2025-09-04'); // 2025년 시뮬레이션
+                        const today = new Date(); // 실제 현재 날짜 기준
                         let implementedCount = 0;
                         let pendingCount = 0;
                         
@@ -3720,7 +3720,7 @@
                     .catch(error => {
                         console.error('❌ 매칭 데이터 로드 실패:', error);
                         // 폴백: lawsData를 사용하여 동적 계산
-                        const today = new Date('2025-09-04');
+                        const today = new Date(); // 실제 현재 날짜 기준
                         let implementedCount = 0;
                         let pendingCount = 0;
                         
@@ -6196,7 +6196,7 @@
                     if (!law.effectiveDate) return false;
                     const month = new Date(law.effectiveDate).getMonth() + 1;
                     const year = new Date(law.effectiveDate).getFullYear();
-                    return year === 2025 && months.includes(month);
+                    return year === 2026 && months.includes(month);
                 });
                 
                 const quarterJobs = {};

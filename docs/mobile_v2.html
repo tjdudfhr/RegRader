@@ -1280,7 +1280,7 @@
         
         // 이번주 정보 업데이트
         function updateWeekInfo() {
-            const now = new Date('2025-09-04');
+            const now = new Date();
             const weekStart = new Date(now);
             weekStart.setDate(now.getDate() - now.getDay()); // 일요일
             const weekEnd = new Date(weekStart);
@@ -1298,7 +1298,7 @@
         function updateWeeklyLaws() {
             if (lawsData.length === 0) return;
             
-            const now = new Date('2025-09-04');
+            const now = new Date();
             const weekStart = new Date(now);
             weekStart.setDate(now.getDate() - now.getDay());
             weekStart.setHours(0, 0, 0, 0);
@@ -1403,7 +1403,7 @@
                 const month = date.getMonth() + 1;
                 const year = date.getFullYear();
                 
-                if (year === 2025) {
+                if (year === 2026) {
                     if (month <= 3) quarterCounts.Q1++;
                     else if (month <= 6) quarterCounts.Q2++;
                     else if (month <= 9) quarterCounts.Q3++;
@@ -1471,7 +1471,7 @@
             });
             
             // 시행 상태 카운트 업데이트
-            const today = new Date('2025-09-04');
+            const today = new Date();
             let completed = 0, pending = 0;
             lawsData.forEach(law => {
                 if (law.effectiveDate) {
@@ -1660,7 +1660,7 @@
                 const date = new Date(law.effectiveDate);
                 const month = date.getMonth() + 1;
                 const year = date.getFullYear();
-                return year === 2025 && info.months.includes(month);
+                return year === 2026 && info.months.includes(month);
             }).sort((a, b) => {
                 // 날짜순 정렬
                 return new Date(a.effectiveDate) - new Date(b.effectiveDate);
@@ -1678,7 +1678,7 @@
                         day: '2-digit'
                     }).replace(/\. /g, '.').replace(/\.$/, '');
                     
-                    const status = date < new Date('2025-09-04') ? '시행완료' : '시행예정';
+                    const status = date < new Date() ? '시행완료' : '시행예정';
                     const statusClass = status === '시행완료' ? 'badge-status-completed' : 'badge-status-upcoming';
                     
                     // 데이터 속성으로 전달하는 방식으로 변경
@@ -1753,7 +1753,7 @@
                         day: '2-digit'
                     }).replace(/\. /g, '.').replace(/\.$/, '') : '미정';
                     
-                    const status = date && date < new Date('2025-09-04') ? '시행완료' : '시행예정';
+                    const status = date && date < new Date() ? '시행완료' : '시행예정';
                     const statusClass = status === '시행완료' ? 'badge-status-completed' : 'badge-status-upcoming';
                     
                     // 데이터 속성으로 전달하는 방식으로 변경
@@ -2314,7 +2314,7 @@
         function getDaysFromNow(dateStr) {
             if (!dateStr) return null;
             const targetDate = new Date(dateStr);
-            const today = new Date('2025-09-04');
+            const today = new Date();
             const diffTime = targetDate - today;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             return diffDays;
