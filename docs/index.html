@@ -785,7 +785,7 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: 16px;
-            max-width: 580px;
+            max-width: 780px;
             max-height: 90vh;
             width: 94vw;
             overflow: hidden;
@@ -802,36 +802,36 @@
         .modal-header {
             background: var(--primary-gradient);
             color: white;
-            padding: 1.25rem 1.5rem;
+            padding: 1.5rem 2rem;
             position: relative;
         }
 
         .modal-title {
-            font-size: 1.15rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.3rem;
             line-height: 1.35;
-            padding-right: 2rem;
+            padding-right: 2.5rem;
         }
 
         .modal-subtitle {
             opacity: 0.85;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 400;
         }
 
         .modal-close {
             position: absolute;
-            top: 0.9rem;
-            right: 1rem;
+            top: 1.2rem;
+            right: 1.2rem;
             background: rgba(255, 255, 255, 0.15);
             border: none;
             color: white;
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
@@ -844,8 +844,8 @@
         }
 
         .modal-body {
-            padding: 1.25rem 1.5rem;
-            max-height: 68vh;
+            padding: 1.5rem 2rem;
+            max-height: 72vh;
             overflow-y: auto;
             background: var(--bg-card);
             color: var(--text-primary);
@@ -1018,22 +1018,22 @@
         }
         .summary-section h4 {
             color: var(--text-primary);
-            margin: 0 0 0.6rem 0;
+            margin: 0 0 0.7rem 0;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             letter-spacing: -0.01em;
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.5rem;
         }
         .summary-section h4 .sec-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 5px;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             flex-shrink: 0;
         }
         .info-grid {
@@ -1046,7 +1046,7 @@
             border: 1px solid var(--border);
         }
         .info-grid .info-cell {
-            padding: 0.7rem 0.9rem;
+            padding: 0.85rem 1.1rem;
             border-bottom: 1px solid var(--border);
         }
         .info-grid .info-cell:nth-child(odd) {
@@ -1056,18 +1056,18 @@
             border-bottom: none;
         }
         .info-cell .info-label {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.25rem;
             font-weight: 500;
         }
         .info-cell .info-value {
-            font-size: 0.88rem;
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-primary);
-            line-height: 1.3;
+            line-height: 1.4;
         }
         .status-badge {
             display: inline-block;
@@ -1084,10 +1084,10 @@
         .content-box {
             background: var(--bg-secondary);
             border-radius: 10px;
-            padding: 0.85rem 1rem;
+            padding: 1rem 1.2rem;
             border: 1px solid var(--border);
             color: var(--text-primary);
-            font-size: 0.88rem;
+            font-size: 0.92rem;
             line-height: 1.65;
         }
         .content-box p {
@@ -4187,6 +4187,23 @@
             const statusText = isEnacted ? '시행완료' : '시행예정';
             const category = (item.categories && item.categories[0]) || '';
 
+            // 개정이유 한줄 요약 생성
+            let reasonSummary = '';
+            if (parsed.reason) {
+                // HTML 태그 제거 후 핵심 문장 추출
+                const plainReason = parsed.reason.replace(/<[^>]+>/g, '').trim();
+                // "것임." 까지를 핵심으로
+                const imIdx = plainReason.indexOf('것임.');
+                if (imIdx > 0 && imIdx < 150) {
+                    reasonSummary = plainReason.substring(0, imIdx + 3);
+                } else {
+                    const dotIdx = plainReason.indexOf('.', 30);
+                    reasonSummary = dotIdx > 0 && dotIdx < 150 ? plainReason.substring(0, dotIdx + 1) : plainReason.substring(0, 120) + '…';
+                }
+                // 법령명 강조
+                reasonSummary = reasonSummary.replace(/「(.*?)」/g, '<span class="law-ref">「$1」</span>');
+            }
+
             const summaryHtml = `
                 <div class="summary-section">
                     <div class="info-grid">
@@ -4210,32 +4227,28 @@
                 </div>
 
                 <div class="summary-section">
-                    <h4><span class="sec-icon" style="background:rgba(102,126,234,0.15);">📝</span> 개정 이유</h4>
+                    <h4><span class="sec-icon" style="background:rgba(102,126,234,0.15);">📝</span> 개정 요지</h4>
                     <div class="content-box">
-                        ${parsed.reason || '<span class="no-data">개정 이유 정보가 제공되지 않았습니다.</span>'}
+                        ${reasonSummary ? `<p>${reasonSummary}</p>` : '<span class="no-data">개정 이유 정보가 제공되지 않았습니다.</span>'}
                     </div>
                 </div>
 
                 ${parsed.contents && parsed.contents !== parsed.reason ? `
                 <div class="summary-section">
                     <h4><span class="sec-icon" style="background:rgba(16,185,129,0.15);">📄</span> 주요 내용</h4>
-                    <div class="content-box">
-                        ${parsed.contents}
-                    </div>
+                    <div class="content-box">${parsed.contents}</div>
                 </div>` : ''}
 
                 ${parsed.articles ? `
                 <div class="summary-section">
-                    <h4><span class="sec-icon" style="background:rgba(245,158,11,0.15);">⚖️</span> 주요 개정 조항</h4>
-                    <div class="content-box">
-                        ${parsed.articles}
-                    </div>
+                    <h4><span class="sec-icon" style="background:rgba(245,158,11,0.15);">⚖️</span> 개정 조항</h4>
+                    <div class="content-box">${parsed.articles}</div>
                 </div>` : ''}
 
                 <div class="summary-section" style="margin-bottom:0;">
                     <div class="link-buttons">
-                        <a href="https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}&efGubun=Y&chrClsCd=010202&sortSeq=desc" target="_blank" class="link-btn primary">📜 법령 원문</a>
-                        <a href="https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title.replace('시행령', '').replace('시행규칙', '').trim())}" target="_blank" class="link-btn secondary">🔍 관련 검색</a>
+                        <a href="https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}&efGubun=Y&chrClsCd=010202&sortSeq=desc" target="_blank" class="link-btn primary">📜 법령 원문 보기</a>
+                        <a href="https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title.replace('시행령', '').replace('시행규칙', '').trim())}" target="_blank" class="link-btn secondary">🔍 관련 법령 검색</a>
                     </div>
                 </div>
             `;
@@ -4280,18 +4293,18 @@
             return result;
         }
 
-        // 텍스트 블록 포맷팅 (CSS 클래스 사용)
+        // 텍스트 블록 포맷팅 (CSS 클래스 사용, 간결하게)
         function formatTextBlock(text) {
             let cleaned = text.replace(/\s+/g, ' ').trim();
             cleaned = cleaned.replace(/「(.*?)」/g, '<span class="law-ref">「$1」</span>');
-            if (cleaned.length > 200) {
-                // "것임." 또는 마침표 기준으로 자르기
-                let cutPoint = 200;
+            cleaned = cleaned.replace(/(제\d+조(?:의\d+)?(?:제\d+항)?)/g, '<span class="article-tag">$1</span>');
+            // 300자 초과 시 자연스러운 위치에서 자르기
+            if (cleaned.length > 300) {
+                let cutPoint = 300;
                 const imIdx = cleaned.indexOf('것임.', 80);
-                if (imIdx > 0 && imIdx < 300) cutPoint = imIdx + 3;
-                else { const p = cleaned.lastIndexOf('.', 250); if (p > 80) cutPoint = p + 1; }
-                const uid = 'r_' + Math.random().toString(36).substr(2, 5);
-                return `<p id="${uid}_s">${cleaned.substring(0, cutPoint)} <span class="expand-btn" onclick="document.getElementById('${uid}_s').style.display='none';document.getElementById('${uid}_f').style.display='block';">더보기</span></p><p id="${uid}_f" style="display:none;">${cleaned} <span class="expand-btn" onclick="document.getElementById('${uid}_f').style.display='none';document.getElementById('${uid}_s').style.display='block';">접기</span></p>`;
+                if (imIdx > 0 && imIdx < 350) cutPoint = imIdx + 3;
+                else { const p = cleaned.lastIndexOf('.', 300); if (p > 100) cutPoint = p + 1; }
+                cleaned = cleaned.substring(0, cutPoint) + '…';
             }
             return `<p>${cleaned}</p>`;
         }
