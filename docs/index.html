@@ -781,9 +781,9 @@
         }
 
         .modal-content {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--bg-card);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--border);
             border-radius: 24px;
             max-width: 1400px;
             max-height: 95vh;
@@ -846,8 +846,8 @@
             padding: 2rem;
             max-height: 70vh;
             overflow-y: auto;
-            background: rgba(255, 255, 255, 0.9);
-            color: #2d3748;
+            background: var(--bg-card);
+            color: var(--text-primary);
         }
 
         /* Settings Form Styles */
@@ -1038,13 +1038,13 @@
 
         .amendment-box p {
             margin-bottom: 0.75rem;
-            color: #2d3748;
+            color: var(--text-primary);
             line-height: 1.5;
         }
 
         .amendment-box ul {
             margin-left: 1rem;
-            color: #2d3748;
+            color: var(--text-primary);
             padding-left: 1rem;
         }
 
@@ -1054,7 +1054,7 @@
         }
 
         .amendment-box em {
-            color: #718096;
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
         
@@ -1073,7 +1073,7 @@
             border: 1px solid rgba(102, 126, 234, 0.1);
             border-radius: 12px;
             text-decoration: none;
-            color: #2d3748;
+            color: var(--text-primary);
             transition: all 0.2s ease;
         }
         
@@ -1094,13 +1094,13 @@
         
         .link-title {
             font-weight: 600;
-            color: #2d3748;
+            color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
-        
+
         .link-desc {
             font-size: 0.8rem;
-            color: #718096;
+            color: var(--text-muted);
         }
         
         .link-arrow {
@@ -3259,61 +3259,7 @@
             });
         }
 
-        // 모바일 버전의 AI 요약 생성 함수 추가
-        function generateAISummary(item) {
-            const amendmentReason = generateAmendmentReason(item);
-            const amendmentContent = generateAmendmentContent(item);
-            const amendmentArticles = generateAmendmentArticles(item);
-            
-            return `
-                <div class="summary-section" style="margin-bottom: 1.5rem;">
-                    <h4 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">📋 개정 개요</h4>
-                    <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--primary);">
-                        <p style="margin: 0 0 0.5rem 0;"><strong>법령명:</strong> ${item.title}</p>
-                        <p style="margin: 0 0 0.5rem 0;"><strong>개정 유형:</strong> ${getDetailedLawType(item) || '일부개정'}</p>
-                        <p style="margin: 0 0 0.5rem 0;"><strong>시행 시기:</strong> ${item.effectiveDate || '미정'}</p>
-                        <p style="margin: 0;"><strong>주무 부처:</strong> ${item.ministry || getMinistryName(item.title, item.categories) || '관계부처'}</p>
-                    </div>
-                </div>
-                
-                <div class="summary-section" style="margin-bottom: 1.5rem;">
-                    <h4 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">📝 개정 이유</h4>
-                    <div class="amendment-box" style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
-                        ${amendmentReason}
-                    </div>
-                </div>
-                
-                <div class="summary-section" style="margin-bottom: 1.5rem;">
-                    <h4 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">📄 개정 내용</h4>
-                    <div class="amendment-box" style="background: var(--bg-card); padding: 1rem; border-radius: 8px; border-left: 3px solid #667eea;">
-                        ${amendmentContent}
-                    </div>
-                </div>
-                
-                <div class="summary-section" style="margin-bottom: 1.5rem;">
-                    <h4 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">⚖️ 주요 개정 조항</h4>
-                    <div class="amendment-box" style="background: var(--bg-card); padding: 1rem; border-radius: 8px;">
-                        ${amendmentArticles}
-                    </div>
-                </div>
-                
-                <div class="summary-section">
-                    <h4 style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem 0;">🔗 관련 링크</h4>
-                    <div class="external-links" style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <button onclick="window.open('https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title)}&ancYd=&ancNo=&efYd=&nwJoYnInfo=Y&searchPutTyp=&efGubun=Y&chrClsCd=010202&sortSeq=desc', '_blank')" 
-                                style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 0.95rem; text-align: left; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: transform 0.2s ease;"
-                                onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-                            📜 법령 원문 보기
-                        </button>
-                        <button onclick="window.open('https://www.law.go.kr/lsSc.do?query=${encodeURIComponent(item.title.replace('시행령', '').replace('시행규칙', '').trim())}', '_blank')" 
-                                style="width: 100%; padding: 1rem; background: white; color: #667eea; border: 1px solid #667eea; border-radius: 12px; font-weight: 600; font-size: 0.95rem; text-align: left; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: all 0.2s ease;"
-                                onmouseover="this.style.background='#f7f8fa'" onmouseout="this.style.background='white'">
-                            🔍 관련 법령 검색
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
+        // generateAISummary 함수는 아래(showLawDetail 근처)에서 통합 정의됨
         
         // 부처명 추출 함수
         function getMinistryName(title, categories) {
@@ -4174,32 +4120,32 @@
             const summaryHtml = `
                 <div class="summary-section">
                     <h4>📋 개정 개요</h4>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;background:#f8f9fa;padding:14px 16px;border-radius:8px;">
-                        <div><span style="color:#6b7280;font-size:0.85rem;">법령명</span><br><strong>${item.title}</strong></div>
-                        <div><span style="color:#6b7280;font-size:0.85rem;">개정 유형</span><br><strong>${parsed.type || lawType}</strong></div>
-                        <div><span style="color:#6b7280;font-size:0.85rem;">시행일</span><br><strong>${effectiveDate}</strong> ${statusBadge}</div>
-                        <div><span style="color:#6b7280;font-size:0.85rem;">주무 부처</span><br><strong>${ministry}</strong></div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;background:var(--bg-secondary);padding:14px 16px;border-radius:8px;">
+                        <div><span style="color:var(--text-muted);font-size:0.85rem;">법령명</span><br><strong style="color:var(--text-primary);">${item.title}</strong></div>
+                        <div><span style="color:var(--text-muted);font-size:0.85rem;">개정 유형</span><br><strong style="color:var(--text-primary);">${parsed.type || lawType}</strong></div>
+                        <div><span style="color:var(--text-muted);font-size:0.85rem;">시행일</span><br><strong style="color:var(--text-primary);">${effectiveDate}</strong> ${statusBadge}</div>
+                        <div><span style="color:var(--text-muted);font-size:0.85rem;">주무 부처</span><br><strong style="color:var(--text-primary);">${ministry}</strong></div>
                     </div>
                 </div>
 
                 <div class="summary-section">
                     <h4>📝 개정 이유</h4>
-                    <div class="amendment-box" style="background:#f0f4ff;border-left:4px solid #667eea;padding:14px 16px;border-radius:0 8px 8px 0;">
-                        ${parsed.reason || '<p style="color:#6b7280;">개정 이유 정보가 없습니다.</p>'}
+                    <div class="amendment-box" style="background:rgba(102,126,234,0.1);border-left:4px solid #667eea;padding:14px 16px;border-radius:0 8px 8px 0;">
+                        ${parsed.reason || '<p style="color:var(--text-muted);">개정 이유 정보가 없습니다.</p>'}
                     </div>
                 </div>
 
                 <div class="summary-section">
                     <h4>📄 주요 내용</h4>
-                    <div class="amendment-box" style="background:#f0fdf4;border-left:4px solid #10b981;padding:14px 16px;border-radius:0 8px 8px 0;">
-                        ${parsed.contents || '<p style="color:#6b7280;">주요 내용 정보가 없습니다.</p>'}
+                    <div class="amendment-box" style="background:rgba(16,185,129,0.1);border-left:4px solid #10b981;padding:14px 16px;border-radius:0 8px 8px 0;">
+                        ${parsed.contents || '<p style="color:var(--text-muted);">주요 내용 정보가 없습니다.</p>'}
                     </div>
                 </div>
 
                 ${parsed.articles ? `
                 <div class="summary-section">
                     <h4>⚖️ 주요 개정 조항</h4>
-                    <div class="amendment-box" style="background:#fef3c7;border-left:4px solid #f59e0b;padding:14px 16px;border-radius:0 8px 8px 0;">
+                    <div class="amendment-box" style="background:rgba(245,158,11,0.1);border-left:4px solid #f59e0b;padding:14px 16px;border-radius:0 8px 8px 0;">
                         ${parsed.articles}
                     </div>
                 </div>` : ''}
@@ -4293,7 +4239,7 @@
                 const articleRefs = extractArticleRefs(mainText);
                 if (articleRefs.length > 0) {
                     result.articles = '<ul style="margin:0;padding-left:18px;">' +
-                        articleRefs.map(a => `<li style="margin:4px 0;color:#92400e;">${a}</li>`).join('') + '</ul>';
+                        articleRefs.map(a => `<li style="margin:4px 0;">${a}</li>`).join('') + '</ul>';
                 }
             }
 
@@ -4305,7 +4251,7 @@
             // 문장 끝에서 적절히 줄바꿈
             let cleaned = text.replace(/\s+/g, ' ').trim();
             // 「」 인용 부분 강조
-            cleaned = cleaned.replace(/「(.*?)」/g, '<strong style="color:#4f46e5;">「$1」</strong>');
+            cleaned = cleaned.replace(/「(.*?)」/g, '<strong style="color:#667eea;">「$1」</strong>');
             // ~하려는 것임. 으로 끝나는 문장 처리
             if (cleaned.length > 200) {
                 // 긴 텍스트는 핵심만 요약 표시 + 더보기
@@ -4314,14 +4260,14 @@
                 const cutPoint = lastPeriod > 100 ? lastPeriod + 1 : 200;
                 const uid = 'reason_' + Math.random().toString(36).substr(2, 6);
                 return `
-                    <p style="margin:0;line-height:1.7;color:#374151;" id="${uid}_short">${cleaned.substring(0, cutPoint)}
-                        <a href="javascript:void(0)" onclick="document.getElementById('${uid}_short').style.display='none';document.getElementById('${uid}_full').style.display='block';" style="color:#6366f1;font-weight:600;text-decoration:none;"> ...더보기</a>
+                    <p style="margin:0;line-height:1.7;" id="${uid}_short">${cleaned.substring(0, cutPoint)}
+                        <a href="javascript:void(0)" onclick="document.getElementById('${uid}_short').style.display='none';document.getElementById('${uid}_full').style.display='block';" style="color:#667eea;font-weight:600;text-decoration:none;"> ...더보기</a>
                     </p>
-                    <p style="margin:0;line-height:1.7;color:#374151;display:none;" id="${uid}_full">${cleaned}
-                        <a href="javascript:void(0)" onclick="document.getElementById('${uid}_full').style.display='none';document.getElementById('${uid}_short').style.display='block';" style="color:#6366f1;font-weight:600;text-decoration:none;"> 접기</a>
+                    <p style="margin:0;line-height:1.7;display:none;" id="${uid}_full">${cleaned}
+                        <a href="javascript:void(0)" onclick="document.getElementById('${uid}_full').style.display='none';document.getElementById('${uid}_short').style.display='block';" style="color:#667eea;font-weight:600;text-decoration:none;"> 접기</a>
                     </p>`;
             }
-            return `<p style="margin:0;line-height:1.7;color:#374151;">${cleaned}</p>`;
+            return `<p style="margin:0;line-height:1.7;">${cleaned}</p>`;
         }
 
         // 주요내용 항목들 (가. 나. 다. 또는 1. 2. 3.) 파싱
@@ -4337,11 +4283,11 @@
                     const label = parts[i];
                     const content = (parts[i + 1] || '').trim()
                         .replace(/\s+/g, ' ')
-                        .replace(/「(.*?)」/g, '<strong style="color:#4f46e5;">「$1」</strong>');
+                        .replace(/「(.*?)」/g, '<strong style="color:#667eea;">「$1」</strong>');
                     if (content) {
                         // 조항 번호 강조 (제X조, 제X조의2 등)
                         const highlighted = content.replace(/(제\d+조(?:의\d+)?(?:제\d+항)?)/g,
-                            '<span style="background:#dbeafe;padding:1px 4px;border-radius:3px;font-size:0.85rem;">$1</span>');
+                            '<span style="background:rgba(102,126,234,0.15);padding:1px 4px;border-radius:3px;font-size:0.85rem;">$1</span>');
                         items.push(`<li style="margin:6px 0;line-height:1.6;"><strong>${label}.</strong> ${highlighted}</li>`);
                     }
                 }
@@ -4367,7 +4313,7 @@
                     const cleaned = trimmed
                         .replace(/「(.*?)」/g, '<strong>「$1」</strong>')
                         .replace(/(제\d+조(?:의\d+)?(?:제\d+항)?(?:제\d+호)?)/g,
-                            '<span style="background:#fef3c7;padding:1px 4px;border-radius:3px;">$1</span>');
+                            '<span style="background:rgba(245,158,11,0.2);padding:1px 4px;border-radius:3px;">$1</span>');
                     relevant.push(cleaned);
                 }
             });
@@ -4375,9 +4321,9 @@
             if (relevant.length > 0) {
                 const display = relevant.slice(0, 5); // 최대 5개
                 return '<ul style="margin:0;padding-left:18px;">' +
-                    display.map(a => `<li style="margin:5px 0;line-height:1.5;color:#92400e;font-size:0.9rem;">${a}</li>`).join('') +
+                    display.map(a => `<li style="margin:5px 0;line-height:1.5;font-size:0.9rem;">${a}</li>`).join('') +
                     '</ul>' +
-                    (relevant.length > 5 ? `<p style="margin:8px 0 0;color:#6b7280;font-size:0.85rem;">외 ${relevant.length - 5}건 - 법령 원문에서 확인</p>` : '');
+                    (relevant.length > 5 ? `<p style="margin:8px 0 0;color:var(--text-muted);font-size:0.85rem;">외 ${relevant.length - 5}건 - 법령 원문에서 확인</p>` : '');
             }
             return '';
         }
