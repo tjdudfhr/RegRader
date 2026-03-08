@@ -7,7 +7,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <meta name="cache-version" content="2026.03.08.001">
+    <meta name="cache-version" content="2026.03.08.002">
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
     <!-- PWA 설정 -->
@@ -2606,7 +2606,7 @@
     <script>
         // 캐시 버전 확인 및 자동 리로드 (최초 1회만)
         (function() {
-            const CACHE_VERSION = '2026.03.08.001';
+            const CACHE_VERSION = '2026.03.08.002';
             const storedVersion = localStorage.getItem('cache_version');
             
             if (storedVersion !== CACHE_VERSION) {
@@ -4278,17 +4278,27 @@
             if (gIdx > 0) { mainText = rawText.substring(0, gIdx).trim(); articleText = rawText.substring(gIdx); }
             mainText = mainText.replace(/<법제처 제공>/g, '').trim();
 
-            const sections = mainText.split(/◇\s*/);
-            let reasonText = '', contentsText = '';
+            // ◆...◆ 장식 패턴 정규화 (예: ◆ 개정이유 및 주요내용 ◆ → ◇ 개정이유 및 주요내용)
+            mainText = mainText.replace(/◆\s*((개정|제정)이유[^◆]*)◆/g, (m, p1) => '◇ ' + p1.trim());
+            const sections = mainText.split(/[◇◆]\s*/);
+            let reasonText = '', contentsText = '', combinedText = '';
             sections.forEach(s => {
                 const t = s.trim();
-                if (t.startsWith('개정이유 및 주요내용')) reasonText = t.replace(/^개정이유 및 주요내용\s*/, '').trim();
+                if (t.startsWith('개정이유 및 주요내용') || t.startsWith('제정이유 및 주요내용')) {
+                    combinedText = t.replace(/^(개정|제정)이유 및 주요내용\s*/, '').trim();
+                    reasonText = combinedText;
+                }
                 else if (t.startsWith('개정이유') || t.startsWith('제정이유')) reasonText = t.replace(/^(개정|제정)이유\s*/, '').trim();
                 else if (t.startsWith('주요내용') || t.startsWith('주요 내용')) contentsText = t.replace(/^주요\s*내용\s*/, '').trim();
             });
 
             if (reasonText) result.reason = extractCoreSentence(reasonText);
-            if (contentsText) result.contents = formatContentItems(contentsText);
+            if (contentsText) {
+                result.contents = formatContentItems(contentsText);
+            } else if (combinedText && combinedText.length > 80) {
+                // "개정이유 및 주요내용" 합쳐진 형식: 전체 텍스트에서 주요 내용 추출
+                result.contents = formatContentItems(combinedText);
+            }
 
             // 개정 전/후 비교표: 개정문에서 변경사항 추출
             if (articleText) {
@@ -4448,7 +4458,26 @@
                     return html;
                 }
             }
-            // 항목 구분 없으면 핵심 문장 추출
+            // 항목 구분 없으면 절 단위(~하고, ~하며, ~하는 한편,)로 분리 시도
+            const clausePattern = /(?:하도록\s*하고|하게\s*하고|하도록\s*하며|하게\s*하며|하는\s*한편|하도록\s*하는\s*한편|으로\s*하고|으로\s*하며)[,]\s*/g;
+            const clauses = text.replace(/\s+/g, ' ').trim().split(clausePattern).filter(c => c.trim().length > 15);
+            if (clauses.length >= 2) {
+                const items = clauses.slice(0, 7).map((c, idx) => {
+                    let core = c.trim();
+                    // 끝에 "것임." 이 있으면 제거
+                    core = core.replace(/[,]\s*$/, '').replace(/하려는\s*것임\.?$/, '').trim();
+                    if (core.length > 150) {
+                        const p = core.lastIndexOf(',', 150);
+                        core = core.substring(0, p > 40 ? p : 150) + '…';
+                    }
+                    core = core.replace(/「(.*?)」/g, '<span class="law-ref">「$1」</span>');
+                    return `<li>${core}</li>`;
+                });
+                let html = '<ul>' + items.join('') + '</ul>';
+                if (clauses.length > 7) html += `<p class="no-data">외 ${clauses.length - 7}개 항목</p>`;
+                return html;
+            }
+            // 절 분리도 안 되면 핵심 문장 추출
             return extractCoreSentence(text);
         }
 
