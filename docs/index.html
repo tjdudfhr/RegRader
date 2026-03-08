@@ -7,7 +7,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <meta name="cache-version" content="2025.09.04.003">
+    <meta name="cache-version" content="2026.03.08.001">
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
     <!-- PWA 설정 -->
@@ -2606,7 +2606,7 @@
     <script>
         // 캐시 버전 확인 및 자동 리로드 (최초 1회만)
         (function() {
-            const CACHE_VERSION = '2025.09.04.003';
+            const CACHE_VERSION = '2026.03.08.001';
             const storedVersion = localStorage.getItem('cache_version');
             
             if (storedVersion !== CACHE_VERSION) {
@@ -2668,7 +2668,6 @@
             document.querySelector('#q3-count').textContent = quarterCounts.Q3; // 67
             document.querySelector('#q4-count').textContent = quarterCounts.Q4; // 14
             
-            console.log('✅ 100% 정확한 분기별 데이터 업데이트 완료:', quarterCounts);
         }
         
         // 실제 당사 적용 법규 직무별 데이터로 업데이트하는 함수 (전체 259개 기준)
@@ -2731,8 +2730,6 @@
                 tabCountElement.textContent = totalCount;
             }
             
-            console.log('✅ 적용법규 데이터 업데이트 완료 - 총', totalCount, '개');
-            console.log('카테고리별:', categoryCounts);
         }
         
         // 100% 정확한 메인 대시보드 수치 업데이트 함수
@@ -2748,7 +2745,6 @@
                 totalAppliedElements[1].textContent = 59; // 259개 중 시행예정 59개
             }
             
-            console.log(`✅ 실제 당사 적용 법규 대시보드 업데이트: 총 259건`);
         }
         
         // 2025년 92개 매칭된 법규로 업데이트하는 함수
@@ -2771,14 +2767,8 @@
             }
             
             // 2025년 실제 매칭 정보 업데이트 (콘솔에 출력)
-            console.log(`🎯 92개 2025년 실제 시행 법규 매칭 적용 완료!`);
-            console.log(`📊 매칭률: ${matched2025LawData.matching_rate}% (${matched2025LawData.matched_2025}/${matched2025LawData.total_laws})`);
-            console.log(`📅 분기별 시행 현황:`, quarterCounts);
-            console.log(`📋 직무별 매칭 현황:`);
             Object.entries(matched2025LawData.by_category).forEach(([category, count]) => {
-                console.log(`   - ${category}: ${count}개`);
             });
-            console.log(`🎯 데이터 소스: ${matched2025LawData.source}`);
         }
 
         // 정확한 2025년 법령만 필터링하는 함수 - Remote version preserved
@@ -2802,7 +2792,6 @@
                 }
             });
             
-            console.log(`${quarter} 100% 정확한 법령 ${quarterLaws.length}개 표시`);
             return quarterLaws;
         }
     
@@ -2826,7 +2815,6 @@
 
         // Tab switching function
         function switchMainTab(tabName) {
-            console.log('Switching to tab:', tabName);
             currentMainTab = tabName;
 
             // Update tab buttons
@@ -2856,7 +2844,6 @@
         }
 
         function showQuarterlyDetail(quarter) {
-            console.log('🎯 showQuarterlyDetail 함수 호출:', quarter);
             
             const quarterInfo = {
                 'Q1': { title: '1분기 시행 법령', period: '2026년 1~3월', months: [1, 2, 3], icon: '🌱' },
@@ -2871,7 +2858,6 @@
                 return;
             }
             
-            console.log('✅ 분기 정보 확인:', info.title);
 
             // Update visual selection
             document.querySelectorAll('.quarterly-tab').forEach(tab => {
@@ -2908,18 +2894,15 @@
                 return dateA.localeCompare(dateB);
             });
             
-            console.log(`📋 ${quarter} 분기 법령 수: ${quarterLaws.length}개`);
             continueShowQuarterlyDetail(quarter, info, quarterLaws);
         }
         
         function continueShowQuarterlyDetail(quarter, info, quarterLaws) {
-            console.log('🚀 continueShowQuarterlyDetail 호출:', quarter, '법령 수:', quarterLaws.length);
             // Call the existing showQuarterlyModal function to display the quarterly details
             showQuarterlyModal(quarter, info, quarterLaws);
         }
         
         function showQuarterlyModal(quarter, info, quarterLaws) {
-            console.log('📱 showQuarterlyModal 호출 시작:', quarter);
             
             // Generate detailed content with business categories and law list
             const categoryIcons = {
@@ -3073,7 +3056,6 @@
             detailSection.style.display = 'block';
             setTimeout(() => {
                 detailSection.classList.add('expanded');
-                console.log('✨ expanded 클래스 추가');
             }, 10);
 
             currentQuarterlyDetail = quarter;
@@ -3101,7 +3083,6 @@
         }
 
         function filterQuarterlyLaws(quarter, filterCategory) {
-            console.log('🔍 Filtering quarterly laws:', quarter, filterCategory);
             
             // Get quarter info
             const quarterInfo = {
@@ -3150,7 +3131,6 @@
                 return dateA.localeCompare(dateB);
             });
             
-            console.log(`✅ Filtered ${filteredLaws.length} laws for ${quarter} - ${filterCategory}`);
 
             // Update active filter tab
             const filterTabs = document.querySelectorAll(`[data-quarter="${quarter}"]`);
@@ -3246,7 +3226,6 @@
                     });
                     
                     if (quarterlyLaw) {
-                        console.log('✅ quarterly_details.json에서 법령 찾음:', quarterlyLaw.title);
                         
                         // 실제 정부 데이터로 상세한 임시 법령 데이터 생성
                         const tempLawData = {
@@ -3289,10 +3268,8 @@
             
             // 4단계: 매칭된 법령이 있으면 직무별 탭과 동일한 showLawDetail 호출
             if (matchingLaw) {
-                console.log('✅ lawsData에서 매칭된 법령 찾음:', matchingLaw.id);
                 showLawDetail(matchingLaw.id);
             } else {
-                console.log('❌ 법령을 찾을 수 없음, 기본 모달 표시');
                 // 최종 폴백: 기본 모달용 임시 데이터 생성
                 const tempLawData = {
                     id: 'quarterly_fallback_' + Date.now(),
@@ -3392,7 +3369,6 @@
             modalBackdrop.appendChild(modalContent);
             document.body.appendChild(modalBackdrop);
             
-            console.log('✅ 분기 법령 모달이 DOM에 추가됨');
             
             // 클릭 시 모달 닫기
             modalBackdrop.addEventListener('click', (e) => {
@@ -3588,7 +3564,6 @@
                     const onclickAttr = lawItem.getAttribute('onclick');
                     const match = onclickAttr.match(/showLawDetail\(['"]([^'"]+)['"]\)/);
                     if (match && match[1]) {
-                        console.log('🎯 Law item clicked, ID:', match[1]);
                         if (typeof window.showLawDetail === 'function') {
                             window.showLawDetail(match[1]);
                         } else {
@@ -3613,7 +3588,6 @@
 
         async function updateLawsWithRealEffectiveDates() {
             try {
-                console.log('📅 실제 시행일자 데이터 로딩 중...');
                 const response = await fetch('./quarterly_details.json');
                 if (!response.ok) return;
                 
@@ -3648,7 +3622,6 @@
                     }
                 });
                 
-                console.log(`✅ ${updatedCount}개 법령의 실제 시행일자 업데이트 완료`);
                 
             } catch (error) {
                 console.warn('⚠️ 실제 시행일자 업데이트 실패:', error);
@@ -3672,11 +3645,8 @@
                     });
                     if (response.ok) {
                         data = await response.json();
-                        console.log('✅ index.json 데이터 로드:', data.items ? data.items.length : 0, '건');
-                        console.log('📄 상세한 개정 이유와 내용이 포함된 데이터 사용');
                     }
                 } catch (e) {
-                    console.log('❌ index.json 로드 실패:', e);
                 }
                 
                 // 2. localStorage에서 업데이트된 법규 데이터 확인 (폴백)
@@ -3685,10 +3655,8 @@
                     const updatedData = localStorage.getItem('updated_laws_data');
                     
                     if (updatedFlag === 'true' && updatedData) {
-                        console.log('Loading updated laws from localStorage...');
                         try {
                             data = JSON.parse(updatedData);
-                            console.log('Updated data loaded:', data.items ? data.items.length : 0, '개');
                         } catch (e) {
                             console.error('Failed to parse localStorage data:', e);
                             data = null;
@@ -3700,7 +3668,6 @@
                 if (!data) {
                     const version2 = new Date().getTime();
                     const cacheBuster2 = Math.random().toString(36).substring(7);
-                    console.log('index.json 실패, matched_index_2025.json 시도...');
                     try {
                         const matchedResponse = await fetch(`./matched_index_2025.json?v=${version2}&cb=${cacheBuster2}`, {
                             cache: 'no-store',
@@ -3711,15 +3678,12 @@
                         });
                         if (matchedResponse.ok) {
                             data = await matchedResponse.json();
-                            console.log('📄 matched_index_2025.json 사용 (상세 내용 없음)');
                         }
                     } catch (e) {
-                        console.log('❌ matched_index_2025.json도 실패');
                     }
                 }
                 
                 if (data.items && Array.isArray(data.items)) {
-                    console.log('📋 데이터 로드 완료:', data.items.length, '건');
                     lawsData = data.items;
                     window.lawsData = data.items; // 전역 변수로도 설정
                 } else {
@@ -3776,7 +3740,6 @@
                             });
                         }
                         
-                        console.log('📊 매칭 법규 로드 완료:', allMatchedLaws.length, '개');
                         
                         // 시행 완료/예정 현황 동적 계산
                         const today = new Date(); // 실제 현재 날짜 기준
@@ -3797,13 +3760,11 @@
                         const implementedLawCountElement = document.getElementById('implemented-law-count');
                         if (implementedLawCountElement) {
                             implementedLawCountElement.textContent = implementedCount;
-                            console.log('✅ 시행완료 (9/4 기준):', implementedCount);
                         }
                         
                         const amendmentLawCountElement = document.getElementById('amendment-law-count');
                         if (amendmentLawCountElement) {
                             amendmentLawCountElement.textContent = pendingCount;
-                            console.log('✅ 시행예정 (9월 이후):', pendingCount);
                         }
                     })
                     .catch(error => {
@@ -3840,11 +3801,9 @@
                     if (typeof Chart !== 'undefined') {
                         createCategoryChart();
                     } else {
-                        console.log('Chart.js를 사용할 수 없어 차트 생성을 건너뜁니다.');
                     }
                 }, 500);
                 
-                console.log('✅ 데이터 표시 완료');
             } catch (error) {
                 console.error('❌ 데이터 로딩 실패:', error);
                 // 모바일에서 더 자세한 에러 표시
@@ -3981,7 +3940,6 @@
         }
         
         function updateTabCounts() {
-            console.log('📊 Updating tab counts...');
             
             // Update total count
             const totalCount = lawsData.length;
@@ -4004,7 +3962,6 @@
                 }
             });
             
-            console.log('✅ Tab counts updated');
         }
 
         function updateQuarterlyCounts() {
@@ -4037,7 +3994,6 @@
         }
 
         function filterLaws() {
-            console.log('🔍 Filtering laws for:', currentFilter);
             if (currentFilter === 'all') {
                 filteredLaws = [...lawsData];
             } else {
@@ -4045,7 +4001,6 @@
                     law.categories && law.categories.includes(currentFilter)
                 );
             }
-            console.log(`✅ Filtered ${filteredLaws.length} laws for ${currentFilter}`);
             displayLawList(filteredLaws);
             setTimeout(() => {
                 if (typeof Chart !== 'undefined') {
@@ -4091,7 +4046,6 @@
         }
 
         function displayLawList(items) {
-            console.log(`📋 Displaying ${items.length} laws`);
             
             const sortedItems = items
                 .sort((a, b) => {
@@ -4217,11 +4171,9 @@
 
         // 전역 함수로 설정하여 클릭 이벤트가 항상 작동하도록 보장
         window.showLawDetail = function showLawDetail(lawId) {
-            console.log('🔍 showLawDetail called with lawId:', lawId);
             
             // lawsData가 없으면 window.lawsData 사용
             const dataSource = window.lawsData || lawsData;
-            console.log('📁 dataSource length:', dataSource ? dataSource.length : 'undefined');
             
             if (!dataSource || dataSource.length === 0) {
                 console.error('⚠️ Data is empty or undefined!');
@@ -4232,10 +4184,8 @@
             const item = dataSource.find(law => law.id === lawId);
             if (!item) {
                 console.error('❌ Law not found with id:', lawId);
-                console.log('🔍 Available IDs:', dataSource.slice(0, 5).map(l => l.id));
                 return;
             }
-            console.log('✅ Found law item:', item);
 
             document.getElementById('modal-title').textContent = item.title || '법령 제목';
             document.getElementById('modal-subtitle').textContent = 
@@ -4576,10 +4526,8 @@
                 // localStorage는 다른 용도로 사용될 수 있으므로 적용법규 탭은 항상 207개 기본 법규만 사용
                 const response = await fetch('./base_laws_207.json');
                 const data = await response.json();
-                console.log('📊 적용법규 탭: 기본 법규 데이터(base_laws_207.json) 207개 로드');
                 
                 baseLawsData = data.items || [];
-                console.log(`✅ ${baseLawsData.length}개 기본 법규 로드 완료`);
                 
                 // 적용법규 탭 카운트 업데이트
                 updateRegistryTabCounts();
@@ -4644,13 +4592,10 @@
                 tabCountElement.textContent = totalCount;
             }
             
-            console.log('✅ 적용법규 탭 카운트 업데이트 완료 - 총', totalCount, '개 (207개 기본 법규)');
-            console.log('카테고리별:', categoryCounts);
         }
         
         // Law Registry Tab Functions
         function showJobFunctionLaws(jobFunction, jobTitle) {
-            console.log('Showing laws for job function:', jobFunction);
             
             // Update active job function
             document.querySelectorAll('.job-function-item').forEach(item => {
@@ -4767,7 +4712,6 @@
             localStorage.removeItem('laws_updated_flag');
             localStorage.removeItem('applied_laws');
             localStorage.removeItem('updated_laws_data');
-            console.log('✅ localStorage에서 법규 관련 데이터 삭제 완료');
         }
         
         // 페이지 로드 시 localStorage 청소 (잘못된 데이터 방지)
@@ -5108,7 +5052,6 @@
                     updateEmailPreview(); // 데이터 로드 후 미리보기 업데이트
                 })
                 .catch(e => {
-                    console.log('quarterly_details.json 로드 실패, 기본값 사용:', e);
                 });
         }
 
@@ -5118,10 +5061,6 @@
             const serviceId = document.getElementById('emailjs-service-id').value.trim();
             const templateId = document.getElementById('emailjs-template-id').value.trim();
 
-            console.log('🔧 EmailJS 설정 시도:');
-            console.log('  Public Key:', publicKey);
-            console.log('  Service ID:', serviceId);
-            console.log('  Template ID:', templateId);
 
             if (!publicKey || !serviceId || !templateId) {
                 showNotification('error', 'EmailJS Public Key, Service ID, Template ID를 모두 입력해주세요.');
@@ -5130,7 +5069,6 @@
 
             try {
                 // EmailJS 초기화
-                console.log('📧 EmailJS 초기화 중...');
                 emailjs.init({
                     publicKey: publicKey,
                     blockHeadless: true,
@@ -5145,7 +5083,6 @@
                 // 설정 저장
                 localStorage.setItem('lawwatch_emailjs_settings', JSON.stringify(emailjsConfig));
                 
-                console.log('✅ EmailJS 초기화 완료');
                 showNotification('success', 'EmailJS 연결이 완료되었습니다! 이제 테스트 발송을 시도해보세요.');
                 
             } catch (error) {
@@ -5187,8 +5124,6 @@
 
         // 직접 EmailJS 테스트 함수
         async function testDirectEmailSending(recipientEmail) {
-            console.log('📧 수신자:', recipientEmail);
-            console.log('🔧 EmailJS Config:', emailjsConfig);
 
             // 매우 간단한 테스트 데이터
             const testParams = {
@@ -5201,10 +5136,7 @@
                 website_url: 'TEST_URL'
             };
 
-            console.log('📋 전송할 파라미터:', testParams);
-            console.log('📋 파라미터 상세:');
             Object.keys(testParams).forEach(key => {
-                console.log(`  - ${key}: "${testParams[key]}"`);
             });
 
             try {
@@ -5215,7 +5147,6 @@
                     testParams
                 );
                 
-                console.log('✅ EmailJS 응답 성공:', result);
                 return result;
                 
             } catch (error) {
@@ -5323,13 +5254,6 @@
             };
 
             // 디버깅용 로그 - 실제 값 확인
-            console.log('📧 이메일 템플릿 파라미터:');
-            console.log('  - to_email:', templateParams.to_email);
-            console.log('  - from_name:', templateParams.from_name);
-            console.log('  - quarter:', templateParams.quarter);
-            console.log('  - law_count:', templateParams.law_count);
-            console.log('  - law_list:', templateParams.law_list);
-            console.log('  - website_url:', templateParams.website_url);
 
             try {
                 const response = await emailjs.send(
@@ -5338,11 +5262,9 @@
                     templateParams,
                     emailjsConfig.publicKey
                 );
-                console.log('✅ 이메일 발송 성공:', response);
                 return response;
             } catch (error) {
                 console.error('❌ 이메일 발송 실패:', error);
-                console.log('EmailJS Config:', emailjsConfig);
                 throw error;
             }
         }
@@ -5350,7 +5272,6 @@
         // 알림 스케줄링 (실제로는 서버 사이드나 GitHub Actions 필요)
         function scheduleNotifications() {
             const settings = getEmailSettings();
-            console.log('📧 이메일 알림 스케줄 설정됨:', settings);
             
             // 향후 GitHub Actions나 다른 스케줄링 시스템과 연동
             showNotification('success', '알림 스케줄이 설정되었습니다.');
@@ -5369,9 +5290,6 @@
         // 초기화
         document.addEventListener('DOMContentLoaded', function() {
             // EmailJS 초기화는 사용자가 별도로 설정해야 함
-            console.log('📧 이메일 알림 시스템 초기화 완료');
-            console.log('1. https://www.emailjs.com/ 에서 계정 생성');
-            console.log('2. 서비스 및 템플릿 설정');
         });
 
         // 데이터 업데이트 함수
@@ -5629,7 +5547,6 @@
         //         link.click();
         //         document.body.removeChild(link);
         //         
-        //         console.log('✅ 2,809개 법령 다운로드 시작');
         //         
         //     } catch (error) {
         //         console.error('다운로드 오류:', error);
@@ -5736,7 +5653,6 @@
                 const fileName = `2025년_${quarterNames[quarter]}_법령개정현황_종합분석_${today}.xlsx`;
                 
                 XLSX.writeFile(workbook, fileName);
-                console.log(`🎉 ${quarterNames[quarter]} 프로페셔널 엑셀 다운로드 완료: ${quarterData.laws.length}건`);
                 
             } catch (error) {
                 console.error('엑셀 다운로드 오류:', error);
@@ -5942,7 +5858,6 @@
                     }
                 }
                 
-                console.log(`✅ 드롭다운 검증 추가: ${column} 컬럼, 옵션: ${options.join(', ')}`);
             } catch (error) {
                 console.warn(`⚠️ 드롭다운 검증 추가 실패:`, error);
                 // 드롭다운 실패시 셀 주석으로 대체
@@ -6380,25 +6295,10 @@
             };
             
             // 콘솔에 발송할 데이터 출력 (디버깅용)
-            console.log('📧 이메일 발송 데이터:', templateParams);
-            console.log('=== EmailJS 템플릿에서 사용 가능한 변수 ===');
-            console.log('{{email}} =', templateParams.email);
-            console.log('{{name}} =', templateParams.name);
-            console.log('{{total}} =', templateParams.total);
-            console.log('{{q1}}, {{q2}}, {{q3}}, {{q4}} =', templateParams.q1, templateParams.q2, templateParams.q3, templateParams.q4);
-            console.log('{{quarterly}} =', templateParams.quarterly);
-            console.log('{{job}} =', templateParams.job);
-            console.log('{{laws}} =', templateParams.laws);
-            console.log('{{title}} =', templateParams.title);
-            console.log('{{content}} =', templateParams.content);
-            console.log('{{url}} =', templateParams.url);
-            console.log('{{date}} =', templateParams.date);
-            console.log('=====================================');
 
             // EmailJS로 이메일 발송
             emailjs.send('service_7tdd8dh', 'template_tu71wgt', templateParams)
                 .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
                     alert(`✅ 이메일이 성공적으로 발송되었습니다!\n\n📧 받는 사람: ${toEmail}\n📊 총 ${lawsData.length}건의 법령 정보가 포함되었습니다.`);
                     
                     // 버튼 원상복구
@@ -6539,16 +6439,25 @@
         });
     </script>
     
-    <!-- PWA Service Worker 등록 -->
+    <!-- PWA Service Worker 등록 + 캐시 강제 갱신 -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
+                // 기존 SW 캐시 전부 삭제 후 재등록
+                if ('caches' in window) {
+                    caches.keys().then(names => names.forEach(n => caches.delete(n)));
+                }
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    registrations.forEach(r => r.update());
+                });
                 navigator.serviceWorker.register('./service-worker.js')
-                    .then(registration => console.log('ServiceWorker registered'))
-                    .catch(err => console.log('ServiceWorker registration failed'));
+                    .then(reg => {
+                        reg.update();
+                    })
+                    .catch(() => {});
             });
         }
     </script>
 </body>
 </html>
-<!-- Last updated: 2025-08-29 01:29:46 -->
+<!-- Last updated: 2026-03-08 -->
