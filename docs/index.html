@@ -1170,6 +1170,89 @@
             box-shadow: 0 4px 12px rgba(102,126,234,0.3);
         }
 
+        /* 개정 전/후 비교표 */
+        .change-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        .change-table thead th {
+            background: var(--primary-gradient);
+            color: #fff;
+            padding: 0.7rem 1rem;
+            font-weight: 600;
+            font-size: 0.82rem;
+            text-align: left;
+            letter-spacing: 0.02em;
+        }
+        .change-table thead th:first-child {
+            width: 22%;
+        }
+        .change-table thead th:nth-child(2),
+        .change-table thead th:nth-child(3) {
+            width: 39%;
+        }
+        .change-table tbody td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+            line-height: 1.55;
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+        .change-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .change-table tbody tr:hover td {
+            background: rgba(102, 126, 234, 0.06);
+        }
+        .change-table .td-article {
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--primary);
+            font-size: 0.85rem;
+        }
+        .change-table .td-before {
+            color: var(--text-muted);
+            text-decoration: line-through;
+            text-decoration-color: rgba(239, 68, 68, 0.4);
+        }
+        .change-table .td-after {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .change-table .badge-new {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .change-table .badge-del {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.12);
+            color: #ef4444;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .change-table .badge-edit {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.12);
+            color: var(--primary);
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
         /* Modal animations */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -2198,10 +2281,10 @@
                             <div>
                                 <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
                                     <span style="font-size: 1.5rem;">🎯</span>
-                                    매칭 결과 (130건)
+                                    매칭 결과 (134건)
                                 </h3>
                                 <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
-                                    당사 207개 중 88개 법규와 100% 정확 매칭된 2026년 법령 (130건, 시행일별 중복 포함)
+                                    당사 207개 중 84개 법규와 100% 정확 매칭된 2026년 법령 (134건, 시행일별 중복 포함)
                                 </p>
                                 <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
                                     <strong>파일명:</strong> matched_laws_2025.xlsx
@@ -2541,26 +2624,25 @@
     
         // 2026년 법규 매칭 데이터 (law.go.kr 시행법령+시행예정법령 기반, 207개 기준법규 매칭)
         const matched2025LawData = {
-            "total_laws": 130,
-            "matched_base_laws": 88,
-            "matched_2025": 130,
+            "total_laws": 134,
+            "matched_base_laws": 84,
+            "matched_2025": 134,
             "matching_rate": 42.5,
             "description": "2026년 시행/시행예정 매칭 법규 (동일법규 다른시행일 각각 카운팅)",
             "by_quarter": {
-                "Q1": 78,
-                "Q2": 21,
-                "Q3": 24,
-                "Q4": 7
+                "Q1": 101,
+                "Q2": 18,
+                "Q3": 9,
+                "Q4": 6
             },
             "by_category": {
-                "재무회계": 55,
-                "환경": 32,
-                "안전": 14,
-                "인사노무": 14,
-                "정보보호": 8,
-                "공정거래": 5,
-                "지배구조": 2,
-                "지식재산권": 0
+                "재무회계": 25,
+                "환경": 31,
+                "안전": 19,
+                "인사노무": 11,
+                "정보보호": 1,
+                "지배구조": 12,
+                "기타": 35
             },
             "coverage": "100% 정확한 제목 매칭 (시행일별 중복 포함)",
             "source": "국가법령정보센터 2026년 시행법령+시행예정법령 (1,864건 중 매칭)"
@@ -3670,10 +3752,10 @@
                 // 정확한 법령 상세 데이터 로드
                 // 66개 약칭 매칭 데이터를 사용하여 단순화
                 
-                // 전체 법규 개수 업데이트 (276건 매칭 데이터)
+                // 전체 법규 개수 업데이트 (실제 lawsData 기준)
                 const totalLawCountElement = document.getElementById('total-law-count');
                 if (totalLawCountElement) {
-                    totalLawCountElement.textContent = matched2025LawData.total_laws; // 276건
+                    totalLawCountElement.textContent = lawsData.length; // 실제 로드된 데이터 기준
                 }
                 
                 // 2026년 법규 분류 및 개수 업데이트
@@ -4212,11 +4294,15 @@
                     <div class="content-box">${parsed.contents}</div>
                 </div>` : ''}
 
-                ${parsed.articles ? `
+                ${parsed.changeTable ? `
+                <div class="summary-section">
+                    <h4><span class="sec-icon" style="background:rgba(245,158,11,0.15);">🔄</span> 개정 전·후 비교</h4>
+                    ${parsed.changeTable}
+                </div>` : (parsed.articles ? `
                 <div class="summary-section">
                     <h4><span class="sec-icon" style="background:rgba(245,158,11,0.15);">⚖️</span> 관련 조항</h4>
                     <div class="content-box">${parsed.articles}</div>
-                </div>` : ''}
+                </div>` : '')}
 
                 <div class="summary-section" style="margin-bottom:0;">
                     <div class="link-buttons">
@@ -4231,7 +4317,7 @@
 
         // ───── 법령 개정 원문 파싱 ─────
         function parseAmendmentText(rawText, item) {
-            const result = { type: '', reason: '', contents: '', articles: '' };
+            const result = { type: '', reason: '', contents: '', articles: '', changeTable: '' };
             if (!rawText || rawText.length < 10) return result;
 
             const typeMatch = rawText.match(/^\[(.*?)\]/);
@@ -4251,24 +4337,112 @@
                 else if (t.startsWith('주요내용') || t.startsWith('주요 내용')) contentsText = t.replace(/^주요\s*내용\s*/, '').trim();
             });
 
-            // 개정 요지: "~하려는 것임." 핵심 한 문장만 추출
-            if (reasonText) {
-                result.reason = extractCoreSentence(reasonText);
-            }
+            if (reasonText) result.reason = extractCoreSentence(reasonText);
+            if (contentsText) result.contents = formatContentItems(contentsText);
 
-            // 주요 개정사항: 가.나.다. 항목 → 핵심만 간결하게
-            if (contentsText) {
-                result.contents = formatContentItems(contentsText);
-            }
-
-            // 관련 조항: 조문 번호 태그로 표시
+            // 개정 전/후 비교표: 개정문에서 변경사항 추출
             if (articleText) {
-                result.articles = formatArticleText(articleText);
+                result.changeTable = buildChangeTable(articleText, contentsText);
+                // 비교표 없으면 조항 태그로 폴백
+                if (!result.changeTable) {
+                    result.articles = formatArticleText(articleText);
+                }
             } else {
                 const refs = extractArticleRefs(mainText);
                 if (refs.length > 0) result.articles = '<div style="display:flex;flex-wrap:wrap;gap:6px;">' + refs.map(a => `<span class="article-tag">${a}</span>`).join('') + '</div>';
             }
             return result;
+        }
+
+        // 개정문에서 전/후 비교표 생성
+        function buildChangeTable(articleText, contentsText) {
+            const changes = [];
+            const text = articleText.replace(/\s+/g, ' ');
+
+            // 패턴1: "A"를 "B"로 한다 (용어 변경)
+            const p1 = /"([^"]{1,80})"[을를]\s*"([^"]{1,80})"[으]?로\s*한다/g;
+            let m;
+            while ((m = p1.exec(text)) !== null) {
+                // 조항 번호 찾기 (앞쪽에서)
+                const before = text.substring(Math.max(0, m.index - 80), m.index);
+                const artMatch = before.match(/(제\d+조(?:의\d+)?(?:제\d+항)?(?:제\d+호)?)[^제]*$/);
+                changes.push({
+                    article: artMatch ? artMatch[1] : '',
+                    before: m[1],
+                    after: m[2],
+                    type: 'edit'
+                });
+            }
+
+            // 패턴2: 제X조를 다음과 같이 신설한다 / 제X조를 삭제한다
+            const p2 = /(제\d+조(?:의\d+)?(?:제\d+항)?)[을를]\s*(다음과 같이\s*)?(신설|삭제|개정)한다/g;
+            while ((m = p2.exec(text)) !== null) {
+                const action = m[3];
+                if (action === '신설') {
+                    changes.push({ article: m[1], before: '(신설)', after: '신규 조항 신설', type: 'new' });
+                } else if (action === '삭제') {
+                    changes.push({ article: m[1], before: '기존 조항', after: '(삭제)', type: 'del' });
+                }
+            }
+
+            // 패턴3: 제X조에 제Y항을 신설한다
+            const p3 = /(제\d+조(?:의\d+)?)\s*에\s*(제\d+항(?:(?:부터|및|,\s*제\d+항)*)?)[을를]?\s*(?:각각\s*)?(?:다음과 같이\s*)?신설/g;
+            while ((m = p3.exec(text)) !== null) {
+                changes.push({ article: m[1], before: '(해당 항 없음)', after: m[2] + ' 신설', type: 'new' });
+            }
+
+            // 패턴4: 주요내용 가.나.다. 에서 변경사항 추출 (개정문 없는 경우 보완)
+            if (changes.length < 2 && contentsText) {
+                const items = contentsText.split(/\s*(가|나|다|라|마|바|사)\.\s*/g);
+                for (let i = 1; i < items.length && changes.length < 8; i += 2) {
+                    const raw = (items[i+1] || '').trim().replace(/\s+/g, ' ');
+                    if (!raw) continue;
+                    // "A를 B로" 패턴
+                    const chgMatch = raw.match(/(.{5,40})[을를]\s+(.{5,40})[으]?로\s+(변경|개정|조정|확대|축소|상향|하향|강화)/);
+                    if (chgMatch) {
+                        const artRef = raw.match(/제\d+조(?:의\d+)?/);
+                        changes.push({ article: artRef ? artRef[0] : items[i]+'.', before: chgMatch[1].trim(), after: chgMatch[2].trim() + ' ' + chgMatch[3], type: 'edit' });
+                    }
+                    // "~을 신설" 패턴
+                    const newMatch = raw.match(/(.{5,50})[을를]\s*(신설|도입|마련)/);
+                    if (newMatch && !chgMatch) {
+                        const artRef = raw.match(/제\d+조(?:의\d+)?/);
+                        changes.push({ article: artRef ? artRef[0] : items[i]+'.', before: '(해당 규정 없음)', after: newMatch[1].trim(), type: 'new' });
+                    }
+                    // "~을 폐지/삭제" 패턴
+                    const delMatch = raw.match(/(.{5,50})[을를]\s*(폐지|삭제|폐기)/);
+                    if (delMatch && !chgMatch && !newMatch) {
+                        const artRef = raw.match(/제\d+조(?:의\d+)?/);
+                        changes.push({ article: artRef ? artRef[0] : items[i]+'.', before: delMatch[1].trim(), after: '(폐지)', type: 'del' });
+                    }
+                }
+            }
+
+            // 중복 제거
+            const seen = new Set();
+            const unique = changes.filter(c => {
+                const key = c.article + c.before + c.after;
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            });
+
+            if (unique.length === 0) return '';
+
+            const display = unique.slice(0, 8);
+            const badges = { new: '<span class="badge-new">신설</span>', del: '<span class="badge-del">삭제</span>', edit: '<span class="badge-edit">변경</span>' };
+            let html = `<table class="change-table"><thead><tr><th>조항</th><th>개정 전</th><th>개정 후</th></tr></thead><tbody>`;
+            display.forEach(c => {
+                const badge = badges[c.type] || '';
+                html += `<tr>
+                    <td class="td-article">${c.article || '-'} ${badge}</td>
+                    <td class="td-before">${c.before}</td>
+                    <td class="td-after">${c.after}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            if (unique.length > 8) html += `<p class="no-data" style="margin-top:8px;">외 ${unique.length - 8}건 — 법령 원문에서 전체 확인</p>`;
+            return html;
         }
 
         // 핵심 문장 추출: "~하려는 것임." 까지만
