@@ -7,7 +7,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <meta name="cache-version" content="2026.03.08.002">
+    <meta name="cache-version" content="2026.03.08.003">
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
     <!-- PWA 설정 -->
@@ -1899,7 +1899,7 @@
                     <path d="m22 7-10 5L2 7"></path>
                 </svg>
             </button>
-            <button class="settings-btn" onclick="window.open('./law_updater.html', '_blank')" title="법규 데이터 업데이트" style="right: 0.5rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(134, 239, 172, 0.3), rgba(34, 197, 94, 0.2)); box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);">
+            <button class="settings-btn" onclick="triggerDataRefresh()" title="데이터 새로고침" style="right: 0.5rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(134, 239, 172, 0.3), rgba(34, 197, 94, 0.2)); box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);" id="refresh-btn">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
                     <path d="M21 3v5h-5"></path>
@@ -2606,7 +2606,7 @@
     <script>
         // 캐시 버전 확인 및 자동 리로드 (최초 1회만)
         (function() {
-            const CACHE_VERSION = '2026.03.08.002';
+            const CACHE_VERSION = '2026.03.08.003';
             const storedVersion = localStorage.getItem('cache_version');
             
             if (storedVersion !== CACHE_VERSION) {
@@ -5321,33 +5321,108 @@
             // EmailJS 초기화는 사용자가 별도로 설정해야 함
         });
 
-        // 데이터 업데이트 함수
-        function triggerDataUpdate() {
-            const updateBtn = document.querySelector('.update-btn');
-            const originalText = updateBtn.innerHTML;
-            
-            // 로딩 상태로 변경
-            updateBtn.classList.add('loading');
-            updateBtn.innerHTML = '⏳';
-            updateBtn.style.pointerEvents = 'none';
-            
-            // GitHub Actions 워크플로우 트리거 (현재는 시뮬레이션)
-            // 실제 구현 시에는 GitHub API를 사용하여 workflow_dispatch 이벤트를 트리거
-            
-            // 시뮬레이션: 3초 후 완료 표시
-            setTimeout(() => {
-                updateBtn.innerHTML = '✅';
-                updateBtn.classList.remove('loading');
-                
-                // 사용자에게 알림
-                alert('📊 데이터 업데이트 요청이 전송되었습니다!\n\n• GitHub Actions에서 최신 법령 데이터를 수집합니다\n• 업데이트 완료 시 페이지가 자동으로 새로고침됩니다\n• 약 2-3분 정도 소요됩니다');
-                
-                // 2초 후 원래 상태로 복원
+        // 실시간 데이터 새로고침 함수
+        async function triggerDataRefresh() {
+            const refreshBtn = document.getElementById('refresh-btn');
+            if (!refreshBtn) return;
+            const originalHTML = refreshBtn.innerHTML;
+
+            // 로딩 상태
+            refreshBtn.classList.add('loading');
+            refreshBtn.innerHTML = '⏳';
+            refreshBtn.style.pointerEvents = 'none';
+
+            try {
+                // 1단계: Service Worker 캐시 전체 삭제
+                if ('caches' in window) {
+                    const names = await caches.keys();
+                    await Promise.all(names.map(n => caches.delete(n)));
+                }
+                if ('serviceWorker' in navigator) {
+                    const regs = await navigator.serviceWorker.getRegistrations();
+                    regs.forEach(r => r.update());
+                }
+
+                // 2단계: localStorage 캐시 무효화
+                localStorage.removeItem('laws_updated_flag');
+                localStorage.removeItem('updated_laws_data');
+                localStorage.removeItem('cache_version');
+
+                // 3단계: index.json 강제 재로드 (캐시 무시)
+                const ts = Date.now();
+                const cb = Math.random().toString(36).substring(7);
+                const response = await fetch(`./index.json?v=${ts}&cb=${cb}&force=1`, {
+                    cache: 'no-store',
+                    headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache' }
+                });
+
+                if (!response.ok) throw new Error(`index.json 로드 실패: ${response.status}`);
+                const data = await response.json();
+
+                if (!data.items || !Array.isArray(data.items)) throw new Error('index.json 데이터 형식 오류');
+
+                // 4단계: 전역 데이터 갱신
+                lawsData = data.items;
+                window.lawsData = data.items;
+                filteredLaws = [...lawsData];
+
+                // 5단계: 헤더 정보 갱신
+                const yearEl = document.getElementById('year');
+                if (yearEl) yearEl.textContent = data.year || new Date().getFullYear();
+                const tsEl = document.getElementById('timestamp');
+                if (tsEl) {
+                    const date = typeof data.generatedAt === 'string' ? new Date(data.generatedAt) : new Date((data.generatedAt || 0) * 1000);
+                    tsEl.textContent = isNaN(date.getTime()) ? (data.generatedAt || '') : date.toLocaleString('ko-KR');
+                }
+
+                // 6단계: 전체 UI 재렌더링
+                displayLawList(filteredLaws);
+                updateTabCounts();
+                updateQuarterlyCounts();
+                updateJobFunctionCounts();
+                updateQuarterlyDataWithFinalPrecise();
+                updateJobFunctionDataWithCompanyLaws();
+                updateMainDashboardWithCompanyLaws();
+
+                // 법령 수 갱신
+                const totalEl = document.getElementById('total-law-count');
+                if (totalEl) totalEl.textContent = lawsData.length;
+
+                // 시행완료/시행예정 재계산
+                const today = new Date();
+                let implemented = 0, pending = 0;
+                lawsData.forEach(law => {
+                    if (new Date(law.effectiveDate) <= today) implemented++;
+                    else pending++;
+                });
+                const impEl = document.getElementById('implemented-count');
+                const penEl = document.getElementById('pending-count');
+                if (impEl) impEl.textContent = implemented;
+                if (penEl) penEl.textContent = pending;
+
+                // 성공 표시
+                refreshBtn.innerHTML = '✅';
+                refreshBtn.classList.remove('loading');
+
+                showNotification('success', `데이터 새로고침 완료! ${lawsData.length}건 법령 로드됨`);
+
                 setTimeout(() => {
-                    updateBtn.innerHTML = originalText;
-                    updateBtn.style.pointerEvents = 'auto';
+                    refreshBtn.innerHTML = originalHTML;
+                    refreshBtn.style.pointerEvents = 'auto';
                 }, 2000);
-            }, 3000);
+
+            } catch (error) {
+                console.error('데이터 새로고침 실패:', error);
+                refreshBtn.innerHTML = '❌';
+                refreshBtn.classList.remove('loading');
+
+                showNotification('error', '데이터 새로고침 실패: ' + error.message);
+
+                setTimeout(() => {
+                    refreshBtn.innerHTML = originalHTML;
+                    refreshBtn.style.pointerEvents = 'auto';
+                }, 3000);
+            }
         }
 
         // 📋 간결하고 핵심적인 법령 분석 시스템 (실무자 친화적)
