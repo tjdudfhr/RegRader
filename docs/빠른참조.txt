@@ -1,0 +1,263 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                  RegRader 운영 매뉴얼 - 빠른 참조 카드                      ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📋 문서: RegRader_운영매뉴얼.md (52KB, 1,731줄)
+📅 작성일: 2026년 3월 8일
+🌐 웹사이트: https://tjdudfhr.github.io/RegRader
+📦 저장소: tjdudfhr/RegRader (GitHub Pages)
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 목차 및 주요 섹션                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+ 1️⃣ 시스템 개요
+    - RegRader란? 134개 법령 추적, 분기별 현황 모니터링
+    - 파일 구조: index.html (UI), index.json (데이터), quarterly_details.json
+
+ 2️⃣ 데이터 수집 (국가법령정보센터)
+    API: https://www.law.go.kr/DRF/lawSearch.do
+    인증: Open API 키 필요
+    검색: 시행일자 범위로 필터링 (2027-01-01 ~ 2027-12-31)
+
+ 3️⃣ 회사 적용법규 매칭
+    목록: index.html의 lawregistry-content 탭 (207개)
+    3단계 매칭: 완전일치 → 약칭일치 → 부분일치
+    분류: 7가지 카테고리 (재무회계, 환경, 안전, 인사노무, 정보보호, 지배구조, 기타)
+
+ 4️⃣ JSON 데이터 구조
+    필드: id, title, summary, effectiveDate, lawType, status, ministry, categories,
+          amendments (date, reason), meta (lsId, matchType, companyLawId), source
+    항목 수: 134개
+    형식: UTF-8, 시행일자 최신순 정렬
+
+ 5️⃣ 팝업(모달) 출력
+    함수: showLawDetail() → generateAISummary() → parseAmendmentText()
+    3개 탭: 개정요약, 변경사항, 관련조항
+
+ 6️⃣ 핵심 파싱 함수
+    parseAmendmentText() - [일부개정] ◇ 개정이유 ◇ ... 【개정문】 ... 파싱
+    formatContentItems() - 가.나.다 항목 또는 절 단위로 분리 (최대 7개)
+    buildChangeTable() - "A"를 "B"로 한다 패턴에서 변경사항 추출
+    extractCoreSentence() - "~하려는 것임." 패턴 추출
+
+ 7️⃣ 연도별 업데이트 절차 ⭐ 가장 중요 ⭐
+    매년 1월 실행:
+    Step 1: 국가법령정보센터에서 연도 법률 수집
+    Step 2: 회사 적용법규 목록 검토
+    Step 3: 매칭 작업 → index.json 생성
+    Step 4: quarterly_details.json 생성
+    Step 5: index.html 연도 상수 업데이트 (matched2027LawData 등)
+    Step 6: CACHE_VERSION 업데이트 (2027.01.15.001 형식)
+    Step 7: GitHub docs 폴더에 업로드
+    Step 8: Hard Refresh 확인 (Ctrl+Shift+R)
+
+ 8️⃣ 캐시 관리
+    HTTP 메타태그: no-cache, no-store, must-revalidate
+    JavaScript: CACHE_VERSION = "YYYY.MM.DD.NNN"
+    localStorage: 버전 비교로 자동 무효화
+    Service Worker: 페이지 로드 시 강제 업데이트
+
+ 9️⃣ 새로고침 버튼 (🔄)
+    함수: triggerDataUpdate()
+    동작: 캐시 삭제 → localStorage 삭제 → SW 언레지스터 → 재로드
+    URL: /RegRader/index.json?v={CACHE_VERSION}&t={timestamp}
+
+ 🔟 트러블슈팅
+    1. 데이터 미표시: 캐시 삭제, Hard Refresh, index.json 확인
+    2. 팝업 내용 비어있음: amendments[0].reason 데이터 확인
+    3. 주요개정사항 누락: ◇/◆ 패턴, 합쳐진 형식 확인
+    4. 배포 지연: 5-10분 대기, Actions 탭 빌드 상태 확인
+    5. 매칭 오류: 회사법규 목록, match_law 함수 재검토
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 중요 파일 목록 및 역할                                                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+docs/index.html
+  - 메인 웹페이지
+  - 모든 UI, 파싱 로직, 함수 포함
+  - 매년 업데이트: CACHE_VERSION, matched{YEAR}LawData, 분기/카테고리 수치
+
+docs/index.json
+  - 134개 법령의 메타데이터
+  - 매년 전체 재생성 필요
+  - 필드: title, effectiveDate, lawType, amendments, meta 등
+
+docs/quarterly_details.json
+  - 분기별 집계 통계
+  - 매년 재생성
+  - 필드: by_quarter, by_category
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 매해 1월 체크리스트 (8개 Step)                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+ ☐ Step 1: 연도 법률 수집
+   - 국가법령정보센터 Advanced Search
+   - 시행일자: YYYY-01-01 ~ YYYY-12-31
+   - 법령구분: 법률, 대통령령, 총리령, 부령
+
+ ☐ Step 2: 회사 법규 목록 검토
+   - index.html lawregistry-content 탭 확인
+   - 207개 법규 정확성 검증
+   - 신규/폐지/변경사항 반영
+
+ ☐ Step 3: 매칭 및 index.json 생성
+   - match_law() 함수로 3단계 매칭
+   - JSON 유효성 검사
+   - total = items.length 일치 확인
+
+ ☐ Step 4: quarterly_details.json 생성
+   - 분기별 count 확인
+   - by_category 합계 = total 일치 확인
+
+ ☐ Step 5: index.html 상수 업데이트
+   - matched2026LawData → matched{YEAR}LawData
+   - quarterlyData 수치 업데이트
+   - categoryData 수치 업데이트
+
+ ☐ Step 6: CACHE_VERSION 업데이트
+   - 형식: YYYY.MM.DD.NNN
+   - 예: 2027.01.15.001 (2027년 1월 15일 첫 번째 버전)
+
+ ☐ Step 7: GitHub 업로드
+   - git add index.json quarterly_details.json index.html
+   - git commit -m "Update law data for {YEAR}: {TOTAL} laws"
+   - git push origin main
+   - Actions 탭에서 빌드 상태 확인 (5-10분)
+
+ ☐ Step 8: 캐시 확인
+   - Hard Refresh: Ctrl+Shift+R (Windows/Linux) 또는 Cmd+Shift+R (Mac)
+   - 콘솔에서 확인: CACHE_VERSION, matched{YEAR}LawData.total
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 코드 스니펫 - 자주 사용하는 함수                                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+# 1. JSON 유효성 검사 (Python)
+python3 -m json.tool docs/index.json > /dev/null && echo "Valid"
+
+# 2. 매칭 함수 (Python)
+def match_law(title, company_laws):
+    for law in company_laws:
+        if title == law["name"]:
+            return law["id"], "100%완전일치"
+    return None, "미매칭"
+
+# 3. 텍스트 파싱 (JavaScript)
+const parsed = parseAmendmentText(rawText, item);
+console.log(parsed.type, parsed.reason, parsed.contents);
+
+# 4. Hard Refresh (모든 브라우저)
+Ctrl+Shift+R (Windows/Linux)
+Cmd+Shift+R (Mac)
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 주의사항 ⚠️                                                                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+❌ 절대 수정 금지
+   - 섹션 6의 parseAmendmentText(), formatContentItems(), buildChangeTable()
+   - 정규표현식 패턴
+   - 파싱 로직
+
+✅ 매년 필수 업데이트
+   - index.json 전체 재생성
+   - quarterly_details.json 재생성
+   - CACHE_VERSION 변경
+   - matched{YEAR}LawData 변수명 변경
+
+✅ 데이터 품질 확보
+   - 국가법령정보센터 Open API만 사용
+   - JSON 형식 유효성 검사
+   - 매칭 결과 샘플 검증 (20개 이상)
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 자주 발생하는 문제 해결                                                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+증상: 데이터가 표시되지 않음
+진단: 개발자도구(F12) > Console > lawData (undefined면 문제)
+해결: Hard Refresh, index.json 파일 확인, GitHub Actions 빌드 상태 확인
+
+증상: 팝업 내용이 비어있음
+진단: Console > lawData.items[0].amendments[0].reason 확인
+해결: amendments[0].reason 데이터 재수집
+
+증상: "주요개정사항" 누락
+진단: 원본 텍스트에서 ◇/◆ 패턴 확인
+해결: parseAmendmentText 로직 검토, 형식 확인
+
+증상: 배포 후에도 이전 데이터 표시
+진단: GitHub Actions > Deployments 상태 확인
+해결: 5-10분 대기, 캐시 무효화 (Hard Refresh)
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 시스템 흐름도                                                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+국가법령정보센터 (law.go.kr)
+          ↓
+    API 데이터 수집
+          ↓
+    매칭 작업 (207개 회사법규와 연결)
+          ↓
+    index.json 생성 (134개 항목)
+          ↓
+    quarterly_details.json 생성 (분기별 통계)
+          ↓
+    GitHub docs 폴더 업로드
+          ↓
+    GitHub Pages 배포 (5-10분)
+          ↓
+    https://tjdudfhr.github.io/RegRader
+          ↓
+    사용자의 웹 브라우저에 표시
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 유용한 명령어                                                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+# Git 상태 확인
+git status
+
+# 최근 커밋 확인
+git log --oneline -5
+
+# 파일 크기 확인
+ls -lh docs/
+
+# JSON 형식 검증
+python3 -m json.tool index.json | head -20
+
+# 문서 검색 (grep 활용)
+grep "CACHE_VERSION" docs/index.html
+
+# 배포 상태 확인
+# https://github.com/tjdudfhr/RegRader/actions
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 연락처 및 참고 자료                                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+📖 전체 매뉴얼: RegRader_운영매뉴얼.md
+🐛 버그 리포트: GitHub Issues (tjdudfhr/RegRader)
+📧 문의: 매뉴얼 섹션 10 (트러블슈팅) 참조
+
+국가법령정보센터:
+  - 웹사이트: https://www.law.go.kr
+  - API 신청: 공개 API 서비스 > RegRader
+
+GitHub 저장소:
+  - URL: https://github.com/tjdudfhr/RegRader
+  - Pages: https://tjdudfhr.github.io/RegRader
+  - Branch: main
+  - Deploy from: /docs
+
+═══════════════════════════════════════════════════════════════════════════════
+
+버전: 1.0 (2026년 3월 8일)
+다음 업데이트: 2027년 1월 (매년 반복)
+
+═══════════════════════════════════════════════════════════════════════════════
