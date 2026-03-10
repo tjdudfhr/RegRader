@@ -5037,8 +5037,7 @@
         }
 
         // 이메일 미리보기 업데이트
-        function updateEmailPreview() {
-            const currentQuarter = getCurrentQuarter();
+       const _r = filterEmailLaws(); const filtered = _r.laws           const currentQuarter = getCurrentQuarter();
             const nextQuarter = getNextQuarter();
             const quarterlyData = getQuarterlyData();
             
@@ -6219,13 +6218,14 @@
             const quarters = Array.from(document.querySelectorAll(".email-quarter-cb:checked")).map(cb => cb.value);
             const jobs = Array.from(document.querySelectorAll(".email-job-cb:checked")).map(cb => cb.value);
             if (!window.lawsData || !Array.isArray(window.lawsData)) return [];
-            return window.lawsData.filter(law => {
+            const _fl = window.lawsData.filter(law => {
                 const q = getQuarterFromDate(law.effectiveDate);
                 const qMatch = quarters.length === 0 || (q && quarters.includes(q));
                 const cats = law.categories || [];
                 const jMatch = jobs.length === 0 || cats.some(c => jobs.includes(c));
                 return qMatch && jMatch;
             });
+            return {laws: _fl, quarters: quarters, jobs: jobs};
         }
 
         function updateEmailPreview() {
@@ -6241,8 +6241,8 @@
             }
             const quarters = Array.from(document.querySelectorAll(".email-quarter-cb:checked")).map(cb => cb.value);
 const year = new Date().getFullYear();
-                const qText = result.quarters.join('\u00B7');
-                const jText = result.jobs.length <= 3 ? result.jobs.join('\u00B7') : result.jobs.length + '\uAC1C \uC9C1\uBB34';
+                const qText = _r.quarters.join('\u00B7');
+                const jText = _r.jobs.length <= 3 ? _r.jobs.join('\u00B7') : _r.jobs.length + '\uAC1C \uC9C1\uBB34';
                 const today = new Date().toLocaleDateString('ko-KR', {month:'long', day:'numeric'});
                 subjectEl.value = `[RegRader] ${year}\uB144 ${qText} \uBC95\uADDC \uAC1C\uC815 \uB3D9\uD5A5 \uB9AC\uD3EC\uD2B8 \u2014 ${jText} (${filtered.length}\uAC74) | ${today} \uBC1C\uD589`;
         }
