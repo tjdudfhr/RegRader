@@ -2630,8 +2630,10 @@
 </div></div>
 <div class="form-group"><label style="font-weight:600;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;"><span>📋 필터링된 법령 미리보기</span><span id="email-total-count" style="font-size:0.85rem;color:#667eea;">0건</span></label>
 <div id="email-preview-list" style="max-height:250px;overflow-y:auto;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px;background:rgba(0,0,0,0.2);font-size:0.85rem;"></div></div>
-<div class="form-group"><label style="font-weight:600;margin-bottom:8px;display:block;">📧 수신자 이메일</label>
-<input type="text" id="email-to" placeholder="수신자 이메일 주소" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);color:inherit;"></div>
+<div style="margin-bottom:1rem;">
+<label style="font-weight:600;font-size:1rem;color:var(--text-primary);display:block;margin-bottom:0.5rem;">📧 수신자 이메일 <span style="font-size:0.75rem;font-weight:400;color:var(--text-muted);">(여러 명은 쉼표로 구분)</span></label>
+<textarea id="email-to" class="form-input" placeholder="hong@company.com, kim@company.com, lee@company.com" rows="2" style="width:100%;box-sizing:border-box;resize:vertical;font-family:inherit;"></textarea>
+</div>
 <div class="form-group"><label style="font-weight:600;margin-bottom:8px;display:block;">📝 제목</label>
 <input type="text" id="email-subject" placeholder="자동 생성됩니다" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);color:inherit;"></div>
 <div style="display:flex;gap:10px;margin-top:15px;"><button onclick="sendEmailViaMailto()" style="flex:1;padding:12px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:8px;cursor:pointer;font-size:1rem;font-weight:600;">✉️ 메일 앱으로 발송</button><button onclick="closeEmailModal()" style="padding:12px 20px;background:rgba(255,255,255,0.1);color:inherit;border:1px solid rgba(255,255,255,0.2);border-radius:8px;cursor:pointer;">닫기</button></div>
@@ -6238,30 +6240,113 @@
                 else { previewEl.innerHTML = filtered.slice(0,50).map(law => '<div style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.05);"><strong>' + (law.lawName||"") + '</strong><br><span style="font-size:0.8rem;opacity:0.7;">' + (law.effectiveDate||"") + " | " + (law.categories||[]).join(", ") + " | " + (law.department||"") + '</span></div>').join(""); if (filtered.length > 50) previewEl.innerHTML += '<div style="text-align:center;padding:8px;opacity:0.5;">... 외 ' + (filtered.length-50) + '건</div>'; }
             }
             const quarters = Array.from(document.querySelectorAll(".email-quarter-cb:checked")).map(cb => cb.value);
-            const jobs = Array.from(document.querySelectorAll(".email-job-cb:checked")).map(cb => cb.value);
-            const subjectEl = document.getElementById("email-subject");
-            if (subjectEl) subjectEl.value = "[RegRader] 법령 개정 알림 (" + quarters.join(",") + " / " + jobs.join(",") + ") " + filtered.length + "건";
+const year = new Date().getFullYear();
+                const qText = result.quarters.join('\u00B7');
+                const jText = result.jobs.length <= 3 ? result.jobs.join('\u00B7') : result.jobs.length + '\uAC1C \uC9C1\uBB34';
+                const today = new Date().toLocaleDateString('ko-KR', {month:'long', day:'numeric'});
+                subjectEl.value = `[RegRader] ${year}\uB144 ${qText} \uBC95\uADDC \uAC1C\uC815 \uB3D9\uD5A5 \uB9AC\uD3EC\uD2B8 \u2014 ${jText} (${filtered.length}\uAC74) | ${today} \uBC1C\uD589`;
         }
 
         function generateEmailBody(filtered, quarters, jobs) {
-            let body = "[RegRader] 법령 개정 알림\n\n선택 조건: " + quarters.join(", ") + " / " + jobs.join(", ") + "\n총 법령: " + filtered.length + "건\n\n";
-            filtered.forEach(law => { body += "■ " + (law.lawName||"") + "\n  시행일: " + (law.effectiveDate||"") + " | 직무: " + (law.categories||[]).join(", ") + " | 소관: " + (law.department||"") + "\n\n"; });
-            body += "\nRegRader: https://tjdudfhr.github.io/RegRader/\n";
-            return body;
-        }
+        const year = new Date().getFullYear();
+        const today = new Date().toLocaleDateString('ko-KR', {year:'numeric', month:'long', day:'numeric'});
+        const qLabels = {Q1:'1\uBD84\uAE30(1~3\uC6D4)', Q2:'2\uBD84\uAE30(4~6\uC6D4)', Q3:'3\uBD84\uAE30(7~9\uC6D4)', Q4:'4\uBD84\uAE30(10~12\uC6D4)'};
+        const line = '\u2501'.repeat(50);
+        let body = '';
+        body += '\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\\n';
+        body += '\u2551     RegRader \uBC95\uADDC \uAC1C\uC815 \uB3D9\uD5A5 \uB9AC\uD3EC\uD2B8     \u2551\\n';
+        body += '\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D\\n\\n';
+        body += '\uBC1C\uD589\uC77C: ' + today + '\\n';
+        body += '\uB300\uC0C1\uAE30\uAC04: ' + year + '\uB144 ' + quarters.map(q => qLabels[q] || q).join(', ') + '\\n';
+        body += '\uB300\uC0C1\uC9C1\uBB34: ' + jobs.join(' | ') + '\\n';
+        body += '\uCD1D \uBC95\uB839: ' + filtered.length + '\uAC74\\n\\n';
+        const grouped = {};
+        quarters.forEach(q => { grouped[q] = {}; jobs.forEach(j => { grouped[q][j] = []; }); });
+        filtered.forEach(law => {
+            const q = getQuarterFromDate(law.effectiveDate) || '';
+            const cats = law.categories || [];
+            cats.forEach(c => {
+                if (grouped[q] && grouped[q][c]) grouped[q][c].push(law);
+            });
+            if (!cats.some(c => jobs.includes(c)) && grouped[q]) {
+                const firstJob = jobs[0];
+                if (grouped[q][firstJob]) grouped[q][firstJob].push(law);
+            }
+        });
+        quarters.forEach(q => {
+            body += line + '\\n';
+            body += '\uD83D\uDCC5 ' + (qLabels[q] || q) + '\\n';
+            body += line + '\\n\\n';
+            let hasAny = false;
+            jobs.forEach(j => {
+                const laws = grouped[q] && grouped[q][j] ? grouped[q][j] : [];
+                if (laws.length === 0) return;
+                hasAny = true;
+                body += '  \uD83D\uDCCC ' + j + ' (' + laws.length + '\uAC74)\\n';
+                body += '  ' + '\u2500'.repeat(40) + '\\n';
+                body += '  No.  \uBC95\uB839\uBA85                        \uC2DC\uD589\uC77C        \uC18C\uAD00\uBD80\uCC98\\n';
+                body += '  ' + '\u2500'.repeat(40) + '\\n';
+                laws.forEach((law, i) => {
+                    const name = (law.lawName || '').substring(0, 28);
+                    const dateStr = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR', {month:'numeric', day:'numeric'}) : '-';
+                    const dept = (law.department || law.ministryName || '-').substring(0, 10);
+                    const num = String(i + 1).padStart(3, ' ');
+                    body += '  ' + num + '  ' + name + '  ' + dateStr + '  ' + dept + '\\n';
+                });
+                body += '\\n';
+            });
+            if (!hasAny) {
+                body += '  \uD574\uB2F9 \uBD84\uAE30\uC5D0 \uC120\uD0DD\uB41C \uC9C1\uBB34 \uAD00\uB828 \uBC95\uB839\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.\\n\\n';
+            }
+        });
+        body += line + '\\n';
+        body += '\uD83D\uDCCA \uC9C1\uBB34\uBCC4 \uC694\uC57D\\n';
+        body += line + '\\n\\n';
+        body += '  \uC9C1\uBB34\uBD84\uC57C          \uAC74\uC218    \uBE44\uC728\\n';
+        body += '  ' + '\u2500'.repeat(40) + '\\n';
+        jobs.forEach(j => {
+            let cnt = 0;
+            quarters.forEach(q => { cnt += (grouped[q] && grouped[q][j]) ? grouped[q][j].length : 0; });
+            if (cnt === 0) return;
+            const pct = filtered.length > 0 ? Math.round(cnt / filtered.length * 100) : 0;
+            const bar = '\u2588'.repeat(Math.max(1, Math.round(pct / 5))) + '\u2591'.repeat(Math.max(0, 20 - Math.round(pct / 5)));
+            body += '  ' + j.padEnd(12, ' ') + '  ' + String(cnt).padStart(4, ' ') + '\uAC74  ' + bar + ' ' + pct + '%\\n';
+        });
+        body += '\\n' + line + '\\n\\n';
+        body += '\uBCF8 \uB9AC\uD3EC\uD2B8\uB294 RegRader(AI \uAE30\uBC18 \uBC95\uADDC \uBAA8\uB2C8\uD130\uB9C1 \uC2DC\uC2A4\uD15C)\uC5D0\uC11C \uC790\uB3D9 \uC0DD\uC131\uB418\uC5C8\uC2B5\uB2C8\uB2E4.\\n';
+        body += '\uC0C1\uC138 \uC815\uBCF4 \uD655\uC778: https://tjdudfhr.github.io/RegRader/\\n';
+        return body;
+    }
 
         function sendEmailViaMailto() {
-            const to = (document.getElementById("email-to").value || "").trim();
-            const subject = (document.getElementById("email-subject").value || "").trim();
-            if (!to) { alert("수신자 이메일을 입력해주세요."); return; }
-            if (!to.includes("@")) { alert("올바른 이메일 주소를 입력해주세요."); return; }
-            const filtered = filterEmailLaws();
-            if (filtered.length === 0) { alert("발송할 법령이 없습니다."); return; }
-            const quarters = Array.from(document.querySelectorAll(".email-quarter-cb:checked")).map(cb => cb.value);
-            const jobs = Array.from(document.querySelectorAll(".email-job-cb:checked")).map(cb => cb.value);
-            const body = generateEmailBody(filtered, quarters, jobs);
-            window.open("mailto:" + encodeURIComponent(to) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body), "_blank");
+        const toRaw = document.getElementById('email-to').value.trim();
+        if (!toRaw) {
+            showNotification('error', '\uC218\uC2E0\uC790 \uC774\uBA54\uC77C \uC8FC\uC18C\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694.');
+            return;
         }
+        const emails = toRaw.split(/[,;\n]+/).map(e => e.trim()).filter(e => e.length > 0);
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const invalid = emails.filter(e => !emailRegex.test(e));
+        if (invalid.length > 0) {
+            showNotification('error', '\uC62C\uBC14\uB974\uC9C0 \uC54A\uC740 \uC774\uBA54\uC77C: ' + invalid.join(', '));
+            return;
+        }
+        if (emails.length === 0) {
+            showNotification('error', '\uCD5C\uC18C 1\uAC1C\uC758 \uC774\uBA54\uC77C \uC8FC\uC18C\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694.');
+            return;
+        }
+        const result = filterEmailLaws();
+        if (result.laws.length === 0) {
+            showNotification('error', '\uC120\uD0DD\uB41C \uC870\uAC74\uC5D0 \uB9DE\uB294 \uBC95\uB839\uC774 \uC5C6\uC2B5\uB2C8\uB2E4. \uBD84\uAE30\uC640 \uC9C1\uBB34\uB97C \uD655\uC778\uD574\uC8FC\uC138\uC694.');
+            return;
+        }
+        const subject = document.getElementById('email-subject').value.trim() || '[RegRader] \uBC95\uB839 \uAC1C\uC815 \uC54C\uB9BC';
+        const body = generateEmailBody(result.laws, result.quarters, result.jobs);
+        const mailtoLink = 'mailto:' + emails.join(',') + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        window.location.href = mailtoLink;
+        const rcpText = emails.length > 1 ? emails.length + '\uBA85\uC5D0\uAC8C' : emails[0] + '\uC5D0\uAC8C';
+        showNotification('success', '\uBA54\uC77C \uC571\uC774 \uC2E4\uD589\uB418\uC5C8\uC2B5\uB2C8\uB2E4. ' + rcpText + ' ' + result.laws.length + '\uAC74 \uBC95\uB839 \uBC1C\uC1A1');
+    }
 
         
         // 템플릿별 이메일 발송
