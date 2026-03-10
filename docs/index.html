@@ -1893,7 +1893,7 @@
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                 </svg>
             </button>
-            <button class="settings-btn" onclick="openEmailScheduler()" title="이메일 발송 설정" style="right: 4.5rem; background: linear-gradient(135deg, rgba(251, 146, 60, 0.5), rgba(254, 215, 170, 0.3), rgba(251, 146, 60, 0.2)); box-shadow: 0 4px 15px rgba(251, 146, 60, 0.3);">
+            <button class="settings-btn" onclick="openEmailModal()" title="이메일 발송" style="right: 4.5rem; background: linear-gradient(135deg, rgba(251, 146, 60, 0.5), rgba(254, 215, 170, 0.3), rgba(251, 146, 60, 0.2)); box-shadow: 0 4px 15px rgba(251, 146, 60, 0.3);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="4" width="20" height="16" rx="2"></rect>
                     <path d="m22 7-10 5L2 7"></path>
@@ -2603,7 +2603,41 @@
         </div>
     </div>
 
-    <script>
+    <div id="email-modal" class="modal">
+<div class="modal-content" style="max-width:650px;width:95%;">
+<div class="modal-header">
+<h2 style="margin:0;font-size:1.3rem;">📧 이메일 발송</h2>
+<button class="modal-close" onclick="closeEmailModal()">&times;</button>
+</div>
+<div style="padding:20px;max-height:70vh;overflow-y:auto;">
+<div class="form-group"><label style="font-weight:600;margin-bottom:8px;display:block;">📅 분기 선택</label>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-quarter-cb" value="Q1" checked onchange="updateEmailPreview()"><span>🌱 Q1</span><span class="quarter-count-Q1" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-quarter-cb" value="Q2" checked onchange="updateEmailPreview()"><span>☀️ Q2</span><span class="quarter-count-Q2" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-quarter-cb" value="Q3" checked onchange="updateEmailPreview()"><span>🍂 Q3</span><span class="quarter-count-Q3" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-quarter-cb" value="Q4" checked onchange="updateEmailPreview()"><span>❄️ Q4</span><span class="quarter-count-Q4" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+</div></div>
+<div class="form-group"><label style="font-weight:600;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;"><span>👔 직무 선택</span><span style="font-size:0.8rem;"><button type="button" onclick="toggleAllJobs(true)" style="background:none;border:1px solid rgba(255,255,255,0.2);color:inherit;padding:2px 8px;border-radius:4px;cursor:pointer;font-size:0.75rem;margin-right:4px;">전체선택</button><button type="button" onclick="toggleAllJobs(false)" style="background:none;border:1px solid rgba(255,255,255,0.2);color:inherit;padding:2px 8px;border-radius:4px;cursor:pointer;font-size:0.75rem;">전체해제</button></span></label>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-job-cb" value="인사노무" checked onchange="updateEmailPreview()"><span>👥 인사노무</span><span class="job-count-인사노무" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-job-cb" value="공정거래" checked onchange="updateEmailPreview()"><span>⚖️ 공정거래</span><span class="job-count-공정거래" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-job-cb" value="정보보호" checked onchange="updateEmailPreview()"><span>🔒 정보보호</span><span class="job-count-정보보호" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-job-cb" value="지식재산권" checked onchange="updateEmailPreview()"><span>💡 지식재산권</span><span class="job-count-지식재산권" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-job-cb" value="재무회계" checked onchange="updateEmailPreview()"><span>💰 재무회계</span><span class="job-count-재무회계" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-job-cb" value="안전" checked onchange="updateEmailPreview()"><span>⛑️ 안전</span><span class="job-count-안전" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-job-cb" value="환경" checked onchange="updateEmailPreview()"><span>🌿 환경</span><span class="job-count-환경" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+<label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-job-cb" value="지배구조" checked onchange="updateEmailPreview()"><span>🏛️ 지배구조</span><span class="job-count-지배구조" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
+</div></div>
+<div class="form-group"><label style="font-weight:600;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;"><span>📋 필터링된 법령 미리보기</span><span id="email-total-count" style="font-size:0.85rem;color:#667eea;">0건</span></label>
+<div id="email-preview-list" style="max-height:250px;overflow-y:auto;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px;background:rgba(0,0,0,0.2);font-size:0.85rem;"></div></div>
+<div class="form-group"><label style="font-weight:600;margin-bottom:8px;display:block;">📧 수신자 이메일</label>
+<input type="text" id="email-to" placeholder="수신자 이메일 주소" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);color:inherit;"></div>
+<div class="form-group"><label style="font-weight:600;margin-bottom:8px;display:block;">📝 제목</label>
+<input type="text" id="email-subject" placeholder="자동 생성됩니다" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);color:inherit;"></div>
+<div style="display:flex;gap:10px;margin-top:15px;"><button onclick="sendEmailViaMailto()" style="flex:1;padding:12px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:8px;cursor:pointer;font-size:1rem;font-weight:600;">✉️ 메일 앱으로 발송</button><button onclick="closeEmailModal()" style="padding:12px 20px;background:rgba(255,255,255,0.1);color:inherit;border:1px solid rgba(255,255,255,0.2);border-radius:8px;cursor:pointer;">닫기</button></div>
+</div></div></div>
+
+<script>
         // 캐시 버전 확인 및 자동 리로드 (최초 1회만)
         (function() {
             const CACHE_VERSION = '2026.03.08.003';
@@ -6151,23 +6185,84 @@
         }
         
         // 📧 이메일 발송
-        function openEmailScheduler() {
-            const width = 1100;
-            const height = 900;
-            const left = (window.screen.width - width) / 2;
-            const top = (window.screen.height - height) / 2;
-            
-            const popup = window.open(
-                './email_popup.html',
-                'RegRaderEmailCenter',
-                `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
-            );
-            
-            // 팝업이 차단된 경우
-            if (!popup || popup.closed || typeof popup.closed == 'undefined') {
-                alert('팝업이 차단되었습니다. 팝업 차단을 해제해주세요.');
-            }
+        function openEmailModal() {
+            const modal = document.getElementById("email-modal");
+            if (!modal) return;
+            modal.classList.add("show");
+            document.querySelectorAll(".email-quarter-cb").forEach(cb => cb.checked = true);
+            document.querySelectorAll(".email-job-cb").forEach(cb => cb.checked = true);
+            document.getElementById("email-to").value = "";
+            updateEmailPreview();
         }
+
+        function closeEmailModal() {
+            const modal = document.getElementById("email-modal");
+            if (modal) modal.classList.remove("show");
+        }
+
+        function toggleAllJobs(state) {
+            document.querySelectorAll(".email-job-cb").forEach(cb => cb.checked = state);
+            updateEmailPreview();
+        }
+
+        function getQuarterFromDate(dateStr) {
+            if (!dateStr) return null;
+            const parts = dateStr.split(/[-.\/]/);
+            let month = parseInt(parts.length >= 2 ? parts[1] : "0");
+            if (month < 1 || month > 12) return null;
+            return "Q" + Math.ceil(month / 3);
+        }
+
+        function filterEmailLaws() {
+            const quarters = Array.from(document.querySelectorAll(".email-quarter-cb:checked")).map(cb => cb.value);
+            const jobs = Array.from(document.querySelectorAll(".email-job-cb:checked")).map(cb => cb.value);
+            if (!window.lawsData || !Array.isArray(window.lawsData)) return [];
+            return window.lawsData.filter(law => {
+                const q = getQuarterFromDate(law.effectiveDate);
+                const qMatch = quarters.length === 0 || (q && quarters.includes(q));
+                const cats = law.categories || [];
+                const jMatch = jobs.length === 0 || cats.some(c => jobs.includes(c));
+                return qMatch && jMatch;
+            });
+        }
+
+        function updateEmailPreview() {
+            const filtered = filterEmailLaws();
+            const previewEl = document.getElementById("email-preview-list");
+            const totalEl = document.getElementById("email-total-count");
+            if (totalEl) totalEl.textContent = filtered.length + "건";
+            ["Q1","Q2","Q3","Q4"].forEach(q => { const cnt = window.lawsData ? window.lawsData.filter(l => getQuarterFromDate(l.effectiveDate) === q).length : 0; const el = document.querySelector(".quarter-count-" + q); if (el) el.textContent = cnt + "건"; });
+            ["인사노무","공정거래","정보보호","지식재산권","재무회계","안전","환경","지배구조"].forEach(j => { const cnt = window.lawsData ? window.lawsData.filter(l => (l.categories||[]).includes(j)).length : 0; const el = document.querySelector(".job-count-" + j); if (el) el.textContent = cnt + "건"; });
+            if (previewEl) {
+                if (filtered.length === 0) { previewEl.innerHTML = '<div style="text-align:center;padding:20px;opacity:0.5;">선택된 조건에 해당하는 법령이 없습니다</div>'; }
+                else { previewEl.innerHTML = filtered.slice(0,50).map(law => '<div style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.05);"><strong>' + (law.lawName||"") + '</strong><br><span style="font-size:0.8rem;opacity:0.7;">' + (law.effectiveDate||"") + " | " + (law.categories||[]).join(", ") + " | " + (law.department||"") + '</span></div>').join(""); if (filtered.length > 50) previewEl.innerHTML += '<div style="text-align:center;padding:8px;opacity:0.5;">... 외 ' + (filtered.length-50) + '건</div>'; }
+            }
+            const quarters = Array.from(document.querySelectorAll(".email-quarter-cb:checked")).map(cb => cb.value);
+            const jobs = Array.from(document.querySelectorAll(".email-job-cb:checked")).map(cb => cb.value);
+            const subjectEl = document.getElementById("email-subject");
+            if (subjectEl) subjectEl.value = "[RegRader] 법령 개정 알림 (" + quarters.join(",") + " / " + jobs.join(",") + ") " + filtered.length + "건";
+        }
+
+        function generateEmailBody(filtered, quarters, jobs) {
+            let body = "[RegRader] 법령 개정 알림\n\n선택 조건: " + quarters.join(", ") + " / " + jobs.join(", ") + "\n총 법령: " + filtered.length + "건\n\n";
+            filtered.forEach(law => { body += "■ " + (law.lawName||"") + "\n  시행일: " + (law.effectiveDate||"") + " | 직무: " + (law.categories||[]).join(", ") + " | 소관: " + (law.department||"") + "\n\n"; });
+            body += "\nRegRader: https://tjdudfhr.github.io/RegRader/\n";
+            return body;
+        }
+
+        function sendEmailViaMailto() {
+            const to = (document.getElementById("email-to").value || "").trim();
+            const subject = (document.getElementById("email-subject").value || "").trim();
+            if (!to) { alert("수신자 이메일을 입력해주세요."); return; }
+            if (!to.includes("@")) { alert("올바른 이메일 주소를 입력해주세요."); return; }
+            const filtered = filterEmailLaws();
+            if (filtered.length === 0) { alert("발송할 법령이 없습니다."); return; }
+            const quarters = Array.from(document.querySelectorAll(".email-quarter-cb:checked")).map(cb => cb.value);
+            const jobs = Array.from(document.querySelectorAll(".email-job-cb:checked")).map(cb => cb.value);
+            const body = generateEmailBody(filtered, quarters, jobs);
+            window.open("mailto:" + encodeURIComponent(to) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body), "_blank");
+        }
+
         
         // 템플릿별 이메일 발송
         function sendEmailWithTemplate(template) {
@@ -6179,7 +6274,7 @@
             }
             
             // 로딩 표시
-            const sendBtn = document.querySelector('.settings-btn[onclick="openEmailScheduler()"]');
+            const sendBtn = document.querySelector('.settings-btn[onclick="openEmailModal()"]');
             const originalHTML = sendBtn.innerHTML;
             sendBtn.innerHTML = '⏳';
             sendBtn.disabled = true;
