@@ -6230,22 +6230,25 @@
         }
 
         function updateEmailPreview() {
-            const _r = filterEmailLaws(); const filtered = _r.laws;
-            const previewEl = document.getElementById("email-preview-list");
-            const totalEl = document.getElementById("email-total-count");
-            if (totalEl) totalEl.textContent = filtered.length + "건";
-            ["Q1","Q2","Q3","Q4"].forEach(q => { const cnt = window.lawsData ? window.lawsData.filter(l => getQuarterFromDate(l.effectiveDate) === q).length : 0; const el = document.querySelector(".quarter-count-" + q); if (el) el.textContent = cnt + "건"; });
-            ["인사노무","공정거래","정보보호","지식재산권","재무회계","안전","환경","지배구조"].forEach(j => { const cnt = window.lawsData ? window.lawsData.filter(l => (l.categories||[]).includes(j)).length : 0; const el = document.querySelector(".job-count-" + j); if (el) el.textContent = cnt + "건"; });
+            const _r = filterEmailLaws();
+            const filtered = _r.laws;
+            const previewEl = document.getElementById('email-preview-list');
+            const totalEl = document.getElementById('email-total-count');
+            if (totalEl) totalEl.textContent = filtered.length + '건';
+            ['Q1','Q2','Q3','Q4'].forEach(q => { const cnt = window.lawsData ? window.lawsData.filter(l => (getQuarterFromDate(l.effectiveDate) || '') === q && (l.categories || []).some(c => true)).length : 0; const el = document.getElementById('email-q-count-' + q); if (el) el.textContent = cnt + '건'; });
+            ['인사노무','공정거래','정보보호','지식재산권','재무회계','안전','환경','지배구조'].forEach(j => { const cnt = window.lawsData ? window.lawsData.filter(l => (l.categories || []).includes(j)).length : 0; const el = document.getElementById('email-j-count-' + j); if (el) el.textContent = cnt + '건'; });
             if (previewEl) {
-                if (filtered.length === 0) { previewEl.innerHTML = '<div style="text-align:center;padding:20px;opacity:0.5;">선택된 조건에 해당하는 법령이 없습니다</div>'; }
-                else { previewEl.innerHTML = filtered.slice(0,50).map(law => '<div style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.05);"><strong>' + (law.lawName||"") + '</strong><br><span style="font-size:0.8rem;opacity:0.7;">' + (law.effectiveDate||"") + " | " + (law.categories||[]).join(", ") + " | " + (law.department||"") + '</span></div>').join(""); if (filtered.length > 50) previewEl.innerHTML += '<div style="text-align:center;padding:8px;opacity:0.5;">... 외 ' + (filtered.length-50) + '건</div>'; }
+                if (filtered.length === 0) { previewEl.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">선택된 조건에 맞는 법령이 없습니다.</div>'; }
+                else { previewEl.innerHTML = filtered.slice(0,50).map(law => '<div style="padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:13px;">' + (law.effectiveDate || '') + ' | ' + ((law.categories || []).join(', ')) + ' | ' + (law.lawName || '') + '</div>').join(''); }
             }
-            const quarters = Array.from(document.querySelectorAll(".email-quarter-cb:checked")).map(cb => cb.value);
-const year = new Date().getFullYear();
+            const subjectEl = document.getElementById('email-subject');
+            if (subjectEl) {
+                const year = new Date().getFullYear();
                 const qText = _r.quarters.join('\u00B7');
-                const jText = _r.jobs.length <= 3 ? _r.jobs.join('\u00B7') : _r.jobs.length + '\uAC1C \uC9C1\uBB34';
+                const jText = _r.jobs.length <= 3 ? _r.jobs.join('\u00B7') : _r.jobs.length + '개 직무';
                 const today = new Date().toLocaleDateString('ko-KR', {month:'long', day:'numeric'});
-                subjectEl.value = `[RegRader] ${year}\uB144 ${qText} \uBC95\uADDC \uAC1C\uC815 \uB3D9\uD5A5 \uB9AC\uD3EC\uD2B8 \u2014 ${jText} (${filtered.length}\uAC74) | ${today} \uBC1C\uD589`;
+                subjectEl.value = '[RegRader] ' + year + '년 ' + qText + ' 법규 개정 동향 리포트 \u2014 ' + jText + ' (' + filtered.length + '건) | ' + today + ' 발행';
+            }
         }
 
         function generateEmailBody(filtered, quarters, jobs) {
