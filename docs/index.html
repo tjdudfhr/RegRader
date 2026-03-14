@@ -5038,28 +5038,6 @@
 
         // 이메일 미리보기 업데이트
        const _r = filterEmailLaws();
-            const filtered = _r.laws;           const currentQuarter = getCurrentQuarter();
-            const nextQuarter = getNextQuarter();
-            const quarterlyData = getQuarterlyData();
-            
-            const preview = `
-                📧 제목: [RegRader] ${nextQuarter} 시행 예정 법령 알림 (${quarterlyData[nextQuarter]?.count || 0}건)
-                
-                안녕하세요, ${document.getElementById('sender-name').value || 'RegRader 시스템'}입니다.
-                
-                🗓️ ${nextQuarter} 시행 예정인 당사 적용 법령 ${quarterlyData[nextQuarter]?.count || 0}건을 안내드립니다.
-                
-                주요 법령:
-                ${quarterlyData[nextQuarter]?.laws?.slice(0, 3).map(law => `• ${law.title}`).join('\n                ') || '• 데이터 로딩 중...'}
-                ${quarterlyData[nextQuarter]?.laws?.length > 3 ? '• 그 외 ' + (quarterlyData[nextQuarter].laws.length - 3) + '건...' : ''}
-                
-                📊 전체 현황 보기: https://your-domain.github.io/webapp/
-                
-                이 메일은 분기 시작 1주일 전에 자동으로 발송됩니다.
-            `;
-
-            document.getElementById('email-preview-content').textContent = preview;
-        }
 
         // 현재 분기 계산
         function getCurrentQuarter() {
