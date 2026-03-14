@@ -6229,7 +6229,7 @@
         }
 
         function updateEmailPreview() {
-            const filtered = filterEmailLaws();
+            const _r = filterEmailLaws(); const filtered = _r.laws;
             const previewEl = document.getElementById("email-preview-list");
             const totalEl = document.getElementById("email-total-count");
             if (totalEl) totalEl.textContent = filtered.length + "건";
