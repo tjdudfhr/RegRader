@@ -7,12 +7,12 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <meta name="cache-version" content="2026zx.03.08.003">
+    <meta name="cache-version" content="2026.03.08.003">
     <link rel="shortcut icon" href="data:text/plain;base64,🏛️">
     
     <!-- PWA 설정 -->
     <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#667ee a">
+    <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="./icon-192.png">
     
     <!-- 모바일 기기 감지 및 선택적 리다이렉션 -->
@@ -6232,71 +6232,64 @@
         function generateEmailBody(filtered, quarters, jobs) {
         const year = new Date().getFullYear();
         const today = new Date().toLocaleDateString('ko-KR', {year:'numeric', month:'long', day:'numeric'});
-        const qLabels = {Q1:'1\uBD84\uAE30(1~3\uC6D4)', Q2:'2\uBD84\uAE30(4~6\uC6D4)', Q3:'3\uBD84\uAE30(7~9\uC6D4)', Q4:'4\uBD84\uAE30(10~12\uC6D4)'};
-        const line = '\u2501'.repeat(50);
-        let body = '';
-        body += '\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\\n';
-        body += '\u2551     RegRader \uBC95\uADDC \uAC1C\uC815 \uB3D9\uD5A5 \uB9AC\uD3EC\uD2B8     \u2551\\n';
-        body += '\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D\\n\\n';
-        body += '\uBC1C\uD589\uC77C: ' + today + '\\n';
-        body += '\uB300\uC0C1\uAE30\uAC04: ' + year + '\uB144 ' + quarters.map(q => qLabels[q] || q).join(', ') + '\\n';
-        body += '\uB300\uC0C1\uC9C1\uBB34: ' + jobs.join(' | ') + '\\n';
-        body += '\uCD1D \uBC95\uB839: ' + filtered.length + '\uAC74\\n\\n';
+        const qLabels = {Q1:'1분기(1~3월)', Q2:'2분기(4~6월)', Q3:'3분기(7~9월)', Q4:'4분기(10~12월)'};
         const grouped = {};
         quarters.forEach(q => { grouped[q] = {}; jobs.forEach(j => { grouped[q][j] = []; }); });
         filtered.forEach(law => {
             const q = getQuarterFromDate(law.effectiveDate) || '';
             const cats = law.categories || [];
-            cats.forEach(c => {
-                if (grouped[q] && grouped[q][c]) grouped[q][c].push(law);
-            });
+            cats.forEach(c => { if (grouped[q] && grouped[q][c]) grouped[q][c].push(law); });
             if (!cats.some(c => jobs.includes(c)) && grouped[q]) {
                 const firstJob = jobs[0];
                 if (grouped[q][firstJob]) grouped[q][firstJob].push(law);
             }
         });
+        let body = '';
+        body += '======================================\n';
+        body += '    RegRader 법규 개정 동향 리포트\n';
+        body += '======================================\n\n';
+        body += '발행일: ' + today + '\n';
+        body += '대상기간: ' + year + '년 ' + quarters.map(q => qLabels[q] || q).join(', ') + '\n';
+        body += '대상직무: ' + jobs.join(', ') + '\n';
+        body += '총 법령: ' + filtered.length + '건\n\n';
+        body += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+        body += '  [1] 분기별 직무별 법규 개수 요약\n';
+        body += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
         quarters.forEach(q => {
-            body += line + '\\n';
-            body += '\uD83D\uDCC5 ' + (qLabels[q] || q) + '\\n';
-            body += line + '\\n\\n';
-            let hasAny = false;
+            const qTotal = filtered.filter(l => (getQuarterFromDate(l.effectiveDate) || '') === q).length;
+            body += '■ ' + (qLabels[q] || q) + ' - 총 ' + qTotal + '건\n';
             jobs.forEach(j => {
-                const laws = grouped[q] && grouped[q][j] ? grouped[q][j] : [];
-                if (laws.length === 0) return;
-                hasAny = true;
-                body += '  \uD83D\uDCCC ' + j + ' (' + laws.length + '\uAC74)\\n';
-                body += '  ' + '\u2500'.repeat(40) + '\\n';
-                body += '  No.  \uBC95\uB839\uBA85                        \uC2DC\uD589\uC77C        \uC18C\uAD00\uBD80\uCC98\\n';
-                body += '  ' + '\u2500'.repeat(40) + '\\n';
-                laws.forEach((law, i) => {
-                    const name = (law.lawName || '').substring(0, 28);
-                    const dateStr = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR', {month:'numeric', day:'numeric'}) : '-';
-                    const dept = (law.department || law.ministryName || '-').substring(0, 10);
-                    const num = String(i + 1).padStart(3, ' ');
-                    body += '  ' + num + '  ' + name + '  ' + dateStr + '  ' + dept + '\\n';
-                });
-                body += '\\n';
+                const cnt = grouped[q][j] ? grouped[q][j].length : 0;
+                if (cnt > 0) body += '  · ' + j + ': ' + cnt + '건\n';
             });
-            if (!hasAny) {
-                body += '  \uD574\uB2F9 \uBD84\uAE30\uC5D0 \uC120\uD0DD\uB41C \uC9C1\uBB34 \uAD00\uB828 \uBC95\uB839\uC774 \uC5C6\uC2B5\uB2C8\uB2E4.\\n\\n';
-            }
+            body += '\n';
         });
-        body += line + '\\n';
-        body += '\uD83D\uDCCA \uC9C1\uBB34\uBCC4 \uC694\uC57D\\n';
-        body += line + '\\n\\n';
-        body += '  \uC9C1\uBB34\uBD84\uC57C          \uAC74\uC218    \uBE44\uC728\\n';
-        body += '  ' + '\u2500'.repeat(40) + '\\n';
+        body += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+        body += '  [2] 직무별 개정 법규 상세 목록\n';
+        body += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
         jobs.forEach(j => {
             let cnt = 0;
             quarters.forEach(q => { cnt += (grouped[q] && grouped[q][j]) ? grouped[q][j].length : 0; });
             if (cnt === 0) return;
-            const pct = filtered.length > 0 ? Math.round(cnt / filtered.length * 100) : 0;
-            const bar = '\u2588'.repeat(Math.max(1, Math.round(pct / 5))) + '\u2591'.repeat(Math.max(0, 20 - Math.round(pct / 5)));
-            body += '  ' + j.padEnd(12, ' ') + '  ' + String(cnt).padStart(4, ' ') + '\uAC74  ' + bar + ' ' + pct + '%\\n';
+            body += '▶ ' + j + ' (' + cnt + '건)\n';
+            body += '─────────────────────────────\n';
+            quarters.forEach(q => {
+                const laws = grouped[q] && grouped[q][j] ? grouped[q][j] : [];
+                if (laws.length === 0) return;
+                body += '  [' + (qLabels[q] || q) + ']\n';
+                laws.forEach((law, i) => {
+                    const name = (law.title || law.lawName || '').substring(0, 35);
+                    const dateStr = law.effectiveDate ? new Date(law.effectiveDate).toLocaleDateString('ko-KR', {month:'numeric', day:'numeric'}) : '-';
+                    const dept = (law.ministry || law.department || law.ministryName || '-').substring(0, 15);
+                    body += '  ' + String(i + 1).padStart(3, ' ') + '. ' + name + ' | ' + dateStr + ' | ' + dept + '\n';
+                });
+                body += '\n';
+            });
+            body += '\n';
         });
-        body += '\\n' + line + '\\n\\n';
-        body += '\uBCF8 \uB9AC\uD3EC\uD2B8\uB294 RegRader(AI \uAE30\uBC18 \uBC95\uADDC \uBAA8\uB2C8\uD130\uB9C1 \uC2DC\uC2A4\uD15C)\uC5D0\uC11C \uC790\uB3D9 \uC0DD\uC131\uB418\uC5C8\uC2B5\uB2C8\uB2E4.\\n';
-        body += '\uC0C1\uC138 \uC815\uBCF4 \uD655\uC778: https://tjdudfhr.github.io/RegRader/\\n';
+        body += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+        body += '본 리포트는 RegRader에서 자동 생성되었습니다.\n';
+        body += '상세 정보: https://tjdudfhr.github.io/RegRader/\n';
         return body;
     }
 
