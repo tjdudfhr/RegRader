@@ -2482,10 +2482,10 @@
             </div>
             <div class="modal-body">
                 <form class="settings-form" id="email-settings-form">
-                    <div class="form-group">
+                    <div class="frm-group">
                         <label class="form-label" for="email-recipients">수신자 이메일 주소</label>
                         <textarea 
-                            class="form-input form-textarea" 
+                            class="for-input form-textarea" 
                             id="email-recipients" 
                             placeholder="example1@company.com&#10;example2@company.com&#10;example3@company.com&#10;&#10;여러 이메일 주소를 입력하세요 (한 줄에 하나씩)"
                         ></textarea>
@@ -6213,8 +6213,8 @@
             const previewEl = document.getElementById('email-preview-list');
             const totalEl = document.getElementById('email-total-count');
             if (totalEl) totalEl.textContent = filtered.length + '건';
-            ['Q1','Q2','Q3','Q4'].forEach(q => { const cnt = window.lawsData ? window.lawsData.filter(l => (getQuarterFromDate(l.effectiveDate) || '') === q && (l.categories || []).some(c => true)).length : 0; const el = document.getElementById('email-q-count-' + q); if (el) el.textContent = cnt + '건'; });
-            ['인사노무','공정거래','정보보호','지식재산권','재무회계','안전','환경','지배구조'].forEach(j => { const cnt = window.lawsData ? window.lawsData.filter(l => (l.categories || []).includes(j)).length : 0; const el = document.getElementById('email-j-count-' + j); if (el) el.textContent = cnt + '건'; });
+            ['Q1','Q2','Q3','Q4'].forEach(q => { const cnt = window.lawsData ? window.lawsData.filter(l => (getQuarterFromDate(l.effectiveDate) || '') === q && (l.categories || []).some(c => true)).length : 0; const el = document.querySelector('.quarter-count-' + q); if (el) el.textContent = cnt + '건'; });
+            ['인사노무','공정거래','정보보호','지식재산권','재무회계','안전','환경','지배구조'].forEach(j => { const cnt = window.lawsData ? window.lawsData.filter(l => (l.categories || []).includes(j)).length : 0; const el = document.querySelector('.job-count-' + j); if (el) el.textContent = cnt + '건'; });
             if (previewEl) {
                 if (filtered.length === 0) { previewEl.innerHTML = '<div style="padding:20px;text-align:center;color:#888;">선택된 조건에 맞는 법령이 없습니다.</div>'; }
                 else { previewEl.innerHTML = filtered.slice(0,50).map(law => '<div style="padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:13px;">' + (law.effectiveDate || '') + ' | ' + ((law.categories || []).join(', ')) + ' | ' + (law.lawName || '') + '</div>').join(''); }
