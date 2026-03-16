@@ -2610,7 +2610,7 @@
 <button class="modal-close" onclick="closeEmailModal()">&times;</button>
 </div>
 <div style="padding:20px;max-height:70vh;overflow-y:auto;">
-<div class="form-group"><label style="font-weight:600;margin-bottom:8px;display:block;">📅 분기 선택</label>
+<div class="form-group"><label style="font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px;">📅 분기 선택 <span style="display:flex;gap:4px;margin-left:auto;"><button type="button" onclick="toggleAllQuarters(true)" style="background:none;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);padding:2px 8px;border-radius:4px;font-size:11px;cursor:pointer;">전체선택</button><button type="button" onclick="toggleAllQuarters(false)" style="background:none;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);padding:2px 8px;border-radius:4px;font-size:11px;cursor:pointer;">전체해제</button></span></label>
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
 <label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-quarter-cb" value="Q1" checked onchange="updateEmailPreview()"><span>🌱 Q1</span><span class="quarter-count-Q1" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
 <label style="display:flex;align-items:center;gap:6px;padding:8px;background:rgba(255,255,255,0.05);border-radius:8px;cursor:pointer;"><input type="checkbox" class="email-quarter-cb" value="Q2" checked onchange="updateEmailPreview()"><span>☀️ Q2</span><span class="quarter-count-Q2" style="margin-left:auto;font-size:0.8rem;opacity:0.7;">0</span></label>
@@ -6184,6 +6184,7 @@
             document.querySelectorAll(".email-job-cb").forEach(cb => cb.checked = state);
             updateEmailPreview();
         }
+function toggleAllQuarters(selectAll) { document.querySelectorAll('input[name="Q1"],input[name="Q2"],input[name="Q3"],input[name="Q4"]').forEach(function(cb) { cb.checked = selectAll; }); if (typeof updateEmailPreview === "function") updateEmailPreview(); }
 
         function getQuarterFromDate(dateStr) {
             if (!dateStr) return null;
