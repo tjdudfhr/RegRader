@@ -6184,7 +6184,7 @@
             document.querySelectorAll(".email-job-cb").forEach(cb => cb.checked = state);
             updateEmailPreview();
         }
-function toggleAllQuarters(selectAll) { document.querySelectorAll('input[name="Q1"],input[name="Q2"],input[name="Q3"],input[name="Q4"]').forEach(function(cb) { cb.checked = selectAll; }); if (typeof updateEmailPreview === "function") updateEmailPreview(); }
+function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="Q1"],input[value="Q2"],input[value="Q3"],input[value="Q4"]').forEach(function(cb) { cb.checked = selectAll; }); if (typeof updateEmailPreview === "function") updateEmailPreview(); }
 
         function getQuarterFromDate(dateStr) {
             if (!dateStr) return null;
