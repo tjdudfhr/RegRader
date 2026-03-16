@@ -4010,7 +4010,7 @@
             
             // Only count laws with 2025 effective dates to match summary statistics
             lawsData.forEach(law => {
-                if (law.effectiveDate && law.effectiveDate.startsWith('2025')) {
+                if (law.effectiveDate && law.effectiveDate.startsWith('2026')) {
                     const date = new Date(law.effectiveDate);
                     const month = date.getMonth() + 1;
                     
@@ -5693,7 +5693,7 @@
                 
                 // 2025년 해당 분기 법령 필터링
                 const quarterLaws = lawsData.filter(law => {
-                    if (!law.effectiveDate || !law.effectiveDate.startsWith('2025')) return false;
+                    if (!law.effectiveDate || !law.effectiveDate.startsWith('2026')) return false;
                     const month = parseInt(law.effectiveDate.split('-')[1]);
                     return info.months.includes(month);
                 });
@@ -5768,7 +5768,7 @@
                     'Q1': '1분기', 'Q2': '2분기', 'Q3': '3분기', 'Q4': '4분기'
                 };
                 const today = new Date().toISOString().split('T')[0];
-                const fileName = `2025년_${quarterNames[quarter]}_법령개정현황_종합분석_${today}.xlsx`;
+                const fileName = `2026년_${quarterNames[quarter]}_법령개정현황_종합분석_${today}.xlsx`;
                 
                 XLSX.writeFile(workbook, fileName);
                 
