@@ -5708,39 +5708,71 @@ async function downloadQuarterlyExcel(quarter, event) {
                     return tempDiv.textContent.trim();
                 }
 
-                // <ul><li> → "가. 내용" 형태 텍스트 변환
+                // 개정사유: HTML 제거 + 200자 이내 요약
+                function cleanReason(reasonHtml) {
+                    if (!reasonHtml) return '';
+                    let text = cleanHtml(reasonHtml);
+                    text = text.replace(/\s+/g, ' ').trim();
+                    if (text.length <= 200) return text;
+                    // 마침표 기준 자연스러운 끊기
+                    var cut = text.lastIndexOf('.', 200);
+                    if (cut > 80) return text.substring(0, cut + 1);
+                    cut = text.lastIndexOf(',', 200);
+                    if (cut > 80) return text.substring(0, cut) + ' ...';
+                    return text.substring(0, 200) + ' ...';
+                }
+
+                // 주요개정내용: <li> → "가. 내용" 형식, 항목당 80자 제한
                 function htmlListToText(html) {
                     if (!html) return '';
                     tempDiv.innerHTML = html;
-                    const items = tempDiv.querySelectorAll('li');
+                    var items = tempDiv.querySelectorAll('li');
                     if (items.length > 0) {
-                        const labels = ['가','나','다','라','마','바','사','아','자','차'];
-                        const lines = [];
-                        items.forEach((li, i) => {
-                            let text = li.textContent.trim();
+                        var labels = ['가','나','다','라','마','바','사'];
+                        var lines = [];
+                        items.forEach(function(li, i) {
+                            if (i >= 7) return;
+                            var text = li.textContent.trim();
+                            // 이미 "가." 접두사가 있으면 그대로
+                            var prefix = '';
                             if (/^[가-하]\.\s/.test(text)) {
-                                lines.push(text);
+                                prefix = text.substring(0, 3);
+                                text = text.substring(3);
                             } else {
-                                const label = labels[i] || String(i + 1);
-                                lines.push(label + '. ' + text);
+                                prefix = (labels[i] || String(i+1)) + '. ';
                             }
+                            // 80자 제한
+                            if (text.length > 80) {
+                                var p = text.lastIndexOf(',', 80);
+                                text = text.substring(0, p > 30 ? p : 80) + ' ...';
+                            }
+                            lines.push(prefix + text);
                         });
-                        return lines.join('\n');
+                        var result = lines.join('\n');
+                        if (items.length > 7) result += '\n(외 ' + (items.length - 7) + '개 항목)';
+                        return result;
                     }
-                    return tempDiv.textContent.trim();
+                    // li 없으면 일반 텍스트 200자 제한
+                    var plainText = tempDiv.textContent.trim();
+                    if (plainText.length > 200) {
+                        var p2 = plainText.lastIndexOf('.', 200);
+                        if (p2 > 80) return plainText.substring(0, p2 + 1);
+                        return plainText.substring(0, 200) + ' ...';
+                    }
+                    return plainText;
                 }
 
                 function getArticlesFromChangeTable(changeTableHtml) {
                     if (!changeTableHtml) return '';
                     tempDiv.innerHTML = changeTableHtml;
-                    const rows = tempDiv.querySelectorAll('tr');
-                    const arts = [];
-                    rows.forEach((row, i) => {
+                    var rows = tempDiv.querySelectorAll('tr');
+                    var arts = [];
+                    rows.forEach(function(row, i) {
                         if (i === 0) return;
-                        const cells = row.querySelectorAll('td');
+                        var cells = row.querySelectorAll('td');
                         if (cells.length >= 1) {
-                            let artText = cells[0].textContent.trim();
-                            if (artText && artText !== '-') arts.push(artText);
+                            var t = cells[0].textContent.trim();
+                            if (t && t !== '-') arts.push(t);
                         }
                     });
                     return arts.join(', ');
@@ -5749,34 +5781,27 @@ async function downloadQuarterlyExcel(quarter, event) {
                 function getArticlesFromTags(articlesHtml) {
                     if (!articlesHtml) return '';
                     tempDiv.innerHTML = articlesHtml;
-                    const tags = tempDiv.querySelectorAll('.article-tag, span');
+                    var tags = tempDiv.querySelectorAll('.article-tag, span');
                     if (tags.length > 0) {
-                        return Array.from(tags).map(t => t.textContent.trim()).filter(Boolean).join(', ');
+                        return Array.from(tags).map(function(t){ return t.textContent.trim(); }).filter(Boolean).join(', ');
                     }
                     return tempDiv.textContent.trim();
                 }
 
-                function cleanReason(reasonHtml) {
-                    if (!reasonHtml) return '';
-                    let text = cleanHtml(reasonHtml);
-                    text = text.replace(/\s+/g, ' ').trim();
-                    return text;
-                }
+                var sheetData = quarterLaws.map(function(law, index) {
+                    var rawReason = (law.amendments && law.amendments.length > 0) ? law.amendments[0].reason : '';
+                    var parsed = (typeof parseAmendmentText === 'function') ? parseAmendmentText(rawReason, law) : { type: '', reason: '', contents: '', changeTable: '', articles: '' };
 
-                const sheetData = quarterLaws.map((law, index) => {
-                    const rawReason = (law.amendments && law.amendments.length > 0) ? law.amendments[0].reason : '';
-                    const parsed = (typeof parseAmendmentText === 'function') ? parseAmendmentText(rawReason, law) : { type: '', reason: '', contents: '', changeTable: '', articles: '' };
-
-                    let clause = getArticlesFromChangeTable(parsed.changeTable);
+                    var clause = getArticlesFromChangeTable(parsed.changeTable);
                     if (!clause) clause = getArticlesFromTags(parsed.articles);
 
-                    const reason = cleanReason(parsed.reason);
+                    var reason = cleanReason(parsed.reason);
 
-                    let mainContents = '';
+                    var mainContents = '';
                     if (parsed.contents) {
                         mainContents = htmlListToText(parsed.contents);
                     }
-                    if (!mainContents && reason && reason.length > 80) {
+                    if (!mainContents && reason && reason.length > 50) {
                         mainContents = reason;
                     }
 
@@ -5795,42 +5820,41 @@ async function downloadQuarterlyExcel(quarter, event) {
                     };
                 });
 
-                const worksheet = XLSX.utils.json_to_sheet(sheetData);
+                var worksheet = XLSX.utils.json_to_sheet(sheetData);
 
                 worksheet['!cols'] = [
                     { wch: 6 },
                     { wch: 13 },
-                    { wch: 35 },
-                    { wch: 28 },
-                    { wch: 55 },
-                    { wch: 55 },
-                    { wch: 15 },
-                    { wch: 12 },
-                    { wch: 20 },
+                    { wch: 30 },
+                    { wch: 25 },
+                    { wch: 45 },
+                    { wch: 45 },
+                    { wch: 14 },
+                    { wch: 10 },
+                    { wch: 18 },
                     { wch: 12 },
                     { wch: 13 }
                 ];
 
-                // 셀 줄바꿈(wrapText) 활성화
-                const range = XLSX.utils.decode_range(worksheet['!ref']);
-                for (let R = range.s.r; R <= range.e.r; R++) {
-                    for (let C = range.s.c; C <= range.e.c; C++) {
-                        const addr = XLSX.utils.encode_cell({ r: R, c: C });
+                var range = XLSX.utils.decode_range(worksheet['!ref']);
+                for (var R = range.s.r; R <= range.e.r; R++) {
+                    for (var C = range.s.c; C <= range.e.c; C++) {
+                        var addr = XLSX.utils.encode_cell({ r: R, c: C });
                         if (!worksheet[addr]) continue;
                         if (!worksheet[addr].s) worksheet[addr].s = {};
                         worksheet[addr].s.alignment = { wrapText: true, vertical: 'top' };
                     }
                     if (R > 0) {
                         if (!worksheet['!rows']) worksheet['!rows'] = [];
-                        worksheet['!rows'][R] = { hpt: 60 };
+                        worksheet['!rows'][R] = { hpt: 80 };
                     }
                 }
 
                 XLSX.utils.book_append_sheet(workbook, worksheet, info.name);
 
-                const quarterNames = { Q1: '1분기', Q2: '2분기', Q3: '3분기', Q4: '4분기' };
-                const today = new Date().toISOString().split('T')[0];
-                const fileName = '2026_' + quarterNames[quarter] + '_법령개정_' + today + '.xlsx';
+                var quarterNames = { Q1: '1분기', Q2: '2분기', Q3: '3분기', Q4: '4분기' };
+                var today = new Date().toISOString().split('T')[0];
+                var fileName = '2026_' + quarterNames[quarter] + '_법령개정_' + today + '.xlsx';
                 XLSX.writeFile(workbook, fileName);
             } catch (error) {
                 console.error('Excel 다운로드 오류:', error);
