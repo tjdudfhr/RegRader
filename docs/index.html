@@ -3794,6 +3794,26 @@
                 // "기타" 카테고리 재분류: base_laws_207.json의 올바른 분류 적용
                 await reclassifyLaws(lawsData);
 
+                // 중복 제거: 동일 법령명 + 동일 시행일자는 1건만 유지
+                (function deduplicateLaws() {
+                    var seen = {};
+                    var unique = [];
+                    lawsData.forEach(function(law) {
+                        var key = (law.title || '') + '|' + (law.effectiveDate || '');
+                        if (!seen[key]) {
+                            seen[key] = true;
+                            unique.push(law);
+                        }
+                    });
+                    var removed = lawsData.length - unique.length;
+                    if (removed > 0) {
+                        lawsData.length = 0;
+                        unique.forEach(function(l) { lawsData.push(l); });
+                        window.lawsData = lawsData;
+                        console.log('✅ 중복 제거: ' + removed + '건 삭제 (' + (unique.length + removed) + ' → ' + unique.length + '건)');
+                    }
+                })();
+
                 filteredLaws = [...lawsData];
                 
                 
