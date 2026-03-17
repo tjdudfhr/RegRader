@@ -5675,22 +5675,32 @@
 async function downloadQuarterlyExcel(quarter, event) {
             if (event) event.stopPropagation();
             try {
-                const quarterInfo = {
+                var quarterInfo = {
                     Q1: { months: [1, 2, 3], name: '1분기 (1~3월)' },
                     Q2: { months: [4, 5, 6], name: '2분기 (4~6월)' },
                     Q3: { months: [7, 8, 9], name: '3분기 (7~9월)' },
                     Q4: { months: [10, 11, 12], name: '4분기 (10~12월)' }
                 };
-                const info = quarterInfo[quarter];
+                var info = quarterInfo[quarter];
                 if (!info) { alert('잘못된 분기 정보입니다.'); return; }
 
-                const quarterLaws = lawsData.filter(law => {
+                var rawLaws = lawsData.filter(function(law) {
                     if (!law.effectiveDate || !law.effectiveDate.startsWith('2026')) return false;
-                    const month = parseInt(law.effectiveDate.split('-')[1]);
+                    var month = parseInt(law.effectiveDate.split('-')[1]);
                     return info.months.includes(month);
                 });
-                quarterLaws.sort((a, b) => {
-                    const tc = a.title.localeCompare(b.title, 'ko-KR');
+
+                // 중복 제거 (동일 법령명 + 동일 시행일자)
+                var seen = {};
+                var quarterLaws = rawLaws.filter(function(law) {
+                    var key = law.title + '|' + law.effectiveDate;
+                    if (seen[key]) return false;
+                    seen[key] = true;
+                    return true;
+                });
+
+                quarterLaws.sort(function(a, b) {
+                    var tc = a.title.localeCompare(b.title, 'ko-KR');
                     if (tc !== 0) return tc;
                     return a.effectiveDate.localeCompare(b.effectiveDate);
                 });
@@ -5698,23 +5708,35 @@ async function downloadQuarterlyExcel(quarter, event) {
                     alert('해당 분기에 법령이 없습니다.'); return;
                 }
 
-                const workbook = XLSX.utils.book_new();
-                const tempDiv = document.createElement('div');
+                var workbook = XLSX.utils.book_new();
+                var tempDiv = document.createElement('div');
 
-                // HTML 태그 완전 제거
+                // 직무분류 개선 ("기타" 카테고리 재분류)
+                function getCategory(law) {
+                    var cat = (law.categories && law.categories[0]) || '기타';
+                    if (cat !== '기타') return cat;
+                    var t = law.title || '';
+                    if (/세법|세금|증권거래세|종합부동산세|회계|감사|조세|재정|법인세|소득세|부가가치세|국제조세/.test(t)) return '재무회계';
+                    if (/환경|대기|수질|수도|폐기물|오염|석면|잔류성|에너지|재활용|기후|생태/.test(t)) return '환경';
+                    if (/안전|재해|산업안전|위험물|소방/.test(t)) return '안전';
+                    if (/근로|임금|장애인|차별금지|고용|연금|인사|노동/.test(t)) return '인사노무';
+                    if (/정보|보호|보안|유출방지|개인정보|사이버/.test(t)) return '정보보호';
+                    if (/공정거래|상생협력|하도급|독점/.test(t)) return '공정거래';
+                    if (/첨단전략|산업기술|지배구조|상법|주식회사/.test(t)) return '지배구조';
+                    return '기타';
+                }
+
                 function cleanHtml(html) {
                     if (!html) return '';
                     tempDiv.innerHTML = html;
                     return tempDiv.textContent.trim();
                 }
 
-                // 개정사유: HTML 제거 + 200자 이내 요약
                 function cleanReason(reasonHtml) {
                     if (!reasonHtml) return '';
-                    let text = cleanHtml(reasonHtml);
+                    var text = cleanHtml(reasonHtml);
                     text = text.replace(/\s+/g, ' ').trim();
                     if (text.length <= 200) return text;
-                    // 마침표 기준 자연스러운 끊기
                     var cut = text.lastIndexOf('.', 200);
                     if (cut > 80) return text.substring(0, cut + 1);
                     cut = text.lastIndexOf(',', 200);
@@ -5722,7 +5744,6 @@ async function downloadQuarterlyExcel(quarter, event) {
                     return text.substring(0, 200) + ' ...';
                 }
 
-                // 주요개정내용: <li> → "가. 내용" 형식, 항목당 80자 제한
                 function htmlListToText(html) {
                     if (!html) return '';
                     tempDiv.innerHTML = html;
@@ -5733,7 +5754,6 @@ async function downloadQuarterlyExcel(quarter, event) {
                         items.forEach(function(li, i) {
                             if (i >= 7) return;
                             var text = li.textContent.trim();
-                            // 이미 "가." 접두사가 있으면 그대로
                             var prefix = '';
                             if (/^[가-하]\.\s/.test(text)) {
                                 prefix = text.substring(0, 3);
@@ -5741,7 +5761,6 @@ async function downloadQuarterlyExcel(quarter, event) {
                             } else {
                                 prefix = (labels[i] || String(i+1)) + '. ';
                             }
-                            // 80자 제한
                             if (text.length > 80) {
                                 var p = text.lastIndexOf(',', 80);
                                 text = text.substring(0, p > 30 ? p : 80) + ' ...';
@@ -5752,7 +5771,6 @@ async function downloadQuarterlyExcel(quarter, event) {
                         if (items.length > 7) result += '\n(외 ' + (items.length - 7) + '개 항목)';
                         return result;
                     }
-                    // li 없으면 일반 텍스트 200자 제한
                     var plainText = tempDiv.textContent.trim();
                     if (plainText.length > 200) {
                         var p2 = plainText.lastIndexOf('.', 200);
@@ -5762,9 +5780,9 @@ async function downloadQuarterlyExcel(quarter, event) {
                     return plainText;
                 }
 
-                function getArticlesFromChangeTable(changeTableHtml) {
-                    if (!changeTableHtml) return '';
-                    tempDiv.innerHTML = changeTableHtml;
+                function getArticlesFromChangeTable(html) {
+                    if (!html) return '';
+                    tempDiv.innerHTML = html;
                     var rows = tempDiv.querySelectorAll('tr');
                     var arts = [];
                     rows.forEach(function(row, i) {
@@ -5778,15 +5796,20 @@ async function downloadQuarterlyExcel(quarter, event) {
                     return arts.join(', ');
                 }
 
-                function getArticlesFromTags(articlesHtml) {
-                    if (!articlesHtml) return '';
-                    tempDiv.innerHTML = articlesHtml;
+                function getArticlesFromTags(html) {
+                    if (!html) return '';
+                    tempDiv.innerHTML = html;
                     var tags = tempDiv.querySelectorAll('.article-tag, span');
-                    if (tags.length > 0) {
-                        return Array.from(tags).map(function(t){ return t.textContent.trim(); }).filter(Boolean).join(', ');
-                    }
+                    if (tags.length > 0) return Array.from(tags).map(function(t){ return t.textContent.trim(); }).filter(Boolean).join(', ');
                     return tempDiv.textContent.trim();
                 }
+
+                // 직무별 정렬 (같은 직무끼리 묶어서 표시)
+                quarterLaws.sort(function(a, b) {
+                    var catA = getCategory(a), catB = getCategory(b);
+                    if (catA !== catB) return catA.localeCompare(catB, 'ko-KR');
+                    return a.title.localeCompare(b.title, 'ko-KR');
+                });
 
                 var sheetData = quarterLaws.map(function(law, index) {
                     var rawReason = (law.amendments && law.amendments.length > 0) ? law.amendments[0].reason : '';
@@ -5794,19 +5817,14 @@ async function downloadQuarterlyExcel(quarter, event) {
 
                     var clause = getArticlesFromChangeTable(parsed.changeTable);
                     if (!clause) clause = getArticlesFromTags(parsed.articles);
-
                     var reason = cleanReason(parsed.reason);
-
                     var mainContents = '';
-                    if (parsed.contents) {
-                        mainContents = htmlListToText(parsed.contents);
-                    }
-                    if (!mainContents && reason && reason.length > 50) {
-                        mainContents = reason;
-                    }
+                    if (parsed.contents) mainContents = htmlListToText(parsed.contents);
+                    if (!mainContents && reason && reason.length > 50) mainContents = reason;
 
                     return {
                         '순번': index + 1,
+                        '직무분류': getCategory(law),
                         '시행일자': law.effectiveDate || '',
                         '법령명': law.title || '',
                         '개정법률조항': clause,
@@ -5824,6 +5842,7 @@ async function downloadQuarterlyExcel(quarter, event) {
 
                 worksheet['!cols'] = [
                     { wch: 6 },
+                    { wch: 12 },
                     { wch: 13 },
                     { wch: 30 },
                     { wch: 25 },
