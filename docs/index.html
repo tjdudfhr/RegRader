@@ -2849,6 +2849,69 @@
         let currentMainTab = 'quarterly';
         let currentQuarterlyDetail = null;
 
+        // "기타" 카테고리 재분류 함수: base_laws_207.json의 올바른 분류 적용
+        async function reclassifyLaws(laws) {
+            if (!laws || laws.length === 0) return;
+            var etcLaws = laws.filter(function(l) { return (l.categories || []).includes('기타'); });
+            if (etcLaws.length === 0) return;
+
+            function normalize(str) {
+                return (str || '').replace(/\s+/g, '').replace(/[ㅥ·‧・•·]/g, '');
+            }
+
+            function keywordCategory(title) {
+                var t = title || '';
+                if (/세법|세금|증권거래세|종합부동산세|회계|감사|조세|재정|법인세|소득세|부가가치세|국제조세/.test(t)) return '재무회계';
+                if (/환경|대기|수질|수도|폐기물|오염|석면|잔류성|에너지|재활용|기후|생태/.test(t)) return '환경';
+                if (/안전|재해|산업안전|위험물|소방|감염병|원자력|방사선/.test(t)) return '안전';
+                if (/근로|임금|장애인|차별금지|고용|연금|인사|노동|파견|퇴직/.test(t)) return '인사노무';
+                if (/정보|보호|보안|유출방지|개인정보|사이버|산업기술|첨단전략|부정경쟁|영업비밀/.test(t)) return '정보보호';
+                if (/공정거래|상생협력|하도급|독점|대중소기업/.test(t)) return '공정거래';
+                if (/지배구조|상법|주식회사/.test(t)) return '지배구조';
+                if (/특허|실용신안|디자인보호|상표|저작권|지식재산/.test(t)) return '지식재산권';
+                return null;
+            }
+
+            try {
+                var resp = await fetch('./base_laws_207.json?v=' + Date.now());
+                if (!resp.ok) throw new Error('fetch failed');
+                var baseData = await resp.json();
+                var baseLaws = baseData.items || [];
+                var baseMap = {};
+                baseLaws.forEach(function(b) { baseMap[normalize(b.title)] = b.categories || []; });
+
+                var reclassified = 0;
+                etcLaws.forEach(function(law) {
+                    var norm = normalize(law.title);
+                    // 1차: 정확 매칭
+                    if (baseMap[norm] && baseMap[norm].length > 0 && !baseMap[norm].includes('기타')) {
+                        law.categories = baseMap[norm].slice(); reclassified++; return;
+                    }
+                    // 2차: 시행령/시행규칙 → 본법 찾기
+                    var baseName = norm.replace(/시행령$/, '').replace(/시행규칙$/, '');
+                    if (baseName !== norm && baseMap[baseName] && baseMap[baseName].length > 0) {
+                        law.categories = baseMap[baseName].slice(); reclassified++; return;
+                    }
+                    // 3차: 부분 매칭
+                    for (var key of Object.keys(baseMap)) {
+                        if ((norm.includes(key) || key.includes(norm)) && baseMap[key].length > 0 && !baseMap[key].includes('기타')) {
+                            law.categories = baseMap[key].slice(); reclassified++; return;
+                        }
+                    }
+                    // 4차: 키워드 폴백
+                    var kw = keywordCategory(law.title);
+                    if (kw) { law.categories = [kw]; reclassified++; }
+                });
+                console.log('✅ 카테고리 재분류 완료: ' + reclassified + '/' + etcLaws.length + '건');
+            } catch (e) {
+                console.warn('⚠️ base_laws_207.json 로드 실패, 키워드 기반 재분류:', e);
+                etcLaws.forEach(function(law) {
+                    var kw = keywordCategory(law.title);
+                    if (kw) law.categories = [kw];
+                });
+            }
+        }
+
         // Tab switching function
         function switchMainTab(tabName) {
             currentMainTab = tabName;
@@ -3727,7 +3790,10 @@
                     lawsData = [];
                     window.lawsData = [];
                 }
-                
+
+                // "기타" 카테고리 재분류: base_laws_207.json의 올바른 분류 적용
+                await reclassifyLaws(lawsData);
+
                 filteredLaws = [...lawsData];
                 
                 
@@ -5700,9 +5766,10 @@ async function downloadQuarterlyExcel(quarter, event) {
                 });
 
                 quarterLaws.sort(function(a, b) {
-                    var tc = a.title.localeCompare(b.title, 'ko-KR');
-                    if (tc !== 0) return tc;
-                    return a.effectiveDate.localeCompare(b.effectiveDate);
+                    var catA = (a.categories && a.categories[0]) || '기타';
+                    var catB = (b.categories && b.categories[0]) || '기타';
+                    if (catA !== catB) return catA.localeCompare(catB, 'ko-KR');
+                    return (a.title || '').localeCompare(b.title || '', 'ko-KR');
                 });
                 if (!quarterLaws || quarterLaws.length === 0) {
                     alert('해당 분기에 법령이 없습니다.'); return;
@@ -5824,7 +5891,7 @@ async function downloadQuarterlyExcel(quarter, event) {
 
                     return {
                         '순번': index + 1,
-                        '직무분류': getCategory(law),
+                        '직무분류': (law.categories && law.categories[0]) || '',
                         '시행일자': law.effectiveDate || '',
                         '법령명': law.title || '',
                         '개정법률조항': clause,
