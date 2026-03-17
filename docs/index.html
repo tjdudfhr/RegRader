@@ -2695,15 +2695,21 @@
         
         // 100% 정확한 분기별 데이터로 업데이트하는 함수  
         function updateQuarterlyDataWithFinalPrecise() {
-            // 2025년 실제 매칭 데이터 사용
-            const quarterCounts = matched2025LawData.by_quarter;
-            
-            // 각 분기 박스의 수치 업데이트 (실제 276건 매칭 데이터)
-            document.querySelector('#q1-count').textContent = quarterCounts.Q1; // 134
-            document.querySelector('#q2-count').textContent = quarterCounts.Q2; // 61
-            document.querySelector('#q3-count').textContent = quarterCounts.Q3; // 67
-            document.querySelector('#q4-count').textContent = quarterCounts.Q4; // 14
-            
+            // 실제 lawsData에서 분기별 카운트 계산 (중복제거 후 정확한 수치)
+            var qc = { Q1: 0, Q2: 0, Q3: 0, Q4: 0 };
+            (window.lawsData || []).forEach(function(law) {
+                var ed = law.effectiveDate || '';
+                if (!ed.startsWith('2026')) return;
+                var m = parseInt(ed.split('-')[1]);
+                if (m >= 1 && m <= 3) qc.Q1++;
+                else if (m >= 4 && m <= 6) qc.Q2++;
+                else if (m >= 7 && m <= 9) qc.Q3++;
+                else if (m >= 10 && m <= 12) qc.Q4++;
+            });
+            document.querySelector('#q1-count').textContent = qc.Q1;
+            document.querySelector('#q2-count').textContent = qc.Q2;
+            document.querySelector('#q3-count').textContent = qc.Q3;
+            document.querySelector('#q4-count').textContent = qc.Q4;
         }
         
         // 실제 당사 적용 법규 직무별 데이터로 업데이트하는 함수 (전체 259개 기준)
@@ -2785,26 +2791,8 @@
         
         // 2025년 92개 매칭된 법규로 업데이트하는 함수
         function updateWith2025MatchedData() {
-            const quarterCounts = matched2025LawData.by_quarter;
-            
-            // 각 분기 박스의 수치 업데이트 (실제 분석된 259개 매칭 데이터)
-            document.querySelector('#q1-count').textContent = 119; // Q1: 119개 (45.9%)
-            document.querySelector('#q2-count').textContent = 61;  // Q2: 61개 (23.6%)
-            document.querySelector('#q3-count').textContent = 64;  // Q3: 64개 (24.7%)
-            document.querySelector('#q4-count').textContent = 15;  // Q4: 15개 (5.8%)
-            
-            // 메인 대시보드 수치 업데이트
-            const totalAppliedElements = document.querySelectorAll('.metric-number');
-            if (totalAppliedElements.length > 0) {
-                totalAppliedElements[0].textContent = matched2025LawData.matched_2025;
-            }
-            if (totalAppliedElements.length > 1) {
-                totalAppliedElements[1].textContent = Math.floor(matched2025LawData.matched_2025 * 0.7); // 시행 완료 (추산 70%)
-            }
-            
-            // 2025년 실제 매칭 정보 업데이트 (콘솔에 출력)
-            Object.entries(matched2025LawData.by_category).forEach(([category, count]) => {
-            });
+            // 실제 lawsData에서 분기별 카운트 계산
+            updateQuarterlyDataWithFinalPrecise();
         }
 
         // 정확한 2025년 법령만 필터링하는 함수 - Remote version preserved
