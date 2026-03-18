@@ -84,6 +84,7 @@
         })();
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
     <style>
         :root {
             --primary: #667eea;
@@ -5749,33 +5750,23 @@
 async function downloadQuarterlyExcel(quarter, event) {
             if (event) event.stopPropagation();
             try {
-                var quarterInfo = {
+                const quarterInfo = {
                     Q1: { months: [1, 2, 3], name: '1분기 (1~3월)' },
                     Q2: { months: [4, 5, 6], name: '2분기 (4~6월)' },
                     Q3: { months: [7, 8, 9], name: '3분기 (7~9월)' },
                     Q4: { months: [10, 11, 12], name: '4분기 (10~12월)' }
                 };
-                var info = quarterInfo[quarter];
+                const info = quarterInfo[quarter];
                 if (!info) { alert('잘못된 분기 정보입니다.'); return; }
 
-                var rawLaws = lawsData.filter(function(law) {
+                const quarterLaws = lawsData.filter(law => {
                     if (!law.effectiveDate || !law.effectiveDate.startsWith('2026')) return false;
-                    var month = parseInt(law.effectiveDate.split('-')[1]);
+                    const month = parseInt(law.effectiveDate.split('-')[1]);
                     return info.months.includes(month);
                 });
-
-                // 중복 제거 (동일 법령명 + 동일 시행일자)
-                var seen = {};
-                var quarterLaws = rawLaws.filter(function(law) {
-                    var key = law.title + '|' + law.effectiveDate;
-                    if (seen[key]) return false;
-                    seen[key] = true;
-                    return true;
-                });
-
-                quarterLaws.sort(function(a, b) {
-                    var catA = (a.categories && a.categories[0]) || '기타';
-                    var catB = (b.categories && b.categories[0]) || '기타';
+                quarterLaws.sort((a, b) => {
+                    const catA = (a.categories && a.categories[0]) || '기타';
+                    const catB = (b.categories && b.categories[0]) || '기타';
                     if (catA !== catB) return catA.localeCompare(catB, 'ko-KR');
                     return (a.title || '').localeCompare(b.title || '', 'ko-KR');
                 });
@@ -5783,23 +5774,7 @@ async function downloadQuarterlyExcel(quarter, event) {
                     alert('해당 분기에 법령이 없습니다.'); return;
                 }
 
-                var workbook = XLSX.utils.book_new();
-                var tempDiv = document.createElement('div');
-
-                // 직무분류 개선 ("기타" 카테고리 재분류)
-                function getCategory(law) {
-                    var cat = (law.categories && law.categories[0]) || '기타';
-                    if (cat !== '기타') return cat;
-                    var t = law.title || '';
-                    if (/세법|세금|증권거래세|종합부동산세|회계|감사|조세|재정|법인세|소득세|부가가치세|국제조세/.test(t)) return '재무회계';
-                    if (/환경|대기|수질|수도|폐기물|오염|석면|잔류성|에너지|재활용|기후|생태/.test(t)) return '환경';
-                    if (/안전|재해|산업안전|위험물|소방/.test(t)) return '안전';
-                    if (/근로|임금|장애인|차별금지|고용|연금|인사|노동/.test(t)) return '인사노무';
-                    if (/정보|보호|보안|유출방지|개인정보|사이버/.test(t)) return '정보보호';
-                    if (/공정거래|상생협력|하도급|독점/.test(t)) return '공정거래';
-                    if (/첨단전략|산업기술|지배구조|상법|주식회사/.test(t)) return '지배구조';
-                    return '기타';
-                }
+                const tempDiv = document.createElement('div');
 
                 function cleanHtml(html) {
                     if (!html) return '';
@@ -5807,156 +5782,206 @@ async function downloadQuarterlyExcel(quarter, event) {
                     return tempDiv.textContent.trim();
                 }
 
-                function cleanReason(reasonHtml) {
-                    if (!reasonHtml) return '';
-                    var text = cleanHtml(reasonHtml);
-                    text = text.replace(/\s+/g, ' ').trim();
-                    if (text.length <= 200) return text;
-                    var cut = text.lastIndexOf('.', 200);
-                    if (cut > 80) return text.substring(0, cut + 1);
-                    cut = text.lastIndexOf(',', 200);
-                    if (cut > 80) return text.substring(0, cut) + ' ...';
-                    return text.substring(0, 200) + ' ...';
-                }
-
                 function htmlListToText(html) {
                     if (!html) return '';
                     tempDiv.innerHTML = html;
-                    var items = tempDiv.querySelectorAll('li');
+                    const items = tempDiv.querySelectorAll('li');
                     if (items.length > 0) {
-                        var labels = ['가','나','다','라','마','바','사'];
-                        var lines = [];
-                        items.forEach(function(li, i) {
-                            if (i >= 7) return;
-                            var text = li.textContent.trim();
-                            var prefix = '';
+                        const labels = ['가','나','다','라','마','바','사','아','자','차'];
+                        const lines = [];
+                        items.forEach((li, i) => {
+                            let text = li.textContent.trim();
                             if (/^[가-하]\.\s/.test(text)) {
-                                prefix = text.substring(0, 3);
-                                text = text.substring(3);
+                                lines.push(text);
                             } else {
-                                prefix = (labels[i] || String(i+1)) + '. ';
+                                const label = labels[i] || String(i + 1);
+                                lines.push(label + '. ' + text);
                             }
-                            if (text.length > 80) {
-                                var p = text.lastIndexOf(',', 80);
-                                text = text.substring(0, p > 30 ? p : 80) + ' ...';
-                            }
-                            lines.push(prefix + text);
                         });
-                        var result = lines.join('\n');
-                        if (items.length > 7) result += '\n(외 ' + (items.length - 7) + '개 항목)';
-                        return result;
+                        return lines.join('\n');
                     }
-                    var plainText = tempDiv.textContent.trim();
-                    if (plainText.length > 200) {
-                        var p2 = plainText.lastIndexOf('.', 200);
-                        if (p2 > 80) return plainText.substring(0, p2 + 1);
-                        return plainText.substring(0, 200) + ' ...';
-                    }
-                    return plainText;
+                    return tempDiv.textContent.trim();
                 }
 
-                function getArticlesFromChangeTable(html) {
-                    if (!html) return '';
-                    tempDiv.innerHTML = html;
-                    var rows = tempDiv.querySelectorAll('tr');
-                    var arts = [];
-                    rows.forEach(function(row, i) {
+                function getArticlesFromChangeTable(changeTableHtml) {
+                    if (!changeTableHtml) return '';
+                    tempDiv.innerHTML = changeTableHtml;
+                    const rows = tempDiv.querySelectorAll('tr');
+                    const arts = [];
+                    rows.forEach((row, i) => {
                         if (i === 0) return;
-                        var cells = row.querySelectorAll('td');
+                        const cells = row.querySelectorAll('td');
                         if (cells.length >= 1) {
-                            var t = cells[0].textContent.trim();
-                            if (t && t !== '-') arts.push(t);
+                            let artText = cells[0].textContent.trim();
+                            if (artText && artText !== '-') arts.push(artText);
                         }
                     });
                     return arts.join(', ');
                 }
 
-                function getArticlesFromTags(html) {
-                    if (!html) return '';
-                    tempDiv.innerHTML = html;
-                    var tags = tempDiv.querySelectorAll('.article-tag, span');
-                    if (tags.length > 0) return Array.from(tags).map(function(t){ return t.textContent.trim(); }).filter(Boolean).join(', ');
+                function getArticlesFromTags(articlesHtml) {
+                    if (!articlesHtml) return '';
+                    tempDiv.innerHTML = articlesHtml;
+                    const tags = tempDiv.querySelectorAll('.article-tag, span');
+                    if (tags.length > 0) {
+                        return Array.from(tags).map(t => t.textContent.trim()).filter(Boolean).join(', ');
+                    }
                     return tempDiv.textContent.trim();
                 }
 
-                // 직무별 정렬 (같은 직무끼리 묶어서 표시)
-                quarterLaws.sort(function(a, b) {
-                    var catA = getCategory(a), catB = getCategory(b);
-                    if (catA !== catB) return catA.localeCompare(catB, 'ko-KR');
-                    return a.title.localeCompare(b.title, 'ko-KR');
+                function cleanReason(reasonHtml) {
+                    if (!reasonHtml) return '';
+                    let text = cleanHtml(reasonHtml);
+                    text = text.replace(/\s+/g, ' ').trim();
+                    return text;
+                }
+
+                var workbook = new ExcelJS.Workbook();
+                workbook.creator = 'RegRader';
+                workbook.created = new Date();
+                var worksheet = workbook.addWorksheet(info.name, {
+                    views: [{ state: 'frozen', ySplit: 1 }]
                 });
 
-                var sheetData = quarterLaws.map(function(law, index) {
+                var columns = [
+                    { header: '순번', key: 'no', width: 7 },
+                    { header: '직무분류', key: 'category', width: 14 },
+                    { header: '시행일자', key: 'effectiveDate', width: 14 },
+                    { header: '법령명', key: 'lawName', width: 38 },
+                    { header: '개정법률조항', key: 'clause', width: 30 },
+                    { header: '개정사유', key: 'reason', width: 58 },
+                    { header: '주요 개정내용', key: 'contents', width: 58 },
+                    { header: '담당부서', key: 'dept', width: 16 },
+                    { header: '담당자', key: 'person', width: 12 },
+                    { header: '조치사항', key: 'action', width: 22 },
+                    { header: '이행상태', key: 'status', width: 12 },
+                    { header: '이행완료일', key: 'doneDate', width: 14 }
+                ];
+                worksheet.columns = columns;
+
+                var headerRow = worksheet.getRow(1);
+                headerRow.height = 30;
+                headerRow.eachCell(function(cell) {
+                    cell.font = { name: '맑은 고딕', size: 11, bold: true, color: { argb: 'FFFFFFFF' } };
+                    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF2C3E50' } };
+                    cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+                    cell.border = {
+                        top: { style: 'thin', color: { argb: 'FF95A5A6' } },
+                        left: { style: 'thin', color: { argb: 'FF95A5A6' } },
+                        bottom: { style: 'medium', color: { argb: 'FF2C3E50' } },
+                        right: { style: 'thin', color: { argb: 'FF95A5A6' } }
+                    };
+                });
+
+                var categoryColors = {
+                    '인사노무': 'FFE8F5E9', '공정거래': 'FFFFF3E0', '정보보호': 'FFE3F2FD',
+                    '지식재산권': 'FFF3E5F5', '재무회계': 'FFFFF8E1', '안전': 'FFFFEBEE',
+                    '환경': 'FFE0F2F1', '지배구조': 'FFEDE7F6', '기타': 'FFF5F5F5'
+                };
+
+                quarterLaws.forEach(function(law, index) {
                     var rawReason = (law.amendments && law.amendments.length > 0) ? law.amendments[0].reason : '';
                     var parsed = (typeof parseAmendmentText === 'function') ? parseAmendmentText(rawReason, law) : { type: '', reason: '', contents: '', changeTable: '', articles: '' };
-
                     var clause = getArticlesFromChangeTable(parsed.changeTable);
                     if (!clause) clause = getArticlesFromTags(parsed.articles);
                     var reason = cleanReason(parsed.reason);
                     var mainContents = '';
-                    if (parsed.contents) mainContents = htmlListToText(parsed.contents);
-                    if (!mainContents && reason && reason.length > 50) mainContents = reason;
+                    if (parsed.contents) { mainContents = htmlListToText(parsed.contents); }
+                    if (!mainContents && reason && reason.length > 80) { mainContents = reason; }
+                    var cat = (law.categories && law.categories[0]) || '';
 
-                    return {
-                        '순번': index + 1,
-                        '직무분류': (law.categories && law.categories[0]) || '',
-                        '시행일자': law.effectiveDate || '',
-                        '법령명': law.title || '',
-                        '개정법률조항': clause,
-                        '개정사유': reason,
-                        '주요 개정내용': mainContents,
-                        '담당부서': '',
-                        '담당자': '',
-                        '조치사항': '',
-                        '이행상태': '',
-                        '이행완료일': ''
-                    };
+                    var row = worksheet.addRow({
+                        no: index + 1,
+                        category: cat,
+                        effectiveDate: law.effectiveDate || '',
+                        lawName: law.title || '',
+                        clause: clause,
+                        reason: reason,
+                        contents: mainContents,
+                        dept: '',
+                        person: '',
+                        action: '',
+                        status: '',
+                        doneDate: ''
+                    });
+
+                    var maxLines = 1;
+                    row.eachCell(function(cell) {
+                        var val = String(cell.value || '');
+                        var lines = val.split('\n').length;
+                        var colWidth = columns[cell.col - 1] ? columns[cell.col - 1].width : 20;
+                        val.split('\n').forEach(function(line) {
+                            var estimatedWraps = Math.ceil(line.length / (colWidth * 1.5));
+                            if (estimatedWraps > 1) lines += (estimatedWraps - 1);
+                        });
+                        if (lines > maxLines) maxLines = lines;
+                    });
+                    row.height = Math.max(28, Math.min(maxLines * 16, 300));
+
+                    var bgColor = categoryColors[cat] || 'FFFAFAFA';
+                    var isEvenRow = (index % 2 === 0);
+                    if (!categoryColors[cat] && isEvenRow) bgColor = 'FFF8F9FA';
+
+                    row.eachCell({ includeEmpty: true }, function(cell, colNumber) {
+                        cell.font = { name: '맑은 고딕', size: 10 };
+                        cell.border = {
+                            top: { style: 'thin', color: { argb: 'FFE0E0E0' } },
+                            left: { style: 'thin', color: { argb: 'FFE0E0E0' } },
+                            bottom: { style: 'thin', color: { argb: 'FFE0E0E0' } },
+                            right: { style: 'thin', color: { argb: 'FFE0E0E0' } }
+                        };
+                        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bgColor } };
+
+                        if (colNumber === 1) {
+                            cell.alignment = { horizontal: 'center', vertical: 'middle' };
+                            cell.font = { name: '맑은 고딕', size: 10, color: { argb: 'FF7F8C8D' } };
+                        }
+                        else if (colNumber === 2) {
+                            cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+                            cell.font = { name: '맑은 고딕', size: 10, bold: true };
+                        }
+                        else if (colNumber === 3) {
+                            cell.alignment = { horizontal: 'center', vertical: 'middle' };
+                        }
+                        else if (colNumber === 4) {
+                            cell.alignment = { horizontal: 'left', vertical: 'top', wrapText: true };
+                            cell.font = { name: '맑은 고딕', size: 10, bold: true };
+                        }
+                        else if (colNumber >= 5 && colNumber <= 7) {
+                            cell.alignment = { horizontal: 'left', vertical: 'top', wrapText: true };
+                        }
+                        else {
+                            cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+                            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFFFFF' } };
+                        }
+                    });
                 });
 
-                var worksheet = XLSX.utils.json_to_sheet(sheetData);
-
-                worksheet['!cols'] = [
-                    { wch: 6 },
-                    { wch: 12 },
-                    { wch: 13 },
-                    { wch: 30 },
-                    { wch: 25 },
-                    { wch: 45 },
-                    { wch: 45 },
-                    { wch: 14 },
-                    { wch: 10 },
-                    { wch: 18 },
-                    { wch: 12 },
-                    { wch: 13 }
-                ];
-
-                var range = XLSX.utils.decode_range(worksheet['!ref']);
-                for (var R = range.s.r; R <= range.e.r; R++) {
-                    for (var C = range.s.c; C <= range.e.c; C++) {
-                        var addr = XLSX.utils.encode_cell({ r: R, c: C });
-                        if (!worksheet[addr]) continue;
-                        if (!worksheet[addr].s) worksheet[addr].s = {};
-                        worksheet[addr].s.alignment = { wrapText: true, vertical: 'top' };
-                    }
-                    if (R > 0) {
-                        if (!worksheet['!rows']) worksheet['!rows'] = [];
-                        worksheet['!rows'][R] = { hpt: 80 };
-                    }
-                }
-
-                XLSX.utils.book_append_sheet(workbook, worksheet, info.name);
+                worksheet.autoFilter = {
+                    from: { row: 1, column: 1 },
+                    to: { row: quarterLaws.length + 1, column: columns.length }
+                };
 
                 var quarterNames = { Q1: '1분기', Q2: '2분기', Q3: '3분기', Q4: '4분기' };
                 var today = new Date().toISOString().split('T')[0];
                 var fileName = '2026_' + quarterNames[quarter] + '_법령개정_' + today + '.xlsx';
-                XLSX.writeFile(workbook, fileName);
+
+                var buffer = await workbook.xlsx.writeBuffer();
+                var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+
             } catch (error) {
-                console.error('Excel 다운로드 오류:', error);
-                alert('Excel 다운로드 중 오류가 발생했습니다: ' + error.message);
+                console.error('Excel download error:', error);
+                alert('Excel download error: ' + error.message);
             }
         }
-        
-        // 🏷️ 분기 종합현황 시트 데이터 생성 (차트 시각화 포함)
+
         function createSummarySheet(quarterData, quarter) {
             const laws = quarterData.laws || [];
             const categories = {};
