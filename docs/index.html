@@ -4201,9 +4201,9 @@
 
 
                 return `
-                    <div class="law-item">
+                    <div class="law-item" onclick="window.showLawDetail('${item.id}')" style="cursor: pointer;">
                         <div class="law-item-header">
-                            <div class="law-title" onclick="window.showLawDetail('${item.id}')">${item.title || '제목 없음'}</div>
+                            <div class="law-title">${item.title || '제목 없음'}</div>
                             <div class="date-badge ${dateClass}">${dateText}</div>
                         </div>
                         <div class="law-meta">
@@ -4309,6 +4309,8 @@
         function generateAISummary(item) {
             const rawReason = (item.amendments && item.amendments[0] && item.amendments[0].reason) || '';
             const parsed = parseAmendmentText(rawReason, item);
+            // Fallback: use rawReason if parser returns empty
+            if (!parsed.reason && rawReason.length > 10) parsed.reason = rawReason;
 
             const ministry = item.ministry || getMinistryName(item.title, item.categories) || '관계부처';
             const lawType = parsed.type || getDetailedLawType(item.title, item.lawType) || '일부개정';
@@ -4373,6 +4375,7 @@
                 </div>
             `;
 
+            document.getElementById('law-modal').style.display = 'flex';
             document.getElementById('modal-summary').innerHTML = summaryHtml;
         }
 
