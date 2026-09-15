@@ -80,20 +80,8 @@
       if (imp) imp.textContent = past;
       var pen = document.getElementById('amendment-law-count');
       if (pen) pen.textContent = items.length - past;
-      var q = {Q1:0,Q2:0,Q3:0,Q4:0};
-      items.forEach(function (it) {
-        var d = it.effectiveDate || '';
-        if (d >= '2026-01-01' && d <= '2026-03-31') q.Q1++;
-        else if (d <= '2026-06-30') q.Q2++;
-        else if (d <= '2026-09-30') q.Q3++;
-        else if (d <= '2026-12-31') q.Q4++;
-      });
-      [['q1-count',q.Q1],['q2-count',q.Q2],['q3-count',q.Q3],['q4-count',q.Q4]].forEach(function (p) {
-        var el = document.getElementById(p[0]); if (el) el.textContent = p[1];
-      });
     } catch (e) {}
     try { if (typeof displayLawList === 'function') displayLawList(items); } catch (e) {}
-    try { if (typeof updateTabCounts === 'function') updateTabCounts(); } catch (e) {}
     try { if (typeof updateQuarterlyCounts === 'function') updateQuarterlyCounts(); } catch (e) {}
     try { if (typeof updateJobFunctionDataWithCompanyLaws === 'function') updateJobFunctionDataWithCompanyLaws(); } catch (e) {}
   }
@@ -113,6 +101,17 @@
         const settled = await Promise.allSettled([0,1,2,3,4,5,6,7].map(function (i) { return loadJSON('./m' + i + '.json'); }));
         settled.forEach(function (s) {
           if (s.status === 'fulfilled' && Array.isArray(s.value) && s.value.length && s.value[0].t) rows = rows.concat(s.value);
+        });
+        try {
+          var extra = await loadJSON('./extra11.json');
+          if (Array.isArray(extra) && extra.length && extra[0].t) rows = rows.concat(extra);
+        } catch (e2) {}
+        var seen = {};
+        rows = rows.filter(function (r) {
+          var k = (r.t || '') + '|' + (r.d || '') + '|' + (r.a || '');
+          if (seen[k]) return false;
+          seen[k] = 1;
+          return true;
         });
       }
       if (!rows.length) {
