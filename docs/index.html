@@ -10,11 +10,20 @@
   <script>
   (async function () {
     var END = '<' + '/body>';
-    var TAGS = '<script src="./event-boot.js?v=20260915r"><' + '/script>' +
-               '<script src="./sum-fill.js?v=20260915r"><' + '/script>' +
-               '<script src="./brief-ui.js?v=20260915r"><' + '/script>' +
-               '<script src="./stats-ui.js?v=20260915r"><' + '/script>' +
-               '<script src="./download-ui.js?v=20260915r"><' + '/script>';
+    var TAGS = '<script src="./event-boot.js?v=20260915s"><' + '/script>' +
+               '<script src="./why0.js?v=20260915s"><' + '/script>' +
+               '<script src="./why1.js?v=20260915s"><' + '/script>' +
+               '<script src="./why2.js?v=20260915s"><' + '/script>' +
+               '<script src="./why3.js?v=20260915s"><' + '/script>' +
+               '<script src="./why4.js?v=20260915s"><' + '/script>' +
+               '<script src="./why5.js?v=20260915s"><' + '/script>' +
+               '<script src="./why6.js?v=20260915s"><' + '/script>' +
+               '<script src="./why7.js?v=20260915s"><' + '/script>' +
+               '<script src="./sum-fill.js?v=20260915s"><' + '/script>' +
+               '<script src="./brief-ui.js?v=20260915s"><' + '/script>' +
+               '<script src="./stats-ui.js?v=20260915s"><' + '/script>' +
+               '<script src="./registry-fix.js?v=20260915s"><' + '/script>' +
+               '<script src="./download-ui.js?v=20260915s"><' + '/script>';
     try {
       if ('serviceWorker' in navigator) {
         var regs = await navigator.serviceWorker.getRegistrations();
@@ -25,7 +34,7 @@
         }
       }
     } catch (e0) {}
-    var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915r';
+    var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915s';
     var res = await fetch(src, { cache: 'no-store' });
     var html = await res.text();
     html = html.replace(END, TAGS + END);
