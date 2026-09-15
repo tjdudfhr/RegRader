@@ -1,22 +1,28 @@
-/* Event-model overlay: one row per (title + effectiveDate + amendmentType) */
+/* Event-model overlay */
 (function () {
   function todayKST() {
     const k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
     return new Date(k.getFullYear(), k.getMonth(), k.getDate());
   }
+  function atype(a) {
+    if (a === '일') return '일부개정';
+    if (a === '타') return '타법개정';
+    return a || '';
+  }
   function expandMini(rows) {
     return (rows || []).map(function (r, i) {
+      var am = atype(r.a);
       return {
         id: 'ev_' + i,
         title: r.t,
-        summary: (r.t || '') + ' 2026',
+        summary: (r.t || '') + '의 2026년 개정사항',
         effectiveDate: r.d,
-        amendmentType: r.a === '\uc77c' ? '\uc77c\ubd80\uac1c\uc815' : (r.a === '\ud0c0' ? '\ud0c0\ubc95\uac1c\uc815' : r.a),
-        status: r.s === 0 ? '\ud604\ud589' : '\uc2dc\ud589\uc608\uc815',
+        amendmentType: am,
+        status: r.s === 0 ? '현행' : '시행예정',
         ministry: r.m || '',
         categories: r.c ? [r.c] : [],
         source: { url: r.u ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u) : '' },
-        amendments: [{ date: r.d, amendmentType: r.a === '\uc77c' ? '\uc77c\ubd80\uac1c\uc815' : '\ud0c0\ubc95\uac1c\uc815' }],
+        amendments: [{ date: r.d, amendmentType: am }],
         originalTitle: r.t
       };
     });
@@ -28,7 +34,7 @@
       const days = Math.round((new Date(it.effectiveDate + 'T00:00:00+09:00') - today) / 86400000);
       it.daysUntil = days;
       it.inForce = days <= 0;
-      it.status = days <= 0 ? '\ud604\ud589' : '\uc2dc\ud589\uc608\uc815';
+      it.status = days <= 0 ? '현행' : '시행예정';
     });
     const by = {};
     items.forEach(function (it) { (by[it.title] = by[it.title] || []).push(it); });
@@ -62,10 +68,10 @@
     const el = document.createElement('div');
     el.id = 'event-model-banner';
     el.style.cssText = 'position:sticky;top:0;z-index:9999;background:#12324f;color:#e8eef4;padding:10px 14px;font:14px/1.45 -apple-system,sans-serif';
-    el.innerHTML = '<b>\uc774\ubca4\ud2b8 \ubaa8\ub378</b> \uac1c\uc815 ' + items.length + '\uac74 / \ubc95\ub839 ' + Object.keys(titles).length +
-      '\uac1c \u00b7 \uc2dc\ud589\uc644\ub8cc ' + past + ' \u00b7 \uc2dc\ud589\uc608\uc815 ' + (items.length - past) +
-      ' \u00b7 \ubcf5\uc218\uac1c\uc815 ' + Object.keys(multi).length +
-      ' \u00b7 \uc774\ubbf8\uc2dc\ud589+\ucd94\uac00\uc608\uc815 ' + Object.keys(both).length +
+    el.innerHTML = '<b>이벤트 모델</b> 개정 ' + items.length + '건 / 법령 ' + Object.keys(titles).length +
+      '개 · 시행완료 ' + past + ' · 시행예정 ' + (items.length - past) +
+      ' · 복수개정 ' + Object.keys(multi).length +
+      ' · 이미시행+추가예정 ' + Object.keys(both).length +
       ' <a href="./watch.html" style="color:#9fd1ff">Watch D-30</a>';
     document.body.insertBefore(el, document.body.firstChild);
   }
