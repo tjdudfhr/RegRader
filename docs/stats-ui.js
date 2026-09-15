@@ -90,19 +90,60 @@
     var all = document.getElementById('job-count-all');
     if (all) all.textContent = Object.keys(unique).length + ' · ' + items.length + '건';
   }
-  function hideUniverseCard() {
+  function stampDate() {
+    var nodes = document.querySelectorAll('div, span, p');
+    for (var i = 0; i < nodes.length; i++) {
+      var el = nodes[i];
+      if (el.children.length) continue;
+      var t = el.textContent || '';
+      if (/2026\.\s*2\.\s*20|2026-02-20/.test(t)) {
+        el.textContent = t
+          .replace(/2026\.\s*2\.\s*20\.?\s*(오전\s*11:16:21)?/, '2026. 9. 15.')
+          .replace(/2026-02-20/, '2026-09-15');
+      }
+    }
+  }
+  function updateUniverseCard() {
     var nodes = document.querySelectorAll('div');
+    var card = null;
     for (var i = 0; i < nodes.length; i++) {
       var t = nodes[i].textContent || '';
-      if (t.indexOf('전체 개정 법령') >= 0 && t.indexOf('1,864') >= 0 && nodes[i].children.length < 12) {
-        if (nodes[i].style) nodes[i].style.display = 'none';
+      if (t.indexOf('2026년 개정 법규 현황') >= 0 && (t.indexOf('전체 개정') >= 0 || t.indexOf('rr-universe') >= 0 || t.indexOf('2,468') >= 0) && nodes[i].children.length < 20) {
+        card = nodes[i];
         break;
+      }
+    }
+    if (!card) return;
+    card.style.display = '';
+    if (document.getElementById('rr-universe-current')) return;
+    var nums = card.querySelectorAll('div');
+    for (var j = 0; j < nums.length; j++) {
+      if ((nums[j].textContent || '').replace(/\s/g, '') === '1,864') {
+        var host = nums[j].parentNode && nums[j].parentNode.parentNode ? nums[j].parentNode.parentNode : nums[j].parentNode;
+        if (!host) break;
+        host.style.display = 'flex';
+        host.style.alignItems = 'center';
+        host.innerHTML =
+          '<div style="text-align:center">' +
+          '<div id="rr-universe-current" style="font-size:2rem;font-weight:800;background:var(--primary-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">2,468</div>' +
+          '<div style="font-size:0.8rem;color:var(--text-muted);font-weight:500">현행 (2026 시행)</div></div>' +
+          '<div style="text-align:center;margin-left:1.5rem">' +
+          '<div id="rr-universe-future" style="font-size:2rem;font-weight:800;color:#d946ef">4,955</div>' +
+          '<div style="font-size:0.8rem;color:var(--text-muted);font-weight:500">시행예정</div></div>';
+        break;
+      }
+    }
+    var subs = card.querySelectorAll('div');
+    for (var k = 0; k < subs.length; k++) {
+      if (/시행법령\+시행예정|수집 데이터/.test(subs[k].textContent || '') && !subs[k].children.length) {
+        subs[k].textContent = '국가법령정보센터 OpenAPI · 2026-09-15 조회 (시행일 2026-01-01~12-31)';
       }
     }
   }
   function run() {
     hideBar();
-    hideUniverseCard();
+    stampDate();
+    updateUniverseCard();
     var items = window.__rrItems || window.lawsData || [];
     if (items.length < 200) return false;
     paintCard(items);
