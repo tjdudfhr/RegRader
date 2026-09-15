@@ -1,9 +1,21 @@
 (function(){
+  function expand(rows){
+    return (rows||[]).map((r,i)=>({
+      id:'ev_'+i,
+      title:r.t,
+      effectiveDate:r.d,
+      amendmentType:r.a==='일'?'일부개정':(r.a==='타'?'타법개정':r.a),
+      status:r.s===0?'현행':'시행예정',
+      ministry:r.m||'',
+      categories:r.c?[r.c]:[],
+      source:{url:r.u?('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq='+r.u):''},
+      amendments:[{date:r.d,amendmentType:r.a==='일'?'일부개정':'타법개정'}]
+    }));
+  }
   async function boot(){
     try{
-      const files=[]; for(let i=0;i<8;i++) files.push('./e'+i+'.json');
-      const chunks=await Promise.all(files.map(f=>fetch(f+'?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(f);return r.json()})));
-      const items=chunks.flat();
+      const r=await fetch('./events_mini.json?v='+Date.now(),{cache:'no-store'});
+      const items=expand(await r.json());
       window.lawsData=items; try{lawsData=items}catch(e){}
       if(!document.getElementById('event-model-banner')){
         const el=document.createElement('div'); el.id='event-model-banner';
@@ -14,7 +26,7 @@
       }
       try{if(typeof displayLawList==='function')displayLawList(items)}catch(e){}
       try{if(typeof updateQuarterlyCounts==='function')updateQuarterlyCounts()}catch(e){}
-    }catch(e){console.warn(e)}
+    }catch(e){console.warn('event-boot',e)}
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,600));
   else setTimeout(boot,600);
