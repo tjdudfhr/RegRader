@@ -1,0 +1,108 @@
+/* 개정요지 UI overlay */
+(function () {
+  function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+    });
+  }
+  function lines(v) {
+    if (!v) return [];
+    if (Array.isArray(v)) return v.filter(Boolean);
+    return String(v).split(/\n+/).map(function (s) { return s.trim(); }).filter(Boolean);
+  }
+  function title(t) {
+    return '<div style="font-size:12px;letter-spacing:.02em;color:#4338ca;margin:14px 0 6px;font-weight:700">' + t + '</div>';
+  }
+  function findItem() {
+    var box = document.getElementById('modal-subtitle');
+    var data = window.__rrItems || window.lawsData || [];
+    var sub = box ? box.textContent : '';
+    var head = document.getElementById('modal-title');
+    var name = head ? head.textContent.trim() : '';
+    var date = (sub.match(/\d{4}-\d{2}-\d{2}/) || [])[0];
+    return data.find(function (x) { return x.title === name && (!date || x.effectiveDate === date); }) ||
+      data.find(function (x) { return x.title === name; }) || null;
+  }
+  function diffTable(diffs) {
+    if (!diffs || !diffs.length) return '';
+    var rows = diffs.map(function (d) {
+      return '<tr><td style="padding:8px;border-bottom:1px solid #e5e7eb;white-space:nowrap">' + esc(d.a || '—') +
+        '</td><td style="padding:8px;border-bottom:1px solid #e5e7eb;color:#64748b">' + esc(d.k || '변경') +
+        '</td><td style="padding:8px;border-bottom:1px solid #e5e7eb;color:#b45309">' + esc(d.b || '') +
+        '</td><td style="padding:8px;border-bottom:1px solid #e5e7eb;color:#047857">' + esc(d.n || '') +
+        '</td></tr>';
+    }).join('');
+    return title('신구 대조') +
+      '<div style="overflow:auto;border:1px solid #e5e7eb;border-radius:10px"><table style="width:100%;border-collapse:collapse;font-size:13px;line-height:1.45">' +
+      '<thead><tr style="background:#f1f5f9;text-align:left"><th style="padding:8px">조항</th><th style="padding:8px">구분</th><th style="padding:8px">종전</th><th style="padding:8px">개정</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody></table></div>' +
+      '<div style="font-size:12px;color:#64748b;margin-top:6px">개정문에서 추출한 주요 변경입니다. 전체 조문 대조는 아래 신구비교를 사용하십시오.</div>';
+  }
+  function html(item) {
+    var b = item.brief || {};
+    var arts = (b.articles || []).map(function (a) {
+      return '<span style="display:inline-block;margin:2px 4px 2px 0;padding:3px 9px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px">' + esc(a) + '</span>';
+    }).join('');
+    var lsi = (item.meta && item.meta.lsiSeq) || '';
+    var src = (item.source && item.source.url) || (lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi) : '');
+    var cmp = lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi + '&viewCls=lsOldAndNew') : '';
+    var points = (b.points || []).map(function (p) { return '<li style="margin:0 0 6px">' + esc(p) + '</li>'; }).join('');
+    var acts = lines(b.action);
+    if (!acts.length) acts = ['개정 조문을 기준으로 사내 규정·계약·서식의 인용 조항을 현행화하십시오.', '시행일 전 담당 부서 역할을 나누고 미해당 여부까지 기록으로 남기십시오.'];
+    var bodyWhat = points
+      ? (title('주요 개정내용') + '<ul style="margin:0;padding-left:18px">' + points + '</ul>')
+      : (title('주요 개정내용') + '<div style="font-size:14px;line-height:1.65;color:#1e293b">' + esc(b.what || '개정문 전문은 국가법령정보센터 원문에서 확인하십시오.') + '</div>');
+    return '<div id="rr-brief" class="summary-section" style="border:1px solid #c7d2fe;border-radius:14px;padding:16px;margin:0 0 12px;background:#f8fafc">' +
+      '<div style="font-size:13px;color:#312e81;margin-bottom:4px;font-weight:800">개정요지</div>' +
+      '<div style="font-weight:700;margin-bottom:4px">' + esc(item.amendmentType || '') + ' · 시행 ' + esc(item.effectiveDate || '') +
+      ((item.eventCount > 1) ? (' · 올해 ' + item.eventIndex + '/' + item.eventCount + '회') : '') + '</div>' +
+      title('개정 취지') +
+      '<div style="font-size:14px;line-height:1.65;color:#1e293b">' + esc(b.why || item.summary || '개정 취지를 확인하는 중입니다.') + '</div>' +
+      bodyWhat +
+      (arts ? (title('개정 조항') + '<div>' + arts + '</div>') : '') +
+      diffTable(b.diff) +
+      title('실무 지침') +
+      '<ul style="margin:0;padding-left:18px">' + acts.map(function (x) { return '<li style="margin:0 0 6px">' + esc(x) + '</li>'; }).join('') + '</ul>' +
+      (cmp ? (title('법령 신구비교 (국가법령정보센터)') +
+        '<iframe src="' + cmp + '" style="width:100%;height:420px;border:1px solid #e5e7eb;border-radius:10px;background:#fff" loading="lazy"></iframe>' +
+        '<div style="margin-top:6px"><a href="' + cmp + '" target="_blank">신구비교 원문 새 창</a></div>') : '') +
+      (src ? ('<div style="margin-top:10px"><a href="' + src + '" target="_blank">국가법령정보센터 원문</a></div>') : '') +
+      '</div>';
+  }
+  function prune(box) {
+    box.querySelectorAll('.summary-section').forEach(function (sec) {
+      if (sec.id === 'rr-brief') return;
+      var h = sec.querySelector('h4');
+      var label = h ? h.textContent : sec.textContent.slice(0, 24);
+      if (/개정\s*요지|주요 개정 사항|개정 조항|개정 전|실무 개정요지|왜 개정|무엇이 바뀌/.test(label + sec.textContent.slice(0, 80))) {
+        sec.parentNode && sec.parentNode.removeChild(sec);
+      }
+    });
+  }
+  function refresh() {
+    var box = document.getElementById('modal-summary');
+    if (!box) return;
+    var item = findItem();
+    if (!item) return;
+    prune(box);
+    var old = document.getElementById('rr-brief');
+    if (old && old.parentNode) old.parentNode.removeChild(old);
+    box.insertAdjacentHTML('afterbegin', html(item));
+  }
+  function patch() {
+    if (window.showLawDetail && !window.showLawDetail.__briefUi) {
+      var orig = window.showLawDetail;
+      window.showLawDetail = function (id) {
+        orig(id);
+        setTimeout(refresh, 30);
+        setTimeout(refresh, 200);
+      };
+      window.showLawDetail.__briefUi = true;
+    }
+  }
+  var n = 0;
+  var t = setInterval(function () {
+    patch();
+    if (++n > 50) clearInterval(t);
+  }, 200);
+})();

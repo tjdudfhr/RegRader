@@ -1,4 +1,4 @@
-const CACHE_NAME = 'regrader-v6-events';
+const CACHE_NAME = 'regrader-v6-brief';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -17,10 +17,14 @@ self.addEventListener('fetch', (event) => {
   if (url.includes('index.html') || url.endsWith('/RegRader/') || url.endsWith('/RegRader')) {
     event.respondWith((async () => {
       const res = await fetch(event.request, { cache: 'no-store' });
-      const text = await res.text();
-      if (text.includes('event-boot.js')) return new Response(text, { headers: res.headers });
-      const injected = text.replace('</body>', '<script src="./event-boot.js"></script></body>');
-      return new Response(injected, {
+      let text = await res.text();
+      if (!text.includes('event-boot.js')) {
+        text = text.replace('</body>', '<script src="./event-boot.js"></script></body>');
+      }
+      if (!text.includes('brief-ui.js')) {
+        text = text.replace('</body>', '<script src="./brief-ui.js"></script></body>');
+      }
+      return new Response(text, {
         status: res.status,
         headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' }
       });
@@ -28,7 +32,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (url.includes('index.json') || url.includes('events_') || url.includes('event-boot.js') || url.includes('watch.html') || url.includes('summaries.json') || url.includes('sum_') || url.includes('extra11') || /\/m[0-7]\.json/.test(url) || url.includes('previous_index')) {
-    event.respondWith(fetch(event.request, { cache: 'no-store' }));
+  if (url.includes('index.json') || url.includes('events_') || url.includes('event-boot.js') || url.includes('brief-ui.js') || url.includes('watch.html') || url.includes('summaries.json') || url.includes('sum') || url.includes('extra11') || /\/m[0-7]\.json/.test(url) || url.includes('previous_index')) {
+    event.respondWith(fetch(event.request, { cache: 'no-store' });
   }
 });
