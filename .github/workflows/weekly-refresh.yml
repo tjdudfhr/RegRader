@@ -1,0 +1,34 @@
+name: Weekly law refresh
+
+on:
+  schedule:
+    - cron: "0 22 * * 0"  # Monday 07:00 KST
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: pip install requests
+      - name: Refresh matched laws
+        env:
+          LAW_OC: ${{ secrets.LAW_OC }}
+        run: python scripts/refresh_laws.py
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/index.json docs/previous_index.json
+          if git diff --cached --quiet; then
+            echo "No data changes"
+          else
+            git commit -m "chore: refresh 법령 매칭 데이터 $(date -u +%Y-%m-%d)"
+            git push
+          fi
