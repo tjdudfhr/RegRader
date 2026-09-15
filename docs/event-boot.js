@@ -133,15 +133,14 @@
     Object.keys(unique).forEach(function (t) {
       (unique[t].categories || []).forEach(function (c) { if (counts[c] != null) counts[c]++; });
     });
+    /* count-* 만 담당한다. job-count-* / registry-* 는 적용법규(207개) 소관이라
+       registry-fix.js 가 관리한다. 예전에는 여기서도 덮어써서 적용법규 탭이
+       목록 207줄 · 헤더 136 으로 어긋났다. */
     CATS.forEach(function (c) {
-      ['count-' + c, 'job-count-' + c].forEach(function (id) {
-        var el = document.getElementById(id);
-        if (el) el.textContent = counts[c];
-      });
+      var el = document.getElementById('count-' + c);
+      if (el) el.textContent = counts[c];
     });
     var allUnique = Object.keys(unique).length;
-    var jobAll = document.getElementById('job-count-all');
-    if (jobAll) jobAll.textContent = allUnique;
     var evAll = document.getElementById('count-all');
     if (evAll) evAll.textContent = items.length;
     var tot = document.getElementById('total-law-count');
@@ -151,10 +150,6 @@
     if (imp) imp.textContent = past;
     var pen = document.getElementById('amendment-law-count');
     if (pen) pen.textContent = items.length - past;
-    var reg = document.getElementById('registry-total-count');
-    if (reg) reg.textContent = allUnique;
-    var tab = document.getElementById('lawregistry-tab-count');
-    if (tab) tab.textContent = allUnique;
   }
   function findLaw(lawId) {
     var data = window.__rrItems || window.lawsData || [];

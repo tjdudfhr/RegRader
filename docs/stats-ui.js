@@ -81,12 +81,8 @@
     items.forEach(function (law) {
       (law.categories || []).forEach(function (c) { if (evC[c] != null) evC[c]++; });
     });
-    CATS.forEach(function (c) {
-      var job = document.getElementById('job-count-' + c);
-      if (job) job.textContent = lawC[c] + ' · ' + evC[c] + '건';
-    });
-    var all = document.getElementById('job-count-all');
-    if (all) all.textContent = Object.keys(unique).length + ' · ' + items.length + '건';
+    /* job-count-* 는 적용법규(207개) 소관이라 registry-fix.js 가 관리한다.
+       여기서 개정 기준 수치로 덮어쓰면 적용법규 탭 숫자가 어긋난다. */
   }
   function stampDate() {
     var nodes = document.querySelectorAll('div, span, p');
