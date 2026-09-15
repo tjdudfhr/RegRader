@@ -30,10 +30,9 @@
     var tot = document.getElementById('total-law-count');
     if (!tot) return;
     var s = stats(items);
-    if (document.getElementById('rr-law-count') && document.getElementById('rr-base-count')) {
+    if (document.getElementById('rr-base-count') && (tot.parentNode.textContent || '').indexOf('일치 개정') >= 0) {
       var map = {
         'rr-base-count': 207,
-        'rr-law-count': s.laws,
         'total-law-count': s.events,
         'implemented-law-count': s.past,
         'amendment-law-count': s.upcoming,
@@ -54,7 +53,7 @@
     if (root && root.querySelector) {
       var sub = root.querySelector('div[style*="text-muted"]');
       if (sub && /기본 법규|매칭/.test(sub.textContent || '')) {
-        sub.textContent = '적용 법령 207개 중 2026년 개정이 있는 법령과 개정 건을 구분해 집계합니다.';
+        sub.textContent = '207개 적용법규와 제목이 100% 일치하는 2026년 개정만 집계합니다.';
       }
     }
     var row = tot.parentNode && tot.parentNode.parentNode;
@@ -65,8 +64,7 @@
     row.style.gap = '1.15rem 1.4rem';
     row.innerHTML =
       cell('rr-base-count', 207, '적용 법령', 'var(--primary)') +
-      cell('rr-law-count', s.laws, '올해 개정 법령', 'var(--primary)') +
-      cell('total-law-count', s.events, '개정 건', 'var(--primary)') +
+      cell('total-law-count', s.events, '일치 개정 건', 'var(--primary)') +
       cell('implemented-law-count', s.past, '시행완료', '#48bb78') +
       cell('amendment-law-count', s.upcoming, '시행예정', '#d946ef') +
       cell('rr-multi-count', s.multi, '복수개정 법령', '#dd6b20') +
@@ -92,10 +90,21 @@
     var all = document.getElementById('job-count-all');
     if (all) all.textContent = Object.keys(unique).length + ' · ' + items.length + '건';
   }
+  function hideUniverseCard() {
+    var nodes = document.querySelectorAll('div');
+    for (var i = 0; i < nodes.length; i++) {
+      var t = nodes[i].textContent || '';
+      if (t.indexOf('전체 개정 법령') >= 0 && t.indexOf('1,864') >= 0 && nodes[i].children.length < 12) {
+        if (nodes[i].style) nodes[i].style.display = 'none';
+        break;
+      }
+    }
+  }
   function run() {
     hideBar();
+    hideUniverseCard();
     var items = window.__rrItems || window.lawsData || [];
-    if (!items.length) return false;
+    if (items.length < 200) return false;
     paintCard(items);
     paintJobs(items);
     return true;
