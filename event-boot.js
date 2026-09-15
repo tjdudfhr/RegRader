@@ -279,11 +279,14 @@
     if (typeof displayLawList !== 'function' || displayLawList.__rr) return;
     var orig = displayLawList;
     window.displayLawList = function (items) {
-      var src = window.__rrItems || items;
+      /* 넘어온 목록(직무별 필터·검색 결과)을 그대로 존중한다.
+         예전에는 무조건 window.__rrItems(전체 327건)로 바꿔치기해서
+         어떤 직무를 눌러도, 무엇을 검색해도 항상 전체가 나왔다. */
+      var src = (items && items.length) ? items : (window.__rrItems || []);
       try { orig(src); } catch (e) { try { orig(items); } catch (e2) {} }
       try {
         var nodes = document.querySelectorAll('.law-item');
-        var data = window.__rrItems || [];
+        var data = src;
         nodes.forEach(function (node, i) {
           var titleEl = node.querySelector('.law-title');
           var title = titleEl ? titleEl.textContent.trim() : '';
