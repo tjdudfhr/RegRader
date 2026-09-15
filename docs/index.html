@@ -10,13 +10,14 @@
   <script>
   (async function () {
     var END = '<' + '/body>';
-    var TAGS = '<script src="./event-boot.js?v=20260915t"><' + '/script>' +
-               '<script src="./why-core.js?v=20260915t"><' + '/script>' +
-               '<script src="./sum-fill.js?v=20260915t"><' + '/script>' +
-               '<script src="./brief-ui.js?v=20260915t"><' + '/script>' +
-               '<script src="./stats-ui.js?v=20260915t"><' + '/script>' +
-               '<script src="./registry-fix.js?v=20260915t"><' + '/script>' +
-               '<script src="./download-ui.js?v=20260915t"><' + '/script>';
+    var TAGS = '<script src="./event-boot.js?v=20260915u"><' + '/script>' +
+               '<script src="./why-core.js?v=20260915u"><' + '/script>' +
+               '<script src="./wy0.js?v=20260915u"><' + '/script>' +
+               '<script src="./sum-fill.js?v=20260915u"><' + '/script>' +
+               '<script src="./brief-ui.js?v=20260915u"><' + '/script>' +
+               '<script src="./stats-ui.js?v=20260915u"><' + '/script>' +
+               '<script src="./registry-fix.js?v=20260915u"><' + '/script>' +
+               '<script src="./download-ui.js?v=20260915u"><' + '/script>';
     try {
       if ('serviceWorker' in navigator) {
         var regs = await navigator.serviceWorker.getRegistrations();
@@ -27,7 +28,7 @@
         }
       }
     } catch (e0) {}
-    var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915t';
+    var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915u';
     var res = await fetch(src, { cache: 'no-store' });
     var html = await res.text();
     html = html.replace(END, TAGS + END);
