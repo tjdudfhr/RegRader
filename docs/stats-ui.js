@@ -30,8 +30,9 @@
     var tot = document.getElementById('total-law-count');
     if (!tot) return;
     var s = stats(items);
-    if (document.getElementById('rr-law-count')) {
+    if (document.getElementById('rr-law-count') && document.getElementById('rr-base-count')) {
       var map = {
+        'rr-base-count': 207,
         'rr-law-count': s.laws,
         'total-law-count': s.events,
         'implemented-law-count': s.past,
@@ -53,7 +54,7 @@
     if (root && root.querySelector) {
       var sub = root.querySelector('div[style*="text-muted"]');
       if (sub && /기본 법규|매칭/.test(sub.textContent || '')) {
-        sub.textContent = '법령 단위와 개정 건(시행일)을 구분해 집계합니다.';
+        sub.textContent = '적용 법령 207개 중 2026년 개정이 있는 법령과 개정 건을 구분해 집계합니다.';
       }
     }
     var row = tot.parentNode && tot.parentNode.parentNode;
@@ -63,7 +64,8 @@
     row.style.flexWrap = 'wrap';
     row.style.gap = '1.15rem 1.4rem';
     row.innerHTML =
-      cell('rr-law-count', s.laws, '대상 법령', 'var(--primary)') +
+      cell('rr-base-count', 207, '적용 법령', 'var(--primary)') +
+      cell('rr-law-count', s.laws, '올해 개정 법령', 'var(--primary)') +
       cell('total-law-count', s.events, '개정 건', 'var(--primary)') +
       cell('implemented-law-count', s.past, '시행완료', '#48bb78') +
       cell('amendment-law-count', s.upcoming, '시행예정', '#d946ef') +
@@ -101,8 +103,7 @@
   var n = 0;
   var t = setInterval(function () {
     hideBar();
-    var ok = run();
-    n++;
-    if ((ok && n > 8) || n > 40) clearInterval(t);
+    if (run() && ++n > 6) clearInterval(t);
+    if (++n > 40) clearInterval(t);
   }, 400);
 })();
