@@ -74,13 +74,12 @@
       diffTable(b.diff) +
       title('실무 지침') +
       '<ul style="margin:0;padding-left:20px;' + bodyStyle + '">' + acts.map(function (x) { return '<li style="margin:0 0 8px">' + esc(x) + '</li>'; }).join('') + '</ul>' +
-      (cmp ? (title('법령 신구비교 (국가법령정보센터)') +
-        '<iframe src="' + cmp + '" style="width:100%;height:420px;border:1px solid #e5e7eb;border-radius:10px;background:#fff" loading="lazy"></iframe>' +
-        '<div style="margin-top:6px"><a href="' + cmp + '" target="_blank">신구비교 원문 새 창</a></div>') : '') +
+      (cmp ? (title('법령 신구비교') +
+        '<div style="font-size:15px;line-height:1.7"><a href="' + cmp + '" target="_blank" rel="noopener">신구비교 새 창</a></div>') : '') +
       '<div style="margin-top:12px;font-size:15px">' +
-      (src ? ('<a href="' + src + '" target="_blank">이 개정문</a> · ') : '') +
-      '<a href="' + live + '" target="_blank">현행 법령</a>' +
-      (cmp ? (' · <a href="' + cmp + '" target="_blank">신구비교</a>') : '') +
+      (src ? ('<a href="' + src + '" target="_blank" rel="noopener">이 개정문</a> · ') : '') +
+      '<a href="' + live + '" target="_blank" rel="noopener">현행 법령</a>' +
+      (cmp ? (' · <a href="' + cmp + '" target="_blank" rel="noopener">신구비교</a>') : '') +
       '</div></div>';
   }
   function prune(box) {
@@ -98,25 +97,27 @@
     });
   }
   function refresh() {
-    var box = document.getElementById('modal-summary');
-    if (!box) return;
-    var item = findItem();
-    if (!item) return;
-    prune(box);
-    var oldB = document.getElementById('rr-brief');
-    if (oldB && oldB.parentNode) oldB.parentNode.removeChild(oldB);
-    var oldM = document.getElementById('rr-meta');
-    if (oldM && oldM.parentNode) oldM.parentNode.removeChild(oldM);
-    prune(box);
-    box.insertAdjacentHTML('afterbegin', html(item));
+    try {
+      var box = document.getElementById('modal-summary');
+      if (!box) return;
+      var item = findItem();
+      if (!item) return;
+      prune(box);
+      var oldB = document.getElementById('rr-brief');
+      if (oldB && oldB.parentNode) oldB.parentNode.removeChild(oldB);
+      var oldM = document.getElementById('rr-meta');
+      if (oldM && oldM.parentNode) oldM.parentNode.removeChild(oldM);
+      prune(box);
+      box.insertAdjacentHTML('afterbegin', html(item));
+    } catch (e) { console.warn('brief refresh', e); }
   }
   function patch() {
     if (window.showLawDetail && !window.showLawDetail.__briefUi) {
       var orig = window.showLawDetail;
       window.showLawDetail = function (id) {
-        orig(id);
+        try { orig(id); } catch (e) { console.warn('showLawDetail', e); }
         setTimeout(refresh, 30);
-        setTimeout(refresh, 220);
+        setTimeout(refresh, 250);
       };
       window.showLawDetail.__briefUi = true;
     }
