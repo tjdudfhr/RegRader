@@ -4,49 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
   <title>RegRader</title>
-  <style>
-    body { margin:0; font:15px/1.5 -apple-system,BlinkMacSystemFont,sans-serif; background:#f7fafc; color:#1a202c; }
-    #boot { padding:24px; }
-  </style>
+  <style>body{margin:0;font:15px/1.5 -apple-system,sans-serif;background:#f7fafc;color:#1a202c}#boot{padding:24px}</style>
 </head>
 <body>
-  <div id="boot">화면을 불러오는 중입니다…</div>
+  <div id="boot">화면을 불러오는 중입니다...</div>
   <script>
   (async function () {
-    var SHELL = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html';
+    var END = '<' + '/body>';
+    var TAGS = '<script src="./event-boot.js?v=20260915e"><' + '/script>' +
+               '<script src="./brief-ui.js?v=20260915e"><' + '/script>';
     try {
       if ('serviceWorker' in navigator) {
         var regs = await navigator.serviceWorker.getRegistrations();
         await Promise.all(regs.map(function (r) { return r.unregister(); }));
-        if ('caches' in window) {
+        if (window.caches) {
           var keys = await caches.keys();
           await Promise.all(keys.map(function (k) { return caches.delete(k); }));
         }
       }
-    } catch (e1) {}
+    } catch (e0) {}
     try {
-      var res = await fetch(SHELL + '?v=20260915d', { cache: 'no-store' });
+      var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915e';
+      var res = await fetch(src, { cache: 'no-store' });
       if (!res.ok) throw new Error('shell ' + res.status);
       var html = await res.text();
-      html = html.replace(/<script src="\.\/event-boot\.js[^"]*"><\/script>/g, '');
-      html = html.replace(/<script src="\.\/brief-ui\.js[^"]*"><\/script>/g, '');
-      html = html.replace(
-        /if \('serviceWorker' in navigator\)[\s\S]*?register\('\.\/service-worker\.js'\)[\s\S]*?<\/script>/,
-        '</script>'
-      );
-      html = html.replace(
-        '</body>',
-        '<script src="./event-boot.js?v=20260915d"><\/script><script src="./brief-ui.js?v=20260915d"><\/script></body>'
-      );
+      html = html.replace(END, TAGS + END);
       document.open();
       document.write(html);
       document.close();
     } catch (e) {
-      document.getElementById('boot').innerHTML =
-        '화면을 불러오지 못했습니다. <a href="./watch.html">Watch 페이지</a>로 이동하거나 잠시 후 다시 열어주세요.<br>' +
-        String(e);
+      var el = document.getElementById('boot');
+      if (el) el.innerHTML = '화면을 불러오지 못했습니다. <a href="./watch.html">Watch</a><br>' + String(e);
     }
   })();
   </script>
