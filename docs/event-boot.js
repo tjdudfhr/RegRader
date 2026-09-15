@@ -13,17 +13,12 @@
     return (rows || []).map(function (r, i) {
       var am = atype(r.a);
       return {
-        id: 'ev_' + i,
-        title: r.t,
-        summary: (r.t || '') + '의 2026년 개정사항',
-        effectiveDate: r.d,
-        amendmentType: am,
+        id: 'ev_' + i, title: r.t, summary: (r.t || '') + ' 2026',
+        effectiveDate: r.d, amendmentType: am,
         status: r.s === 0 ? '현행' : '시행예정',
-        ministry: r.m || '',
-        categories: r.c ? [r.c] : [],
+        ministry: r.m || '', categories: r.c ? [r.c] : [],
         source: { url: r.u ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u) : '' },
-        amendments: [{ date: r.d, amendmentType: am }],
-        originalTitle: r.t
+        amendments: [{ date: r.d, amendmentType: am }], originalTitle: r.t
       };
     });
   }
@@ -32,8 +27,7 @@
     items.forEach(function (it) {
       if (!it.effectiveDate) return;
       const days = Math.round((new Date(it.effectiveDate + 'T00:00:00+09:00') - today) / 86400000);
-      it.daysUntil = days;
-      it.inForce = days <= 0;
+      it.daysUntil = days; it.inForce = days <= 0;
       it.status = days <= 0 ? '현행' : '시행예정';
     });
     const by = {};
@@ -47,11 +41,8 @@
         return { effectiveDate: g.effectiveDate, amendmentType: g.amendmentType || '', status: g.status };
       });
       group.forEach(function (g, i) {
-        g.eventIndex = i + 1;
-        g.eventCount = group.length;
-        g.sameTitlePastCount = past;
-        g.sameTitleUpcomingCount = group.length - past;
-        g.timeline = timeline;
+        g.eventIndex = i + 1; g.eventCount = group.length;
+        g.sameTitlePastCount = past; g.sameTitleUpcomingCount = group.length - past; g.timeline = timeline;
       });
     });
     return items;
@@ -95,11 +86,8 @@
     try {
       var rows = [];
       try {
-        const parts = await Promise.all([
-          loadJSON('./events_mini_0.json'),
-          loadJSON('./events_mini_1.json')
-        ]);
-        rows = [].concat.apply([], parts);
+        const files = [0,1,2,3,4,5,6,7].map(function (i) { return loadJSON('./m' + i + '.json'); });
+        rows = [].concat.apply([], await Promise.all(files));
       } catch (e0) {
         try { rows = await loadJSON('./events_mini.json'); } catch (e1) {
           const data = await loadJSON('./index.json');
