@@ -10,11 +10,11 @@
   <script>
   (async function () {
     var END = '<' + '/body>';
-    var TAGS = '<script src="./event-boot.js?v=20260915q"><' + '/script>' +
-               '<script src="./sum-fill.js?v=20260915q"><' + '/script>' +
-               '<script src="./brief-ui.js?v=20260915q"><' + '/script>' +
-               '<script src="./stats-ui.js?v=20260915q"><' + '/script>' +
-               '<script src="./download-ui.js?v=20260915q"><' + '/script>';
+    var TAGS = '<script src="./event-boot.js?v=20260915r"><' + '/script>' +
+               '<script src="./sum-fill.js?v=20260915r"><' + '/script>' +
+               '<script src="./brief-ui.js?v=20260915r"><' + '/script>' +
+               '<script src="./stats-ui.js?v=20260915r"><' + '/script>' +
+               '<script src="./download-ui.js?v=20260915r"><' + '/script>';
     try {
       if ('serviceWorker' in navigator) {
         var regs = await navigator.serviceWorker.getRegistrations();
@@ -25,15 +25,11 @@
         }
       }
     } catch (e0) {}
-    try {
-      var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915q';
-      var res = await fetch(src, { cache: 'no-store' });
-      var html = await res.text();
-      html = html.replace(END, TAGS + END);
-      document.open(); document.write(html); document.close();
-    } catch (e) {
-      document.getElementById('boot').innerHTML = String(e);
-    }
+    var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915r';
+    var res = await fetch(src, { cache: 'no-store' });
+    var html = await res.text();
+    html = html.replace(END, TAGS + END);
+    document.open(); document.write(html); document.close();
   })();
   </script>
 </body>

@@ -1,36 +1,49 @@
-/* Attach official 개정이유/개정문/신구diff onto loaded events */
+/* Pull official 개정이유 baked into m0-m7 / extra11 */
 (function () {
-  function apply(sums) {
+  function applyRows(rows) {
+    var byU = {};
+    (rows || []).forEach(function (r) {
+      if (r && r.u && r.w) byU[String(r.u)] = r;
+    });
     var data = window.__rrItems || window.lawsData || [];
-    if (!data.length || !sums) return 0;
     var n = 0;
     data.forEach(function (item) {
       var u = item.meta && item.meta.lsiSeq;
-      var sum = sums[String(u || '')];
-      if (!sum) return;
-      item.brief = Object.assign({}, item.brief || {}, sum);
-      if (sum.why) item.summary = sum.why;
-      if (sum.action) item.brief.action = Array.isArray(sum.action) ? sum.action : String(sum.action).split(/\n+/);
+      var r = byU[String(u || '')];
+      if (!r) return;
+      var diffs = (r.df || []).map(function (d) {
+        if (Array.isArray(d)) return { a: d[0] || '', b: d[1] || '', n: d[2] || '', k: '변경' };
+        return d;
+      });
+      item.brief = Object.assign({}, item.brief || {}, {
+        why: r.w,
+        articles: r.ar || (item.brief && item.brief.articles) || [],
+        diff: diffs.length ? diffs : ((item.brief && item.brief.diff) || []),
+        action: r.ac || (item.brief && item.brief.action) || []
+      });
+      item.summary = r.w;
       n++;
     });
     return n;
   }
   async function load() {
-    var sums = {};
-    var files = ['./sum0.json', './sum1.json', './sum2.json', './sum3.json', './sum4.json', './sum5.json', './sum_a.json', './sum_b.json'];
+    var files = ['./m0.json','./m1.json','./m2.json','./m3.json','./m4.json','./m5.json','./m6.json','./m7.json','./extra11.json'];
+    var rows = [];
     for (var i = 0; i < files.length; i++) {
       try {
-        var res = await fetch(files[i] + '?v=20260915q', { cache: 'no-store' });
-        if (res.ok) Object.assign(sums, await res.json());
+        var res = await fetch(files[i] + '?v=20260915r', { cache: 'no-store' });
+        if (res.ok) {
+          var j = await res.json();
+          if (Array.isArray(j)) rows = rows.concat(j);
+        }
       } catch (e) {}
     }
-    window.__rrSums = sums;
     var tries = 0;
     var t = setInterval(function () {
-      var n = apply(sums);
+      var n = applyRows(rows);
       tries++;
-      if (n > 50 || tries > 25) clearInterval(t);
-    }, 400);
+      if (n > 80 || tries > 25) clearInterval(t);
+    }, 300);
   }
   load();
 })();
