@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>RegRader</title>
 </head>
 <body>
@@ -11,10 +10,11 @@
   <script>
   (async function () {
     var END = '<' + '/body>';
-    var TAGS = '<script src="./event-boot.js?v=20260915p"><' + '/script>' +
-               '<script src="./brief-ui.js?v=20260915p"><' + '/script>' +
-               '<script src="./stats-ui.js?v=20260915p"><' + '/script>' +
-               '<script src="./download-ui.js?v=20260915p"><' + '/script>';
+    var TAGS = '<script src="./event-boot.js?v=20260915q"><' + '/script>' +
+               '<script src="./sum-fill.js?v=20260915q"><' + '/script>' +
+               '<script src="./brief-ui.js?v=20260915q"><' + '/script>' +
+               '<script src="./stats-ui.js?v=20260915q"><' + '/script>' +
+               '<script src="./download-ui.js?v=20260915q"><' + '/script>';
     try {
       if ('serviceWorker' in navigator) {
         var regs = await navigator.serviceWorker.getRegistrations();
@@ -26,17 +26,13 @@
       }
     } catch (e0) {}
     try {
-      var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915p';
+      var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915q';
       var res = await fetch(src, { cache: 'no-store' });
-      if (!res.ok) throw new Error('shell ' + res.status);
       var html = await res.text();
       html = html.replace(END, TAGS + END);
-      document.open();
-      document.write(html);
-      document.close();
+      document.open(); document.write(html); document.close();
     } catch (e) {
-      var el = document.getElementById('boot');
-      if (el) el.innerHTML = '화면을 불러오지 못했습니다. <a href="./watch.html">Watch</a><br>' + String(e);
+      document.getElementById('boot').innerHTML = String(e);
     }
   })();
   </script>
