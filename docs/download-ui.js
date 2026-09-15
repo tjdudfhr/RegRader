@@ -1,25 +1,23 @@
-/* Replace 2025 download modal + files with 2026 matched / nationwide exports */
+/* Force-replace the header download modal with 2026 actions */
 (function () {
-  function iso(d) {
-    var s = String(d || '').replace(/[^\d]/g, '');
-    if (s.length === 8) return s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8);
-    return d || '';
+  function items() {
+    return window.__rrItems || window.lawsData || [];
   }
-  function items() { return window.__rrItems || window.lawsData || []; }
-  function needX() {
-    if (window.XLSX && XLSX.utils) return true;
-    alert('엑셀 라이브러리를 아직 불러오지 못했습니다. 잠시 후 다시 눌러주세요.');
-    return false;
-  }
-  function saveSheet(rows, sheetName, fileName) {
-    if (!needX()) return;
-    var ws = XLSX.utils.json_to_sheet(rows);
+  function saveRows(rows, sheet, file) {
+    if (!(window.XLSX && XLSX.utils)) {
+      alert('엑셀 모듈을 아직 못 불러왔습니다. 2초 뒤 다시 눌러주세요.');
+      return;
+    }
+    if (!rows.length) {
+      alert('데이터가 없습니다. 메인 숫자가 뜬 뒤 다시 눌러주세요.');
+      return;
+    }
     var wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, sheetName.slice(0, 31));
-    XLSX.writeFile(wb, fileName);
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), sheet.slice(0, 31));
+    XLSX.writeFile(wb, file);
   }
   function downloadMatched() {
-    var rows = items().map(function (law) {
+    saveRows(items().map(function (law) {
       return {
         '법령명': law.title || '',
         '시행일': law.effectiveDate || '',
@@ -33,46 +31,71 @@
         '법령일련번호': (law.meta && law.meta.lsiSeq) || '',
         '원문URL': (law.source && law.source.url) || ''
       };
-    });
-    if (!rows.length) { alert('매칭 데이터가 아직 없습니다.'); return; }
-    saveSheet(rows, '당사매칭개정', '2026_당사_매칭_개정결과.xlsx');
+    }), '당사매칭개정', '2026_당사_매칭_개정결과.xlsx');
   }
-  function downloadAll() {
-    if (!needX()) return;
-    alert('전체 법령 엑셀은 용량 때문에 화면에서 바로 만들지 못 합니다. 채팅으로 올려 드린 파일을 써 주세요.');
+  function downloadBase() {
+    fetch('./base_laws_207.json?v=20260915n', { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        saveRows((j.items || []).map(function (b, i) {
+          return { '번호': i + 1, '법령명': b.title || '', '직무': (b.categories || []).join(', '), 'ID': b.id || '' };
+        }), '당사적용국내법규', '당사_적용_국내법규_207.xlsx');
+      })
+      .catch(function () { alert('207개 목록 파일을 찾지 못했습니다.'); });
   }
-  function restyle(modal) {
-    if (!modal || modal.getAttribute('data-rr-dl') === '1') return;
-    modal.setAttribute('data-rr-dl', '1');
-    modal.innerHTML = modal.innerHTML
-      .replace(/2025년 법령 데이터 다운로드/g, '2026년 법령 데이터 다운로드')
-      .replace(/2025년 시행법령 전체 데이터/g, '2026년 법령 데이터')
-      .replace(/2,971/g, '7,423')
-      .replace(/총 법령/g, '현행+예정 건')
-      .replace(/1,716/g, '2,468')
-      .replace(/213/g, '4,955')
-      .replace(/1,042/g, '207')
-      .replace(/연혁/g, '당사 적용')
-      .replace(/2025년 시행법령 전체 \(Excel\)/g, '2026년 전체 법령 (현행 2,468 + 시행예정 4,955)')
-      .replace(/2025년 시행법령 전체 \(JSON\)/g, '당사 매칭 개정 결과 (Excel)');
-    modal.querySelectorAll('a[href]').forEach(function (a) {
-      var href = a.getAttribute('href') || '';
-      if (/2025_laws|laws_2025/.test(href)) {
-        a.removeAttribute('href');
-        a.addEventListener('click', function (ev) { ev.preventDefault(); downloadAll(); });
-      } else if (/index\.json|matched_laws/.test(href)) {
-        a.removeAttribute('href');
-        a.addEventListener('click', function (ev) { ev.preventDefault(); downloadMatched(); });
-      }
-    });
+  function paint(box) {
+    if (!box) return;
+    var inner = box.querySelector('.modal-content') || box;
+    inner.innerHTML =
+      '<div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb">' +
+      '<h2 style="margin:0;font-size:1.25rem">2026년 법령 데이터 다운로드</h2>' +
+      '<button type="button" onclick="closeDownloadModal()" style="border:0;background:none;font-size:22px;cursor:pointer;color:#888">×</button>' +
+      '</div>' +
+      '<div style="padding:18px 20px">' +
+      '<div style="background:linear-gradient(135deg,#5b67e5,#7c3aed);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;gap:18px;flex-wrap:wrap">' +
+      '<div><div style="font-size:22px;font-weight:800">2,468</div><div style="opacity:.9;font-size:12px">현행(2026 시행)</div></div>' +
+      '<div><div style="font-size:22px;font-weight:800">4,955</div><div style="opacity:.9;font-size:12px">시행예정</div></div>' +
+      '<div><div style="font-size:22px;font-weight:800">207</div><div style="opacity:.9;font-size:12px">당사 적용 국내법규</div></div>' +
+      '<div><div style="font-size:22px;font-weight:800">' + (items().length || '-') + '</div><div style="opacity:.9;font-size:12px">일치 개정 건</div></div>' +
+      '</div>' +
+      '<button type="button" id="rr-dl-matched" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid #c7d2fe;border-radius:12px;background:#eef2ff;cursor:pointer">' +
+      '<div style="font-weight:700">당사 매칭 개정 결과 (Excel)</div>' +
+      '<div style="font-size:13px;color:#4c1d95;margin-top:4px">207개와 제목 100% 일치하는 2026년 개정 건</div></button>' +
+      '<button type="button" id="rr-dl-base" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid #e5e7eb;border-radius:12px;background:#f8fafc;cursor:pointer">' +
+      '<div style="font-weight:700">당사 적용 국내법규 207 (Excel)</div>' +
+      '<div style="font-size:13px;color:#64748b;margin-top:4px">기본 적용 목록</div></button>' +
+      '<div style="font-size:12px;color:#64748b;line-height:1.55">조회 기준 2026-09-15. 전체 현행 2,468 + 시행예정 4,955 파일은 채팅으로 받은 엑셀을 사용하세요.</div>' +
+      '</div>';
+    var m = inner.querySelector('#rr-dl-matched');
+    var b = inner.querySelector('#rr-dl-base');
+    if (m) m.onclick = function (e) { e.preventDefault(); downloadMatched(); };
+    if (b) b.onclick = function (e) { e.preventDefault(); downloadBase(); };
   }
-  function patchFns() {
-    window.downloadAllLaws = downloadAll;
+  function hook() {
+    if (window.openDownloadModal && window.openDownloadModal.__rrDl) return;
+    window.downloadAllLaws = downloadMatched;
     window.downloadMatchedLaws = downloadMatched;
-    var o1 = window.openDataDownload;
-    window.openDataDownload = function () { if (o1) o1(); restyle(document.getElementById('dataDownloadModal')); };
-    var o2 = window.openDownloadModal;
-    window.openDownloadModal = function () { if (o2) o2(); restyle(document.getElementById('download-modal')); };
+    window.downloadBaseLaws = downloadBase;
+    var o1 = window.openDownloadModal;
+    window.openDownloadModal = function () {
+      if (o1) o1();
+      setTimeout(function () { paint(document.getElementById('download-modal')); }, 0);
+    };
+    window.openDownloadModal.__rrDl = true;
+    var o2 = window.openDataDownload;
+    window.openDataDownload = function () {
+      if (o2) o2();
+      setTimeout(function () {
+        var el = document.getElementById('dataDownloadModal');
+        if (!el) return;
+        el.innerHTML = '<div class="modal-content" style="background:#fff;max-width:560px;margin:auto;border-radius:16px;overflow:hidden"></div>';
+        paint(el);
+      }, 0);
+    };
   }
-  var n = 0, t = setInterval(function () { patchFns(); if (++n > 40) clearInterval(t); }, 250);
+  var n = 0;
+  var t = setInterval(function () {
+    hook();
+    if (++n > 80) clearInterval(t);
+  }, 200);
 })();
