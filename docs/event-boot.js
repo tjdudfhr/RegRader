@@ -105,16 +105,20 @@
   async function boot() {
     try {
       var rows = [];
-      const settled = await Promise.allSettled([0,1,2,3,4,5,6,7].map(function (i) { return loadJSON('./m' + i + '.json'); }));
-      settled.forEach(function (s) {
-        if (s.status === 'fulfilled' && Array.isArray(s.value) && s.value.length && s.value[0].t) rows = rows.concat(s.value);
-      });
+      try {
+        var mini = await loadJSON('./events_mini.json');
+        if (Array.isArray(mini) && mini.length && mini[0].t) rows = mini;
+      } catch (e0) {}
       if (!rows.length) {
-        try { rows = await loadJSON('./events_mini.json'); } catch (e1) {
-          const data = await loadJSON('./index.json');
-          apply(Array.isArray(data) ? data : (data.items || []));
-          return;
-        }
+        const settled = await Promise.allSettled([0,1,2,3,4,5,6,7].map(function (i) { return loadJSON('./m' + i + '.json'); }));
+        settled.forEach(function (s) {
+          if (s.status === 'fulfilled' && Array.isArray(s.value) && s.value.length && s.value[0].t) rows = rows.concat(s.value);
+        });
+      }
+      if (!rows.length) {
+        const data = await loadJSON('./index.json');
+        apply(Array.isArray(data) ? data : (data.items || []));
+        return;
       }
       if (rows && rows.length) apply(expandMini(rows));
     } catch (e) { console.warn('event-boot', e); }
