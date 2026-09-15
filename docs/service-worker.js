@@ -1,53 +1,22 @@
-// Service Worker for PWA
-const CACHE_NAME = 'regrader-v1';
-const urlsToCache = [
-  './',
-  './index.html',
-  './index.json',
-  './email_popup.html',
-  './manifest.json'
-];
-
-// Install event - cache files
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-  );
-  self.skipWaiting();
+const CACHE_NAME = 'regrader-v3-events';
+self.addEventListener('install', (event) => { self.skipWaiting(); });
+self.addEventListener('activate', (event) => {
+  event.waitUntil(caches.keys().then((names) => Promise.all(names.map((n) => caches.delete(n)))).then(() => self.clients.claim()));
 });
-
-// Fetch event - serve from cache when offline
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
-      }
-    )
-  );
-});
-
-// Activate event - cleanup old caches
-self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
-  self.clients.claim();
+self.addEventListener('fetch', (event) => {
+  const url = event.request.url;
+  if (event.request.method !== 'GET') return;
+  if (url.includes('index.html') || url.endsWith('/RegRader/') || url.endsWith('/RegRader')) {
+    event.respondWith((async () => {
+      const res = await fetch(event.request, { cache: 'no-store' });
+      const text = await res.text();
+      if (text.includes('event-boot.js')) return new Response(text, { headers: res.headers });
+      const injected = text.replace('</body>', '<script src="./event-boot.js"></script></body>');
+      return new Response(injected, { status: res.status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
+    })());
+    return;
+  }
+  if (url.includes('index.json') || url.includes('events_')) {
+    event.respondWith(fetch(event.request, { cache: 'no-store' }));
+  }
 });
