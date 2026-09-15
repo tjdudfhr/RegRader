@@ -10,15 +10,22 @@
   <script>
   (async function () {
     var END = '<' + '/body>';
-    var TAGS = '<script src="./event-boot.js?v=20260915v"><' + '/script>' +
-               '<script src="./why-core.js?v=20260915v"><' + '/script>' +
-               '<script src="./wy0.js?v=20260915v"><' + '/script>' +
-               '<script src="./brief-why.js?v=20260915v"><' + '/script>' +
-               '<script src="./sum-fill.js?v=20260915v"><' + '/script>' +
-               '<script src="./brief-ui.js?v=20260915v"><' + '/script>' +
-               '<script src="./stats-ui.js?v=20260915v"><' + '/script>' +
-               '<script src="./registry-fix.js?v=20260915v"><' + '/script>' +
-               '<script src="./download-ui.js?v=20260915v"><' + '/script>';
+    var TAGS = '<script src="./event-boot.js?v=20260915w"><' + '/script>' +
+               '<script src="./why-core.js?v=20260915w"><' + '/script>' +
+               '<script src="./wy0.js?v=20260915w"><' + '/script>' +
+               '<script src="./wy1.js?v=20260915w"><' + '/script>' +
+               '<script src="./wy2.js?v=20260915w"><' + '/script>' +
+               '<script src="./wy3.js?v=20260915w"><' + '/script>' +
+               '<script src="./wy4.js?v=20260915w"><' + '/script>' +
+               '<script src="./wy5.js?v=20260915w"><' + '/script>' +
+               '<script src="./wy6.js?v=20260915w"><' + '/script>' +
+               '<script src="./wy7.js?v=20260915w"><' + '/script>' +
+               '<script src="./brief-why.js?v=20260915w"><' + '/script>' +
+               '<script src="./sum-fill.js?v=20260915w"><' + '/script>' +
+               '<script src="./brief-ui.js?v=20260915w"><' + '/script>' +
+               '<script src="./stats-ui.js?v=20260915w"><' + '/script>' +
+               '<script src="./registry-fix.js?v=20260915w"><' + '/script>' +
+               '<script src="./download-ui.js?v=20260915w"><' + '/script>';
     try {
       if ('serviceWorker' in navigator) {
         var regs = await navigator.serviceWorker.getRegistrations();
@@ -29,7 +36,7 @@
         }
       }
     } catch (e0) {}
-    var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915v';
+    var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915w';
     var res = await fetch(src, { cache: 'no-store' });
     var html = await res.text();
     html = html.replace(END, TAGS + END);
