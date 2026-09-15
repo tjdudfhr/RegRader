@@ -85,10 +85,11 @@
   async function boot() {
     try {
       var rows = [];
-      try {
-        const files = [0,1,2,3,4,5,6,7].map(function (i) { return loadJSON('./m' + i + '.json'); });
-        rows = [].concat.apply([], await Promise.all(files));
-      } catch (e0) {
+      const settled = await Promise.allSettled([0,1,2,3,4,5,6,7].map(function (i) { return loadJSON('./m' + i + '.json'); }));
+      settled.forEach(function (s) {
+        if (s.status === 'fulfilled' && Array.isArray(s.value) && s.value.length && s.value[0].t) rows = rows.concat(s.value);
+      });
+      if (!rows.length) {
         try { rows = await loadJSON('./events_mini.json'); } catch (e1) {
           const data = await loadJSON('./index.json');
           apply(Array.isArray(data) ? data : (data.items || []));
