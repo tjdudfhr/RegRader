@@ -22,8 +22,14 @@ UA = "RegRader-refresh/1.1"
 
 
 def normalize_name(name: str) -> str:
+    """Display-level normalize: collapse spaces, unify middle dots."""
     name = re.sub(r"\s+", " ", (name or "").strip())
     return name.replace("·", ".").replace("ㆍ", ".").replace("・", ".")
+
+
+def compact_name(name: str) -> str:
+    """Identity key: same statute if only spaces / middle-dots differ."""
+    return re.sub(r"[\s·ㆍ・.]", "", (name or "").strip())
 
 
 def ymd_to_iso(s):
@@ -84,14 +90,14 @@ def main():
     base = json.loads((DOCS / "base_laws_207.json").read_text(encoding="utf-8"))["items"]
     base_norm = defaultdict(list)
     for b in base:
-        base_norm[normalize_name(b["title"])].append(b)
+        base_norm[compact_name(b["title"])].append(b)
 
     events = []
     seen = set()
     for row in raw:
         if not row["시행일자"] or not row["법령명"]:
             continue
-        n = normalize_name(row["법령명"])
+        n = compact_name(row["법령명"])
         if n not in base_norm:
             continue
         for company in base_norm[n]:
@@ -170,7 +176,7 @@ def main():
         "integrity": {
             "checkedAt": datetime.now(timezone.utc).isoformat(),
             "asOf": as_of.isoformat(),
-            "rule": "unique key = title+effectiveDate+amendmentType",
+            "rule": "unique key = title+effectiveDate+amendmentType; match = compact(name)",
             "uniqueEvents": len(events),
             "uniqueTitles": len(by),
             "titlesWithMultipleEvents": sum(1 for g in by.values() if len(g) > 1),
@@ -183,6 +189,23 @@ def main():
     }
     DOCS.mkdir(exist_ok=True)
     (DOCS / "index.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    amap = {"일부개정": "일", "타법개정": "타"}
+    mini = []
+    for e in events:
+        mini.append({
+            "t": e["title"], "d": e["effectiveDate"],
+            "a": amap.get(e["amendmentType"], (e["amendmentType"] or "")[:1]),
+            "s": 0 if e["inForce"] else 1,
+            "m": e.get("ministry") or "",
+            "c": (e.get("categories") or [""])[0],
+            "u": str((e.get("meta") or {}).get("lsiSeq") or ""),
+        })
+    shard = (len(mini) + 7) // 8 or 1
+    for i in range(8):
+        chunk = mini[i * shard:(i + 1) * shard]
+        (DOCS / f"m{i}.json").write_text(json.dumps(chunk, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
     print(json.dumps({"totalCount": payload["totalCount"], "integrity": payload["integrity"], "stats": payload["stats"]}, ensure_ascii=False, indent=2))
 
 
