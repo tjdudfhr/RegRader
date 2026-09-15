@@ -12,8 +12,8 @@
   <script>
   (async function () {
     var END = '<' + '/body>';
-    var TAGS = '<script src="./event-boot.js?v=20260915e"><' + '/script>' +
-               '<script src="./brief-ui.js?v=20260915e"><' + '/script>';
+    var TAGS = '<script src="./event-boot.js?v=20260915f"><' + '/script>' +
+               '<script src="./brief-ui.js?v=20260915f"><' + '/script>';
     try {
       if ('serviceWorker' in navigator) {
         var regs = await navigator.serviceWorker.getRegistrations();
@@ -25,7 +25,7 @@
       }
     } catch (e0) {}
     try {
-      var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915e';
+      var src = 'https://raw.githubusercontent.com/tjdudfhr/RegRader/bcd307684f9a8a93679fe8bbac594ba87314a36a/docs/index.html?v=20260915f';
       var res = await fetch(src, { cache: 'no-store' });
       if (!res.ok) throw new Error('shell ' + res.status);
       var html = await res.text();
