@@ -1,4 +1,4 @@
-const CACHE_NAME = 'regrader-v5-events';
+const CACHE_NAME = 'regrader-v6-events';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -28,7 +28,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (url.includes('index.json') || url.includes('events_') || url.includes('event-boot.js') || url.includes('watch.html') || /\/m[0-7]\.json/.test(url) || url.includes('previous_index')) {
+  if (url.includes('index.json') || url.includes('events_') || url.includes('event-boot.js') || url.includes('watch.html') || url.includes('summaries.json') || url.includes('sum_') || url.includes('extra11') || /\/m[0-7]\.json/.test(url) || url.includes('previous_index')) {
     event.respondWith(fetch(event.request, { cache: 'no-store' }));
   }
 });
