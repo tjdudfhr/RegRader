@@ -72,6 +72,26 @@
     try { lawsData = items; } catch (e) {}
     try { filteredLaws = items.slice(); } catch (e) {}
     banner(items);
+    try {
+      var tot = document.getElementById('total-law-count');
+      if (tot) tot.textContent = items.length;
+      var past = items.filter(function (x) { return x.inForce; }).length;
+      var imp = document.getElementById('implemented-law-count');
+      if (imp) imp.textContent = past;
+      var pen = document.getElementById('amendment-law-count');
+      if (pen) pen.textContent = items.length - past;
+      var q = {Q1:0,Q2:0,Q3:0,Q4:0};
+      items.forEach(function (it) {
+        var d = it.effectiveDate || '';
+        if (d >= '2026-01-01' && d <= '2026-03-31') q.Q1++;
+        else if (d <= '2026-06-30') q.Q2++;
+        else if (d <= '2026-09-30') q.Q3++;
+        else if (d <= '2026-12-31') q.Q4++;
+      });
+      [['q1-count',q.Q1],['q2-count',q.Q2],['q3-count',q.Q3],['q4-count',q.Q4]].forEach(function (p) {
+        var el = document.getElementById(p[0]); if (el) el.textContent = p[1];
+      });
+    } catch (e) {}
     try { if (typeof displayLawList === 'function') displayLawList(items); } catch (e) {}
     try { if (typeof updateTabCounts === 'function') updateTabCounts(); } catch (e) {}
     try { if (typeof updateQuarterlyCounts === 'function') updateQuarterlyCounts(); } catch (e) {}
