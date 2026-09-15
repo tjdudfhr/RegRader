@@ -33,6 +33,6 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (url.includes('index.json') || url.includes('events_') || url.includes('event-boot.js') || url.includes('brief-ui.js') || url.includes('watch.html') || url.includes('summaries.json') || url.includes('sum') || url.includes('extra11') || /\/m[0-7]\.json/.test(url) || url.includes('previous_index')) {
-    event.respondWith(fetch(event.request, { cache: 'no-store' });
+    event.respondWith(fetch(event.request, { cache: 'no-store' }));
   }
 });
