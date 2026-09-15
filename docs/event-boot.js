@@ -1,4 +1,4 @@
-/* Event-model overlay */
+/* Event-model overlay + popup/job/summary fixes */
 (function () {
   function todayKST() {
     const k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
@@ -9,16 +9,34 @@
     if (a === '타') return '타법개정';
     return a || '';
   }
-  function expandMini(rows) {
+  function packReason(am, sum) {
+    if (!sum) return '';
+    var arts = (sum.articles || []).join(', ');
+    return '[' + (sum.type || am || '개정') + ']\n◇ 개정이유\n' + (sum.why || '') +
+      '\n\n◇ 주요내용\n' + (sum.what || '') +
+      (arts ? ('\n【개정문】\n' + arts) : '') +
+      (sum.action ? ('\n◇ 실무 반영\n' + sum.action) : '');
+  }
+  function expandMini(rows, sums) {
+    sums = sums || {};
     return (rows || []).map(function (r, i) {
       var am = atype(r.a);
+      var sum = sums[String(r.u)] || null;
+      var reason = packReason(am, sum);
       return {
-        id: 'ev_' + i, title: r.t, summary: (r.t || '') + ' 2026',
-        effectiveDate: r.d, amendmentType: am,
+        id: 'ev_' + i,
+        title: r.t,
+        summary: sum && sum.why ? sum.why : ((r.t || '') + ' 2026 ' + am),
+        effectiveDate: r.d,
+        amendmentType: am,
         status: r.s === 0 ? '현행' : '시행예정',
-        ministry: r.m || '', categories: r.c ? [r.c] : [],
+        ministry: r.m || '',
+        categories: r.c ? [r.c] : [],
         source: { url: r.u ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u) : '' },
-        amendments: [{ date: r.d, amendmentType: am }], originalTitle: r.t
+        amendments: [{ date: r.d, amendmentType: am, reason: reason, mainContents: sum && sum.what }],
+        originalTitle: r.t,
+        meta: { lsiSeq: String(r.u || ''), matchType: '100%완전일치' },
+        brief: sum
       };
     });
   }
@@ -66,12 +84,114 @@
       ' <a href="./watch.html" style="color:#9fd1ff">Watch D-30</a>';
     document.body.insertBefore(el, document.body.firstChild);
   }
+  function stampJobCounts(items) {
+    var cats = ['인사노무','공정거래','정보보호','지식재산권','재무회계','안전','환경','지배구조'];
+    var unique = {};
+    items.forEach(function (law) { if (law.title && !unique[law.title]) unique[law.title] = law; });
+    var counts = {}; cats.forEach(function (c) { counts[c] = 0; });
+    Object.keys(unique).forEach(function (t) {
+      (unique[t].categories || []).forEach(function (c) { if (counts[c] != null) counts[c]++; });
+    });
+    cats.forEach(function (c) {
+      ['count-' + c, 'job-count-' + c].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = counts[c];
+      });
+    });
+    var all = Object.keys(unique).length;
+    ['count-all','job-count-all'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = all;
+    });
+    var evAll = document.getElementById('count-all');
+    if (evAll && items.length) evAll.textContent = items.length;
+  }
+  function findLaw(lawId) {
+    var data = window.lawsData || [];
+    if (!data.length) return null;
+    var hit = data.find(function (x) { return String(x.id) === String(lawId); });
+    if (hit) return hit;
+    hit = data.find(function (x) { return x.title === lawId; });
+    if (hit) return hit;
+    if (lawId && String(lawId).indexOf('|') > 0) {
+      var p = String(lawId).split('|');
+      hit = data.find(function (x) { return x.title === p[0] && x.effectiveDate === p[1]; });
+    }
+    return hit || null;
+  }
+  function renderBrief(item) {
+    var b = item.brief || {};
+    var arts = (b.articles || []).map(function (a) { return '<span style="display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;border-radius:999px;background:#eef2ff;font-size:12px;">' + a + '</span>'; }).join('');
+    var lsi = (item.meta && item.meta.lsiSeq) || '';
+    var src = (item.source && item.source.url) || (lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi) : '');
+    return '<div class="summary-section" style="border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:0 0 12px;background:#f8fafc">' +
+      '<div style="font-size:12px;color:#64748b;margin-bottom:6px">실무 요약</div>' +
+      '<div style="font-weight:700;margin-bottom:8px">' + (item.amendmentType || '') + ' · ' + (item.effectiveDate || '') + '</div>' +
+      '<div style="margin:0 0 8px"><b>왜 개정됐나</b><br>' + (b.why || item.summary || '개정이유 확인 중') + '</div>' +
+      '<div style="margin:0 0 8px"><b>무엇이 바뀌었나</b><br>' + (b.what || '') + '</div>' +
+      (arts ? ('<div style="margin:0 0 8px"><b>조문</b><br>' + arts + '</div>') : '') +
+      '<div style="margin:0 0 8px"><b>실무 반영</b><br>' + (b.action || '개정 조문을 내부 절차에 반영할 항목이 있는지 확인하세요.') + '</div>' +
+      (src ? ('<div><a href="' + src + '" target="_blank">국가법령정보센터 원문</a>' +
+        (lsi ? (' · <a href="https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi + '&viewCls=lsOldAndNew" target="_blank">신구비교</a>') : '') +
+        '</div>') : '') +
+      '</div>';
+  }
+  function patchPopup() {
+    var prev = window.showLawDetail;
+    window.showLawDetail = function (lawId) {
+      var data = window.lawsData || [];
+      if (!data.length) {
+        alert('법령 데이터를 로드하는 중입니다. 잠시 후 다시 시도해주세요.');
+        return;
+      }
+      var item = findLaw(lawId);
+      if (!item) {
+        console.warn('law not found', lawId);
+        alert('해당 법령 이벤트를 찾지 못했습니다. 목록을 새로고침한 뒤 다시 눌러주세요.');
+        return;
+      }
+      try {
+        var t = document.getElementById('modal-title');
+        if (t) t.textContent = item.title || '법령 제목';
+        var s = document.getElementById('modal-subtitle');
+        if (s) s.textContent = (item.ministry || '') + ' • ' + (item.amendmentType || '') + ' • ' + (item.effectiveDate || '');
+      } catch (e) {}
+      if (typeof prev === 'function') {
+        try { prev(item.id); } catch (e) {}
+      }
+      try {
+        if (typeof generateAISummary === 'function') generateAISummary(item);
+      } catch (e) {}
+      var box = document.getElementById('modal-summary');
+      if (box) {
+        var brief = renderBrief(item);
+        if (box.innerHTML.indexOf('실무 요약') < 0) box.innerHTML = brief + box.innerHTML;
+      }
+      var modal = document.getElementById('law-modal');
+      if (modal) modal.classList.add('show');
+    };
+    if (!window.__rrClickBound) {
+      window.__rrClickBound = true;
+      document.addEventListener('click', function (ev) {
+        var n = ev.target;
+        while (n && n !== document) {
+          if (n.getAttribute && (n.getAttribute('data-eid') || n.getAttribute('data-law-id'))) {
+            ev.preventDefault();
+            window.showLawDetail(n.getAttribute('data-eid') || n.getAttribute('data-law-id'));
+            return;
+          }
+          n = n.parentNode;
+        }
+      }, true);
+    }
+  }
   function apply(items) {
     items = enrich(items);
     window.lawsData = items;
     try { lawsData = items; } catch (e) {}
     try { filteredLaws = items.slice(); } catch (e) {}
     banner(items);
+    stampJobCounts(items);
     try {
       var tot = document.getElementById('total-law-count');
       if (tot) tot.textContent = items.length;
@@ -81,9 +201,12 @@
       var pen = document.getElementById('amendment-law-count');
       if (pen) pen.textContent = items.length - past;
     } catch (e) {}
+    patchPopup();
     try { if (typeof displayLawList === 'function') displayLawList(items); } catch (e) {}
+    try { if (typeof updateTabCounts === 'function') updateTabCounts(); } catch (e) {}
     try { if (typeof updateQuarterlyCounts === 'function') updateQuarterlyCounts(); } catch (e) {}
     try { if (typeof updateJobFunctionDataWithCompanyLaws === 'function') updateJobFunctionDataWithCompanyLaws(); } catch (e) {}
+    stampJobCounts(items);
   }
   async function loadJSON(url) {
     const r = await fetch(url + '?v=' + Date.now(), { cache: 'no-store' });
@@ -93,6 +216,8 @@
   async function boot() {
     try {
       var rows = [];
+      var sums = {};
+      try { sums = await loadJSON('./summaries.json'); } catch (eS) { sums = {}; }
       try {
         var mini = await loadJSON('./events_mini.json');
         if (Array.isArray(mini) && mini.length && mini[0].t) rows = mini;
@@ -119,7 +244,7 @@
         apply(Array.isArray(data) ? data : (data.items || []));
         return;
       }
-      if (rows && rows.length) apply(expandMini(rows));
+      apply(expandMini(rows, sums));
     } catch (e) { console.warn('event-boot', e); }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(boot, 400); });
