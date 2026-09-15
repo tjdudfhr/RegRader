@@ -44,7 +44,8 @@
       return '<span style="display:inline-block;margin:2px 4px 2px 0;padding:3px 9px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px">' + esc(a) + '</span>';
     }).join('');
     var lsi = (item.meta && item.meta.lsiSeq) || '';
-    var src = (item.source && item.source.url) || (lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi) : '');
+    var src = lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi + '&viewCls=lsRvsDocInfoR') : '';
+    var live = 'https://www.law.go.kr/lsSc.do?menuId=1&query=' + encodeURIComponent(item.title || '');
     var cmp = lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi + '&viewCls=lsOldAndNew') : '';
     var points = (b.points || []).map(function (p) { return '<li style="margin:0 0 6px">' + esc(p) + '</li>'; }).join('');
     var acts = lines(b.action);
@@ -66,7 +67,11 @@
       (cmp ? (title('법령 신구비교 (국가법령정보센터)') +
         '<iframe src="' + cmp + '" style="width:100%;height:420px;border:1px solid #e5e7eb;border-radius:10px;background:#fff" loading="lazy"></iframe>' +
         '<div style="margin-top:6px"><a href="' + cmp + '" target="_blank">신구비교 원문 새 창</a></div>') : '') +
-      (src ? ('<div style="margin-top:10px"><a href="' + src + '" target="_blank">국가법령정보센터 원문</a></div>') : '') +
+      '<div style="margin-top:10px">' +
+      (src ? ('<a href="' + src + '" target="_blank">이 개정문</a> · ') : '') +
+      '<a href="' + live + '" target="_blank">현행 법령</a>' +
+      (cmp ? (' · <a href="' + cmp + '" target="_blank">신구비교</a>') : '') +
+      '</div>' +
       '</div>';
   }
   function prune(box) {

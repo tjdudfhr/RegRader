@@ -1,4 +1,4 @@
-const CACHE_NAME = 'regrader-v6-brief';
+const CACHE_NAME = 'regrader-v7-hardrefresh';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -19,10 +19,10 @@ self.addEventListener('fetch', (event) => {
       const res = await fetch(event.request, { cache: 'no-store' });
       let text = await res.text();
       if (!text.includes('event-boot.js')) {
-        text = text.replace('</body>', '<script src="./event-boot.js"></script></body>');
+        text = text.replace('</body>', '<script src="./event-boot.js?v=20260915c"></script></body>');
       }
       if (!text.includes('brief-ui.js')) {
-        text = text.replace('</body>', '<script src="./brief-ui.js"></script></body>');
+        text = text.replace('</body>', '<script src="./brief-ui.js?v=20260915c"></script></body>');
       }
       return new Response(text, {
         status: res.status,
