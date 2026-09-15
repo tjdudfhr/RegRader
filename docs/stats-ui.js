@@ -30,19 +30,19 @@
     var tot = document.getElementById('total-law-count');
     if (!tot) return;
     var s = stats(items);
-    if (document.getElementById('rr-base-count') && (tot.parentNode.textContent || '').indexOf('일치 개정') >= 0) {
+    if (document.getElementById('rr-base-count') && (tot.parentNode.textContent || '').indexOf('개정 법규') >= 0) {
       var map = {
         'rr-base-count': 207,
         'total-law-count': s.events,
         'implemented-law-count': s.past,
-        'amendment-law-count': s.upcoming,
-        'rr-multi-count': s.multi,
-        'rr-both-count': s.both
+        'amendment-law-count': s.upcoming
       };
       Object.keys(map).forEach(function (id) {
         var el = document.getElementById(id);
         if (el) el.textContent = map[id];
       });
+      var lab = tot.parentNode.querySelector('div[style*="0.75rem"]');
+      if (lab) lab.textContent = '개정 법규 (복수개정 ' + s.multi + ')';
       return;
     }
     var root = tot;
@@ -53,7 +53,7 @@
     if (root && root.querySelector) {
       var sub = root.querySelector('div[style*="text-muted"]');
       if (sub && /기본 법규|매칭/.test(sub.textContent || '')) {
-        sub.textContent = '207개 적용법규와 제목이 100% 일치하는 2026년 개정만 집계합니다.';
+        sub.textContent = '당사 적용 국내법규 207개와 제목이 100% 일치하는 2026년 개정만 집계합니다.';
       }
     }
     var row = tot.parentNode && tot.parentNode.parentNode;
@@ -63,12 +63,10 @@
     row.style.flexWrap = 'wrap';
     row.style.gap = '1.15rem 1.4rem';
     row.innerHTML =
-      cell('rr-base-count', 207, '적용 법령', 'var(--primary)') +
-      cell('total-law-count', s.events, '일치 개정 건', 'var(--primary)') +
+      cell('rr-base-count', 207, '당사 적용 국내법규', 'var(--primary)') +
+      cell('total-law-count', s.events, '개정 법규 (복수개정 ' + s.multi + ')', 'var(--primary)') +
       cell('implemented-law-count', s.past, '시행완료', '#48bb78') +
       cell('amendment-law-count', s.upcoming, '시행예정', '#d946ef') +
-      cell('rr-multi-count', s.multi, '복수개정 법령', '#dd6b20') +
-      cell('rr-both-count', s.both, '시행+추가예정', '#c53030') +
       '<a href="./watch.html" style="font-size:0.85rem;font-weight:700;color:#2563eb;text-decoration:none;border:1px solid #bfdbfe;border-radius:999px;padding:6px 10px">D-30 알림</a>';
   }
   function paintJobs(items) {
@@ -108,7 +106,7 @@
     var card = null;
     for (var i = 0; i < nodes.length; i++) {
       var t = nodes[i].textContent || '';
-      if (t.indexOf('2026년 개정 법규 현황') >= 0 && (t.indexOf('전체 개정') >= 0 || t.indexOf('rr-universe') >= 0 || t.indexOf('2,468') >= 0) && nodes[i].children.length < 20) {
+      if (t.indexOf('2026년 개정 법규 현황') >= 0 && (t.indexOf('전체 개정') >= 0 || t.indexOf('2,468') >= 0) && nodes[i].children.length < 20) {
         card = nodes[i];
         break;
       }
@@ -122,7 +120,6 @@
         var host = nums[j].parentNode && nums[j].parentNode.parentNode ? nums[j].parentNode.parentNode : nums[j].parentNode;
         if (!host) break;
         host.style.display = 'flex';
-        host.style.alignItems = 'center';
         host.innerHTML =
           '<div style="text-align:center">' +
           '<div id="rr-universe-current" style="font-size:2rem;font-weight:800;background:var(--primary-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">2,468</div>' +
