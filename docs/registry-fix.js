@@ -18,8 +18,10 @@
     var tot = document.getElementById('registry-total-count');
     if (tot) tot.textContent = String((items || []).length || 207);
   }
+  var cur = 'all', curTitle = null;
   function render(job, title) {
     if (!BASE) return;
+    cur = job; curTitle = title;
     try {
       document.querySelectorAll('.job-function-item').forEach(function (el) { el.classList.remove('active'); });
       var active = document.querySelector('[data-job="' + job + '"]');
@@ -65,12 +67,18 @@
              '<span>' + esc + '</span>' +
              '<span style="margin-left:8px;color:#94a3b8;font-size:11px">올해 개정 없음</span></div>';
     }).join('');
+    host.setAttribute('data-rr', String(job));
   }
   function hook() {
     if (!BASE) return;
     window.baseLawsData = BASE;
     window.showJobFunctionLaws = function (job, title) { render(job, title); };
     setCounts(BASE);
+    /* 적용법규 탭을 처음 열 때도 207개 전체 목록이 보여야 한다.
+       예전에는 직무 칩을 눌러야만 render 가 돌아서, 초기에는 index.html 이 그린
+       옛 목록과 '100건' 머리글이 그대로 남아 있었다. */
+    var host = document.getElementById('job-function-laws');
+    if (host && host.getAttribute('data-rr') !== String(cur)) render(cur, curTitle);
   }
   fetch('./base_laws_207.json?v=20260915s', { cache: 'no-store' })
     .then(function (r) { return r.json(); })
