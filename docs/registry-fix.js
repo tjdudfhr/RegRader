@@ -42,9 +42,28 @@
       if (items.length && items[0].parentNode) host = items[0].parentNode;
     }
     if (!host) return;
+    /* 올해 개정 이벤트가 있는 법규는 다른 탭과 똑같이 개정요지 팝업을 띄운다.
+       (예전에는 전부 law.go.kr 새 탭으로 보내서, 적용법규 탭에서만 팝업이 안 뜨는 것처럼 보였다.)
+       개정 이력이 없는 법규만 원문 검색으로 보낸다. */
+    var events = window.__rrItems || [];
+    var byTitle = {};
+    events.forEach(function (ev) { (byTitle[ev.title] = byTitle[ev.title] || []).push(ev); });
+
     host.innerHTML = view.map(function (law) {
-      var url = 'https://www.law.go.kr/lsSc.do?query=' + encodeURIComponent(law.title || '');
-      return '<div class="registry-law-item" onclick="window.open(\'' + url.replace(/'/g, '') + '\',\'_blank\')"><span>' + String(law.title || '') + '</span></div>';
+      var title = String(law.title || '');
+      var evs = byTitle[title] || [];
+      var esc = title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      if (evs.length) {
+        var badge = '<span style="margin-left:8px;padding:1px 7px;border-radius:999px;background:#eef2ff;' +
+                    'color:#4f46e5;font-size:11px;font-weight:700">올해 개정 ' + evs.length + '건</span>';
+        return '<div class="registry-law-item" data-eid="' + evs[0].id + '" style="cursor:pointer">' +
+               '<span>' + esc + '</span>' + badge + '</div>';
+      }
+      var url = 'https://www.law.go.kr/lsSc.do?query=' + encodeURIComponent(title);
+      return '<div class="registry-law-item" title="올해 개정 없음 · 국가법령정보센터에서 원문 보기" ' +
+             'onclick="window.open(\'' + url.replace(/'/g, '') + '\',\'_blank\')" style="cursor:pointer">' +
+             '<span>' + esc + '</span>' +
+             '<span style="margin-left:8px;color:#94a3b8;font-size:11px">올해 개정 없음</span></div>';
     }).join('');
   }
   function hook() {

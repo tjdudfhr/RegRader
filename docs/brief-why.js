@@ -6,16 +6,24 @@
  */
 (function () {
   function rowFor(item) {
-    var why = window.__rrWhy || {};
-    return why[String((item.meta && item.meta.lsiSeq) || '')];
+    var id = String((item.meta && item.meta.lsiSeq) || '');
+    if (!id) return null;
+    var base = (window.__rrWhyBase || {})[id];   // 법제처 원문 전체 세트
+    var cur = (window.__rrWhy || {})[id];        // 수기로 다듬은 요지 (있으면 우선)
+    if (!base && !cur) return null;
+    return Object.assign({}, base, cur);         // 수기본이 이기되, 없는 항목은 원문으로 채움
   }
 
   function applyRow(item, row) {
-    item.brief = Object.assign({}, item.brief || {}, {
+    var patch = {
       why: row.w,
       articles: row.a || [],
       diff: row.d || []
-    });
+    };
+    /* row.c = 법제처 '주요내용' 항목들, row.k = 이유·내용이 한 덩어리인 형식 */
+    if (row.c && row.c.length) patch.what = row.c.join('\n');
+    patch.merged = !!row.k;
+    item.brief = Object.assign({}, item.brief || {}, patch);
     item.summary = row.w;
   }
 

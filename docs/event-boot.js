@@ -23,7 +23,7 @@
   }
   function esc(s) {
     return String(s || '').replace(/[&<>"']/g, function (c) {
-      return ({'&':'&','<':'<','>':'>','"':'"',"'":'&#39;'})[c];
+      return ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[c];
     });
   }
   function packReason(am, sum) {
@@ -194,8 +194,22 @@
       '<div style="font-size:12px;color:#4f46e5;margin-bottom:6px;font-weight:700">실무 개정요지</div>' +
       '<div style="font-weight:700;margin-bottom:8px">' + esc(item.amendmentType || '') + ' · ' + esc(item.effectiveDate || '') +
       ((item.eventCount > 1) ? (' · 올해 ' + item.eventIndex + '/' + item.eventCount + '회') : '') + '</div>' +
-      '<div style="margin:0 0 8px"><b>왜 개정됐나</b><br>' + esc(b.why || item.summary || '개정이유 확인 중') + '</div>' +
-      '<div style="margin:0 0 8px"><b>무엇이 바뀌었나</b><br>' + esc(b.what || '원문 조문에서 변경 범위를 확인하세요.') + '</div>' +
+      ((item.amendmentType === '타법개정')
+        ? '<div style="margin:0 0 8px;padding:8px 10px;border-radius:8px;background:#fff7ed;' +
+          'border:1px solid #fed7aa;font-size:12px;color:#9a3412">' +
+          '<b>타법개정</b> — 이 법령 자체의 정책 변경이 아니라, <b>다른 법령이 개정되면서</b> 함께 정비된 건입니다. ' +
+          '아래 개정이유는 그 <b>원인이 된 법령</b>의 것이므로 이 법령의 내용과 달라 보일 수 있습니다.' +
+          '</div>'
+        : '') +
+      /* 법제처 원문이 '개정이유 및 주요내용'을 한 덩어리로 제공하는 경우(b.merged)에는
+         억지로 두 칸으로 쪼개지 않고 원문 그대로 한 칸에 보여준다. */
+      (b.merged
+        ? '<div style="margin:0 0 8px"><b>개정이유 및 주요내용</b><br><span style="white-space:pre-line">' +
+            esc(b.why || item.summary || '개정이유 확인 중') + '</span></div>'
+        : '<div style="margin:0 0 8px"><b>왜 개정됐나</b><br><span style="white-space:pre-line">' +
+            esc(b.why || item.summary || '개정이유 확인 중') + '</span></div>' +
+          '<div style="margin:0 0 8px"><b>무엇이 바뀌었나</b><br><span style="white-space:pre-line">' +
+            esc(b.what || '원문 조문에서 변경 범위를 확인하세요.') + '</span></div>') +
       (arts ? ('<div style="margin:0 0 8px"><b>개정 조항</b><br>' + arts + '</div>') : '') +
       '<div style="margin:0 0 8px"><b>실무 반영</b><br>' + esc(b.action || ACTION[(item.categories||[])[0]] || '내부 절차 반영 여부를 확인하세요.') + '</div>' +
       tl +
@@ -272,25 +286,45 @@
     if (typeof displayLawList !== 'function' || displayLawList.__rr) return;
     var orig = displayLawList;
     window.displayLawList = function (items) {
-      var src = window.__rrItems || items;
+      /* 넘어온 목록(직무별 필터·검색 결과)을 그대로 존중한다.
+         예전에는 무조건 window.__rrItems(전체 327건)로 바꿔치기해서
+         어떤 직무를 눌러도, 무엇을 검색해도 항상 전체가 나왔다. */
+      var src = (items && items.length) ? items : (window.__rrItems || []);
       try { orig(src); } catch (e) { try { orig(items); } catch (e2) {} }
       try {
-        var nodes = document.querySelectorAll('.law-item');
-        var data = window.__rrItems || [];
-        nodes.forEach(function (node, i) {
-          var titleEl = node.querySelector('.law-title');
-          var title = titleEl ? titleEl.textContent.trim() : '';
-          var dateEl = node.querySelector('.date-badge');
-          var dateHint = dateEl ? dateEl.textContent.trim() : '';
-          var hit = data.find(function (x) { return x.title === title && (dateHint.indexOf(x.effectiveDate) >= 0 || /D-/.test(dateHint)); });
-          if (!hit) hit = data.find(function (x) { return x.title === title; });
-          if (!hit && data[i]) hit = data[i];
-          if (hit) {
-            node.setAttribute('data-eid', hit.id);
-            node.setAttribute('data-key', hit._key);
-            node.setAttribute('onclick', "window.showLawDetail('" + hit.id + "')");
-          }
-        });
+        /* 목록은 src 순서 그대로 그려지므로 개수가 같으면 인덱스로 1:1 대응시킨다.
+           예전에는 법령명+시행일로 찾았는데, 같은 법령이 같은 날 '일부개정'과 '타법개정'으로
+           두 번 시행되는 경우(2026년 15건) 두 행이 같은 이벤트를 가리켜
+           한쪽 행에 엉뚱한 개정이유가 떴다. */
+        var nodes = [].slice.call(document.querySelectorAll('#law-list .law-item'));
+        var data = src;
+        function stamp(node, hit) {
+          if (!node || !hit) return;
+          node.setAttribute('data-eid', hit.id);
+          if (hit._key) node.setAttribute('data-key', hit._key);
+          node.setAttribute('onclick', "window.showLawDetail('" + hit.id + "')");
+        }
+        if (nodes.length === data.length) {
+          nodes.forEach(function (node, i) { stamp(node, data[i]); });
+        } else {
+          var used = {};
+          nodes.forEach(function (node, i) {
+            var titleEl = node.querySelector('.law-title');
+            var title = titleEl ? titleEl.textContent.trim() : '';
+            var dateEl = node.querySelector('.date-badge');
+            var dateHint = dateEl ? dateEl.textContent.trim() : '';
+            var idx = -1, j;
+            for (j = 0; j < data.length; j++) {
+              if (!used[j] && data[j].title === title &&
+                  dateHint.indexOf(data[j].effectiveDate) >= 0) { idx = j; break; }
+            }
+            if (idx < 0) for (j = 0; j < data.length; j++) {
+              if (!used[j] && data[j].title === title) { idx = j; break; }
+            }
+            if (idx < 0 && !used[i] && data[i]) idx = i;
+            if (idx >= 0) { used[idx] = 1; stamp(node, data[idx]); }
+          });
+        }
       } catch (e) {}
     };
     window.displayLawList.__rr = true;
