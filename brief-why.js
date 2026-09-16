@@ -16,15 +16,18 @@
 
   function applyRow(item, row) {
     var patch = {
-      why: row.w,
+      why: row.w || '',
       articles: row.a || [],
       diff: row.d || []
     };
-    /* row.c = 법제처 '주요내용' 항목들, row.k = 이유·내용이 한 덩어리인 형식 */
+    /* row.s = 요약(화면 기본), row.c = 주요내용, row.x = 타법개정 원인·변경조문 */
+    if (row.s) patch.summaryShort = row.s;
     if (row.c && row.c.length) patch.what = row.c.join('\n');
+    if (row.x) patch.x = row.x;
     patch.merged = !!row.k;
     item.brief = Object.assign({}, item.brief || {}, patch);
-    item.summary = row.w;
+    /* 목록·검색에서 쓰는 한 줄 설명도 요약으로 교체 */
+    item.summary = row.s || row.w || item.summary;
   }
 
   function applyAll() {
@@ -32,7 +35,9 @@
     var n = 0;
     data.forEach(function (item) {
       var row = rowFor(item);
-      if (!row || !row.w) return;
+      /* w(원문)가 없어도 s(요약)·c(주요내용)·x(타법개정)가 있으면 반영해야 한다.
+         예전에는 w 없는 3건이 통째로 누락되어 자동 문구가 그대로 남았다. */
+      if (!row || !(row.w || row.s || row.c || row.x)) return;
       applyRow(item, row);
       n++;
     });
@@ -47,7 +52,7 @@
     });
     if (!item) return;
     var row = rowFor(item);
-    if (!row || !row.w) return;
+    if (!row || !(row.w || row.s || row.c || row.x)) return;
     applyRow(item, row);
   }
 
