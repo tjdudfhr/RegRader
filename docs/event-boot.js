@@ -85,8 +85,10 @@
     items.forEach(function (it) {
       if (!it.effectiveDate) return;
       var days = Math.round((new Date(it.effectiveDate + 'T00:00:00+09:00') - today) / 86400000);
-      it.daysUntil = days; it.inForce = days <= 0;
-      it.status = days <= 0 ? '현행' : '시행예정';
+      /* 시행완료 = 시행일이 오늘 이전. 오늘 시행되는 개정은 '30일 내 시행(D-DAY)'으로 센다.
+         예전에는 카드는 오늘 시행분을 시행완료로, 도넛·30일 칸은 30일 내로 세어 같은 개정이 양쪽에 들어갔다. */
+      it.daysUntil = days; it.inForce = days < 0;
+      it.status = days < 0 ? '현행' : '시행예정';
     });
     var by = {};
     items.forEach(function (it) { (by[it.title] = by[it.title] || []).push(it); });

@@ -84,7 +84,7 @@
   }
   function metaBox(item) {
     var cat = (item.categories && item.categories[0]) || item.lawType || '-';
-    var status = item.inForce ? '시행완료' : '시행예정';
+    var status = item.daysUntil === 0 ? '오늘 시행' : (item.inForce ? '시행완료' : '시행예정');
     return '<div class="summary-section" id="rr-meta" style="margin:0 0 12px">' +
       '<div class="info-grid">' +
       '<div class="info-cell"><div class="info-label">개정 유형</div><div class="info-value">' + esc(item.amendmentType || '-') + '</div></div>' +

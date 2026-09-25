@@ -287,7 +287,7 @@ function stats() {
   const items = DATA.items;
   const urgent = items.filter(it => it.daysUntil >= 0 && it.daysUntil <= 7).length;
   const soon = items.filter(it => it.daysUntil > 7 && it.daysUntil <= 30).length;
-  const up = items.filter(it => it.daysUntil > 0).length;
+  const up = items.filter(it => it.daysUntil >= 0).length; /* 오늘 시행분 포함 — 메인의 시행예정과 같은 기준 */
   $('#t-urgent').innerHTML = urgent + (urgent ? '<span class="pulse" title="7일 이내 시행"></span>' : '');
   $('#t-soon').textContent = soon;
   $('#t-later').textContent = up;
