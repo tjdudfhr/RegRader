@@ -20,6 +20,18 @@
     --c-안전: #48bb78; --c-환경: #38b2ac; --c-인사노무: #ed8936; --c-지배구조: #9f7aea;
     --c-재무회계: #4299e1; --c-정보보호: #f56565; --c-공정거래: #d53f8c; --c-지식재산권: #805ad5;
   }
+  /* 메인과 같이 시스템 다크 모드를 따른다 */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text-primary: #f7fafc; --text-secondary: #e2e8f0; --text-muted: #a0aec0;
+      --bg-primary: #1a202c; --bg-card: #2d3748; --border: #4a5568;
+      --new: #90cdf4; --new-bg: rgba(144, 205, 244, .14);
+      --live: #68d391; --live-bg: rgba(104, 211, 145, .14);
+      --gone: #fc8181; --gone-bg: rgba(252, 129, 129, .14);
+    }
+    .b-plain { background: rgba(255, 255, 255, .08) !important; }
+    .picker select, .nav-btn, .search { background: #1a202c !important; color: var(--text-primary) !important; }
+  }
   * { box-sizing: border-box; }
   body {
     margin: 0;

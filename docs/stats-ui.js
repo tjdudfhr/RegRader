@@ -43,6 +43,7 @@
       });
       var lab = tot.parentNode.querySelector('div[style*="0.75rem"]');
       if (lab) lab.textContent = '개정 법규 (복수개정 ' + s.multi + ')';
+      paintUrgent(items);
       return;
     }
     var root = tot;
@@ -68,6 +69,25 @@
       cell('implemented-law-count', s.past, '시행완료', '#48bb78') +
       cell('amendment-law-count', s.upcoming, '시행예정', '#d946ef') +
       '<a href="./watch.html" style="font-size:0.85rem;font-weight:700;color:#2563eb;text-decoration:none;border:1px solid #bfdbfe;border-radius:999px;padding:6px 10px">D-30 알림</a>';
+  }
+  /* 시행 임박 칸: 30일 이내 시행 건수, 7일 이내가 있으면 빨강+깜빡이는 점 */
+  function paintUrgent(items) {
+    var box = document.getElementById('rr-urgent');
+    if (!box) return;
+    var k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+    var today = new Date(k.getFullYear(), k.getMonth(), k.getDate());
+    var in30 = 0, in7 = 0;
+    items.forEach(function (x) {
+      if (!x.effectiveDate) return;
+      var d = Math.round((new Date(x.effectiveDate + 'T00:00:00+09:00') - today) / 86400000);
+      if (d >= 0 && d <= 30) in30++;
+      if (d >= 0 && d <= 7) in7++;
+    });
+    box.className = 'rr-urgent' + (in7 ? ' lvl-urgent' : in30 ? ' lvl-soon' : '');
+    document.getElementById('rr-urgent-count').textContent = in30;
+    document.getElementById('rr-urgent-dot').innerHTML = in7 ? '<span class="rr-urgent-dot"></span>' : '';
+    document.getElementById('rr-urgent-sub').innerHTML = in7 ? '· <b>7일 내 ' + in7 + '</b> ' : '';
+    box.title = '30일 이내 시행 ' + in30 + '건' + (in7 ? ' (7일 이내 ' + in7 + '건)' : '') + ' · 눌러서 보기';
   }
   function paintJobs(items) {
     var CATS = ['인사노무', '공정거래', '정보보호', '지식재산권', '재무회계', '안전', '환경', '지배구조'];

@@ -1996,7 +1996,24 @@
                             <div id="amendment-law-count" style="font-size:1.55rem;font-weight:800;color:#d946ef">–</div>
                             <div style="font-size:0.75rem;color:var(--text-muted);font-weight:500">시행예정</div>
                         </div>
-                        <a href="./watch.html" style="font-size:0.85rem;font-weight:700;color:#2563eb;text-decoration:none;border:1px solid #bfdbfe;border-radius:999px;padding:6px 10px">D-30 알림</a>
+                        <!-- 시행 임박: 옆 숫자들과 같은 모양(숫자+라벨)으로, 긴급도에 따라 색이 바뀐다. 숫자는 stats-ui.js 가 채운다. -->
+                        <style>
+                            .rr-urgent { display: block; text-align: center; min-width: 96px; padding: 0.35rem 0.8rem; border-radius: 12px; text-decoration: none; color: inherit;
+                                         background: var(--rr-u-bg, rgba(160, 174, 192, 0.12)); border: 1px solid var(--rr-u-line, rgba(160, 174, 192, 0.35)); transition: transform .2s ease, box-shadow .2s ease; }
+                            .rr-urgent:hover { transform: translateY(-2px); box-shadow: 0 6px 16px var(--rr-u-shadow, rgba(0, 0, 0, 0.12)); }
+                            .rr-urgent.lvl-soon { --rr-u: #dd6b20; --rr-u-bg: rgba(221, 107, 32, 0.10); --rr-u-line: rgba(221, 107, 32, 0.40); --rr-u-shadow: rgba(221, 107, 32, 0.25); }
+                            .rr-urgent.lvl-urgent { --rr-u: #e53e3e; --rr-u-bg: rgba(229, 62, 62, 0.10); --rr-u-line: rgba(229, 62, 62, 0.45); --rr-u-shadow: rgba(229, 62, 62, 0.28); }
+                            .rr-urgent-num { font-size: 1.55rem; font-weight: 800; color: var(--rr-u, var(--text-muted)); line-height: 1.35; }
+                            .rr-urgent-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+                            .rr-urgent-label b { color: var(--rr-u, inherit); }
+                            .rr-urgent-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #e53e3e; margin-left: 5px; vertical-align: middle; animation: rrPulse 1.6s ease-out infinite; }
+                            @keyframes rrPulse { 0% { box-shadow: 0 0 0 0 rgba(229, 62, 62, .55); } 100% { box-shadow: 0 0 0 9px rgba(229, 62, 62, 0); } }
+                            @media (prefers-reduced-motion: reduce) { .rr-urgent-dot { animation: none; } }
+                        </style>
+                        <a id="rr-urgent" class="rr-urgent" href="./watch.html" title="30일 이내 시행되는 법령 보기">
+                            <div class="rr-urgent-num"><span id="rr-urgent-count">–</span><span id="rr-urgent-dot"></span></div>
+                            <div class="rr-urgent-label">⏰ 30일 내 시행 <span id="rr-urgent-sub"></span>›</div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -6992,7 +7009,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./brief-why.js?v=20260917a"></script>
     <script src="./sum-fill.js?v=20260917a"></script>
     <script src="./brief-ui.js?v=20260917a"></script>
-    <script src="./stats-ui.js?v=20260917a"></script>
+    <script src="./stats-ui.js?v=20260925a"></script>
     <script src="./registry-fix.js?v=20260917a"></script>
     <script src="./excel-fix.js?v=20260917a"></script>
     <script src="./download-ui.js?v=20260917a"></script>
