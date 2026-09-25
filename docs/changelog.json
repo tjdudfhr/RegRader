@@ -1,6 +1,61 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-09-25T23:17:43.661225+00:00",
+      "asOf": "2026-09-26",
+      "previousCheckedAt": "2026-09-25T09:16:40.975506+00:00",
+      "totalBefore": 335,
+      "totalAfter": 335,
+      "universeBefore": {
+        "openapiCurrent": 2519,
+        "openapiFuture": 4989
+      },
+      "universeAfter": {
+        "openapiCurrent": 2522,
+        "openapiFuture": 4989
+      },
+      "added": [],
+      "removed": [],
+      "nowInForce": [
+        {
+          "title": "환경기술 및 환경산업 지원법",
+          "effectiveDate": "2026-09-26",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "276823"
+        },
+        {
+          "title": "환경기술 및 환경산업 지원법 시행규칙",
+          "effectiveDate": "2026-09-26",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "284965"
+        },
+        {
+          "title": "환경기술 및 환경산업 지원법 시행령",
+          "effectiveDate": "2026-09-26",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "284515"
+        },
+        {
+          "title": "환경기술 및 환경산업 지원법 시행령",
+          "effectiveDate": "2026-09-26",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "287319"
+        }
+      ],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "baseLawsBefore": 207,
+      "baseLawsAfter": 207
+    },
+    {
       "checkedAt": "2026-09-25T08:01:03.258451+00:00",
       "asOf": "2026-09-25",
       "previousCheckedAt": "2026-09-15T00:00:00+09:00",
@@ -221,5 +276,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-09-25T08:01:03.258451+00:00"
+  "updatedAt": "2026-09-25T23:17:43.661225+00:00"
 }
