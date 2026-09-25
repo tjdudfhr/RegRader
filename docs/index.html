@@ -2190,7 +2190,25 @@
 
             <!-- Business Tab Content -->
             <div class="tab-pane" id="business-content">
-        <!-- 직무 분석 (job-analytics.js) — 아래 직무별 현황 필터를 따라 바뀐다 -->
+                <!-- Business Filter -->
+        <div class="business-filter">
+            <div class="filter-title">
+                🏢 직무별 현황
+            </div>
+            <div class="filter-tabs">
+                <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">–</span>)</div>
+                <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">–</span>)</div>
+                <div class="filter-tab" data-filter="공정거래">⚖️ 공정거래 (<span id="count-공정거래">–</span>)</div>
+                <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">–</span>)</div>
+                <div class="filter-tab" data-filter="지식재산권">💡 지식재산 (<span id="count-지식재산권">–</span>)</div>
+                <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">–</span>)</div>
+                <div class="filter-tab" data-filter="안전">🛡️ 안전/보건 (<span id="count-안전">–</span>)</div>
+                <div class="filter-tab" data-filter="환경">🌱 환경/에너지 (<span id="count-환경">–</span>)</div>
+                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">–</span>)</div>
+            </div>
+        </div>
+
+        <!-- 직무 분석 (job-analytics.js) — 위 직무별 현황 필터를 따라 바뀐다 -->
         <div class="rr-an" id="rr-job-an">
             <div class="filter-title">📈 <span id="rr-job-an-title">직무 분석</span></div>
             <div class="rr-job-tiles" id="rr-job-tiles"></div>
@@ -2211,24 +2229,6 @@
                     <div class="rr-an-h"><b>소관부처 TOP 6</b><span>개정 건수 기준</span></div>
                     <div class="rr-an-plot" style="height:240px"><canvas id="rr-job-min" role="img" aria-label="소관부처별 개정 건수 가로 막대 차트"></canvas></div>
                 </div>
-            </div>
-        </div>
-
-                <!-- Business Filter -->
-        <div class="business-filter">
-            <div class="filter-title">
-                🏢 직무별 현황
-            </div>
-            <div class="filter-tabs">
-                <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">–</span>)</div>
-                <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">–</span>)</div>
-                <div class="filter-tab" data-filter="공정거래">⚖️ 공정거래 (<span id="count-공정거래">–</span>)</div>
-                <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">–</span>)</div>
-                <div class="filter-tab" data-filter="지식재산권">💡 지식재산 (<span id="count-지식재산권">–</span>)</div>
-                <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">–</span>)</div>
-                <div class="filter-tab" data-filter="안전">🛡️ 안전/보건 (<span id="count-안전">–</span>)</div>
-                <div class="filter-tab" data-filter="환경">🌱 환경/에너지 (<span id="count-환경">–</span>)</div>
-                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">–</span>)</div>
             </div>
         </div>
 
