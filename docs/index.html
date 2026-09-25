@@ -2022,6 +2022,7 @@
             line-height: 1.4;
         }
     </style>
+    <link rel="stylesheet" href="./app-shell.css?v=20260926a">
 </head>
 <body>
     <div class="container">
@@ -2060,7 +2061,37 @@
         </div>
 
         <!-- Main Tab Navigation -->
-        <!-- 요약: 개정 법규 현황 · 당사 적용 법규 개정 현황 (모든 탭 위에 항상 표시) -->
+        <div class="main-tab-navigation">
+            <div class="main-tab-container">
+                <div class="nav-caption">현황</div>
+                <div class="main-tab active" data-tab="overview" onclick="switchMainTab('overview')" role="tab" aria-selected="true">
+                    <span class="tab-icon">🏠</span><span class="tab-body"><span class="tab-text">종합 현황</span></span>
+                </div>
+                <div class="main-tab" data-tab="quarterly" onclick="switchMainTab('quarterly')" role="tab" aria-selected="false">
+                    <span class="tab-icon">📅</span><span class="tab-body"><span class="tab-text">분기별 개정 현황</span></span>
+                </div>
+                <div class="main-tab" data-tab="business" onclick="switchMainTab('business')" role="tab" aria-selected="false">
+                    <span class="tab-icon">🏢</span><span class="tab-body"><span class="tab-text">직무별 개정 현황</span></span>
+                </div>
+                <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')" role="tab" aria-selected="false">
+                    <span class="tab-icon">📚</span><span class="tab-body"><span class="tab-text">적용법규</span></span>
+                </div>
+                <div class="nav-sep" aria-hidden="true"></div>
+                <div class="nav-caption">알림 · 기록</div>
+                <div class="main-tab" data-tab="watch" onclick="switchMainTab('watch')" role="tab" aria-selected="false">
+                    <span class="tab-icon">⏰</span><span class="tab-body"><span class="tab-text">시행 임박</span></span>
+                </div>
+                <div class="main-tab" data-tab="history" onclick="switchMainTab('history')" role="tab" aria-selected="false">
+                    <span class="tab-icon">🗂️</span><span class="tab-body"><span class="tab-text">업데이트 내역</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content Wrapper -->
+        <div class="tab-content">
+            <!-- 종합 현황 (첫 화면) -->
+            <div class="tab-pane active" id="overview-content">
+        <!-- 종합 현황: 개정 법규 현황 · 당사 적용 법규 개정 현황 -->
         <div class="rr-summary">
             <!-- 2025년 전체 개정 법규 현황 -->
             <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
@@ -2149,32 +2180,10 @@
                 </div>
             </div>
         </div>
-
-        <div class="main-tab-navigation">
-            <div class="main-tab-container">
-                <!-- 메인 탭: 필터 버튼(보라 그라데이션 알약)과 구분되도록 '섹션 카드' 모양 — 아이콘·설명·현재 수치 -->
-                <div class="main-tab active" data-tab="quarterly" onclick="switchMainTab('quarterly')" role="tab" aria-selected="true">
-                    <span class="tab-icon">📅</span>
-                    <span class="tab-body"><span class="tab-text">분기별 개정 현황</span><span class="tab-desc">시행 시기별 개정과 분석 차트</span></span>
-                    <span class="tab-badge" id="tab-badge-quarterly"></span>
-                </div>
-                <div class="main-tab" data-tab="business" onclick="switchMainTab('business')" role="tab" aria-selected="false">
-                    <span class="tab-icon">🏢</span>
-                    <span class="tab-body"><span class="tab-text">직무별 개정 현황</span><span class="tab-desc">직무를 골라 개정 분석·목록 보기</span></span>
-                    <span class="tab-badge" id="tab-badge-business"></span>
-                </div>
-                <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')" role="tab" aria-selected="false">
-                    <span class="tab-icon">📚</span>
-                    <span class="tab-body"><span class="tab-text">적용법규</span><span class="tab-desc">당사 법규등록부 · 법규 추가 요청</span></span>
-                    <span class="tab-badge" id="tab-badge-lawregistry"></span>
-                </div>
             </div>
-        </div>
 
-        <!-- Tab Content Wrapper -->
-        <div class="tab-content">
             <!-- Quarterly Tab Content -->
-            <div class="tab-pane active" id="quarterly-content">
+            <div class="tab-pane" id="quarterly-content">
                 <!-- Quarterly View -->
         <div class="quarterly-view">
 
@@ -2385,6 +2394,61 @@
                         </div>
                     </div>
 
+                        <!-- 직무 분야 (위쪽 버튼 줄) — 아래 적용법규 분석과 목록이 이 선택을 따른다 -->
+                    <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.2rem; box-shadow: var(--glass-shadow);">
+                        <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>👔</span> 직무 분야
+                        </div>
+                        
+                        <div class="job-function-list" id="job-function-list">
+                            <div class="job-function-item active" data-job="all" onclick="showJobFunctionLaws('all', '전체')">
+                                <span class="job-icon">📋</span>
+                                <span class="job-name">전체</span>
+                                <span class="job-count" id="job-count-all">207</span>
+                            </div>
+                            <div class="job-function-item" data-job="인사노무" onclick="showJobFunctionLaws('인사노무', '👥 인사노무')">
+                                <span class="job-icon">👥</span>
+                                <span class="job-name">인사노무</span>
+                                <span class="job-count" id="job-count-인사노무">41</span>
+                            </div>
+                            <div class="job-function-item" data-job="정보보호" onclick="showJobFunctionLaws('정보보호', '🔒 정보보호')">
+                                <span class="job-icon">🔒</span>
+                                <span class="job-name">정보보호</span>
+                                <span class="job-count" id="job-count-정보보호">16</span>
+                            </div>
+                            <div class="job-function-item" data-job="안전" onclick="showJobFunctionLaws('안전', '🛡️ 안전보건')">
+                                <span class="job-icon">🛡️</span>
+                                <span class="job-name">안전보건</span>
+                                <span class="job-count" id="job-count-안전">41</span>
+                            </div>
+                            <div class="job-function-item" data-job="환경" onclick="showJobFunctionLaws('환경', '🌱 환경에너지')">
+                                <span class="job-icon">🌱</span>
+                                <span class="job-name">환경에너지</span>
+                                <span class="job-count" id="job-count-환경">65</span>
+                            </div>
+                            <div class="job-function-item" data-job="재무회계" onclick="showJobFunctionLaws('재무회계', '💰 재무회계')">
+                                <span class="job-icon">💰</span>
+                                <span class="job-name">재무회계</span>
+                                <span class="job-count" id="job-count-재무회계">19</span>
+                            </div>
+                            <div class="job-function-item" data-job="공정거래" onclick="showJobFunctionLaws('공정거래', '⚖️ 공정거래')">
+                                <span class="job-icon">⚖️</span>
+                                <span class="job-name">공정거래</span>
+                                <span class="job-count" id="job-count-공정거래">11</span>
+                            </div>
+                            <div class="job-function-item" data-job="지배구조" onclick="showJobFunctionLaws('지배구조', '🏛️ 지배구조')">
+                                <span class="job-icon">🏛️</span>
+                                <span class="job-name">지배구조</span>
+                                <span class="job-count" id="job-count-지배구조">7</span>
+                            </div>
+                            <div class="job-function-item" data-job="지식재산권" onclick="showJobFunctionLaws('지식재산권', '💡 지식재산')">
+                                <span class="job-icon">💡</span>
+                                <span class="job-name">지식재산</span>
+                                <span class="job-count" id="job-count-지식재산권">7</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- 적용법규 분석 (registry-analytics.js) — 왼쪽 '직무 분야'를 따라 바뀐다 -->
                     <div class="rr-an" id="rr-reg-an">
                         <div class="filter-title">📊 <span id="rr-reg-an-title">적용법규 분석</span></div>
@@ -2411,60 +2475,7 @@
 
                     <!-- Main Content with Sidebar and Panel -->
                     <div style="display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; min-height: 600px;">
-                        <!-- Left Sidebar: Job Functions -->
-                        <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.2rem; box-shadow: var(--glass-shadow);">
-                            <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <span>👔</span> 직무 분야
-                            </div>
-                            
-                            <div class="job-function-list" id="job-function-list">
-                                <div class="job-function-item active" data-job="all" onclick="showJobFunctionLaws('all', '전체')">
-                                    <span class="job-icon">📋</span>
-                                    <span class="job-name">전체</span>
-                                    <span class="job-count" id="job-count-all">207</span>
-                                </div>
-                                <div class="job-function-item" data-job="인사노무" onclick="showJobFunctionLaws('인사노무', '👥 인사노무')">
-                                    <span class="job-icon">👥</span>
-                                    <span class="job-name">인사노무</span>
-                                    <span class="job-count" id="job-count-인사노무">41</span>
-                                </div>
-                                <div class="job-function-item" data-job="정보보호" onclick="showJobFunctionLaws('정보보호', '🔒 정보보호')">
-                                    <span class="job-icon">🔒</span>
-                                    <span class="job-name">정보보호</span>
-                                    <span class="job-count" id="job-count-정보보호">16</span>
-                                </div>
-                                <div class="job-function-item" data-job="안전" onclick="showJobFunctionLaws('안전', '🛡️ 안전보건')">
-                                    <span class="job-icon">🛡️</span>
-                                    <span class="job-name">안전보건</span>
-                                    <span class="job-count" id="job-count-안전">41</span>
-                                </div>
-                                <div class="job-function-item" data-job="환경" onclick="showJobFunctionLaws('환경', '🌱 환경에너지')">
-                                    <span class="job-icon">🌱</span>
-                                    <span class="job-name">환경에너지</span>
-                                    <span class="job-count" id="job-count-환경">65</span>
-                                </div>
-                                <div class="job-function-item" data-job="재무회계" onclick="showJobFunctionLaws('재무회계', '💰 재무회계')">
-                                    <span class="job-icon">💰</span>
-                                    <span class="job-name">재무회계</span>
-                                    <span class="job-count" id="job-count-재무회계">19</span>
-                                </div>
-                                <div class="job-function-item" data-job="공정거래" onclick="showJobFunctionLaws('공정거래', '⚖️ 공정거래')">
-                                    <span class="job-icon">⚖️</span>
-                                    <span class="job-name">공정거래</span>
-                                    <span class="job-count" id="job-count-공정거래">11</span>
-                                </div>
-                                <div class="job-function-item" data-job="지배구조" onclick="showJobFunctionLaws('지배구조', '🏛️ 지배구조')">
-                                    <span class="job-icon">🏛️</span>
-                                    <span class="job-name">지배구조</span>
-                                    <span class="job-count" id="job-count-지배구조">7</span>
-                                </div>
-                                <div class="job-function-item" data-job="지식재산권" onclick="showJobFunctionLaws('지식재산권', '💡 지식재산')">
-                                    <span class="job-icon">💡</span>
-                                    <span class="job-name">지식재산</span>
-                                    <span class="job-count" id="job-count-지식재산권">7</span>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <!-- Right Panel: Laws for Selected Job Function -->
                         <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; box-shadow: var(--glass-shadow);">
@@ -2483,6 +2494,10 @@
                     </div>
                 </div>
             </div>
+        
+            <!-- 시행 임박 · 업데이트 내역: 각 페이지를 embed 모드로 끼워 넣는다 (처음 열 때 불러옴) -->
+            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1" title="시행 임박 법령"></iframe></div>
+            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1" title="업데이트 내역"></iframe></div>
         </div>
     </div>
 
@@ -3154,17 +3169,21 @@
         // Tab switching function
         function switchMainTab(tabName) {
             currentMainTab = tabName;
-            /* 탭을 바꿔도 화면이 튀지 않게: 탭 바의 화면상 위치를 기억해 두었다가 그대로 되돌린다.
-               (예전에는 내용을 숨긴 뒤 0.1초 뒤에 새 내용을 보여줘서, 그 사이 페이지가 짧아지며 스크롤이 움직였다.)
-               아래로 많이 내려가 탭 바가 화면 위로 사라진 상태였다면 탭 바가 맨 위에 오도록 맞춘다. */
-            const _nav = document.querySelector('.main-tab-navigation');
-            const _navTop = _nav ? _nav.getBoundingClientRect().top : 0;
+            /* 탭을 누르면 그 자리(오른쪽 내용 영역 맨 위)에 새 탭 내용이 오게 한다.
+               아래로 내려가 있었다면 내용 영역 맨 위로 올리고, 아니면 스크롤을 건드리지 않는다. */
             const _keep = () => {
-                if (!_nav) return;
-                const target = _navTop < 0 ? 0 : _navTop;
-                const diff = _nav.getBoundingClientRect().top - target;
-                if (Math.abs(diff) > 1) window.scrollBy(0, diff);
+                const tc = document.querySelector('.tab-content');
+                const nav = document.querySelector('.main-tab-navigation');
+                if (!tc) return;
+                /* 좁은 화면에서는 메뉴가 위에 붙어 있으므로 그 높이만큼 비워 둔다 */
+                const navOnTop = nav && getComputedStyle(nav).position === 'sticky' && nav.getBoundingClientRect().width > tc.getBoundingClientRect().width * 0.8;
+                const offset = navOnTop ? nav.offsetHeight + 12 : 16;
+                const top = tc.getBoundingClientRect().top + window.scrollY - offset;
+                if (window.scrollY > top) window.scrollTo(0, top);
             };
+            /* 시행 임박 · 업데이트 내역은 처음 열 때 불러온다 */
+            const _frame = document.querySelector('#' + tabName + '-content iframe.rr-embed');
+            if (_frame && !_frame.src) _frame.src = _frame.dataset.src;
 
             // Update tab buttons
             document.querySelectorAll('.main-tab').forEach(tab => {
@@ -7242,14 +7261,15 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./brief-why.js?v=20260917a"></script>
     <script src="./sum-fill.js?v=20260917a"></script>
     <script src="./brief-ui.js?v=20260926a"></script>
-    <script src="./stats-ui.js?v=20260925h"></script>
+    <script src="./stats-ui.js?v=20260926a"></script>
     <script src="./registry-fix.js?v=20260925a"></script>
     <script src="./excel-fix.js?v=20260925a"></script>
     <script src="./download-ui.js?v=20260925b"></script>
     <script src="./law-request.js?v=20260925a"></script>
     <script src="./dashboard-charts.js?v=20260925b"></script>
-    <script src="./year-view.js?v=20260925b"></script>
-    <script src="./analytics.js?v=20260925d"></script>
+    <script src="./year-view.js?v=20260926a"></script>
+    <script src="./embed-host.js?v=20260926a"></script>
+    <script src="./analytics.js?v=20260926a"></script>
     <script src="./job-analytics.js?v=20260925c"></script>
     <script src="./registry-analytics.js?v=20260925b"></script>
 

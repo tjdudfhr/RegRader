@@ -122,6 +122,23 @@
     .law-date { grid-row: auto; grid-column: 1; text-align: left; }
   }
 </style>
+<script>
+  /* ?embed=1 : 메인 페이지의 탭 안에 끼워 넣어 보여줄 때 (제목 줄·메인으로 링크를 숨기고, 높이를 메인에 알린다) */
+  (function () {
+    if (new URLSearchParams(location.search).get('embed') === '1' && window.parent !== window) {
+      document.documentElement.classList.add('rr-embedded');
+      window.RR_EMBEDDED = true;
+    }
+  })();
+</script>
+<style>
+  html.rr-embedded body { background: transparent !important; background-image: none !important; min-height: 0 !important; }
+  html.rr-embedded .wrap { max-width: none; padding: 0; }
+  html.rr-embedded header { background: none; color: var(--text-primary); box-shadow: none; padding: 0 0 14px; margin-bottom: 8px; border-radius: 0; }
+  html.rr-embedded header a.back { display: none; }
+  html.rr-embedded header h1 { margin-top: 0; font-size: 1.4rem; color: var(--text-primary); }
+  html.rr-embedded header p { color: var(--text-muted); opacity: 1; }
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -351,6 +368,33 @@
     console.error(e);
   });
 })();
+</script>
+<script>
+  /* 끼워 넣어진 경우: 내용 높이가 바뀔 때마다 메인에 알린다 */
+  (function () {
+    if (!window.RR_EMBEDDED) return;
+    var last = 0;
+    function report() {
+      /* 문서 전체 높이(=iframe 높이 이상)가 아니라 내용 높이를 잰다 — 내용이 줄면 iframe 도 줄어들게 */
+      var h = Math.ceil(document.body.getBoundingClientRect().height) + 24;
+      if (Math.abs(h - last) > 2) { last = h; window.parent.postMessage({ rr: 'embed-height', h: h }, location.origin); }
+    }
+    if (window.ResizeObserver) new ResizeObserver(report).observe(document.body);
+    window.addEventListener('load', report);
+    setInterval(report, 1000);
+    /* 사이트 안 다른 페이지로 가는 링크는 메인의 해당 탭으로 바꾼다 */
+    var TAB = { 'history.html': 'history', 'watch.html': 'watch', '': 'overview', 'index.html': 'overview' };
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href]');
+      if (!a || a.target === '_blank') return;
+      var u = new URL(a.href, location.href);
+      if (u.origin !== location.origin) return;
+      var name = u.pathname.split('/').pop();
+      if (TAB[name] == null) return;
+      e.preventDefault();
+      window.parent.postMessage({ rr: 'go-tab', tab: TAB[name] }, location.origin);
+    });
+  })();
 </script>
 </body>
 </html>

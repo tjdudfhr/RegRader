@@ -51,7 +51,7 @@
   }
 
   function mountBanner(current, meta) {
-    var host = document.querySelector('.rr-summary') || document.querySelector('.main-tab-navigation');
+    var host = document.querySelector('.container > .tab-content') || document.querySelector('.rr-summary');
     if (!host) return;
     var when = meta && meta.generatedAt ? new Date(meta.generatedAt).toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul' }) : '';
     var bar = document.createElement('div');

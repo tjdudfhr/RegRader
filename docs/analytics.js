@@ -283,11 +283,13 @@
 
   /* 메인 탭 카드의 현재 수치 (개정 건수 · 직무 수 · 적용법규 수) */
   function setTabBadges(s) {
-    var set = function (id, v) { var el = document.getElementById(id); if (el && v != null) el.textContent = v; };
-    set('tab-badge-quarterly', s.total + '건');
-    set('tab-badge-business', s.cats.filter(function (c) { return s.byCat[c] > 0; }).length + '개 직무');
-    if (window.__rrBaseCount) set('tab-badge-lawregistry', window.__rrBaseCount + '개');
-    else setTimeout(function () { if (window.__rrBaseCount) set('tab-badge-lawregistry', window.__rrBaseCount + '개'); }, 1500);
+    /* 메뉴 배지는 숫자만 (좁은 메뉴에서 글자와 겹치지 않게), 뜻은 마우스를 올리면 */
+    var set = function (id, v, tip) { var el = document.getElementById(id); if (el && v != null) { el.textContent = v; el.title = tip; } };
+    var jobs = s.cats.filter(function (c) { return s.byCat[c] > 0; }).length;
+    set('tab-badge-quarterly', s.total, s.year + '년 개정 ' + s.total + '건 (중복 포함)');
+    set('tab-badge-business', jobs, '개정이 있는 직무 ' + jobs + '개');
+    var baseBadge = function () { if (window.__rrBaseCount) set('tab-badge-lawregistry', window.__rrBaseCount, '적용법규 ' + window.__rrBaseCount + '개'); };
+    baseBadge(); setTimeout(baseBadge, 1500);
   }
   /* 선택된 탭을 보조기기에도 알린다 */
   function syncAria() {

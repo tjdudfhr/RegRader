@@ -98,6 +98,8 @@
     });
     box.className = 'rr-urgent' + (in7 ? ' lvl-urgent' : in30 ? ' lvl-soon' : '');
     document.getElementById('rr-urgent-count').textContent = in30;
+    var wb = document.getElementById('tab-badge-watch');
+    if (wb) { wb.textContent = in30 ? in30 : ''; wb.title = '30일 내 시행 ' + in30 + '건 (7일 내 ' + in7 + '건)'; }
     document.getElementById('rr-urgent-dot').innerHTML = in7 ? '<span class="rr-urgent-dot"></span>' : '';
     document.getElementById('rr-urgent-sub').innerHTML = in7 ? '· <b>7일 내 ' + in7 + '</b> ' : '';
     box.title = '30일 이내 시행 ' + in30 + '건' + (in7 ? ' (7일 이내 ' + in7 + '건)' : '') + ' · 눌러서 보기';
