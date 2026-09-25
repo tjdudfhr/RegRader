@@ -37,7 +37,7 @@
   function fallbackBrief(r, am) {
     var cat = r.c || '';
     var kind = am || '개정';
-    var why = (r.t || '해당 법령') + '이(가) 2026년 ' + (r.d || '') + '부터 ' + kind + '으로 시행됩니다.';
+    var why = (r.t || '해당 법령') + '이(가) ' + String(r.d || '').slice(0, 4) + '년 ' + (r.d || '') + '부터 ' + kind + '으로 시행됩니다.';
     var what = kind === '타법개정'
       ? '다른 법령 개정에 따른 인용·용어 정비입니다. 직접 의무가 바뀌는지 원문 조문을 확인하세요.'
       : '본 법령의 조문·절차가 바뀝니다. 아래 원문·신구비교에서 변경 조문을 확인하세요.';
@@ -170,7 +170,7 @@
       hit = data.find(function (x) { return x.title === p[0] && x.effectiveDate === p[1]; });
       if (hit) return hit;
     }
-    var mst = key.replace(/^matched_2026_/, '').split('_')[0];
+    var mst = key.replace(/^matched_\d{4}_/, '').split('_')[0];
     if (/^\d+$/.test(mst)) {
       hit = data.find(function (x) { return x.meta && String(x.meta.lsiSeq) === mst; });
     }
@@ -419,7 +419,7 @@
       }).join('');
       var box = document.getElementById('job-function-laws');
       if (box) {
-        box.innerHTML = html || '<div style="padding:2rem;text-align:center;color:var(--text-muted)">해당 직무의 2026년 개정 이벤트가 없습니다.</div>';
+        box.innerHTML = html || '<div style="padding:2rem;text-align:center;color:var(--text-muted)">해당 직무의 ' + window.RR_YEAR + '년 개정 이벤트가 없습니다.</div>';
       }
     };
     window.updateJobFunctionDataWithCompanyLaws = function () {
@@ -432,7 +432,15 @@
     try { lawsData = items; } catch (e) {}
     try { filteredLaws = items.slice(); } catch (e) {}
   }
+  /* 기준 연도 = 데이터에 가장 많은 시행 연도 (meta.json 을 못 읽어도 화면 연도가 데이터와 맞도록) */
+  function yearOf(items) {
+    var c = {};
+    items.forEach(function (x) { var y = String(x.effectiveDate || '').slice(0, 4); if (y) c[y] = (c[y] || 0) + 1; });
+    return Object.keys(c).sort(function (a, b) { return c[b] - c[a]; })[0];
+  }
   function apply(items) {
+    var y = yearOf(items || []);
+    if (y && window.rrSetYear) window.rrSetYear(y);
     items = enrich(items);
     holdData(items);
     /* banner(items) 는 부르지 않는다: 상단 요약 바가 잠깐 떴다가 stats-ui.js 가 지우면서 화면이 깜빡였다. */
@@ -448,10 +456,11 @@
       var q = { Q1: 0, Q2: 0, Q3: 0, Q4: 0 };
       items.forEach(function (it) {
         var d = it.effectiveDate || '';
-        if (d >= '2026-01-01' && d <= '2026-03-31') q.Q1++;
-        else if (d <= '2026-06-30') q.Q2++;
-        else if (d <= '2026-09-30') q.Q3++;
-        else if (d <= '2026-12-31') q.Q4++;
+        var Y = String(window.RR_YEAR);
+        if (d >= Y + '-01-01' && d <= Y + '-03-31') q.Q1++;
+        else if (d >= Y + '-01-01' && d <= Y + '-06-30') q.Q2++;
+        else if (d >= Y + '-01-01' && d <= Y + '-09-30') q.Q3++;
+        else if (d >= Y + '-01-01' && d <= Y + '-12-31') q.Q4++;
       });
       [['q1-count', q.Q1], ['q2-count', q.Q2], ['q3-count', q.Q3], ['q4-count', q.Q4]].forEach(function (p) {
         var el = document.getElementById(p[0]); if (el) el.textContent = p[1];
@@ -482,7 +491,9 @@
          이 파일들이 없어서(404) 요청마다 수백 ms 씩 첫 화면이 늦어졌다. */
       function ok(s) { return s.status === 'fulfilled' ? s.value : null; }
       function isRows(v) { return Array.isArray(v) && v.length && v[0].t; }
-      var names = ['summaries', 'sum_a', 'sum_b', 'events_mini', 'm0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'extra11'];
+      /* extra11.json(2026년 띄어쓰기 정규화 11건)은 자동 갱신이 이름을 정규화해 같이 모으므로 더 읽지 않는다.
+         읽으면 해가 바뀐 뒤에도 2026년 개정 11건이 섞인다. */
+      var names = ['summaries', 'sum_a', 'sum_b', 'events_mini', 'm0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7'];
       var got = await Promise.allSettled(names.map(function (n) { return loadJSON('./' + n + '.json'); }));
       [0, 1, 2].forEach(function (i) { if (ok(got[i]) && typeof ok(got[i]) === 'object') Object.assign(sums, ok(got[i])); });
       if (isRows(ok(got[3]))) rows = ok(got[3]);

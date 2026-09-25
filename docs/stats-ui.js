@@ -53,7 +53,7 @@
     if (root && root.querySelector) {
       var sub = root.querySelector('div[style*="text-muted"]');
       if (sub && /기본 법규|매칭/.test(sub.textContent || '')) {
-        sub.textContent = '당사 적용 국내법규 ' + (window.__rrBaseCount || '–') + '개와 제목이 100% 일치하는 2026년 개정만 집계합니다.';
+        sub.textContent = '당사 적용 국내법규 ' + (window.__rrBaseCount || '–') + '개와 제목이 100% 일치하는 ' + window.RR_YEAR + '년 개정만 집계합니다.';
       }
     }
     var row = tot.parentNode && tot.parentNode.parentNode;
@@ -70,9 +70,16 @@
       '<a href="./watch.html" style="font-size:0.85rem;font-weight:700;color:#2563eb;text-decoration:none;border:1px solid #bfdbfe;border-radius:999px;padding:6px 10px">D-30 알림</a>';
   }
   /* 시행 임박 칸: 30일 이내 시행 건수, 7일 이내가 있으면 빨강+깜빡이는 점 */
+  /* 연말에는 다음 해 1~2월 시행분(upcoming_next.json)도 30일 내 시행에 포함한다 */
+  var nextRows = null;
+  fetch('./upcoming_next.json?v=' + Date.now(), { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : []; })
+    .then(function (rows) { nextRows = Array.isArray(rows) ? rows : []; if (window.__rrItems) paintUrgent(window.__rrItems); })
+    .catch(function () { nextRows = []; });
   function paintUrgent(items) {
     var box = document.getElementById('rr-urgent');
     if (!box) return;
+    items = items.concat((nextRows || []).map(function (r) { return { effectiveDate: r.d }; }));
     var k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
     var today = new Date(k.getFullYear(), k.getMonth(), k.getDate());
     var in30 = 0, in7 = 0;
@@ -138,7 +145,7 @@
         host.innerHTML =
           '<div style="text-align:center">' +
           '<div id="rr-universe-current" style="font-size:2rem;font-weight:800;background:var(--primary-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">2,468</div>' +
-          '<div style="font-size:0.8rem;color:var(--text-muted);font-weight:500">현행 (2026 시행)</div></div>' +
+          '<div style="font-size:0.8rem;color:var(--text-muted);font-weight:500">현행 (' + window.RR_YEAR + ' 시행)</div></div>' +
           '<div style="text-align:center;margin-left:1.5rem">' +
           '<div id="rr-universe-future" style="font-size:2rem;font-weight:800;color:#d946ef">4,955</div>' +
           '<div style="font-size:0.8rem;color:var(--text-muted);font-weight:500">시행예정</div></div>';
@@ -156,8 +163,10 @@
     hideBar();
     stampDate();
     updateUniverseCard();
-    var items = window.__rrItems || window.lawsData || [];
-    if (items.length < 200) return false;
+    /* 예전에는 '200건 미만이면 옛 데이터'로 보고 그리지 않았다. 연초에는 실제 개정이 수십 건뿐이라 카드가 비므로,
+       event-boot 가 불러온 최신 데이터(__rrItems)가 준비됐는지로 판단한다. */
+    var items = window.__rrItems || [];
+    if (!items.length) return false;
     paintCard(items);
     paintJobs(items);
     return true;

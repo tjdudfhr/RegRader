@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
-"""Weekly refresh: law.go.kr OpenAPI -> match 207 base laws -> docs/index.json."""
+"""Daily refresh: law.go.kr OpenAPI -> match base laws (docs/base_laws_207.json) -> docs/m0~m7.json, index.json, meta.json.
+
+연도 전환: 해가 바뀐 뒤 첫 실행에서 직전 연도 데이터를 docs/archive/<연도>/ 에 보관하고,
+업데이트 내역에는 '연도 전환' 한 건만 남긴다. 12월에는 다음 해 1~2월 시행분을 docs/upcoming_next.json 에
+따로 모아 D-30 알림이 연말에도 끊기지 않게 한다. 테스트용으로 RR_TODAY=YYYY-MM-DD 로 기준일을 바꿀 수 있다.
+"""
 from __future__ import annotations
 
 import json
 import os
 import re
+import shutil
 import time
 from collections import Counter, defaultdict
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -66,6 +72,59 @@ def fetch_target(target: str, start: str, end: str):
     return items
 
 
+LOOKAHEAD_DAYS = 60  # 연말에 다음 해 시행분을 미리 볼 기간
+ARCHIVE_FILES = ["index.json", "meta.json"] + [f"m{i}.json" for i in range(8)]
+
+
+def archive_year(prev_year: int):
+    """직전 연도 데이터 보관: docs/archive/<연도>/ (이미 있으면 덮어쓰지 않는다)."""
+    dest = DOCS / "archive" / str(prev_year)
+    if dest.exists():
+        return dest
+    dest.mkdir(parents=True)
+    for name in ARCHIVE_FILES:
+        if (DOCS / name).exists():
+            shutil.copy2(DOCS / name, dest / name)
+    print(f"archive: {prev_year}년 데이터를 {dest.relative_to(ROOT)} 에 보관", flush=True)
+    return dest
+
+
+def to_raw(it):
+    return {
+        "법령일련번호": it.get("법령일련번호") or "",
+        "법령ID": it.get("법령ID") or "",
+        "법령명": (it.get("법령명한글") or "").strip(),
+        "시행일자": ymd_to_iso(it.get("시행일자")),
+        "공포일자": ymd_to_iso(it.get("공포일자")),
+        "소관부처": (it.get("소관부처명") or "").strip(),
+        "법령종류": (it.get("법령구분명") or "").strip(),
+        "제개정구분": (it.get("제개정구분명") or "").strip(),
+    }
+
+
+def match_rows(raw, base_norm):
+    """법령정보센터 행 중 적용법규와 이름이 일치하는 것 -> [(적용법규, 행)] (법규+시행일+개정구분 기준 중복 제거)."""
+    out, seen = [], set()
+    for row in raw:
+        if not row["시행일자"] or not row["법령명"]:
+            continue
+        for company in base_norm.get(compact_name(row["법령명"]), []):
+            key = (company["title"], row["시행일자"], row["제개정구분"])
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append((company, row))
+    return out
+
+
+AMEND_MINI = {"일부개정": "일", "타법개정": "타"}
+
+
+def mini_row(title, eff, amend, in_force, ministry, category, lsi):
+    return {"t": title, "d": eff, "a": AMEND_MINI.get(amend, (amend or "")[:1]), "s": 0 if in_force else 1,
+            "m": ministry or "", "c": category or "", "u": str(lsi or "")}
+
+
 AMEND_FULL = {"일": "일부개정", "타": "타법개정", "전": "전부개정", "제": "제정", "폐": "폐지"}
 
 
@@ -113,6 +172,30 @@ def diff_rows(prev_rows, new_rows):
 
 def record_changes(prev_rows, new_rows, prev_meta, meta):
     """직전 갱신과 달라진 점을 docs/changelog.json 맨 앞에 추가한다. 달라진 게 없으면 기록하지 않는다."""
+    path = DOCS / "changelog.json"
+    prev_year = (prev_meta or {}).get("year")
+    if prev_year and prev_year != meta["year"]:
+        # 연도 전환: 작년 개정 전체가 '빠짐', 올해 개정 전체가 '신규'로 찍히지 않도록 한 건으로 기록한다
+        log = read_json(path, {"entries": []})
+        log.setdefault("entries", [])
+        log["entries"].insert(0, {
+            "type": "yearRollover",
+            "checkedAt": meta["generatedAt"],
+            "asOf": meta["asOf"],
+            "previousCheckedAt": (prev_meta or {}).get("generatedAt"),
+            "fromYear": prev_year,
+            "toYear": meta["year"],
+            "totalBefore": len({row_key(r) for r in prev_rows}),
+            "totalAfter": meta["totalCount"],
+            "universeBefore": (prev_meta or {}).get("universe"),
+            "universeAfter": meta.get("universe"),
+            "archive": f"archive/{prev_year}/",
+            "added": [], "removed": [], "nowInForce": [],
+        })
+        log["updatedAt"] = meta["generatedAt"]
+        path.write_text(json.dumps(log, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"changelog: 연도 전환 {prev_year} -> {meta['year']}", flush=True)
+        return
     added, removed, now_in_force = diff_rows(prev_rows, new_rows)
     # 적용법규를 새로 추가한 경우(process_law_requests.py): 그 법규의 개정은 '신규 개정'이 아니라 '적용법규 추가'로 분리한다
     try:
@@ -127,7 +210,6 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
     if not (added or removed or now_in_force or base_added or (u_before and u_before != u_after)):
         print("changelog: 변경 없음", flush=True)
         return
-    path = DOCS / "changelog.json"
     log = read_json(path, {"entries": []})
     log.setdefault("entries", [])
     log["entries"].insert(0, {
@@ -152,65 +234,60 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
 
 
 def main():
-    as_of = date.today()
+    as_of = date.fromisoformat(os.environ["RR_TODAY"]) if os.environ.get("RR_TODAY") else date.today()
     year = as_of.year
     start, end = f"{year}0101", f"{year}1231"
     current = fetch_target("law", start, end)
     future = fetch_target("eflaw", start, end)
-
-    raw = []
-    for src, bucket in (("law", current), ("eflaw", future)):
-        for it in bucket:
-            raw.append({
-                "법령일련번호": it.get("법령일련번호") or "",
-                "법령ID": it.get("법령ID") or "",
-                "법령명": (it.get("법령명한글") or "").strip(),
-                "시행일자": ymd_to_iso(it.get("시행일자")),
-                "공포일자": ymd_to_iso(it.get("공포일자")),
-                "소관부처": (it.get("소관부처명") or "").strip(),
-                "법령종류": (it.get("법령구분명") or "").strip(),
-                "제개정구분": (it.get("제개정구분명") or "").strip(),
-            })
+    raw = [to_raw(it) for it in current + future]
 
     base = json.loads((DOCS / "base_laws_207.json").read_text(encoding="utf-8"))["items"]
     base_norm = defaultdict(list)
     for b in base:
         base_norm[compact_name(b["title"])].append(b)
 
+    # 해가 바뀐 뒤 첫 실행이면 덮어쓰기 전에 작년 데이터를 보관한다
+    prev_meta_top = read_json(DOCS / "meta.json")
+    if prev_meta_top.get("year") and prev_meta_top["year"] != year:
+        archive_year(prev_meta_top["year"])
+
+    # 연말: 다음 해 시행분(오늘부터 LOOKAHEAD_DAYS 이내)을 따로 모은다 -> watch.html·30일 내 시행 칸에서 사용
+    ahead_end = as_of + timedelta(days=LOOKAHEAD_DAYS)
+    upcoming_next = []
+    if ahead_end.year > year:
+        nxt = fetch_target("eflaw", f"{year + 1}0101", ahead_end.strftime("%Y%m%d"))
+        for company, row in match_rows([to_raw(it) for it in nxt], base_norm):
+            if row["시행일자"] <= ahead_end.isoformat():
+                upcoming_next.append(mini_row(company["title"], row["시행일자"], row["제개정구분"], False,
+                                              row["소관부처"] or company.get("meta", {}).get("ministry"),
+                                              (company.get("categories") or [""])[0], row["법령일련번호"]))
+    (DOCS / "upcoming_next.json").write_text(json.dumps(upcoming_next, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
     events = []
-    seen = set()
-    for row in raw:
-        if not row["시행일자"] or not row["법령명"]:
+    for company, row in match_rows(raw, base_norm):
+        if not row["시행일자"].startswith(str(year)):
             continue
-        n = compact_name(row["법령명"])
-        if n not in base_norm:
-            continue
-        for company in base_norm[n]:
-            key = (company["title"], row["시행일자"], row["제개정구분"])
-            if key in seen:
-                continue
-            seen.add(key)
-            ed = date.fromisoformat(row["시행일자"])
-            in_force = ed <= as_of
-            lsi = row["법령일련번호"]
-            events.append({
-                "id": f"matched_{year}_{lsi}_{company['id']}_{row['시행일자']}_{row['제개정구분']}",
-                "title": company["title"],
-                "summary": f"{company['title']}의 {year}년 {row['제개정구분'] or '개정'}사항",
-                "effectiveDate": row["시행일자"],
-                "announcedDate": row["공포일자"],
-                "lawType": row["법령종류"] or company.get("lawType"),
-                "amendmentType": row["제개정구분"] or "",
-                "status": "현행" if in_force else "시행예정",
-                "inForce": in_force,
-                "daysUntil": (ed - as_of).days,
-                "ministry": row["소관부처"] or company.get("meta", {}).get("ministry"),
-                "categories": company.get("categories") or ["기타"],
-                "amendments": [{"date": row["시행일자"], "reason": None, "mainContents": None, "amendmentType": row["제개정구분"] or ""}],
-                "meta": {"lsId": row["법령ID"], "lsiSeq": lsi, "matchType": "100%완전일치", "companyLawId": company["id"]},
-                "source": {"name": "국가법령정보(OpenAPI)", "url": f"https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq={lsi}" if lsi else ""},
-                "originalTitle": row["법령명"],
-            })
+        ed = date.fromisoformat(row["시행일자"])
+        in_force = ed <= as_of
+        lsi = row["법령일련번호"]
+        events.append({
+            "id": f"matched_{year}_{lsi}_{company['id']}_{row['시행일자']}_{row['제개정구분']}",
+            "title": company["title"],
+            "summary": f"{company['title']}의 {year}년 {row['제개정구분'] or '개정'}사항",
+            "effectiveDate": row["시행일자"],
+            "announcedDate": row["공포일자"],
+            "lawType": row["법령종류"] or company.get("lawType"),
+            "amendmentType": row["제개정구분"] or "",
+            "status": "현행" if in_force else "시행예정",
+            "inForce": in_force,
+            "daysUntil": (ed - as_of).days,
+            "ministry": row["소관부처"] or company.get("meta", {}).get("ministry"),
+            "categories": company.get("categories") or ["기타"],
+            "amendments": [{"date": row["시행일자"], "reason": None, "mainContents": None, "amendmentType": row["제개정구분"] or ""}],
+            "meta": {"lsId": row["법령ID"], "lsiSeq": lsi, "matchType": "100%완전일치", "companyLawId": company["id"]},
+            "source": {"name": "국가법령정보(OpenAPI)", "url": f"https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq={lsi}" if lsi else ""},
+            "originalTitle": row["법령명"],
+        })
 
     by = defaultdict(list)
     for e in events:
@@ -275,17 +352,8 @@ def main():
     DOCS.mkdir(exist_ok=True)
     (DOCS / "index.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    amap = {"일부개정": "일", "타법개정": "타"}
-    mini = []
-    for e in events:
-        mini.append({
-            "t": e["title"], "d": e["effectiveDate"],
-            "a": amap.get(e["amendmentType"], (e["amendmentType"] or "")[:1]),
-            "s": 0 if e["inForce"] else 1,
-            "m": e.get("ministry") or "",
-            "c": (e.get("categories") or [""])[0],
-            "u": str((e.get("meta") or {}).get("lsiSeq") or ""),
-        })
+    mini = [mini_row(e["title"], e["effectiveDate"], e["amendmentType"], e["inForce"], e.get("ministry"),
+                     (e.get("categories") or [""])[0], (e.get("meta") or {}).get("lsiSeq")) for e in events]
     # 덮어쓰기 전에 직전 데이터를 읽어 둔다 (업데이트 내역 비교용)
     prev_rows = load_prev_rows()
     prev_meta = read_json(DOCS / "meta.json")
@@ -303,6 +371,8 @@ def main():
         "totalCount": payload["totalCount"],
         "universe": payload["universe"],
         "baseLaws": len(base),
+        "upcomingNext": len(upcoming_next),
+        "archives": sorted(p.name for p in (DOCS / "archive").iterdir() if p.is_dir()) if (DOCS / "archive").exists() else [],
     }
     (DOCS / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 

@@ -50,7 +50,7 @@
   function setHeader() {
     try {
       var y = document.getElementById('year');
-      if (y) y.textContent = '2026';
+      if (y) y.textContent = window.RR_YEAR;
     } catch (e) {}
   }
 
@@ -68,6 +68,7 @@
   window.__rrSetBaseCount = setBaseCount;
   function applyMeta(meta) {
     window.__rrMeta = meta;
+    if (meta.year && window.rrSetYear) window.rrSetYear(meta.year);
     setBaseCount(meta.baseLaws);
     var ts = document.getElementById('timestamp');
     if (ts && meta.generatedAt) {
@@ -80,7 +81,7 @@
     if (cur && u.openapiCurrent != null) cur.textContent = fmtNum(u.openapiCurrent);
     if (fut && u.openapiFuture != null) fut.textContent = fmtNum(u.openapiFuture);
     var sub = document.getElementById('rr-universe-sub');
-    if (sub && meta.asOf) sub.textContent = '국가법령정보센터 OpenAPI · ' + meta.asOf + ' 조회 (시행일 ' + (meta.year || 2026) + '-01-01~12-31)';
+    if (sub && meta.asOf) sub.textContent = '국가법령정보센터 OpenAPI · ' + meta.asOf + ' 조회 (시행일 ' + (meta.year || window.RR_YEAR) + '-01-01~12-31)';
   }
   function loadMeta() {
     fetch('./meta.json?v=' + Date.now(), { cache: 'no-store' })

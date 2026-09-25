@@ -74,6 +74,25 @@
         })();
     </script>
 
+
+    <!-- 기준 연도: 모든 화면·스크립트가 window.RR_YEAR 를 쓴다. 데이터(meta.json / 개정 목록)의 연도로 정해지며,
+         해가 바뀌어 자동 갱신이 새 연도 데이터를 올리면 화면 전체가 함께 바뀐다. -->
+    <script>
+        (function () {
+            var k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+            window.RR_YEAR = window.RR_YEAR || k.getFullYear();
+            window.rrSetYear = function (y) {
+                y = Number(y);
+                if (!y) return;
+                window.RR_YEAR = y;
+                var apply = function () {
+                    document.querySelectorAll('.rr-year').forEach(function (el) { el.textContent = y; });
+                };
+                if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply); else apply();
+            };
+        })();
+    </script>
+
     <!-- 팝업 전용 모드 (?embed=popup): watch.html 이 이 페이지를 숨긴 iframe 으로 띄워 두고,
          법령을 누르면 메인과 똑같은 법령 상세 팝업만 보여준다. 보통 접속에는 영향이 없다. -->
     <script>
@@ -1933,7 +1952,7 @@
                 <div class="subtitle">AI를 활용한 법규 개정 모니터링 시스템</div>
             </div>
             <div class="meta">
-                <span id="year">2026</span>년 법령 개정 현황 · 
+                <span id="year" class="rr-year">2026</span>년 법령 개정 현황 · 
                 최종 업데이트: <span id="timestamp">로딩 중...</span>
                 · <a href="./history.html" style="color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px;">업데이트 내역</a>
             </div>
@@ -1971,14 +1990,14 @@
                     <div style="display: flex; align-items: center; gap: 0.8rem;">
                         <span style="font-size: 1.5rem;">📊</span>
                         <div>
-                            <div style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary);">2026년 개정 법규 현황</div>
+                            <div style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary);"><span class="rr-year">2026</span>년 개정 법규 현황</div>
                             <div id="rr-universe-sub" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">국가법령정보센터 OpenAPI</div>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
                         <div style="text-align: center;">
                             <div id="rr-universe-current" style="font-size: 2rem; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">–</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">현행 (2026 시행)</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">현행 (<span class="rr-year">2026</span> 시행)</div>
                         </div>
                         <div style="text-align: center;">
                             <div id="rr-universe-future" style="font-size: 2rem; font-weight: 800; color: #d946ef;">–</div>
@@ -1994,8 +2013,8 @@
                     <div style="display: flex; align-items: center; gap: 0.8rem;">
                         <span style="font-size: 1.3rem;">🎯</span>
                         <div>
-                            <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">2026년 당사 적용 법규 개정 현황</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">당사 적용 국내법규 <span id="rr-base-sub-n">–</span>개와 제목이 100% 일치하는 2026년 개정만 집계합니다.</div>
+                            <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);"><span class="rr-year">2026</span>년 당사 적용 법규 개정 현황</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">당사 적용 국내법규 <span id="rr-base-sub-n">–</span>개와 제목이 100% 일치하는 <span class="rr-year">2026</span>년 개정만 집계합니다.</div>
                         </div>
                     </div>
                     <!-- 숫자는 stats-ui.js 가 실제 데이터로 채운다. 옛 수치가 먼저 보이지 않도록 자리표시(–)만 둔다. -->
@@ -2055,7 +2074,7 @@
             <!-- 분기별 현황 박스 -->
             <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
                 <div class="filter-title">
-                    📅 2026년 분기별 개정 현황
+                    📅 <span class="rr-year">2026</span>년 분기별 개정 현황
                 </div>
                 <div class="quarterly-tabs">
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q1')">
@@ -2313,10 +2332,10 @@
                             <div>
                                 <h3 style="margin: 0 0 0.5rem 0; color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
                                     <span style="font-size: 1.5rem;">📊</span>
-                                    2026년 전체 법령 (1,864개)
+                                    <span class="rr-year">2026</span>년 전체 법령
                                 </h3>
                                 <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
-                                    2026년 국가법령정보센터에서 수집한 모든 개정 법령
+                                    <span class="rr-year">2026</span>년 국가법령정보센터에서 수집한 모든 개정 법령
                                 </p>
                                 <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
                                     <strong>파일명:</strong> 2025_laws_complete.xlsx
@@ -2335,7 +2354,7 @@
                                     매칭 결과 (134건)
                                 </h3>
                                 <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
-                                    당사 207개 중 84개 법규와 100% 정확 매칭된 2026년 법령 (134건, 시행일별 중복 포함)
+                                    당사 207개 중 84개 법규와 100% 정확 매칭된 <span class="rr-year">2026</span>년 법령 (134건, 시행일별 중복 포함)
                                 </p>
                                 <p style="margin: 0.3rem 0 0 0; color: var(--text-secondary); font-size: 0.85rem;">
                                     <strong>파일명:</strong> matched_laws_2025.xlsx
@@ -2750,7 +2769,7 @@
             var qc = { Q1: 0, Q2: 0, Q3: 0, Q4: 0 };
             (window.lawsData || []).forEach(function(law) {
                 var ed = law.effectiveDate || '';
-                if (!ed.startsWith('2026')) return;
+                if (!ed.startsWith(String(window.RR_YEAR))) return;
                 var m = parseInt(ed.split('-')[1]);
                 if (m >= 1 && m <= 3) qc.Q1++;
                 else if (m >= 4 && m <= 6) qc.Q2++;
@@ -2989,10 +3008,10 @@
         function showQuarterlyDetail(quarter) {
             
             const quarterInfo = {
-                'Q1': { title: '1분기 시행 법령', period: '2026년 1~3월', months: [1, 2, 3], icon: '🌱' },
-                'Q2': { title: '2분기 시행 법령', period: '2026년 4~6월', months: [4, 5, 6], icon: '☀️' },
-                'Q3': { title: '3분기 시행 법령', period: '2026년 7~9월', months: [7, 8, 9], icon: '🍂' },
-                'Q4': { title: '4분기 시행 법령', period: '2026년 10~12월', months: [10, 11, 12], icon: '❄️' }
+                'Q1': { title: '1분기 시행 법령', period: window.RR_YEAR + '년 1~3월', months: [1, 2, 3], icon: '🌱' },
+                'Q2': { title: '2분기 시행 법령', period: window.RR_YEAR + '년 4~6월', months: [4, 5, 6], icon: '☀️' },
+                'Q3': { title: '3분기 시행 법령', period: window.RR_YEAR + '년 7~9월', months: [7, 8, 9], icon: '🍂' },
+                'Q4': { title: '4분기 시행 법령', period: window.RR_YEAR + '년 10~12월', months: [10, 11, 12], icon: '❄️' }
             };
             
             const info = quarterInfo[quarter];
@@ -3020,7 +3039,7 @@
                 const year = date.getFullYear();
                 
                 // 2026년 법령만 필터링
-                if (year !== 2026) return false;
+                if (year !== Number(window.RR_YEAR)) return false;
                 
                 // 분기별 필터링
                 return info.months.includes(month);
@@ -3229,10 +3248,10 @@
             
             // Get quarter info
             const quarterInfo = {
-                'Q1': { title: '1분기 시행 법령', period: '2026년 1~3월', months: [1, 2, 3], icon: '🌱' },
-                'Q2': { title: '2분기 시행 법령', period: '2026년 4~6월', months: [4, 5, 6], icon: '☀️' },
-                'Q3': { title: '3분기 시행 법령', period: '2026년 7~9월', months: [7, 8, 9], icon: '🍂' },
-                'Q4': { title: '4분기 시행 법령', period: '2026년 10~12월', months: [10, 11, 12], icon: '❄️' }
+                'Q1': { title: '1분기 시행 법령', period: window.RR_YEAR + '년 1~3월', months: [1, 2, 3], icon: '🌱' },
+                'Q2': { title: '2분기 시행 법령', period: window.RR_YEAR + '년 4~6월', months: [4, 5, 6], icon: '☀️' },
+                'Q3': { title: '3분기 시행 법령', period: window.RR_YEAR + '년 7~9월', months: [7, 8, 9], icon: '🍂' },
+                'Q4': { title: '4분기 시행 법령', period: window.RR_YEAR + '년 10~12월', months: [10, 11, 12], icon: '❄️' }
             };
             
             const info = quarterInfo[quarter];
@@ -3249,7 +3268,7 @@
                 const year = date.getFullYear();
                 
                 // Only 2026 laws
-                if (year !== 2026) return false;
+                if (year !== Number(window.RR_YEAR)) return false;
                 
                 // Check if in this quarter
                 return info.months.includes(month);
@@ -3378,7 +3397,7 @@
                             categories: quarterlyLaw.categories || ['기타'],
                             effectiveDate: quarterlyLaw.effective_date,
                             lawType: quarterlyLaw.law_type,
-                            summary: `이 법령은 ${quarterlyLaw.effective_date}에 시행되는 2026년 시행 법령입니다. ${quarterlyLaw.ministry}에서 관장하며, ${quarterlyLaw.law_type}으로 개정됩니다.`,
+                            summary: `이 법령은 ${quarterlyLaw.effective_date}에 시행되는 ${window.RR_YEAR}년 시행 법령입니다. ${quarterlyLaw.ministry}에서 관장하며, ${quarterlyLaw.law_type}으로 개정됩니다.`,
                             amendmentDetails: [
                                 `개정 시기: ${quarterlyLaw.effective_date}`,
                                 `개정 유형: ${quarterlyLaw.law_type}`,
@@ -3863,7 +3882,7 @@
                 
                 
                 // 헤더 정보 업데이트
-                document.getElementById('year').textContent = data.year || 2026;
+                document.getElementById('year').textContent = data.year || window.RR_YEAR;
                 const date = typeof data.generatedAt === 'string' ? new Date(data.generatedAt) : new Date((data.generatedAt || 0) * 1000);
                 document.getElementById('timestamp').textContent = isNaN(date.getTime()) ? (data.generatedAt || '') : date.toLocaleString('ko-KR');
 
@@ -4141,7 +4160,7 @@
             
             // Only count laws with 2025 effective dates to match summary statistics
             lawsData.forEach(law => {
-                if (law.effectiveDate && law.effectiveDate.startsWith('2026')) {
+                if (law.effectiveDate && law.effectiveDate.startsWith(String(window.RR_YEAR))) {
                     const date = new Date(law.effectiveDate);
                     const month = date.getMonth() + 1;
                     
@@ -4406,7 +4425,7 @@
             const statusText = isEnacted ? '시행완료' : '시행예정';
             const category = (item.categories && item.categories[0]) || '';
 
-            const _idNum = item.id ? item.id.replace('matched_2026_','') : '';
+            const _idNum = item.id ? item.id.replace(/^matched_\d{4}_/,'') : '';
             const _lsiSeq = _lsiSeqMap[_idNum];
             const _comparisonHtml = _lsiSeq ? `<div class="summary-section"><h4><span class="sec-icon" style="background:rgba(245,158,11,0.15);">\u{1F504}</span> \uAC1C\uC815 \uC804\u00B7\uD6C4 \uBE44\uAD50 (\uAD6D\uAC00\uBC95\uB839\uC815\uBCF4\uC13C\uD130)</h4><iframe src="https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=${_lsiSeq}&viewCls=lsOldAndNew" style="width:100%;height:500px;border:1px solid #e5e7eb;border-radius:8px;" loading="lazy"></iframe><div style="text-align:center;margin-top:8px;"><a href="https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=${_lsiSeq}&viewCls=lsOldAndNew" target="_blank" style="color:#2563eb;font-size:13px;">\uAD6D\uAC00\uBC95\uB839\uC815\uBCF4\uC13C\uD130\uC5D0\uC11C \uBCF4\uAE30 \u2197</a></div></div>` : '';
 
@@ -5863,7 +5882,7 @@ async function downloadQuarterlyExcel(quarter, event) {
                 if (!info) { alert('잘못된 분기 정보입니다.'); return; }
 
                 const quarterLaws = lawsData.filter(law => {
-                    if (!law.effectiveDate || !law.effectiveDate.startsWith('2026')) return false;
+                    if (!law.effectiveDate || !law.effectiveDate.startsWith(String(window.RR_YEAR))) return false;
                     const month = parseInt(law.effectiveDate.split('-')[1]);
                     return info.months.includes(month);
                 });
@@ -6067,7 +6086,7 @@ async function downloadQuarterlyExcel(quarter, event) {
 
                 var quarterNames = { Q1: '1분기', Q2: '2분기', Q3: '3분기', Q4: '4분기' };
                 var today = new Date().toISOString().split('T')[0];
-                var fileName = '2026_' + quarterNames[quarter] + '_법령개정_' + today + '.xlsx';
+                var fileName = window.RR_YEAR + '_' + quarterNames[quarter] + '_법령개정_' + today + '.xlsx';
 
                 var buffer = await workbook.xlsx.writeBuffer();
                 var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -6717,7 +6736,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
                     if (!law.effectiveDate) return false;
                     const month = new Date(law.effectiveDate).getMonth() + 1;
                     const year = new Date(law.effectiveDate).getFullYear();
-                    return year === 2026 && months.includes(month);
+                    return year === Number(window.RR_YEAR) && months.includes(month);
                 });
                 
                 const quarterJobs = {};
@@ -7026,8 +7045,8 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     </script>
 
     <!-- RegRader 오버레이: 데이터/개정이유/UI -->
-    <script src="./app-init.js?v=20260925b"></script>
-    <script src="./event-boot.js?v=20260925c"></script>
+    <script src="./app-init.js?v=20260925c"></script>
+    <script src="./event-boot.js?v=20260925e"></script>
     <script src="./whyA.js?v=20260917a"></script>
     <script src="./whyB.js?v=20260917a"></script>
     <script src="./wy0.js?v=20260917a"></script>
@@ -7036,10 +7055,10 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./brief-why.js?v=20260917a"></script>
     <script src="./sum-fill.js?v=20260917a"></script>
     <script src="./brief-ui.js?v=20260925a"></script>
-    <script src="./stats-ui.js?v=20260925b"></script>
+    <script src="./stats-ui.js?v=20260925d"></script>
     <script src="./registry-fix.js?v=20260925a"></script>
-    <script src="./excel-fix.js?v=20260917a"></script>
-    <script src="./download-ui.js?v=20260925a"></script>
+    <script src="./excel-fix.js?v=20260925a"></script>
+    <script src="./download-ui.js?v=20260925b"></script>
     <script src="./law-request.js?v=20260925a"></script>
     <script src="./dashboard-charts.js?v=20260925a"></script>
 

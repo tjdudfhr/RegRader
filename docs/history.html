@@ -219,6 +219,7 @@
     var q = (document.getElementById('q').value || '').trim().toLowerCase();
     var shown = selected === 'all' ? entries : (entries[selected] ? [entries[selected]] : []);
     var html = shown.map(function (e) {
+      if (e.type === 'yearRollover') return (filter === 'all' && !q) ? rolloverSection(e) : '';
       var types = filter === 'all' ? ORDER : [filter];
       var groups = types.map(function (t) {
         var rows = (e[t] || []).filter(function (x) { return matches(x, q); });
@@ -245,12 +246,24 @@
     document.getElementById(id).textContent = value;
     document.getElementById(id + '-label').textContent = label;
   }
+  /* 연도 전환: 작년 개정 전체를 '빠짐'으로, 올해 개정 전체를 '신규'로 나열하지 않고 한 건으로 보여준다 */
+  function rolloverSection(e) {
+    var u0 = e.universeBefore || {}, u1 = e.universeAfter || {};
+    return '<section class="entry"><div class="entry-head"><div><div class="entry-date">' + kst(e.checkedAt, true) +
+      '</div><div class="entry-sub">새해 첫 자동 갱신</div></div><div class="badges"><span class="badge b-base">연도 전환 ' +
+      esc(e.fromYear) + ' → ' + esc(e.toYear) + '</span></div></div>' +
+      '<div class="universe">모니터링 기준 연도가 <b>' + esc(e.fromYear) + '년</b>에서 <b>' + esc(e.toYear) + '년</b>으로 바뀌었습니다.<br>' +
+      '당사 적용 개정: ' + esc(e.fromYear) + '년 ' + num(e.totalBefore) + '건 → ' + esc(e.toYear) + '년 ' + num(e.totalAfter) + '건 (새해 첫날 기준, 이후 공포되는 개정이 계속 추가됩니다)<br>' +
+      (u1.openapiFuture != null ? '국가법령정보센터 ' + esc(e.toYear) + '년 시행 법령: 현행 ' + num(u1.openapiCurrent) + ' · 시행예정 ' + num(u1.openapiFuture) + '<br>' : '') +
+      '<span style="color:var(--text-muted)">' + esc(e.fromYear) + '년 데이터는 <a href="./' + esc(e.archive || ('archive/' + e.fromYear + '/')) + 'meta.json" target="_blank" rel="noopener">보관 폴더</a>에 그대로 남아 있습니다.</span></div></section>';
+  }
   function stats() {
     var all = selected === 'all';
     var pool = all ? entries : (entries[selected] ? [entries[selected]] : []);
     var sum = function (t) { return pool.reduce(function (n, e) { return n + (e[t] || []).length; }, 0); };
     var e = pool[0];
-    if (all || !e) setStat('s-runs', num(entries.length), '변동 기록');
+    if (!all && e && e.type === 'yearRollover') setStat('s-runs', num(e.totalAfter), e.toYear + '년 당사 적용 개정');
+    else if (all || !e) setStat('s-runs', num(entries.length), '변동 기록');
     else setStat('s-runs', num(e.totalAfter), '당사 적용 개정 (' + (e.totalAfter - e.totalBefore >= 0 ? '+' : '') + (e.totalAfter - e.totalBefore) + ')');
     var suffix = all ? ' (누적)' : '';
     setStat('s-new', num(sum('added')), '신규 개정' + suffix);
@@ -268,6 +281,7 @@
     return d.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false });
   }
   function optionLabel(e) {
+    if (e.type === 'yearRollover') return shortDate(e.checkedAt) + '  —  연도 전환 ' + e.fromYear + ' → ' + e.toYear;
     var parts = ORDER.map(function (t) {
       var n = (e[t] || []).length;
       return n ? TYPES[t].label.replace('목록에서 ', '') + ' ' + n : '';

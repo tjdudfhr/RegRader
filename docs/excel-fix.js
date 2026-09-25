@@ -255,7 +255,7 @@
     var all = window.__rrItems || window.lawsData || [];
     var items = all.filter(function (it) {
       var d = it.effectiveDate || '';
-      if (d.slice(0, 4) !== '2026') return false;
+      if (d.slice(0, 4) !== String(window.RR_YEAR)) return false;
       return info.months.indexOf(parseInt(d.slice(5, 7), 10)) >= 0;
     }).sort(function (a, b) {
       var ca = (a.categories || [])[0] || '힣', cb = (b.categories || [])[0] || '힣';
@@ -270,14 +270,14 @@
       wb.creator = 'RegRader';
       wb.created = new Date();
       buildDetail(wb, info.name, items);
-      buildSummary(wb, '2026년 ' + info.name, items);
+      buildSummary(wb, window.RR_YEAR + '년 ' + info.name, items);
 
       var today = new Date().toISOString().slice(0, 10);
       var buf = await wb.xlsx.writeBuffer();
       var blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = '2026_' + info.short + '_법령개정_' + today + '.xlsx';
+      a.download = window.RR_YEAR + '_' + info.short + '_법령개정_' + today + '.xlsx';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

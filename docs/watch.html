@@ -297,7 +297,8 @@ function stats() {
 }
 async function loadJSON(url) { const r = await fetch(url + '?v=' + Date.now(), { cache: 'no-store' }); if (!r.ok) throw new Error(url); return r.json(); }
 async function loadCur() {
-  const settled = await Promise.allSettled([0, 1, 2, 3, 4, 5, 6, 7].map(i => loadJSON('./m' + i + '.json')).concat([loadJSON('./extra11.json')]));
+  /* upcoming_next.json: 연말에 미리 모아 둔 다음 해 1~2월 시행분 (연초 시행 법령도 D-30 에 잡히도록) */
+  const settled = await Promise.allSettled([0, 1, 2, 3, 4, 5, 6, 7].map(i => loadJSON('./m' + i + '.json')).concat([loadJSON('./upcoming_next.json')]));
   let rows = [];
   settled.forEach(s => { if (s.status === 'fulfilled' && Array.isArray(s.value) && s.value[0] && s.value[0].t) rows = rows.concat(s.value); });
   const seen = {};
