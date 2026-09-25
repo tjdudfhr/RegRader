@@ -155,6 +155,7 @@
     var k = ink(), R = ramp();
 
     document.getElementById('rr-an-year').textContent = s.year + '년';
+    setTabBadges(s);
     renderStrips(s);
 
     /* 1. 직무별 개정 건수 */
@@ -279,6 +280,23 @@
     });
     return true;
   }
+
+  /* 메인 탭 카드의 현재 수치 (개정 건수 · 직무 수 · 적용법규 수) */
+  function setTabBadges(s) {
+    var set = function (id, v) { var el = document.getElementById(id); if (el && v != null) el.textContent = v; };
+    set('tab-badge-quarterly', s.total + '건');
+    set('tab-badge-business', s.cats.filter(function (c) { return s.byCat[c] > 0; }).length + '개 직무');
+    if (window.__rrBaseCount) set('tab-badge-lawregistry', window.__rrBaseCount + '개');
+    else setTimeout(function () { if (window.__rrBaseCount) set('tab-badge-lawregistry', window.__rrBaseCount + '개'); }, 1500);
+  }
+  /* 선택된 탭을 보조기기에도 알린다 */
+  function syncAria() {
+    document.querySelectorAll('.main-tab').forEach(function (t) { t.setAttribute('aria-selected', t.classList.contains('active') ? 'true' : 'false'); });
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    var bar = document.querySelector('.main-tab-container');
+    if (bar) { bar.setAttribute('role', 'tablist'); new MutationObserver(syncAria).observe(bar, { subtree: true, attributes: true, attributeFilter: ['class'] }); }
+  });
 
   /* 직무별 탭 차트(job-analytics.js)와 같은 방식으로 그리도록 도구를 공유한다 */
   window.rrChartKit = { ink: ink, ramp: ramp, esc: esc, endLabels: endLabels, hbarScales: hbarScales, lawKind: lawKind, yearOf: yearOf };
