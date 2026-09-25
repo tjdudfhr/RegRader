@@ -2220,15 +2220,15 @@
                 🏢 직무별 현황
             </div>
             <div class="filter-tabs">
-                <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">327</span>)</div>
-                <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">24</span>)</div>
-                <div class="filter-tab" data-filter="공정거래">⚖️ 공정거래 (<span id="count-공정거래">7</span>)</div>
-                <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">10</span>)</div>
-                <div class="filter-tab" data-filter="지식재산권">💡 지식재산 (<span id="count-지식재산권">2</span>)</div>
-                <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">16</span>)</div>
-                <div class="filter-tab" data-filter="안전">🛡️ 안전/보건 (<span id="count-안전">32</span>)</div>
-                <div class="filter-tab" data-filter="환경">🌱 환경/에너지 (<span id="count-환경">41</span>)</div>
-                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">4</span>)</div>
+                <div class="filter-tab active" data-filter="all">전체 (<span id="count-all">–</span>)</div>
+                <div class="filter-tab" data-filter="인사노무">👥 인사노무 (<span id="count-인사노무">–</span>)</div>
+                <div class="filter-tab" data-filter="공정거래">⚖️ 공정거래 (<span id="count-공정거래">–</span>)</div>
+                <div class="filter-tab" data-filter="정보보호">🔒 정보보호 (<span id="count-정보보호">–</span>)</div>
+                <div class="filter-tab" data-filter="지식재산권">💡 지식재산 (<span id="count-지식재산권">–</span>)</div>
+                <div class="filter-tab" data-filter="재무회계">💰 재무회계 (<span id="count-재무회계">–</span>)</div>
+                <div class="filter-tab" data-filter="안전">🛡️ 안전/보건 (<span id="count-안전">–</span>)</div>
+                <div class="filter-tab" data-filter="환경">🌱 환경/에너지 (<span id="count-환경">–</span>)</div>
+                <div class="filter-tab" data-filter="지배구조">🏛️ 지배구조 (<span id="count-지배구조">–</span>)</div>
             </div>
         </div>
 
@@ -4109,7 +4109,7 @@
             const stats = calculateStats(filteredLaws);
             const categoryData = Object.entries(stats.categories)
                 .sort((a, b) => b[1] - a[1])
-                .slice(0, 7);
+                .filter(([, n]) => n > 0); /* 8개 직무 모두 (예전엔 7개까지만 보여 지식재산권이 빠졌다) */
 
             const ctx = document.getElementById('categoryChart').getContext('2d');
             
@@ -7109,7 +7109,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
 
     <!-- RegRader 오버레이: 데이터/개정이유/UI -->
     <script src="./app-init.js?v=20260925d"></script>
-    <script src="./event-boot.js?v=20260925f"></script>
+    <script src="./event-boot.js?v=20260925g"></script>
     <script src="./whyA.js?v=20260917a"></script>
     <script src="./whyB.js?v=20260917a"></script>
     <script src="./wy0.js?v=20260917a"></script>

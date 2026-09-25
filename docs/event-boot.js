@@ -129,22 +129,33 @@
   }
   function stampJobCounts(items) {
     items = items || window.lawsData || [];
-    var unique = {};
-    items.forEach(function (law) { if (law.title && !unique[law.title]) unique[law.title] = law; });
-    var counts = {}; CATS.forEach(function (c) { counts[c] = 0; });
-    Object.keys(unique).forEach(function (t) {
-      (unique[t].categories || []).forEach(function (c) { if (counts[c] != null) counts[c]++; });
+    /* 직무 버튼 숫자 = 개정 건수 (목록·분포 차트·'전체' 버튼과 같은 단위).
+       예전에는 직무 버튼만 법령 개수(같은 법령 한 번)여서 '안전 32' 인데 목록은 66건으로 어긋났다.
+       법령 개수는 버튼에 마우스를 올리면 보인다. */
+    var counts = {}, laws = {};
+    CATS.forEach(function (c) { counts[c] = 0; laws[c] = {}; });
+    items.forEach(function (law) {
+      (law.categories || []).forEach(function (c) { if (counts[c] != null) { counts[c]++; laws[c][law.title] = 1; } });
     });
+    var unique = {};
+    items.forEach(function (law) { if (law.title) unique[law.title] = 1; });
     /* count-* 만 담당한다. job-count-* / registry-* 는 적용법규(207개) 소관이라
        registry-fix.js 가 관리한다. 예전에는 여기서도 덮어써서 적용법규 탭이
        목록 207줄 · 헤더 136 으로 어긋났다. */
     CATS.forEach(function (c) {
       var el = document.getElementById('count-' + c);
-      if (el) el.textContent = counts[c];
+      if (!el) return;
+      el.textContent = counts[c];
+      var tab = el.closest && el.closest('.filter-tab');
+      if (tab) tab.title = c + ' 개정 ' + counts[c] + '건 · 법령 ' + Object.keys(laws[c]).length + '개';
     });
     var allUnique = Object.keys(unique).length;
     var evAll = document.getElementById('count-all');
-    if (evAll) evAll.textContent = items.length;
+    if (evAll) {
+      evAll.textContent = items.length;
+      var allTab = evAll.closest && evAll.closest('.filter-tab');
+      if (allTab) allTab.title = '전체 개정 ' + items.length + '건 · 법령 ' + Object.keys(unique).length + '개';
+    }
     var tot = document.getElementById('total-law-count');
     if (tot) tot.textContent = items.length;
     var past = items.filter(function (x) { return x.inForce; }).length;
