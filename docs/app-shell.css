@@ -218,8 +218,8 @@ iframe.rr-embed {
   background: transparent;
   color-scheme: normal;
 }
-/* 종합 현황 탭 안의 요약 카드 */
-#overview-content .rr-summary > div:last-child { margin-bottom: 0 !important; }
+/* 종합 현황 탭: 요약 카드들과 '개정 분석' 상자 사이를 띄운다 */
+#overview-content .rr-summary > div:last-child { margin-bottom: 1.75rem !important; }
 
 /* ---------- 직무 버튼 (직무별 현황 · 직무 분야): 작게 줄여 한 줄에 9개 ---------- */
 #business-content .business-filter { padding: 1.1rem 1.25rem; }
