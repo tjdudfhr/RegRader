@@ -57,6 +57,20 @@
     flex: 1; min-width: 180px; border: 1px solid var(--border); border-radius: 10px;
     padding: 8px 12px; font-size: .9rem; font-family: inherit; background: var(--bg-card);
   }
+  .picker { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 12px 14px; margin: 16px 0 0; }
+  .picker label { display: block; font-size: .8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+  .picker-row { display: flex; gap: 8px; align-items: center; }
+  .picker select {
+    flex: 1; min-width: 0; font-family: inherit; font-size: .95rem; color: var(--text-primary);
+    padding: 9px 12px; border: 1px solid var(--border); border-radius: 10px; background: #fff; cursor: pointer;
+  }
+  .picker select:focus, .nav-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+  .nav-btn {
+    width: 40px; height: 40px; flex: none; border: 1px solid var(--border); border-radius: 10px; background: #fff;
+    font-size: 1.3rem; line-height: 1; color: var(--text-secondary); cursor: pointer; font-family: inherit;
+  }
+  .nav-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+  .nav-btn:disabled { opacity: .35; cursor: default; }
   .entry { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 14px; overflow: hidden; }
   .entry-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
   .entry-date { font-weight: 700; font-size: 1.05rem; }
@@ -97,11 +111,20 @@
     <p id="head-sub">불러오는 중…</p>
   </header>
 
+  <div class="picker">
+    <label for="date-select">조회 날짜</label>
+    <div class="picker-row">
+      <button class="nav-btn" id="prev-btn" title="이전 업데이트" aria-label="이전 업데이트">‹</button>
+      <select id="date-select" disabled><option>불러오는 중…</option></select>
+      <button class="nav-btn" id="next-btn" title="다음 업데이트" aria-label="다음 업데이트">›</button>
+    </div>
+  </div>
+
   <div class="stats">
-    <div class="stat"><b id="s-runs">–</b><span>변동 기록</span></div>
-    <div class="stat"><b id="s-new" style="color:var(--new)">–</b><span>신규 개정 (누적)</span></div>
-    <div class="stat"><b id="s-live" style="color:var(--live)">–</b><span>새로 시행 (누적)</span></div>
-    <div class="stat"><b id="s-gone" style="color:var(--gone)">–</b><span>목록에서 빠짐 (누적)</span></div>
+    <div class="stat"><b id="s-runs">–</b><span id="s-runs-label">변동 기록</span></div>
+    <div class="stat"><b id="s-new" style="color:var(--new)">–</b><span id="s-new-label">신규 개정 (누적)</span></div>
+    <div class="stat"><b id="s-live" style="color:var(--live)">–</b><span id="s-live-label">새로 시행 (누적)</span></div>
+    <div class="stat"><b id="s-gone" style="color:var(--gone)">–</b><span id="s-gone-label">목록에서 빠짐 (누적)</span></div>
   </div>
 
   <div class="tools">
@@ -115,7 +138,7 @@
   <div id="list"></div>
 
   <p class="note">
-    매일 아침 국가법령정보센터 데이터를 받아 직전 갱신과 비교합니다. 달라진 점이 있는 날만 기록합니다.<br>
+    매일 아침 국가법령정보센터 데이터를 받아 직전 갱신과 비교합니다. 달라진 점이 있는 날만 기록되고, 위 <b>조회 날짜</b>에서 날짜별로 골라 볼 수 있습니다.<br>
     <b>신규 개정</b>: 당사 적용 법규 207개에 새로 잡힌 개정 · <b>새로 시행</b>: 시행예정이었다가 시행일이 지나 현행이 된 개정 · <b>빠짐</b>: 법령정보센터에서 조회되지 않게 된 개정 (시행일 변경·철회 등)
   </p>
 </div>
@@ -131,6 +154,7 @@
   var ORDER = ['added', 'nowInForce', 'removed'];
   var entries = [];
   var filter = 'all';
+  var selected = 0; /* 드롭다운에서 고른 기록의 순번(0 = 가장 최근), 'all' = 전체 기간 */
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -165,7 +189,8 @@
   }
   function render() {
     var q = (document.getElementById('q').value || '').trim().toLowerCase();
-    var html = entries.map(function (e) {
+    var shown = selected === 'all' ? entries : (entries[selected] ? [entries[selected]] : []);
+    var html = shown.map(function (e) {
       var types = filter === 'all' ? ORDER : [filter];
       var groups = types.map(function (t) {
         var rows = (e[t] || []).filter(function (x) { return matches(x, q); });
@@ -187,13 +212,73 @@
     document.getElementById('list').innerHTML = html ||
       '<div class="empty">' + (entries.length ? '조건에 맞는 내역이 없습니다.' : '아직 기록된 업데이트가 없습니다.') + '</div>';
   }
-  function stats() {
-    var sum = function (t) { return entries.reduce(function (n, e) { return n + (e[t] || []).length; }, 0); };
-    document.getElementById('s-runs').textContent = num(entries.length);
-    document.getElementById('s-new').textContent = num(sum('added'));
-    document.getElementById('s-live').textContent = num(sum('nowInForce'));
-    document.getElementById('s-gone').textContent = num(sum('removed'));
+  function setStat(id, value, label) {
+    document.getElementById(id).textContent = value;
+    document.getElementById(id + '-label').textContent = label;
   }
+  function stats() {
+    var all = selected === 'all';
+    var pool = all ? entries : (entries[selected] ? [entries[selected]] : []);
+    var sum = function (t) { return pool.reduce(function (n, e) { return n + (e[t] || []).length; }, 0); };
+    var e = pool[0];
+    if (all || !e) setStat('s-runs', num(entries.length), '변동 기록');
+    else setStat('s-runs', num(e.totalAfter), '당사 적용 개정 (' + (e.totalAfter - e.totalBefore >= 0 ? '+' : '') + (e.totalAfter - e.totalBefore) + ')');
+    var suffix = all ? ' (누적)' : '';
+    setStat('s-new', num(sum('added')), '신규 개정' + suffix);
+    setStat('s-live', num(sum('nowInForce')), '새로 시행' + suffix);
+    setStat('s-gone', num(sum('removed')), '목록에서 빠짐' + suffix);
+  }
+
+  /* ---- 날짜 드롭다운 ---- */
+  var sel = document.getElementById('date-select');
+  var prevBtn = document.getElementById('prev-btn');
+  var nextBtn = document.getElementById('next-btn');
+  function shortDate(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return iso || '';
+    return d.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+  function optionLabel(e) {
+    var parts = ORDER.map(function (t) {
+      var n = (e[t] || []).length;
+      return n ? TYPES[t].label.replace('목록에서 ', '') + ' ' + n : '';
+    }).filter(Boolean);
+    return shortDate(e.checkedAt) + '  —  ' + (parts.length ? parts.join(' · ') : '전체 법령 수만 변동');
+  }
+  function fillSelect() {
+    sel.innerHTML = entries.map(function (e, i) {
+      return '<option value="' + i + '">' + esc(optionLabel(e)) + (i === 0 ? '  (최신)' : '') + '</option>';
+    }).join('') + (entries.length > 1 ? '<option value="all">전체 기간 모아보기 (' + entries.length + '회)</option>' : '');
+    sel.disabled = !entries.length;
+    if (!entries.length) sel.innerHTML = '<option>아직 기록이 없습니다</option>';
+  }
+  function select(value, push) {
+    selected = value === 'all' ? 'all' : Math.max(0, Math.min(entries.length - 1, Number(value) || 0));
+    sel.value = String(selected);
+    /* ‹ 는 더 이전(오래된) 기록, › 는 더 최근 기록 */
+    prevBtn.disabled = selected === 'all' || selected >= entries.length - 1;
+    nextBtn.disabled = selected === 'all' || selected <= 0;
+    if (push) {
+      var e = entries[selected];
+      var url = new URL(location.href);
+      if (selected === 'all') url.searchParams.set('d', 'all');
+      else if (selected === 0 || !e) url.searchParams.delete('d');
+      else url.searchParams.set('d', e.checkedAt);
+      history.replaceState(null, '', url);
+    }
+    stats();
+    render();
+  }
+  function fromUrl() {
+    var d = new URL(location.href).searchParams.get('d');
+    if (!d) return 0;
+    if (d === 'all') return 'all';
+    for (var i = 0; i < entries.length; i++) if (entries[i].checkedAt === d) return i;
+    return 0;
+  }
+  sel.addEventListener('change', function () { select(sel.value, true); });
+  prevBtn.addEventListener('click', function () { select(selected + 1, true); });
+  nextBtn.addEventListener('click', function () { select(selected - 1, true); });
 
   document.querySelectorAll('.chip').forEach(function (b) {
     b.addEventListener('click', function () {
@@ -213,8 +298,8 @@
     document.getElementById('head-sub').textContent = meta.generatedAt
       ? '마지막 확인 ' + kst(meta.generatedAt, true) + ' · 매일 아침 7시 자동 확인'
       : '매일 아침 7시 자동 확인';
-    stats();
-    render();
+    fillSelect();
+    select(fromUrl(), false);
   }).catch(function (e) {
     document.getElementById('head-sub').textContent = '내역을 불러오지 못했습니다.';
     console.error(e);
