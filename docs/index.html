@@ -2385,6 +2385,30 @@
                         </div>
                     </div>
 
+                    <!-- 적용법규 분석 (registry-analytics.js) — 왼쪽 '직무 분야'를 따라 바뀐다 -->
+                    <div class="rr-an" id="rr-reg-an">
+                        <div class="filter-title">📊 <span id="rr-reg-an-title">적용법규 분석</span></div>
+                        <div class="rr-job-tiles" id="rr-reg-tiles"></div>
+                        <div class="rr-an-grid">
+                            <div class="rr-an-card">
+                                <div class="rr-an-h"><b>직무별 적용법규 · 올해 개정 여부</b><span>막대를 누르면 그 직무만 보기</span></div>
+                                <div class="rr-an-plot" style="height:260px"><canvas id="rr-reg-jobs" role="img" aria-label="직무별 적용법규 중 올해 개정된 법규 비율 누적 막대 차트"></canvas></div>
+                            </div>
+                            <div class="rr-an-card">
+                                <div class="rr-an-h"><b>올해 개정 횟수 분포</b><span>적용법규 수 기준</span></div>
+                                <div class="rr-an-plot" style="height:260px"><canvas id="rr-reg-freq" role="img" aria-label="적용법규의 올해 개정 횟수 분포 막대 차트"></canvas></div>
+                            </div>
+                            <div class="rr-an-card">
+                                <div class="rr-an-h"><b>법령 종류</b><span>법률 · 시행령 · 시행규칙</span></div>
+                                <div class="rr-an-donut"><div class="rr-an-plot"><canvas id="rr-reg-kind" role="img" aria-label="적용법규 법령 종류 도넛 차트"></canvas></div><div class="rr-an-legend" id="rr-reg-kind-legend"></div></div>
+                            </div>
+                            <div class="rr-an-card">
+                                <div class="rr-an-h"><b>소관부처 TOP 8</b><span>적용법규 수 기준</span></div>
+                                <div class="rr-an-plot" style="height:240px"><canvas id="rr-reg-min" role="img" aria-label="소관부처별 적용법규 수 가로 막대 차트"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Main Content with Sidebar and Panel -->
                     <div style="display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; min-height: 600px;">
                         <!-- Left Sidebar: Job Functions -->
@@ -3130,6 +3154,17 @@
         // Tab switching function
         function switchMainTab(tabName) {
             currentMainTab = tabName;
+            /* 탭을 바꿔도 화면이 튀지 않게: 탭 바의 화면상 위치를 기억해 두었다가 그대로 되돌린다.
+               (예전에는 내용을 숨긴 뒤 0.1초 뒤에 새 내용을 보여줘서, 그 사이 페이지가 짧아지며 스크롤이 움직였다.)
+               아래로 많이 내려가 탭 바가 화면 위로 사라진 상태였다면 탭 바가 맨 위에 오도록 맞춘다. */
+            const _nav = document.querySelector('.main-tab-navigation');
+            const _navTop = _nav ? _nav.getBoundingClientRect().top : 0;
+            const _keep = () => {
+                if (!_nav) return;
+                const target = _navTop < 0 ? 0 : _navTop;
+                const diff = _nav.getBoundingClientRect().top - target;
+                if (Math.abs(diff) > 1) window.scrollBy(0, diff);
+            };
 
             // Update tab buttons
             document.querySelectorAll('.main-tab').forEach(tab => {
@@ -3142,8 +3177,11 @@
                 pane.classList.remove('active');
             });
             
+            document.getElementById(`${tabName}-content`).classList.add('active');
+            _keep();
+            requestAnimationFrame(_keep);
             setTimeout(() => {
-                document.getElementById(`${tabName}-content`).classList.add('active');
+                _keep();
                 /* 직무별 분포 차트는 탭이 보일 때 그린다. 초기 로딩(app-init.js)에서는 차트를 만들지 않아서
                    예전에는 '전체' 등 필터를 눌러야만 차트가 나타났다. 숨겨진 상태에서 그리면 크기가 0이 된다. */
                 if (tabName === 'business' && typeof Chart !== 'undefined' && (window.lawsData || []).length) {
@@ -7213,6 +7251,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./year-view.js?v=20260925b"></script>
     <script src="./analytics.js?v=20260925d"></script>
     <script src="./job-analytics.js?v=20260925b"></script>
+    <script src="./registry-analytics.js?v=20260925a"></script>
 
 </body>
 </html>
