@@ -127,6 +127,13 @@
   .card.later .dday { --cbg: var(--later-bg); }
   .card.done .dday { --cbg: var(--done-bg); }
   .rest { grid-column: 1 / -1; }
+  .card[data-key] { cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+  .card[data-key]:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(31, 38, 135, .22); }
+  .card[data-key]:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  /* 메인 페이지의 법령 상세 팝업을 그대로 띄우는 투명 iframe (평소에는 숨김) */
+  #rr-popup { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: transparent; z-index: 9999; visibility: hidden; pointer-events: none; }
+  #rr-popup.open { visibility: visible; pointer-events: auto; }
+  body.rr-loading, body.rr-loading .card { cursor: progress; }
   .badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 2px; }
   .badge { font-size: .75rem; padding: 3px 9px; border-radius: 999px; background: var(--chip); color: var(--text-secondary); font-weight: 500; }
   .badge.new { background: var(--urgent-bg); color: var(--urgent); font-weight: 700; }
@@ -193,10 +200,11 @@ function keyOf(x) { return [x.title, x.effectiveDate, x.amendmentType || ''].joi
 function tierOf(d) { return d < 0 ? 'done' : d <= 7 ? 'urgent' : d <= 30 ? 'soon' : 'later'; }
 function expandMini(rows) {
   return (rows || []).map((r, i) => ({
-    id: 'ev_' + i, title: r.t, effectiveDate: r.d,
+    id: 'ev_' + i, title: r.t, effectiveDate: r.d, popupKey: [r.t || '', r.d || '', r.a || ''].join('|'),
     amendmentType: r.a === '일' ? '일부개정' : (r.a === '타' ? '타법개정' : r.a),
     status: r.s === 0 ? '현행' : '시행예정', ministry: r.m || '', categories: r.c ? [r.c] : [],
-    source: { url: r.u ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u) : '' }
+    /* efYd(시행일)를 붙여야 그 날 시행되는 본문이 열린다. 없으면 이미 지난 연혁 버전이 열려 '현행법이 아닙니다'가 뜬다. */
+    source: { url: r.u ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u + (r.d ? '&efYd=' + String(r.d).replace(/-/g, '') : '')) : '' }
   }));
 }
 function enrich(items) {
@@ -230,7 +238,8 @@ function card(it, extra = '') {
   const cat = (it.categories || [])[0];
   const catBadge = cat ? `<span class="badge cat" style="background:${CAT_COLOR[cat] || '#a0aec0'}">${esc(cat)}</span>` : '';
   const multi = it.eventCount > 1 ? `<span class="badge">올해 개정 ${it.eventCount}회 · 시행완료 ${it.sameTitlePastCount} / 예정 ${it.sameTitleUpcomingCount}</span>` : '';
-  return `<article class="card glass ${tierOf(it.daysUntil)}">
+  const keyAttr = it.popupKey ? ` data-key="${esc(it.popupKey)}" tabindex="0" role="button" title="눌러서 개정 내용 보기"` : '';
+  return `<article class="card glass ${tierOf(it.daysUntil)}"${keyAttr}>
     <div class="title">${esc(it.title)}</div>
     ${ddayBlock(it.daysUntil)}
     <div class="meta">${esc(it.ministry)} · 시행 ${esc(it.effectiveDate)}</div>
@@ -322,6 +331,40 @@ document.querySelectorAll('.tab').forEach(btn => btn.onclick = () => {
   render();
 });
 $('#q').addEventListener('input', render);
+
+/* ---- 법령 상세 팝업: 메인(분기별 탭)과 똑같은 팝업을 띄운다 ---- */
+const popup = document.createElement('iframe');
+popup.id = 'rr-popup';
+popup.title = '법령 상세';
+popup.src = './?desktop=true&embed=popup';
+document.body.appendChild(popup);
+function openPopup(key) {
+  document.body.classList.add('rr-loading');
+  popup.classList.add('open');
+  popup.contentWindow.postMessage({ rr: 'open', key }, location.origin);
+}
+window.addEventListener('message', ev => {
+  if (ev.origin !== location.origin || ev.source !== popup.contentWindow || !ev.data) return;
+  if (ev.data.rr === 'closed') { popup.classList.remove('open'); document.body.classList.remove('rr-loading'); }
+});
+popup.addEventListener('load', () => {
+  /* 팝업이 실제로 열리면 로딩 커서를 끈다 */
+  try {
+    const m = popup.contentDocument.getElementById('law-modal');
+    if (m) new MutationObserver(() => { if (m.classList.contains('show')) document.body.classList.remove('rr-loading'); })
+      .observe(m, { attributes: true, attributeFilter: ['class'] });
+  } catch (e) {}
+});
+$('#list').addEventListener('click', ev => {
+  if (ev.target.closest('a')) return; /* 원문 링크는 그대로 새 창으로 */
+  const card = ev.target.closest('.card[data-key]');
+  if (card) openPopup(card.dataset.key);
+});
+$('#list').addEventListener('keydown', ev => {
+  if (ev.key !== 'Enter' && ev.key !== ' ') return;
+  const card = ev.target.closest('.card[data-key]');
+  if (card) { ev.preventDefault(); openPopup(card.dataset.key); }
+});
 </script>
 </body>
 </html>

@@ -73,6 +73,41 @@
             }
         })();
     </script>
+
+    <!-- 팝업 전용 모드 (?embed=popup): watch.html 이 이 페이지를 숨긴 iframe 으로 띄워 두고,
+         법령을 누르면 메인과 똑같은 법령 상세 팝업만 보여준다. 보통 접속에는 영향이 없다. -->
+    <script>
+        (function () {
+            if (new URLSearchParams(location.search).get('embed') !== 'popup' || window.parent === window) return;
+            var st = document.createElement('style');
+            st.textContent = 'html, body { background: transparent !important; background-image: none !important; }' +
+                'body * { visibility: hidden !important; }' +
+                '#law-modal, #law-modal * { visibility: visible !important; }' +
+                '#law-modal:not(.show) { display: none !important; }' +
+                /* 숨겨져 있던 iframe 안에서는 등장 애니메이션이 몇 초씩 늘어져 흐리게 보이므로 바로 표시 */
+                '#law-modal, #law-modal .modal-content { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }' +
+                /* 휴대폰 폭에서는 상단 정보칸 4개가 세로로 찌그러지므로 2칸씩 배치 (팝업 전용 모드에서만) */
+                '@media (max-width: 600px) { #law-modal .info-grid { grid-template-columns: repeat(2, 1fr) !important; } }';
+            document.head.appendChild(st);
+            function post(type) { try { window.parent.postMessage({ rr: type }, location.origin); } catch (e) {} }
+            function ready() { return !!(window.__rrItems && window.__rrItems.length && typeof window.showLawDetail === 'function'); }
+            var iv = setInterval(function () { if (ready()) { clearInterval(iv); post('ready'); } }, 100);
+            window.addEventListener('message', function (ev) {
+                if (ev.origin !== location.origin || !ev.data || ev.data.rr !== 'open') return;
+                (function tryOpen(n) {
+                    if (ready()) { window.showLawDetail(ev.data.key); return; }
+                    if (n < 200) setTimeout(function () { tryOpen(n + 1); }, 100);
+                })(0);
+            });
+            /* 팝업이 닫히면(X 버튼, 바깥 클릭 등) watch.html 에 알려 iframe 을 다시 숨기게 한다 */
+            document.addEventListener('DOMContentLoaded', function () {
+                var m = document.getElementById('law-modal');
+                if (!m) return;
+                new MutationObserver(function () { if (!m.classList.contains('show')) post('closed'); })
+                    .observe(m, { attributes: true, attributeFilter: ['class', 'style'] });
+            });
+        })();
+    </script>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -7000,7 +7035,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
 
     <!-- RegRader 오버레이: 데이터/개정이유/UI -->
     <script src="./app-init.js?v=20260925a"></script>
-    <script src="./event-boot.js?v=20260925b"></script>
+    <script src="./event-boot.js?v=20260925c"></script>
     <script src="./whyA.js?v=20260917a"></script>
     <script src="./whyB.js?v=20260917a"></script>
     <script src="./wy0.js?v=20260917a"></script>
@@ -7008,7 +7043,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./why-core.js?v=20260917a"></script>
     <script src="./brief-why.js?v=20260917a"></script>
     <script src="./sum-fill.js?v=20260917a"></script>
-    <script src="./brief-ui.js?v=20260917a"></script>
+    <script src="./brief-ui.js?v=20260925a"></script>
     <script src="./stats-ui.js?v=20260925a"></script>
     <script src="./registry-fix.js?v=20260917a"></script>
     <script src="./excel-fix.js?v=20260917a"></script>

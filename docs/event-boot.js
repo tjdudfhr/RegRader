@@ -69,7 +69,9 @@
         status: r.s === 0 ? '현행' : '시행예정',
         ministry: r.m || '',
         categories: r.c ? [r.c] : [],
-        source: { url: r.u ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u) : '' },
+        /* efYd(시행일)를 붙여야 이 개정이 시행되는 날의 본문이 열린다. 빼면 같은 공포의 첫 시행 버전(이미 지난 연혁)이 열려
+           법령정보센터가 '현행법이 아닙니다'라고 표시한다. */
+        source: { url: r.u ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u + (r.d ? '&efYd=' + String(r.d).replace(/-/g, '') : '')) : '' },
         amendments: [{ date: r.d, amendmentType: am, reason: reason, mainContents: sum.what }],
         originalTitle: r.t,
         meta: { lsiSeq: String(r.u || ''), matchType: '100%완전일치' },

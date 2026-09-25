@@ -54,7 +54,8 @@
       return '<span style="display:inline-block;margin:2px 4px 2px 0;padding:3px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:13px">' + esc(a) + '</span>';
     }).join('');
     var lsi = (item.meta && item.meta.lsiSeq) || '';
-    var src = lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi + '&viewCls=lsRvsDocInfoR') : '';
+    var efYd = String(item.effectiveDate || '').replace(/-/g, '');
+    var src = lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi + (efYd ? '&efYd=' + efYd : '') + '&viewCls=lsRvsDocInfoR') : '';
     var live = 'https://www.law.go.kr/lsSc.do?menuId=1&query=' + encodeURIComponent(item.title || '');
     var cmp = lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi + '&viewCls=lsOldAndNew') : '';
     var points = (b.points || []).map(function (p) { return '<li style="margin:0 0 8px">' + esc(p) + '</li>'; }).join('');
