@@ -57,7 +57,7 @@
       '<div style="padding:18px 20px">' +
       '<div style="background:linear-gradient(135deg,#5b67e5,#7c3aed);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;gap:18px;flex-wrap:wrap">' +
       '<div><div style="font-size:22px;font-weight:800">' + fmt(U.openapiCurrent) + '</div><div style="opacity:.9;font-size:12px">현행(' + window.RR_YEAR + ' 시행)</div></div>' +
-      '<div><div style="font-size:22px;font-weight:800">' + fmt(U.openapiFuture) + '</div><div style="opacity:.9;font-size:12px">시행예정</div></div>' +
+      '<div><div style="font-size:22px;font-weight:800">' + fmt(U.openapiUpcoming) + '</div><div style="opacity:.9;font-size:12px">시행예정(연말까지)</div></div>' +
       '<div><div style="font-size:22px;font-weight:800">' + baseN + '</div><div style="opacity:.9;font-size:12px">당사 적용 국내법규</div></div>' +
       '<div><div style="font-size:22px;font-weight:800">' + (items().length || '-') + '</div><div style="opacity:.9;font-size:12px">일치 개정 건</div></div>' +
       '</div>' +
@@ -67,7 +67,7 @@
       '<button type="button" id="rr-dl-base" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid #e5e7eb;border-radius:12px;background:#f8fafc;cursor:pointer">' +
       '<div style="font-weight:700">당사 적용 국내법규 ' + baseN + ' (Excel)</div>' +
       '<div style="font-size:13px;color:#64748b;margin-top:4px">기본 적용 목록</div></button>' +
-      '<div style="font-size:12px;color:#64748b;line-height:1.55">조회 기준 ' + (M.asOf || '–') + '. 전체 현행 ' + fmt(U.openapiCurrent) + ' + 시행예정 ' + fmt(U.openapiFuture) + ' 파일은 채팅으로 받은 엑셀을 사용하세요.</div>' +
+      '<div style="font-size:12px;color:#64748b;line-height:1.55">조회 기준 ' + (M.asOf || '–') + '. 전체 현행 ' + fmt(U.openapiCurrent) + ' · 올해 시행일 전체(연혁 포함) ' + fmt(U.openapiFuture) + ' 파일은 채팅으로 받은 엑셀을 사용하세요.</div>' +
       '</div>';
     var m = inner.querySelector('#rr-dl-matched');
     var b = inner.querySelector('#rr-dl-base');

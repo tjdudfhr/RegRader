@@ -250,3 +250,7 @@ iframe.rr-embed {
   #business-content .filter-tabs,
   #lawregistry-content .job-function-list { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
 }
+/* 전체 법령 카드: 전일 대비 */
+.rr-u-delta { font-size: 0.72rem; font-weight: 600; color: var(--text-muted); margin-top: 0.15rem; min-height: 1em; }
+.rr-u-delta.up { color: #2563eb; }
+.rr-u-delta.down { color: #c2410c; }

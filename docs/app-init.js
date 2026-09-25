@@ -79,9 +79,22 @@
     var cur = document.getElementById('rr-universe-current');
     var fut = document.getElementById('rr-universe-future');
     if (cur && u.openapiCurrent != null) cur.textContent = fmtNum(u.openapiCurrent);
-    if (fut && u.openapiFuture != null) fut.textContent = fmtNum(u.openapiFuture);
+    // 시행예정 = 올해 시행일이 아직 오지 않은 것. (openapiFuture 는 이미 시행된 버전까지 포함한 수라 쓰지 않는다)
+    var upc = u.openapiUpcoming != null ? u.openapiUpcoming : null;
+    if (fut) fut.textContent = upc != null ? fmtNum(upc) : '–';
+    var pv = meta.universePrev || {};
+    function delta(id, now, before) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (now == null || before == null || !pv.asOf) { el.textContent = ''; return; }
+      var d = now - before, md = pv.asOf.slice(5).replace('-', '/');
+      el.className = 'rr-u-delta' + (d > 0 ? ' up' : d < 0 ? ' down' : '');
+      el.textContent = d === 0 ? md + ' 대비 변동 없음' : md + ' 대비 ' + (d > 0 ? '+' : '−') + fmtNum(Math.abs(d));
+    }
+    delta('rr-universe-current-delta', u.openapiCurrent, pv.openapiCurrent);
+    delta('rr-universe-future-delta', upc, pv.openapiUpcoming);
     var sub = document.getElementById('rr-universe-sub');
-    if (sub && meta.asOf) sub.textContent = '국가법령정보센터 OpenAPI · ' + meta.asOf + ' 조회 (시행일 ' + (meta.year || window.RR_YEAR) + '-01-01~12-31)';
+    if (sub && meta.asOf) sub.textContent = '국가법령정보센터 전체 법령 (당사 적용 여부와 무관) · ' + meta.asOf + ' 조회';
   }
   function loadMeta() {
     fetch((window.rrDataPath ? window.rrDataPath('meta.json') : './meta.json') + '?v=' + Date.now(), { cache: 'no-store' })

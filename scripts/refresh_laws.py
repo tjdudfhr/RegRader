@@ -346,7 +346,10 @@ def main():
             "duplicateKeys": 0,
             "statusConsistentWithDate": True,
         },
-        "universe": {"openapiCurrent": len(current), "openapiFuture": len(future)},
+        # openapiCurrent: 올해 시행돼 지금 효력 있는 현행 법령 / openapiFuture: 올해 시행일이 있는 모든 버전(연혁 포함)
+        # openapiUpcoming: 그중 시행일이 아직 오지 않은 것 (화면의 '시행예정')
+        "universe": {"openapiCurrent": len(current), "openapiFuture": len(future),
+                     "openapiUpcoming": sum(1 for it in future if (ymd_to_iso(it.get("시행일자")) or "") > as_of.isoformat())},
         "items": events,
     }
     DOCS.mkdir(exist_ok=True)
@@ -370,6 +373,9 @@ def main():
         "year": year,
         "totalCount": payload["totalCount"],
         "universe": payload["universe"],
+        # 화면에 '전일 대비'를 보여주려고 직전 날짜의 수치를 같이 둔다 (같은 날 여러 번 돌면 그 전날 값 유지)
+        "universePrev": (prev_meta.get("universePrev") if prev_meta.get("asOf") == payload["asOf"]
+                         else ({**(prev_meta.get("universe") or {}), "asOf": prev_meta.get("asOf")} if prev_meta.get("universe") else None)),
         "baseLaws": len(base),
         "upcomingNext": len(upcoming_next),
         "archives": sorted(p.name for p in (DOCS / "archive").iterdir() if p.is_dir()) if (DOCS / "archive").exists() else [],

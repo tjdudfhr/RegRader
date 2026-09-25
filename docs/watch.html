@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RegRader · 시행 임박 법령</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   /* 색상은 메인(index.html)과 같은 변수를 쓴다. 다크 모드도 메인과 같은 방식(시스템 설정)을 따른다. */
@@ -146,6 +147,49 @@
   .note { color: var(--text-muted); font-size: .8rem; margin: 18px 4px 30px; }
   .note a { color: var(--primary); }
 
+
+  /* 직무별 시행예정 분석 */
+  .an { padding: 16px 18px 18px; margin-bottom: 18px; }
+  .an-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .an-head h2 { font-size: 1.08rem; font-weight: 800; }
+  .an-sub { color: var(--text-muted); font-size: .82rem; }
+  .an-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr); gap: 14px; margin-bottom: 14px; }
+  .an-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; min-width: 0; }
+  .an-t { font-weight: 700; font-size: .9rem; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .an-t small { font-weight: 500; color: var(--text-muted); font-size: .76rem; }
+  .donut-wrap { position: relative; height: 190px; }
+  .donut-c { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
+  .donut-c b { font-size: 1.7rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .donut-c span { font-size: .75rem; color: var(--text-muted); }
+  .an-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; margin-top: 12px; }
+  .lg { display: flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--text-secondary); background: none; border: 0; padding: 3px 4px; border-radius: 6px; cursor: pointer; text-align: left; font-family: inherit; }
+  .lg:hover, .lg.on { background: var(--chip); }
+  .lg i { width: 9px; height: 9px; border-radius: 3px; flex: none; }
+  .lg b { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+  .key { display: inline-flex; gap: 10px; font-weight: 500; font-size: .74rem; color: var(--text-muted); margin-left: auto; }
+  .key span { display: inline-flex; align-items: center; gap: 4px; }
+  .key i { width: 9px; height: 9px; border-radius: 3px; }
+  .jr { display: grid; grid-template-columns: 70px minmax(0, 1fr) 34px minmax(0, 1.25fr); align-items: center; gap: 10px; width: 100%;
+        padding: 7px 6px; border: 0; border-radius: 8px; background: none; color: inherit; font-family: inherit; text-align: left; cursor: pointer; }
+  .jr:hover, .jr.on { background: var(--chip); }
+  .jr .nm { display: flex; align-items: center; gap: 6px; font-size: .82rem; font-weight: 700; white-space: nowrap; }
+  .jr .nm i { width: 9px; height: 9px; border-radius: 3px; flex: none; }
+  .jr .bar { display: flex; gap: 2px; height: 12px; }
+  .jr .bar span { border-radius: 4px; min-width: 4px; }
+  .jr .n { font-weight: 800; font-size: .9rem; text-align: right; font-variant-numeric: tabular-nums; }
+  .jr .nx { font-size: .76rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .jr .nx b { color: var(--text-secondary); font-variant-numeric: tabular-nums; margin-right: 4px; }
+  .jr .nx b.u { color: var(--urgent); }
+  .jr .nx b.s { color: var(--soon); }
+  .jfilter { display: none; align-items: center; gap: 8px; margin: -6px 0 12px; font-size: .84rem; color: var(--text-secondary); }
+  .jfilter.on { display: flex; }
+  .jfilter .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px 4px 10px; border-radius: 999px; color: #fff; font-weight: 700; }
+  .jfilter button { border: 0; background: rgba(255,255,255,.25); color: #fff; border-radius: 999px; width: 20px; height: 20px; cursor: pointer; font-size: .8rem; line-height: 1; }
+  @media (max-width: 760px) {
+    .an-grid { grid-template-columns: 1fr; }
+    .jr { grid-template-columns: 64px minmax(0, 1fr) 30px; }
+    .jr .nx { grid-column: 1 / -1; padding-left: 15px; }
+  }
   @media (max-width: 640px) {
     header h1 { font-size: 1.35rem; }
     .tiers { grid-template-columns: repeat(2, 1fr); }
@@ -187,6 +231,28 @@
     <div class="tier glass"><b id="t-all">–</b><span>당사 적용 개정</span></div>
   </div>
 
+
+  <section class="an glass" id="an" hidden>
+    <div class="an-head"><h2>📊 직무별 시행예정 분석</h2><span class="an-sub" id="an-sub"></span></div>
+    <div class="an-grid">
+      <div class="an-box">
+        <div class="an-t">직무별 비중</div>
+        <div class="donut-wrap"><canvas id="c-donut" aria-label="직무별 시행예정 비중"></canvas><div class="donut-c"><b id="an-total">–</b><span>시행예정</span></div></div>
+        <div class="an-legend" id="an-legend"></div>
+      </div>
+      <div class="an-box">
+        <div class="an-t">직무별 긴급도 · 가장 가까운 시행
+          <span class="key"><span><i style="background:var(--urgent)"></i>7일 이내</span><span><i style="background:var(--soon)"></i>8~30일</span><span><i style="background:var(--later)"></i>31일 이후</span></span>
+        </div>
+        <div id="an-rows"></div>
+      </div>
+    </div>
+    <div class="an-box">
+      <div class="an-t">월별 시행 예정 <small>직무별로 쌓아 보기 · 막대나 직무를 누르면 아래 목록이 그 직무로 좁혀집니다</small></div>
+      <div style="height:220px"><canvas id="c-month" aria-label="월별 직무별 시행 예정"></canvas></div>
+    </div>
+  </section>
+
   <nav class="tabs glass">
     <button class="tab on" data-tab="d30">30일 내 시행<span class="n" id="n-d30"></span></button>
     <button class="tab" data-tab="multi">복수개정<span class="n" id="n-multi"></span></button>
@@ -195,6 +261,7 @@
   </nav>
 
   <input class="search" id="q" type="search" placeholder="법령명 · 부처 · 직무 검색">
+  <div class="jfilter" id="jfilter"></div>
   <div id="list"></div>
 
   <p class="note">
@@ -204,7 +271,7 @@
 
 <script>
 const TODAY = (() => { const k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' })); return new Date(k.getFullYear(), k.getMonth(), k.getDate()); })();
-let DATA = { items: [] }, PREV = { items: [] }, TAB = 'd30';
+let DATA = { items: [] }, PREV = { items: [] }, TAB = 'd30', JOB = null;
 const $ = s => document.querySelector(s);
 /* 직무 색: 메인(index.html head 의 rrCatColor)과 같은 검증 팔레트 */
 const CAT_COLOR = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -279,7 +346,8 @@ function diffLists() {
 }
 function render() {
   const q = ($('#q').value || '').trim().toLowerCase();
-  const hit = it => !q || (it.title + ' ' + (it.ministry || '') + ' ' + (it.categories || []).join(' ')).toLowerCase().includes(q);
+  const hit = it => (!JOB || (it.categories || [])[0] === JOB) &&
+    (!q || (it.title + ' ' + (it.ministry || '') + ' ' + (it.categories || []).join(' ')).toLowerCase().includes(q));
   const items = DATA.items.filter(hit);
   let html = '';
   if (TAB === 'd30') {
@@ -315,6 +383,105 @@ function stats() {
   $('#n-diff').textContent = d.added.length + d.removed.length;
   $('#n-all').textContent = items.length;
 }
+/* ---- 직무별 시행예정 분석 (오늘 시행분 포함 = 위 '시행예정 전체'와 같은 기준) ---- */
+const CAT_ORDER = ['재무회계', '인사노무', '환경', '지식재산권', '공정거래', '안전', '지배구조', '정보보호'];
+const CHARTS = {};
+function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function jobOf(it) { return (it.categories || [])[0] || '기타'; }
+function setJob(j) {
+  JOB = (j && j !== JOB) ? j : null;
+  const f = $('#jfilter');
+  if (JOB) {
+    f.innerHTML = `<span class="chip" style="background:${CAT_COLOR[JOB] || '#a0aec0'}">${esc(JOB)}<button type="button" aria-label="직무 선택 해제" title="해제">✕</button></span> 직무만 보는 중`;
+    f.querySelector('button').onclick = () => setJob(null);
+  } else f.innerHTML = '';
+  f.classList.toggle('on', !!JOB);
+  document.querySelectorAll('.jr, .lg').forEach(b => b.classList.toggle('on', b.dataset.job === JOB));
+  render();
+}
+function analysis() {
+  const up = DATA.items.filter(it => it.daysUntil >= 0);
+  const box = $('#an');
+  if (!up.length) { box.hidden = true; return; }
+  box.hidden = false;
+  const by = {};
+  up.forEach(it => { (by[jobOf(it)] = by[jobOf(it)] || []).push(it); });
+  const jobs = CAT_ORDER.filter(j => by[j]).concat(Object.keys(by).filter(j => !CAT_ORDER.includes(j)));
+  const laws = new Set(up.map(it => it.title)).size;
+  const maxDay = Math.max.apply(null, up.map(it => it.daysUntil));
+  $('#an-total').textContent = up.length;
+  $('#an-sub').textContent = `오늘부터 ${up.length}건 (법령 ${laws}개) · 직무 ${jobs.length}개 · 가장 먼 시행 D-${maxDay}`;
+  const col = j => CAT_COLOR[j] || '#a0aec0';
+
+  /* 범례 (눌러서 직무 선택) */
+  $('#an-legend').innerHTML = jobs.map(j => `<button type="button" class="lg" data-job="${esc(j)}"><i style="background:${col(j)}"></i>${esc(j)}<b>${by[j].length}</b></button>`).join('');
+
+  /* 직무별 긴급도 막대 + 가장 가까운 시행 */
+  const max = Math.max.apply(null, jobs.map(j => by[j].length));
+  const rows = jobs.slice().sort((a, b) => by[b].length - by[a].length || CAT_ORDER.indexOf(a) - CAT_ORDER.indexOf(b));
+  $('#an-rows').innerHTML = rows.map(j => {
+    const g = by[j], u = g.filter(x => x.daysUntil <= 7).length, s = g.filter(x => x.daysUntil > 7 && x.daysUntil <= 30).length, l = g.length - u - s;
+    const seg = (n, c, t) => n ? `<span style="flex:${n};background:${c}" title="${esc(j)} · ${t} ${n}건"></span>` : '';
+    const nx = g.slice().sort((a, b) => a.daysUntil - b.daysUntil)[0];
+    const dcls = nx.daysUntil <= 7 ? 'u' : nx.daysUntil <= 30 ? 's' : '';
+    const dtx = nx.daysUntil === 0 ? 'D-DAY' : 'D-' + nx.daysUntil;
+    return `<button type="button" class="jr" data-job="${esc(j)}" title="${esc(j)} 직무 시행예정만 보기">
+      <span class="nm"><i style="background:${col(j)}"></i>${esc(j)}</span>
+      <span class="bar" style="width:${Math.max(8, g.length / max * 100)}%">${seg(u, 'var(--urgent)', '7일 이내')}${seg(s, 'var(--soon)', '8~30일')}${seg(l, 'var(--later)', '31일 이후')}</span>
+      <span class="n">${g.length}</span>
+      <span class="nx" title="${esc(nx.title)} · 시행 ${esc(nx.effectiveDate)}"><b class="${dcls}">${dtx}</b>${esc(nx.title)}</span>
+    </button>`;
+  }).join('');
+  document.querySelectorAll('.jr, .lg').forEach(b => { b.onclick = () => setJob(b.dataset.job); b.classList.toggle('on', b.dataset.job === JOB); });
+
+  if (!window.Chart) return;
+  const ink = cssVar('--text-muted') || '#718096', grid = cssVar('--border') || '#e2e8f0', surface = cssVar('--bg-card') || '#fff';
+  Chart.defaults.font.family = "'Inter', -apple-system, 'Apple SD Gothic Neo', sans-serif";
+
+  /* 도넛 */
+  CHARTS.donut && CHARTS.donut.destroy();
+  CHARTS.donut = new Chart($('#c-donut'), {
+    type: 'doughnut',
+    data: { labels: jobs, datasets: [{ data: jobs.map(j => by[j].length), backgroundColor: jobs.map(col), borderColor: surface, borderWidth: 2, hoverOffset: 4 }] },
+    options: {
+      maintainAspectRatio: false, cutout: '68%',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.label} ${c.raw}건 (${Math.round(c.raw / up.length * 100)}%)` } } },
+      onClick: (e, els) => { if (els.length) setJob(jobs[els[0].index]); },
+      onHover: (e, els) => { e.native.target.style.cursor = els.length ? 'pointer' : 'default'; }
+    }
+  });
+
+  /* 월별 x 직무 */
+  const months = Array.from(new Set(up.map(it => it.effectiveDate.slice(0, 7)))).sort();
+  const y0 = String(TODAY.getFullYear());
+  const mlabel = m => (m.slice(0, 4) !== y0 ? m.slice(2, 4) + '년 ' : '') + Number(m.slice(5)) + '월';
+  CHARTS.month && CHARTS.month.destroy();
+  CHARTS.month = new Chart($('#c-month'), {
+    type: 'bar',
+    data: {
+      labels: months.map(mlabel),
+      datasets: jobs.map(j => ({
+        label: j, data: months.map(m => by[j].filter(x => x.effectiveDate.slice(0, 7) === m).length),
+        backgroundColor: col(j), borderColor: surface, borderWidth: { top: 2 }, borderSkipped: false, borderRadius: 4, maxBarThickness: 56
+      }))
+    },
+    options: {
+      maintainAspectRatio: false,
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { color: ink } },
+        y: { stacked: true, beginAtZero: true, ticks: { color: ink, precision: 0 }, grid: { color: grid }, border: { display: false } }
+      },
+      plugins: {
+        legend: { position: 'top', align: 'end', labels: { color: ink, boxWidth: 10, boxHeight: 10, useBorderRadius: true, borderRadius: 3 },
+                  onClick: (e, item) => setJob(jobs[item.datasetIndex]) },
+        tooltip: { mode: 'index', filter: c => c.raw > 0,
+                   callbacks: { footer: cs => '합계 ' + cs.reduce((a, c) => a + c.raw, 0) + '건' } }
+      },
+      onClick: (e, els) => { if (els.length) setJob(jobs[els[0].datasetIndex]); },
+      onHover: (e, els) => { e.native.target.style.cursor = els.length ? 'pointer' : 'default'; }
+    }
+  });
+}
 async function loadJSON(url) { const r = await fetch(url + '?v=' + Date.now(), { cache: 'no-store' }); if (!r.ok) throw new Error(url); return r.json(); }
 async function loadCur() {
   /* upcoming_next.json: 연말에 미리 모아 둔 다음 해 1~2월 시행분 (연초 시행 법령도 D-30 에 잡히도록) */
@@ -339,6 +506,7 @@ Promise.all([
   const upd = meta.generatedAt ? ' · 데이터 ' + new Date(meta.generatedAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' 갱신' : '';
   $('#asof').textContent = '오늘(' + today + ') 기준 남은 날' + upd;
   stats();
+  analysis();
   render();
 }).catch(e => { $('#asof').textContent = '데이터를 불러오지 못했습니다.'; console.error(e); });
 document.querySelectorAll('.tab').forEach(btn => btn.onclick = () => {

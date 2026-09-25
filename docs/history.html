@@ -229,11 +229,20 @@
     if (!q) return true;
     return (x.title + ' ' + x.ministry + ' ' + x.category + ' ' + x.amendmentType).toLowerCase().indexOf(q) >= 0;
   }
+  /* 참고 줄: 국가법령정보센터 전체 법령 수 (당사 적용 여부와 무관 -> 위의 당사 적용 개정 수와는 따로 움직인다) */
   function universeLine(e) {
     var a = e.universeAfter || {}, b = e.universeBefore || {};
-    if (!b.openapiCurrent || (a.openapiCurrent === b.openapiCurrent && a.openapiFuture === b.openapiFuture)) return '';
-    return '<div class="universe">국가법령정보센터 ' + String(e.asOf || '').slice(0, 4) + '년 전체 법령: 현행 ' + num(b.openapiCurrent) + ' → <b>' + num(a.openapiCurrent) +
-      '</b> · 시행예정 ' + num(b.openapiFuture) + ' → <b>' + num(a.openapiFuture) + '</b></div>';
+    if (!b.openapiCurrent || a.openapiCurrent == null) return '';
+    var parts = [];
+    function part(label, x, y) {
+      if (x == null || y == null || x === y) return;
+      var d = y - x;
+      parts.push(label + ' ' + num(x) + ' → <b>' + num(y) + '</b> (' + (d > 0 ? '+' : '−') + num(Math.abs(d)) + ')');
+    }
+    part('현행', b.openapiCurrent, a.openapiCurrent);
+    part('시행예정', b.openapiUpcoming, a.openapiUpcoming);
+    if (!parts.length) return '';
+    return '<div class="universe">참고 · 국가법령정보센터 ' + String(e.asOf || '').slice(0, 4) + '년 전체 법령 (당사 적용 여부와 무관): ' + parts.join(' · ') + '</div>';
   }
   function render() {
     var q = (document.getElementById('q').value || '').trim().toLowerCase();
@@ -274,7 +283,7 @@
       esc(e.fromYear) + ' → ' + esc(e.toYear) + '</span></div></div>' +
       '<div class="universe">모니터링 기준 연도가 <b>' + esc(e.fromYear) + '년</b>에서 <b>' + esc(e.toYear) + '년</b>으로 바뀌었습니다.<br>' +
       '당사 적용 개정: ' + esc(e.fromYear) + '년 ' + num(e.totalBefore) + '건 → ' + esc(e.toYear) + '년 ' + num(e.totalAfter) + '건 (새해 첫날 기준, 이후 공포되는 개정이 계속 추가됩니다)<br>' +
-      (u1.openapiFuture != null ? '국가법령정보센터 ' + esc(e.toYear) + '년 시행 법령: 현행 ' + num(u1.openapiCurrent) + ' · 시행예정 ' + num(u1.openapiFuture) + '<br>' : '') +
+      (u1.openapiCurrent != null ? '국가법령정보센터 ' + esc(e.toYear) + '년 시행 법령: 현행 ' + num(u1.openapiCurrent) + (u1.openapiUpcoming != null ? ' · 시행예정 ' + num(u1.openapiUpcoming) : '') + '<br>' : '') +
       '<span style="color:var(--text-muted)">' + esc(e.fromYear) + '년 데이터는 <a href="./' + esc(e.archive || ('archive/' + e.fromYear + '/')) + 'meta.json" target="_blank" rel="noopener">보관 폴더</a>에 그대로 남아 있습니다.</span></div></section>';
   }
   function stats() {

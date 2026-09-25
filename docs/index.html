@@ -2022,7 +2022,7 @@
             line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="./app-shell.css?v=20260926d">
+    <link rel="stylesheet" href="./app-shell.css?v=20260926e">
 </head>
 <body>
     <div class="container">
@@ -2105,11 +2105,13 @@
                     <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
                         <div style="text-align: center;">
                             <div id="rr-universe-current" style="font-size: 2rem; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">–</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">현행 (<span class="rr-year">2026</span> 시행)</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;" title="올해 시행되어 지금 효력이 있는 법령 수 (국가법령정보센터 전체)">현행 · 올해 시행</div>
+                            <div id="rr-universe-current-delta" class="rr-u-delta"></div>
                         </div>
                         <div style="text-align: center;">
                             <div id="rr-universe-future" style="font-size: 2rem; font-weight: 800; color: #d946ef;">–</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행예정</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;" title="올해 안에 시행일이 아직 오지 않은 법령 수 (국가법령정보센터 전체)">시행예정 · 연말까지</div>
+                            <div id="rr-universe-future-delta" class="rr-u-delta"></div>
                         </div>
                     </div>
                 </div>
@@ -2532,8 +2534,8 @@
             </div>
         
             <!-- 시행 임박 · 업데이트 내역: 각 페이지를 embed 모드로 끼워 넣는다 (처음 열 때 불러옴) -->
-            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1" title="시행 임박 법령"></iframe></div>
-            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1" title="업데이트 내역"></iframe></div>
+            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20260926a" title="시행 임박 법령"></iframe></div>
+            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20260926a" title="업데이트 내역"></iframe></div>
         </div>
     </div>
 
@@ -7287,7 +7289,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     </script>
 
     <!-- RegRader 오버레이: 데이터/개정이유/UI -->
-    <script src="./app-init.js?v=20260925d"></script>
+    <script src="./app-init.js?v=20260926a"></script>
     <script src="./event-boot.js?v=20260926a"></script>
     <script src="./whyA.js?v=20260917a"></script>
     <script src="./whyB.js?v=20260917a"></script>
@@ -7300,7 +7302,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./stats-ui.js?v=20260926a"></script>
     <script src="./registry-fix.js?v=20260925a"></script>
     <script src="./excel-fix.js?v=20260925a"></script>
-    <script src="./download-ui.js?v=20260925b"></script>
+    <script src="./download-ui.js?v=20260926a"></script>
     <script src="./law-request.js?v=20260925a"></script>
     <script src="./dashboard-charts.js?v=20260925b"></script>
     <script src="./year-view.js?v=20260926a"></script>
