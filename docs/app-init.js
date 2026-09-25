@@ -57,7 +57,18 @@
   /* 최종 업데이트 시각과 전체 현행/시행예정 수는 meta.json(자동 갱신 스크립트가 생성)에서 읽는다.
      예전에는 접속 시각을 그대로 보여줘서 데이터가 언제 갱신됐는지 알 수 없었다. */
   function fmtNum(n) { return Number(n).toLocaleString('ko-KR'); }
+  function setBaseCount(n) {
+    if (!n) return;
+    window.__rrBaseCount = n;
+    ['rr-base-count', 'rr-base-sub-n'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = n;
+    });
+  }
+  window.__rrSetBaseCount = setBaseCount;
   function applyMeta(meta) {
+    window.__rrMeta = meta;
+    setBaseCount(meta.baseLaws);
     var ts = document.getElementById('timestamp');
     if (ts && meta.generatedAt) {
       var d = new Date(meta.generatedAt);

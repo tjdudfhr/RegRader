@@ -114,9 +114,17 @@ def diff_rows(prev_rows, new_rows):
 def record_changes(prev_rows, new_rows, prev_meta, meta):
     """직전 갱신과 달라진 점을 docs/changelog.json 맨 앞에 추가한다. 달라진 게 없으면 기록하지 않는다."""
     added, removed, now_in_force = diff_rows(prev_rows, new_rows)
+    # 적용법규를 새로 추가한 경우(process_law_requests.py): 그 법규의 개정은 '신규 개정'이 아니라 '적용법규 추가'로 분리한다
+    try:
+        base_added = json.loads(os.environ.get("RR_BASE_ADDED") or "[]")
+    except ValueError:
+        base_added = []
+    new_titles = {b.get("title") for b in base_added}
+    by_base = [x for x in added if x["title"] in new_titles]
+    added = [x for x in added if x["title"] not in new_titles]
     u_before = (prev_meta or {}).get("universe") or {}
     u_after = meta.get("universe") or {}
-    if not (added or removed or now_in_force or (u_before and u_before != u_after)):
+    if not (added or removed or now_in_force or base_added or (u_before and u_before != u_after)):
         print("changelog: 변경 없음", flush=True)
         return
     path = DOCS / "changelog.json"
@@ -133,10 +141,14 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         "added": added,
         "removed": removed,
         "nowInForce": now_in_force,
+        "baseLawsAdded": base_added,
+        "addedByBase": by_base,
+        "baseLawsBefore": (prev_meta or {}).get("baseLaws"),
+        "baseLawsAfter": meta.get("baseLaws"),
     })
     log["updatedAt"] = meta["generatedAt"]
     path.write_text(json.dumps(log, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"changelog: 신규 {len(added)} / 삭제 {len(removed)} / 시행 {len(now_in_force)}", flush=True)
+    print(f"changelog: 신규 {len(added)} / 삭제 {len(removed)} / 시행 {len(now_in_force)} / 적용법규 추가 {len(base_added)}", flush=True)
 
 
 def main():
@@ -290,6 +302,7 @@ def main():
         "year": year,
         "totalCount": payload["totalCount"],
         "universe": payload["universe"],
+        "baseLaws": len(base),
     }
     (DOCS / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 

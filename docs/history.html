@@ -17,6 +17,7 @@
     --new: #2563eb;   --new-bg: #eff6ff;
     --live: #059669;  --live-bg: #ecfdf5;
     --gone: #dc2626;  --gone-bg: #fef2f2;
+    --base: #7c3aed;  --base-bg: #f5f3ff;
     --c-안전: #48bb78; --c-환경: #38b2ac; --c-인사노무: #ed8936; --c-지배구조: #9f7aea;
     --c-재무회계: #4299e1; --c-정보보호: #f56565; --c-공정거래: #d53f8c; --c-지식재산권: #805ad5;
   }
@@ -28,6 +29,7 @@
       --new: #90cdf4; --new-bg: rgba(144, 205, 244, .14);
       --live: #68d391; --live-bg: rgba(104, 211, 145, .14);
       --gone: #fc8181; --gone-bg: rgba(252, 129, 129, .14);
+      --base: #b794f4; --base-bg: rgba(183, 148, 244, .14);
     }
     .b-plain { background: rgba(255, 255, 255, .08) !important; }
     .picker select, .nav-btn, .search { background: #1a202c !important; color: var(--text-primary) !important; }
@@ -92,6 +94,9 @@
   .b-new { background: var(--new-bg); color: var(--new); }
   .b-live { background: var(--live-bg); color: var(--live); }
   .b-gone { background: var(--gone-bg); color: var(--gone); }
+  .b-base { background: var(--base-bg); color: var(--base); }
+  .base-added { margin: 10px 16px 4px; padding: 10px 12px; border-radius: 12px; background: var(--base-bg); font-size: .85rem; color: var(--text-secondary); }
+  .base-added b { color: var(--base); }
   .b-plain { background: #f1f5f9; color: var(--text-secondary); font-weight: 500; }
   .group { padding: 10px 16px 6px; }
   .group h3 { margin: 4px 0 8px; font-size: .9rem; display: flex; align-items: center; gap: 6px; }
@@ -144,6 +149,7 @@
     <button class="chip" data-f="added">신규 개정</button>
     <button class="chip" data-f="nowInForce">새로 시행</button>
     <button class="chip" data-f="removed">빠짐</button>
+    <button class="chip" data-f="addedByBase">적용법규 추가</button>
     <input class="search" id="q" type="search" placeholder="법령명·부처·직무 검색">
   </div>
 
@@ -161,9 +167,19 @@
   var TYPES = {
     added: { label: '신규 개정', cls: 'b-new', color: 'var(--new)' },
     nowInForce: { label: '새로 시행', cls: 'b-live', color: 'var(--live)' },
-    removed: { label: '목록에서 빠짐', cls: 'b-gone', color: 'var(--gone)' }
+    removed: { label: '목록에서 빠짐', cls: 'b-gone', color: 'var(--gone)' },
+    addedByBase: { label: '적용법규 추가로 편입', cls: 'b-base', color: 'var(--base)' }
   };
-  var ORDER = ['added', 'nowInForce', 'removed'];
+  var ORDER = ['added', 'nowInForce', 'removed', 'addedByBase'];
+  /* 적용법규(기본 목록)에 새로 추가된 법규 안내 */
+  function baseLine(e) {
+    var list = e.baseLawsAdded || [];
+    if (!list.length) return '';
+    return '<div class="base-added"><b>적용법규 추가 ' + list.length + '개</b>' +
+      (e.baseLawsBefore && e.baseLawsAfter ? ' (' + num(e.baseLawsBefore) + ' → ' + num(e.baseLawsAfter) + '개)' : '') + ' · ' +
+      list.map(function (b) { return esc(b.title) + (b.category ? ' <span style="color:var(--text-muted)">[' + esc(b.category) + ']</span>' : ''); }).join(', ') +
+      '<br><span style="color:var(--text-muted)">아래 「적용법규 추가로 편입」은 이 법규들의 올해 개정으로, 새로 공포된 개정이 아니라 모니터링 대상에 들어오며 잡힌 것입니다.</span></div>';
+  }
   var entries = [];
   var filter = 'all';
   var selected = 0; /* 드롭다운에서 고른 기록의 순번(0 = 가장 최근), 'all' = 전체 기간 */
@@ -196,7 +212,7 @@
   function universeLine(e) {
     var a = e.universeAfter || {}, b = e.universeBefore || {};
     if (!b.openapiCurrent || (a.openapiCurrent === b.openapiCurrent && a.openapiFuture === b.openapiFuture)) return '';
-    return '<div class="universe">국가법령정보센터 2026년 전체 법령: 현행 ' + num(b.openapiCurrent) + ' → <b>' + num(a.openapiCurrent) +
+    return '<div class="universe">국가법령정보센터 ' + String(e.asOf || '').slice(0, 4) + '년 전체 법령: 현행 ' + num(b.openapiCurrent) + ' → <b>' + num(a.openapiCurrent) +
       '</b> · 시행예정 ' + num(b.openapiFuture) + ' → <b>' + num(a.openapiFuture) + '</b></div>';
   }
   function render() {
@@ -211,7 +227,8 @@
           TYPES[t].label + ' ' + rows.length + '건</h3>' + rows.map(lawRow).join('') + '</div>';
       }).join('');
       var uni = (filter === 'all' && !q) ? universeLine(e) : '';
-      if (!groups && !uni) return '';
+      var base = ((filter === 'all' || filter === 'addedByBase') && !q) ? baseLine(e) : '';
+      if (!groups && !uni && !base) return '';
       var badges = ORDER.map(function (t) {
         var n = (e[t] || []).length;
         return n ? '<span class="badge ' + TYPES[t].cls + '">' + TYPES[t].label + ' ' + n + '</span>' : '';
@@ -219,7 +236,7 @@
       var sub = e.previousCheckedAt ? '직전 확인 ' + kst(e.previousCheckedAt) + ' 대비' : '';
       return '<section class="entry"><div class="entry-head"><div><div class="entry-date">' + kst(e.checkedAt, true) +
         '</div><div class="entry-sub">' + esc(sub) + '</div></div><div class="badges">' + badges + '</div></div>' +
-        groups + uni + '</section>';
+        base + groups + uni + '</section>';
     }).join('');
     document.getElementById('list').innerHTML = html ||
       '<div class="empty">' + (entries.length ? '조건에 맞는 내역이 없습니다.' : '아직 기록된 업데이트가 없습니다.') + '</div>';

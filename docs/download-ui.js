@@ -39,13 +39,16 @@
       .then(function (j) {
         saveRows((j.items || []).map(function (b, i) {
           return { '번호': i + 1, '법령명': b.title || '', '직무': (b.categories || []).join(', '), 'ID': b.id || '' };
-        }), '당사적용국내법규', '당사_적용_국내법규_207.xlsx');
+        }), '당사적용국내법규', '당사_적용_국내법규_' + (j.items || []).length + '.xlsx');
       })
-      .catch(function () { alert('207개 목록 파일을 찾지 못했습니다.'); });
+      .catch(function () { alert('적용법규 목록 파일을 찾지 못했습니다.'); });
   }
   function paint(box) {
     if (!box) return;
     var inner = box.querySelector('.modal-content') || box;
+    var M = window.__rrMeta || {}, U = M.universe || {};
+    var fmt = function (n) { return n == null ? '–' : Number(n).toLocaleString('ko-KR'); };
+    var baseN = window.__rrBaseCount || '–';
     inner.innerHTML =
       '<div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb">' +
       '<h2 style="margin:0;font-size:1.25rem">2026년 법령 데이터 다운로드</h2>' +
@@ -53,18 +56,18 @@
       '</div>' +
       '<div style="padding:18px 20px">' +
       '<div style="background:linear-gradient(135deg,#5b67e5,#7c3aed);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;gap:18px;flex-wrap:wrap">' +
-      '<div><div style="font-size:22px;font-weight:800">2,468</div><div style="opacity:.9;font-size:12px">현행(2026 시행)</div></div>' +
-      '<div><div style="font-size:22px;font-weight:800">4,955</div><div style="opacity:.9;font-size:12px">시행예정</div></div>' +
-      '<div><div style="font-size:22px;font-weight:800">207</div><div style="opacity:.9;font-size:12px">당사 적용 국내법규</div></div>' +
+      '<div><div style="font-size:22px;font-weight:800">' + fmt(U.openapiCurrent) + '</div><div style="opacity:.9;font-size:12px">현행(2026 시행)</div></div>' +
+      '<div><div style="font-size:22px;font-weight:800">' + fmt(U.openapiFuture) + '</div><div style="opacity:.9;font-size:12px">시행예정</div></div>' +
+      '<div><div style="font-size:22px;font-weight:800">' + baseN + '</div><div style="opacity:.9;font-size:12px">당사 적용 국내법규</div></div>' +
       '<div><div style="font-size:22px;font-weight:800">' + (items().length || '-') + '</div><div style="opacity:.9;font-size:12px">일치 개정 건</div></div>' +
       '</div>' +
       '<button type="button" id="rr-dl-matched" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid #c7d2fe;border-radius:12px;background:#eef2ff;cursor:pointer">' +
       '<div style="font-weight:700">당사 매칭 개정 결과 (Excel)</div>' +
-      '<div style="font-size:13px;color:#4c1d95;margin-top:4px">207개와 제목 100% 일치하는 2026년 개정 건</div></button>' +
+      '<div style="font-size:13px;color:#4c1d95;margin-top:4px">' + baseN + '개와 제목 100% 일치하는 2026년 개정 건</div></button>' +
       '<button type="button" id="rr-dl-base" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid #e5e7eb;border-radius:12px;background:#f8fafc;cursor:pointer">' +
-      '<div style="font-weight:700">당사 적용 국내법규 207 (Excel)</div>' +
+      '<div style="font-weight:700">당사 적용 국내법규 ' + baseN + ' (Excel)</div>' +
       '<div style="font-size:13px;color:#64748b;margin-top:4px">기본 적용 목록</div></button>' +
-      '<div style="font-size:12px;color:#64748b;line-height:1.55">조회 기준 2026-09-15. 전체 현행 2,468 + 시행예정 4,955 파일은 채팅으로 받은 엑셀을 사용하세요.</div>' +
+      '<div style="font-size:12px;color:#64748b;line-height:1.55">조회 기준 ' + (M.asOf || '–') + '. 전체 현행 ' + fmt(U.openapiCurrent) + ' + 시행예정 ' + fmt(U.openapiFuture) + ' 파일은 채팅으로 받은 엑셀을 사용하세요.</div>' +
       '</div>';
     var m = inner.querySelector('#rr-dl-matched');
     var b = inner.querySelector('#rr-dl-base');

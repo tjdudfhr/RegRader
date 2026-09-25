@@ -14,9 +14,11 @@
     var all = document.getElementById('job-count-all');
     if (all) all.textContent = String((items || []).length);
     var tab = document.getElementById('lawregistry-tab-count');
-    if (tab) tab.textContent = String((items || []).length || 207);
+    if (tab) tab.textContent = String((items || []).length || '–');
     var tot = document.getElementById('registry-total-count');
-    if (tot) tot.textContent = String((items || []).length || 207);
+    if (tot) tot.textContent = String((items || []).length || '–');
+    /* 적용법규 수는 목록 파일에서 센다 (법규 추가 시 자동 반영) */
+    if (items && items.length && window.__rrSetBaseCount) window.__rrSetBaseCount(items.length);
   }
   var cur = 'all', curTitle = null;
   function render(job, title) {

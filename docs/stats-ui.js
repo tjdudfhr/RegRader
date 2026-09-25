@@ -32,7 +32,6 @@
     var s = stats(items);
     if (document.getElementById('rr-base-count') && (tot.parentNode.textContent || '').indexOf('개정 법규') >= 0) {
       var map = {
-        'rr-base-count': 207,
         'total-law-count': s.events,
         'implemented-law-count': s.past,
         'amendment-law-count': s.upcoming
@@ -54,7 +53,7 @@
     if (root && root.querySelector) {
       var sub = root.querySelector('div[style*="text-muted"]');
       if (sub && /기본 법규|매칭/.test(sub.textContent || '')) {
-        sub.textContent = '당사 적용 국내법규 207개와 제목이 100% 일치하는 2026년 개정만 집계합니다.';
+        sub.textContent = '당사 적용 국내법규 ' + (window.__rrBaseCount || '–') + '개와 제목이 100% 일치하는 2026년 개정만 집계합니다.';
       }
     }
     var row = tot.parentNode && tot.parentNode.parentNode;
@@ -64,7 +63,7 @@
     row.style.flexWrap = 'wrap';
     row.style.gap = '1.15rem 1.4rem';
     row.innerHTML =
-      cell('rr-base-count', 207, '당사 적용 국내법규', 'var(--primary)') +
+      cell('rr-base-count', window.__rrBaseCount || '–', '당사 적용 국내법규', 'var(--primary)') +
       cell('total-law-count', s.events, '개정 법규 (복수개정 ' + s.multi + ')', 'var(--primary)') +
       cell('implemented-law-count', s.past, '시행완료', '#48bb78') +
       cell('amendment-law-count', s.upcoming, '시행예정', '#d946ef') +

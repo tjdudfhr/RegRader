@@ -2010,13 +2010,13 @@
                         <span style="font-size: 1.3rem;">🎯</span>
                         <div>
                             <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">2026년 당사 적용 법규 개정 현황</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">당사 적용 국내법규 207개와 제목이 100% 일치하는 2026년 개정만 집계합니다.</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">당사 적용 국내법규 <span id="rr-base-sub-n">–</span>개와 제목이 100% 일치하는 2026년 개정만 집계합니다.</div>
                         </div>
                     </div>
                     <!-- 숫자는 stats-ui.js 가 실제 데이터로 채운다. 옛 수치가 먼저 보이지 않도록 자리표시(–)만 둔다. -->
                     <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 1.15rem 1.4rem;">
                         <div style="text-align:center;min-width:72px">
-                            <div id="rr-base-count" style="font-size:1.55rem;font-weight:800;color:var(--primary)">207</div>
+                            <div id="rr-base-count" style="font-size:1.55rem;font-weight:800;color:var(--primary)">–</div>
                             <div style="font-size:0.75rem;color:var(--text-muted);font-weight:500">당사 적용 국내법규</div>
                         </div>
                         <div style="text-align:center;min-width:72px">
@@ -2206,7 +2206,7 @@
                             </div>
                             <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
                                 <div style="text-align: center;">
-                                    <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="registry-total-count">207</div>
+                                    <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="registry-total-count">–</div>
                                     <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 법규 수</div>
                                 </div>
 
@@ -7039,7 +7039,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     </script>
 
     <!-- RegRader 오버레이: 데이터/개정이유/UI -->
-    <script src="./app-init.js?v=20260925a"></script>
+    <script src="./app-init.js?v=20260925b"></script>
     <script src="./event-boot.js?v=20260925c"></script>
     <script src="./whyA.js?v=20260917a"></script>
     <script src="./whyB.js?v=20260917a"></script>
@@ -7049,10 +7049,11 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./brief-why.js?v=20260917a"></script>
     <script src="./sum-fill.js?v=20260917a"></script>
     <script src="./brief-ui.js?v=20260925a"></script>
-    <script src="./stats-ui.js?v=20260925a"></script>
-    <script src="./registry-fix.js?v=20260917a"></script>
+    <script src="./stats-ui.js?v=20260925b"></script>
+    <script src="./registry-fix.js?v=20260925a"></script>
     <script src="./excel-fix.js?v=20260917a"></script>
-    <script src="./download-ui.js?v=20260917a"></script>
+    <script src="./download-ui.js?v=20260925a"></script>
+    <script src="./law-request.js?v=20260925a"></script>
 
 </body>
 </html>
