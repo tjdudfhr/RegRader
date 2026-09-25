@@ -14,6 +14,9 @@
     "header  header"
     "nav     archive"
     "nav     content";
+  /* 메뉴(화면 높이)가 archive+content 두 줄에 걸쳐 있어서, 내용이 짧은 탭(예: 분기별)이면 남는 높이가
+     비어 있는 archive 줄로 가서 내용이 아래로 밀렸다 → 남는 높이는 content 줄이 받게 한다 */
+  grid-template-rows: auto auto 1fr;
   column-gap: 1.5rem;
   align-items: start;
 }
@@ -183,6 +186,7 @@
   .container {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "header" "nav" "archive" "content";
+    grid-template-rows: none;
   }
   .main-tab-navigation {
     top: 0;
