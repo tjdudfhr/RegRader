@@ -136,11 +136,9 @@
         (card.querySelector('.quarter-info') || card).appendChild(box);
       }
       var row = s.byQC[q[0]], tot = s.cats.reduce(function (n, c) { return n + row[c]; }, 0);
-      var top3 = s.cats.filter(function (c) { return row[c]; }).sort(function (a, b) { return row[b] - row[a]; }).slice(0, 2);
       box.innerHTML = '<div class="rr-qbar" role="img" aria-label="' + q[1] + ' 직무 구성">' + s.cats.filter(function (c) { return row[c]; }).map(function (c) {
         return '<span style="flex:' + row[c] + ';background:' + window.rrCatColor(c) + '" title="' + c + ' ' + row[c] + '건"></span>';
-      }).join('') + '</div>' +
-        (tot ? '<div class="rr-qtop">' + top3.map(function (c) { return '<span><i style="background:' + window.rrCatColor(c) + '"></i>' + c + ' ' + row[c] + '</span>'; }).join('') + '</div>' : '');
+      }).join('') + '</div>'; /* 막대 아래 '많이 개정된 직무' 표기는 빼고 막대만 둔다 (막대에 마우스를 올리면 직무별 건수) */
     });
   }
 
