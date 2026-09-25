@@ -81,6 +81,12 @@
         (function () {
             var k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
             window.RR_YEAR = window.RR_YEAR || k.getFullYear();
+            /* 지난 연도 보기: ?year=2026 이면 docs/archive/2026/ 의 보관 데이터를 읽는다 (year-view.js 가 드롭다운·안내 표시) */
+            var vy = new URLSearchParams(location.search).get('year');
+            window.RR_VIEW_YEAR = /^\d{4}$/.test(vy || '') ? Number(vy) : null;
+            window.rrDataPath = function (file) {
+                return (window.RR_VIEW_YEAR ? './archive/' + window.RR_VIEW_YEAR + '/' : './') + file;
+            };
             window.rrSetYear = function (y) {
                 y = Number(y);
                 if (!y) return;
@@ -7045,8 +7051,8 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     </script>
 
     <!-- RegRader 오버레이: 데이터/개정이유/UI -->
-    <script src="./app-init.js?v=20260925c"></script>
-    <script src="./event-boot.js?v=20260925e"></script>
+    <script src="./app-init.js?v=20260925d"></script>
+    <script src="./event-boot.js?v=20260925f"></script>
     <script src="./whyA.js?v=20260917a"></script>
     <script src="./whyB.js?v=20260917a"></script>
     <script src="./wy0.js?v=20260917a"></script>
@@ -7055,12 +7061,13 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./brief-why.js?v=20260917a"></script>
     <script src="./sum-fill.js?v=20260917a"></script>
     <script src="./brief-ui.js?v=20260925a"></script>
-    <script src="./stats-ui.js?v=20260925d"></script>
+    <script src="./stats-ui.js?v=20260925e"></script>
     <script src="./registry-fix.js?v=20260925a"></script>
     <script src="./excel-fix.js?v=20260925a"></script>
     <script src="./download-ui.js?v=20260925b"></script>
     <script src="./law-request.js?v=20260925a"></script>
-    <script src="./dashboard-charts.js?v=20260925a"></script>
+    <script src="./dashboard-charts.js?v=20260925b"></script>
+    <script src="./year-view.js?v=20260925a"></script>
 
 </body>
 </html>

@@ -84,7 +84,7 @@
     if (sub && meta.asOf) sub.textContent = '국가법령정보센터 OpenAPI · ' + meta.asOf + ' 조회 (시행일 ' + (meta.year || window.RR_YEAR) + '-01-01~12-31)';
   }
   function loadMeta() {
-    fetch('./meta.json?v=' + Date.now(), { cache: 'no-store' })
+    fetch((window.rrDataPath ? window.rrDataPath('meta.json') : './meta.json') + '?v=' + Date.now(), { cache: 'no-store' })
       .then(function (r) { if (!r.ok) throw new Error('meta.json ' + r.status); return r.json(); })
       .then(applyMeta)
       .catch(function (e) {

@@ -72,13 +72,14 @@
   /* 시행 임박 칸: 30일 이내 시행 건수, 7일 이내가 있으면 빨강+깜빡이는 점 */
   /* 연말에는 다음 해 1~2월 시행분(upcoming_next.json)도 30일 내 시행에 포함한다 */
   var nextRows = null;
-  fetch('./upcoming_next.json?v=' + Date.now(), { cache: 'no-store' })
+  (window.RR_VIEW_YEAR ? Promise.resolve({ ok: false }) : fetch('./upcoming_next.json?v=' + Date.now(), { cache: 'no-store' }))
     .then(function (r) { return r.ok ? r.json() : []; })
     .then(function (rows) { nextRows = Array.isArray(rows) ? rows : []; if (window.__rrItems) paintUrgent(window.__rrItems); })
     .catch(function () { nextRows = []; });
   function paintUrgent(items) {
     var box = document.getElementById('rr-urgent');
     if (!box) return;
+    if (window.RR_VIEW_YEAR) { box.style.display = 'none'; return; } /* 지난 연도 보기에서는 '30일 내 시행'이 의미 없다 */
     items = items.concat((nextRows || []).map(function (r) { return { effectiveDate: r.d }; }));
     var k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
     var today = new Date(k.getFullYear(), k.getMonth(), k.getDate());

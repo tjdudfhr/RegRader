@@ -494,7 +494,7 @@
       /* extra11.json(2026년 띄어쓰기 정규화 11건)은 자동 갱신이 이름을 정규화해 같이 모으므로 더 읽지 않는다.
          읽으면 해가 바뀐 뒤에도 2026년 개정 11건이 섞인다. */
       var names = ['summaries', 'sum_a', 'sum_b', 'events_mini', 'm0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7'];
-      var got = await Promise.allSettled(names.map(function (n) { return loadJSON('./' + n + '.json'); }));
+      var got = await Promise.allSettled(names.map(function (n) { return loadJSON(window.rrDataPath ? window.rrDataPath(n + '.json') : './' + n + '.json'); }));
       [0, 1, 2].forEach(function (i) { if (ok(got[i]) && typeof ok(got[i]) === 'object') Object.assign(sums, ok(got[i])); });
       if (isRows(ok(got[3]))) rows = ok(got[3]);
       if (!rows.length) {
@@ -508,7 +508,7 @@
         });
       }
       if (!rows.length) {
-        var data = await loadJSON('./index.json');
+        var data = await loadJSON(window.rrDataPath ? window.rrDataPath('index.json') : './index.json');
         apply(Array.isArray(data) ? data : (data.items || []));
         guardOverwrite();
         return;

@@ -35,7 +35,8 @@
         if (d < 0) past[m]++;
       }
     });
-    var curMonth = String(today.getFullYear()) === year ? today.getMonth() : -1;
+    /* 지난 연도면 12개월 모두 '지난 달', 올해면 이번 달 기준 */
+    var curMonth = String(today.getFullYear()) === year ? today.getMonth() : (Number(year) < today.getFullYear() ? 12 : -1);
     return { year: year, total: items.length, done: done, soon: soon, later: later, month: month, past: past, curMonth: curMonth };
   }
 
