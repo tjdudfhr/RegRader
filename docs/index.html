@@ -1951,13 +1951,17 @@
                         <span style="font-size: 1.5rem;">📊</span>
                         <div>
                             <div style="font-size: 1.4rem; font-weight: 700; color: var(--text-primary);">2026년 개정 법규 현황</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">국가법령정보센터 시행법령+시행예정법령 수집 데이터</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">국가법령정보센터 OpenAPI · 2026-09-15 조회 (시행일 2026-01-01~12-31)</div>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
                         <div style="text-align: center;">
-                            <div style="font-size: 2rem; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">1,864</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">전체 개정 법령</div>
+                            <div id="rr-universe-current" style="font-size: 2rem; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">2,468</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">현행 (2026 시행)</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div id="rr-universe-future" style="font-size: 2rem; font-weight: 800; color: #d946ef;">4,955</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행예정</div>
                         </div>
                     </div>
                 </div>
@@ -1970,22 +1974,28 @@
                         <span style="font-size: 1.3rem;">🎯</span>
                         <div>
                             <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">2026년 당사 적용 법규 개정 현황</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">207개 기본 법규 중 매칭 결과</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">당사 적용 국내법규 207개와 제목이 100% 일치하는 2026년 개정만 집계합니다.</div>
                         </div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary);" id="total-law-count">327</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">총 매칭 법규</div>
+                    <!-- 숫자는 stats-ui.js 가 실제 데이터로 채운다. 옛 수치가 먼저 보이지 않도록 자리표시(–)만 둔다. -->
+                    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 1.15rem 1.4rem;">
+                        <div style="text-align:center;min-width:72px">
+                            <div id="rr-base-count" style="font-size:1.55rem;font-weight:800;color:var(--primary)">207</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);font-weight:500">당사 적용 국내법규</div>
                         </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #48bb78;" id="implemented-law-count">273</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행완료</div>
+                        <div style="text-align:center;min-width:72px">
+                            <div id="total-law-count" style="font-size:1.55rem;font-weight:800;color:var(--primary)">–</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);font-weight:500">개정 법규</div>
                         </div>
-                        <div style="text-align: center;">
-                            <div style="font-size: 1.6rem; font-weight: 800; color: #f093fb;" id="amendment-law-count">54</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">시행예정</div>
+                        <div style="text-align:center;min-width:72px">
+                            <div id="implemented-law-count" style="font-size:1.55rem;font-weight:800;color:#48bb78">–</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);font-weight:500">시행완료</div>
                         </div>
+                        <div style="text-align:center;min-width:72px">
+                            <div id="amendment-law-count" style="font-size:1.55rem;font-weight:800;color:#d946ef">–</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);font-weight:500">시행예정</div>
+                        </div>
+                        <a href="./watch.html" style="font-size:0.85rem;font-weight:700;color:#2563eb;text-decoration:none;border:1px solid #bfdbfe;border-radius:999px;padding:6px 10px">D-30 알림</a>
                     </div>
                 </div>
             </div>
@@ -6972,7 +6982,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
 
     <!-- RegRader 오버레이: 데이터/개정이유/UI -->
     <script src="./app-init.js?v=20260917a"></script>
-    <script src="./event-boot.js?v=20260917a"></script>
+    <script src="./event-boot.js?v=20260925a"></script>
     <script src="./whyA.js?v=20260917a"></script>
     <script src="./whyB.js?v=20260917a"></script>
     <script src="./wy0.js?v=20260917a"></script>

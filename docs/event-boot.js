@@ -476,22 +476,16 @@
     try {
       var rows = [];
       var sums = {};
-      try { sums = await loadJSON('./summaries.json'); } catch (eS) { sums = {}; }
-      try { Object.assign(sums, await loadJSON('./sum_a.json')); } catch (eA) {}
-      try { Object.assign(sums, await loadJSON('./sum_b.json')); } catch (eB) {}
-      try {
-        var mini = await loadJSON('./events_mini.json');
-        if (Array.isArray(mini) && mini.length && mini[0].t) rows = mini;
-      } catch (e0) {}
+      /* 모든 파일을 한 번에 요청한다. 예전에는 summaries/sum_a/sum_b/events_mini 를 하나씩 기다렸는데
+         이 파일들이 없어서(404) 요청마다 수백 ms 씩 첫 화면이 늦어졌다. */
+      function ok(s) { return s.status === 'fulfilled' ? s.value : null; }
+      function isRows(v) { return Array.isArray(v) && v.length && v[0].t; }
+      var names = ['summaries', 'sum_a', 'sum_b', 'events_mini', 'm0', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'extra11'];
+      var got = await Promise.allSettled(names.map(function (n) { return loadJSON('./' + n + '.json'); }));
+      [0, 1, 2].forEach(function (i) { if (ok(got[i]) && typeof ok(got[i]) === 'object') Object.assign(sums, ok(got[i])); });
+      if (isRows(ok(got[3]))) rows = ok(got[3]);
       if (!rows.length) {
-        var settled = await Promise.allSettled([0, 1, 2, 3, 4, 5, 6, 7].map(function (i) { return loadJSON('./m' + i + '.json'); }));
-        settled.forEach(function (s) {
-          if (s.status === 'fulfilled' && Array.isArray(s.value) && s.value.length && s.value[0].t) rows = rows.concat(s.value);
-        });
-        try {
-          var extra = await loadJSON('./extra11.json');
-          if (Array.isArray(extra) && extra.length && extra[0].t) rows = rows.concat(extra);
-        } catch (e2) {}
+        got.slice(4).forEach(function (s) { if (isRows(ok(s))) rows = rows.concat(ok(s)); });
         var seen = {};
         rows = rows.filter(function (r) {
           var k = (r.t || '') + '|' + (r.d || '') + '|' + (r.a || '');
