@@ -84,6 +84,13 @@
             /* 지난 연도 보기: ?year=2026 이면 docs/archive/2026/ 의 보관 데이터를 읽는다 (year-view.js 가 드롭다운·안내 표시) */
             var vy = new URLSearchParams(location.search).get('year');
             window.RR_VIEW_YEAR = /^\d{4}$/.test(vy || '') ? Number(vy) : null;
+            /* 직무 색: 한 곳에서만 정의한다 (dataviz 검증 팔레트, 라이트/다크 각각 통과).
+               순서가 곧 색 배정 순서이며, 누적 막대·범례도 이 순서를 따른다. */
+            window.RR_CAT_ORDER = ['재무회계', '인사노무', '환경', '지식재산권', '공정거래', '안전', '지배구조', '정보보호'];
+            var CAT_LIGHT = { '재무회계': '#2a78d6', '인사노무': '#eb6834', '환경': '#1baf7a', '지식재산권': '#eda100', '공정거래': '#e87ba4', '안전': '#008300', '지배구조': '#4a3aa7', '정보보호': '#e34948', '기타': '#a0aec0' };
+            var CAT_DARK = { '재무회계': '#3987e5', '인사노무': '#d95926', '환경': '#199e70', '지식재산권': '#c98500', '공정거래': '#d55181', '안전': '#008300', '지배구조': '#9085e9', '정보보호': '#e66767', '기타': '#718096' };
+            window.rrIsDark = function () { return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches); };
+            window.rrCatColor = function (cat) { var m = window.rrIsDark() ? CAT_DARK : CAT_LIGHT; return m[cat] || m['기타']; };
             window.rrDataPath = function (file) {
                 return (window.RR_VIEW_YEAR ? './archive/' + window.RR_VIEW_YEAR + '/' : './') + file;
             };
@@ -178,12 +185,15 @@
             --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             
-            --c-safety: #48bb78;
-            --c-env: #38b2ac;
-            --c-hr: #ed8936;
-            --c-gov: #9f7aea;
-            --c-fin: #4299e1;
-            --c-sec: #f56565;
+            /* 직무 색 (head 의 window.rrCatColor 와 같은 값) */
+            --c-fin: #2a78d6;
+            --c-hr: #eb6834;
+            --c-env: #1baf7a;
+            --c-ip: #eda100;
+            --c-fair: #e87ba4;
+            --c-safety: #008300;
+            --c-gov: #4a3aa7;
+            --c-sec: #e34948;
             --c-etc: #a0aec0;
         }
 
@@ -198,6 +208,9 @@
                 --bg-glass: rgba(45, 55, 72, 0.25);
                 --border: #4a5568;
                 --glass-bg: rgba(45, 55, 72, 0.1);
+                /* 직무 색 — 다크 모드 단계 */
+                --c-fin: #3987e5; --c-hr: #d95926; --c-env: #199e70; --c-ip: #c98500;
+                --c-fair: #d55181; --c-safety: #008300; --c-gov: #9085e9; --c-sec: #e66767; --c-etc: #718096;
             }
         }
 
@@ -791,15 +804,15 @@
             font-weight: 500;
         }
 
-        .category-tag.hr { background: rgba(237, 137, 54, 0.1); color: var(--c-hr); }
-        .category-tag.fair { background: rgba(56, 178, 172, 0.1); color: var(--c-env); }
-        .category-tag.sec { background: rgba(245, 101, 101, 0.1); color: var(--c-sec); }
-        .category-tag.ip { background: rgba(159, 122, 234, 0.1); color: var(--c-gov); }
-        .category-tag.fin { background: rgba(66, 153, 225, 0.1); color: var(--c-fin); }
-        .category-tag.safety { background: rgba(72, 187, 120, 0.1); color: var(--c-safety); }
-        .category-tag.env { background: rgba(56, 217, 169, 0.1); color: var(--c-env); }
-        .category-tag.gov { background: rgba(128, 90, 213, 0.1); color: var(--c-gov); }
-        .category-tag.etc { background: rgba(160, 174, 192, 0.1); color: var(--c-etc); }
+        .category-tag.hr { background: color-mix(in srgb, var(--c-hr) 14%, transparent); color: var(--c-hr); }
+        .category-tag.fair { background: color-mix(in srgb, var(--c-fair) 14%, transparent); color: var(--c-fair); }
+        .category-tag.sec { background: color-mix(in srgb, var(--c-sec) 14%, transparent); color: var(--c-sec); }
+        .category-tag.ip { background: color-mix(in srgb, var(--c-ip) 14%, transparent); color: var(--c-ip); }
+        .category-tag.fin { background: color-mix(in srgb, var(--c-fin) 14%, transparent); color: var(--c-fin); }
+        .category-tag.safety { background: color-mix(in srgb, var(--c-safety) 14%, transparent); color: var(--c-safety); }
+        .category-tag.env { background: color-mix(in srgb, var(--c-env) 14%, transparent); color: var(--c-env); }
+        .category-tag.gov { background: color-mix(in srgb, var(--c-gov) 14%, transparent); color: var(--c-gov); }
+        .category-tag.etc { background: color-mix(in srgb, var(--c-etc) 14%, transparent); color: var(--c-etc); }
 
         /* Enhanced Modal */
         .modal {
@@ -1965,31 +1978,8 @@
         </div>
 
         <!-- Main Tab Navigation -->
-        <div class="main-tab-navigation">
-            <div class="main-tab-container">
-                <div class="main-tab active" data-tab="quarterly" onclick="switchMainTab('quarterly')">
-                    <span class="tab-icon">📅</span>
-                    <span class="tab-text">분기별 개정 현황</span>
-                </div>
-                <div class="main-tab" data-tab="business" onclick="switchMainTab('business')">
-                    <span class="tab-icon">🏢</span>
-                    <span class="tab-text">직무별 개정 현황</span>
-                </div>
-                <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')">
-                    <span class="tab-icon">📚</span>
-                    <span class="tab-text">적용법규</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tab Content Wrapper -->
-        <div class="tab-content">
-            <!-- Quarterly Tab Content -->
-            <div class="tab-pane active" id="quarterly-content">
-                <!-- Quarterly View -->
-        <div class="quarterly-view">
-
-
+        <!-- 요약: 개정 법규 현황 · 당사 적용 법규 개정 현황 (모든 탭 위에 항상 표시) -->
+        <div class="rr-summary">
             <!-- 2025년 전체 개정 법규 현황 -->
             <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
                 <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
@@ -2076,11 +2066,37 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="main-tab-navigation">
+            <div class="main-tab-container">
+                <div class="main-tab active" data-tab="quarterly" onclick="switchMainTab('quarterly')">
+                    <span class="tab-icon">📅</span>
+                    <span class="tab-text">분기별 개정 현황</span>
+                </div>
+                <div class="main-tab" data-tab="business" onclick="switchMainTab('business')">
+                    <span class="tab-icon">🏢</span>
+                    <span class="tab-text">직무별 개정 현황</span>
+                </div>
+                <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')">
+                    <span class="tab-icon">📚</span>
+                    <span class="tab-text">적용법규</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content Wrapper -->
+        <div class="tab-content">
+            <!-- Quarterly Tab Content -->
+            <div class="tab-pane active" id="quarterly-content">
+                <!-- Quarterly View -->
+        <div class="quarterly-view">
+
 
             <!-- 분기별 현황 박스 -->
             <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
                 <div class="filter-title">
-                    📅 <span class="rr-year">2026</span>년 분기별 개정 현황
+                    📅 <span><span class="rr-year">2026</span>년 분기별 개정 현황</span>
                 </div>
                 <div class="quarterly-tabs">
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q1')">
@@ -2128,6 +2144,38 @@
                     <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q4', event)" title="4분기 법령 엑셀 다운로드" aria-label="4분기 법령 엑셀 다운로드"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
                 </div>
             </div>
+            </div>
+
+            <!-- 개정 분석 (analytics.js) -->
+            <div class="rr-an" id="rr-analytics">
+                <div class="filter-title">📊 <span><span id="rr-an-year"></span> 개정 분석</span></div>
+                <div class="rr-an-grid">
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>직무별 개정 건수</b><span>막대를 누르면 직무별 탭</span></div>
+                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-jobs" role="img" aria-label="직무별 개정 건수 가로 막대 차트"></canvas></div>
+                    </div>
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>분기별 직무 구성</b><span>막대를 누르면 분기 상세</span></div>
+                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-qjob" role="img" aria-label="분기별 직무 구성 누적 막대 차트"></canvas></div>
+                        <details><summary>표로 보기</summary><div id="rr-an-qjob-table"></div></details>
+                    </div>
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>개정 유형</b><span>일부개정 · 타법개정 등</span></div>
+                        <div class="rr-an-split" id="rr-an-type-bar" role="img" aria-label="개정 유형 비율 막대"></div><div class="rr-an-legend" id="rr-an-type-legend"></div>
+                    </div>
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>법령 종류</b><span>법률 · 시행령 · 시행규칙</span></div>
+                        <div class="rr-an-donut"><div class="rr-an-plot"><canvas id="rr-an-kind" role="img" aria-label="법령 종류 도넛 차트"></canvas></div><div class="rr-an-legend" id="rr-an-kind-legend"></div></div>
+                    </div>
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>소관부처 TOP 8</b><span>개정 건수 기준</span></div>
+                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-min" role="img" aria-label="소관부처별 개정 건수 가로 막대 차트"></canvas></div>
+                    </div>
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>올해 여러 번 개정된 법령</b><span>누르면 가장 가까운 개정 상세</span></div>
+                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-multi" role="img" aria-label="개정 횟수가 많은 법령 가로 막대 차트"></canvas></div>
+                    </div>
+                </div>
             </div>
 
                 </div>
@@ -2896,15 +2944,8 @@
         }
     
 
-        const categoryColors = {
-            '안전': '#48bb78',
-            '환경': '#38b2ac', 
-            '인사노무': '#ed8936',
-            '지배구조': '#9f7aea',
-            '재무회계': '#4299e1',
-            '정보보호': '#f56565',
-            '기타': '#a0aec0'
-        };
+        /* 직무 색은 head 의 window.rrCatColor 한 곳에서 정한다 (모든 차트·태그가 같은 색) */
+        const categoryColors = new Proxy({}, { get: function (_, k) { return window.rrCatColor(k); } });
 
         let lawsData = [];
         let filteredLaws = [];
@@ -3145,16 +3186,8 @@
             }).join('');
 
             // Generate chart data for this quarter
-            const categoryColors = {
-                '인사노무': '#e53e3e',      // 빨간색 계열
-                '공정거래': '#3182ce',      // 파란색 계열  
-                '정보보호': '#805ad5',      // 보라색 계열
-                '지식재산권': '#d69e2e',      // 노란색 계열
-                '재무회계': '#38a169',      // 초록색 계열
-                '안전': '#dd6b20',      // 주황색 계열
-                '환경': '#319795',    // 청록색 계열
-                '지배구조': '#9f7aea'       // 자주색 계열
-            };
+            /* 분기 상세의 직무 색도 공통 정의(window.rrCatColor)를 따른다 — 예전엔 인사노무=빨강, 안전=주황으로 직무별 탭과 달랐다 */
+            const categoryColors = new Proxy({}, { get: function (_, k) { return window.rrCatColor(k); } });
 
             // Create business filter tabs for this quarter (similar to business tab)
             const allCount = quarterLaws.length;
@@ -7067,7 +7100,8 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./download-ui.js?v=20260925b"></script>
     <script src="./law-request.js?v=20260925a"></script>
     <script src="./dashboard-charts.js?v=20260925b"></script>
-    <script src="./year-view.js?v=20260925a"></script>
+    <script src="./year-view.js?v=20260925b"></script>
+    <script src="./analytics.js?v=20260925b"></script>
 
 </body>
 </html>
