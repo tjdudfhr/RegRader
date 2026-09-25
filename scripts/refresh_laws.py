@@ -206,6 +206,16 @@ def main():
         chunk = mini[i * shard:(i + 1) * shard]
         (DOCS / f"m{i}.json").write_text(json.dumps(chunk, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
+    # 화면 상단(최종 업데이트 시각, 전체 현행/시행예정 수)용 작은 파일
+    meta = {
+        "generatedAt": payload["generatedAt"],
+        "asOf": payload["asOf"],
+        "year": year,
+        "totalCount": payload["totalCount"],
+        "universe": payload["universe"],
+    }
+    (DOCS / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
+
     print(json.dumps({"totalCount": payload["totalCount"], "integrity": payload["integrity"], "stats": payload["stats"]}, ensure_ascii=False, indent=2))
 
 

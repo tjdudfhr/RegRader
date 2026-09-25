@@ -1,8 +1,8 @@
 name: Weekly law refresh
 
+# law.go.kr 가 해외 IP(GitHub 서버)를 막아서 예약 실행은 늘 실패했다.
+# 자동 갱신은 국내 IP 컴퓨터에서 scripts/auto_update.sh 로 한다. 여기는 수동 실행만 남겨 둔다.
 on:
-  schedule:
-    - cron: "0 22 * * 0"  # Monday 07:00 KST
   workflow_dispatch:
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/index.json docs/previous_index.json
+          git add docs/index.json docs/previous_index.json docs/meta.json docs/m?.json
           if git diff --cached --quiet; then
             echo "No data changes"
           else

@@ -51,10 +51,38 @@
     try {
       var y = document.getElementById('year');
       if (y) y.textContent = '2026';
-      var ts = document.getElementById('timestamp');
-      if (ts) ts.textContent = new Date().toLocaleString('ko-KR');
     } catch (e) {}
   }
+
+  /* 최종 업데이트 시각과 전체 현행/시행예정 수는 meta.json(자동 갱신 스크립트가 생성)에서 읽는다.
+     예전에는 접속 시각을 그대로 보여줘서 데이터가 언제 갱신됐는지 알 수 없었다. */
+  function fmtNum(n) { return Number(n).toLocaleString('ko-KR'); }
+  function applyMeta(meta) {
+    var ts = document.getElementById('timestamp');
+    if (ts && meta.generatedAt) {
+      var d = new Date(meta.generatedAt);
+      if (!isNaN(d.getTime())) ts.textContent = d.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+    }
+    var u = meta.universe || {};
+    var cur = document.getElementById('rr-universe-current');
+    var fut = document.getElementById('rr-universe-future');
+    if (cur && u.openapiCurrent != null) cur.textContent = fmtNum(u.openapiCurrent);
+    if (fut && u.openapiFuture != null) fut.textContent = fmtNum(u.openapiFuture);
+    var sub = document.getElementById('rr-universe-sub');
+    if (sub && meta.asOf) sub.textContent = '국가법령정보센터 OpenAPI · ' + meta.asOf + ' 조회 (시행일 ' + (meta.year || 2026) + '-01-01~12-31)';
+  }
+  function loadMeta() {
+    fetch('./meta.json?v=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('meta.json ' + r.status); return r.json(); })
+      .then(applyMeta)
+      .catch(function (e) {
+        console.warn('[app-init] meta.json 을 읽지 못했습니다.', e);
+        var ts = document.getElementById('timestamp');
+        if (ts) ts.textContent = '확인 불가';
+      });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadMeta);
+  else loadMeta();
 
   /* ---- 1. loadData: 단일 데이터 소스로 전환 ---- */
   var origLoadData = window.loadData;
