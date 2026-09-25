@@ -475,55 +475,40 @@
             color: var(--primary);
         }
 
-        /* Quarter Download Button */
+        /* Quarter Download Button — 카드 오른쪽 위 작은 아이콘 버튼 */
         .quarter-download-btn {
             position: absolute;
-            bottom: 0.8rem;
-            right: 0.8rem;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
+            top: 0.7rem;
+            right: 0.7rem;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border-radius: 10px;
+            border: 1px solid rgba(102, 126, 234, 0.35);
+            background: rgba(102, 126, 234, 0.10);
+            color: var(--primary);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
             z-index: 2;
-            color: white;
-            font-size: 1.2rem;
-            text-decoration: none;
-            backdrop-filter: blur(10px);
-            gap: 1px;
-        }
-        
-        .quarter-download-btn .download-icon {
-            font-size: 1.8rem;
-            line-height: 1;
-        }
-        
-        .quarter-download-btn .download-text {
-            font-size: 0.55rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            line-height: 1;
-            opacity: 0.9;
-            margin-top: 1px;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
         }
 
         .quarter-download-btn:hover {
-            transform: scale(1.1) translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-            border-color: rgba(255, 255, 255, 0.4);
+            background: var(--primary-gradient);
+            border-color: var(--primary);
+            color: #fff;
+            transform: translateY(-1px);
         }
 
         .quarter-download-btn:active {
             transform: scale(0.95);
+        }
+
+        .quarter-download-btn:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
         }
 
         /* Business Filter */
@@ -2051,6 +2036,20 @@
                         </a>
                     </div>
                 </div>
+                <!-- 시행 현황 도넛 + 월별 시행 막대 (dashboard-charts.js) -->
+                <div class="rr-dash" id="rr-dash-charts">
+                    <div class="rr-dash-panel">
+                        <div class="rr-dash-title">시행 현황</div>
+                        <div class="rr-dash-donut-row">
+                            <div class="rr-dash-donut-wrap"><canvas id="rr-dash-donut" aria-label="시행 현황 도넛 차트" role="img"></canvas></div>
+                            <div class="rr-dash-legend" id="rr-dash-legend"></div>
+                        </div>
+                    </div>
+                    <div class="rr-dash-panel">
+                        <div class="rr-dash-title"><span>월별 시행 건수 · <span id="rr-dash-year"></span></span><span class="rr-dash-bar-legend" id="rr-dash-bar-legend"></span></div>
+                        <div class="rr-dash-bars-wrap"><canvas id="rr-dash-bars" aria-label="월별 시행 건수 막대 차트" role="img"></canvas></div>
+                    </div>
+                </div>
             </div>
 
             <!-- 분기별 현황 박스 -->
@@ -2068,10 +2067,7 @@
                         </div>
                         <div class="quarter-count" id="q1-count">–</div>
                     </div>
-                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q1', event)" title="클릭하면 1분기 법령 엑셀파일이 다운로드됩니다 📄">
-                        <span class="download-icon">📄</span>
-                        <span class="download-text">Download</span>
-                    </button>
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q1', event)" title="1분기 법령 엑셀 다운로드" aria-label="1분기 법령 엑셀 다운로드"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q2')">
                     <div class="quarter-icon">☀️</div>
@@ -2082,10 +2078,7 @@
                         </div>
                         <div class="quarter-count" id="q2-count">–</div>
                     </div>
-                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q2', event)" title="클릭하면 2분기 법령 엑셀파일이 다운로드됩니다 📄">
-                        <span class="download-icon">📄</span>
-                        <span class="download-text">Download</span>
-                    </button>
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q2', event)" title="2분기 법령 엑셀 다운로드" aria-label="2분기 법령 엑셀 다운로드"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q3')">
                     <div class="quarter-icon">🍂</div>
@@ -2096,10 +2089,7 @@
                         </div>
                         <div class="quarter-count" id="q3-count">–</div>
                     </div>
-                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q3', event)" title="클릭하면 3분기 법령 엑셀파일이 다운로드됩니다 📄">
-                        <span class="download-icon">📄</span>
-                        <span class="download-text">Download</span>
-                    </button>
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q3', event)" title="3분기 법령 엑셀 다운로드" aria-label="3분기 법령 엑셀 다운로드"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
                 </div>
                 <div class="quarterly-tab" onclick="showQuarterlyDetail('Q4')">
                     <div class="quarter-icon">❄️</div>
@@ -2110,10 +2100,7 @@
                         </div>
                         <div class="quarter-count" id="q4-count">–</div>
                     </div>
-                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q4', event)" title="클릭하면 4분기 법령 엑셀파일이 다운로드됩니다 📄">
-                        <span class="download-icon">📄</span>
-                        <span class="download-text">Download</span>
-                    </button>
+                    <button class="quarter-download-btn" onclick="downloadQuarterlyExcel('Q4', event)" title="4분기 법령 엑셀 다운로드" aria-label="4분기 법령 엑셀 다운로드"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg></button>
                 </div>
             </div>
             </div>
@@ -7054,6 +7041,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./excel-fix.js?v=20260917a"></script>
     <script src="./download-ui.js?v=20260925a"></script>
     <script src="./law-request.js?v=20260925a"></script>
+    <script src="./dashboard-charts.js?v=20260925a"></script>
 
 </body>
 </html>
