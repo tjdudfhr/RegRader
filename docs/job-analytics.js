@@ -49,7 +49,7 @@
     var titles = {};
     sel.forEach(function (x) { titles[x.title] = 1; });
     document.getElementById('rr-job-tiles').innerHTML = [
-      ['개정 건수', sel.length, '법령 ' + Object.keys(titles).length + '개'],
+      ['개정 건수', sel.length, '법령 ' + Object.keys(titles).length + '개의 개정 합계'],
       ['시행완료', done, sel.length ? Math.round(done / sel.length * 100) + '%' : ''],
       ['30일 내 시행', soon, soon ? '⏰ 준비 필요' : '없음'],
       ['이후 시행예정', later, '']

@@ -51,9 +51,9 @@
     var pct = laws.length ? Math.round(amended.length / laws.length * 100) : 0;
     document.getElementById('rr-reg-tiles').innerHTML = [
       ['적용법규', laws.length, '법규등록부'],
-      ['올해 개정된 법규', amended.length, pct + '%'],
+      ['올해 개정된 법규', amended.length, pct + '% · 개정 ' + amended.reduce(function (n, b) { return n + ev[b.title].length; }, 0) + '건'],
       ['올해 개정 없음', laws.length - amended.length, (100 - pct) + '%'],
-      ['30일 내 시행 예정', soonLaws.length, soonLaws.length ? '⏰ 준비 필요' : '없음']
+      ['30일 내 시행 예정', soonLaws.length, soonLaws.length ? '⏰ 위 ' + amended.length + '개 중' : '없음']
     ].map(function (t, i) {
       return '<div class="rr-job-tile' + (i === 3 && soonLaws.length ? ' hot' : '') + '"><span>' + t[0] + '</span><b>' + t[1] + '</b><small>' + t[2] + '</small></div>';
     }).join('');

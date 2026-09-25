@@ -30,7 +30,9 @@
     var tot = document.getElementById('total-law-count');
     if (!tot) return;
     var s = stats(items);
-    if (document.getElementById('rr-base-count') && (tot.parentNode.textContent || '').indexOf('개정 법규') >= 0) {
+    /* 카드 구조는 index.html 에 이미 있다(rr-base-count). 예전에는 '개정 법규' 글자로 판단해서,
+       문구를 바꾸면 아래의 옛 경로로 빠져 줄 전체를 다시 그리고 없앤 'D-30 알림' 버튼이 되살아났다. */
+    if (document.getElementById('rr-base-count')) {
       var map = {
         'total-law-count': s.events,
         'implemented-law-count': s.past,
@@ -41,7 +43,11 @@
         if (el) el.textContent = map[id];
       });
       var lab = tot.parentNode.querySelector('div[style*="0.75rem"]');
-      if (lab) lab.textContent = '개정 법규 (복수개정 ' + s.multi + ')';
+      /* '복수개정 87'을 중복 건수로 오해하기 쉬워서, 개정 '건수'와 법령 '개수'를 나눠 적는다 */
+      if (lab) {
+        lab.textContent = '개정 건수 · 법령 ' + s.laws + '개';
+        lab.title = '올해 개정 ' + s.events + '건 = 법령 ' + s.laws + '개의 개정 합계 (2회 이상 개정된 법령 ' + s.multi + '개 포함)';
+      }
       paintUrgent(items);
       return;
     }
@@ -64,10 +70,10 @@
     row.style.gap = '1.15rem 1.4rem';
     row.innerHTML =
       cell('rr-base-count', window.__rrBaseCount || '–', '당사 적용 국내법규', 'var(--primary)') +
-      cell('total-law-count', s.events, '개정 법규 (복수개정 ' + s.multi + ')', 'var(--primary)') +
+      cell('total-law-count', s.events, '개정 건수 · 법령 ' + s.laws + '개', 'var(--primary)') +
       cell('implemented-law-count', s.past, '시행완료', '#48bb78') +
       cell('amendment-law-count', s.upcoming, '시행예정', '#d946ef') +
-      '<a href="./watch.html" style="font-size:0.85rem;font-weight:700;color:#2563eb;text-decoration:none;border:1px solid #bfdbfe;border-radius:999px;padding:6px 10px">D-30 알림</a>';
+      '';
   }
   /* 시행 임박 칸: 30일 이내 시행 건수, 7일 이내가 있으면 빨강+깜빡이는 점 */
   /* 연말에는 다음 해 1~2월 시행분(upcoming_next.json)도 30일 내 시행에 포함한다 */
