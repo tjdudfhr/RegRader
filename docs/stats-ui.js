@@ -45,8 +45,8 @@
       var lab = tot.parentNode.querySelector('div[style*="0.75rem"]');
       /* '복수개정 87'을 중복 건수로 오해하기 쉬워서, 개정 '건수'와 법령 '개수'를 나눠 적는다 */
       if (lab) {
-        lab.textContent = '개정 건수 · 법령 ' + s.laws + '개';
-        lab.title = '올해 개정 ' + s.events + '건 = 법령 ' + s.laws + '개의 개정 합계 (2회 이상 개정된 법령 ' + s.multi + '개 포함)';
+        lab.textContent = '개정 건수 (중복 포함) · 법령 ' + s.laws + '개';
+        lab.title = '올해 개정 ' + s.events + '건은 한 법령이 여러 번 개정된 것을 각각 센 수입니다 (중복 포함). 중복을 빼면 법령 ' + s.laws + '개, 그중 2회 이상 개정된 법령 ' + s.multi + '개';
       }
       paintUrgent(items);
       return;
@@ -70,7 +70,7 @@
     row.style.gap = '1.15rem 1.4rem';
     row.innerHTML =
       cell('rr-base-count', window.__rrBaseCount || '–', '당사 적용 국내법규', 'var(--primary)') +
-      cell('total-law-count', s.events, '개정 건수 · 법령 ' + s.laws + '개', 'var(--primary)') +
+      cell('total-law-count', s.events, '개정 건수 (중복 포함) · 법령 ' + s.laws + '개', 'var(--primary)') +
       cell('implemented-law-count', s.past, '시행완료', '#48bb78') +
       cell('amendment-law-count', s.upcoming, '시행예정', '#d946ef') +
       '';
