@@ -280,6 +280,9 @@
     return true;
   }
 
+  /* 직무별 탭 차트(job-analytics.js)와 같은 방식으로 그리도록 도구를 공유한다 */
+  window.rrChartKit = { ink: ink, ramp: ramp, esc: esc, endLabels: endLabels, hbarScales: hbarScales, lawKind: lawKind, yearOf: yearOf };
+
   var st = document.createElement('style');
   st.textContent = [
     '.rr-qstrip { margin-top: .5rem; }',

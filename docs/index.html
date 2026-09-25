@@ -2208,6 +2208,30 @@
             </div>
         </div>
 
+        <!-- 직무 분석 (job-analytics.js) — 위 직무 필터를 따라 바뀐다 -->
+        <div class="rr-an" id="rr-job-an">
+            <div class="filter-title">📈 <span id="rr-job-an-title">직무 분석</span></div>
+            <div class="rr-job-tiles" id="rr-job-tiles"></div>
+            <div class="rr-an-grid">
+                <div class="rr-an-card">
+                    <div class="rr-an-h"><b>월별 시행 건수</b><span id="rr-job-monthly-note"></span></div>
+                    <div class="rr-an-plot" style="height:240px"><canvas id="rr-job-monthly" role="img" aria-label="월별 시행 건수 막대 차트"></canvas></div>
+                </div>
+                <div class="rr-an-card">
+                    <div class="rr-an-h"><b>직무별 진행 현황</b><span>막대를 누르면 그 직무만 보기</span></div>
+                    <div class="rr-an-plot" style="height:240px"><canvas id="rr-job-progress" role="img" aria-label="직무별 시행완료·시행예정 누적 막대 차트"></canvas></div>
+                </div>
+                <div class="rr-an-card">
+                    <div class="rr-an-h"><b>많이 개정된 법령 TOP 8</b><span>누르면 가장 가까운 개정 상세</span></div>
+                    <div class="rr-an-plot" style="height:240px"><canvas id="rr-job-laws" role="img" aria-label="개정 횟수가 많은 법령 가로 막대 차트"></canvas><div class="rr-job-empty" id="rr-job-laws-empty">해당하는 개정이 없습니다.</div></div>
+                </div>
+                <div class="rr-an-card">
+                    <div class="rr-an-h"><b>소관부처 TOP 6</b><span>개정 건수 기준</span></div>
+                    <div class="rr-an-plot" style="height:240px"><canvas id="rr-job-min" role="img" aria-label="소관부처별 개정 건수 가로 막대 차트"></canvas></div>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <div class="main-content">
             <!-- Sidebar with Charts -->
@@ -2231,7 +2255,7 @@
             <div class="law-card">
                 <div class="law-list-header">
                     <div class="law-list-title">
-                        📋 시행 법령 목록
+                        📋 개정 법령 목록
                         <div class="law-count" id="law-count">327건</div>
                     </div>
                 </div>
@@ -7101,7 +7125,8 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./law-request.js?v=20260925a"></script>
     <script src="./dashboard-charts.js?v=20260925b"></script>
     <script src="./year-view.js?v=20260925b"></script>
-    <script src="./analytics.js?v=20260925b"></script>
+    <script src="./analytics.js?v=20260925c"></script>
+    <script src="./job-analytics.js?v=20260925b"></script>
 
 </body>
 </html>
