@@ -2022,7 +2022,7 @@
             line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="./app-shell.css?v=20260926a">
+    <link rel="stylesheet" href="./app-shell.css?v=20260926b">
 </head>
 <body>
     <div class="container">
@@ -2056,7 +2056,6 @@
             <div class="meta">
                 <span id="year" class="rr-year">2026</span>년 법령 개정 현황 · 
                 최종 업데이트: <span id="timestamp">로딩 중...</span>
-                · <a href="./history.html" style="color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px;">업데이트 내역</a>
             </div>
         </div>
 
@@ -2180,6 +2179,38 @@
                 </div>
             </div>
         </div>
+            
+            <!-- 개정 분석 (analytics.js) -->
+            <div class="rr-an" id="rr-analytics">
+                <div class="filter-title">📊 <span><span id="rr-an-year"></span> 개정 분석</span></div>
+                <div class="rr-an-grid">
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>직무별 개정 건수</b><span>막대를 누르면 직무별 탭</span></div>
+                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-jobs" role="img" aria-label="직무별 개정 건수 가로 막대 차트"></canvas></div>
+                    </div>
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>분기별 직무 구성</b><span>막대를 누르면 분기 상세</span></div>
+                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-qjob" role="img" aria-label="분기별 직무 구성 누적 막대 차트"></canvas></div>
+                        <details><summary>표로 보기</summary><div id="rr-an-qjob-table"></div></details>
+                    </div>
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>개정 유형</b><span>일부개정 · 타법개정 등</span></div>
+                        <div class="rr-an-split" id="rr-an-type-bar" role="img" aria-label="개정 유형 비율 막대"></div><div class="rr-an-legend" id="rr-an-type-legend"></div>
+                    </div>
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>법령 종류</b><span>법률 · 시행령 · 시행규칙</span></div>
+                        <div class="rr-an-donut"><div class="rr-an-plot"><canvas id="rr-an-kind" role="img" aria-label="법령 종류 도넛 차트"></canvas></div><div class="rr-an-legend" id="rr-an-kind-legend"></div></div>
+                    </div>
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>소관부처 TOP 8</b><span>개정 건수 기준</span></div>
+                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-min" role="img" aria-label="소관부처별 개정 건수 가로 막대 차트"></canvas></div>
+                    </div>
+                    <div class="rr-an-card">
+                        <div class="rr-an-h"><b>올해 여러 번 개정된 법령</b><span>누르면 가장 가까운 개정 상세</span></div>
+                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-multi" role="img" aria-label="개정 횟수가 많은 법령 가로 막대 차트"></canvas></div>
+                    </div>
+                </div>
+            </div>
             </div>
 
             <!-- Quarterly Tab Content -->
@@ -2241,37 +2272,7 @@
             </div>
             </div>
 
-            <!-- 개정 분석 (analytics.js) -->
-            <div class="rr-an" id="rr-analytics">
-                <div class="filter-title">📊 <span><span id="rr-an-year"></span> 개정 분석</span></div>
-                <div class="rr-an-grid">
-                    <div class="rr-an-card">
-                        <div class="rr-an-h"><b>직무별 개정 건수</b><span>막대를 누르면 직무별 탭</span></div>
-                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-jobs" role="img" aria-label="직무별 개정 건수 가로 막대 차트"></canvas></div>
-                    </div>
-                    <div class="rr-an-card">
-                        <div class="rr-an-h"><b>분기별 직무 구성</b><span>막대를 누르면 분기 상세</span></div>
-                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-qjob" role="img" aria-label="분기별 직무 구성 누적 막대 차트"></canvas></div>
-                        <details><summary>표로 보기</summary><div id="rr-an-qjob-table"></div></details>
-                    </div>
-                    <div class="rr-an-card">
-                        <div class="rr-an-h"><b>개정 유형</b><span>일부개정 · 타법개정 등</span></div>
-                        <div class="rr-an-split" id="rr-an-type-bar" role="img" aria-label="개정 유형 비율 막대"></div><div class="rr-an-legend" id="rr-an-type-legend"></div>
-                    </div>
-                    <div class="rr-an-card">
-                        <div class="rr-an-h"><b>법령 종류</b><span>법률 · 시행령 · 시행규칙</span></div>
-                        <div class="rr-an-donut"><div class="rr-an-plot"><canvas id="rr-an-kind" role="img" aria-label="법령 종류 도넛 차트"></canvas></div><div class="rr-an-legend" id="rr-an-kind-legend"></div></div>
-                    </div>
-                    <div class="rr-an-card">
-                        <div class="rr-an-h"><b>소관부처 TOP 8</b><span>개정 건수 기준</span></div>
-                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-min" role="img" aria-label="소관부처별 개정 건수 가로 막대 차트"></canvas></div>
-                    </div>
-                    <div class="rr-an-card">
-                        <div class="rr-an-h"><b>올해 여러 번 개정된 법령</b><span>누르면 가장 가까운 개정 상세</span></div>
-                        <div class="rr-an-plot" style="height:260px"><canvas id="rr-an-multi" role="img" aria-label="개정 횟수가 많은 법령 가로 막대 차트"></canvas></div>
-                    </div>
-                </div>
-            </div>
+
 
                 </div>
                 

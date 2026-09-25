@@ -9,7 +9,7 @@
 /* ---------- 전체 배치 ---------- */
 .container {
   display: grid;
-  grid-template-columns: 252px minmax(0, 1fr);
+  grid-template-columns: 208px minmax(0, 1fr);
   grid-template-areas:
     "header  header"
     "nav     archive"
@@ -74,7 +74,8 @@
   position: sticky;
   top: 1rem;
   margin: 0;
-  padding: 0.75rem;
+  padding: 0.9rem 0.6rem;
+  min-height: calc(100vh - 2rem);   /* 세로로 화면을 채우는 사이드바 */
   border: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   border-radius: 18px;
@@ -88,18 +89,18 @@
   color: var(--text-muted);
   padding: 0.35rem 0.6rem 0.4rem;
 }
-.main-tab-navigation .nav-sep { height: 1px; background: var(--border); margin: 0.6rem 0.4rem; }
+.main-tab-navigation .nav-sep { height: 1px; background: var(--border); margin: 0.9rem 0.4rem; }
 .main-tab-container {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.35rem;
 }
 .main-tab, .main-link {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  padding: 0.6rem 0.6rem;
+  gap: 0.6rem;
+  padding: 0.8rem 0.55rem;
   border-radius: 12px;
   border: 1px solid transparent;
   color: var(--text-secondary);
@@ -109,7 +110,7 @@
 }
 .main-tab { box-shadow: none; }
 .main-tab::after {                 /* 선택 표시: 왼쪽 세로 막대 */
-  left: -0.75rem;
+  left: -0.6rem;
   right: auto;
   top: 0.55rem;
   bottom: 0.55rem;
@@ -136,7 +137,7 @@
   background: var(--bg-primary);
   border: 1px solid var(--border);
 }
-.main-tab .tab-text, .main-link .tab-text { font-size: 0.92rem; font-weight: 700; white-space: nowrap; }
+.main-tab .tab-text, .main-link .tab-text { font-size: 0.88rem; font-weight: 700; white-space: nowrap; }
 .main-tab .tab-desc { display: none; }
 .main-tab .tab-badge, .main-link .tab-badge {
   margin-left: auto;
@@ -186,6 +187,7 @@
   .main-tab-navigation {
     top: 0;
     z-index: 50;
+    min-height: 0;
     padding: 0.4rem;
     margin-bottom: 1rem;
     border-radius: 14px;
@@ -214,3 +216,33 @@ iframe.rr-embed {
 }
 /* 종합 현황 탭 안의 요약 카드 */
 #overview-content .rr-summary > div:last-child { margin-bottom: 0 !important; }
+
+/* ---------- 직무 버튼 (직무별 현황 · 직무 분야): 작게 줄여 한 줄에 9개 ---------- */
+#business-content .business-filter { padding: 1.1rem 1.25rem; }
+#business-content .filter-tabs,
+#lawregistry-content .job-function-list {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+#business-content .filter-tab,
+#lawregistry-content .job-function-item {
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem 0.3rem;
+  font-size: 0.78rem;
+  border-radius: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+#lawregistry-content .job-function-item { gap: 0.3rem; }
+/* 한 줄에 9개가 들어가도록 아이콘은 숨기고 개수는 작은 글자로 */
+#lawregistry-content .job-function-item .job-icon { display: none; }
+#lawregistry-content .job-function-item .job-name { overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+#lawregistry-content .job-function-item .job-count { font-size: 0.72rem; padding: 0; background: none !important; border: 0; color: inherit; opacity: 0.7; font-weight: 700; }
+@media (max-width: 1250px) {
+  #business-content .filter-tabs,
+  #lawregistry-content .job-function-list { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
+}
