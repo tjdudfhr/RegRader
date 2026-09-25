@@ -2981,6 +2981,11 @@
             
             setTimeout(() => {
                 document.getElementById(`${tabName}-content`).classList.add('active');
+                /* 직무별 분포 차트는 탭이 보일 때 그린다. 초기 로딩(app-init.js)에서는 차트를 만들지 않아서
+                   예전에는 '전체' 등 필터를 눌러야만 차트가 나타났다. 숨겨진 상태에서 그리면 크기가 0이 된다. */
+                if (tabName === 'business' && typeof Chart !== 'undefined' && (window.lawsData || []).length) {
+                    createCategoryChart();
+                }
             }, 100);
 
             // Close quarterly detail if switching away from quarterly tab
