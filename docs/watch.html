@@ -142,9 +142,6 @@
   .tl span { font-size: .74rem; border: 1px solid var(--border); border-radius: 8px; padding: 2px 7px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
   .tl span.now { border-color: var(--primary); color: var(--primary); font-weight: 600; }
   .tl span.future { border-style: dashed; }
-  .link { font-size: .83rem; margin-top: 6px; }
-  .link a { color: var(--primary); text-decoration: none; font-weight: 600; }
-  .link a:hover { text-decoration: underline; }
   .empty { text-align: center; color: var(--text-muted); padding: 40px 16px; }
   .note { color: var(--text-muted); font-size: .8rem; margin: 18px 4px 30px; }
   .note a { color: var(--primary); }
@@ -234,7 +231,6 @@ function timeline(it) {
   }).join('')}</div>`;
 }
 function card(it, extra = '') {
-  const url = (it.source && it.source.url) || '';
   const cat = (it.categories || [])[0];
   const catBadge = cat ? `<span class="badge cat" style="background:${CAT_COLOR[cat] || '#a0aec0'}">${esc(cat)}</span>` : '';
   const multi = it.eventCount > 1 ? `<span class="badge">올해 개정 ${it.eventCount}회 · 시행완료 ${it.sameTitlePastCount} / 예정 ${it.sameTitleUpcomingCount}</span>` : '';
@@ -246,7 +242,6 @@ function card(it, extra = '') {
     <div class="rest">
       <div class="badges">${extra}${catBadge}<span class="badge">${esc(it.amendmentType || '')}</span>${multi}</div>
       ${timeline(it)}
-      ${url ? `<div class="link"><a href="${url}" target="_blank" rel="noopener">법령 원문 보기 →</a></div>` : ''}
     </div>
   </article>`;
 }
@@ -356,7 +351,6 @@ popup.addEventListener('load', () => {
   } catch (e) {}
 });
 $('#list').addEventListener('click', ev => {
-  if (ev.target.closest('a')) return; /* 원문 링크는 그대로 새 창으로 */
   const card = ev.target.closest('.card[data-key]');
   if (card) openPopup(card.dataset.key);
 });
