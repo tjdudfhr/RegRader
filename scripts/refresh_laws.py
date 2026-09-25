@@ -66,6 +66,79 @@ def fetch_target(target: str, start: str, end: str):
     return items
 
 
+AMEND_FULL = {"일": "일부개정", "타": "타법개정", "전": "전부개정", "제": "제정", "폐": "폐지"}
+
+
+def read_json(path: Path, default=None):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return default if default is not None else {}
+
+
+def load_prev_rows():
+    """현재 docs/m0~m7.json (직전 갱신 결과)."""
+    rows = []
+    for i in range(8):
+        chunk = read_json(DOCS / f"m{i}.json", [])
+        if isinstance(chunk, list):
+            rows.extend(r for r in chunk if isinstance(r, dict) and r.get("t"))
+    return rows
+
+
+def row_key(r):
+    return (r.get("t"), r.get("d"), r.get("a"))
+
+
+def change_item(r):
+    return {
+        "title": r.get("t"),
+        "effectiveDate": r.get("d"),
+        "amendmentType": AMEND_FULL.get(r.get("a"), r.get("a") or ""),
+        "ministry": r.get("m") or "",
+        "category": r.get("c") or "",
+        "lsiSeq": r.get("u") or "",
+    }
+
+
+def diff_rows(prev_rows, new_rows):
+    prev = {row_key(r): r for r in prev_rows}
+    new = {row_key(r): r for r in new_rows}
+    order = lambda r: (r.get("d") or "", r.get("t") or "")
+    added = sorted((r for k, r in new.items() if k not in prev), key=order)
+    removed = sorted((r for k, r in prev.items() if k not in new), key=order)
+    now_in_force = sorted((r for k, r in new.items() if k in prev and prev[k].get("s") == 1 and r.get("s") == 0), key=order)
+    return [change_item(r) for r in added], [change_item(r) for r in removed], [change_item(r) for r in now_in_force]
+
+
+def record_changes(prev_rows, new_rows, prev_meta, meta):
+    """직전 갱신과 달라진 점을 docs/changelog.json 맨 앞에 추가한다. 달라진 게 없으면 기록하지 않는다."""
+    added, removed, now_in_force = diff_rows(prev_rows, new_rows)
+    u_before = (prev_meta or {}).get("universe") or {}
+    u_after = meta.get("universe") or {}
+    if not (added or removed or now_in_force or (u_before and u_before != u_after)):
+        print("changelog: 변경 없음", flush=True)
+        return
+    path = DOCS / "changelog.json"
+    log = read_json(path, {"entries": []})
+    log.setdefault("entries", [])
+    log["entries"].insert(0, {
+        "checkedAt": meta["generatedAt"],
+        "asOf": meta["asOf"],
+        "previousCheckedAt": (prev_meta or {}).get("generatedAt"),
+        "totalBefore": len({row_key(r) for r in prev_rows}),
+        "totalAfter": meta["totalCount"],
+        "universeBefore": u_before or None,
+        "universeAfter": u_after,
+        "added": added,
+        "removed": removed,
+        "nowInForce": now_in_force,
+    })
+    log["updatedAt"] = meta["generatedAt"]
+    path.write_text(json.dumps(log, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"changelog: 신규 {len(added)} / 삭제 {len(removed)} / 시행 {len(now_in_force)}", flush=True)
+
+
 def main():
     as_of = date.today()
     year = as_of.year
@@ -201,6 +274,10 @@ def main():
             "c": (e.get("categories") or [""])[0],
             "u": str((e.get("meta") or {}).get("lsiSeq") or ""),
         })
+    # 덮어쓰기 전에 직전 데이터를 읽어 둔다 (업데이트 내역 비교용)
+    prev_rows = load_prev_rows()
+    prev_meta = read_json(DOCS / "meta.json")
+
     shard = (len(mini) + 7) // 8 or 1
     for i in range(8):
         chunk = mini[i * shard:(i + 1) * shard]
@@ -215,6 +292,9 @@ def main():
         "universe": payload["universe"],
     }
     (DOCS / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    if prev_rows:
+        record_changes(prev_rows, mini, prev_meta, meta)
 
     print(json.dumps({"totalCount": payload["totalCount"], "integrity": payload["integrity"], "stats": payload["stats"]}, ensure_ascii=False, indent=2))
 

@@ -1,0 +1,225 @@
+{
+  "entries": [
+    {
+      "checkedAt": "2026-09-25T08:01:03.258451+00:00",
+      "asOf": "2026-09-25",
+      "previousCheckedAt": "2026-09-15T00:00:00+09:00",
+      "totalBefore": 327,
+      "totalAfter": 335,
+      "universeBefore": {
+        "openapiCurrent": 2468,
+        "openapiFuture": 4955
+      },
+      "universeAfter": {
+        "openapiCurrent": 2519,
+        "openapiFuture": 4989
+      },
+      "added": [
+        {
+          "title": "지방세법 시행령",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "행정안전부",
+          "category": "재무회계",
+          "lsiSeq": "288831"
+        },
+        {
+          "title": "폐기물관리법",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "284397"
+        },
+        {
+          "title": "폐기물관리법 시행규칙",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "289271"
+        },
+        {
+          "title": "환경영향평가법 시행령",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "288841"
+        },
+        {
+          "title": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령",
+          "effectiveDate": "2026-09-22",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "289965"
+        },
+        {
+          "title": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "289965"
+        },
+        {
+          "title": "온실가스 배출권의 할당 및 거래에 관한 법률 시행령",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "타법개정",
+          "ministry": "기획예산처,기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "289967"
+        },
+        {
+          "title": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령",
+          "effectiveDate": "2026-11-12",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "289965"
+        }
+      ],
+      "removed": [],
+      "nowInForce": [
+        {
+          "title": "고용보험법",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "ministry": "고용노동부",
+          "category": "인사노무",
+          "lsiSeq": "284449"
+        },
+        {
+          "title": "고용보험법 시행규칙",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "ministry": "고용노동부",
+          "category": "인사노무",
+          "lsiSeq": "288723"
+        },
+        {
+          "title": "고용보험법 시행령",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "ministry": "고용노동부",
+          "category": "인사노무",
+          "lsiSeq": "288717"
+        },
+        {
+          "title": "근로자퇴직급여 보장법",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "ministry": "고용노동부",
+          "category": "인사노무",
+          "lsiSeq": "284455"
+        },
+        {
+          "title": "기후위기 대응을 위한 탄소중립·녹색성장 기본법",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "284347"
+        },
+        {
+          "title": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "288863"
+        },
+        {
+          "title": "남녀고용평등과 일·가정 양립 지원에 관한 법률",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "ministry": "고용노동부,성평등가족부",
+          "category": "인사노무",
+          "lsiSeq": "284457"
+        },
+        {
+          "title": "남녀고용평등과 일·가정 양립 지원에 관한 법률 시행규칙",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "ministry": "고용노동부,성평등가족부",
+          "category": "인사노무",
+          "lsiSeq": "288939"
+        },
+        {
+          "title": "남녀고용평등과 일·가정 양립 지원에 관한 법률 시행령",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "ministry": "고용노동부,성평등가족부",
+          "category": "인사노무",
+          "lsiSeq": "288719"
+        },
+        {
+          "title": "대기환경보전법",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "284159"
+        },
+        {
+          "title": "대기환경보전법 시행규칙",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "288199"
+        },
+        {
+          "title": "대기환경보전법 시행규칙",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "289253"
+        },
+        {
+          "title": "대기환경보전법 시행령",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "288869"
+        },
+        {
+          "title": "도시가스사업법 시행규칙",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "안전",
+          "lsiSeq": "289257"
+        },
+        {
+          "title": "수도법",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "284311"
+        },
+        {
+          "title": "전기안전관리법",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "안전",
+          "lsiSeq": "284385"
+        },
+        {
+          "title": "전기안전관리법 시행규칙",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "안전",
+          "lsiSeq": "289265"
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-09-25T08:01:03.258451+00:00"
+}

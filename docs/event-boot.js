@@ -433,7 +433,7 @@
   function apply(items) {
     items = enrich(items);
     holdData(items);
-    banner(items);
+    /* banner(items) 는 부르지 않는다: 상단 요약 바가 잠깐 떴다가 stats-ui.js 가 지우면서 화면이 깜빡였다. */
     stampJobCounts(items);
     patchPopup();
     patchDisplayList();

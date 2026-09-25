@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RegRader · 업데이트 내역</title>
+<style>
+  :root {
+    --primary: #667eea;
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --bg-primary: #f7fafc;
+    --bg-card: #ffffff;
+    --border: #e2e8f0;
+    --new: #2563eb;   --new-bg: #eff6ff;
+    --live: #059669;  --live-bg: #ecfdf5;
+    --gone: #dc2626;  --gone-bg: #fef2f2;
+    --c-안전: #48bb78; --c-환경: #38b2ac; --c-인사노무: #ed8936; --c-지배구조: #9f7aea;
+    --c-재무회계: #4299e1; --c-정보보호: #f56565; --c-공정거래: #d53f8c; --c-지식재산권: #805ad5;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    background: var(--bg-primary);
+    background-image: radial-gradient(circle at 25% 25%, #667eea22 0%, transparent 50%),
+                      radial-gradient(circle at 75% 75%, #f093fb22 0%, transparent 50%);
+    color: var(--text-primary);
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 16px; }
+  header {
+    background: var(--primary-gradient);
+    color: #fff;
+    border-radius: 20px;
+    padding: 22px 22px 18px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, .25);
+  }
+  header a.back { color: #fff; opacity: .85; text-decoration: none; font-size: .88rem; }
+  header a.back:hover { opacity: 1; }
+  header h1 { margin: 8px 0 4px; font-size: 1.6rem; }
+  header p { margin: 0; opacity: .9; font-size: .9rem; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0; }
+  .stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; }
+  .stat b { display: block; font-size: 1.45rem; font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--text-muted); font-size: .8rem; }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+  .chip {
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary);
+    border-radius: 999px; padding: 7px 14px; font-size: .85rem; cursor: pointer; font-family: inherit;
+  }
+  .chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .search {
+    flex: 1; min-width: 180px; border: 1px solid var(--border); border-radius: 10px;
+    padding: 8px 12px; font-size: .9rem; font-family: inherit; background: var(--bg-card);
+  }
+  .entry { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 14px; overflow: hidden; }
+  .entry-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .entry-date { font-weight: 700; font-size: 1.05rem; }
+  .entry-sub { color: var(--text-muted); font-size: .8rem; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .badge { font-size: .78rem; padding: 3px 9px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+  .b-new { background: var(--new-bg); color: var(--new); }
+  .b-live { background: var(--live-bg); color: var(--live); }
+  .b-gone { background: var(--gone-bg); color: var(--gone); }
+  .b-plain { background: #f1f5f9; color: var(--text-secondary); font-weight: 500; }
+  .group { padding: 10px 16px 6px; }
+  .group h3 { margin: 4px 0 8px; font-size: .9rem; display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .law { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 9px 0; border-top: 1px dashed var(--border); }
+  .law:first-of-type { border-top: 0; }
+  .law-title { font-weight: 600; }
+  .law-title a { color: inherit; text-decoration: none; }
+  .law-title a:hover { color: var(--primary); text-decoration: underline; }
+  .law-meta { color: var(--text-muted); font-size: .8rem; grid-column: 1; }
+  .law-date { grid-row: 1 / span 2; grid-column: 2; text-align: right; font-size: .85rem; font-variant-numeric: tabular-nums; color: var(--text-secondary); }
+  .cat { font-size: .72rem; padding: 1px 7px; border-radius: 6px; color: #fff; margin-right: 4px; background: #a0aec0; }
+  .universe { padding: 10px 16px 14px; color: var(--text-secondary); font-size: .85rem; }
+  .empty { text-align: center; color: var(--text-muted); padding: 40px 16px; background: var(--bg-card); border: 1px dashed var(--border); border-radius: 16px; }
+  .note { color: var(--text-muted); font-size: .8rem; margin: 18px 4px 30px; }
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    header h1 { font-size: 1.35rem; }
+    .law { grid-template-columns: 1fr; }
+    .law-date { grid-row: auto; grid-column: 1; text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="./">← RegRader 메인으로</a>
+    <h1>업데이트 내역</h1>
+    <p id="head-sub">불러오는 중…</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b id="s-runs">–</b><span>변동 기록</span></div>
+    <div class="stat"><b id="s-new" style="color:var(--new)">–</b><span>신규 개정 (누적)</span></div>
+    <div class="stat"><b id="s-live" style="color:var(--live)">–</b><span>새로 시행 (누적)</span></div>
+    <div class="stat"><b id="s-gone" style="color:var(--gone)">–</b><span>목록에서 빠짐 (누적)</span></div>
+  </div>
+
+  <div class="tools">
+    <button class="chip on" data-f="all">전체</button>
+    <button class="chip" data-f="added">신규 개정</button>
+    <button class="chip" data-f="nowInForce">새로 시행</button>
+    <button class="chip" data-f="removed">빠짐</button>
+    <input class="search" id="q" type="search" placeholder="법령명·부처·직무 검색">
+  </div>
+
+  <div id="list"></div>
+
+  <p class="note">
+    매일 아침 국가법령정보센터 데이터를 받아 직전 갱신과 비교합니다. 달라진 점이 있는 날만 기록합니다.<br>
+    <b>신규 개정</b>: 당사 적용 법규 207개에 새로 잡힌 개정 · <b>새로 시행</b>: 시행예정이었다가 시행일이 지나 현행이 된 개정 · <b>빠짐</b>: 법령정보센터에서 조회되지 않게 된 개정 (시행일 변경·철회 등)
+  </p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var TYPES = {
+    added: { label: '신규 개정', cls: 'b-new', color: 'var(--new)' },
+    nowInForce: { label: '새로 시행', cls: 'b-live', color: 'var(--live)' },
+    removed: { label: '목록에서 빠짐', cls: 'b-gone', color: 'var(--gone)' }
+  };
+  var ORDER = ['added', 'nowInForce', 'removed'];
+  var entries = [];
+  var filter = 'all';
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function num(n) { return n == null ? '–' : Number(n).toLocaleString('ko-KR'); }
+  function kst(iso, withTime) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return iso || '';
+    var opt = { timeZone: 'Asia/Seoul', year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
+    if (withTime) { opt.hour = '2-digit'; opt.minute = '2-digit'; }
+    return d.toLocaleString('ko-KR', opt);
+  }
+  function lawRow(x) {
+    var url = x.lsiSeq ? 'https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + encodeURIComponent(x.lsiSeq) : '';
+    var title = url ? '<a href="' + url + '" target="_blank" rel="noopener">' + esc(x.title) + '</a>' : esc(x.title);
+    var cat = x.category ? '<span class="cat" style="background:var(--c-' + esc(x.category) + ', #a0aec0)">' + esc(x.category) + '</span>' : '';
+    return '<div class="law"><div class="law-title">' + title + '</div>' +
+      '<div class="law-date">시행 ' + esc(x.effectiveDate) + '</div>' +
+      '<div class="law-meta">' + cat + esc(x.ministry) + (x.amendmentType ? ' · ' + esc(x.amendmentType) : '') + '</div></div>';
+  }
+  function matches(x, q) {
+    if (!q) return true;
+    return (x.title + ' ' + x.ministry + ' ' + x.category + ' ' + x.amendmentType).toLowerCase().indexOf(q) >= 0;
+  }
+  function universeLine(e) {
+    var a = e.universeAfter || {}, b = e.universeBefore || {};
+    if (!b.openapiCurrent || (a.openapiCurrent === b.openapiCurrent && a.openapiFuture === b.openapiFuture)) return '';
+    return '<div class="universe">국가법령정보센터 2026년 전체 법령: 현행 ' + num(b.openapiCurrent) + ' → <b>' + num(a.openapiCurrent) +
+      '</b> · 시행예정 ' + num(b.openapiFuture) + ' → <b>' + num(a.openapiFuture) + '</b></div>';
+  }
+  function render() {
+    var q = (document.getElementById('q').value || '').trim().toLowerCase();
+    var html = entries.map(function (e) {
+      var types = filter === 'all' ? ORDER : [filter];
+      var groups = types.map(function (t) {
+        var rows = (e[t] || []).filter(function (x) { return matches(x, q); });
+        if (!rows.length) return '';
+        return '<div class="group"><h3><span class="dot" style="background:' + TYPES[t].color + '"></span>' +
+          TYPES[t].label + ' ' + rows.length + '건</h3>' + rows.map(lawRow).join('') + '</div>';
+      }).join('');
+      var uni = (filter === 'all' && !q) ? universeLine(e) : '';
+      if (!groups && !uni) return '';
+      var badges = ORDER.map(function (t) {
+        var n = (e[t] || []).length;
+        return n ? '<span class="badge ' + TYPES[t].cls + '">' + TYPES[t].label + ' ' + n + '</span>' : '';
+      }).join('') + '<span class="badge b-plain">전체 ' + num(e.totalBefore) + ' → ' + num(e.totalAfter) + '건</span>';
+      var sub = e.previousCheckedAt ? '직전 확인 ' + kst(e.previousCheckedAt) + ' 대비' : '';
+      return '<section class="entry"><div class="entry-head"><div><div class="entry-date">' + kst(e.checkedAt, true) +
+        '</div><div class="entry-sub">' + esc(sub) + '</div></div><div class="badges">' + badges + '</div></div>' +
+        groups + uni + '</section>';
+    }).join('');
+    document.getElementById('list').innerHTML = html ||
+      '<div class="empty">' + (entries.length ? '조건에 맞는 내역이 없습니다.' : '아직 기록된 업데이트가 없습니다.') + '</div>';
+  }
+  function stats() {
+    var sum = function (t) { return entries.reduce(function (n, e) { return n + (e[t] || []).length; }, 0); };
+    document.getElementById('s-runs').textContent = num(entries.length);
+    document.getElementById('s-new').textContent = num(sum('added'));
+    document.getElementById('s-live').textContent = num(sum('nowInForce'));
+    document.getElementById('s-gone').textContent = num(sum('removed'));
+  }
+
+  document.querySelectorAll('.chip').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.chip').forEach(function (x) { x.classList.toggle('on', x === b); });
+      filter = b.getAttribute('data-f');
+      render();
+    });
+  });
+  document.getElementById('q').addEventListener('input', render);
+
+  Promise.all([
+    fetch('./changelog.json?v=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : { entries: [] }; }),
+    fetch('./meta.json?v=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
+  ]).then(function (res) {
+    entries = (res[0] && res[0].entries) || [];
+    var meta = res[1] || {};
+    document.getElementById('head-sub').textContent = meta.generatedAt
+      ? '마지막 확인 ' + kst(meta.generatedAt, true) + ' · 매일 아침 7시 자동 확인'
+      : '매일 아침 7시 자동 확인';
+    stats();
+    render();
+  }).catch(function (e) {
+    document.getElementById('head-sub').textContent = '내역을 불러오지 못했습니다.';
+    console.error(e);
+  });
+})();
+</script>
+</body>
+</html>
