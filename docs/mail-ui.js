@@ -28,6 +28,8 @@
   }
   function dday(d) { return d < 0 ? '시행완료' : d === 0 ? 'D-DAY' : 'D-' + d; }
   function link(it) {
+    var adm = (it.meta && it.meta.admRulSeq) || '';
+    if (adm) return 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + adm;   /* 행정규칙 */
     var seq = (it.meta && it.meta.lsiSeq) || '';
     if (seq) return 'https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + seq + '&efYd=' + String(it.effectiveDate || '').replace(/-/g, '');
     return (it.source && it.source.url) || SITE;
@@ -111,7 +113,7 @@
           '<a href="' + esc(link(it)) + '" style="color:#1d4ed8;font-weight:bold;text-decoration:none">' + esc(it.title) + '</a>' +
           (tags(it).length ? ' <span style="color:#c53030;font-size:11px;font-weight:bold">[' + esc(tags(it).join('·')) + ']</span>' : '') +
           (why ? '<div style="color:#64748b;font-size:11.5px;margin-top:2px">' + esc(why) + '</div>' : '') +
-          '</td><td ' + tdn + '>' + esc(it.amendmentType || '') + '</td><td ' + td.replace('vertical-align:top', 'vertical-align:top;min-width:96px') + '>' + esc(it.ministry || '') + '</td></tr>';
+          '</td><td ' + tdn + '>' + (it.kind ? esc(it.kind) + ' ' : '') + esc(it.amendmentType || '') + '</td><td ' + td.replace('vertical-align:top', 'vertical-align:top;min-width:96px') + '>' + esc(it.ministry || '') + '</td></tr>';
       });
       h += '</table>';
     });

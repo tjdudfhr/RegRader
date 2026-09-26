@@ -96,7 +96,38 @@
       '<div class="info-cell"><div class="info-label">분류</div><div class="info-value">' + esc(cat) + '</div></div>' +
       '</div></div>';
   }
+  /* 행정규칙(고시·훈령·예규 등) 팝업: 개정 취지·주요내용은 법령정보센터 제개정이유, 원문·첨부(고시 전문) 링크 */
+  function admrulHtml(item) {
+    var A = window.rrAmend;
+    var d = A ? A.details(item) : null;
+    var fill = A ? A.briefFill(item) : null;
+    var seq = (item.meta && item.meta.admRulSeq) || '';
+    var src = seq ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + seq : '';
+    var cat = (item.categories && item.categories[0]) || '-';
+    var status = item.daysUntil === 0 ? '오늘 시행' : (item.inForce ? '시행완료' : '시행예정');
+    var iss = d && d.issued ? String(d.issued).replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : '';
+    var meta = '<div class="summary-section" id="rr-meta" style="margin:0 0 12px"><div class="info-grid">' +
+      '<div class="info-cell"><div class="info-label">행정규칙 종류</div><div class="info-value">' + esc(item.kind) + ' · ' + esc(item.amendmentType || '-') + '</div></div>' +
+      '<div class="info-cell"><div class="info-label">소관 부처</div><div class="info-value">' + esc(item.ministry || '-') + (d && d.dept ? '<br><small style="color:var(--text-muted)">' + esc(d.dept) + '</small>' : '') + '</div></div>' +
+      '<div class="info-cell"><div class="info-label">시행일</div><div class="info-value">' + esc(item.effectiveDate || '-') + ' · ' + status + (iss ? '<br><small style="color:var(--text-muted)">발령 ' + esc(iss) + '</small>' : '') + '</div></div>' +
+      '<div class="info-cell"><div class="info-label">분류 · 계열</div><div class="info-value">' + esc(cat) + (item.family ? '<br><small style="color:var(--text-muted)">' + esc(item.family) + ' 계열</small>' : '') + '</div></div>' +
+      '</div></div>';
+    var fam = window.rrFamilies && window.rrFamilies.popupSection ? window.rrFamilies.popupSection(item) : null;
+    var no = 0;
+    var n = function () { no++; return String(no).padStart(2, '0'); };
+    var why = fill && fill.why ? fill.why : (d ? '법령정보센터에 이 행정규칙의 개정 이유가 등록되어 있지 않습니다. 원문에서 확인하세요.' : '개정 이유를 불러오는 중입니다…');
+    return meta + '<div id="rr-brief" class="summary-section rr-brief">' +
+      '<div class="rr-brief-h">개정요지 <small>행정규칙 · 국가법령정보센터 제개정이유</small></div>' +
+      section('why', n(), '개정 취지', '<div style="white-space:pre-wrap">' + esc(why) + '</div>') +
+      (fill && fill.what ? section('what', n(), '주요 개정내용', '<div style="white-space:pre-wrap">' + esc(fill.what) + '</div>') : '') +
+      (fam ? section('fam', n(), '같은 계열 올해 개정', fam.body, fam.extra) : '') +
+      '<div class="rr-links">' +
+      (src ? '<a href="' + src + '" target="_blank" rel="noopener">📄 행정규칙 원문</a>' : '') +
+      (d && d.attach ? '<a href="' + esc(d.attach) + '" target="_blank" rel="noopener" title="' + esc(d.attachName || '') + '">📎 첨부 (' + esc((d.attachName || '파일').slice(0, 24)) + ')</a>' : '') +
+      '</div></div>';
+  }
   function html(item) {
+    if (item && item.kind) return admrulHtml(item);
     var b = item.brief || {};
     /* 새로 잡힌 개정은 개정요지가 비어 있다 -> 법령정보센터 제개정이유·개정 조항으로 채운다 (amend-ui.js) */
     var A = window.rrAmend;

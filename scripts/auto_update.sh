@@ -29,7 +29,7 @@ for i in 1 2 3; do
   sleep 60
 done
 
-git add docs/index.json docs/previous_index.json docs/meta.json docs/changelog.json docs/m?.json docs/upcoming_next.json docs/law_families.json docs/amend_flags.json docs/amend_details.json docs/admrul_candidates.json docs/admrul_events.json
+git add docs/index.json docs/previous_index.json docs/meta.json docs/changelog.json docs/m?.json docs/upcoming_next.json docs/law_families.json docs/amend_flags.json docs/amend_details.json docs/admrul_candidates.json docs/admrul_events.json docs/admrul_index.json
 if [ -d docs/archive ]; then git add docs/archive; fi  # 연도 전환 때 보관한 작년 데이터
 # 시각(generatedAt)만 바뀐 경우에도 올려서 "최종 업데이트" 가 매일 갱신되게 한다.
 if git diff --cached --quiet; then

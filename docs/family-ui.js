@@ -1,18 +1,20 @@
-/* 법령 계열(법률 → 시행령 → 시행규칙) 묶어 보기
+/* 법령 계열(법률 → 시행령 → 시행규칙 → 행정규칙) 묶어 보기
  *
- * law_families.json: 국가법령정보센터 법령체계도로 만든 공식 상하위 관계 (scripts/law_families.py, 매일 갱신 때 필요하면 다시 만든다).
- * 파일이 없으면 이름 규칙('OO법 시행령')으로만 묶는다.
+ * law_families.json : 국가법령정보센터 법령체계도로 만든 공식 상하위 관계 (scripts/law_families.py)
+ * admrul_index.json : 그 계열에 연결된 행정규칙(고시·훈령·예규 등). 참고용(g: 정부 내부용 등)은 흐리게만 보이고 적용법규로 세지 않는다.
+ * 계열 파일이 없으면 이름 규칙('OO법 시행령')으로만 묶는다.
  *
  * window.rrFamilies
- *   .ready                 계열 자료를 다 읽으면 끝나는 Promise
- *   .familyOf(title)       { root, members:[{title, level, kind, inBase, category, parent, lsiSeq, notFound}] } | null
- *   .all()                 계열 전체 (가나다순)
- *   .events(title)         그 법령의 올해 개정 이벤트 (시행일순)
- *   .chips(title, curId)   개정 이벤트 칩 HTML (누르면 그 개정의 팝업이 열린다: data-eid)
- *   .popupSection(item)    법령 팝업의 '같은 계열 올해 개정' 본문 { body, extra } | null
+ *   .ready                  계열 자료를 다 읽으면 끝나는 Promise
+ *   .familyOf(title)        { root, members:[{title, level, kind, inBase, ref, category, parent, lsiSeq, admSeq, notFound}] } | null
+ *   .all()                  계열 전체 (가나다순)
+ *   .admrul()               적용법규에 들어가는 행정규칙 (참고용 제외) [{title, kind, category, family, admSeq}]
+ *   .events(title)          그 법규의 올해 개정 이벤트 (시행일순)
+ *   .block(f, opt)          계열 한 덩어리 HTML (법령 줄 + 행정규칙 접기)
+ *   .popupSection(item)     법령 팝업의 '같은 계열 올해 개정' 본문 { body, extra } | null
  */
 (function () {
-  var FAMS = [], BY = {};
+  var FAMS = [], BY = {}, ADM = [];
 
   function compact(s) { return String(s || '').replace(/[\s·ㆍ・.]/g, ''); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -22,7 +24,7 @@
   function index(list) {
     FAMS = list;
     BY = {};
-    list.forEach(function (f) { f.members.forEach(function (m) { if (m.inBase) BY[compact(m.title)] = f; }); });
+    list.forEach(function (f) { f.members.forEach(function (m) { if (m.inBase || m.level === '행정규칙') BY[compact(m.title)] = f; }); });
   }
   function fromFile(j) {
     if (!j || !Array.isArray(j.families) || !j.families.length) throw new Error('empty');
@@ -39,6 +41,19 @@
       return { root: r, members: map[r].sort(function (a, b) { return (order[a.level] || 0) - (order[b.level] || 0); }) };
     }));
   }
+  /* 행정규칙을 대표 계열의 맨 뒤에 붙인다 */
+  function addAdmrul(j) {
+    var byRoot = {};
+    FAMS.forEach(function (f) { byRoot[f.root] = f; });
+    ADM = [];
+    ((j && j.items) || []).forEach(function (x) {
+      var f = byRoot[x.f];
+      if (!f) return;
+      f.members.push({ title: x.n, level: '행정규칙', kind: x.k || '행정규칙', inBase: !x.g, ref: x.g || '', category: x.c || '', admSeq: x.q, admId: x.i, effective: x.e || '' });
+      BY[compact(x.n)] = f;
+      if (!x.g) ADM.push({ title: x.n, kind: x.k, category: x.c, family: x.f, admSeq: x.q });
+    });
+  }
   var ready = fetch('./law_families.json?v=' + Date.now(), { cache: 'no-store' })
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(fromFile)
@@ -47,13 +62,33 @@
         .then(function (r) { return r.json(); })
         .then(function (j) { fromBase(j.items || []); })
         .catch(function () {});
+    })
+    .then(function () {
+      return fetch('./admrul_index.json?v=' + Date.now(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(addAdmrul)
+        .catch(function () {});
     });
 
-  function events(title) {
-    var c = compact(title);
-    return (window.__rrItems || []).filter(function (x) { return compact(x.title) === c; })
-      .sort(function (a, b) { return String(a.effectiveDate).localeCompare(String(b.effectiveDate)) || String(a.amendmentType).localeCompare(String(b.amendmentType)); });
+  /* 법규명 -> 올해 개정 (목록이 바뀔 때만 다시 만든다) */
+  var EV = null, EVID = null, EVsrc = null, EVn = -1;
+  function build() {
+    var list = window.__rrItems || [];
+    if (EVsrc === list && EVn === list.length) return;
+    EV = {}; EVID = {};
+    list.forEach(function (x) {
+      var c = compact(x.title);
+      (EV[c] = EV[c] || []).push(x);
+      if (x.admrulId) (EVID[x.admrulId] = EVID[x.admrulId] || []).push(x);   /* 행정규칙은 이름이 바뀌어도 ID로 찾는다 */
+    });
+    var by = function (a, b) { return String(a.effectiveDate).localeCompare(String(b.effectiveDate)) || String(a.amendmentType).localeCompare(String(b.amendmentType)); };
+    Object.keys(EV).forEach(function (c) { EV[c].sort(by); });
+    Object.keys(EVID).forEach(function (c) { EVID[c].sort(by); });
+    EVsrc = list; EVn = list.length;
   }
+  function events(title) { build(); return EV[compact(title)] || []; }
+  /* 계열 구성원의 올해 개정: 행정규칙은 ID 기준 */
+  function evOf(m) { build(); return (m && m.admId && EVID[m.admId]) || events(m && m.title); }
   function shortType(t) {
     t = String(t || '');
     return t === '일부개정' ? '일부' : t === '타법개정' ? '타법' : t === '전부개정' ? '전부' : t.replace(/개정$/, '') || '개정';
@@ -69,36 +104,63 @@
     return '<button type="button" class="' + cls + '" data-eid="' + esc(it.id) + '" title="' + esc(it.effectiveDate + ' ' + (it.amendmentType || '') + ' · ' + st + ' — 눌러서 개정 내용 보기') + '">' +
       esc(String(it.effectiveDate).slice(5).replace('-', '.')) + ' <small>' + esc(shortType(it.amendmentType)) + '</small></button>';
   }
-  function chips(title, curId, sameDate) {
-    return events(title).map(function (it) { return chip(it, curId, sameDate); }).join('');
+  function chips(title, curId, sameDate, m) {
+    return (m ? evOf(m) : events(title)).map(function (it) { return chip(it, curId, sameDate); }).join('');
   }
   function lawLink(m) {
+    if (m.admSeq) return 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + encodeURIComponent(m.admSeq);
     return m.lsiSeq ? 'https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + encodeURIComponent(m.lsiSeq)
       : 'https://www.law.go.kr/lsSc.do?menuId=1&query=' + encodeURIComponent(m.title);
   }
-  function depth(f, m) {
-    if (m.level === '법률') return 0;
-    if (m.level === '시행령') return 1;
-    return 2;
+  function depth(m) {
+    return m.level === '법률' ? 0 : m.level === '시행령' ? 1 : m.level === '시행규칙' ? 2 : 3;
   }
-  /* 계열 한 줄: 단계 표시 · 법령명 · 올해 개정 칩 (또는 개정 없음 / 적용법규 아님) */
+  /* 한 줄: 단계(행정규칙이면 종류) · 이름 · 올해 개정 칩 (또는 개정 없음 / 적용법규 아님 / 참고용) */
   function row(f, m, curTitle, curId, sameDate) {
     var isCur = curTitle && compact(m.title) === compact(curTitle);
+    var adm = m.level === '행정규칙';
     var right;
-    if (!m.inBase) {
+    if (adm && !m.inBase) {
+      right = '<span class="rr-fam-out" title="' + esc(m.ref) + ' — 회사 준수사항과 거리가 멀어 적용법규로 세지 않습니다">참고용 · ' + esc(m.ref) + '</span>' +
+        '<a class="rr-fam-lnk" href="' + esc(lawLink(m)) + '" target="_blank" rel="noopener">원문 ↗</a>';
+    } else if (!m.inBase) {
       right = '<span class="rr-fam-out">적용법규 아님</span><a class="rr-fam-lnk" href="' + esc(lawLink(m)) + '" target="_blank" rel="noopener" title="국가법령정보센터에서 보기">원문 ↗</a>';
     } else if (m.notFound) {
       right = '<span class="rr-fam-warn" title="국가법령정보센터에서 이 이름의 법령을 찾지 못했습니다. 법령명이 바뀌었거나 폐지됐는지 확인이 필요합니다.">⚠ 법령명 확인 필요</span>';
     } else {
-      var ch = chips(m.title, curId, sameDate);
-      right = ch || '<span class="rr-fam-none">올해 개정 없음</span>';
+      var ch = chips(m.title, curId, sameDate, m);
+      right = ch || (adm ? '<span class="rr-fam-none">올해 개정 없음</span><a class="rr-fam-lnk" href="' + esc(lawLink(m)) + '" target="_blank" rel="noopener">원문 ↗</a>'
+        : '<span class="rr-fam-none">올해 개정 없음</span>');
     }
-    return '<div class="rr-fam-row lv' + depth(f, m) + (isCur ? ' cur' : '') + (m.inBase ? '' : ' out') + '">' +
-      '<span class="rr-fam-lv" title="' + esc(m.kind || m.level) + '">' + esc(m.level || '') + '</span>' +
-      '<span class="rr-fam-name">' + esc(m.title) + (isCur ? ' <em>이 법령</em>' : '') + '</span>' +
+    return '<div class="rr-fam-row lv' + depth(m) + (isCur ? ' cur' : '') + (m.inBase ? '' : ' out') + '">' +
+      '<span class="rr-fam-lv' + (adm ? ' adm' : '') + '" title="' + esc(adm ? '행정규칙 (' + m.kind + ')' : (m.kind || m.level)) + '">' + esc(adm ? m.kind : (m.level || '')) + '</span>' +
+      '<span class="rr-fam-name">' + esc(m.title) + (isCur ? ' <em>' + (adm ? '이 행정규칙' : '이 법령') + '</em>' : '') + '</span>' +
       '<span class="rr-fam-evs">' + right + '</span></div>';
   }
   function familyOf(title) { return BY[compact(title)] || null; }
+
+  /* 계열 한 덩어리: 법률·시행령·시행규칙 줄 + 행정규칙(접기). opt: {curTitle, curId, sameDate, openAdm} */
+  function block(f, opt) {
+    opt = opt || {};
+    var laws = f.members.filter(function (m) { return m.level !== '행정규칙'; });
+    var adm = f.members.filter(function (m) { return m.level === '행정규칙'; });
+    var h = laws.map(function (m) { return row(f, m, opt.curTitle, opt.curId, opt.sameDate); }).join('');
+    if (adm.length) {
+      var main = adm.filter(function (m) { return m.inBase; });
+      var ref = adm.filter(function (m) { return !m.inBase; });
+      var amended = main.filter(function (m) { return evOf(m).length; });
+      var evN = amended.reduce(function (a, m) { return a + evOf(m).length; }, 0);
+      /* 올해 바뀐 것을 먼저, 그다음 나머지, 참고용은 맨 뒤 */
+      var sorted = amended.concat(main.filter(function (m) { return !evOf(m).length; })).concat(ref);
+      var cur = opt.curTitle && adm.some(function (m) { return compact(m.title) === compact(opt.curTitle); });
+      h += '<details class="rr-fam-adm"' + (opt.openAdm || cur ? ' open' : '') + '>' +
+        '<summary><span class="rr-fam-lv adm">행정규칙</span><b>' + main.length + '개</b>' +
+        (evN ? ' · <span class="hot">올해 개정 ' + evN + '건</span>' : ' · 올해 개정 없음') +
+        (ref.length ? ' <small>· 참고용 ' + ref.length + '개 (흐리게)</small>' : '') + '</summary>' +
+        '<div class="rr-fam-admlist">' + sorted.map(function (m) { return row(f, m, opt.curTitle, opt.curId, opt.sameDate); }).join('') + '</div></details>';
+    }
+    return h;
+  }
 
   function popupSection(item) {
     var f = familyOf(item && item.title);
@@ -106,14 +168,14 @@
     var same = [];
     f.members.forEach(function (m) {
       if (!m.inBase || compact(m.title) === compact(item.title)) return;
-      events(m.title).forEach(function (it) { if (it.effectiveDate === item.effectiveDate) same.push(it); });
+      evOf(m).forEach(function (it) { if (it.effectiveDate === item.effectiveDate && it.id !== item.id) same.push(it); });
     });
     var total = 0;
-    f.members.forEach(function (m) { if (m.inBase) total += events(m.title).length; });
+    f.members.forEach(function (m) { if (m.inBase) total += evOf(m).length; });
     var note = same.length
       ? '<div class="rr-fam-note">📎 같은 날(' + esc(item.effectiveDate) + ') 시행되는 계열 개정이 <b>' + same.length + '건</b> 있습니다. 함께 검토하세요.</div>'
       : '';
-    var body = note + '<div class="rr-fam">' + f.members.map(function (m) { return row(f, m, item.title, item.id, item.effectiveDate); }).join('') + '</div>' +
+    var body = note + '<div class="rr-fam">' + block(f, { curTitle: item.title, curId: item.id, sameDate: item.effectiveDate }) + '</div>' +
       '<div class="rr-fam-foot">국가법령정보센터 법령체계도 기준 · 날짜를 누르면 그 개정 내용이 열립니다.</div>';
     return { body: body, extra: '<span class="rr-sec-extra">' + esc(f.root) + ' 계열 · 올해 ' + total + '건</span>' };
   }
@@ -130,9 +192,12 @@
     ready: ready,
     familyOf: familyOf,
     all: function () { return FAMS; },
+    admrul: function () { return ADM; },
     events: events,
+    eventsOf: evOf,
     chips: chips,
     row: row,
+    block: block,
     popupSection: popupSection
   };
 
@@ -142,15 +207,26 @@
     '.rr-fam-note { margin:0 0 10px; padding:8px 12px; border-radius:10px; font-size:14px; background:color-mix(in srgb, #dd6b20 12%, transparent); color:var(--text-primary,#1a202c); }',
     '.rr-fam { display:flex; flex-direction:column; gap:2px; }',
     '.rr-fam-row { display:grid; grid-template-columns:58px minmax(0,1fr) auto; align-items:center; gap:10px; padding:7px 8px; border-radius:8px; }',
-    '.rr-fam-row.lv1 { padding-left:22px; } .rr-fam-row.lv2 { padding-left:36px; }',
-    '.rr-fam-row.lv1 .rr-fam-lv, .rr-fam-row.lv2 .rr-fam-lv { position:relative; }',
+    '.rr-fam-row.lv1 { padding-left:22px; } .rr-fam-row.lv2 { padding-left:36px; } .rr-fam-row.lv3 { padding-left:36px; }',
     '.rr-fam-row.cur { background:color-mix(in srgb, var(--primary,#667eea) 10%, transparent); }',
-    '.rr-fam-row.out { opacity:.62; }',
+    '.rr-fam-row.out { opacity:.55; }',
     '.rr-fam-lv { font-size:11.5px; font-weight:800; text-align:center; padding:2px 0; border-radius:6px; border:1px solid var(--border,#e2e8f0); color:var(--text-secondary,#4a5568); background:var(--bg-card,#fff); }',
+    '.rr-fam-lv.adm { color:#0f766e; border-color:color-mix(in srgb, #0f766e 40%, transparent); background:color-mix(in srgb, #0f766e 7%, var(--bg-card,#fff)); }',
     '.rr-fam-row.lv0 .rr-fam-lv { color:var(--primary,#667eea); border-color:color-mix(in srgb, var(--primary,#667eea) 45%, transparent); }',
     '.rr-fam-name { font-size:14.5px; font-weight:600; color:var(--text-primary,#1a202c); line-height:1.4; }',
     '.rr-fam-name em { font-style:normal; font-size:11px; font-weight:800; color:var(--primary,#667eea); margin-left:4px; }',
-    '.rr-fam-evs { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:4px; }',
+    '.rr-fam-evs { display:flex; flex-wrap:wrap; justify-content:flex-end; align-items:center; gap:4px; }',
+    '.rr-fam-adm { margin:2px 0 0; border-radius:8px; }',
+    '.rr-fam-adm > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px; padding:7px 8px 7px 36px; border-radius:8px; font-size:13.5px; color:var(--text-secondary,#4a5568); }',
+    '.rr-fam-adm > summary::-webkit-details-marker { display:none; }',
+    '.rr-fam-adm > summary::before { content:"▸"; color:var(--text-muted,#718096); width:10px; display:inline-block; margin-left:-16px; }',
+    '.rr-fam-adm[open] > summary::before { content:"▾"; }',
+    '.rr-fam-adm > summary:hover { background:color-mix(in srgb, var(--primary,#667eea) 6%, transparent); }',
+    '.rr-fam-adm > summary .rr-fam-lv { min-width:58px; }',
+    '.rr-fam-adm > summary .hot { color:#0f766e; font-weight:800; }',
+    '.rr-fam-adm > summary small { color:var(--text-muted,#718096); }',
+    '.rr-fam-admlist { display:flex; flex-direction:column; gap:2px; }',
+    '.rr-fam-admlist .rr-fam-name { font-size:13.5px; font-weight:500; }',
     '.rr-evc { border:1px solid var(--border,#e2e8f0); background:var(--bg-card,#fff); color:var(--text-secondary,#4a5568); border-radius:999px; padding:2px 9px; font-family:inherit; font-size:12.5px; font-weight:600; line-height:1.5; font-variant-numeric:tabular-nums; cursor:pointer; white-space:nowrap; }',
     '.rr-evc small { font-size:11px; font-weight:600; color:var(--text-muted,#718096); }',
     '.rr-evc:hover { border-color:var(--primary,#667eea); }',
@@ -165,7 +241,7 @@
     '.rr-fam-warn { font-size:12px; font-weight:700; color:#c05621; white-space:nowrap; }',
     '.rr-fam-lnk { font-size:12px; font-weight:700; color:var(--primary,#667eea); text-decoration:none; margin-left:6px; white-space:nowrap; }',
     '.rr-fam-foot { margin-top:8px; font-size:12px; color:var(--text-muted,#718096); }',
-    '@media (prefers-color-scheme: dark) { .rr-evc.soon { color:#f6ad55; } .rr-evc.later { color:#b794f4; } .rr-evc.today { color:#fc8181; } .rr-fam-warn { color:#f6ad55; } }',
+    '@media (prefers-color-scheme: dark) { .rr-evc.soon { color:#f6ad55; } .rr-evc.later { color:#b794f4; } .rr-evc.today { color:#fc8181; } .rr-fam-warn { color:#f6ad55; } .rr-fam-lv.adm, .rr-fam-adm > summary .hot { color:#5eead4; } }',
     '@media (max-width: 640px) { .rr-fam-row { grid-template-columns:52px minmax(0,1fr); } .rr-fam-evs { grid-column:1 / -1; justify-content:flex-start; padding-left:62px; } }'
   ].join('\n');
   document.head.appendChild(st);

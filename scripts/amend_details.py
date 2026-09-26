@@ -62,6 +62,55 @@ def fetch_law(lsi: str) -> dict:
     raise RuntimeError(f"{lsi}: {last}")
 
 
+ADM_CACHE = Path.home() / "Library" / "Caches" / "RegRader" / "admrul"
+
+
+def fetch_admrul(seq: str) -> dict:
+    """행정규칙 본문 (제개정이유 · 개정문 · 첨부파일). 버전별로 바뀌지 않으므로 캐시한다."""
+    ADM_CACHE.mkdir(parents=True, exist_ok=True)
+    p = ADM_CACHE / f"{seq}.json"
+    if p.exists():
+        try:
+            return json.loads(p.read_text(encoding="utf-8"))["AdmRulService"]
+        except (ValueError, KeyError):
+            p.unlink()
+    last = None
+    for i in range(3):
+        try:
+            r = requests.get(SERVICE, params={"OC": OC, "target": "admrul", "type": "JSON", "ID": seq},
+                             headers={"User-Agent": UA}, timeout=120)
+            r.raise_for_status()
+            j = r.json()
+            if "AdmRulService" not in j:
+                raise ValueError("AdmRulService 없음")
+            p.write_text(r.text, encoding="utf-8")
+            return j["AdmRulService"]
+        except Exception as e:  # noqa: BLE001
+            last = e
+            time.sleep(2 + i * 3)
+    raise RuntimeError(f"admrul {seq}: {last}")
+
+
+def admrul_detail(doc: dict) -> dict:
+    """행정규칙 개정: 제개정이유(개정 취지·주요내용)와 첨부(고시 전문 등) 링크"""
+    reason = flat((doc.get("제개정이유") or {}).get("제개정이유내용"))
+    reason = re.sub(r"[ \t]+", " ", reason)
+    reason = re.sub(r"◇\s*제\s*ㆍ?\s*개정\s*이유", "◇ 개정이유", reason)
+    reason = re.sub(r"\n\s*\n+", "\n", reason).strip()
+    att = doc.get("첨부파일") or {}
+    if isinstance(att, list):
+        att = att[0] if att else {}
+    link = att.get("첨부파일링크") or ""
+    if isinstance(link, list):
+        link = link[0] if link else ""
+    name = att.get("첨부파일명") or ""
+    if isinstance(name, list):
+        name = name[0] if name else ""
+    info = doc.get("행정규칙기본정보") or {}
+    return {"admrul": True, "reason": reason[:1500] + ("…" if len(reason) > 1500 else ""),
+            "attach": link, "attachName": name, "issued": info.get("발령일자") or "", "dept": info.get("담당부서기관명") or ""}
+
+
 def flat(v) -> str:
     if isinstance(v, list):
         return "\n".join(flat(x) for x in v)
@@ -547,6 +596,8 @@ def build(force=False, only=None, log=print):
             v["reason"] = old_reasons[r] if isinstance(r, int) and r < len(old_reasons) else ""
     live = {key_of(r) for r in rows}
     todo = [r for r in rows if (force or key_of(r) not in items_d) and r.get("u") and (not only or r.get("u") == only)]
+    adm_todo = [r for r in todo if r.get("k")]          # 행정규칙: 제개정이유만
+    todo = [r for r in todo if not r.get("k")]
     lsis = sorted({r["u"] for r in todo})
     log(f"amend_details: 분석할 개정 {len(todo)}건 (법령 버전 {len(lsis)}개)")
     laws, failed = {}, []
@@ -575,6 +626,24 @@ def build(force=False, only=None, log=print):
             continue
         items_f[key_of(r)] = codes
         items_d[key_of(r)] = detail
+    # 행정규칙 개정: 제개정이유 · 첨부 (표시 코드는 없음)
+    def get_adm(seq):
+        try:
+            return seq, fetch_admrul(seq)
+        except Exception as e:  # noqa: BLE001
+            return seq, e
+    with ThreadPoolExecutor(max_workers=4) as ex:
+        adm_docs = dict(ex.map(get_adm, sorted({r["u"] for r in adm_todo})))
+    for r in adm_todo:
+        doc = adm_docs.get(r["u"])
+        if isinstance(doc, Exception) or not doc:
+            failed.append(r["u"])
+            continue
+        items_f[key_of(r)] = []
+        items_d[key_of(r)] = admrul_detail(doc)
+    if adm_todo:
+        log(f"amend_details: 행정규칙 {len(adm_todo)}건 제개정이유")
+
     # 목록에서 빠진 개정은 지운다
     items_f = {k: v for k, v in items_f.items() if k in live}
     items_d = {k: v for k, v in items_d.items() if k in live}

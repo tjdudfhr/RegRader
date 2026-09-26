@@ -1,6 +1,16 @@
-/* 적용법규 탭은 항상 base 207개만 사용 */
+/* 적용법규 탭: 법령(base_laws_207.json) + 그 계열에 연결된 행정규칙(admrul_index.json, 참고용 제외) */
 (function () {
-  var BASE = null;
+  var BASE = null, LAWS = null;
+  /* 행정규칙을 적용법규 목록에 합친다 (family-ui.js 가 읽어 둔 것) */
+  function mergeAdmrul() {
+    var F = window.rrFamilies;
+    var adm = F && F.admrul ? F.admrul() : [];
+    if (!LAWS || !adm.length) return false;
+    BASE = LAWS.concat(adm.map(function (a) {
+      return { title: a.title, categories: a.category ? [a.category] : [], lawType: '행정규칙', kind: a.kind, admSeq: a.admSeq, family: a.family };
+    }));
+    return true;
+  }
   function setCounts(items) {
     var CATS = ['인사노무','공정거래','정보보호','지식재산권','재무회계','안전','환경','지배구조'];
     var c = {}; CATS.forEach(function (k) { c[k] = 0; });
@@ -53,15 +63,19 @@
     var inView = {};
     view.forEach(function (b) { inView[b.title] = 1; });
     var list = fams.filter(function (f) { return f.members.some(function (m) { return m.inBase && inView[m.title]; }); });
-    var amended = 0, outN = 0, staleN = 0, evN = 0;
+    var amended = 0, outN = 0, staleN = 0, evN = 0, admEv = 0, refN = 0, nLaw = 0, nAdm = 0;
     var cards = list.map(function (f) {
       var n = 0, cats = {};
       f.members.forEach(function (m) {
-        if (!m.inBase) { outN++; return; }
+        var adm = m.level === '행정규칙';
+        if (!m.inBase) { if (adm) refN++; else outN++; return; }
         if (m.notFound) staleN++;
-        n += F.events(m.title).length;
+        if (adm) nAdm++; else nLaw++;
+        var e = (F.eventsOf ? F.eventsOf(m) : F.events(m.title)).length;
+        n += e;
+        if (adm) admEv += e;
         var c = catOf[m.title] || m.category;
-        if (c) cats[c] = 1;
+        if (c && !adm) cats[c] = 1;
       });
       if (n) amended++;
       evN += n;
@@ -71,9 +85,11 @@
       return '<div class="rr-rf">' +
         '<div class="rr-rf-h"><b>' + escH(f.root) + '</b>' + chips +
         '<span class="rr-rf-n' + (n ? '' : ' zero') + '">' + (n ? '올해 개정 ' + n + '건' : '올해 개정 없음') + '</span></div>' +
-        f.members.map(function (m) { return F.row(f, m); }).join('') + '</div>';
+        (F.block ? F.block(f) : f.members.map(function (m) { return F.row(f, m); }).join('')) + '</div>';
     }).join('');
-    var sum = '<div class="rr-rf-sum"><b>' + list.length + '개 계열</b> · 올해 개정된 계열 ' + amended + '개 · 개정 ' + evN + '건' +
+    var sum = '<div class="rr-rf-sum"><b>' + list.length + '개 계열</b> · 적용법규 ' + (nLaw + nAdm).toLocaleString('ko-KR') + '개 (법령 ' + nLaw + ' · 행정규칙 ' + nAdm.toLocaleString('ko-KR') + ')' +
+      ' · 올해 개정 ' + evN + '건' + (admEv ? ' (행정규칙 ' + admEv + ')' : '') +
+      (refN ? ' · <span title="정부 내부용 등 회사 준수사항과 거리가 먼 행정규칙은 적용법규로 세지 않고 흐리게만 보여 줍니다">참고용 행정규칙 ' + refN + '개 (흐리게)</span>' : '') +
       (outN ? ' · <span title="국가법령정보센터 법령체계도상 이 계열에 속하지만 적용법규 목록에는 없는 하위법령">적용법규에 없는 하위법령 ' + outN + '개 (흐리게)</span>' : '') +
       (staleN ? ' · <span class="warn">⚠ 법령명 확인 필요 ' + staleN + '개</span>' : '') + '</div>';
     return { html: sum + (cards || '<div style="padding:2rem;text-align:center;color:var(--text-muted)">해당 직무의 적용법규가 없습니다.</div>'), count: list.length };
@@ -129,16 +145,19 @@
       var title = String(law.title || '');
       var evs = byTitle[title] || [];
       var esc = title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      var kindTag = law.lawType === '행정규칙' ? '<span style="margin-right:8px;padding:1px 7px;border-radius:6px;border:1px solid rgba(15,118,110,.4);' +
+                    'color:#0f766e;font-size:11px;font-weight:800">' + escH(law.kind || '행정규칙') + '</span>' : '';
       if (evs.length) {
         var badge = '<span style="margin-left:8px;padding:1px 7px;border-radius:999px;background:#eef2ff;' +
                     'color:#4f46e5;font-size:11px;font-weight:700">올해 개정 ' + evs.length + '건</span>';
         return '<div class="registry-law-item" data-eid="' + evs[0].id + '" style="cursor:pointer">' +
-               '<span>' + esc + '</span>' + badge + '</div>';
+               kindTag + '<span>' + esc + '</span>' + badge + '</div>';
       }
-      var url = 'https://www.law.go.kr/lsSc.do?query=' + encodeURIComponent(title);
+      var url = law.admSeq ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + encodeURIComponent(law.admSeq)
+        : 'https://www.law.go.kr/lsSc.do?query=' + encodeURIComponent(title);
       return '<div class="registry-law-item" title="올해 개정 없음 · 국가법령정보센터에서 원문 보기" ' +
              'onclick="window.open(\'' + url.replace(/'/g, '') + '\',\'_blank\')" style="cursor:pointer">' +
-             '<span>' + esc + '</span>' +
+             kindTag + '<span>' + esc + '</span>' +
              '<span style="margin-left:8px;color:#94a3b8;font-size:11px">올해 개정 없음</span></div>';
     }).join('');
     host.setAttribute('data-rr', String(job));
@@ -155,7 +174,10 @@
     if (host && host.getAttribute('data-rr') !== String(cur)) render(cur, curTitle);
   }
   /* 계열 자료와 개정 이벤트가 늦게 도착하면 한 번 더 그린다 */
-  if (window.rrFamilies && window.rrFamilies.ready) window.rrFamilies.ready.then(function () { if (BASE && MODE === 'family') render(cur, curTitle); });
+  if (window.rrFamilies && window.rrFamilies.ready) window.rrFamilies.ready.then(function () {
+    if (mergeAdmrul()) { window.baseLawsData = BASE; setCounts(BASE); }
+    if (BASE) render(cur, curTitle);
+  });
   var tries = 0;
   var waitItems = setInterval(function () {
     if ((window.__rrItems || []).length || ++tries > 40) {
@@ -166,7 +188,9 @@
   fetch('./base_laws_207.json?v=20260915s', { cache: 'no-store' })
     .then(function (r) { return r.json(); })
     .then(function (j) {
-      BASE = j.items || j || [];
+      LAWS = j.items || j || [];
+      BASE = LAWS;
+      mergeAdmrul();
       hook();
       var n = 0;
       var t = setInterval(function () { hook(); if (++n > 50) clearInterval(t); }, 250);

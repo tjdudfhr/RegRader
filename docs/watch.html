@@ -149,6 +149,8 @@
   .badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 2px; }
   .badge { font-size: .75rem; padding: 3px 9px; border-radius: 999px; background: var(--chip); color: var(--text-secondary); font-weight: 500; }
   .badge.new { background: var(--urgent-bg); color: var(--urgent); font-weight: 700; }
+  .badge.adm { background: rgba(15, 118, 110, .10); color: #0f766e; font-weight: 700; }
+  @media (prefers-color-scheme: dark) { .badge.adm { color: #5eead4; } }
   .cat { color: #fff; font-weight: 600; }
   .tl { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
   .tl span { font-size: .74rem; border: 1px solid var(--border); border-radius: 8px; padding: 2px 7px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
@@ -309,9 +311,10 @@ function expandMini(rows) {
   return (rows || []).map((r, i) => ({
     id: 'ev_' + i, title: r.t, effectiveDate: r.d, popupKey: [r.t || '', r.d || '', r.a || ''].join('|'),
     amendmentType: r.a === '일' ? '일부개정' : (r.a === '타' ? '타법개정' : r.a),
-    status: r.s === 0 ? '현행' : '시행예정', ministry: r.m || '', categories: r.c ? [r.c] : [],
+    status: r.s === 0 ? '현행' : '시행예정', ministry: r.m || '', categories: r.c ? [r.c] : [], kind: r.k || '',
     /* efYd(시행일)를 붙여야 그 날 시행되는 본문이 열린다. 없으면 이미 지난 연혁 버전이 열려 '현행법이 아닙니다'가 뜬다. */
-    source: { url: r.u ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u + (r.d ? '&efYd=' + String(r.d).replace(/-/g, '') : '')) : '' }
+    source: { url: !r.u ? '' : r.k ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + r.u
+      : ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u + (r.d ? '&efYd=' + String(r.d).replace(/-/g, '') : '')) }
   }));
 }
 function enrich(items) {
@@ -350,7 +353,7 @@ function card(it, extra = '') {
     ${ddayBlock(it.daysUntil)}
     <div class="meta">${esc(it.ministry)} · 시행 ${esc(it.effectiveDate)}</div>
     <div class="rest">
-      <div class="badges">${extra}${catBadge}<span class="badge">${esc(it.amendmentType || '')}</span>${amBadges(it)}${multi}</div>
+      <div class="badges">${extra}${catBadge}${it.kind ? `<span class="badge adm">행정규칙 · ${esc(it.kind)}</span>` : ''}<span class="badge">${esc(it.amendmentType || '')}</span>${amBadges(it)}${multi}</div>
       ${timeline(it)}
     </div>
   </article>`;

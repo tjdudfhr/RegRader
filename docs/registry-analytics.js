@@ -23,7 +23,16 @@
     if (base) return Promise.resolve(base);
     return fetch('./base_laws_207.json?v=' + Date.now(), { cache: 'no-store' })
       .then(function (r) { return r.json(); })
-      .then(function (d) { base = d.items || []; return base; })
+      .then(function (d) {
+        base = d.items || [];
+        /* 적용법규 = 법령 + 계열에 연결된 행정규칙(참고용 제외) */
+        var F = window.rrFamilies;
+        return (F && F.ready ? F.ready : Promise.resolve()).then(function () {
+          var adm = F && F.admrul ? F.admrul() : [];
+          base = base.concat(adm.map(function (a) { return { title: a.title, categories: a.category ? [a.category] : [], lawType: '행정규칙', kind: a.kind }; }));
+          return base;
+        });
+      })
       .catch(function () { base = []; return base; });
   }
 
@@ -108,7 +117,7 @@
     });
 
     /* 법령 종류 (도넛) */
-    var kinds = ['법률', '시행령', '시행규칙'].map(function (kd, i) { return [kd, laws.filter(function (b) { return K.lawKind(b.title) === kd; }).length, R[i]]; });
+    var kinds = (K.KINDS || ['법률', '시행령', '시행규칙']).map(function (kd, i) { return [kd, laws.filter(function (b) { return (K.kindOf ? K.kindOf(b) : K.lawKind(b.title)) === kd; }).length, R[i]]; });
     var kTotal = kinds.reduce(function (n, r) { return n + r[1]; }, 0);
     make('rr-reg-kind', {
       type: 'doughnut',

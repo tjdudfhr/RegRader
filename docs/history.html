@@ -173,7 +173,6 @@
     <button class="chip" data-f="nowInForce">새로 시행</button>
     <button class="chip" data-f="removed">빠짐</button>
     <button class="chip" data-f="addedByBase">적용법규 추가</button>
-    <button class="chip" data-f="admrulAdded">행정규칙</button>
     <input class="search" id="q" type="search" placeholder="법령명·부처·직무 검색">
   </div>
 
@@ -181,7 +180,7 @@
 
   <p class="note">
     매일 아침 국가법령정보센터 데이터를 받아 직전 갱신과 비교합니다. 달라진 점이 있는 날만 기록되고, 위 <b>조회 날짜</b>에서 날짜별로 골라 볼 수 있습니다.<br>
-    <b>신규 개정</b>: 당사 적용 법규에 새로 잡힌 개정 · <b>새로 시행</b>: 시행예정이었다가 시행일이 지나 현행이 된 개정 · <b>빠짐</b>: 법령정보센터에서 조회되지 않게 된 개정 (시행일 변경·철회 등) · <b>행정규칙</b>: 적용법규 계열에 연결된 고시·훈령·예규의 새 개정
+    <b>신규 개정</b>: 당사 적용 법규에 새로 잡힌 개정 · <b>새로 시행</b>: 시행예정이었다가 시행일이 지나 현행이 된 개정 · <b>빠짐</b>: 법령정보센터에서 조회되지 않게 된 개정 (시행일 변경·철회 등)
   </p>
 </div>
 
@@ -192,15 +191,15 @@
     added: { label: '신규 개정', cls: 'b-new', color: 'var(--new)' },
     nowInForce: { label: '새로 시행', cls: 'b-live', color: 'var(--live)' },
     removed: { label: '목록에서 빠짐', cls: 'b-gone', color: 'var(--gone)' },
-    addedByBase: { label: '적용법규 추가로 편입', cls: 'b-base', color: 'var(--base)' },
-    admrulAdded: { label: '행정규칙 개정', cls: 'b-adm', color: 'var(--adm)' }
+    addedByBase: { label: '적용법규 추가로 편입', cls: 'b-base', color: 'var(--base)' }
   };
-  var ORDER = ['added', 'nowInForce', 'removed', 'addedByBase', 'admrulAdded'];
+  var ORDER = ['added', 'nowInForce', 'removed', 'addedByBase'];
   /* 적용법규(기본 목록)가 바뀐 경우 안내: 추가 · 법령명 변경 · 삭제 */
   function baseLine(e) {
-    var add = e.baseLawsAdded || [], ren = e.baseLawsRenamed || [], rem = e.baseLawsRemoved || [];
-    if (!add.length && !ren.length && !rem.length) return '';
+    var add = e.baseLawsAdded || [], ren = e.baseLawsRenamed || [], rem = e.baseLawsRemoved || [], mg = e.admrulMerged;
+    if (!add.length && !ren.length && !rem.length && !mg) return '';
     var lines = [];
+    if (mg) lines.push('<b>행정규칙 ' + num(mg.laws) + '개를 적용법규에 편입</b> · 계열마다 법률·시행령·시행규칙·행정규칙을 함께 관리합니다. 올해 개정 ' + num(mg.events) + '건이 더해졌습니다.');
     if (add.length) lines.push('<b>적용법규 추가 ' + add.length + '개</b> · ' + add.map(function (b) {
       return esc(b.title) + (b.category ? ' <span style="color:var(--text-muted)">[' + esc(b.category) + ']</span>' : '');
     }).join(', '));
@@ -217,6 +216,7 @@
   }
   function baseSummary(e) {
     var p = [];
+    if (e.admrulMerged) p.push('행정규칙 편입');
     if ((e.baseLawsAdded || []).length) p.push('적용법규 +' + e.baseLawsAdded.length);
     if ((e.baseLawsRenamed || []).length) p.push('법령명 변경 ' + e.baseLawsRenamed.length);
     if ((e.baseLawsRemoved || []).length) p.push('적용법규 삭제 ' + e.baseLawsRemoved.length);

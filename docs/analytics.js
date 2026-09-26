@@ -30,6 +30,9 @@
     t = String(t || '').trim();
     return /규칙$/.test(t) ? '시행규칙' : /(시행령|규정|령)$/.test(t) ? '시행령' : '법률';
   }
+  /* 개정·적용법규 한 건의 종류: 행정규칙(고시·훈령·예규 등)이면 '행정규칙', 아니면 법령명으로 */
+  function kindOf(x) { return x && (x.kind || x.lawType === '행정규칙') ? '행정규칙' : lawKind(x && x.title); }
+  var KINDS = ['법률', '시행령', '시행규칙', '행정규칙'];
   function yearOf(items) {
     var c = {};
     items.forEach(function (x) { var y = String(x.effectiveDate || '').slice(0, 4); if (y) c[y] = (c[y] || 0) + 1; });
@@ -52,7 +55,7 @@
       if (q && byQC[q[0]][c] != null) byQC[q[0]][c]++;
       var t = x.amendmentType || '기타';
       byType[t] = (byType[t] || 0) + 1;
-      var k = lawKind(x.title || '');
+      var k = kindOf(x);
       byKind[k] = (byKind[k] || 0) + 1;
       String(x.ministry || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean).forEach(function (mn) { byMin[mn] = (byMin[mn] || 0) + 1; });
       (byLaw[x.title] = byLaw[x.title] || []).push(x);
@@ -60,7 +63,7 @@
     function top(obj, n) { return Object.keys(obj).map(function (k) { return [k, obj[k]]; }).sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); }).slice(0, n); }
     return {
       year: year, cats: cats, byCat: byCat, byQC: byQC,
-      types: top(byType, 5), kinds: ['법률', '시행령', '시행규칙'].map(function (k) { return [k, byKind[k] || 0]; }),
+      types: top(byType, 5), kinds: KINDS.map(function (k) { return [k, byKind[k] || 0]; }),
       ministries: top(byMin, 8),
       multi: Object.keys(byLaw).map(function (t) { return [t, byLaw[t].length, byLaw[t]]; }).filter(function (r) { return r[1] > 1; })
         .sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); }).slice(0, 8),
@@ -303,7 +306,7 @@
   });
 
   /* 직무별 탭 차트(job-analytics.js)와 같은 방식으로 그리도록 도구를 공유한다 */
-  window.rrChartKit = { ink: ink, ramp: ramp, esc: esc, endLabels: endLabels, hbarScales: hbarScales, lawKind: lawKind, yearOf: yearOf };
+  window.rrChartKit = { ink: ink, ramp: ramp, esc: esc, endLabels: endLabels, hbarScales: hbarScales, lawKind: lawKind, kindOf: kindOf, KINDS: KINDS, yearOf: yearOf };
 
   var st = document.createElement('style');
   st.textContent = [

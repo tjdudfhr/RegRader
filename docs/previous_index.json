@@ -1,50 +1,51 @@
 {
   "year": 2026,
-  "totalCount": 335,
-  "generatedAt": "2026-09-25T23:17:43.661225+00:00",
+  "totalCount": 353,
+  "generatedAt": "2026-09-26T00:13:21.858120+00:00",
   "asOf": "2026-09-26",
   "stats": {
     "quarter": {
-      "Q1": 133,
-      "Q2": 79,
-      "Q3": 87,
+      "Q1": 141,
+      "Q2": 84,
+      "Q3": 92,
       "Q4": 36
     },
     "categories": {
       "인사노무": 49,
       "재무회계": 59,
-      "환경": 112,
-      "안전": 66,
+      "환경": 121,
+      "안전": 74,
       "정보보호": 21,
       "공정거래": 18,
-      "지배구조": 8,
+      "지배구조": 9,
       "지식재산권": 2
     },
     "amendmentType": {
-      "일부개정": 197,
-      "타법개정": 138
+      "일부개정": 203,
+      "타법개정": 150
     },
     "status": {
-      "현행": 299,
+      "현행": 317,
       "시행예정": 36
     },
-    "distinctBaseHit": 137,
-    "baseLaws": 207
+    "distinctBaseHit": 151,
+    "baseLaws": 229
   },
   "integrity": {
-    "checkedAt": "2026-09-25T23:17:43.661247+00:00",
+    "checkedAt": "2026-09-26T00:13:21.858153+00:00",
     "asOf": "2026-09-26",
     "rule": "unique key = title+effectiveDate+amendmentType; match = compact(name)",
-    "uniqueEvents": 335,
-    "uniqueTitles": 137,
-    "titlesWithMultipleEvents": 87,
+    "uniqueEvents": 353,
+    "uniqueTitles": 151,
+    "titlesWithMultipleEvents": 91,
     "titlesWithBothInForceAndUpcoming": 18,
     "duplicateKeys": 0,
     "statusConsistentWithDate": true
   },
   "universe": {
     "openapiCurrent": 2522,
-    "openapiFuture": 4989
+    "openapiFuture": 4989,
+    "openapiUpcoming": 390
   },
   "items": [
     {
@@ -635,6 +636,59 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_288431_law_169_2026-08-01_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_279777_law_156_2026-01-01_타법개정",
+      "title": "순환경제사회 전환 촉진법",
+      "summary": "순환경제사회 전환 촉진법의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-01",
+      "announcedDate": "2025-11-11",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -268,
+      "ministry": "기후에너지환경부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "012567",
+        "lsiSeq": "279777",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_156"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=279777"
+      },
+      "originalTitle": "순환경제사회 전환 촉진법",
+      "eventIndex": 1,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_279777_law_156_2026-01-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-19",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283397_law_156_2026-02-19_타법개정"
         }
       ]
     },
@@ -2682,6 +2736,53 @@
       ]
     },
     {
+      "id": "matched_2026_280989_law_216_2026-01-02_타법개정",
+      "title": "상법의 전자선하증권 규정의 시행에 관한 규정",
+      "summary": "상법의 전자선하증권 규정의 시행에 관한 규정의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-12-30",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -267,
+      "ministry": "법무부",
+      "categories": [
+        "지배구조"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010783",
+        "lsiSeq": "280989",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_216"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280989"
+      },
+      "originalTitle": "상법의 전자선하증권 규정의 시행에 관한 규정",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280989_law_216_2026-01-02_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_281603_law_178_2026-01-02_타법개정",
       "title": "석면안전관리법 시행령",
       "summary": "석면안전관리법 시행령의 2026년 타법개정사항",
@@ -3738,6 +3839,53 @@
       ]
     },
     {
+      "id": "matched_2026_281699_law_228_2026-01-02_타법개정",
+      "title": "해양폐기물 및 해양오염퇴적물 관리법 시행령",
+      "summary": "해양폐기물 및 해양오염퇴적물 관리법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-12-30",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -267,
+      "ministry": "해양수산부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "013903",
+        "lsiSeq": "281699",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_228"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=281699"
+      },
+      "originalTitle": "해양폐기물 및 해양오염퇴적물 관리법 시행령",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_281699_law_228_2026-01-02_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_282341_law_188_2026-01-02_타법개정",
       "title": "화재의 예방 및 안전관리에 관한 법률 시행령",
       "summary": "화재의 예방 및 안전관리에 관한 법률 시행령의 2026년 타법개정사항",
@@ -4652,6 +4800,59 @@
       ]
     },
     {
+      "id": "matched_2026_283397_law_156_2026-02-19_타법개정",
+      "title": "순환경제사회 전환 촉진법",
+      "summary": "순환경제사회 전환 촉진법의 2026년 타법개정사항",
+      "effectiveDate": "2026-02-19",
+      "announcedDate": "2026-02-19",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -219,
+      "ministry": "기후에너지환경부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-02-19",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "012567",
+        "lsiSeq": "283397",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_156"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=283397"
+      },
+      "originalTitle": "순환경제사회 전환 촉진법",
+      "eventIndex": 2,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_279777_law_156_2026-01-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-19",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283397_law_156_2026-02-19_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_283605_law_104_2026-02-23_일부개정",
       "title": "대기환경보전법 시행규칙",
       "summary": "대기환경보전법 시행규칙의 2026년 일부개정사항",
@@ -5065,6 +5266,100 @@
       ]
     },
     {
+      "id": "matched_2026_273603_law_214_2026-03-02_일부개정",
+      "title": "산업안전보건기준에 관한 규칙",
+      "summary": "산업안전보건기준에 관한 규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-03-02",
+      "announcedDate": "2025-09-01",
+      "lawType": "고용노동부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -208,
+      "ministry": "고용노동부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-03-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "007363",
+        "lsiSeq": "273603",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_214"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=273603"
+      },
+      "originalTitle": "산업안전보건기준에 관한 규칙",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-03-02",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_273603_law_214_2026-03-02_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_283785_law_157_2026-03-03_타법개정",
+      "title": "순환경제사회 전환 촉진법 시행령",
+      "summary": "순환경제사회 전환 촉진법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-03-03",
+      "announcedDate": "2026-03-03",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -207,
+      "ministry": "기후에너지환경부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-03-03",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "013056",
+        "lsiSeq": "283785",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_157"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=283785"
+      },
+      "originalTitle": "순환경제사회 전환 촉진법 시행령",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-03-03",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283785_law_157_2026-03-03_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_280035_law_138_2026-03-03_타법개정",
       "title": "에너지이용 합리화법",
       "summary": "에너지이용 합리화법의 2026년 타법개정사항",
@@ -5468,6 +5763,53 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_283803_law_037_2026-03-10_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_284545_law_209_2026-03-12_타법개정",
+      "title": "순환골재 품질인증 및 관리에 관한 규칙",
+      "summary": "순환골재 품질인증 및 관리에 관한 규칙의 2026년 타법개정사항",
+      "effectiveDate": "2026-03-12",
+      "announcedDate": "2026-03-12",
+      "lawType": "국토교통부령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -198,
+      "ministry": "국토교통부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-03-12",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010193",
+        "lsiSeq": "284545",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_209"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=284545"
+      },
+      "originalTitle": "순환골재 품질인증 및 관리에 관한 규칙",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-03-12",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284545_law_209_2026-03-12_타법개정"
         }
       ]
     },
@@ -6054,6 +6396,59 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_287319_law_148_2026-09-26_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_284513_law_210_2026-03-20_일부개정",
+      "title": "고압가스 안전관리법 시행령",
+      "summary": "고압가스 안전관리법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-03-20",
+      "announcedDate": "2026-03-17",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -190,
+      "ministry": "산업통상부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-03-20",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002246",
+        "lsiSeq": "284513",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_210"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=284513"
+      },
+      "originalTitle": "고압가스 안전관리법 시행령",
+      "eventIndex": 1,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284513_law_210_2026-03-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-06-09",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_286839_law_210_2026-06-09_일부개정"
         }
       ]
     },
@@ -8307,6 +8702,53 @@
       ]
     },
     {
+      "id": "matched_2026_285435_law_215_2026-04-07_일부개정",
+      "title": "유해ㆍ위험작업의 취업 제한에 관한 규칙",
+      "summary": "유해ㆍ위험작업의 취업 제한에 관한 규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-04-07",
+      "announcedDate": "2026-04-07",
+      "lawType": "고용노동부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -172,
+      "ministry": "고용노동부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-04-07",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "007844",
+        "lsiSeq": "285435",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_215"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285435"
+      },
+      "originalTitle": "유해ㆍ위험작업의 취업 제한에 관한 규칙",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-04-07",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285435_law_215_2026-04-07_일부개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_285615_law_126_2026-04-21_일부개정",
       "title": "자원의 절약과 재활용 촉진에 관한 법률 시행규칙",
       "summary": "자원의 절약과 재활용 촉진에 관한 법률 시행규칙의 2026년 일부개정사항",
@@ -9108,6 +9550,59 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_289253_law_104_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285511_law_217_2026-05-01_일부개정",
+      "title": "소방용품의 품질관리 등에 관한 규칙",
+      "summary": "소방용품의 품질관리 등에 관한 규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-05-01",
+      "announcedDate": "2026-04-13",
+      "lawType": "행정안전부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -148,
+      "ministry": "소방청",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-05-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "007517",
+        "lsiSeq": "285511",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_217"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285511"
+      },
+      "originalTitle": "소방용품의 품질관리 등에 관한 규칙",
+      "eventIndex": 1,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285511_law_217_2026-05-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287833_law_217_2026-07-01_타법개정"
         }
       ]
     },
@@ -11928,6 +12423,59 @@
       ]
     },
     {
+      "id": "matched_2026_286839_law_210_2026-06-09_일부개정",
+      "title": "고압가스 안전관리법 시행령",
+      "summary": "고압가스 안전관리법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-06-09",
+      "announcedDate": "2026-06-09",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -109,
+      "ministry": "산업통상부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-06-09",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002246",
+        "lsiSeq": "286839",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_210"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286839"
+      },
+      "originalTitle": "고압가스 안전관리법 시행령",
+      "eventIndex": 2,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284513_law_210_2026-03-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-06-09",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_286839_law_210_2026-06-09_일부개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_286843_law_154_2026-06-09_일부개정",
       "title": "수도법 시행령",
       "summary": "수도법 시행령의 2026년 일부개정사항",
@@ -12405,6 +12953,53 @@
       ]
     },
     {
+      "id": "matched_2026_287439_law_226_2026-06-22_타법개정",
+      "title": "제품의 포장재질ㆍ포장방법에 관한 기준 등에 관한 규칙",
+      "summary": "제품의 포장재질ㆍ포장방법에 관한 기준 등에 관한 규칙의 2026년 타법개정사항",
+      "effectiveDate": "2026-06-22",
+      "announcedDate": "2026-06-22",
+      "lawType": "기후에너지환경부령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -96,
+      "ministry": "기후에너지환경부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-06-22",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "008198",
+        "lsiSeq": "287439",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_226"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=287439"
+      },
+      "originalTitle": "제품의 포장재질ㆍ포장방법에 관한 기준 등에 관한 규칙",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-06-22",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287439_law_226_2026-06-22_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_287443_law_107_2026-06-22_타법개정",
       "title": "토양환경보전법 시행규칙",
       "summary": "토양환경보전법 시행규칙의 2026년 타법개정사항",
@@ -12578,6 +13173,53 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_287447_law_129_2026-06-22_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_287449_law_146_2026-06-22_타법개정",
+      "title": "환경개선비용 부담법 시행규칙",
+      "summary": "환경개선비용 부담법 시행규칙의 2026년 타법개정사항",
+      "effectiveDate": "2026-06-22",
+      "announcedDate": "2026-06-22",
+      "lawType": "기후에너지환경부령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -96,
+      "ministry": "기후에너지환경부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-06-22",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "008746",
+        "lsiSeq": "287449",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_146"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=287449"
+      },
+      "originalTitle": "환경개선비용 부담법 시행규칙",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-06-22",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287449_law_146_2026-06-22_타법개정"
         }
       ]
     },
@@ -13787,6 +14429,59 @@
       ]
     },
     {
+      "id": "matched_2026_287833_law_217_2026-07-01_타법개정",
+      "title": "소방용품의 품질관리 등에 관한 규칙",
+      "summary": "소방용품의 품질관리 등에 관한 규칙의 2026년 타법개정사항",
+      "effectiveDate": "2026-07-01",
+      "announcedDate": "2026-07-01",
+      "lawType": "행정안전부령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -87,
+      "ministry": "소방청",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "007517",
+        "lsiSeq": "287833",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_217"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=287833"
+      },
+      "originalTitle": "소방용품의 품질관리 등에 관한 규칙",
+      "eventIndex": 2,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285511_law_217_2026-05-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287833_law_217_2026-07-01_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_287599_law_155_2026-07-01_일부개정",
       "title": "수도법 시행규칙",
       "summary": "수도법 시행규칙의 2026년 일부개정사항",
@@ -13901,6 +14596,100 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_289453_law_197_2026-09-08_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_287841_law_225_2026-07-01_타법개정",
+      "title": "위험물안전관리법 시행규칙",
+      "summary": "위험물안전관리법 시행규칙의 2026년 타법개정사항",
+      "effectiveDate": "2026-07-01",
+      "announcedDate": "2026-07-01",
+      "lawType": "행정안전부령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -87,
+      "ministry": "소방청",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "009732",
+        "lsiSeq": "287841",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_225"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=287841"
+      },
+      "originalTitle": "위험물안전관리법 시행규칙",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287841_law_225_2026-07-01_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_287381_law_224_2026-07-01_타법개정",
+      "title": "위험물안전관리법 시행령",
+      "summary": "위험물안전관리법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-07-01",
+      "announcedDate": "2026-06-23",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -87,
+      "ministry": "소방청",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "009707",
+        "lsiSeq": "287381",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_224"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=287381"
+      },
+      "originalTitle": "위험물안전관리법 시행령",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287381_law_224_2026-07-01_타법개정"
         }
       ]
     },
@@ -14935,6 +15724,59 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_288205_law_079_2026-07-23_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_288323_law_219_2026-07-21_일부개정",
+      "title": "상수원관리규칙",
+      "summary": "상수원관리규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-07-21",
+      "announcedDate": "2026-07-21",
+      "lawType": "기후에너지환경부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -67,
+      "ministry": "기후에너지환경부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-21",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "007389",
+        "lsiSeq": "288323",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_219"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=288323"
+      },
+      "originalTitle": "상수원관리규칙",
+      "eventIndex": 1,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-07-21",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288323_law_219_2026-07-21_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_289045_law_219_2026-09-18_타법개정"
         }
       ]
     },
@@ -17865,6 +18707,59 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_289257_law_195_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_289045_law_219_2026-09-18_타법개정",
+      "title": "상수원관리규칙",
+      "summary": "상수원관리규칙의 2026년 타법개정사항",
+      "effectiveDate": "2026-09-18",
+      "announcedDate": "2026-08-27",
+      "lawType": "기후에너지환경부령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -8,
+      "ministry": "기후에너지환경부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-09-18",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "007389",
+        "lsiSeq": "289045",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_219"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=289045"
+      },
+      "originalTitle": "상수원관리규칙",
+      "eventIndex": 2,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-07-21",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288323_law_219_2026-07-21_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_289045_law_219_2026-09-18_타법개정"
         }
       ]
     },

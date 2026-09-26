@@ -2075,9 +2075,6 @@
                 <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')" role="tab" aria-selected="false">
                     <span class="tab-icon">📚</span><span class="tab-body"><span class="tab-text">적용법규</span></span>
                 </div>
-                <div class="main-tab" data-tab="admrul" onclick="switchMainTab('admrul')" role="tab" aria-selected="false">
-                    <span class="tab-icon">📜</span><span class="tab-body"><span class="tab-text">행정규칙</span></span>
-                </div>
                 <div class="nav-sep" aria-hidden="true"></div>
                 <div class="nav-caption">알림 · 기록</div>
                 <div class="main-tab" data-tab="watch" onclick="switchMainTab('watch')" role="tab" aria-selected="false">
@@ -2127,14 +2124,14 @@
                         <span style="font-size: 1.3rem;">🎯</span>
                         <div>
                             <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);"><span class="rr-year">2026</span>년 당사 적용 법규 개정 현황</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">당사 적용 국내법규 <span id="rr-base-sub-n">–</span>개와 제목이 100% 일치하는 <span class="rr-year">2026</span>년 개정만 집계합니다.</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">당사 적용법규 <span id="rr-base-sub-n">–</span>개(법령 <span id="rr-base-sub-law">–</span> · 행정규칙 <span id="rr-base-sub-adm">–</span>)의 <span class="rr-year">2026</span>년 개정을 집계합니다.</div>
                         </div>
                     </div>
                     <!-- 숫자는 stats-ui.js 가 실제 데이터로 채운다. 옛 수치가 먼저 보이지 않도록 자리표시(–)만 둔다. -->
                     <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 1.15rem 1.4rem;">
                         <div style="text-align:center;min-width:72px">
                             <div id="rr-base-count" style="font-size:1.55rem;font-weight:800;color:var(--primary)">–</div>
-                            <div style="font-size:0.75rem;color:var(--text-muted);font-weight:500">당사 적용 국내법규</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);font-weight:500" title="법률·시행령·시행규칙과, 그에 연결된 고시·훈령·예규 등 행정규칙">당사 적용법규</div>
                         </div>
                         <div style="text-align:center;min-width:72px">
                             <div id="total-law-count" style="font-size:1.55rem;font-weight:800;color:var(--primary)">–</div>
@@ -2203,7 +2200,7 @@
                         <div class="rr-an-split" id="rr-an-type-bar" role="img" aria-label="개정 유형 비율 막대"></div><div class="rr-an-legend" id="rr-an-type-legend"></div>
                     </div>
                     <div class="rr-an-card">
-                        <div class="rr-an-h"><b>법령 종류</b><span>법률 · 시행령 · 시행규칙</span></div>
+                        <div class="rr-an-h"><b>법령 종류</b><span>법률 · 시행령 · 시행규칙 · 행정규칙</span></div>
                         <div class="rr-an-donut"><div class="rr-an-plot"><canvas id="rr-an-kind" role="img" aria-label="법령 종류 도넛 차트"></canvas></div><div class="rr-an-legend" id="rr-an-kind-legend"></div></div>
                     </div>
                     <div class="rr-an-card">
@@ -2297,7 +2294,7 @@
                         <div class="rr-an-card">
                             <div class="rr-an-h"><b>개정 유형</b><span>일부개정 · 타법개정 등</span></div>
                             <div id="rr-q-type"></div>
-                            <div class="rr-an-h" style="margin-top:1rem"><b>법령 종류</b><span>법률 · 시행령 · 시행규칙</span></div>
+                            <div class="rr-an-h" style="margin-top:1rem"><b>법령 종류</b><span>법률 · 시행령 · 시행규칙 · 행정규칙</span></div>
                             <div id="rr-q-kind"></div>
                         </div>
                         <div class="rr-an-card">
@@ -2504,7 +2501,7 @@
                                 <div class="rr-an-plot" style="height:260px"><canvas id="rr-reg-freq" role="img" aria-label="적용법규의 올해 개정 횟수 분포 막대 차트"></canvas></div>
                             </div>
                             <div class="rr-an-card">
-                                <div class="rr-an-h"><b>법령 종류</b><span>법률 · 시행령 · 시행규칙</span></div>
+                                <div class="rr-an-h"><b>법령 종류</b><span>법률 · 시행령 · 시행규칙 · 행정규칙</span></div>
                                 <div class="rr-an-donut"><div class="rr-an-plot"><canvas id="rr-reg-kind" role="img" aria-label="적용법규 법령 종류 도넛 차트"></canvas></div><div class="rr-an-legend" id="rr-reg-kind-legend"></div></div>
                             </div>
                             <div class="rr-an-card">
@@ -2536,12 +2533,9 @@
                 </div>
             </div>
         
-            <!-- 행정규칙: 적용법규 계열에 연결된 고시·훈령·예규 등의 올해 개정 (admrul-ui.js) -->
-            <div class="tab-pane" id="admrul-content"><div id="rr-adm"></div></div>
-
             <!-- 시행 임박 · 업데이트 내역: 각 페이지를 embed 모드로 끼워 넣는다 (처음 열 때 불러옴) -->
-            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20260926b" title="시행 임박 법령"></iframe></div>
-            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20260926c" title="업데이트 내역"></iframe></div>
+            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20260927a" title="시행 임박 법령"></iframe></div>
+            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20260927a" title="업데이트 내역"></iframe></div>
         </div>
     </div>
 
@@ -7295,8 +7289,8 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     </script>
 
     <!-- RegRader 오버레이: 데이터/개정이유/UI -->
-    <script src="./app-init.js?v=20260926a"></script>
-    <script src="./event-boot.js?v=20260926a"></script>
+    <script src="./app-init.js?v=20260927a"></script>
+    <script src="./event-boot.js?v=20260927a"></script>
     <script src="./amend-ui.js?v=20260926b"></script>
     <script src="./whyA.js?v=20260917a"></script>
     <script src="./whyB.js?v=20260917a"></script>
@@ -7305,23 +7299,22 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./why-core.js?v=20260917a"></script>
     <script src="./brief-why.js?v=20260917a"></script>
     <script src="./sum-fill.js?v=20260917a"></script>
-    <script src="./brief-ui.js?v=20260926c"></script>
-    <script src="./stats-ui.js?v=20260926a"></script>
-    <script src="./family-ui.js?v=20260926b"></script>
-    <script src="./registry-fix.js?v=20260926a"></script>
+    <script src="./brief-ui.js?v=20260927a"></script>
+    <script src="./stats-ui.js?v=20260927a"></script>
+    <script src="./family-ui.js?v=20260927a"></script>
+    <script src="./registry-fix.js?v=20260927a"></script>
     <script src="./excel-fix.js?v=20260925a"></script>
-    <script src="./report-ppt.js?v=20260926b"></script>
-    <script src="./download-ui.js?v=20260926b"></script>
-    <script src="./mail-ui.js?v=20260926b"></script>
+    <script src="./report-ppt.js?v=20260927a"></script>
+    <script src="./download-ui.js?v=20260927a"></script>
+    <script src="./mail-ui.js?v=20260927a"></script>
     <script src="./law-request.js?v=20260925a"></script>
     <script src="./dashboard-charts.js?v=20260925b"></script>
     <script src="./year-view.js?v=20260926a"></script>
     <script src="./embed-host.js?v=20260926a"></script>
-    <script src="./analytics.js?v=20260926c"></script>
+    <script src="./analytics.js?v=20260927a"></script>
     <script src="./job-analytics.js?v=20260925c"></script>
-    <script src="./quarter-analytics.js?v=20260926c"></script>
-    <script src="./admrul-ui.js?v=20260926b"></script>
-    <script src="./registry-analytics.js?v=20260925b"></script>
+    <script src="./quarter-analytics.js?v=20260927a"></script>
+    <script src="./registry-analytics.js?v=20260927a"></script>
 
 </body>
 </html>

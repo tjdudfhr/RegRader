@@ -57,19 +57,22 @@
   /* 최종 업데이트 시각과 전체 현행/시행예정 수는 meta.json(자동 갱신 스크립트가 생성)에서 읽는다.
      예전에는 접속 시각을 그대로 보여줘서 데이터가 언제 갱신됐는지 알 수 없었다. */
   function fmtNum(n) { return Number(n).toLocaleString('ko-KR'); }
-  function setBaseCount(n) {
+  /* 적용법규 수 = 법령(법률·시행령·시행규칙) + 그 계열에 연결된 행정규칙(참고용 제외) */
+  function setBaseCount(n, laws, adm) {
     if (!n) return;
     window.__rrBaseCount = n;
     ['rr-base-count', 'rr-base-sub-n'].forEach(function (id) {
       var el = document.getElementById(id);
-      if (el) el.textContent = n;
+      if (el) el.textContent = Number(n).toLocaleString('ko-KR');
     });
+    if (laws != null) { var a = document.getElementById('rr-base-sub-law'); if (a) a.textContent = Number(laws).toLocaleString('ko-KR'); }
+    if (adm != null) { var b = document.getElementById('rr-base-sub-adm'); if (b) b.textContent = Number(adm).toLocaleString('ko-KR'); }
   }
   window.__rrSetBaseCount = setBaseCount;
   function applyMeta(meta) {
     window.__rrMeta = meta;
     if (meta.year && window.rrSetYear) window.rrSetYear(meta.year);
-    setBaseCount(meta.baseLaws);
+    setBaseCount((meta.baseLaws || 0) + (meta.admrulLaws || 0), meta.baseLaws, meta.admrulLaws || 0);
     var ts = document.getElementById('timestamp');
     if (ts && meta.generatedAt) {
       var d = new Date(meta.generatedAt);

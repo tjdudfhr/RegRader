@@ -117,7 +117,7 @@
     var types = {};
     sel.forEach(function (x) { var t = x.amendmentType || '기타'; types[t] = (types[t] || 0) + 1; });
     split('rr-q-type', Object.keys(types).map(function (t) { return [t, types[t]]; }).sort(function (a, b) { return b[1] - a[1]; }), AMEND_NOTE);
-    split('rr-q-kind', ['법률', '시행령', '시행규칙'].map(function (kd) { return [kd, sel.filter(function (x) { return K.lawKind(x.title) === kd; }).length]; }));
+    split('rr-q-kind', (K.KINDS || ['법률', '시행령', '시행규칙']).map(function (kd) { return [kd, sel.filter(function (x) { return (K.kindOf ? K.kindOf(x) : K.lawKind(x.title)) === kd; }).length]; }));
 
     /* 소관부처 TOP 6 */
     var byMin = {};

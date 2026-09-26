@@ -193,7 +193,7 @@ def main():
 
     sh("git", "add", "docs/base_laws_207.json", "docs/index.json", "docs/previous_index.json",
        "docs/meta.json", "docs/changelog.json", "docs/upcoming_next.json", "docs/law_families.json",
-       "docs/amend_flags.json", "docs/amend_details.json", "docs/admrul_candidates.json", "docs/admrul_events.json",
+       "docs/amend_flags.json", "docs/amend_details.json", "docs/admrul_candidates.json", "docs/admrul_events.json", "docs/admrul_index.json",
        *[f"docs/m{i}.json" for i in range(8)])
     sh("git", "commit", "-q", "-m", "data: 적용법규 추가 " + ", ".join(e["title"] for e in added))
     sh("git", "push", "-q", "origin", "main")

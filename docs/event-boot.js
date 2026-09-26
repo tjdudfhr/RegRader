@@ -65,16 +65,21 @@
         summary: sum.why,
         effectiveDate: r.d,
         amendmentType: am,
-        lawType: /시행규칙/.test(r.t || '') ? '부령' : (/시행령/.test(r.t || '') ? '대통령령' : '법률'),
+        lawType: r.k ? '행정규칙' : /시행규칙/.test(r.t || '') ? '부령' : (/시행령/.test(r.t || '') ? '대통령령' : '법률'),
+        /* 행정규칙(고시·훈령·예규 등): 종류 · 행정규칙ID · 속한 계열(법률) */
+        kind: r.k || '',
+        admrulId: r.i || '',
+        family: r.f || '',
         status: r.s === 0 ? '현행' : '시행예정',
         ministry: r.m || '',
         categories: r.c ? [r.c] : [],
         /* efYd(시행일)를 붙여야 이 개정이 시행되는 날의 본문이 열린다. 빼면 같은 공포의 첫 시행 버전(이미 지난 연혁)이 열려
            법령정보센터가 '현행법이 아닙니다'라고 표시한다. */
-        source: { url: r.u ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u + (r.d ? '&efYd=' + String(r.d).replace(/-/g, '') : '')) : '' },
+        source: { url: !r.u ? '' : r.k ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + r.u
+          : ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u + (r.d ? '&efYd=' + String(r.d).replace(/-/g, '') : '')) },
         amendments: [{ date: r.d, amendmentType: am, reason: reason, mainContents: sum.what }],
         originalTitle: r.t,
-        meta: { lsiSeq: String(r.u || ''), matchType: '100%완전일치' },
+        meta: r.k ? { admRulSeq: String(r.u || ''), matchType: '법령체계도 연결' } : { lsiSeq: String(r.u || ''), matchType: '100%완전일치' },
         brief: sum,
         _key: stable
       };

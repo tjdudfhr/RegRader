@@ -1,19 +1,23 @@
 {
-  "generatedAt": "2026-09-26T00:13:21.858120+00:00",
-  "asOf": "2026-09-26",
+  "generatedAt": "2026-09-26T16:13:45.479506+00:00",
+  "asOf": "2026-09-27",
   "year": 2026,
-  "totalCount": 353,
+  "totalCount": 757,
+  "lawEvents": 353,
+  "admrulEvents": 404,
   "universe": {
     "openapiCurrent": 2522,
     "openapiFuture": 4989,
     "openapiUpcoming": 390
   },
   "universePrev": {
-    "openapiCurrent": 2519,
+    "openapiCurrent": 2522,
     "openapiFuture": 4989,
-    "asOf": "2026-09-25"
+    "openapiUpcoming": 390,
+    "asOf": "2026-09-26"
   },
   "baseLaws": 229,
+  "admrulLaws": 1478,
   "upcomingNext": 0,
   "archives": []
 }
