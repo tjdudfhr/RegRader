@@ -242,6 +242,12 @@ def main():
     raw = [to_raw(it) for it in current + future]
 
     base = json.loads((DOCS / "base_laws_207.json").read_text(encoding="utf-8"))["items"]
+    # 법령 계열(법률·시행령·시행규칙) 묶음: 적용법규가 바뀌었거나 30일이 지났을 때만 다시 만든다. 실패해도 갱신은 계속한다.
+    try:
+        import law_families
+        law_families.build(base, log=lambda m: print(m, flush=True))
+    except Exception as e:  # noqa: BLE001
+        print(f"law_families 건너뜀: {e}", flush=True)
     base_norm = defaultdict(list)
     for b in base:
         base_norm[compact_name(b["title"])].append(b)

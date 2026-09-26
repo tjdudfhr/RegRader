@@ -21,6 +21,63 @@
     if (items && items.length && window.__rrSetBaseCount) window.__rrSetBaseCount(items.length);
   }
   var cur = 'all', curTitle = null;
+  /* 보기 방식: 계열(법률 → 시행령 → 시행규칙으로 묶음, 기본) / 목록(가나다순). 고른 것은 이 브라우저에 기억한다. */
+  var MODE = 'family';
+  try { MODE = localStorage.getItem('rr_reg_mode') === 'list' ? 'list' : 'family'; } catch (e) {}
+  function escH(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function modeToggle() {
+    var cnt = document.getElementById('job-function-count');
+    if (!cnt || document.getElementById('rr-reg-mode')) return;
+    var box = document.createElement('div');
+    box.id = 'rr-reg-mode';
+    box.className = 'rr-reg-mode';
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-label', '보기 방식');
+    box.innerHTML = '<button type="button" data-mode="family" title="법률 · 시행령 · 시행규칙을 계열로 묶어 보기">계열</button>' +
+                    '<button type="button" data-mode="list" title="가나다순 목록">목록</button>';
+    cnt.parentNode.insertBefore(box, cnt);
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-mode]');
+      if (!b) return;
+      MODE = b.dataset.mode;
+      try { localStorage.setItem('rr_reg_mode', MODE); } catch (err) {}
+      render(cur, curTitle);
+    });
+  }
+  function familyView(view, job) {
+    var F = window.rrFamilies;
+    var fams = F && F.all ? F.all() : [];
+    if (!fams.length) return null;
+    var catOf = {};
+    BASE.forEach(function (b) { catOf[b.title] = (b.categories || [])[0]; });
+    var inView = {};
+    view.forEach(function (b) { inView[b.title] = 1; });
+    var list = fams.filter(function (f) { return f.members.some(function (m) { return m.inBase && inView[m.title]; }); });
+    var amended = 0, outN = 0, staleN = 0, evN = 0;
+    var cards = list.map(function (f) {
+      var n = 0, cats = {};
+      f.members.forEach(function (m) {
+        if (!m.inBase) { outN++; return; }
+        if (m.notFound) staleN++;
+        n += F.events(m.title).length;
+        var c = catOf[m.title] || m.category;
+        if (c) cats[c] = 1;
+      });
+      if (n) amended++;
+      evN += n;
+      var chips = Object.keys(cats).map(function (c) {
+        return '<span class="rr-rf-cat" style="--c:' + (window.rrCatColor ? window.rrCatColor(c) : '#667eea') + '">' + escH(c) + '</span>';
+      }).join('');
+      return '<div class="rr-rf">' +
+        '<div class="rr-rf-h"><b>' + escH(f.root) + '</b>' + chips +
+        '<span class="rr-rf-n' + (n ? '' : ' zero') + '">' + (n ? '올해 개정 ' + n + '건' : '올해 개정 없음') + '</span></div>' +
+        f.members.map(function (m) { return F.row(f, m); }).join('') + '</div>';
+    }).join('');
+    var sum = '<div class="rr-rf-sum"><b>' + list.length + '개 계열</b> · 올해 개정된 계열 ' + amended + '개 · 개정 ' + evN + '건' +
+      (outN ? ' · <span title="국가법령정보센터 법령체계도상 이 계열에 속하지만 적용법규 목록에는 없는 하위법령">적용법규에 없는 하위법령 ' + outN + '개 (흐리게)</span>' : '') +
+      (staleN ? ' · <span class="warn">⚠ 법령명 확인 필요 ' + staleN + '개</span>' : '') + '</div>';
+    return { html: sum + (cards || '<div style="padding:2rem;text-align:center;color:var(--text-muted)">해당 직무의 적용법규가 없습니다.</div>'), count: list.length };
+  }
   function render(job, title) {
     if (!BASE) return;
     cur = job; curTitle = title;
@@ -46,6 +103,21 @@
       if (items.length && items[0].parentNode) host = items[0].parentNode;
     }
     if (!host) return;
+    modeToggle();
+    document.querySelectorAll('#rr-reg-mode button').forEach(function (b) { b.classList.toggle('on', b.dataset.mode === MODE); });
+    if (MODE === 'family') {
+      var fam = familyView(view, job);
+      if (fam) {
+        if (cnt) cnt.textContent = fam.count + '개 계열 · ' + view.length + '건';
+        host.innerHTML = fam.html;
+        host.style.maxHeight = '72vh';
+        host.setAttribute('data-rr', String(job));
+        host.setAttribute('data-mode', 'family');
+        return;
+      }
+    }
+    host.style.maxHeight = '';
+    host.setAttribute('data-mode', 'list');
     /* 올해 개정 이벤트가 있는 법규는 다른 탭과 똑같이 개정요지 팝업을 띄운다.
        (예전에는 전부 law.go.kr 새 탭으로 보내서, 적용법규 탭에서만 팝업이 안 뜨는 것처럼 보였다.)
        개정 이력이 없는 법규만 원문 검색으로 보낸다. */
@@ -82,6 +154,15 @@
     var host = document.getElementById('job-function-laws');
     if (host && host.getAttribute('data-rr') !== String(cur)) render(cur, curTitle);
   }
+  /* 계열 자료와 개정 이벤트가 늦게 도착하면 한 번 더 그린다 */
+  if (window.rrFamilies && window.rrFamilies.ready) window.rrFamilies.ready.then(function () { if (BASE && MODE === 'family') render(cur, curTitle); });
+  var tries = 0;
+  var waitItems = setInterval(function () {
+    if ((window.__rrItems || []).length || ++tries > 40) {
+      clearInterval(waitItems);
+      if (BASE) render(cur, curTitle);
+    }
+  }, 250);
   fetch('./base_laws_207.json?v=20260915s', { cache: 'no-store' })
     .then(function (r) { return r.json(); })
     .then(function (j) {

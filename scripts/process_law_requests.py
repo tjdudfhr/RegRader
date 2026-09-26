@@ -192,7 +192,8 @@ def main():
     per_law = {e["title"]: [x for x in rows if x.get("t") == e["title"]] for e in added}
 
     sh("git", "add", "docs/base_laws_207.json", "docs/index.json", "docs/previous_index.json",
-       "docs/meta.json", "docs/changelog.json", "docs/upcoming_next.json", *[f"docs/m{i}.json" for i in range(8)])
+       "docs/meta.json", "docs/changelog.json", "docs/upcoming_next.json", "docs/law_families.json",
+       *[f"docs/m{i}.json" for i in range(8)])
     sh("git", "commit", "-q", "-m", "data: 적용법규 추가 " + ", ".join(e["title"] for e in added))
     sh("git", "push", "-q", "origin", "main")
 

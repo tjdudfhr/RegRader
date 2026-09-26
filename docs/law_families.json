@@ -1,0 +1,2176 @@
+{
+ "generatedAt": "2026-09-26T00:00:14.529848+00:00",
+ "source": "국가법령정보센터 법령체계도 (lsStmd)",
+ "baseKey": "74ed7596485fa8aa319667a6337c95a70f0d0e05",
+ "baseCount": 207,
+ "familyCount": 75,
+ "families": [
+  {
+   "root": "감염병의 예방 및 관리에 관한 법률",
+   "members": [
+    {
+     "title": "감염병의 예방 및 관리에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "감염병의 예방 및 관리에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "감염병의 예방 및 관리에 관한 법률"
+    },
+    {
+     "title": "감염병의 예방 및 관리에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "보건복지부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "감염병의 예방 및 관리에 관한 법률 시행령"
+    },
+    {
+     "title": "성매개감염병 및 후천성면역결핍증 건강진단규칙",
+     "level": "시행규칙",
+     "kind": "보건복지부령",
+     "inBase": false,
+     "parent": "감염병의 예방 및 관리에 관한 법률",
+     "lsiSeq": "263291"
+    }
+   ]
+  },
+  {
+   "root": "개인정보 보호법",
+   "members": [
+    {
+     "title": "개인정보 보호법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "정보보호"
+    },
+    {
+     "title": "개인정보 보호법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "개인정보 보호법"
+    }
+   ]
+  },
+  {
+   "root": "건설폐기물의 재활용촉진에 관한 법률",
+   "members": [
+    {
+     "title": "건설폐기물의 재활용촉진에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "건설폐기물의 재활용촉진에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "건설폐기물의 재활용촉진에 관한 법률"
+    },
+    {
+     "title": "건설폐기물의 재활용촉진에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "건설폐기물의 재활용촉진에 관한 법률 시행령"
+    },
+    {
+     "title": "순환골재 품질인증 및 관리에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "국토교통부령",
+     "inBase": false,
+     "parent": "건설폐기물의 재활용촉진에 관한 법률",
+     "lsiSeq": "284545"
+    }
+   ]
+  },
+  {
+   "root": "고압가스 안전관리법",
+   "members": [
+    {
+     "title": "고압가스 안전관리법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "고압가스 안전관리법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "고압가스 안전관리법",
+     "lsiSeq": "286839"
+    },
+    {
+     "title": "고압가스 안전관리법 시행규칙",
+     "level": "시행규칙",
+     "kind": "산업통상부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "고압가스 안전관리법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "고용보험법",
+   "members": [
+    {
+     "title": "고용보험법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "고용보험법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "고용보험법"
+    },
+    {
+     "title": "고용보험법 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "고용보험법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "고용정책 기본법",
+   "members": [
+    {
+     "title": "고용정책 기본법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "고용정책 기본법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "고용정책 기본법"
+    },
+    {
+     "title": "고용정책 기본법 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "고용정책 기본법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "국가첨단전략산업 경쟁력 강화 및 보호에 관한 특별조치법",
+   "members": [
+    {
+     "title": "국가첨단전략산업 경쟁력 강화 및 보호에 관한 특별조치법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "정보보호"
+    },
+    {
+     "title": "국가첨단전략산업 경쟁력 강화 및 보호에 관한 특별조치법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "국가첨단전략산업 경쟁력 강화 및 보호에 관한 특별조치법"
+    },
+    {
+     "title": "국가첨단전략산업 경쟁력 강화 및 보호에 관한 특별조치법 시행규칙",
+     "level": "시행규칙",
+     "kind": "산업통상부령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "국가첨단전략산업 경쟁력 강화 및 보호에 관한 특별조치법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "국제조세조정에 관한 법률",
+   "members": [
+    {
+     "title": "국제조세조정에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "재무회계"
+    },
+    {
+     "title": "국제조세조정에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "국제조세조정에 관한 법률"
+    },
+    {
+     "title": "국제조세조정에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "국제조세조정에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "근로기준법",
+   "members": [
+    {
+     "title": "근로기준법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "근로기준법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "근로기준법"
+    },
+    {
+     "title": "근로기준법 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "근로기준법 시행령"
+    },
+    {
+     "title": "근로감독관규정",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "근로기준법",
+     "lsiSeq": "108467"
+    },
+    {
+     "title": "근로감독관증 규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": false,
+     "parent": "근로감독관규정",
+     "lsiSeq": "184050"
+    }
+   ]
+  },
+  {
+   "root": "근로복지기본법",
+   "members": [
+    {
+     "title": "근로복지기본법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "근로복지기본법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "근로복지기본법"
+    },
+    {
+     "title": "근로복지기본법 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "근로복지기본법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "근로자참여 및 협력증진에 관한 법률",
+   "members": [
+    {
+     "title": "근로자 참여 및 협력 증진에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "근로자 참여 및 협력 증진에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "근로자 참여 및 협력 증진에 관한 법률"
+    },
+    {
+     "title": "근로자 참여 및 협력 증진에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "근로자 참여 및 협력 증진에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "근로자퇴직급여 보장법",
+   "members": [
+    {
+     "title": "근로자퇴직급여 보장법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "근로자퇴직급여 보장법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "근로자퇴직급여 보장법"
+    },
+    {
+     "title": "근로자퇴직급여 보장법 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "근로자퇴직급여 보장법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "기간제 및 단시간근로자 보호 등에 관한 법률",
+   "members": [
+    {
+     "title": "기간제 및 단시간근로자 보호 등에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "기간제 및 단시간근로자 보호 등에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "기간제 및 단시간근로자 보호 등에 관한 법률"
+    },
+    {
+     "title": "기간제 및 단시간근로자 보호 등에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "기간제 및 단시간근로자 보호 등에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "기후위기 대응을 위한 탄소중립ㆍ녹색성장 기본법",
+   "members": [
+    {
+     "title": "기후위기 대응을 위한 탄소중립·녹색성장 기본법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "기후위기 대응을 위한 탄소중립·녹색성장 기본법"
+    }
+   ]
+  },
+  {
+   "root": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률",
+   "members": [
+    {
+     "title": "남녀고용평등과 일·가정 양립 지원에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "남녀고용평등과 일·가정 양립 지원에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "남녀고용평등과 일·가정 양립 지원에 관한 법률"
+    },
+    {
+     "title": "남녀고용평등과 일·가정 양립 지원에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "남녀고용평등과 일·가정 양립 지원에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "노동조합 및 노동관계조정법",
+   "members": [
+    {
+     "title": "노동조합 및 노동관계조정법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "노동조합 및 노동관계조정법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "노동조합 및 노동관계조정법"
+    },
+    {
+     "title": "노동조합 및 노동관계조정법 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "노동조합 및 노동관계조정법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "대ㆍ중소기업 상생협력 촉진에 관한 법률",
+   "members": [
+    {
+     "title": "대·중소기업 상생협력 촉진에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "공정거래"
+    },
+    {
+     "title": "대·중소기업 상생협력 촉진에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "공정거래",
+     "parent": "대·중소기업 상생협력 촉진에 관한 법률"
+    },
+    {
+     "title": "대·중소기업 상생협력 촉진에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "중소벤처기업부령",
+     "inBase": true,
+     "category": "공정거래",
+     "parent": "대·중소기업 상생협력 촉진에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "대기환경보전법",
+   "members": [
+    {
+     "title": "대기환경보전법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "대기환경보전법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "대기환경보전법"
+    },
+    {
+     "title": "대기환경보전법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "대기환경보전법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "대리점거래의 공정화에 관한 법률",
+   "members": [
+    {
+     "title": "대리점 거래의 공정화에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "공정거래"
+    },
+    {
+     "title": "대리점 거래의 공정화에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "공정거래",
+     "parent": "대리점 거래의 공정화에 관한 법률"
+    }
+   ]
+  },
+  {
+   "root": "도시가스사업법",
+   "members": [
+    {
+     "title": "도시가스사업법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "도시가스사업법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "도시가스사업법"
+    },
+    {
+     "title": "도시가스사업법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "도시가스사업법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "독점규제 및 공정거래에 관한 법률",
+   "members": [
+    {
+     "title": "독점규제 및 공정거래에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "공정거래"
+    },
+    {
+     "title": "독점규제 및 공정거래에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "공정거래",
+     "parent": "독점규제 및 공정거래에 관한 법률"
+    }
+   ]
+  },
+  {
+   "root": "먹는물관리법",
+   "members": [
+    {
+     "title": "먹는물관리법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "먹는물관리법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "먹는물관리법"
+    },
+    {
+     "title": "먹는물관리법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "먹는물관리법 시행령"
+    },
+    {
+     "title": "먹는물 수질기준 및 검사 등에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": false,
+     "parent": "먹는물관리법",
+     "lsiSeq": "278905"
+    }
+   ]
+  },
+  {
+   "root": "물환경보전법",
+   "members": [
+    {
+     "title": "물환경보전법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "물환경보전법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "물환경보전법"
+    },
+    {
+     "title": "물환경보전법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "물환경보전법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "법인세법",
+   "members": [
+    {
+     "title": "법인세법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "재무회계"
+    },
+    {
+     "title": "법인세법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "법인세법"
+    },
+    {
+     "title": "법인세법 시행규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "법인세법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "부정경쟁방지 및 영업비밀보호에 관한 법률",
+   "members": [
+    {
+     "title": "부정경쟁방지 및 영업비밀보호에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "정보보호"
+    },
+    {
+     "title": "부정경쟁방지 및 영업비밀보호에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "부정경쟁방지 및 영업비밀보호에 관한 법률"
+    }
+   ]
+  },
+  {
+   "root": "부정청탁 및 금품등 수수의 금지에 관한 법률",
+   "members": [
+    {
+     "title": "부정청탁 및 금품등 수수의 금지에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "지배구조"
+    },
+    {
+     "title": "부정청탁 및 금품등 수수의 금지에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "지배구조",
+     "parent": "부정청탁 및 금품등 수수의 금지에 관한 법률"
+    }
+   ]
+  },
+  {
+   "root": "산업기술의 유출방지 및 보호에 관한 법률",
+   "members": [
+    {
+     "title": "산업기술의 유출방지 및 보호에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "정보보호"
+    },
+    {
+     "title": "산업기술의 유출방지 및 보호에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "산업기술의 유출방지 및 보호에 관한 법률"
+    },
+    {
+     "title": "산업기술의 유출방지 및 보호에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "산업통상부령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "산업기술의 유출방지 및 보호에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "산업안전보건법",
+   "members": [
+    {
+     "title": "산업안전보건법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "산업안전보건법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "산업안전보건법"
+    },
+    {
+     "title": "산업안전보건법 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "산업안전보건법 시행령"
+    },
+    {
+     "title": "산업안전보건기준에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": false,
+     "parent": "산업안전보건법 시행령",
+     "lsiSeq": "273603"
+    },
+    {
+     "title": "유해ㆍ위험작업의 취업 제한에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": false,
+     "parent": "산업안전보건법 시행령",
+     "lsiSeq": "285435"
+    }
+   ]
+  },
+  {
+   "root": "상법",
+   "members": [
+    {
+     "title": "상법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "지배구조"
+    },
+    {
+     "title": "상법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "지배구조",
+     "parent": "상법"
+    },
+    {
+     "title": "상법의 전자선하증권 규정의 시행에 관한 규정",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "상법",
+     "lsiSeq": "280989"
+    }
+   ]
+  },
+  {
+   "root": "석면안전관리법",
+   "members": [
+    {
+     "title": "석면안전관리법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "석면안전관리법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "석면안전관리법"
+    },
+    {
+     "title": "석면안전관리법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "석면안전관리법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "소방시설 설치 및 관리에 관한 법률",
+   "members": [
+    {
+     "title": "소방시설 설치 및 관리에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "소방시설 설치 및 관리에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "소방시설 설치 및 관리에 관한 법률"
+    },
+    {
+     "title": "소방시설 설치 및 관리에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "행정안전부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "소방시설 설치 및 관리에 관한 법률 시행령"
+    },
+    {
+     "title": "소방용품의 품질관리 등에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "행정안전부령",
+     "inBase": false,
+     "parent": "소방시설 설치 및 관리에 관한 법률 시행령",
+     "lsiSeq": "287833"
+    }
+   ]
+  },
+  {
+   "root": "소음ㆍ진동관리법",
+   "members": [
+    {
+     "title": "소음·진동관리법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "소음·진동관리법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "소음·진동관리법"
+    },
+    {
+     "title": "소음·진동관리법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "소음·진동관리법 시행령"
+    },
+    {
+     "title": "공동주택 층간소음의 범위와 기준에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "국토교통부령",
+     "inBase": false,
+     "parent": "소음·진동관리법",
+     "lsiSeq": "247421"
+    }
+   ]
+  },
+  {
+   "root": "수도법",
+   "members": [
+    {
+     "title": "수도법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "수도법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "수도법"
+    },
+    {
+     "title": "수도법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "수도법 시행령"
+    },
+    {
+     "title": "상수원관리규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": false,
+     "parent": "수도법 시행령",
+     "lsiSeq": "289045"
+    },
+    {
+     "title": "먹는물 수질기준 및 검사 등에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": false,
+     "parent": "수도법",
+     "lsiSeq": "278905"
+    },
+    {
+     "title": "수도용 자재와 제품의 위생안전기준 인증 등에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": false,
+     "parent": "수도법",
+     "lsiSeq": "278943"
+    }
+   ]
+  },
+  {
+   "root": "승강기 안전관리법",
+   "members": [
+    {
+     "title": "승강기 안전관리법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "승강기 안전관리법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "승강기 안전관리법"
+    },
+    {
+     "title": "승강기 안전관리법 시행규칙",
+     "level": "시행규칙",
+     "kind": "행정안전부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "승강기 안전관리법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "식품위생법",
+   "members": [
+    {
+     "title": "식품위생법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "식품위생법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "식품위생법"
+    },
+    {
+     "title": "식품위생법 시행규칙",
+     "level": "시행규칙",
+     "kind": "총리령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "식품위생법 시행령"
+    },
+    {
+     "title": "식품위생 분야 종사자의 건강진단 규칙",
+     "level": "시행규칙",
+     "kind": "총리령",
+     "inBase": false,
+     "parent": "식품위생법",
+     "lsiSeq": "256335"
+    }
+   ]
+  },
+  {
+   "root": "실용신안법",
+   "members": [
+    {
+     "title": "실용신안법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "지식재산권"
+    },
+    {
+     "title": "실용신안법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "지식재산권",
+     "parent": "실용신안법"
+    },
+    {
+     "title": "실용신안법 시행규칙",
+     "level": "시행규칙",
+     "kind": "총리령",
+     "inBase": true,
+     "category": "지식재산권",
+     "parent": "실용신안법 시행령"
+    },
+    {
+     "title": "특허권 등의 등록령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "실용신안법",
+     "lsiSeq": "277549"
+    },
+    {
+     "title": "특허권 등의 등록령 시행규칙",
+     "level": "시행규칙",
+     "kind": "총리령",
+     "inBase": false,
+     "parent": "특허권 등의 등록령",
+     "lsiSeq": "280177"
+    }
+   ]
+  },
+  {
+   "root": "악취방지법",
+   "members": [
+    {
+     "title": "악취방지법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "악취방지법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "악취방지법"
+    },
+    {
+     "title": "악취방지법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "악취방지법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "액화석유가스의 안전관리 및 사업법",
+   "members": [
+    {
+     "title": "액화석유가스의 안전관리 및 사업법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "액화석유가스의 안전관리 및 사업법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "액화석유가스의 안전관리 및 사업법"
+    },
+    {
+     "title": "액화석유가스의 안전관리 및 사업법 시행규칙",
+     "level": "시행규칙",
+     "kind": "산업통상부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "액화석유가스의 안전관리 및 사업법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "약관의 규제에 관한 법률",
+   "members": [
+    {
+     "title": "약관의 규제에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "공정거래"
+    },
+    {
+     "title": "약관의 규제에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "공정거래",
+     "parent": "약관의 규제에 관한 법률"
+    }
+   ]
+  },
+  {
+   "root": "에너지이용 합리화법",
+   "members": [
+    {
+     "title": "에너지이용 합리화법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "에너지이용 합리화법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "에너지이용 합리화법"
+    },
+    {
+     "title": "에너지이용 합리화법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "에너지이용 합리화법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "연구실 안전환경 조성에 관한 법률",
+   "members": [
+    {
+     "title": "연구실 안전환경 조성에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "연구실 안전환경 조성에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "연구실 안전환경 조성에 관한 법률"
+    },
+    {
+     "title": "연구실 안전환경 조성에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "과학기술정보통신부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "연구실 안전환경 조성에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "온실가스 배출권의 할당 및 거래에 관한 법률",
+   "members": [
+    {
+     "title": "온실가스 배출권의 할당 및 거래에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "온실가스 배출권의 할당 및 거래에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "온실가스 배출권의 할당 및 거래에 관한 법률"
+    }
+   ]
+  },
+  {
+   "root": "원자력안전법",
+   "members": [
+    {
+     "title": "원자력안전법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "원자력안전법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "원자력안전법"
+    },
+    {
+     "title": "원자력안전법 시행규칙",
+     "level": "시행규칙",
+     "kind": "총리령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "원자력안전법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "위험물안전관리법",
+   "members": [
+    {
+     "title": "위험물 안전관리법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "위험물안전관리법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "위험물 안전관리법",
+     "lsiSeq": "287381"
+    },
+    {
+     "title": "위험물안전관리법 시행규칙",
+     "level": "시행규칙",
+     "kind": "행정안전부령",
+     "inBase": false,
+     "parent": "위험물안전관리법 시행령",
+     "lsiSeq": "287841"
+    }
+   ]
+  },
+  {
+   "root": "임시수입부가가치세법",
+   "members": [
+    {
+     "title": "임시수입부가가치세법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "재무회계",
+     "notFound": true
+    }
+   ]
+  },
+  {
+   "root": "자본시장과 금융투자업에 관한 법률",
+   "members": [
+    {
+     "title": "자본시장과 금융투자업에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "재무회계"
+    },
+    {
+     "title": "자본시장과 금융투자업에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "자본시장과 금융투자업에 관한 법률"
+    },
+    {
+     "title": "자본시장과 금융투자업에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "총리령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "자본시장과 금융투자업에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "자원순환기본법",
+   "members": [
+    {
+     "title": "자원순환기본법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경",
+     "notFound": true
+    },
+    {
+     "title": "자원순환기본법 시행령",
+     "level": "시행령",
+     "kind": "시행령",
+     "inBase": true,
+     "category": "환경",
+     "notFound": true
+    },
+    {
+     "title": "자원순환기본법 시행규칙",
+     "level": "시행규칙",
+     "kind": "시행규칙",
+     "inBase": true,
+     "category": "환경",
+     "notFound": true
+    }
+   ]
+  },
+  {
+   "root": "자원의 절약과 재활용촉진에 관한 법률",
+   "members": [
+    {
+     "title": "자원의 절약과 재활용 촉진에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "자원의 절약과 재활용 촉진에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "자원의 절약과 재활용 촉진에 관한 법률"
+    },
+    {
+     "title": "자원의 절약과 재활용 촉진에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "자원의 절약과 재활용 촉진에 관한 법률 시행령"
+    },
+    {
+     "title": "제품의 포장재질ㆍ포장방법에 관한 기준 등에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": false,
+     "parent": "자원의 절약과 재활용 촉진에 관한 법률",
+     "lsiSeq": "287439"
+    }
+   ]
+  },
+  {
+   "root": "잔류성오염물질 관리법",
+   "members": [
+    {
+     "title": "잔류성 오염물질 관리법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "잔류성 오염물질 관리법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "잔류성 오염물질 관리법"
+    },
+    {
+     "title": "잔류성 오염물질 관리법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "잔류성 오염물질 관리법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "장애인고용촉진 및 직업재활법",
+   "members": [
+    {
+     "title": "장애인고용촉진 및 직업재활법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "장애인고용촉진 및 직업재활법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "장애인고용촉진 및 직업재활법"
+    },
+    {
+     "title": "장애인고용촉진 및 직업재활법 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "장애인고용촉진 및 직업재활법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "장애인차별금지 및 권리구제 등에 관한 법률",
+   "members": [
+    {
+     "title": "장애인차별금지 및 권리구제 등에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "장애인차별금지 및 권리구제 등에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "장애인차별금지 및 권리구제 등에 관한 법률"
+    }
+   ]
+  },
+  {
+   "root": "전기안전관리법",
+   "members": [
+    {
+     "title": "전기안전관리법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "전기안전관리법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "전기안전관리법"
+    },
+    {
+     "title": "전기안전관리법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "전기안전관리법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "정보보호산업의 진흥에 관한 법률",
+   "members": [
+    {
+     "title": "정보보호산업의 진흥에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "정보보호"
+    },
+    {
+     "title": "정보보호산업의 진흥에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "정보보호산업의 진흥에 관한 법률"
+    },
+    {
+     "title": "정보보호산업의 진흥에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "과학기술정보통신부령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "정보보호산업의 진흥에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
+   "members": [
+    {
+     "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "정보보호"
+    },
+    {
+     "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "정보통신망 이용촉진 및 정보보호 등에 관한 법률"
+    },
+    {
+     "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "과학기술정보통신부령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "종합부동산세법",
+   "members": [
+    {
+     "title": "종합부동산세법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "재무회계"
+    },
+    {
+     "title": "종합부동산세법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "종합부동산세법"
+    },
+    {
+     "title": "종합부동산세법 시행규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "종합부동산세법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "주식회사 등의 외부감사에 관한 법률",
+   "members": [
+    {
+     "title": "주식회사 등의 외부감사에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "지배구조"
+    },
+    {
+     "title": "주식회사 등의 외부감사에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "지배구조",
+     "parent": "주식회사 등의 외부감사에 관한 법률"
+    },
+    {
+     "title": "주식회사 등의 외부감사에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "총리령",
+     "inBase": true,
+     "category": "지배구조",
+     "parent": "주식회사 등의 외부감사에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "중대재해 처벌 등에 관한 법률",
+   "members": [
+    {
+     "title": "중대재해 처벌 등에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "중대재해 처벌 등에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "중대재해 처벌 등에 관한 법률"
+    }
+   ]
+  },
+  {
+   "root": "증권거래세법",
+   "members": [
+    {
+     "title": "증권거래세법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "재무회계"
+    },
+    {
+     "title": "증권거래세법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "증권거래세법"
+    },
+    {
+     "title": "증권거래세법 시행규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "증권거래세법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "지방세법",
+   "members": [
+    {
+     "title": "지방세법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "재무회계"
+    },
+    {
+     "title": "지방세법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "지방세법"
+    },
+    {
+     "title": "지방세법 시행규칙",
+     "level": "시행규칙",
+     "kind": "행정안전부령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "지방세법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "채용절차의 공정화에 관한 법률",
+   "members": [
+    {
+     "title": "채용절차의 공정화에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "채용절차의 공정화에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "채용절차의 공정화에 관한 법률"
+    },
+    {
+     "title": "채용절차의 공정화에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "채용절차의 공정화에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "최저임금법",
+   "members": [
+    {
+     "title": "최저임금법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "최저임금법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "최저임금법"
+    },
+    {
+     "title": "최저임금법 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "최저임금법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "토양환경보전법",
+   "members": [
+    {
+     "title": "토양환경보전법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "토양환경보전법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "토양환경보전법"
+    },
+    {
+     "title": "토양환경보전법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "토양환경보전법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "특허법",
+   "members": [
+    {
+     "title": "특허법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "지식재산권"
+    },
+    {
+     "title": "특허법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "지식재산권",
+     "parent": "특허법"
+    },
+    {
+     "title": "특허법 시행규칙",
+     "level": "시행규칙",
+     "kind": "총리령",
+     "inBase": true,
+     "category": "지식재산권",
+     "parent": "특허법 시행령"
+    },
+    {
+     "title": "특허권 등의 등록령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "특허법",
+     "lsiSeq": "277549"
+    },
+    {
+     "title": "특허권 등의 등록령 시행규칙",
+     "level": "시행규칙",
+     "kind": "총리령",
+     "inBase": false,
+     "parent": "특허권 등의 등록령",
+     "lsiSeq": "280177"
+    },
+    {
+     "title": "특허권의 수용ㆍ실시 등에 관한 규정",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "특허법",
+     "lsiSeq": "273835"
+    },
+    {
+     "title": "특허법·실용신안법·의장법·상표법의 시행에 관한 규칙",
+     "level": "시행령",
+     "kind": "대법원규칙",
+     "inBase": true,
+     "category": "지식재산권",
+     "parent": "특허법"
+    }
+   ]
+  },
+  {
+   "root": "파견근로자 보호 등에 관한 법률",
+   "members": [
+    {
+     "title": "파견근로자보호 등에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "인사노무"
+    },
+    {
+     "title": "파견근로자보호 등에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "파견근로자보호 등에 관한 법률"
+    },
+    {
+     "title": "파견근로자보호 등에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "고용노동부령",
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "파견근로자보호 등에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "폐기물관리법",
+   "members": [
+    {
+     "title": "폐기물관리법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "폐기물관리법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "폐기물관리법"
+    },
+    {
+     "title": "폐기물관리법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "폐기물관리법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "하도급거래 공정화에 관한 법률",
+   "members": [
+    {
+     "title": "하도급거래 공정화에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "공정거래"
+    },
+    {
+     "title": "하도급거래 공정화에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "공정거래",
+     "parent": "하도급거래 공정화에 관한 법률"
+    }
+   ]
+  },
+  {
+   "root": "하수도법",
+   "members": [
+    {
+     "title": "하수도법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "하수도법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "하수도법"
+    },
+    {
+     "title": "하수도법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "하수도법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "해양폐기물 및 해양오염퇴적물 관리법",
+   "members": [
+    {
+     "title": "해양폐기물 및 해양오염퇴적물 관리법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "해양폐기물 및 해양오염퇴적물 관리법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "해양폐기물 및 해양오염퇴적물 관리법",
+     "lsiSeq": "281699"
+    },
+    {
+     "title": "해양폐기물 및 해양오염퇴적물 관리법 시행규칙",
+     "level": "시행규칙",
+     "kind": "해양수산부령",
+     "inBase": false,
+     "parent": "해양폐기물 및 해양오염퇴적물 관리법 시행령",
+     "lsiSeq": "268301"
+    }
+   ]
+  },
+  {
+   "root": "화재의 예방 및 안전관리에 관한 법률",
+   "members": [
+    {
+     "title": "화재의 예방 및 안전관리에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "화재의 예방 및 안전관리에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "화재의 예방 및 안전관리에 관한 법률"
+    },
+    {
+     "title": "화재의 예방 및 안전관리에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "행정안전부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "화재의 예방 및 안전관리에 관한 법률 시행령"
+    },
+    {
+     "title": "공공기관의 소방안전관리에 관한 규정",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "화재의 예방 및 안전관리에 관한 법률",
+     "lsiSeq": "245523"
+    }
+   ]
+  },
+  {
+   "root": "화학물질관리법",
+   "members": [
+    {
+     "title": "화학물질관리법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "화학물질관리법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "화학물질관리법"
+    },
+    {
+     "title": "화학물질관리법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "화학물질관리법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "화학물질의 등록 및 평가 등에 관한 법률",
+   "members": [
+    {
+     "title": "화학물질의 등록 및 평가 등에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "화학물질의 등록 및 평가 등에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "화학물질의 등록 및 평가 등에 관한 법률"
+    },
+    {
+     "title": "화학물질의 등록 및 평가 등에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "화학물질의 등록 및 평가 등에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "환경개선비용의 부담에 관한 법률",
+   "members": [
+    {
+     "title": "환경개선비용의 부담에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경",
+     "notFound": true
+    },
+    {
+     "title": "환경개선비용의 부담에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "시행령",
+     "inBase": true,
+     "category": "환경",
+     "notFound": true
+    },
+    {
+     "title": "환경개선비용의 부담에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "시행규칙",
+     "inBase": true,
+     "category": "환경",
+     "notFound": true
+    }
+   ]
+  },
+  {
+   "root": "환경기술 및 환경산업 지원법",
+   "members": [
+    {
+     "title": "환경기술 및 환경산업 지원법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "환경기술 및 환경산업 지원법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "환경기술 및 환경산업 지원법"
+    },
+    {
+     "title": "환경기술 및 환경산업 지원법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "환경기술 및 환경산업 지원법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "환경영향평가법",
+   "members": [
+    {
+     "title": "환경영향평가법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "환경영향평가법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "환경영향평가법"
+    },
+    {
+     "title": "환경영향평가법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "환경영향평가법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "환경정책기본법",
+   "members": [
+    {
+     "title": "환경정책기본법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "환경정책기본법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "환경정책기본법"
+    },
+    {
+     "title": "환경정책기본법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "환경정책기본법 시행령"
+    }
+   ]
+  }
+ ]
+}

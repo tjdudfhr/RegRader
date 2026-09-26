@@ -20,6 +20,7 @@
     what:  { icon: '📝', color: '#0ea5e9' },
     arts:  { icon: '📌', color: '#f59e0b' },
     diff:  { icon: '🔁', color: '#94a3b8' },
+    fam:   { icon: '🔗', color: '#14b8a6' },
     act:   { icon: '✅', color: '#10b981' },
     cmp:   { icon: '📖', color: '#8b5cf6' }
   };
@@ -119,6 +120,8 @@
     var n = function () { no++; return String(no).padStart(2, '0'); };
     var artCount = (b.articles || []).length;
     var diffHtml = diffTable(b.diff);
+    /* 같은 계열(법률·시행령·시행규칙)의 올해 개정: family-ui.js */
+    var fam = window.rrFamilies && window.rrFamilies.popupSection ? window.rrFamilies.popupSection(item) : null;
     return metaBox(item) +
       '<div id="rr-brief" class="summary-section rr-brief">' +
       '<div class="rr-brief-h">개정요지 <small>항목별로 나눠 보기</small></div>' +
@@ -126,6 +129,7 @@
       section('what', n(), '주요 개정내용', whatBody) +
       (arts ? section('arts', n(), '개정 조항', '<div>' + arts + '</div>', '<span class="rr-sec-extra">' + artCount + '개 조항</span>') : '') +
       (diffHtml ? section('diff', n(), '신구 대조', diffHtml) : '') +
+      (fam ? section('fam', n(), '같은 계열 올해 개정', fam.body, fam.extra) : '') +
       section('act', n(), '실무 지침', '<ul>' + acts.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>') +
       (cmp ? section('cmp', n(), '법령 신구비교',
         '<iframe sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-modals" referrerpolicy="no-referrer" src="' + cmp + '" loading="lazy"></iframe>',
