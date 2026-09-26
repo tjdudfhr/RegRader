@@ -20,6 +20,8 @@
     what:  { icon: '📝', color: '#0ea5e9' },
     arts:  { icon: '📌', color: '#f59e0b' },
     diff:  { icon: '🔁', color: '#94a3b8' },
+    risk:  { icon: '⚠️', color: '#e53e3e' },
+    riskc: { icon: '🔎', color: '#a0aec0' },
     fam:   { icon: '🔗', color: '#14b8a6' },
     act:   { icon: '✅', color: '#10b981' },
     cmp:   { icon: '📖', color: '#8b5cf6' }
@@ -96,7 +98,12 @@
   }
   function html(item) {
     var b = item.brief || {};
-    var arts = (b.articles || []).map(function (a) { return '<span class="rr-chip">' + esc(a) + '</span>'; }).join('');
+    /* 새로 잡힌 개정은 개정요지가 비어 있다 -> 법령정보센터 제개정이유·개정 조항으로 채운다 (amend-ui.js) */
+    var A = window.rrAmend;
+    var fill = A && (A.isPlaceholder(b.why || item.summary) || !(b.articles || []).length || A.isPlaceholder(b.what)) ? A.briefFill(item) : null;
+    var artList = (b.articles || []).length ? b.articles : (fill && fill.arts.length ? fill.arts : []);
+    var arts = artList.map(function (a) { return '<span class="rr-chip">' + esc(a) + '</span>'; }).join('');
+    var risk = A ? A.popupSection(item) : null;
     var lsi = (item.meta && item.meta.lsiSeq) || '';
     var efYd = String(item.effectiveDate || '').replace(/-/g, '');
     var src = lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi + (efYd ? '&efYd=' + efYd : '') + '&viewCls=lsRvsDocInfoR') : '';
@@ -106,6 +113,7 @@
     var acts = lines(b.action);
     if (!acts.length) acts = ['개정 조문을 기준으로 사내 규정·계약·서식의 인용 조항을 현행화하십시오.', '시행일 전 담당 부서 역할을 나누고 미해당 여부까지 기록으로 남기십시오.'];
     var rawWhat = String(b.what || '');
+    if (fill && fill.what && (!rawWhat || A.isPlaceholder(rawWhat))) rawWhat = fill.what;
     var isPromul = /이에 공포한다|국회에서 의결된/.test(rawWhat.slice(0, 80));
     var whatBody;
     if (points) {
@@ -118,14 +126,17 @@
     }
     var no = 0;
     var n = function () { no++; return String(no).padStart(2, '0'); };
-    var artCount = (b.articles || []).length;
+    var artCount = artList.length;
+    var whyText = b.why || item.summary || '';
+    if (fill && fill.why && A.isPlaceholder(whyText)) whyText = fill.why;
     var diffHtml = diffTable(b.diff);
     /* 같은 계열(법률·시행령·시행규칙)의 올해 개정: family-ui.js */
     var fam = window.rrFamilies && window.rrFamilies.popupSection ? window.rrFamilies.popupSection(item) : null;
     return metaBox(item) +
       '<div id="rr-brief" class="summary-section rr-brief">' +
       '<div class="rr-brief-h">개정요지 <small>항목별로 나눠 보기</small></div>' +
-      section('why', n(), '개정 취지', '<div style="white-space:pre-wrap">' + esc(b.why || item.summary || '개정 취지를 확인하는 중입니다.') + '</div>') +
+      (risk ? section(risk.tone === 'hot' ? 'risk' : 'riskc', n(), risk.tone === 'hot' ? '벌칙·과태료·의무 변경' : '제재 조문 정비', risk.body, risk.extra) : '') +
+      section('why', n(), '개정 취지', '<div style="white-space:pre-wrap">' + esc(whyText || '개정 취지를 확인하는 중입니다.') + '</div>') +
       section('what', n(), '주요 개정내용', whatBody) +
       (arts ? section('arts', n(), '개정 조항', '<div>' + arts + '</div>', '<span class="rr-sec-extra">' + artCount + '개 조항</span>') : '') +
       (diffHtml ? section('diff', n(), '신구 대조', diffHtml) : '') +
@@ -164,6 +175,7 @@
       box.insertAdjacentHTML('afterbegin', html(item));
     } catch (e) { console.warn('brief refresh', e); }
   }
+  window.__rrBriefRefresh = refresh;
   function patch() {
     if (window.showLawDetail && !window.showLawDetail.__briefUi) {
       var orig = window.showLawDetail;

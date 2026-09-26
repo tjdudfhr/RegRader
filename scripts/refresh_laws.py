@@ -73,7 +73,7 @@ def fetch_target(target: str, start: str, end: str):
 
 
 LOOKAHEAD_DAYS = 60  # 연말에 다음 해 시행분을 미리 볼 기간
-ARCHIVE_FILES = ["index.json", "meta.json"] + [f"m{i}.json" for i in range(8)]
+ARCHIVE_FILES = ["index.json", "meta.json", "amend_flags.json", "amend_details.json"] + [f"m{i}.json" for i in range(8)]
 
 
 def archive_year(prev_year: int):
@@ -406,6 +406,13 @@ def main():
 
     if prev_rows:
         record_changes(prev_rows, mini, prev_meta, meta)
+
+    # 개정마다 벌칙·과태료·과징금·행정처분·조문 신설·의무 변경을 개정문으로 분석 (새 개정만). 실패해도 갱신은 계속한다.
+    try:
+        import amend_details
+        amend_details.build(log=lambda m: print(m, flush=True))
+    except Exception as e:  # noqa: BLE001
+        print(f"amend_details 건너뜀: {e}", flush=True)
 
     print(json.dumps({"totalCount": payload["totalCount"], "integrity": payload["integrity"], "stats": payload["stats"]}, ensure_ascii=False, indent=2))
 

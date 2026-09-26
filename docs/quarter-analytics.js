@@ -140,7 +140,13 @@
   function renderList(sel, today) {
     lastSel = sel; lastToday = today;
     var q = (document.getElementById('rr-q-search').value || '').trim().toLowerCase();
-    var rows = sel.filter(function (x) { return !q || (x.title + ' ' + (x.ministry || '') + ' ' + (x.categories || []).join(' ') + ' ' + (x.amendmentType || '')).toLowerCase().indexOf(q) >= 0; });
+    var A = window.rrAmend;
+    riskToggle();
+    var riskOnly = !!(A && document.getElementById('rr-q-risk') && document.getElementById('rr-q-risk').getAttribute('aria-pressed') === 'true');
+    var rows = sel.filter(function (x) {
+      if (riskOnly && !A.isRisk(x)) return false;
+      return !q || (x.title + ' ' + (x.ministry || '') + ' ' + (x.categories || []).join(' ') + ' ' + (x.amendmentType || '')).toLowerCase().indexOf(q) >= 0;
+    });
     document.getElementById('rr-q-list-title').textContent = '📋 ' + Q[cur][0] + ' 개정 법령 목록';
     document.getElementById('rr-q-list-count').textContent = rows.length + '건';
     var byMonth = {};
@@ -154,13 +160,32 @@
         var cat = (x.categories || [])[0] || '';
         return '<button type="button" class="rr-q-row" data-key="' + esc(x._key || x.id) + '">' +
           '<span class="rr-q-date">' + esc(x.effectiveDate.slice(5).replace('-', '.')) + '</span>' +
-          '<span class="rr-q-title">' + esc(x.title) + '</span>' +
+          '<span class="rr-q-title"><span class="t">' + esc(x.title) + '</span>' + (A ? A.badges(A.codes(x)) : '') + '</span>' +
           '<span class="rr-q-meta"><i style="background:' + window.rrCatColor(cat) + '"></i>' + esc(cat) + ' · ' + esc(x.amendmentType || '') + ' · ' + esc(x.ministry || '') + '</span>' +
           dd + '</button>';
       }).join('') + '</div>';
     }).join('');
     document.getElementById('rr-q-list').innerHTML = html || '<div class="rr-job-empty" style="display:block">해당하는 개정이 없습니다.</div>';
   }
+
+  /* 목록 머리의 '벌칙·과태료·의무 변경만' 전환 버튼 (amend-ui.js 의 개정 표시를 쓴다) */
+  function riskToggle() {
+    var qs = document.getElementById('rr-q-search');
+    if (!qs || document.getElementById('rr-q-risk') || !window.rrAmend) return;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.id = 'rr-q-risk';
+    b.className = 'rr-q-risk';
+    b.setAttribute('aria-pressed', 'false');
+    b.title = '벌칙·과태료·과징금·행정처분·의무 조항이 신설되거나 바뀐 개정만 보기';
+    b.textContent = '⚠️ 벌칙·과태료·의무 변경만';
+    qs.parentNode.insertBefore(b, qs);
+    b.addEventListener('click', function () {
+      b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      renderList(lastSel, lastToday || todayKST());
+    });
+  }
+  if (window.rrAmend) window.rrAmend.ready.then(function () { if (lastSel.length) renderList(lastSel, lastToday || todayKST()); });
 
   /* 분기 선택: 카드 클릭 · 다른 곳의 '분기 상세 보기' 모두 여기로 */
   function select(q, scroll) {
@@ -194,6 +219,12 @@
     '.rr-q-listhead { display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; margin-bottom:.8rem; }',
     '.rr-q-listhead .filter-title { margin:0; }',
     '.rr-q-listhead .cnt { font-size:.8rem; font-weight:700; color:var(--primary); padding:.15rem .6rem; border-radius:999px; border:1px solid rgba(102,126,234,.45); }',
+    '.rr-q-title { display:flex !important; align-items:center; min-width:0; }',
+    '.rr-q-title .t { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }',
+    '.rr-q-title .rr-rbs { flex:none; flex-wrap:nowrap; }',
+    '.rr-q-risk { margin-left:auto; border:1px solid var(--border); background:var(--bg-card); color:var(--text-secondary); border-radius:10px; padding:.45rem .75rem; font:inherit; font-size:.82rem; font-weight:700; cursor:pointer; white-space:nowrap; }',
+    '.rr-q-risk[aria-pressed="true"] { background:rgba(229,62,62,.12); border-color:rgba(229,62,62,.55); color:#c53030; }',
+    '.rr-q-risk + input { margin-left:0 !important; }',
     '.rr-q-listhead input { margin-left:auto; min-width:220px; padding:.5rem .8rem; border-radius:10px; border:1px solid var(--border); background:var(--bg-card); color:var(--text-primary); font:inherit; font-size:.88rem; }',
     '.rr-q-month { margin-bottom: 1rem; }',
     '.rr-q-month-h { font-size:.82rem; font-weight:800; color:var(--text-secondary); margin:0 0 .4rem .2rem; }',

@@ -32,6 +32,12 @@
     if (seq) return 'https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + seq + '&efYd=' + String(it.effectiveDate || '').replace(/-/g, '');
     return (it.source && it.source.url) || SITE;
   }
+  /* 벌칙·과태료 등 개정 표시 (amend-ui.js). 메일에는 글자로 넣는다. */
+  function tags(it) {
+    var A = window.rrAmend;
+    if (!A) return [];
+    return A.codes(it).map(function (c) { return (A.META[c] && A.META[c].label) || c; });
+  }
   function year() { return window.RR_YEAR || new Date().getFullYear(); }
   function todayStr() { return new Date().toLocaleDateString('ko-KR', { timeZone: 'Asia/Seoul', year: 'numeric', month: 'long', day: 'numeric' }); }
 
@@ -103,6 +109,7 @@
         if (why.length > 140) why = why.slice(0, 140) + '…';
         h += '<tr><td ' + tdn + '>' + esc(it.effectiveDate) + '</td><td ' + tdn + '><b style="color:' + dcol + '">' + dday(d) + '</b></td><td ' + td + '>' +
           '<a href="' + esc(link(it)) + '" style="color:#1d4ed8;font-weight:bold;text-decoration:none">' + esc(it.title) + '</a>' +
+          (tags(it).length ? ' <span style="color:#c53030;font-size:11px;font-weight:bold">[' + esc(tags(it).join('·')) + ']</span>' : '') +
           (why ? '<div style="color:#64748b;font-size:11.5px;margin-top:2px">' + esc(why) + '</div>' : '') +
           '</td><td ' + tdn + '>' + esc(it.amendmentType || '') + '</td><td ' + td.replace('vertical-align:top', 'vertical-align:top;min-width:96px') + '>' + esc(it.ministry || '') + '</td></tr>';
       });
@@ -116,7 +123,7 @@
     jobsIn(list).forEach(function (g) {
       t += '■ ' + g.job + ' (' + g.n + '건)\n';
       list.filter(function (it) { return jobOf(it) === g.job; }).forEach(function (it) {
-        t += '  · ' + it.effectiveDate + ' [' + dday(days(it)) + '] ' + it.title + ' (' + (it.amendmentType || '') + ')\n';
+        t += '  · ' + it.effectiveDate + ' [' + dday(days(it)) + '] ' + it.title + ' (' + (it.amendmentType || '') + ')' + (tags(it).length ? ' [' + tags(it).join('·') + ']' : '') + '\n';
       });
       t += '\n';
     });
