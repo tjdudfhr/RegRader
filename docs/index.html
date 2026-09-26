@@ -2077,6 +2077,9 @@
                 </div>
                 <div class="nav-sep" aria-hidden="true"></div>
                 <div class="nav-caption">알림 · 기록</div>
+                <div class="main-tab" data-tab="tracker" onclick="switchMainTab('tracker')" role="tab" aria-selected="false">
+                    <span class="tab-icon">✅</span><span class="tab-body"><span class="tab-text">대응 현황</span></span>
+                </div>
                 <div class="main-tab" data-tab="watch" onclick="switchMainTab('watch')" role="tab" aria-selected="false">
                     <span class="tab-icon">⏰</span><span class="tab-body"><span class="tab-text">시행 임박</span></span>
                 </div>
@@ -2533,6 +2536,9 @@
                 </div>
             </div>
         
+            <!-- 대응 현황: 직무별 담당자가 개정마다 검토·조치를 기록 (tracker.js · Supabase) -->
+            <div class="tab-pane" id="tracker-content"><div id="rr-trk-dash"></div></div>
+
             <!-- 시행 임박 · 업데이트 내역: 각 페이지를 embed 모드로 끼워 넣는다 (처음 열 때 불러옴) -->
             <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20260927a" title="시행 임박 법령"></iframe></div>
             <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20260927a" title="업데이트 내역"></iframe></div>
@@ -7299,9 +7305,10 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./why-core.js?v=20260917a"></script>
     <script src="./brief-why.js?v=20260917a"></script>
     <script src="./sum-fill.js?v=20260917a"></script>
-    <script src="./brief-ui.js?v=20260927a"></script>
+    <script src="./brief-ui.js?v=20260927b"></script>
     <script src="./stats-ui.js?v=20260927a"></script>
     <script src="./family-ui.js?v=20260927a"></script>
+    <script src="./tracker.js?v=20260927a"></script>
     <script src="./registry-fix.js?v=20260927a"></script>
     <script src="./excel-fix.js?v=20260925a"></script>
     <script src="./report-ppt.js?v=20260927a"></script>

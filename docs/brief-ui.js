@@ -20,6 +20,7 @@
     what:  { icon: '📝', color: '#0ea5e9' },
     arts:  { icon: '📌', color: '#f59e0b' },
     diff:  { icon: '🔁', color: '#94a3b8' },
+    track: { icon: '✅', color: '#2f855a' },
     risk:  { icon: '⚠️', color: '#e53e3e' },
     riskc: { icon: '🔎', color: '#a0aec0' },
     fam:   { icon: '🔗', color: '#14b8a6' },
@@ -118,6 +119,7 @@
     var why = fill && fill.why ? fill.why : (d ? '법령정보센터에 이 행정규칙의 개정 이유가 등록되어 있지 않습니다. 원문에서 확인하세요.' : '개정 이유를 불러오는 중입니다…');
     return meta + '<div id="rr-brief" class="summary-section rr-brief">' +
       '<div class="rr-brief-h">개정요지 <small>행정규칙 · 국가법령정보센터 제개정이유</small></div>' +
+      (window.rrTracker ? (function (t) { return section('track', n(), '대응 현황', t.body, t.extra); })(window.rrTracker.popupSection(item)) : '') +
       section('why', n(), '개정 취지', '<div style="white-space:pre-wrap">' + esc(why) + '</div>') +
       (fill && fill.what ? section('what', n(), '주요 개정내용', '<div style="white-space:pre-wrap">' + esc(fill.what) + '</div>') : '') +
       (fam ? section('fam', n(), '같은 계열 올해 개정', fam.body, fam.extra) : '') +
@@ -135,6 +137,7 @@
     var artList = (b.articles || []).length ? b.articles : (fill && fill.arts.length ? fill.arts : []);
     var arts = artList.map(function (a) { return '<span class="rr-chip">' + esc(a) + '</span>'; }).join('');
     var risk = A ? A.popupSection(item) : null;
+    var trk = window.rrTracker ? window.rrTracker.popupSection(item) : null;   /* 대응 현황 (tracker.js) */
     var lsi = (item.meta && item.meta.lsiSeq) || '';
     var efYd = String(item.effectiveDate || '').replace(/-/g, '');
     var src = lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi + (efYd ? '&efYd=' + efYd : '') + '&viewCls=lsRvsDocInfoR') : '';
@@ -166,6 +169,7 @@
     return metaBox(item) +
       '<div id="rr-brief" class="summary-section rr-brief">' +
       '<div class="rr-brief-h">개정요지 <small>항목별로 나눠 보기</small></div>' +
+      (trk ? section('track', n(), '대응 현황', trk.body, trk.extra) : '') +
       (risk ? section(risk.tone === 'hot' ? 'risk' : 'riskc', n(), risk.tone === 'hot' ? '벌칙·과태료·의무 변경' : '제재 조문 정비', risk.body, risk.extra) : '') +
       section('why', n(), '개정 취지', '<div style="white-space:pre-wrap">' + esc(whyText || '개정 취지를 확인하는 중입니다.') + '</div>') +
       section('what', n(), '주요 개정내용', whatBody) +
