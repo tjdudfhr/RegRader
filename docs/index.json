@@ -1,7 +1,7 @@
 {
   "year": 2026,
   "totalCount": 353,
-  "generatedAt": "2026-09-26T16:13:45.479506+00:00",
+  "generatedAt": "2026-09-26T22:00:51.970921+00:00",
   "asOf": "2026-09-27",
   "stats": {
     "quarter": {
@@ -32,7 +32,7 @@
     "baseLaws": 229
   },
   "integrity": {
-    "checkedAt": "2026-09-26T16:13:45.479519+00:00",
+    "checkedAt": "2026-09-26T22:00:51.970937+00:00",
     "asOf": "2026-09-27",
     "rule": "unique key = title+effectiveDate+amendmentType; match = compact(name)",
     "uniqueEvents": 353,
