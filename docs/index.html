@@ -2075,6 +2075,9 @@
                 <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')" role="tab" aria-selected="false">
                     <span class="tab-icon">📚</span><span class="tab-body"><span class="tab-text">적용법규</span></span>
                 </div>
+                <div class="main-tab" data-tab="admrul" onclick="switchMainTab('admrul')" role="tab" aria-selected="false">
+                    <span class="tab-icon">📜</span><span class="tab-body"><span class="tab-text">행정규칙</span></span>
+                </div>
                 <div class="nav-sep" aria-hidden="true"></div>
                 <div class="nav-caption">알림 · 기록</div>
                 <div class="main-tab" data-tab="watch" onclick="switchMainTab('watch')" role="tab" aria-selected="false">
@@ -2533,9 +2536,12 @@
                 </div>
             </div>
         
+            <!-- 행정규칙: 적용법규 계열에 연결된 고시·훈령·예규 등의 올해 개정 (admrul-ui.js) -->
+            <div class="tab-pane" id="admrul-content"><div id="rr-adm"></div></div>
+
             <!-- 시행 임박 · 업데이트 내역: 각 페이지를 embed 모드로 끼워 넣는다 (처음 열 때 불러옴) -->
             <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20260926b" title="시행 임박 법령"></iframe></div>
-            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20260926b" title="업데이트 내역"></iframe></div>
+            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20260926c" title="업데이트 내역"></iframe></div>
         </div>
     </div>
 
@@ -7313,6 +7319,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./analytics.js?v=20260926c"></script>
     <script src="./job-analytics.js?v=20260925c"></script>
     <script src="./quarter-analytics.js?v=20260926b"></script>
+    <script src="./admrul-ui.js?v=20260926b"></script>
     <script src="./registry-analytics.js?v=20260925b"></script>
 
 </body>

@@ -18,6 +18,7 @@
     --live: #059669;  --live-bg: #ecfdf5;
     --gone: #dc2626;  --gone-bg: #fef2f2;
     --base: #7c3aed;  --base-bg: #f5f3ff;
+    --adm: #0f766e;   --adm-bg: #ecfdf5;
     /* 직무 색: 메인과 같은 검증 팔레트 */
     --c-재무회계: #2a78d6; --c-인사노무: #eb6834; --c-환경: #1baf7a; --c-지식재산권: #eda100;
     --c-공정거래: #e87ba4; --c-안전: #008300; --c-지배구조: #4a3aa7; --c-정보보호: #e34948;
@@ -31,6 +32,7 @@
       --live: #68d391; --live-bg: rgba(104, 211, 145, .14);
       --gone: #fc8181; --gone-bg: rgba(252, 129, 129, .14);
       --base: #b794f4; --base-bg: rgba(183, 148, 244, .14);
+      --adm: #5eead4;  --adm-bg: rgba(94, 234, 212, .12);
       --c-재무회계: #3987e5; --c-인사노무: #d95926; --c-환경: #199e70; --c-지식재산권: #c98500;
       --c-공정거래: #d55181; --c-안전: #008300; --c-지배구조: #9085e9; --c-정보보호: #e66767;
     }
@@ -98,6 +100,7 @@
   .b-live { background: var(--live-bg); color: var(--live); }
   .b-gone { background: var(--gone-bg); color: var(--gone); }
   .b-base { background: var(--base-bg); color: var(--base); }
+  .b-adm { background: var(--adm-bg); color: var(--adm); }
   .base-added { margin: 10px 16px 4px; padding: 10px 12px; border-radius: 12px; background: var(--base-bg); font-size: .85rem; color: var(--text-secondary); }
   .base-added b { color: var(--base); }
   .b-plain { background: #f1f5f9; color: var(--text-secondary); font-weight: 500; }
@@ -170,6 +173,7 @@
     <button class="chip" data-f="nowInForce">새로 시행</button>
     <button class="chip" data-f="removed">빠짐</button>
     <button class="chip" data-f="addedByBase">적용법규 추가</button>
+    <button class="chip" data-f="admrulAdded">행정규칙</button>
     <input class="search" id="q" type="search" placeholder="법령명·부처·직무 검색">
   </div>
 
@@ -177,7 +181,7 @@
 
   <p class="note">
     매일 아침 국가법령정보센터 데이터를 받아 직전 갱신과 비교합니다. 달라진 점이 있는 날만 기록되고, 위 <b>조회 날짜</b>에서 날짜별로 골라 볼 수 있습니다.<br>
-    <b>신규 개정</b>: 당사 적용 법규에 새로 잡힌 개정 · <b>새로 시행</b>: 시행예정이었다가 시행일이 지나 현행이 된 개정 · <b>빠짐</b>: 법령정보센터에서 조회되지 않게 된 개정 (시행일 변경·철회 등)
+    <b>신규 개정</b>: 당사 적용 법규에 새로 잡힌 개정 · <b>새로 시행</b>: 시행예정이었다가 시행일이 지나 현행이 된 개정 · <b>빠짐</b>: 법령정보센터에서 조회되지 않게 된 개정 (시행일 변경·철회 등) · <b>행정규칙</b>: 적용법규 계열에 연결된 고시·훈령·예규의 새 개정
   </p>
 </div>
 
@@ -188,9 +192,10 @@
     added: { label: '신규 개정', cls: 'b-new', color: 'var(--new)' },
     nowInForce: { label: '새로 시행', cls: 'b-live', color: 'var(--live)' },
     removed: { label: '목록에서 빠짐', cls: 'b-gone', color: 'var(--gone)' },
-    addedByBase: { label: '적용법규 추가로 편입', cls: 'b-base', color: 'var(--base)' }
+    addedByBase: { label: '적용법규 추가로 편입', cls: 'b-base', color: 'var(--base)' },
+    admrulAdded: { label: '행정규칙 개정', cls: 'b-adm', color: 'var(--adm)' }
   };
-  var ORDER = ['added', 'nowInForce', 'removed', 'addedByBase'];
+  var ORDER = ['added', 'nowInForce', 'removed', 'addedByBase', 'admrulAdded'];
   /* 적용법규(기본 목록)가 바뀐 경우 안내: 추가 · 법령명 변경 · 삭제 */
   function baseLine(e) {
     var add = e.baseLawsAdded || [], ren = e.baseLawsRenamed || [], rem = e.baseLawsRemoved || [];
@@ -235,12 +240,15 @@
     return d.toLocaleString('ko-KR', opt);
   }
   function lawRow(x) {
-    var url = x.lsiSeq ? 'https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + encodeURIComponent(x.lsiSeq) : '';
+    /* 행정규칙(고시·훈령·예규)은 admRulSeq 로 원문을 연다 */
+    var url = x.admRulSeq ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + encodeURIComponent(x.admRulSeq)
+      : x.lsiSeq ? 'https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + encodeURIComponent(x.lsiSeq) : '';
     var title = url ? '<a href="' + url + '" target="_blank" rel="noopener">' + esc(x.title) + '</a>' : esc(x.title);
     var cat = x.category ? '<span class="cat" style="background:var(--c-' + esc(x.category) + ', #a0aec0)">' + esc(x.category) + '</span>' : '';
     return '<div class="law"><div class="law-title">' + title + '</div>' +
       '<div class="law-date">시행 ' + esc(x.effectiveDate) + '</div>' +
-      '<div class="law-meta">' + cat + esc(x.ministry) + (x.amendmentType ? ' · ' + esc(x.amendmentType) : '') + '</div></div>';
+      '<div class="law-meta">' + cat + (x.kind ? esc(x.kind) + ' · ' : '') + esc(x.ministry) + (x.amendmentType ? ' · ' + esc(x.amendmentType) : '') +
+      (x.reference ? ' · <span title="회사 준수사항과 거리가 멀어 참고용으로 분류">참고: ' + esc(x.reference) + '</span>' : '') + '</div></div>';
   }
   function matches(x, q) {
     if (!q) return true;

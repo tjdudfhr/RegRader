@@ -73,7 +73,7 @@ def fetch_target(target: str, start: str, end: str):
 
 
 LOOKAHEAD_DAYS = 60  # 연말에 다음 해 시행분을 미리 볼 기간
-ARCHIVE_FILES = ["index.json", "meta.json", "amend_flags.json", "amend_details.json"] + [f"m{i}.json" for i in range(8)]
+ARCHIVE_FILES = ["index.json", "meta.json", "amend_flags.json", "amend_details.json", "admrul_events.json"] + [f"m{i}.json" for i in range(8)]
 
 
 def archive_year(prev_year: int):
@@ -170,7 +170,7 @@ def diff_rows(prev_rows, new_rows):
     return [change_item(r) for r in added], [change_item(r) for r in removed], [change_item(r) for r in now_in_force]
 
 
-def record_changes(prev_rows, new_rows, prev_meta, meta):
+def record_changes(prev_rows, new_rows, prev_meta, meta, admrul_added=None):
     """직전 갱신과 달라진 점을 docs/changelog.json 맨 앞에 추가한다. 달라진 게 없으면 기록하지 않는다."""
     path = DOCS / "changelog.json"
     prev_year = (prev_meta or {}).get("year")
@@ -219,7 +219,10 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
     removed = [x for x in removed if x["title"] not in old_titles]
     u_before = (prev_meta or {}).get("universe") or {}
     u_after = meta.get("universe") or {}
-    if not (added or removed or now_in_force or base_added or base_renamed or base_removed or (u_before and u_before != u_after)):
+    admrul_added = [{"title": x["t"], "kind": x["k"], "effectiveDate": x["d"], "issuedDate": x["p"], "amendmentType": x["a"],
+                     "ministry": x["m"], "category": (x["c"] or [""])[0], "admRulSeq": x["q"], "reference": x["g"]}
+                    for x in (admrul_added or [])]
+    if not (added or removed or now_in_force or base_added or base_renamed or base_removed or admrul_added or (u_before and u_before != u_after)):
         print("changelog: 변경 없음", flush=True)
         return
     log = read_json(path, {"entries": []})
@@ -237,6 +240,7 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         "nowInForce": now_in_force,
         "baseLawsAdded": base_added,
         "addedByBase": by_base,
+        "admrulAdded": admrul_added,
         "baseLawsRenamed": base_renamed,
         "baseLawsRemoved": base_removed,
         "removedByBase": removed_by_base,
@@ -246,7 +250,7 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
     log["updatedAt"] = meta["generatedAt"]
     path.write_text(json.dumps(log, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"changelog: 신규 {len(added)} / 삭제 {len(removed)} / 시행 {len(now_in_force)} / 적용법규 추가 {len(base_added)}"
-          f" / 법령명 변경 {len(base_renamed)} / 적용법규 삭제 {len(base_removed)}", flush=True)
+          f" / 법령명 변경 {len(base_renamed)} / 적용법규 삭제 {len(base_removed)} / 행정규칙 {len(admrul_added)}", flush=True)
 
 
 def main():
@@ -404,15 +408,24 @@ def main():
     }
     (DOCS / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    if prev_rows:
-        record_changes(prev_rows, mini, prev_meta, meta)
-
     # 개정마다 벌칙·과태료·과징금·행정처분·조문 신설·의무 변경을 개정문으로 분석 (새 개정만). 실패해도 갱신은 계속한다.
     try:
         import amend_details
         amend_details.build(log=lambda m: print(m, flush=True))
     except Exception as e:  # noqa: BLE001
         print(f"amend_details 건너뜀: {e}", flush=True)
+
+    # 적용법규 계열에 연결된 행정규칙(고시·훈령·예규 등)의 올해 개정
+    admrul_added = []
+    try:
+        import admin_rules
+        res = admin_rules.build(log=lambda m: print(m, flush=True), today=as_of)
+        admrul_added = (res or {}).get("added") or []
+    except Exception as e:  # noqa: BLE001
+        print(f"admin_rules 건너뜀: {e}", flush=True)
+
+    if prev_rows:
+        record_changes(prev_rows, mini, prev_meta, meta, admrul_added)
 
     print(json.dumps({"totalCount": payload["totalCount"], "integrity": payload["integrity"], "stats": payload["stats"]}, ensure_ascii=False, indent=2))
 

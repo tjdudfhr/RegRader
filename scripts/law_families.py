@@ -69,10 +69,10 @@ def find_mst(name):
 
 
 def tree(mst):
-    """체계도를 펼쳐 [{name, level, kind, parent, mst}] 로 돌려준다 (법률이 맨 앞)."""
+    """체계도를 펼쳐 ([{name, level, kind, parent, mst}] (법률이 맨 앞), [연결된 행정규칙]) 을 돌려준다."""
     j = get_json(SERVICE, {"OC": OC, "target": "lsStmd", "type": "JSON", "MST": mst})
     top = ((j.get("법령체계도") or {}).get("상하위법")) or {}
-    out, seen = [], set()
+    out, seen, adm = [], set(), []
 
     def walk(node, level, parent):
         if not isinstance(node, dict):
@@ -83,6 +83,19 @@ def tree(mst):
             seen.add(compact(name))
             out.append({"name": name, "level": level, "kind": (info.get("법종구분") or {}).get("content") or "",
                         "parent": parent, "mst": info.get("법령일련번호") or ""})
+        # 이 법령(법률·시행령·시행규칙)에 연결된 행정규칙: 고시·훈령·예규·공고 …
+        rules = node.get("행정규칙") or {}
+        for kind, lst in (rules.items() if isinstance(rules, dict) else []):
+            for x in (lst if isinstance(lst, list) else [lst]):
+                b = (x or {}).get("기본정보") or {}
+                rid = str(b.get("행정규칙ID") or "")
+                if rid:
+                    t = b.get("제개정구분")
+                    adm.append({"id": rid, "name": (b.get("행정규칙명") or "").strip(),
+                                "kind": (b.get("법종구분") or {}).get("content") or kind,
+                                "seq": str(b.get("행정규칙일련번호") or ""), "issued": b.get("발령일자") or "",
+                                "effective": b.get("시행일자") or "", "type": t.get("content") if isinstance(t, dict) else (t or ""),
+                                "link": f"{name or parent} ({level})"})
         # 하위는 시행령 -> 시행규칙 순서로 (응답의 키 순서는 법령마다 다르다)
         kids = sorted((k for k in node if k not in SKIP_KEYS), key=lambda k: LEVEL_ORDER.get(k, 9))
         for k in kids:
@@ -93,12 +106,48 @@ def tree(mst):
     for k, v in top.items():
         for node in (v if isinstance(v, list) else [v]):
             walk(node, k, None)
-    return out
+    return out, adm
 
 
 def level_by_name(title):
     t = (title or "").strip()
     return "시행령" if t.endswith("시행령") else "시행규칙" if t.endswith("시행규칙") else "법률"
+
+
+ADMRUL_OUT = DOCS / "admrul_candidates.json"
+
+
+def write_admrul_candidates(families, adm_by_top, log=print):
+    """계열마다 체계도에 연결된 행정규칙 -> docs/admrul_candidates.json (scripts/admin_rules.py 가 개정을 붙인다)"""
+    from admin_rules import reference_tag
+    jobs = {f["root"]: sorted({m.get("category") for m in f["members"] if m.get("inBase") and m.get("category")}) for f in families}
+    cands, weight = {}, {}
+    for top, lst in adm_by_top.items():
+        if top not in jobs:
+            continue
+        for a in lst:
+            c = cands.setdefault(a["id"], {k: a[k] for k in ("id", "name", "kind", "seq", "issued", "effective", "type")} | {"families": [], "links": [], "jobs": []})
+            if top not in c["families"]:
+                c["families"].append(top)
+            if a["link"] not in c["links"]:
+                c["links"].append(a["link"])
+                # 여러 계열에 걸친 행정규칙은 더 많이(특히 법률에) 연결된 계열을 대표로 삼는다
+                w = weight.setdefault(a["id"], {})
+                w[top] = w.get(top, 0) + (2 if a["link"].endswith("(법률)") else 1)
+    for rid, c in cands.items():
+        w = weight.get(rid, {})
+        c["families"].sort(key=lambda f: -w.get(f, 0))
+        for f in c["families"]:
+            for j in jobs[f]:
+                if j not in c["jobs"]:
+                    c["jobs"].append(j)
+    items = sorted(cands.values(), key=lambda c: (c["jobs"][:1], c["name"]))
+    for c in items:
+        c["tag"] = reference_tag(c["name"], c["kind"])
+    ADMRUL_OUT.write_text(json.dumps({"generatedAt": datetime.now(timezone.utc).isoformat(),
+                                      "source": "국가법령정보센터 법령체계도 (lsStmd) 연결 행정규칙",
+                                      "count": len(items), "items": items}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    log(f"admrul_candidates: 행정규칙 {len(items)}개 (주요 {sum(1 for c in items if not c['tag'])} · 참고 {sum(1 for c in items if c['tag'])})")
 
 
 def guess_root(item):
@@ -117,7 +166,7 @@ def build(items, force=False, log=print):
         except ValueError:
             old = {}
     key = base_key(items)
-    if not force and old.get("baseKey") == key:
+    if not force and old.get("baseKey") == key and ADMRUL_OUT.exists():
         try:
             age = datetime.now(timezone.utc) - datetime.fromisoformat(old["generatedAt"])
             if age < MAX_AGE:
@@ -164,11 +213,14 @@ def build(items, force=False, log=print):
 
     def fetch(name):
         mst = find_mst(name)
-        return name, (tree(mst) if mst else [])
+        return name, (tree(mst) if mst else ([], []))
 
     with ThreadPoolExecutor(max_workers=4) as ex:
         results = list(ex.map(fetch, roots))
-    for i, (root, members) in enumerate(results, 1):
+    adm_by_top = {}   # 계열 맨 위 법률 -> 연결된 행정규칙
+    for i, (root, (members, adm)) in enumerate(results, 1):
+        if members:
+            adm_by_top.setdefault(members[0]["name"], []).extend(adm)
         if not members:
             log(f"  [{i}/{len(roots)}] {root}: 체계도 없음")
             continue
@@ -180,9 +232,10 @@ def build(items, force=False, log=print):
     left = [(c, b) for c, b in base.items() if c not in placed]
     with ThreadPoolExecutor(max_workers=4) as ex:
         results = list(ex.map(lambda cb: (cb, fetch(cb[1]["title"])[1]), left))
-    for (c, b), members in results:
+    for (c, b), (members, adm) in results:
         if members and any(compact(m["name"]) == c for m in members):
             adopt(members[0]["name"], members, claim=c)
+            adm_by_top.setdefault(members[0]["name"], []).extend(adm)
             log(f"  + {b['title']} -> {members[0]['name']}")
         else:
             adopt(guess_root(b), [{"name": b["title"], "level": level_by_name(b["title"]), "kind": b.get("lawType") or "",
@@ -202,6 +255,7 @@ def build(items, force=False, log=print):
         "families": out,
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    write_admrul_candidates(out, adm_by_top, log)
     missing = sum(1 for f in out for m in f["members"] if not m["inBase"])
     stale = [m["title"] for f in out for m in f["members"] if m.get("notFound")]
     log(f"law_families: 계열 {len(out)}개, 적용법규 {len(placed)}/{len(items)}개 배치, 적용법규에 없는 하위법령 {missing}개"
