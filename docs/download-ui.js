@@ -48,7 +48,7 @@
     var inner = box.querySelector('.modal-content') || box;
     var M = window.__rrMeta || {}, U = M.universe || {};
     var fmt = function (n) { return n == null ? '–' : Number(n).toLocaleString('ko-KR'); };
-    var baseN = window.__rrBaseCount || '–';
+    var baseN = window.__rrBaseCount ? fmt(window.__rrBaseCount) : '–';
     inner.innerHTML =
       '<div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb">' +
       '<h2 style="margin:0;font-size:1.25rem">' + window.RR_YEAR + '년 보고서 · 데이터 다운로드</h2>' +
@@ -59,7 +59,7 @@
       '<div><div style="font-size:22px;font-weight:800">' + fmt(U.openapiCurrent) + '</div><div style="opacity:.9;font-size:12px">현행(' + window.RR_YEAR + ' 시행)</div></div>' +
       '<div><div style="font-size:22px;font-weight:800">' + fmt(U.openapiUpcoming) + '</div><div style="opacity:.9;font-size:12px">시행예정(연말까지)</div></div>' +
       '<div><div style="font-size:22px;font-weight:800">' + baseN + '</div><div style="opacity:.9;font-size:12px">당사 적용 국내법규</div></div>' +
-      '<div><div style="font-size:22px;font-weight:800">' + (items().length || '-') + '</div><div style="opacity:.9;font-size:12px">일치 개정 건</div></div>' +
+      '<div><div style="font-size:22px;font-weight:800">' + (items().length ? fmt(items().length) : '-') + '</div><div style="opacity:.9;font-size:12px">일치 개정 건</div></div>' +
       '</div>' +
       '<div id="rr-report-slot"></div>' +
       '<button type="button" id="rr-dl-matched" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid #c7d2fe;border-radius:12px;background:#eef2ff;cursor:pointer">' +

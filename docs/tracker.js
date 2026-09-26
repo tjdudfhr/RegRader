@@ -9,6 +9,7 @@
  * window.rrTracker
  *   .popupSection(item)   법령 팝업의 '대응 현황' 칸 { body, extra } (brief-ui.js 가 쓴다)
  *   .status(item)         그 개정의 대응 상태 (없으면 '')
+ *   .snapshot()           로그인했을 때 { resp, members, me } — 보고서 PPT 의 '대응 현황'용 (아니면 null)
  */
 (function () {
   var URL_ = 'https://gzlyjwvounwdubdvwjen.supabase.co';
@@ -456,7 +457,12 @@
   if (hasStoredSession()) afterAuth();
   else paintBadge();
 
-  window.rrTracker = { popupSection: popupSection, status: statusOf, openLogin: openLogin };
+  /* 보고서(report-ppt.js)용: 로그인한 담당자·총괄에게만 기록 전체를 건넨다 */
+  function snapshot() {
+    if (!loaded || !me || me.role === 'guest') return null;
+    return { resp: RESP, members: MEMBERS.slice(), me: me };
+  }
+  window.rrTracker = { popupSection: popupSection, status: statusOf, openLogin: openLogin, snapshot: snapshot };
 
   var st = document.createElement('style');
   st.textContent = [

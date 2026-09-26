@@ -31,7 +31,8 @@ CACHE = Path.home() / "Library" / "Caches" / "RegRader" / "law"   # 법령 본�
 OC = "knowhow1"
 SERVICE = "https://www.law.go.kr/DRF/lawService.do"
 UA = "Mozilla/5.0 (RegRader amendment analysis)"
-VERSION = 4   # 분석 규칙을 바꾸면 올린다 -> 전체 다시 분석
+REASON_MAX = 4000   # 개정이유는 뒤쪽 주요내용(대개 제재·의무)까지 담기도록 넉넉히
+VERSION = 5   # 분석 규칙을 바꾸면 올린다 -> 전체 다시 분석 (5: 개정이유를 4000자까지 — 보고서의 주요 개정 내용용)
 
 AMEND_SHORT = {"일부개정": "일", "타법개정": "타"}
 
@@ -107,7 +108,7 @@ def admrul_detail(doc: dict) -> dict:
     if isinstance(name, list):
         name = name[0] if name else ""
     info = doc.get("행정규칙기본정보") or {}
-    return {"admrul": True, "reason": reason[:1500] + ("…" if len(reason) > 1500 else ""),
+    return {"admrul": True, "reason": reason[:REASON_MAX] + ("…" if len(reason) > REASON_MAX else ""),
             "attach": link, "attachName": name, "issued": info.get("발령일자") or "", "dept": info.get("담당부서기관명") or ""}
 
 
@@ -391,7 +392,7 @@ def clean_reason(law: dict) -> str:
     t = re.sub(r"<[^>]*제공>\s*$", "", t.strip())
     t = re.sub(r"[ \t]+", " ", t)
     t = re.sub(r"\n\s*\n+", "\n", t).strip()
-    return t[:1200] + ("…" if len(t) > 1200 else "")
+    return t[:REASON_MAX] + ("…" if len(t) > REASON_MAX else "")
 
 
 def sentences(txt: str):
