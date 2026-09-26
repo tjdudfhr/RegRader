@@ -49,6 +49,7 @@
     var k = K.ink(), R = K.ramp(), today = todayKST(), cats = window.RR_CAT_ORDER || [];
     var label = year + '년 ' + Q[cur][0] + ' (' + months[0] + '~' + months[2] + '월)';
     document.getElementById('rr-q-an-title').textContent = label + ' 개정 분석';
+    reportButton();
     document.querySelectorAll('.quarterly-tab').forEach(function (t, i) { t.classList.toggle('selected', 'Q' + (i + 1) === cur); });
 
     /* 숫자 */
@@ -168,6 +169,28 @@
     document.getElementById('rr-q-list').innerHTML = html || '<div class="rr-job-empty" style="display:block">해당하는 개정이 없습니다.</div>';
   }
 
+  /* 분석 제목 옆 '이 분기 보고서 PPT' (report-ppt.js) */
+  function reportButton() {
+    var t = document.getElementById('rr-q-an-title');
+    if (!t || !window.rrReport || document.getElementById('rr-q-report')) return;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.id = 'rr-q-report';
+    b.className = 'rr-q-report';
+    b.textContent = '📑 이 분기 보고서 PPT';
+    b.title = '선택한 분기의 법규 개정 동향 보고서를 PowerPoint 로 내려받기';
+    t.parentNode.appendChild(b);
+    b.addEventListener('click', function () {
+      if (!(window.__rrItems || []).length) return;
+      b.disabled = true;
+      b.textContent = '만드는 중…';
+      window.rrReport.generate({ kind: 'quarter', n: Number(String(cur).replace(/\D/g, '')) || 1 })
+        .then(function () { b.textContent = '✅ 내려받았습니다'; })
+        .catch(function (e) { b.textContent = '실패: 다시 누르기'; console.warn(e); })
+        .then(function () { setTimeout(function () { b.disabled = false; b.textContent = '📑 이 분기 보고서 PPT'; }, 2500); });
+    });
+  }
+
   /* 목록 머리의 '벌칙·과태료·의무 변경만' 전환 버튼 (amend-ui.js 의 개정 표시를 쓴다) */
   function riskToggle() {
     var qs = document.getElementById('rr-q-search');
@@ -222,6 +245,10 @@
     '.rr-q-title { display:flex !important; align-items:center; min-width:0; }',
     '.rr-q-title .t { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }',
     '.rr-q-title .rr-rbs { flex:none; flex-wrap:nowrap; }',
+    '#rr-q-an > .filter-title { display:flex; align-items:center; gap:.4rem; }',
+    '.rr-q-report { margin-left:auto; border:1px solid rgba(102,126,234,.5); background:rgba(102,126,234,.08); color:var(--primary); border-radius:10px; padding:.4rem .8rem; font:inherit; font-size:.82rem; font-weight:800; cursor:pointer; white-space:nowrap; }',
+    '.rr-q-report:hover { background:rgba(102,126,234,.16); }',
+    '.rr-q-report:disabled { opacity:.7; cursor:default; }',
     '.rr-q-risk { margin-left:auto; border:1px solid var(--border); background:var(--bg-card); color:var(--text-secondary); border-radius:10px; padding:.45rem .75rem; font:inherit; font-size:.82rem; font-weight:700; cursor:pointer; white-space:nowrap; }',
     '.rr-q-risk[aria-pressed="true"] { background:rgba(229,62,62,.12); border-color:rgba(229,62,62,.55); color:#c53030; }',
     '.rr-q-risk + input { margin-left:0 !important; }',

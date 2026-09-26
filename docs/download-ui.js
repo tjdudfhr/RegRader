@@ -51,7 +51,7 @@
     var baseN = window.__rrBaseCount || '–';
     inner.innerHTML =
       '<div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb">' +
-      '<h2 style="margin:0;font-size:1.25rem">' + window.RR_YEAR + '년 법령 데이터 다운로드</h2>' +
+      '<h2 style="margin:0;font-size:1.25rem">' + window.RR_YEAR + '년 보고서 · 데이터 다운로드</h2>' +
       '<button type="button" onclick="closeDownloadModal()" style="border:0;background:none;font-size:22px;cursor:pointer;color:#888">×</button>' +
       '</div>' +
       '<div style="padding:18px 20px">' +
@@ -61,6 +61,7 @@
       '<div><div style="font-size:22px;font-weight:800">' + baseN + '</div><div style="opacity:.9;font-size:12px">당사 적용 국내법규</div></div>' +
       '<div><div style="font-size:22px;font-weight:800">' + (items().length || '-') + '</div><div style="opacity:.9;font-size:12px">일치 개정 건</div></div>' +
       '</div>' +
+      '<div id="rr-report-slot"></div>' +
       '<button type="button" id="rr-dl-matched" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid #c7d2fe;border-radius:12px;background:#eef2ff;cursor:pointer">' +
       '<div style="font-weight:700">당사 매칭 개정 결과 (Excel)</div>' +
       '<div style="font-size:13px;color:#4c1d95;margin-top:4px">' + baseN + '개와 제목 100% 일치하는 ' + window.RR_YEAR + '년 개정 건</div></button>' +
@@ -69,6 +70,7 @@
       '<div style="font-size:13px;color:#64748b;margin-top:4px">기본 적용 목록</div></button>' +
       '<div style="font-size:12px;color:#64748b;line-height:1.55">조회 기준 ' + (M.asOf || '–') + '. 전체 현행 ' + fmt(U.openapiCurrent) + ' · 올해 시행일 전체(연혁 포함) ' + fmt(U.openapiFuture) + ' 파일은 채팅으로 받은 엑셀을 사용하세요.</div>' +
       '</div>';
+    if (window.rrReport) window.rrReport.mount(inner.querySelector('#rr-report-slot'));   /* 월간·분기 보고서 PPT (report-ppt.js) */
     var m = inner.querySelector('#rr-dl-matched');
     var b = inner.querySelector('#rr-dl-base');
     if (m) m.onclick = function (e) { e.preventDefault(); downloadMatched(); };
