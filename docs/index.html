@@ -1964,7 +1964,7 @@
             line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="./app-shell.css?v=20260927b">
+    <link rel="stylesheet" href="./app-shell.css?v=20260927f">
 </head>
 <body>
     <div class="container">
@@ -2065,7 +2065,7 @@
             <!-- 매칭 분석 상세 현황 -->
             <div style="background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--glass-shadow);">
                 <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-                    <div style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div class="rr-sum-title" style="display: flex; align-items: center; gap: 0.8rem;">
                         <span style="font-size: 1.3rem;">🎯</span>
                         <div>
                             <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);"><span class="rr-year">2026</span>년 당사 적용 법규 개정 현황</div>
@@ -2073,7 +2073,7 @@
                         </div>
                     </div>
                     <!-- 숫자는 stats-ui.js 가 실제 데이터로 채운다. 옛 수치가 먼저 보이지 않도록 자리표시(–)만 둔다. -->
-                    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 1.15rem 1.4rem;">
+                    <div class="rr-sum-nums" style="display: flex; align-items: center; flex-wrap: wrap; gap: 1.15rem 1.4rem;">
                         <div style="text-align:center;min-width:72px">
                             <div id="rr-base-count" style="font-size:1.55rem;font-weight:800;color:var(--primary)">–</div>
                             <div style="font-size:0.75rem;color:var(--text-muted);font-weight:500" title="법률·시행령·시행규칙과, 그에 연결된 고시·훈령·예규 등 행정규칙">당사 적용법규</div>
@@ -7248,7 +7248,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./brief-why.js?v=20260917a"></script>
     <script src="./sum-fill.js?v=20260917a"></script>
     <script src="./brief-ui.js?v=20260927b"></script>
-    <script src="./stats-ui.js?v=20260927a"></script>
+    <script src="./stats-ui.js?v=20260927b"></script>
     <script src="./family-ui.js?v=20260927a"></script>
     <script src="./tracker.js?v=20260927b"></script>
     <script src="./registry-fix.js?v=20260927b"></script>
