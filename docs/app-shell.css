@@ -198,7 +198,11 @@
     overflow-x: auto;
   }
   .main-tab-navigation .nav-caption, .main-tab-navigation .nav-sep { display: none; }
-  .main-tab-container { flex-direction: row; }
+  .main-tab-container { flex-direction: row; align-items: center; }
+  /* 위쪽 가로 막대에서는 로그인 표시를 빼고(대응 현황 탭·팝업에서 로그인), 탭을 낮게 */
+  .main-tab-navigation .rr-trk-who { display: none; }
+  .main-tab, .main-link { padding: 0.45rem 0.7rem; flex: none; }
+  .main-tab .tab-icon, .main-link .tab-icon { width: 28px; height: 28px; font-size: 0.95rem; border-radius: 8px; }
   .main-tab::after { left: 0.6rem; right: 0.6rem; top: auto; bottom: -0.4rem; width: auto; height: 3px; border-radius: 3px 3px 0 0; }
   .main-tab .tab-badge, .main-link .tab-badge { display: none; }
   .header .subtitle { display: none; }
@@ -270,3 +274,14 @@ iframe.rr-embed {
 .rr-rf .rr-fam-row { padding-top: 5px; padding-bottom: 5px; }
 .rr-rf .rr-fam-name { font-size: 0.9rem; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .rr-rf-sum .warn { color: #f6ad55; } }
+/* 휴대폰 폭: 팝업 · 요약 칸 */
+@media (max-width: 600px) {
+  #law-modal .info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .rr-risk-dl { grid-template-columns: 1fr !important; gap: 2px 0 !important; }
+  .rr-risk-dl dd { margin: 0 0 8px !important; }
+  .rr-trk-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .rr-rp-lh { flex-wrap: wrap; }
+  .rr-rp-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .rr-q-listhead input, #rr-adm-q { min-width: 0 !important; width: 100%; }
+  .rr-q-risk, .rr-q-report { margin-left: 0 !important; }
+}

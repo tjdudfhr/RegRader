@@ -166,6 +166,9 @@
     if (!BASE) return;
     window.baseLawsData = BASE;
     window.showJobFunctionLaws = function (job, title) { render(job, title); };
+    /* 옛 코드(index.html)가 탭을 열 때 base_laws_207.json 만 다시 세어 229 로 덮어쓰던 것을 막는다 */
+    window.updateRegistryTabCounts = function () { if (BASE) setCounts(BASE); };
+    window.loadBaseLaws = function () { if (BASE) { setCounts(BASE); render(cur, curTitle); } return Promise.resolve(); };
     setCounts(BASE);
     /* 적용법규 탭을 처음 열 때도 207개 전체 목록이 보여야 한다.
        예전에는 직무 칩을 눌러야만 render 가 돌아서, 초기에는 index.html 이 그린
