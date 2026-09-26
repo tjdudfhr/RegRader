@@ -1,9 +1,9 @@
 {
- "generatedAt": "2026-09-26T00:00:14.529848+00:00",
+ "generatedAt": "2026-09-26T00:13:21.823814+00:00",
  "source": "국가법령정보센터 법령체계도 (lsStmd)",
- "baseKey": "74ed7596485fa8aa319667a6337c95a70f0d0e05",
- "baseCount": 207,
- "familyCount": 75,
+ "baseKey": "bc232e3f4bce415094f25d0c74956449cba9df24",
+ "baseCount": 229,
+ "familyCount": 74,
  "families": [
   {
    "root": "감염병의 예방 및 관리에 관한 법률",
@@ -35,9 +35,9 @@
      "title": "성매개감염병 및 후천성면역결핍증 건강진단규칙",
      "level": "시행규칙",
      "kind": "보건복지부령",
-     "inBase": false,
-     "parent": "감염병의 예방 및 관리에 관한 법률",
-     "lsiSeq": "263291"
+     "inBase": true,
+     "category": "안전",
+     "parent": "감염병의 예방 및 관리에 관한 법률"
     }
    ]
   },
@@ -91,9 +91,9 @@
      "title": "순환골재 품질인증 및 관리에 관한 규칙",
      "level": "시행규칙",
      "kind": "국토교통부령",
-     "inBase": false,
-     "parent": "건설폐기물의 재활용촉진에 관한 법률",
-     "lsiSeq": "284545"
+     "inBase": true,
+     "category": "환경",
+     "parent": "건설폐기물의 재활용촉진에 관한 법률"
     }
    ]
   },
@@ -111,9 +111,9 @@
      "title": "고압가스 안전관리법 시행령",
      "level": "시행령",
      "kind": "대통령령",
-     "inBase": false,
-     "parent": "고압가스 안전관리법",
-     "lsiSeq": "286839"
+     "inBase": true,
+     "category": "안전",
+     "parent": "고압가스 안전관리법"
     },
     {
      "title": "고압가스 안전관리법 시행규칙",
@@ -267,17 +267,17 @@
      "title": "근로감독관규정",
      "level": "시행령",
      "kind": "대통령령",
-     "inBase": false,
-     "parent": "근로기준법",
-     "lsiSeq": "108467"
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "근로기준법"
     },
     {
      "title": "근로감독관증 규칙",
      "level": "시행규칙",
      "kind": "고용노동부령",
-     "inBase": false,
-     "parent": "근로감독관규정",
-     "lsiSeq": "184050"
+     "inBase": true,
+     "category": "인사노무",
+     "parent": "근로감독관규정"
     }
    ]
   },
@@ -618,14 +618,6 @@
      "inBase": true,
      "category": "환경",
      "parent": "먹는물관리법 시행령"
-    },
-    {
-     "title": "먹는물 수질기준 및 검사 등에 관한 규칙",
-     "level": "시행규칙",
-     "kind": "기후에너지환경부령",
-     "inBase": false,
-     "parent": "먹는물관리법",
-     "lsiSeq": "278905"
     }
    ]
   },
@@ -783,17 +775,17 @@
      "title": "산업안전보건기준에 관한 규칙",
      "level": "시행규칙",
      "kind": "고용노동부령",
-     "inBase": false,
-     "parent": "산업안전보건법 시행령",
-     "lsiSeq": "273603"
+     "inBase": true,
+     "category": "안전",
+     "parent": "산업안전보건법 시행령"
     },
     {
      "title": "유해ㆍ위험작업의 취업 제한에 관한 규칙",
      "level": "시행규칙",
      "kind": "고용노동부령",
-     "inBase": false,
-     "parent": "산업안전보건법 시행령",
-     "lsiSeq": "285435"
+     "inBase": true,
+     "category": "안전",
+     "parent": "산업안전보건법 시행령"
     }
    ]
   },
@@ -819,9 +811,9 @@
      "title": "상법의 전자선하증권 규정의 시행에 관한 규정",
      "level": "시행령",
      "kind": "대통령령",
-     "inBase": false,
-     "parent": "상법",
-     "lsiSeq": "280989"
+     "inBase": true,
+     "category": "지배구조",
+     "parent": "상법"
     }
    ]
   },
@@ -883,9 +875,9 @@
      "title": "소방용품의 품질관리 등에 관한 규칙",
      "level": "시행규칙",
      "kind": "행정안전부령",
-     "inBase": false,
-     "parent": "소방시설 설치 및 관리에 관한 법률 시행령",
-     "lsiSeq": "287833"
+     "inBase": true,
+     "category": "안전",
+     "parent": "소방시설 설치 및 관리에 관한 법률 시행령"
     }
    ]
   },
@@ -919,9 +911,9 @@
      "title": "공동주택 층간소음의 범위와 기준에 관한 규칙",
      "level": "시행규칙",
      "kind": "국토교통부령",
-     "inBase": false,
-     "parent": "소음·진동관리법",
-     "lsiSeq": "247421"
+     "inBase": true,
+     "category": "환경",
+     "parent": "소음·진동관리법"
     }
    ]
   },
@@ -952,28 +944,56 @@
      "parent": "수도법 시행령"
     },
     {
-     "title": "상수원관리규칙",
-     "level": "시행규칙",
-     "kind": "기후에너지환경부령",
-     "inBase": false,
-     "parent": "수도법 시행령",
-     "lsiSeq": "289045"
-    },
-    {
      "title": "먹는물 수질기준 및 검사 등에 관한 규칙",
      "level": "시행규칙",
      "kind": "기후에너지환경부령",
-     "inBase": false,
-     "parent": "수도법",
-     "lsiSeq": "278905"
+     "inBase": true,
+     "category": "환경",
+     "parent": "수도법"
+    },
+    {
+     "title": "상수원관리규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "수도법 시행령"
     },
     {
      "title": "수도용 자재와 제품의 위생안전기준 인증 등에 관한 규칙",
      "level": "시행규칙",
      "kind": "기후에너지환경부령",
-     "inBase": false,
-     "parent": "수도법",
-     "lsiSeq": "278943"
+     "inBase": true,
+     "category": "환경",
+     "parent": "수도법"
+    }
+   ]
+  },
+  {
+   "root": "순환경제사회 전환 촉진법",
+   "members": [
+    {
+     "title": "순환경제사회 전환 촉진법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "순환경제사회 전환 촉진법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "순환경제사회 전환 촉진법"
+    },
+    {
+     "title": "순환경제사회 전환 촉진법 시행규칙",
+     "level": "시행규칙",
+     "kind": "기후에너지환경부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "순환경제사회 전환 촉진법 시행령"
     }
    ]
   },
@@ -1035,9 +1055,9 @@
      "title": "식품위생 분야 종사자의 건강진단 규칙",
      "level": "시행규칙",
      "kind": "총리령",
-     "inBase": false,
-     "parent": "식품위생법",
-     "lsiSeq": "256335"
+     "inBase": true,
+     "category": "안전",
+     "parent": "식품위생법"
     }
    ]
   },
@@ -1066,22 +1086,6 @@
      "inBase": true,
      "category": "지식재산권",
      "parent": "실용신안법 시행령"
-    },
-    {
-     "title": "특허권 등의 등록령",
-     "level": "시행령",
-     "kind": "대통령령",
-     "inBase": false,
-     "parent": "실용신안법",
-     "lsiSeq": "277549"
-    },
-    {
-     "title": "특허권 등의 등록령 시행규칙",
-     "level": "시행규칙",
-     "kind": "총리령",
-     "inBase": false,
-     "parent": "특허권 등의 등록령",
-     "lsiSeq": "280177"
     }
    ]
   },
@@ -1279,30 +1283,17 @@
      "title": "위험물안전관리법 시행령",
      "level": "시행령",
      "kind": "대통령령",
-     "inBase": false,
-     "parent": "위험물 안전관리법",
-     "lsiSeq": "287381"
+     "inBase": true,
+     "category": "안전",
+     "parent": "위험물 안전관리법"
     },
     {
      "title": "위험물안전관리법 시행규칙",
      "level": "시행규칙",
      "kind": "행정안전부령",
-     "inBase": false,
-     "parent": "위험물안전관리법 시행령",
-     "lsiSeq": "287841"
-    }
-   ]
-  },
-  {
-   "root": "임시수입부가가치세법",
-   "members": [
-    {
-     "title": "임시수입부가가치세법",
-     "level": "법률",
-     "kind": "법률",
      "inBase": true,
-     "category": "재무회계",
-     "notFound": true
+     "category": "안전",
+     "parent": "위험물안전관리법 시행령"
     }
    ]
   },
@@ -1331,35 +1322,6 @@
      "inBase": true,
      "category": "재무회계",
      "parent": "자본시장과 금융투자업에 관한 법률 시행령"
-    }
-   ]
-  },
-  {
-   "root": "자원순환기본법",
-   "members": [
-    {
-     "title": "자원순환기본법",
-     "level": "법률",
-     "kind": "법률",
-     "inBase": true,
-     "category": "환경",
-     "notFound": true
-    },
-    {
-     "title": "자원순환기본법 시행령",
-     "level": "시행령",
-     "kind": "시행령",
-     "inBase": true,
-     "category": "환경",
-     "notFound": true
-    },
-    {
-     "title": "자원순환기본법 시행규칙",
-     "level": "시행규칙",
-     "kind": "시행규칙",
-     "inBase": true,
-     "category": "환경",
-     "notFound": true
     }
    ]
   },
@@ -1393,9 +1355,9 @@
      "title": "제품의 포장재질ㆍ포장방법에 관한 기준 등에 관한 규칙",
      "level": "시행규칙",
      "kind": "기후에너지환경부령",
-     "inBase": false,
-     "parent": "자원의 절약과 재활용 촉진에 관한 법률",
-     "lsiSeq": "287439"
+     "inBase": true,
+     "category": "환경",
+     "parent": "자원의 절약과 재활용 촉진에 관한 법률"
     }
    ]
   },
@@ -1802,33 +1764,33 @@
      "parent": "특허법 시행령"
     },
     {
+     "title": "특허법·실용신안법·의장법·상표법의 시행에 관한 규칙",
+     "level": "시행령",
+     "kind": "대법원규칙",
+     "inBase": true,
+     "category": "지식재산권",
+     "parent": "특허법"
+    },
+    {
      "title": "특허권 등의 등록령",
      "level": "시행령",
      "kind": "대통령령",
-     "inBase": false,
-     "parent": "특허법",
-     "lsiSeq": "277549"
+     "inBase": true,
+     "category": "지식재산권",
+     "parent": "특허법"
     },
     {
      "title": "특허권 등의 등록령 시행규칙",
      "level": "시행규칙",
      "kind": "총리령",
-     "inBase": false,
-     "parent": "특허권 등의 등록령",
-     "lsiSeq": "280177"
+     "inBase": true,
+     "category": "지식재산권",
+     "parent": "특허권 등의 등록령"
     },
     {
      "title": "특허권의 수용ㆍ실시 등에 관한 규정",
      "level": "시행령",
      "kind": "대통령령",
-     "inBase": false,
-     "parent": "특허법",
-     "lsiSeq": "273835"
-    },
-    {
-     "title": "특허법·실용신안법·의장법·상표법의 시행에 관한 규칙",
-     "level": "시행령",
-     "kind": "대법원규칙",
      "inBase": true,
      "category": "지식재산권",
      "parent": "특허법"
@@ -1953,17 +1915,17 @@
      "title": "해양폐기물 및 해양오염퇴적물 관리법 시행령",
      "level": "시행령",
      "kind": "대통령령",
-     "inBase": false,
-     "parent": "해양폐기물 및 해양오염퇴적물 관리법",
-     "lsiSeq": "281699"
+     "inBase": true,
+     "category": "환경",
+     "parent": "해양폐기물 및 해양오염퇴적물 관리법"
     },
     {
      "title": "해양폐기물 및 해양오염퇴적물 관리법 시행규칙",
      "level": "시행규칙",
      "kind": "해양수산부령",
-     "inBase": false,
-     "parent": "해양폐기물 및 해양오염퇴적물 관리법 시행령",
-     "lsiSeq": "268301"
+     "inBase": true,
+     "category": "환경",
+     "parent": "해양폐기물 및 해양오염퇴적물 관리법 시행령"
     }
    ]
   },
@@ -1997,9 +1959,9 @@
      "title": "공공기관의 소방안전관리에 관한 규정",
      "level": "시행령",
      "kind": "대통령령",
-     "inBase": false,
-     "parent": "화재의 예방 및 안전관리에 관한 법률",
-     "lsiSeq": "245523"
+     "inBase": true,
+     "category": "안전",
+     "parent": "화재의 예방 및 안전관리에 관한 법률"
     }
    ]
   },
@@ -2060,31 +2022,30 @@
    ]
   },
   {
-   "root": "환경개선비용의 부담에 관한 법률",
+   "root": "환경개선비용 부담법",
    "members": [
     {
-     "title": "환경개선비용의 부담에 관한 법률",
+     "title": "환경개선비용 부담법",
      "level": "법률",
      "kind": "법률",
      "inBase": true,
-     "category": "환경",
-     "notFound": true
+     "category": "환경"
     },
     {
-     "title": "환경개선비용의 부담에 관한 법률 시행령",
+     "title": "환경개선비용 부담법 시행령",
      "level": "시행령",
-     "kind": "시행령",
+     "kind": "대통령령",
      "inBase": true,
      "category": "환경",
-     "notFound": true
+     "parent": "환경개선비용 부담법"
     },
     {
-     "title": "환경개선비용의 부담에 관한 법률 시행규칙",
+     "title": "환경개선비용 부담법 시행규칙",
      "level": "시행규칙",
-     "kind": "시행규칙",
+     "kind": "기후에너지환경부령",
      "inBase": true,
      "category": "환경",
-     "notFound": true
+     "parent": "환경개선비용 부담법 시행령"
     }
    ]
   },

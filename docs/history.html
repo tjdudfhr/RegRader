@@ -177,7 +177,7 @@
 
   <p class="note">
     매일 아침 국가법령정보센터 데이터를 받아 직전 갱신과 비교합니다. 달라진 점이 있는 날만 기록되고, 위 <b>조회 날짜</b>에서 날짜별로 골라 볼 수 있습니다.<br>
-    <b>신규 개정</b>: 당사 적용 법규 207개에 새로 잡힌 개정 · <b>새로 시행</b>: 시행예정이었다가 시행일이 지나 현행이 된 개정 · <b>빠짐</b>: 법령정보센터에서 조회되지 않게 된 개정 (시행일 변경·철회 등)
+    <b>신규 개정</b>: 당사 적용 법규에 새로 잡힌 개정 · <b>새로 시행</b>: 시행예정이었다가 시행일이 지나 현행이 된 개정 · <b>빠짐</b>: 법령정보센터에서 조회되지 않게 된 개정 (시행일 변경·철회 등)
   </p>
 </div>
 
@@ -191,14 +191,31 @@
     addedByBase: { label: '적용법규 추가로 편입', cls: 'b-base', color: 'var(--base)' }
   };
   var ORDER = ['added', 'nowInForce', 'removed', 'addedByBase'];
-  /* 적용법규(기본 목록)에 새로 추가된 법규 안내 */
+  /* 적용법규(기본 목록)가 바뀐 경우 안내: 추가 · 법령명 변경 · 삭제 */
   function baseLine(e) {
-    var list = e.baseLawsAdded || [];
-    if (!list.length) return '';
-    return '<div class="base-added"><b>적용법규 추가 ' + list.length + '개</b>' +
-      (e.baseLawsBefore && e.baseLawsAfter ? ' (' + num(e.baseLawsBefore) + ' → ' + num(e.baseLawsAfter) + '개)' : '') + ' · ' +
-      list.map(function (b) { return esc(b.title) + (b.category ? ' <span style="color:var(--text-muted)">[' + esc(b.category) + ']</span>' : ''); }).join(', ') +
-      '<br><span style="color:var(--text-muted)">아래 「적용법규 추가로 편입」은 이 법규들의 올해 개정으로, 새로 공포된 개정이 아니라 모니터링 대상에 들어오며 잡힌 것입니다.</span></div>';
+    var add = e.baseLawsAdded || [], ren = e.baseLawsRenamed || [], rem = e.baseLawsRemoved || [];
+    if (!add.length && !ren.length && !rem.length) return '';
+    var lines = [];
+    if (add.length) lines.push('<b>적용법규 추가 ' + add.length + '개</b> · ' + add.map(function (b) {
+      return esc(b.title) + (b.category ? ' <span style="color:var(--text-muted)">[' + esc(b.category) + ']</span>' : '');
+    }).join(', '));
+    if (ren.length) lines.push('<b>법령명 변경 ' + ren.length + '개</b> · ' + ren.map(function (b) {
+      return esc(b.from) + ' → ' + esc(b.to);
+    }).join(', '));
+    if (rem.length) lines.push('<b>적용법규에서 삭제 ' + rem.length + '개</b> · ' + rem.map(function (b) {
+      return esc(b.title) + (b.reason ? ' <span style="color:var(--text-muted)">(' + esc(b.reason) + ')</span>' : '');
+    }).join(', '));
+    var count = e.baseLawsBefore && e.baseLawsAfter ? '<div style="margin-bottom:4px">적용법규 ' + num(e.baseLawsBefore) + ' → <b>' + num(e.baseLawsAfter) + '개</b></div>' : '';
+    var hint = (e.addedByBase || []).length
+      ? '<br><span style="color:var(--text-muted)">아래 「적용법규 추가로 편입」은 이 법규들의 올해 개정으로, 새로 공포된 개정이 아니라 모니터링 대상에 들어오며 잡힌 것입니다.</span>' : '';
+    return '<div class="base-added">' + count + lines.join('<br>') + hint + '</div>';
+  }
+  function baseSummary(e) {
+    var p = [];
+    if ((e.baseLawsAdded || []).length) p.push('적용법규 +' + e.baseLawsAdded.length);
+    if ((e.baseLawsRenamed || []).length) p.push('법령명 변경 ' + e.baseLawsRenamed.length);
+    if ((e.baseLawsRemoved || []).length) p.push('적용법규 삭제 ' + e.baseLawsRemoved.length);
+    return p;
   }
   var entries = [];
   var filter = 'all';
@@ -314,7 +331,7 @@
     var parts = ORDER.map(function (t) {
       var n = (e[t] || []).length;
       return n ? TYPES[t].label.replace('목록에서 ', '') + ' ' + n : '';
-    }).filter(Boolean);
+    }).filter(Boolean).concat(baseSummary(e));
     return shortDate(e.checkedAt) + '  —  ' + (parts.length ? parts.join(' · ') : '전체 법령 수만 변동');
   }
   function fillSelect() {

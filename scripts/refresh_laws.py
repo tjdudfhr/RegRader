@@ -202,12 +202,24 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         base_added = json.loads(os.environ.get("RR_BASE_ADDED") or "[]")
     except ValueError:
         base_added = []
-    new_titles = {b.get("title") for b in base_added}
+    # 적용법규의 법령명 변경(법령정보센터에서 이름이 바뀐 법)·삭제(폐지된 법)도 같은 방식으로 따로 기록한다
+    def env_list(name):
+        try:
+            v = json.loads(os.environ.get(name) or "[]")
+            return v if isinstance(v, list) else []
+        except ValueError:
+            return []
+    base_renamed = env_list("RR_BASE_RENAMED")    # [{from, to, category, ministry}]
+    base_removed = env_list("RR_BASE_REMOVED")    # [{title, category, reason}]
+    new_titles = {b.get("title") for b in base_added} | {b.get("to") for b in base_renamed}
     by_base = [x for x in added if x["title"] in new_titles]
     added = [x for x in added if x["title"] not in new_titles]
+    old_titles = {b.get("title") for b in base_removed} | {b.get("from") for b in base_renamed}
+    removed_by_base = [x for x in removed if x["title"] in old_titles]
+    removed = [x for x in removed if x["title"] not in old_titles]
     u_before = (prev_meta or {}).get("universe") or {}
     u_after = meta.get("universe") or {}
-    if not (added or removed or now_in_force or base_added or (u_before and u_before != u_after)):
+    if not (added or removed or now_in_force or base_added or base_renamed or base_removed or (u_before and u_before != u_after)):
         print("changelog: 변경 없음", flush=True)
         return
     log = read_json(path, {"entries": []})
@@ -225,12 +237,16 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         "nowInForce": now_in_force,
         "baseLawsAdded": base_added,
         "addedByBase": by_base,
+        "baseLawsRenamed": base_renamed,
+        "baseLawsRemoved": base_removed,
+        "removedByBase": removed_by_base,
         "baseLawsBefore": (prev_meta or {}).get("baseLaws"),
         "baseLawsAfter": meta.get("baseLaws"),
     })
     log["updatedAt"] = meta["generatedAt"]
     path.write_text(json.dumps(log, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"changelog: 신규 {len(added)} / 삭제 {len(removed)} / 시행 {len(now_in_force)} / 적용법규 추가 {len(base_added)}", flush=True)
+    print(f"changelog: 신규 {len(added)} / 삭제 {len(removed)} / 시행 {len(now_in_force)} / 적용법규 추가 {len(base_added)}"
+          f" / 법령명 변경 {len(base_renamed)} / 적용법규 삭제 {len(base_removed)}", flush=True)
 
 
 def main():

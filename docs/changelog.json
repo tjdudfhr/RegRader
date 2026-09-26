@@ -1,6 +1,360 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-09-26T00:13:21.858120+00:00",
+      "asOf": "2026-09-26",
+      "previousCheckedAt": "2026-09-25T23:17:43.661225+00:00",
+      "totalBefore": 335,
+      "totalAfter": 353,
+      "universeBefore": {
+        "openapiCurrent": 2522,
+        "openapiFuture": 4989,
+        "openapiUpcoming": 390
+      },
+      "universeAfter": {
+        "openapiCurrent": 2522,
+        "openapiFuture": 4989,
+        "openapiUpcoming": 390
+      },
+      "added": [],
+      "removed": [],
+      "nowInForce": [],
+      "baseLawsAdded": [
+        {
+          "title": "성매개감염병 및 후천성면역결핍증 건강진단규칙",
+          "category": "안전",
+          "ministry": "질병관리청",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "순환골재 품질인증 및 관리에 관한 규칙",
+          "category": "환경",
+          "ministry": "국토교통부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "고압가스 안전관리법 시행령",
+          "category": "안전",
+          "ministry": "산업통상부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "근로감독관규정",
+          "category": "인사노무",
+          "ministry": "고용노동부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "근로감독관증 규칙",
+          "category": "인사노무",
+          "ministry": "고용노동부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "먹는물 수질기준 및 검사 등에 관한 규칙",
+          "category": "환경",
+          "ministry": "기후에너지환경부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "산업안전보건기준에 관한 규칙",
+          "category": "안전",
+          "ministry": "고용노동부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "유해ㆍ위험작업의 취업 제한에 관한 규칙",
+          "category": "안전",
+          "ministry": "고용노동부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "상법의 전자선하증권 규정의 시행에 관한 규정",
+          "category": "지배구조",
+          "ministry": "법무부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "소방용품의 품질관리 등에 관한 규칙",
+          "category": "안전",
+          "ministry": "소방청",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "공동주택 층간소음의 범위와 기준에 관한 규칙",
+          "category": "환경",
+          "ministry": "국토교통부,기후에너지환경부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "상수원관리규칙",
+          "category": "환경",
+          "ministry": "기후에너지환경부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "수도용 자재와 제품의 위생안전기준 인증 등에 관한 규칙",
+          "category": "환경",
+          "ministry": "기후에너지환경부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "식품위생 분야 종사자의 건강진단 규칙",
+          "category": "안전",
+          "ministry": "식품의약품안전처",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "특허권 등의 등록령",
+          "category": "지식재산권",
+          "ministry": "지식재산처",
+          "lawType": "시행령"
+        },
+        {
+          "title": "특허권 등의 등록령 시행규칙",
+          "category": "지식재산권",
+          "ministry": "지식재산처",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "위험물안전관리법 시행령",
+          "category": "안전",
+          "ministry": "소방청",
+          "lawType": "시행령"
+        },
+        {
+          "title": "위험물안전관리법 시행규칙",
+          "category": "안전",
+          "ministry": "소방청",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "제품의 포장재질ㆍ포장방법에 관한 기준 등에 관한 규칙",
+          "category": "환경",
+          "ministry": "기후에너지환경부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "특허권의 수용ㆍ실시 등에 관한 규정",
+          "category": "지식재산권",
+          "ministry": "지식재산처",
+          "lawType": "시행령"
+        },
+        {
+          "title": "해양폐기물 및 해양오염퇴적물 관리법 시행령",
+          "category": "환경",
+          "ministry": "해양수산부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "해양폐기물 및 해양오염퇴적물 관리법 시행규칙",
+          "category": "환경",
+          "ministry": "해양수산부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "공공기관의 소방안전관리에 관한 규정",
+          "category": "안전",
+          "ministry": "소방청",
+          "lawType": "시행령"
+        }
+      ],
+      "addedByBase": [
+        {
+          "title": "순환경제사회 전환 촉진법",
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "279777"
+        },
+        {
+          "title": "상법의 전자선하증권 규정의 시행에 관한 규정",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "법무부",
+          "category": "지배구조",
+          "lsiSeq": "280989"
+        },
+        {
+          "title": "해양폐기물 및 해양오염퇴적물 관리법 시행령",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "해양수산부",
+          "category": "환경",
+          "lsiSeq": "281699"
+        },
+        {
+          "title": "순환경제사회 전환 촉진법",
+          "effectiveDate": "2026-02-19",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "283397"
+        },
+        {
+          "title": "산업안전보건기준에 관한 규칙",
+          "effectiveDate": "2026-03-02",
+          "amendmentType": "일부개정",
+          "ministry": "고용노동부",
+          "category": "안전",
+          "lsiSeq": "273603"
+        },
+        {
+          "title": "순환경제사회 전환 촉진법 시행령",
+          "effectiveDate": "2026-03-03",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "283785"
+        },
+        {
+          "title": "순환골재 품질인증 및 관리에 관한 규칙",
+          "effectiveDate": "2026-03-12",
+          "amendmentType": "타법개정",
+          "ministry": "국토교통부",
+          "category": "환경",
+          "lsiSeq": "284545"
+        },
+        {
+          "title": "고압가스 안전관리법 시행령",
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "안전",
+          "lsiSeq": "284513"
+        },
+        {
+          "title": "유해ㆍ위험작업의 취업 제한에 관한 규칙",
+          "effectiveDate": "2026-04-07",
+          "amendmentType": "일부개정",
+          "ministry": "고용노동부",
+          "category": "안전",
+          "lsiSeq": "285435"
+        },
+        {
+          "title": "소방용품의 품질관리 등에 관한 규칙",
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "ministry": "소방청",
+          "category": "안전",
+          "lsiSeq": "285511"
+        },
+        {
+          "title": "고압가스 안전관리법 시행령",
+          "effectiveDate": "2026-06-09",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "안전",
+          "lsiSeq": "286839"
+        },
+        {
+          "title": "제품의 포장재질ㆍ포장방법에 관한 기준 등에 관한 규칙",
+          "effectiveDate": "2026-06-22",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "287439"
+        },
+        {
+          "title": "환경개선비용 부담법 시행규칙",
+          "effectiveDate": "2026-06-22",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "287449"
+        },
+        {
+          "title": "소방용품의 품질관리 등에 관한 규칙",
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "ministry": "소방청",
+          "category": "안전",
+          "lsiSeq": "287833"
+        },
+        {
+          "title": "위험물안전관리법 시행규칙",
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "ministry": "소방청",
+          "category": "안전",
+          "lsiSeq": "287841"
+        },
+        {
+          "title": "위험물안전관리법 시행령",
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "ministry": "소방청",
+          "category": "안전",
+          "lsiSeq": "287381"
+        },
+        {
+          "title": "상수원관리규칙",
+          "effectiveDate": "2026-07-21",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "288323"
+        },
+        {
+          "title": "상수원관리규칙",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "289045"
+        }
+      ],
+      "baseLawsRenamed": [
+        {
+          "from": "자원순환기본법",
+          "to": "순환경제사회 전환 촉진법",
+          "category": "환경",
+          "ministry": "기후에너지환경부"
+        },
+        {
+          "from": "자원순환기본법 시행령",
+          "to": "순환경제사회 전환 촉진법 시행령",
+          "category": "환경",
+          "ministry": "기후에너지환경부"
+        },
+        {
+          "from": "자원순환기본법 시행규칙",
+          "to": "순환경제사회 전환 촉진법 시행규칙",
+          "category": "환경",
+          "ministry": "기후에너지환경부"
+        },
+        {
+          "from": "환경개선비용의 부담에 관한 법률",
+          "to": "환경개선비용 부담법",
+          "category": "환경",
+          "ministry": "기후에너지환경부"
+        },
+        {
+          "from": "환경개선비용의 부담에 관한 법률 시행령",
+          "to": "환경개선비용 부담법 시행령",
+          "category": "환경",
+          "ministry": "기후에너지환경부"
+        },
+        {
+          "from": "환경개선비용의 부담에 관한 법률 시행규칙",
+          "to": "환경개선비용 부담법 시행규칙",
+          "category": "환경",
+          "ministry": "기후에너지환경부"
+        }
+      ],
+      "baseLawsRemoved": [
+        {
+          "title": "임시수입부가가치세법",
+          "category": "재무회계",
+          "reason": "국가법령정보센터에서 조회되지 않음 (폐지)"
+        }
+      ],
+      "removedByBase": [],
+      "baseLawsBefore": 207,
+      "baseLawsAfter": 229
+    },
+    {
       "checkedAt": "2026-09-25T23:17:43.661225+00:00",
       "asOf": "2026-09-26",
       "previousCheckedAt": "2026-09-25T09:16:40.975506+00:00",
@@ -276,5 +630,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-09-25T23:17:43.661225+00:00"
+  "updatedAt": "2026-09-26T00:13:21.858120+00:00"
 }

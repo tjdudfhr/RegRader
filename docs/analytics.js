@@ -25,7 +25,11 @@
     return { text: cssVar('--text-primary', dark() ? '#f7fafc' : '#1a202c'), muted: cssVar('--text-muted', '#718096'),
              grid: dark() ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)', surface: dark() ? '#2d3748' : '#ffffff' };
   }
-  function lawKind(t) { return /시행규칙$/.test(t) ? '시행규칙' : /시행령$/.test(t) ? '시행령' : '법률'; }
+  /* 법령 종류: 'OO 시행령/시행규칙' 외에 이름이 다른 하위법령도 있다 (예: 산업안전보건기준에 관한 규칙=부령, 근로감독관규정·특허권 등의 등록령=대통령령) */
+  function lawKind(t) {
+    t = String(t || '').trim();
+    return /규칙$/.test(t) ? '시행규칙' : /(시행령|규정|령)$/.test(t) ? '시행령' : '법률';
+  }
   function yearOf(items) {
     var c = {};
     items.forEach(function (x) { var y = String(x.effectiveDate || '').slice(0, 4); if (y) c[y] = (c[y] || 0) + 1; });
