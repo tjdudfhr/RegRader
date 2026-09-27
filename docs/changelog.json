@@ -1,6 +1,34 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-09-27T22:00:47.133578+00:00",
+      "asOf": "2026-09-28",
+      "previousCheckedAt": "2026-09-26T22:00:51.970921+00:00",
+      "totalBefore": 757,
+      "totalAfter": 757,
+      "universeBefore": {
+        "openapiCurrent": 2522,
+        "openapiFuture": 4989,
+        "openapiUpcoming": 390
+      },
+      "universeAfter": {
+        "openapiCurrent": 2523,
+        "openapiFuture": 4992,
+        "openapiUpcoming": 391
+      },
+      "added": [],
+      "removed": [],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "baseLawsBefore": 229,
+      "baseLawsAfter": 229
+    },
+    {
       "checkedAt": "2026-09-26T16:13:45.479506+00:00",
       "asOf": "2026-09-27",
       "previousCheckedAt": "2026-09-26T00:13:21.858120+00:00",
@@ -4298,5 +4326,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-09-26T16:13:45.479506+00:00"
+  "updatedAt": "2026-09-27T22:00:47.133578+00:00"
 }
