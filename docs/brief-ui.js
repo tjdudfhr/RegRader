@@ -64,7 +64,6 @@
       '.rr-links a { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:10px; font-size:14px; font-weight:700; text-decoration:none;',
       '  color:var(--primary,#667eea); border:1px solid color-mix(in srgb, var(--primary,#667eea) 45%, transparent); background:color-mix(in srgb, var(--primary,#667eea) 8%, transparent); }',
       '.rr-links a:hover { background:color-mix(in srgb, var(--primary,#667eea) 16%, transparent); }',
-      '@media (prefers-color-scheme: dark) { .rr-sec td.old { color:#fbbf24; } .rr-sec td.new { color:#34d399; } }'
     ].join('\n');
     document.head.appendChild(st);
   })();

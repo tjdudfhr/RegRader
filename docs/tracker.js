@@ -470,7 +470,6 @@
     '.rr-st { display:inline-block; margin-left:6px; font-size:10.5px; font-weight:800; padding:0 7px; border-radius:6px; line-height:1.6; white-space:nowrap; vertical-align:middle; }',
     '.rr-st.none { color:#718096; background:rgba(160,174,192,.18); } .rr-st.rev { color:#2b6cb0; background:rgba(66,153,225,.14); }',
     '.rr-st.need { color:#c05621; background:rgba(221,107,32,.14); } .rr-st.done { color:#2f855a; background:rgba(72,187,120,.16); } .rr-st.na { color:#4a5568; background:rgba(113,128,150,.14); }',
-    '@media (prefers-color-scheme: dark) { .rr-st.none{color:#cbd5e0} .rr-st.rev{color:#90cdf4} .rr-st.need{color:#fbd38d} .rr-st.done{color:#9ae6b4} .rr-st.na{color:#e2e8f0} }',
     '.rr-trk-login { font-size:14px; color:var(--text-secondary,#4a5568); display:flex; align-items:center; gap:10px; flex-wrap:wrap; }',
     '.rr-trk { display:flex; flex-direction:column; gap:8px; }',
     '.rr-trk-grid { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:8px; }',

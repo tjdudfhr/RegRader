@@ -73,38 +73,6 @@
   --shadow-xl: var(--sh-lg);
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --brand: #6f8dff;
-    --brand-hover: #87a0ff;
-    --brand-press: #5a78ec;
-    --brand-soft: rgba(111, 141, 255, 0.14);
-    --brand-soft-2: rgba(111, 141, 255, 0.24);
-    --brand-ink: #a9bbff;
-    --brand-solid: #4863e0;
-    --ink: #eef1f6;
-    --ink-2: #c9cfd9;
-    --ink-3: #939bab;
-    --ink-4: #6b7385;
-    --canvas: #0d1015;
-    --surface: #161a22;
-    --surface-2: #1b2029;
-    --surface-3: #212733;
-    --line: #2a303c;
-    --line-2: #232935;
-    --danger: #f97066;
-    --danger-soft: rgba(249, 112, 102, 0.12);
-    --warn: #f79d4d;
-    --warn-soft: rgba(247, 157, 77, 0.12);
-    --ok: #47cd89;
-    --ok-soft: rgba(71, 205, 137, 0.12);
-    --sh-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --sh-sm: 0 1px 3px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.02);
-    --sh-md: 0 10px 24px -6px rgba(0, 0, 0, 0.6);
-    --sh-lg: 0 24px 56px -12px rgba(0, 0, 0, 0.75);
-    color-scheme: dark;
-  }
-}
 
 /* ============ 바탕 ============ */
 html { -webkit-text-size-adjust: 100%; }
@@ -589,3 +557,153 @@ body > .container > .header .settings-btn.loading svg { animation: rr-spin 0.8s 
 @keyframes rr-spin { to { transform: rotate(360deg); } }
 /* 직무 분야 버튼: 옛 아이콘 자리는 숨긴다 */
 body #lawregistry-content .job-function-item .job-icon, body #lawregistry-content .job-function-item .job-icon.ri-solo { display: none !important; }
+
+/* ================================================================
+ * 흰색 · 검정 섞기 (2026-09-27)
+ *  - 화면은 밝은 테마로 고정 (맥이 다크 모드여도 흰 바탕)
+ *  - 사이드바는 짙은 남색-검정, 내용은 흰 카드
+ *  - 화면마다 '가장 중요한 한 덩어리'만 검정 카드로 (종합: 전체 개정 현황, 분석 첫 숫자, 선택한 분기)
+ * ================================================================ */
+:root {
+  --night: #0e1422;
+  --night-2: #161e30;
+  --night-3: #1f2940;
+  --night-line: rgba(255, 255, 255, 0.08);
+  --night-ink: #ffffff;
+  --night-ink-2: rgba(255, 255, 255, 0.72);
+  --night-ink-3: rgba(255, 255, 255, 0.48);
+  --night-accent: #8fa9ff;
+}
+
+/* ---- 어두운 사이드바 ---- */
+body .main-tab-navigation { background: var(--night) !important; border-right: 0 !important; scrollbar-color: rgba(255,255,255,.15) transparent; }
+body .main-tab-navigation .rr-brand { border-bottom: 1px solid var(--night-line); color: var(--night-ink); }
+body .main-tab-navigation .rr-brand-sub { color: var(--night-ink-3); }
+body .main-tab-navigation .rr-brand-mark { box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 6px 14px -4px rgba(48, 86, 211, 0.8); }
+body .main-tab-navigation .nav-caption { color: var(--night-ink-3) !important; }
+body .main-tab, body .main-link { color: var(--night-ink-2) !important; position: relative; }
+body .main-tab .tab-icon, body .main-link .tab-icon { color: var(--night-ink-3) !important; }
+body .main-tab:hover, body .main-link:hover { background: rgba(255, 255, 255, 0.06) !important; color: var(--night-ink) !important; }
+body .main-tab:hover .tab-icon { color: var(--night-ink-2) !important; }
+body .main-tab.active { background: rgba(255, 255, 255, 0.10) !important; color: var(--night-ink) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.04) !important; }
+body .main-tab.active .tab-icon { color: var(--night-accent) !important; }
+body .main-tab.active::before { content: "" !important; display: block !important; position: absolute; left: -12px; top: 9px; bottom: 9px; width: 3px; border-radius: 0 3px 3px 0; background: var(--night-accent); }
+body .rr-side-foot { border-top: 1px solid var(--night-line); }
+body .rr-side-status { background: rgba(255, 255, 255, 0.05); color: var(--night-ink-3); }
+body .rr-side-status b { color: var(--night-ink); }
+body .rr-side-status .rr-dot { box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.35); background: #3ccb7f; }
+body .rr-side-foot .rr-trk-who .av { background: rgba(143, 169, 255, 0.18); color: #c9d5ff; }
+body .rr-side-foot .rr-trk-who .n { color: var(--night-ink) !important; }
+body .rr-side-foot .rr-trk-who .j { color: var(--night-ink-3) !important; }
+body .rr-side-foot .rr-trk-who button { background: transparent !important; border-color: rgba(255,255,255,.14) !important; color: var(--night-ink-2) !important; }
+body .rr-side-foot .rr-trk-who button:hover { background: rgba(255,255,255,.06) !important; color: var(--night-ink) !important; }
+body .rr-side-foot .rr-trk-who button.in { background: rgba(255,255,255,.04) !important; border: 1px solid rgba(255,255,255,.14) !important; color: var(--night-ink) !important; box-shadow: none; }
+body .rr-side-foot .rr-trk-who button.in:hover { background: rgba(255,255,255,.09) !important; border-color: rgba(255,255,255,.24) !important; color: #fff !important; }
+
+/* ---- 앱 바: 흰 바탕 ---- */
+body > .container > .header { background: rgba(255, 255, 255, 0.86) !important; }
+body > .container > .header .meta { background: var(--surface-2) !important; box-shadow: none; }
+
+/* ---- 검정 카드 (강조 한 덩어리) ---- */
+.rr-night, body .rr-summary > div:first-child {
+  background: radial-gradient(120% 140% at 100% 0%, #22305a 0%, transparent 55%), var(--night) !important;
+  border: 1px solid var(--night) !important;
+  color: var(--night-ink) !important;
+  box-shadow: 0 12px 28px -12px rgba(14, 20, 34, 0.55) !important;
+}
+body .rr-summary > div:first-child [style*="color: var(--text-primary)"] { color: var(--night-ink) !important; }
+body .rr-summary > div:first-child [style*="color: var(--text-muted)"], body .rr-summary > div:first-child #rr-universe-sub { color: var(--night-ink-3) !important; }
+body .rr-summary > div:first-child #rr-universe-current { color: #fff !important; }
+body .rr-summary > div:first-child #rr-universe-future { color: var(--night-accent) !important; }
+body .rr-summary > div:first-child .rr-u-delta { color: var(--night-ink-3) !important; }
+body .rr-summary > div:first-child .rr-u-delta.up { color: #9cc0ff !important; }
+body .rr-summary > div:first-child .rr-u-delta.down { color: #ffb38a !important; }
+body .rr-summary > div:first-child .ri-solo { background: rgba(255, 255, 255, 0.08); color: #fff; }
+
+/* 분석 숫자 줄: 첫 숫자만 검정 */
+body .rr-job-tiles > .rr-job-tile:first-child {
+  background: var(--night) !important; border-color: var(--night) !important; color: var(--night-ink-2) !important;
+  box-shadow: 0 10px 22px -12px rgba(14, 20, 34, 0.6) !important;
+}
+body .rr-job-tiles > .rr-job-tile:first-child * { color: var(--night-ink-2) !important; }
+body .rr-job-tiles > .rr-job-tile:first-child b { color: #fff !important; }
+
+/* ============ 분기별 탭 ============ */
+/* 선택한 분기 = 검정 카드 */
+body .quarterly-tab.selected, body .quarterly-tab.active {
+  background: radial-gradient(120% 140% at 100% 0%, #22305a 0%, transparent 60%), var(--night) !important;
+  border-color: var(--night) !important;
+  box-shadow: 0 14px 28px -14px rgba(14, 20, 34, 0.7) !important;
+}
+body .quarterly-tab.selected .quarter-title, body .quarterly-tab.selected .quarter-title span { color: #fff !important; }
+body .quarterly-tab.selected .quarter-period { color: var(--night-ink-3) !important; }
+body .quarterly-tab.selected .quarter-count { color: #fff !important; }
+body .quarterly-tab.selected .quarter-download-btn { background: rgba(255,255,255,.08) !important; border-color: rgba(255,255,255,.16) !important; color: var(--night-ink-2) !important; }
+body .quarterly-tab.selected .quarter-download-btn:hover { color: #fff !important; background: rgba(255,255,255,.14) !important; }
+body .quarterly-tab.selected .rr-qbar { box-shadow: 0 0 0 1px rgba(255,255,255,.12); }
+
+/* 목록 머리 */
+body .rr-q-listhead { gap: 10px !important; margin-bottom: 14px !important; }
+body .rr-q-listhead .cnt { color: var(--ink-2) !important; background: var(--surface-3); border: 0 !important; font-size: 12px !important; padding: 3px 10px !important; }
+body .rr-q-listhead input { border-radius: 8px !important; min-width: 240px; }
+
+/* 달별 묶음 = 표처럼 한 덩어리 */
+body .rr-q-month { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); margin-bottom: 14px !important; }
+body .rr-q-month-h { margin: 0 !important; padding: 10px 16px !important; background: var(--surface-2); border-bottom: 1px solid var(--line); font-size: 12.5px !important; color: var(--ink) !important; letter-spacing: -0.01em; }
+body .rr-q-month-h span { color: var(--ink-3) !important; }
+body .rr-q-row {
+  margin: 0 !important; border: 0 !important; border-bottom: 1px solid var(--line-2) !important; border-radius: 0 !important;
+  padding: 11px 16px !important; background: var(--surface) !important; box-shadow: none !important; transform: none !important;
+  transition: background 0.12s ease !important; position: relative;
+}
+body .rr-q-row:last-child { border-bottom: 0 !important; }
+body .rr-q-row:hover { background: var(--surface-2) !important; transform: none !important; box-shadow: inset 3px 0 0 var(--brand) !important; }
+body .rr-q-row > :first-child { color: var(--ink-2) !important; font-weight: 700 !important; font-variant-numeric: tabular-nums; }
+body .rr-q-row .t { font-weight: 700; color: var(--ink); }
+
+/* ============ 직무별 탭: 분포 · 개정 법령 목록 ============ */
+body #business-content .main-content { gap: 20px !important; align-items: start; }
+body #business-content .chart-card {
+  background: var(--surface) !important; border: 1px solid var(--line) !important; border-radius: var(--r-lg) !important;
+  box-shadow: var(--sh-sm) !important; padding: 20px !important;
+}
+body #business-content .chart-title { font-size: 15px !important; font-weight: 800 !important; letter-spacing: -0.02em; color: var(--ink) !important; }
+body #business-content .category-legend { gap: 6px 12px !important; }
+body .law-card { overflow: hidden; }
+body .law-list-header { background: var(--surface) !important; color: var(--ink) !important; padding: 16px 20px !important; border-bottom: 1px solid var(--line); }
+body .law-list-title { font-size: 15px !important; font-weight: 800 !important; letter-spacing: -0.02em; gap: 10px !important; }
+body .law-list-title .rr-lt-ic { color: var(--brand); display: inline-flex; }
+body .law-list-title .rr-lt-ic.ri-solo { width: 30px !important; height: 30px !important; font-size: 15px !important; }
+body .law-count { margin-left: 6px !important; background: var(--surface-3) !important; color: var(--ink-2) !important; font-size: 12px !important; font-weight: 700; padding: 3px 10px !important; }
+body .search-container { padding: 12px 20px !important; background: var(--surface); }
+body .search-box { background: var(--surface-2) !important; border: 1px solid var(--line) !important; border-radius: 9px !important; padding: 8px 12px !important; }
+body .search-box:focus-within { border-color: var(--brand) !important; box-shadow: 0 0 0 3px var(--brand-soft-2) !important; background: var(--surface) !important; }
+body .search-box input { border: 0 !important; box-shadow: none !important; background: transparent !important; padding: 0 !important; }
+body .search-box button { font-weight: 700; color: var(--brand) !important; min-height: 0 !important; }
+body .search-box > span:first-child { color: var(--ink-4); display: inline-flex; }
+body .law-list { max-height: 640px !important; }
+body .law-item { padding: 13px 20px !important; border-bottom: 1px solid var(--line-2) !important; transition: background 0.12s ease !important; }
+body .law-item:hover { background: var(--surface-2) !important; box-shadow: inset 3px 0 0 var(--brand); }
+body .law-item-header { margin-bottom: 6px !important; align-items: center !important; }
+body .law-title { font-size: 14.5px !important; font-weight: 700 !important; color: var(--ink) !important; letter-spacing: -0.015em; }
+body .law-meta { gap: 14px !important; font-size: 12.5px !important; color: var(--ink-3) !important; }
+body .law-meta .ri { color: var(--ink-4); width: 14px; height: 14px; }
+body .date-badge { background: var(--surface-3) !important; color: var(--ink-2) !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 700 !important; font-variant-numeric: tabular-nums; padding: 3px 8px !important; }
+body .date-badge.urgent { background: var(--danger-soft) !important; color: var(--danger) !important; }
+body .date-badge.soon { background: var(--brand-soft) !important; color: var(--brand-ink) !important; }
+/* 목록 안의 작은 아이콘은 타일이 아니라 글자 옆 아이콘 */
+body .law-meta .ri-solo, body .meta-item .ri-solo {
+  width: auto !important; height: auto !important; background: none !important; border-radius: 0; font-size: 13px !important; color: var(--ink-4) !important;
+}
+
+/* ============ 종합: 제재·의무 변경 목록도 표처럼 ============ */
+body .rr-rp-list { gap: 0 !important; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+body .rr-rp-row {
+  border: 0 !important; border-bottom: 1px solid var(--line-2) !important; border-radius: 0 !important;
+  padding: 10px 14px !important; background: var(--surface) !important; transition: background 0.12s ease;
+}
+body .rr-rp-row:last-child { border-bottom: 0 !important; }
+body .rr-rp-row:hover { background: var(--surface-2) !important; box-shadow: inset 3px 0 0 var(--brand); }
+body .rr-rp-lh { font-weight: 800; }
+body .rr-rp-tile { border-radius: 10px !important; }
+body .main-tab .tab-text, body .main-link .tab-text { color: inherit !important; }

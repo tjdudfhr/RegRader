@@ -11,7 +11,7 @@
     var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
     return v || fallback;
   }
-  function isDark() { return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; }
+  function isDark() { return window.rrIsDark ? window.rrIsDark() : false; }
   function todayKST() {
     var k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
     return new Date(k.getFullYear(), k.getMonth(), k.getDate());

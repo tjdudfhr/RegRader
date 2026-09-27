@@ -12,8 +12,8 @@
     
     <!-- PWA 설정 -->
     <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#f3f5f8" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#0d1015" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f3f5f8">
+    <meta name="color-scheme" content="light">
     <link rel="apple-touch-icon" href="./icon-192.png">
     
     <!-- 휴대폰도 이 화면을 그대로 쓴다 (옛 모바일 페이지 mobile_v2.html 은 없앰). 좁은 화면에서는 메뉴가 위쪽 가로 막대로 접힌다. -->
@@ -32,7 +32,8 @@
             window.RR_CAT_ORDER = ['재무회계', '인사노무', '환경', '지식재산권', '공정거래', '안전', '지배구조', '정보보호'];
             var CAT_LIGHT = { '재무회계': '#2a78d6', '인사노무': '#eb6834', '환경': '#1baf7a', '지식재산권': '#eda100', '공정거래': '#e87ba4', '안전': '#008300', '지배구조': '#4a3aa7', '정보보호': '#e34948', '기타': '#a0aec0' };
             var CAT_DARK = { '재무회계': '#3987e5', '인사노무': '#d95926', '환경': '#199e70', '지식재산권': '#c98500', '공정거래': '#d55181', '안전': '#008300', '지배구조': '#9085e9', '정보보호': '#e66767', '기타': '#718096' };
-            window.rrIsDark = function () { return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches); };
+            /* 화면은 밝은 테마로 고정한다 (사이드바만 어둡게, system.css). 차트 색도 밝은 단계만 쓴다 */
+            window.rrIsDark = function () { return false; };
             window.rrCatColor = function (cat) { var m = window.rrIsDark() ? CAT_DARK : CAT_LIGHT; return m[cat] || m['기타']; };
             window.rrDataPath = function (file) {
                 return (window.RR_VIEW_YEAR ? './archive/' + window.RR_VIEW_YEAR + '/' : './') + file;
@@ -86,7 +87,7 @@
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./system-ui.js?v=20260927d"></script>
+    <script src="./system-ui.js?v=20260927e"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         // EmailJS 초기화
@@ -141,22 +142,6 @@
             --c-etc: #a0aec0;
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --text-primary: #f7fafc;
-                --text-secondary: #e2e8f0;
-                --text-muted: #a0aec0;
-                --bg-primary: #1a202c;
-                --bg-secondary: #2d3748;
-                --bg-card: #2d3748;
-                --bg-glass: rgba(45, 55, 72, 0.25);
-                --border: #4a5568;
-                --glass-bg: rgba(45, 55, 72, 0.1);
-                /* 직무 색 — 다크 모드 단계 */
-                --c-fin: #3987e5; --c-hr: #d95926; --c-env: #199e70; --c-ip: #c98500;
-                --c-fair: #d55181; --c-safety: #008300; --c-gov: #9085e9; --c-sec: #e66767; --c-etc: #718096;
-            }
-        }
 
         * {
             margin: 0;
@@ -1966,8 +1951,8 @@
             line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="./app-shell.css?v=20260927f">
-    <link rel="stylesheet" href="./system.css?v=20260927d">
+    <link rel="stylesheet" href="./app-shell.css?v=20260927u">
+    <link rel="stylesheet" href="./system.css?v=20260927i">
 </head>
 <body>
     <!-- 시작 화면 (system-ui.js 가 데이터가 준비되면 걷는다) -->
@@ -2324,7 +2309,7 @@
                 <!-- Category Distribution Chart -->
                 <div class="chart-card">
                     <div class="chart-header">
-                        <div class="chart-title">📈 직무별 분포</div>
+                        <div class="chart-title">직무별 분포</div>
                     </div>
                     <div class="chart-container">
                         <canvas id="categoryChart"></canvas>
@@ -2340,8 +2325,8 @@
             <div class="law-card">
                 <div class="law-list-header">
                     <div class="law-list-title">
-                        📋 개정 법령 목록
-                        <div class="law-count" id="law-count">327건</div>
+                        <span class="rr-lt-ic">📋</span><span id="law-list-label">개정 법령 목록</span>
+                        <div class="law-count" id="law-count">–</div>
                     </div>
                 </div>
                 
@@ -2489,8 +2474,8 @@
             <div class="tab-pane" id="tracker-content"><div id="rr-trk-dash"></div></div>
 
             <!-- 시행 임박 · 업데이트 내역: 각 페이지를 embed 모드로 끼워 넣는다 (처음 열 때 불러옴) -->
-            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20260927t" title="시행 임박 법령"></iframe></div>
-            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20260927t" title="업데이트 내역"></iframe></div>
+            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20260927u" title="시행 임박 법령"></iframe></div>
+            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20260927u" title="업데이트 내역"></iframe></div>
         </div>
     </div>
 
@@ -7246,7 +7231,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <!-- RegRader 오버레이: 데이터/개정이유/UI -->
     <script src="./app-init.js?v=20260927t"></script>
     <script src="./event-boot.js?v=20260927a"></script>
-    <script src="./amend-ui.js?v=20260926b"></script>
+    <script src="./amend-ui.js?v=20260927u"></script>
     <script src="./whyA.js?v=20260917a"></script>
     <script src="./whyB.js?v=20260917a"></script>
     <script src="./wy0.js?v=20260917a"></script>
@@ -7254,23 +7239,23 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./why-core.js?v=20260917a"></script>
     <script src="./brief-why.js?v=20260917a"></script>
     <script src="./sum-fill.js?v=20260917a"></script>
-    <script src="./brief-ui.js?v=20260927b"></script>
+    <script src="./brief-ui.js?v=20260927u"></script>
     <script src="./stats-ui.js?v=20260927b"></script>
-    <script src="./family-ui.js?v=20260927a"></script>
-    <script src="./tracker.js?v=20260927s"></script>
+    <script src="./family-ui.js?v=20260927u"></script>
+    <script src="./tracker.js?v=20260927u"></script>
     <script src="./registry-fix.js?v=20260927b"></script>
     <script src="./excel-fix.js?v=20260925a"></script>
     <script src="./report-ppt.js?v=20260927t"></script>
     <script src="./download-ui.js?v=20260927s"></script>
     <script src="./mail-ui.js?v=20260927a"></script>
     <script src="./law-request.js?v=20260925a"></script>
-    <script src="./dashboard-charts.js?v=20260927s"></script>
+    <script src="./dashboard-charts.js?v=20260927u"></script>
     <script src="./year-view.js?v=20260926a"></script>
     <script src="./embed-host.js?v=20260926a"></script>
-    <script src="./analytics.js?v=20260927a"></script>
-    <script src="./job-analytics.js?v=20260925c"></script>
-    <script src="./quarter-analytics.js?v=20260927a"></script>
-    <script src="./registry-analytics.js?v=20260927a"></script>
+    <script src="./analytics.js?v=20260927u"></script>
+    <script src="./job-analytics.js?v=20260927u"></script>
+    <script src="./quarter-analytics.js?v=20260927u"></script>
+    <script src="./registry-analytics.js?v=20260927u"></script>
 
 </body>
 </html>

@@ -241,7 +241,6 @@
     '.rr-fam-warn { font-size:12px; font-weight:700; color:#c05621; white-space:nowrap; }',
     '.rr-fam-lnk { font-size:12px; font-weight:700; color:var(--primary,#667eea); text-decoration:none; margin-left:6px; white-space:nowrap; }',
     '.rr-fam-foot { margin-top:8px; font-size:12px; color:var(--text-muted,#718096); }',
-    '@media (prefers-color-scheme: dark) { .rr-evc.soon { color:#f6ad55; } .rr-evc.later { color:#b794f4; } .rr-evc.today { color:#fc8181; } .rr-fam-warn { color:#f6ad55; } .rr-fam-lv.adm, .rr-fam-adm > summary .hot { color:#5eead4; } }',
     '@media (max-width: 640px) { .rr-fam-row { grid-template-columns:52px minmax(0,1fr); } .rr-fam-evs { grid-column:1 / -1; justify-content:flex-start; padding-left:62px; } }'
   ].join('\n');
   document.head.appendChild(st);

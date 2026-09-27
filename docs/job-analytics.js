@@ -40,8 +40,8 @@
     var label = cur === 'all' ? '전체 직무' : cur;
     var color = cur === 'all' ? R[1] : window.rrCatColor(cur);
     document.getElementById('rr-job-an-title').textContent = year + '년 ' + label + ' 개정 분석';
-    var lt = document.querySelector('#business-content .law-list-title');
-    if (lt && lt.firstChild && lt.firstChild.nodeType === 3) lt.firstChild.textContent = '📋 ' + (cur === 'all' ? '' : cur + ' ') + '개정 법령 목록 ';
+    var lt = document.getElementById('law-list-label');
+    if (lt) lt.textContent = (cur === 'all' ? '' : cur + ' ') + '개정 법령 목록';
 
     /* 시행 현황 숫자 */
     var done = 0, soon = 0, later = 0;

@@ -19,7 +19,7 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   /* 보라 단계색: [0] 이 가장 강조 (라이트=가장 진함, 다크=가장 밝음). 둘 다 표면 대비 2:1 이상 검증 */
   function ramp() {
-    return dark() ? ['#ccd2f8', '#a9b3f1', '#8591e8', '#6470dd'] : ['#32379a', '#4a57cf', '#6a79e2', '#8f9bec'];
+    return dark() ? ['#ccd2f8', '#a9b3f1', '#8591e8', '#6470dd'] : ['#1f3a9e', '#3056d3', '#6485e6', '#a3b6f2'];   /* 앱 브랜드 파랑 단계 (system.css) */
   }
   function ink() {
     return { text: cssVar('--text-primary', dark() ? '#f7fafc' : '#1a202c'), muted: cssVar('--text-muted', '#718096'),

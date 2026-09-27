@@ -249,7 +249,6 @@
     '.rr-rb.duty { color:#2c7a7b; background:rgba(56,178,172,.15); }',
     '.rr-rb.new  { color:#2b6cb0; background:rgba(66,153,225,.13); }',
     '.rr-rb.del  { color:#4a5568; background:rgba(160,174,192,.22); }',
-    '@media (prefers-color-scheme: dark) { .rr-rb.pen{color:#feb2b2} .rr-rb.fine{color:#fbd38d} .rr-rb.sur{color:#faf089} .rr-rb.san{color:#d6bcfa} .rr-rb.duty{color:#81e6d9} .rr-rb.new{color:#90cdf4} .rr-rb.del{color:#cbd5e0} }',
     '.rr-evc.has-risk { position:relative; }',
     '.rr-evc.has-risk::after { content:""; position:absolute; top:-2px; right:-2px; width:7px; height:7px; border-radius:50%; background:#e53e3e; box-shadow:0 0 0 2px var(--bg-card,#fff); }',
     /* 팝업 칸 */
@@ -278,7 +277,6 @@
     '.rr-rp-tile b { display:block; font-size:1.45rem; font-weight:800; line-height:1.2; color:var(--text-primary); font-variant-numeric:tabular-nums; }',
     '.rr-rp-tile span { font-size:.76rem; font-weight:700; white-space:nowrap; }',
     '.rr-rp-tile.pen{color:#c53030} .rr-rp-tile.fine{color:#c05621} .rr-rp-tile.sur{color:#975a16} .rr-rp-tile.san{color:#6b46c1} .rr-rp-tile.duty{color:#2c7a7b} .rr-rp-tile.new{color:#2b6cb0} .rr-rp-tile.del{color:#4a5568}',
-    '@media (prefers-color-scheme: dark) { .rr-rp-tile.pen{color:#feb2b2} .rr-rp-tile.fine{color:#fbd38d} .rr-rp-tile.sur{color:#faf089} .rr-rp-tile.san{color:#d6bcfa} .rr-rp-tile.duty{color:#81e6d9} .rr-rp-tile.new{color:#90cdf4} .rr-rp-tile.del{color:#cbd5e0} }',
     '.rr-rp-tile:hover { border-color:currentColor; }',
     '.rr-rp-tile.on { border-color:currentColor; box-shadow:0 0 0 2px color-mix(in srgb, currentColor 30%, transparent); }',
     '.rr-rp-lh { display:flex; align-items:center; gap:.6rem; margin:0 0 .5rem; font-size:.88rem; color:var(--text-primary); }',

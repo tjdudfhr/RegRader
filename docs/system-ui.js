@@ -135,7 +135,7 @@
   window.rrScanIcons = scan;
 
   /* ---------- 차트 기본값 ---------- */
-  function dark() { return !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); }
+  function dark() { return false; }   /* 밝은 화면 고정 */
   if (window.Chart && Chart.defaults) {
     try {
       var d = Chart.defaults;

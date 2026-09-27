@@ -24,22 +24,6 @@
     --later: #805ad5;   --later-bg: rgba(128, 90, 213, 0.10);
     --done: #38a169;    --done-bg: rgba(56, 161, 105, 0.10);
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --text-primary: #f7fafc;
-      --text-secondary: #e2e8f0;
-      --text-muted: #a0aec0;
-      --bg-primary: #1a202c;
-      --bg-card: #2d3748;
-      --bg-glass: rgba(45, 55, 72, 0.45);
-      --border: #4a5568;
-      --chip: rgba(255, 255, 255, 0.08);
-      --urgent: #fc8181;  --urgent-bg: rgba(252, 129, 129, 0.14);
-      --soon: #f6ad55;    --soon-bg: rgba(246, 173, 85, 0.14);
-      --later: #b794f4;   --later-bg: rgba(183, 148, 244, 0.14);
-      --done: #68d391;    --done-bg: rgba(104, 211, 145, 0.14);
-    }
-  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
@@ -107,7 +91,6 @@
   .rb.sur { color: #975a16; background: rgba(214,158,46,.18); } .rb.san { color: #6b46c1; background: rgba(128,90,213,.13); }
   .rb.duty { color: #2c7a7b; background: rgba(56,178,172,.15); } .rb.new { color: #2b6cb0; background: rgba(66,153,225,.13); }
   .rb.del { color: #4a5568; background: rgba(160,174,192,.22); }
-  @media (prefers-color-scheme: dark) { .rb.pen{color:#feb2b2} .rb.fine{color:#fbd38d} .rb.sur{color:#faf089} .rb.san{color:#d6bcfa} .rb.duty{color:#81e6d9} .rb.new{color:#90cdf4} .rb.del{color:#cbd5e0} }
   @media (max-width: 640px) { .searchrow { flex-direction: column; } .risk-toggle { padding: 10px 14px; } }
   .search {
     width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border);
@@ -149,7 +132,6 @@
   .badge { font-size: .75rem; padding: 3px 9px; border-radius: 999px; background: var(--chip); color: var(--text-secondary); font-weight: 500; }
   .badge.new { background: var(--urgent-bg); color: var(--urgent); font-weight: 700; }
   .badge.adm { background: rgba(15, 118, 110, .10); color: #0f766e; font-weight: 700; }
-  @media (prefers-color-scheme: dark) { .badge.adm { color: #5eead4; } }
   .cat { color: #fff; font-weight: 600; }
   .tl { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
   .tl span { font-size: .74rem; border: 1px solid var(--border); border-radius: 8px; padding: 2px 7px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
@@ -228,8 +210,8 @@
   html.rr-embedded header p { color: var(--text-muted); opacity: 1; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="./system.css?v=20260927d">
-<script src="./system-ui.js?v=20260927d"></script>
+<link rel="stylesheet" href="./system.css?v=20260927i">
+<script src="./system-ui.js?v=20260927e"></script>
 </head>
 <body>
 <div class="wrap">
@@ -301,7 +283,7 @@ function amRisk(it) { return amCodes(it).some(c => AM_RISK.includes(c)); }
 function amBadges(it) { return amCodes(it).map(c => `<span class="rb ${AM_META[c]}">${AM_LABEL[c] || c}</span>`).join(''); }
 const $ = s => document.querySelector(s);
 /* 직무 색: 메인(index.html head 의 rrCatColor)과 같은 검증 팔레트 */
-const CAT_COLOR = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+const CAT_COLOR = false /* 밝은 화면 고정 */
   ? { '재무회계': '#3987e5', '인사노무': '#d95926', '환경': '#199e70', '지식재산권': '#c98500', '공정거래': '#d55181', '안전': '#008300', '지배구조': '#9085e9', '정보보호': '#e66767' }
   : { '재무회계': '#2a78d6', '인사노무': '#eb6834', '환경': '#1baf7a', '지식재산권': '#eda100', '공정거래': '#e87ba4', '안전': '#008300', '지배구조': '#4a3aa7', '정보보호': '#e34948' };
 

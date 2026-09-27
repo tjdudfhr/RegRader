@@ -273,7 +273,6 @@ iframe.rr-embed {
 .rr-rf-n.zero { color: var(--text-muted); font-weight: 600; }
 .rr-rf .rr-fam-row { padding-top: 5px; padding-bottom: 5px; }
 .rr-rf .rr-fam-name { font-size: 0.9rem; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .rr-rf-sum .warn { color: #f6ad55; } }
 /* 휴대폰 폭: 팝업 · 요약 칸 */
 @media (max-width: 600px) {
   #law-modal .info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
