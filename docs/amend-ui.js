@@ -107,8 +107,8 @@
       h += '<div class="rr-risk-note">시행일이 나뉜 개정입니다' + (p.length === 8 ? ' (공포 ' + p.slice(0, 4) + '-' + p.slice(4, 6) + '-' + p.slice(6) + ')' : '') +
         '. 이 시행일(' + esc(item.effectiveDate) + ')에 시행되는 조항만 표시했습니다. 다른 시행일: ' + esc(d.otherDates.join(', ')) + '</div>';
     }
-    h += '<div class="rr-risk-foot">국가법령정보센터 개정문과 조문 제목으로 자동 분석한 결과입니다. 최종 판단은 원문(신구비교)으로 확인하세요.</div></div>';
-    var extra = cs.filter(function (c) { return RISK[c]; }).length ? '<span class="rr-sec-extra">제재·의무 ' + cs.filter(function (c) { return RISK[c]; }).length + '종</span>' : '';
+    h += '<div class="rr-risk-foot">자동 분석 결과 · 최종 판단은 신구조문 비교로 확인</div></div>';
+    var extra = cs.filter(function (c) { return RISK[c]; }).length ? '<span class="rr-sec-extra">' + cs.filter(function (c) { return RISK[c]; }).length + '종</span>' : '';
     return { body: h, extra: extra, tone: cs.some(function (c) { return RISK[c]; }) ? 'hot' : 'calm' };
   }
 

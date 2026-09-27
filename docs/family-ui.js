@@ -176,8 +176,8 @@
       ? '<div class="rr-fam-note">📎 같은 날(' + esc(item.effectiveDate) + ') 시행되는 계열 개정이 <b>' + same.length + '건</b> 있습니다. 함께 검토하세요.</div>'
       : '';
     var body = note + '<div class="rr-fam">' + block(f, { curTitle: item.title, curId: item.id, sameDate: item.effectiveDate }) + '</div>' +
-      '<div class="rr-fam-foot">국가법령정보센터 법령체계도 기준 · 날짜를 누르면 그 개정 내용이 열립니다.</div>';
-    return { body: body, extra: '<span class="rr-sec-extra">' + esc(f.root) + ' 계열 · 올해 ' + total + '건</span>' };
+      '';
+    return { body: body, extra: '<span class="rr-sec-extra">올해 ' + total + '건</span>' };
   }
 
   /* 팝업 안에서 다른 개정으로 넘어가면 새 법령을 처음부터 보도록 맨 위로 올린다 */

@@ -130,8 +130,8 @@
   function popupSection(item) {
     var key = keyOf(item);
     if (!session || !loaded) {
-      return { body: '<div class="rr-trk-login"><span>개정마다 <b>검토 · 조치 · 완료</b>를 기록하고 직무 담당자와 함께 봅니다.</span>' +
-        '<button type="button" class="rr-trk-btn" data-trk="login">담당자 로그인</button></div>', extra: '' };
+      return { body: '<div class="rr-trk-login"><span>로그인하면 이 개정의 검토 · 조치를 기록할 수 있습니다</span>' +
+        '<button type="button" class="rr-trk-btn" data-trk="login">' + icon('login') + '로그인</button></div>', extra: '' };
     }
     if (!me || me.role === 'guest') {
       return { body: '<div class="rr-trk-login"><span>' + esc(session.user.email) + ' 은(는) 등록된 담당자가 아닙니다. 총괄에게 등록을 요청하세요.</span>' +

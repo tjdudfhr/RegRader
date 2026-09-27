@@ -845,3 +845,63 @@ body .section-title { font-size: 14px !important; font-weight: 800 !important; m
 body .entry { border-radius: var(--r-lg) !important; }
 body .base-added { border-radius: 10px !important; font-size: 13px !important; }
 html.rr-embedded body > .wrap > header { display: none !important; }
+
+/* ================================================================
+ * 법령 상세 패널 (2026-09-27): 어두운 머리 + 바로가기 탭 + 회색 바탕 위 카드
+ * ================================================================ */
+body #law-modal .modal-content { background: var(--canvas) !important; border: 0 !important; overflow: hidden; }
+body #law-modal .modal-header {
+  background: radial-gradient(90% 120% at 100% 0%, #24335f 0%, transparent 60%), var(--night) !important;
+  color: #fff !important; border-bottom: 0 !important; padding: 22px 28px 0 !important;
+  display: flex; flex-direction: column; gap: 0;
+}
+body #law-modal .modal-title { color: #fff !important; font-size: 23px !important; line-height: 1.35 !important; letter-spacing: -0.035em; margin: 10px 0 0 !important; padding-right: 44px; }
+body #law-modal .modal-subtitle { display: none !important; }
+body #law-modal .modal-close { color: rgba(255,255,255,.7) !important; background: rgba(255,255,255,.06) !important; top: 18px !important; right: 20px !important; }
+body #law-modal .modal-close:hover { color: #fff !important; background: rgba(255,255,255,.14) !important; }
+#rr-hero-pills { display: flex; flex-wrap: wrap; gap: 6px; padding-right: 44px; }
+.rr-hp { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px; border-radius: 6px; font-size: 12px; font-weight: 700; color: var(--night-ink-2); background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); }
+.rr-hp i { width: 7px; height: 7px; border-radius: 2px; }
+.rr-hp.dd { color: #c9d5ff; background: rgba(111,141,255,.16); border-color: rgba(111,141,255,.3); }
+.rr-hp.dd.hot { color: #ffb4ab; background: rgba(249,112,102,.16); border-color: rgba(249,112,102,.35); }
+.rr-hp.dd.done { color: var(--night-ink-2); }
+#rr-hero { margin-top: 16px; }
+.rr-hero-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid rgba(255,255,255,.09); border-radius: 12px; background: rgba(255,255,255,.04); overflow: hidden; }
+.rr-hero-facts > div { padding: 11px 14px; min-width: 0; border-left: 1px solid rgba(255,255,255,.08); display: flex; flex-direction: column; gap: 3px; }
+.rr-hero-facts > div:first-child { border-left: 0; }
+.rr-hero-facts span { font-size: 11.5px; font-weight: 600; color: var(--night-ink-3); }
+.rr-hero-facts b { font-size: 14px; font-weight: 700; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rr-hero-facts b small { display: block; font-size: 11.5px; font-weight: 500; color: var(--night-ink-3); overflow: hidden; text-overflow: ellipsis; }
+.rr-hero-act { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.rr-hero-act a { display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 13px; border-radius: 9px; font-size: 13px; font-weight: 700; text-decoration: none; color: #fff; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); transition: background .14s ease, border-color .14s ease; }
+.rr-hero-act a:hover { background: rgba(255,255,255,.13); border-color: rgba(255,255,255,.24); }
+.rr-hero-act a.pri { background: var(--brand-solid); border-color: var(--brand-solid); box-shadow: inset 0 1px 0 rgba(255,255,255,.14); }
+.rr-hero-act a.pri:hover { background: var(--brand-hover); }
+.rr-hero-act .ri { width: 15px; height: 15px; }
+#rr-snav { display: flex; gap: 2px; margin: 16px -28px 0; padding: 0 22px; border-top: 1px solid rgba(255,255,255,.07); overflow-x: auto; scrollbar-width: none; }
+#rr-snav::-webkit-scrollbar { display: none; }
+#rr-snav button { position: relative; flex: none; height: 42px; padding: 0 12px; border: 0; background: none; color: var(--night-ink-3); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: color .14s ease; min-height: 0 !important; min-width: 0 !important; }
+#rr-snav button:hover { color: #fff; transform: none !important; }
+#rr-snav button.on { color: #fff; }
+#rr-snav button.on::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 0; height: 2px; border-radius: 2px 2px 0 0; background: var(--night-accent); }
+body #law-modal .modal-body { background: var(--canvas) !important; padding: 18px 24px 40px !important; }
+body #law-modal .rr-sec { background: var(--surface) !important; border-color: var(--line) !important; box-shadow: var(--sh-xs); }
+body #law-modal .rr-trk-login { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13.5px; color: var(--ink-3); }
+body #law-modal .rr-trk-login .rr-trk-btn { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+body #law-modal .rr-trk-login .ri { width: 14px; height: 14px; }
+body #law-modal .rr-risk-foot { font-size: 11.5px !important; color: var(--ink-4) !important; }
+body #law-modal .rr-risk-dl dt { color: var(--ink-2) !important; }
+@media (max-width: 760px) {
+  .rr-hero-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rr-hero-facts > div:nth-child(3) { border-left: 0; }
+  .rr-hero-facts > div:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.08); }
+  body #law-modal .modal-header { padding: 18px 18px 0 !important; }
+  #rr-snav { margin: 14px -18px 0; padding: 0 12px; }
+  body #law-modal .modal-body { padding: 14px 12px 32px !important; }
+  body #law-modal .modal-title { font-size: 19px !important; }
+}
+@media (max-width: 760px) {
+  body #law-modal.show { padding: 0 !important; }
+  body #law-modal .modal-content { width: 100vw !important; max-height: none !important; height: 100% !important; border-radius: 0 !important; }
+  body #law-modal .rr-trk-login { flex-wrap: wrap; }
+}
