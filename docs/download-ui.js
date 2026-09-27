@@ -68,7 +68,6 @@
       '<button type="button" id="rr-dl-base" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);cursor:pointer">' +
       '<div style="font-weight:700">당사 적용 국내법규 ' + baseN + ' (Excel)</div>' +
       '<div style="font-size:13px;color:var(--ink-3);margin-top:4px">기본 적용 목록</div></button>' +
-      '<div style="font-size:12px;color:var(--ink-3);line-height:1.55">조회 기준 ' + (M.asOf || '–') + '. 전체 현행 ' + fmt(U.openapiCurrent) + ' · 올해 시행일 전체(연혁 포함) ' + fmt(U.openapiFuture) + ' 파일은 채팅으로 받은 엑셀을 사용하세요.</div>' +
       '</div>';
     if (window.rrReport) window.rrReport.mount(inner.querySelector('#rr-report-slot'));   /* 월간·분기 보고서 PPT (report-ppt.js) */
     var m = inner.querySelector('#rr-dl-matched');

@@ -56,7 +56,7 @@
     var done = 0, soon = 0, later = 0, titles = {};
     sel.forEach(function (x) { var d = days(x.effectiveDate, today); if (d < 0) done++; else if (d <= 30) soon++; else later++; titles[x.title] = 1; });
     document.getElementById('rr-q-tiles').innerHTML = [
-      ['개정 건수', sel.length, '법령 ' + Object.keys(titles).length + '개의 개정 합계'],
+      ['개정 건수', sel.length, '법령 ' + Object.keys(titles).length + '개'],
       ['시행완료', done, sel.length ? Math.round(done / sel.length * 100) + '%' : ''],
       ['30일 내 시행', soon, soon ? '⏰ 준비 필요' : '없음'],
       ['이후 시행예정', later, '']

@@ -84,13 +84,13 @@
       }).join('');
       return '<div class="rr-rf">' +
         '<div class="rr-rf-h"><b>' + escH(f.root) + '</b>' + chips +
-        '<span class="rr-rf-n' + (n ? '' : ' zero') + '">' + (n ? '올해 개정 ' + n + '건' : '올해 개정 없음') + '</span></div>' +
+        '<span class="rr-rf-n' + (n ? '' : ' zero') + '">' + (n ? '올해 개정 ' + n + '건' : '') + '</span></div>' +
         (F.block ? F.block(f) : f.members.map(function (m) { return F.row(f, m); }).join('')) + '</div>';
     }).join('');
     var sum = '<div class="rr-rf-sum"><b>' + list.length + '개 계열</b> · 적용법규 ' + (nLaw + nAdm).toLocaleString('ko-KR') + '개 (법령 ' + nLaw + ' · 행정규칙 ' + nAdm.toLocaleString('ko-KR') + ')' +
       ' · 올해 개정 ' + evN + '건' + (admEv ? ' (행정규칙 ' + admEv + ')' : '') +
-      (refN ? ' · <span title="정부 내부용 등 회사 준수사항과 거리가 먼 행정규칙은 적용법규로 세지 않고 흐리게만 보여 줍니다">참고용 행정규칙 ' + refN + '개 (흐리게)</span>' : '') +
-      (outN ? ' · <span title="국가법령정보센터 법령체계도상 이 계열에 속하지만 적용법규 목록에는 없는 하위법령">적용법규에 없는 하위법령 ' + outN + '개 (흐리게)</span>' : '') +
+      (refN ? ' · <span title="정부 내부용 등 회사 준수사항과 거리가 먼 행정규칙은 적용법규로 세지 않고 흐리게만 보여 줍니다">참고용 행정규칙 ' + refN + '개</span>' : '') +
+      (outN ? ' · <span title="국가법령정보센터 법령체계도상 이 계열에 속하지만 적용법규 목록에는 없는 하위법령">적용법규에 없는 하위법령 ' + outN + '개</span>' : '') +
       (staleN ? ' · <span class="warn">⚠ 법령명 확인 필요 ' + staleN + '개</span>' : '') + '</div>';
     return { html: sum + (cards || '<div style="padding:2rem;text-align:center;color:var(--text-muted)">해당 직무의 적용법규가 없습니다.</div>'), count: list.length };
   }

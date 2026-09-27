@@ -223,7 +223,7 @@
     var label = panelState.code ? META[panelState.code].label : '제재·의무 변경';
     host.innerHTML =
       '<div class="rr-rp-h"><div><h3>⚠️ ' + esc(year) + '년 벌칙·과태료·의무 변경</h3>' +
-      '<p>국가법령정보센터 개정문으로 개정마다 무엇이 바뀌었는지 분석했습니다. 칸을 누르면 그 유형만 봅니다. 개정 ' + items.length + '건 중 제재·의무 변경 ' + riskAll.length + '건</p></div></div>' +
+      '<p>개정 ' + items.length + '건 중 ' + riskAll.length + '건</p></div></div>' +
       '<div class="rr-rp-tiles">' + tiles + '</div>' +
       '<div class="rr-rp-lh"><b>' + (panelState.past ? '전체 (최근 시행 먼저)' : '앞으로 시행') + ' · ' + esc(label) + '</b><span>' + list.length + '건</span>' +
       '<button type="button" class="rr-rp-past" data-past="1">' + (panelState.past ? '앞으로 시행만 보기' : '이미 시행된 것도 보기') + '</button></div>' +

@@ -92,12 +92,12 @@
       if (now == null || before == null || !pv.asOf) { el.textContent = ''; return; }
       var d = now - before, md = pv.asOf.slice(5).replace('-', '/');
       el.className = 'rr-u-delta' + (d > 0 ? ' up' : d < 0 ? ' down' : '');
-      el.textContent = d === 0 ? md + ' 대비 변동 없음' : md + ' 대비 ' + (d > 0 ? '+' : '−') + fmtNum(Math.abs(d));
+      el.textContent = d === 0 ? '' : md + ' 대비 ' + (d > 0 ? '+' : '−') + fmtNum(Math.abs(d));   /* 바뀐 날만 보인다 */
     }
     delta('rr-universe-current-delta', u.openapiCurrent, pv.openapiCurrent);
     delta('rr-universe-future-delta', upc, pv.openapiUpcoming);
     var sub = document.getElementById('rr-universe-sub');
-    if (sub && meta.asOf) sub.textContent = '국가법령정보센터 전체 법령 (당사 적용 여부와 무관) · ' + meta.asOf + ' 조회';
+    if (sub) sub.textContent = '국가법령정보센터 전체 법령';
   }
   function loadMeta() {
     fetch((window.rrDataPath ? window.rrDataPath('meta.json') : './meta.json') + '?v=' + Date.now(), { cache: 'no-store' })

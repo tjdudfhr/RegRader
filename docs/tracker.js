@@ -309,7 +309,7 @@
         '<div class="rr-trk-feat"><span class="ri-solo">' + icon('clock') + '</span><b>기한 · 조치 관리</b><p>개정마다 영향도, 조치 내용, 조치 기한, 완료일, 증빙 링크를 남기고 기한이 지난 건을 챙깁니다.</p></div>' +
         '<div class="rr-trk-feat"><span class="ri-solo">' + icon('history') + '</span><b>변경 이력 · 보고</b><p>상태를 바꾸면 이력이 자동으로 쌓이고, 보고서 PPT의 ‘대응 현황’ 장에 그대로 들어갑니다.</p></div>' +
       '</div>' +
-      '<div class="rr-trk-card rr-trk-preview"><div class="rr-trk-ct">올해 대응 대상<small>직무별 개정 건수 · 로그인하면 상태별로 나뉩니다</small></div><div class="rr-trk-pjs">' + jobs + '</div></div>';
+      '<div class="rr-trk-card rr-trk-preview"><div class="rr-trk-ct">올해 대응 대상</div><div class="rr-trk-pjs">' + jobs + '</div></div>';
   }
   function paintDash() {
     var host = document.getElementById('rr-trk-dash');

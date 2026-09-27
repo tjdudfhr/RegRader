@@ -1952,7 +1952,7 @@
         }
     </style>
     <link rel="stylesheet" href="./app-shell.css?v=20260927u">
-    <link rel="stylesheet" href="./system.css?v=20260927m">
+    <link rel="stylesheet" href="./system.css?v=20260927o">
 </head>
 <body>
     <!-- 시작 화면 (system-ui.js 가 데이터가 준비되면 걷는다) -->
@@ -2019,7 +2019,7 @@
                 </div>
             </div>
             <div class="rr-side-foot">
-                <div class="rr-side-status"><span class="rr-dot" aria-hidden="true"></span><span><b>자동 수집 중</b><br>매일 07:00 국가법령정보센터 확인</span></div>
+                <div class="rr-side-status"><span class="rr-dot" aria-hidden="true"></span><span><b>매일 07:00 자동 수집</b></span></div>
             </div>
         </div>
 
@@ -2061,7 +2061,7 @@
                         <span style="font-size: 1.3rem;">🎯</span>
                         <div>
                             <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);"><span class="rr-year">2026</span>년 당사 적용 법규 개정 현황</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">당사 적용법규 <span id="rr-base-sub-n">–</span>개(법령 <span id="rr-base-sub-law">–</span> · 행정규칙 <span id="rr-base-sub-adm">–</span>)의 <span class="rr-year">2026</span>년 개정을 집계합니다.</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">법령 <span id="rr-base-sub-law">–</span> · 행정규칙 <span id="rr-base-sub-adm">–</span></div>
                         </div>
                     </div>
                     <!-- 숫자는 stats-ui.js 가 실제 데이터로 채운다. 옛 수치가 먼저 보이지 않도록 자리표시(–)만 둔다. -->
@@ -2355,7 +2355,6 @@
                                 <span style="font-size: 1.3rem;">📚</span>
                                 <div>
                                     <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">적용법규(법규등록부)</div>
-                                    <div style="font-size: 0.9rem; color: var(--text-muted);">직무별 적용되는 법규 리스트</div>
                                 </div>
                             </div>
                             <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
@@ -2474,8 +2473,8 @@
             <div class="tab-pane" id="tracker-content"><div id="rr-trk-dash"></div></div>
 
             <!-- 시행 임박 · 업데이트 내역: 각 페이지를 embed 모드로 끼워 넣는다 (처음 열 때 불러옴) -->
-            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20260927u" title="시행 임박 법령"></iframe></div>
-            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20260927u" title="업데이트 내역"></iframe></div>
+            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20260927w" title="시행 임박 법령"></iframe></div>
+            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20260927w" title="업데이트 내역"></iframe></div>
         </div>
     </div>
 
@@ -7229,9 +7228,9 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     </script>
 
     <!-- RegRader 오버레이: 데이터/개정이유/UI -->
-    <script src="./app-init.js?v=20260927t"></script>
+    <script src="./app-init.js?v=20260927w"></script>
     <script src="./event-boot.js?v=20260927a"></script>
-    <script src="./amend-ui.js?v=20260927u"></script>
+    <script src="./amend-ui.js?v=20260927w"></script>
     <script src="./whyA.js?v=20260917a"></script>
     <script src="./whyB.js?v=20260917a"></script>
     <script src="./wy0.js?v=20260917a"></script>
@@ -7241,20 +7240,20 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./sum-fill.js?v=20260917a"></script>
     <script src="./brief-ui.js?v=20260927u"></script>
     <script src="./stats-ui.js?v=20260927b"></script>
-    <script src="./family-ui.js?v=20260927u"></script>
-    <script src="./tracker.js?v=20260927v"></script>
-    <script src="./registry-fix.js?v=20260927u"></script>
+    <script src="./family-ui.js?v=20260927w"></script>
+    <script src="./tracker.js?v=20260927w"></script>
+    <script src="./registry-fix.js?v=20260927w"></script>
     <script src="./excel-fix.js?v=20260925a"></script>
-    <script src="./report-ppt.js?v=20260927t"></script>
-    <script src="./download-ui.js?v=20260927s"></script>
+    <script src="./report-ppt.js?v=20260927w"></script>
+    <script src="./download-ui.js?v=20260927w"></script>
     <script src="./mail-ui.js?v=20260927a"></script>
     <script src="./law-request.js?v=20260925a"></script>
     <script src="./dashboard-charts.js?v=20260927u"></script>
     <script src="./year-view.js?v=20260926a"></script>
     <script src="./embed-host.js?v=20260926a"></script>
     <script src="./analytics.js?v=20260927u"></script>
-    <script src="./job-analytics.js?v=20260927u"></script>
-    <script src="./quarter-analytics.js?v=20260927u"></script>
+    <script src="./job-analytics.js?v=20260927w"></script>
+    <script src="./quarter-analytics.js?v=20260927w"></script>
     <script src="./registry-analytics.js?v=20260927u"></script>
 
 </body>

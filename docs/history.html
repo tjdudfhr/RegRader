@@ -128,7 +128,7 @@
   html.rr-embedded header p { color: var(--text-muted); opacity: 1; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="./system.css?v=20260927m">
+<link rel="stylesheet" href="./system.css?v=20260927o">
 <script src="./system-ui.js?v=20260927e"></script>
 </head>
 <body>
@@ -166,10 +166,6 @@
 
   <div id="list"></div>
 
-  <p class="note">
-    매일 아침 국가법령정보센터 데이터를 받아 직전 갱신과 비교합니다. 달라진 점이 있는 날만 기록되고, 위 <b>조회 날짜</b>에서 날짜별로 골라 볼 수 있습니다.<br>
-    <b>신규 개정</b>: 당사 적용 법규에 새로 잡힌 개정 · <b>새로 시행</b>: 시행예정이었다가 시행일이 지나 현행이 된 개정 · <b>빠짐</b>: 법령정보센터에서 조회되지 않게 된 개정 (시행일 변경·철회 등)
-  </p>
 </div>
 
 <script>
@@ -187,7 +183,7 @@
     var add = e.baseLawsAdded || [], ren = e.baseLawsRenamed || [], rem = e.baseLawsRemoved || [], mg = e.admrulMerged;
     if (!add.length && !ren.length && !rem.length && !mg) return '';
     var lines = [];
-    if (mg) lines.push('<b>행정규칙 ' + num(mg.laws) + '개를 적용법규에 편입</b> · 계열마다 법률·시행령·시행규칙·행정규칙을 함께 관리합니다. 올해 개정 ' + num(mg.events) + '건이 더해졌습니다.');
+    if (mg) lines.push('<b>행정규칙 ' + num(mg.laws) + '개를 적용법규에 편입</b> · 올해 개정 ' + num(mg.events) + '건 추가');
     if (add.length) lines.push('<b>적용법규 추가 ' + add.length + '개</b> · ' + add.map(function (b) {
       return esc(b.title) + (b.category ? ' <span style="color:var(--text-muted)">[' + esc(b.category) + ']</span>' : '');
     }).join(', '));
@@ -198,9 +194,7 @@
       return esc(b.title) + (b.reason ? ' <span style="color:var(--text-muted)">(' + esc(b.reason) + ')</span>' : '');
     }).join(', '));
     var count = e.baseLawsBefore && e.baseLawsAfter ? '<div style="margin-bottom:4px">적용법규 ' + num(e.baseLawsBefore) + ' → <b>' + num(e.baseLawsAfter) + '개</b></div>' : '';
-    var hint = (e.addedByBase || []).length
-      ? '<br><span style="color:var(--text-muted)">아래 「적용법규 추가로 편입」은 이 법규들의 올해 개정으로, 새로 공포된 개정이 아니라 모니터링 대상에 들어오며 잡힌 것입니다.</span>' : '';
-    return '<div class="base-added">' + count + lines.join('<br>') + hint + '</div>';
+    return '<div class="base-added">' + count + lines.join('<br>') + '</div>';
   }
   function baseSummary(e) {
     var p = [];
@@ -276,7 +270,7 @@
         var n = (e[t] || []).length;
         return n ? '<span class="badge ' + TYPES[t].cls + '">' + TYPES[t].label + ' ' + n + '</span>' : '';
       }).join('') + '<span class="badge b-plain">전체 ' + num(e.totalBefore) + ' → ' + num(e.totalAfter) + '건</span>';
-      var sub = e.previousCheckedAt ? '직전 확인 ' + kst(e.previousCheckedAt) + ' 대비' : '';
+      var sub = '';
       return '<section class="entry"><div class="entry-head"><div><div class="entry-date">' + kst(e.checkedAt, true) +
         '</div><div class="entry-sub">' + esc(sub) + '</div></div><div class="badges">' + badges + '</div></div>' +
         base + groups + uni + '</section>';
@@ -381,8 +375,8 @@
     entries = (res[0] && res[0].entries) || [];
     var meta = res[1] || {};
     document.getElementById('head-sub').textContent = meta.generatedAt
-      ? '마지막 확인 ' + kst(meta.generatedAt, true) + ' · 매일 아침 7시 자동 확인'
-      : '매일 아침 7시 자동 확인';
+      ? '마지막 확인 ' + kst(meta.generatedAt, true)
+      : '';
     fillSelect();
     select(fromUrl(), false);
   }).catch(function (e) {

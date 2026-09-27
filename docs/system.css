@@ -812,3 +812,36 @@ body .rr-trk-row:hover { background: var(--surface-2) !important; }
 body .rr-trk-row .dd { color: var(--brand) !important; } body .rr-trk-row .dd.hot { color: var(--danger) !important; }
 body .rr-st { border-radius: 5px !important; }
 body .rr-trk-dialog { border-radius: 16px !important; border: 1px solid var(--line); box-shadow: var(--sh-lg) !important; background: var(--surface) !important; }
+
+/* ================================================================
+ * 잔글씨 정리 (2026-09-27): 안내·설명용 작은 글씨는 보이지 않게
+ * ================================================================ */
+body .rr-an-h span, body .rr-an-legend .note, .rr-crumb, body .rr-fam-none,
+#an-sub, html.rr-embedded #asof, html.rr-embedded #head-sub, .entry-sub:empty { display: none !important; }
+#rr-page-title { margin-top: 0 !important; }
+.rr-side-status { font-size: 12.5px; }
+
+/* ============ 시행 임박: 표처럼 한 줄 ============ */
+body .wlist { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); box-shadow: var(--sh-xs); margin-bottom: 18px; }
+body .card.wrow {
+  display: grid !important; grid-template-columns: 76px minmax(0, 1fr) auto; align-items: center; gap: 16px;
+  margin: 0 !important; padding: 12px 18px 12px 16px !important; border: 0 !important; border-bottom: 1px solid var(--line-2) !important;
+  border-radius: 0 !important; box-shadow: none !important; background: var(--surface) !important; transform: none !important;
+}
+body .card.wrow:last-child { border-bottom: 0 !important; }
+body .card.wrow::before { width: 3px !important; }
+body .card.wrow:hover { background: var(--surface-2) !important; transform: none !important; box-shadow: none !important; }
+body .card.wrow .dday { grid-row: auto !important; grid-column: auto !important; align-self: center !important; min-width: 0 !important; padding: 6px 0 !important; border-radius: 8px !important; }
+body .card.wrow .dday b { font-size: 16px !important; }
+body .card.wrow .wmain { min-width: 0; }
+body .card.wrow .title { font-size: 14.5px !important; font-weight: 700 !important; letter-spacing: -0.015em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body .card.wrow .meta { font-size: 12.5px !important; color: var(--ink-3) !important; margin-top: 2px; }
+body .card.wrow .badges { margin: 0 !important; justify-content: flex-end; flex-wrap: wrap; max-width: 420px; }
+body .card.wrow .badge { font-size: 11.5px !important; border-radius: 6px !important; padding: 2px 8px !important; }
+body .section-title { font-size: 14px !important; font-weight: 800 !important; margin: 20px 2px 10px !important; letter-spacing: -0.02em; }
+@media (max-width: 760px) { body .card.wrow { grid-template-columns: 60px minmax(0, 1fr); } body .card.wrow .badges { grid-column: 2; justify-content: flex-start; } body .card.wrow .title { white-space: normal; } }
+
+/* ============ 업데이트 내역 ============ */
+body .entry { border-radius: var(--r-lg) !important; }
+body .base-added { border-radius: 10px !important; font-size: 13px !important; }
+html.rr-embedded body > .wrap > header { display: none !important; }

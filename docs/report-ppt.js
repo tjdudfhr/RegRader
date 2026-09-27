@@ -889,7 +889,7 @@
         '<label id="rr-rep-trk-l" style="display:none"><input type="checkbox" id="rr-rep-trk" checked> 대응 현황 포함</label></div>' +
       '<div id="rr-rep-trk-msg" style="font-size:12px;color:var(--ink-3);margin-bottom:10px"></div>' +
       '<button type="button" id="rr-rep-go" style="width:100%;padding:11px;border:0;border-radius:10px;background:var(--brand);color:#fff;font:inherit;font-weight:800;cursor:pointer">PPT 만들기</button>' +
-      '<div id="rr-rep-msg" style="font-size:12px;color:var(--ink-3);margin-top:8px;line-height:1.5">보고 요약 → 개정 현황 → 중점 관리 개정 사항 → 향후 시행 예정 → 대응 현황 순으로, 슬라이드마다 결론 한 줄이 먼저 나옵니다. 상세 목록은 별첨으로 들어가고, 문장·표·차트는 PowerPoint에서 바로 고칠 수 있습니다.</div>' +
+      '<div id="rr-rep-msg" style="font-size:12px;color:var(--ink-3);margin-top:8px;line-height:1.5"></div>' +
       '</div>';
     var sel = slot.querySelector('#rr-rep-n');
     var dept = slot.querySelector('#rr-rep-dept'), secret = slot.querySelector('#rr-rep-secret');
@@ -901,8 +901,7 @@
     var snap = trackSnap(), trkL = slot.querySelector('#rr-rep-trk-l'), trkMsg = slot.querySelector('#rr-rep-trk-msg');
     if (snap) {
       trkL.style.display = '';
-      trkMsg.textContent = '대응 현황 관리 기록(' + Object.keys(snap.resp || {}).length + '건)이 ‘Ⅳ. 대응 현황’과 중점 관리 표에 들어갑니다.';
-    } else trkMsg.textContent = '대응 현황 관리에 로그인하면 직무별 진행률과 조치 필요 항목이 함께 들어갑니다.';
+    }
     function paint() {
       slot.querySelectorAll('#rr-rep-kind button').forEach(function (b) {
         var on = b.dataset.k === st.kind;

@@ -129,8 +129,8 @@
       right = '<span class="rr-fam-warn" title="국가법령정보센터에서 이 이름의 법령을 찾지 못했습니다. 법령명이 바뀌었거나 폐지됐는지 확인이 필요합니다.">⚠ 법령명 확인 필요</span>';
     } else {
       var ch = chips(m.title, curId, sameDate, m);
-      right = ch || (adm ? '<span class="rr-fam-none">올해 개정 없음</span><a class="rr-fam-lnk" href="' + esc(lawLink(m)) + '" target="_blank" rel="noopener">원문 ↗</a>'
-        : '<span class="rr-fam-none">올해 개정 없음</span>');
+      right = ch || (adm ? '<a class="rr-fam-lnk" href="' + esc(lawLink(m)) + '" target="_blank" rel="noopener">원문 ↗</a>'
+        : '');
     }
     return '<div class="rr-fam-row lv' + depth(m) + (isCur ? ' cur' : '') + (m.inBase ? '' : ' out') + '">' +
       '<span class="rr-fam-lv' + (adm ? ' adm' : '') + '" title="' + esc(adm ? '행정규칙 (' + m.kind + ')' : (m.kind || m.level)) + '">' + esc(adm ? m.kind : (m.level || '')) + '</span>' +
@@ -155,8 +155,8 @@
       var cur = opt.curTitle && adm.some(function (m) { return compact(m.title) === compact(opt.curTitle); });
       h += '<details class="rr-fam-adm"' + (opt.openAdm || cur ? ' open' : '') + '>' +
         '<summary><span class="rr-fam-lv adm">행정규칙</span><b>' + main.length + '개</b>' +
-        (evN ? ' · <span class="hot">올해 개정 ' + evN + '건</span>' : ' · 올해 개정 없음') +
-        (ref.length ? ' <small>· 참고용 ' + ref.length + '개 (흐리게)</small>' : '') + '</summary>' +
+        (evN ? ' · <span class="hot">올해 개정 ' + evN + '건</span>' : '') +
+        (ref.length ? ' <small>· 참고용 ' + ref.length + '개</small>' : '') + '</summary>' +
         '<div class="rr-fam-admlist">' + sorted.map(function (m) { return row(f, m, opt.curTitle, opt.curId, opt.sameDate); }).join('') + '</div></details>';
     }
     return h;

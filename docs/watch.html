@@ -210,19 +210,19 @@
   html.rr-embedded header p { color: var(--text-muted); opacity: 1; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="./system.css?v=20260927m">
+<link rel="stylesheet" href="./system.css?v=20260927o">
 <script src="./system-ui.js?v=20260927e"></script>
 </head>
 <body>
 <div class="wrap">
   <header>
     <a class="back" href="./">← RegRader 메인으로</a>
-    <h1>⏰ 시행 임박 법령</h1>
+    <h1>시행 임박 법령</h1>
     <p id="asof">불러오는 중…</p>
   </header>
 
   <div class="tiers">
-    <div class="tier glass urgent"><b id="t-urgent">–</b><span>7일 이내 시행 (긴급)</span></div>
+    <div class="tier glass urgent"><b id="t-urgent">–</b><span>7일 이내 시행</span></div>
     <div class="tier glass soon"><b id="t-soon">–</b><span>8~30일 이내 시행</span></div>
     <div class="tier glass later"><b id="t-later">–</b><span>시행예정 전체</span></div>
     <div class="tier glass"><b id="t-all">–</b><span>당사 적용 개정</span></div>
@@ -230,7 +230,7 @@
 
 
   <section class="an glass" id="an" hidden>
-    <div class="an-head"><h2>📊 직무별 시행예정 분석</h2><span class="an-sub" id="an-sub"></span></div>
+    <div class="an-head"><h2>직무별 시행예정 분석</h2><span class="an-sub" id="an-sub"></span></div>
     <div class="an-grid">
       <div class="an-box">
         <div class="an-t">직무별 비중</div>
@@ -245,7 +245,7 @@
       </div>
     </div>
     <div class="an-box">
-      <div class="an-t">월별 시행 예정 <small>직무별로 쌓아 보기 · 막대나 직무를 누르면 아래 목록이 그 직무로 좁혀집니다</small></div>
+      <div class="an-t">월별 시행 예정</div>
       <div style="height:220px"><canvas id="c-month" aria-label="월별 직무별 시행 예정"></canvas></div>
     </div>
   </section>
@@ -259,14 +259,11 @@
 
   <div class="searchrow">
     <input class="search" id="q" type="search" placeholder="법령명 · 부처 · 직무 검색">
-    <button type="button" class="risk-toggle" id="risk-only" aria-pressed="false" title="벌칙·과태료·과징금·행정처분·의무 조항이 신설되거나 바뀐 개정만 보기">⚠️ 벌칙·과태료·의무 변경만</button>
+    <button type="button" class="risk-toggle" id="risk-only" aria-pressed="false" >⚠️ 벌칙·과태료·의무 변경만</button>
   </div>
   <div class="jfilter" id="jfilter"></div>
   <div id="list"></div>
 
-  <p class="note">
-    남은 날은 한국 시간 오늘 기준입니다. <b>최근 변경</b>은 직전 자동 갱신과 비교한 결과이고, 날짜별 기록은 <a href="./history.html">업데이트 내역</a>에서 볼 수 있습니다.
-  </p>
 </div>
 
 <script>
@@ -314,38 +311,25 @@ function enrich(items) {
   return items;
 }
 function ddayBlock(d) {
-  if (d < 0) return `<div class="dday"><b>D+${-d}</b><small>시행완료</small></div>`;
-  if (d === 0) return `<div class="dday"><b>D-DAY</b><small>오늘 시행</small></div>`;
-  const label = d <= 7 ? '긴급' : d <= 30 ? '임박' : '예정';
-  return `<div class="dday"><b>D-${d}</b><small>${label}</small></div>`;
-}
-function timeline(it) {
-  const tl = it.timeline || [];
-  if (tl.length < 2) return '';
-  return `<div class="tl">${tl.map(t => {
-    const cls = t.effectiveDate === it.effectiveDate ? 'now' : (t.status === '시행예정' ? 'future' : '');
-    return `<span class="${cls}">${esc(t.effectiveDate)} ${esc(t.amendmentType)}</span>`;
-  }).join('')}</div>`;
+  return `<div class="dday"><b>${d < 0 ? 'D+' + (-d) : d === 0 ? 'D-DAY' : 'D-' + d}</b></div>`;
 }
 function card(it, extra = '') {
   const cat = (it.categories || [])[0];
   const catBadge = cat ? `<span class="badge cat" style="background:${CAT_COLOR[cat] || '#a0aec0'}">${esc(cat)}</span>` : '';
-  const multi = it.eventCount > 1 ? `<span class="badge">올해 개정 ${it.eventCount}회 · 시행완료 ${it.sameTitlePastCount} / 예정 ${it.sameTitleUpcomingCount}</span>` : '';
-  const keyAttr = it.popupKey ? ` data-key="${esc(it.popupKey)}" tabindex="0" role="button" title="눌러서 개정 내용 보기"` : '';
-  return `<article class="card glass ${tierOf(it.daysUntil)}"${keyAttr}>
-    <div class="title">${esc(it.title)}</div>
+  /* 복수개정 탭에서만 '올해 N회'를 붙인다 */
+  const multi = TAB === 'multi' && it.eventCount > 1 ? `<span class="badge">올해 ${it.eventCount}회</span>` : '';
+  const keyAttr = it.popupKey ? ` data-key="${esc(it.popupKey)}" tabindex="0" role="button"` : '';
+  return `<article class="card wrow ${tierOf(it.daysUntil)}"${keyAttr}>
     ${ddayBlock(it.daysUntil)}
-    <div class="meta">${esc(it.ministry)} · 시행 ${esc(it.effectiveDate)}</div>
-    <div class="rest">
-      <div class="badges">${extra}${catBadge}${it.kind ? `<span class="badge adm">행정규칙 · ${esc(it.kind)}</span>` : ''}<span class="badge">${esc(it.amendmentType || '')}</span>${amBadges(it)}${multi}</div>
-      ${timeline(it)}
-    </div>
+    <div class="wmain"><div class="title">${esc(it.title)}</div>
+      <div class="meta">${esc(String(it.ministry || '').split(',')[0])} · ${esc(it.effectiveDate)} · ${esc(it.amendmentType || '')}</div></div>
+    <div class="badges">${extra}${catBadge}${it.kind ? `<span class="badge adm">${esc(it.kind)}</span>` : ''}${amBadges(it)}${multi}</div>
   </article>`;
 }
 function section(title, color, list, extra) {
   if (!list.length) return '';
   return `<div class="section-title"><span class="dot" style="--c:${color}"></span>${title}<span class="cnt">${list.length}건</span></div>` +
-    list.map(it => card(it, extra)).join('');
+    '<div class="wlist">' + list.map(it => card(it, extra)).join('') + '</div>';
 }
 function diffLists() {
   const nowK = new Set(DATA.items.map(keyOf));
@@ -362,11 +346,11 @@ function render() {
   let html = '';
   if (TAB === 'd30') {
     const view = items.filter(it => it.daysUntil >= 0 && it.daysUntil <= 30).sort((a, b) => a.daysUntil - b.daysUntil || a.title.localeCompare(b.title));
-    html = section('7일 이내 시행 · 긴급', 'var(--urgent)', view.filter(it => it.daysUntil <= 7)) +
+    html = section('7일 이내 시행', 'var(--urgent)', view.filter(it => it.daysUntil <= 7)) +
            section('8~30일 이내 시행', 'var(--soon)', view.filter(it => it.daysUntil > 7));
   } else if (TAB === 'multi') {
     const view = items.filter(it => (it.eventCount || 1) > 1).sort((a, b) => a.title.localeCompare(b.title) || a.effectiveDate.localeCompare(b.effectiveDate));
-    html = view.map(it => card(it)).join('');
+    html = '<div class="wlist">' + view.map(it => card(it)).join('') + '</div>';
   } else if (TAB === 'all') {
     const view = items.slice().sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate));
     html = section('시행예정', 'var(--later)', view.filter(it => it.daysUntil >= 0)) +
@@ -420,7 +404,7 @@ function analysis() {
   const laws = new Set(up.map(it => it.title)).size;
   const maxDay = Math.max.apply(null, up.map(it => it.daysUntil));
   $('#an-total').textContent = up.length;
-  $('#an-sub').textContent = `오늘부터 ${up.length}건 (법령 ${laws}개) · 직무 ${jobs.length}개 · 가장 먼 시행 D-${maxDay}`;
+  $('#an-sub').textContent = '';
   const col = j => CAT_COLOR[j] || '#a0aec0';
 
   /* 범례 (눌러서 직무 선택) */
