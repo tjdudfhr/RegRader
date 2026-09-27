@@ -4,8 +4,8 @@
   "description": "당사 적용법규(법령·행정규칙) 개정 모니터링과 대응 현황 관리",
   "start_url": "./",
   "display": "standalone",
-  "theme_color": "#667eea",
-  "background_color": "#ffffff",
+  "theme_color": "#f3f5f8",
+  "background_color": "#f3f5f8",
   "orientation": "portrait",
   "icons": [
     {
@@ -21,6 +21,9 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["business", "productivity"],
+  "categories": [
+    "business",
+    "productivity"
+  ],
   "lang": "ko-KR"
 }

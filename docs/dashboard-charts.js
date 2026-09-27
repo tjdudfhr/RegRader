@@ -72,13 +72,14 @@
     var text = css('--text-primary', dark ? '#f7fafc' : '#1a202c');
     var muted = css('--text-muted', '#718096');
     var grid = dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+    /* 앱 색 체계(system.css): 시행완료 = 브랜드 파랑, 30일 내 = 빨강, 이후 예정 = 주황 */
     var C = {
-      done: dark ? '#68d391' : '#48bb78',
-      soon: dark ? '#fc8181' : '#e53e3e',
-      later: dark ? '#e879f9' : '#d946ef',
-      past: dark ? 'rgba(104,211,145,0.45)' : 'rgba(72,187,120,0.45)',
-      up: dark ? 'rgba(232,121,249,0.55)' : 'rgba(217,70,239,0.45)',
-      cur: '#667eea'
+      done: dark ? '#6f8dff' : '#3056d3',
+      soon: dark ? '#f97066' : '#d92d20',
+      later: dark ? '#f5b95f' : '#e8962e',
+      past: dark ? 'rgba(111,141,255,0.38)' : 'rgba(48,86,211,0.26)',
+      up: dark ? 'rgba(245,185,95,0.45)' : 'rgba(232,150,46,0.42)',
+      cur: dark ? '#6f8dff' : '#3056d3'
     };
 
     document.getElementById('rr-dash-year').textContent = s.year + '년';

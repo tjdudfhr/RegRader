@@ -156,8 +156,7 @@
   window.triggerDataRefresh = async function () {
     var btn = document.getElementById('refresh-btn');
     if (btn) {
-      btn.classList.add('loading');
-      btn.innerHTML = '⏳';
+      btn.classList.add('loading');   /* 아이콘이 돈다 (system.css) */
       btn.style.pointerEvents = 'none';
     }
     try {

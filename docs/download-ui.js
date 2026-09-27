@@ -50,25 +50,25 @@
     var fmt = function (n) { return n == null ? '–' : Number(n).toLocaleString('ko-KR'); };
     var baseN = window.__rrBaseCount ? fmt(window.__rrBaseCount) : '–';
     inner.innerHTML =
-      '<div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #e5e7eb">' +
+      '<div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)">' +
       '<h2 style="margin:0;font-size:1.25rem">' + window.RR_YEAR + '년 보고서 · 데이터 다운로드</h2>' +
-      '<button type="button" onclick="closeDownloadModal()" style="border:0;background:none;font-size:22px;cursor:pointer;color:#888">×</button>' +
+      '<button type="button" onclick="closeDownloadModal()" style="border:0;background:none;font-size:22px;cursor:pointer;color:var(--ink-3)">×</button>' +
       '</div>' +
       '<div style="padding:18px 20px">' +
-      '<div style="background:linear-gradient(135deg,#5b67e5,#7c3aed);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;gap:18px;flex-wrap:wrap">' +
-      '<div><div style="font-size:22px;font-weight:800">' + fmt(U.openapiCurrent) + '</div><div style="opacity:.9;font-size:12px">현행(' + window.RR_YEAR + ' 시행)</div></div>' +
-      '<div><div style="font-size:22px;font-weight:800">' + fmt(U.openapiUpcoming) + '</div><div style="opacity:.9;font-size:12px">시행예정(연말까지)</div></div>' +
-      '<div><div style="font-size:22px;font-weight:800">' + baseN + '</div><div style="opacity:.9;font-size:12px">당사 적용 국내법규</div></div>' +
-      '<div><div style="font-size:22px;font-weight:800">' + (items().length ? fmt(items().length) : '-') + '</div><div style="opacity:.9;font-size:12px">일치 개정 건</div></div>' +
+      '<div style="background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;gap:18px;flex-wrap:wrap">' +
+      '<div><div style="font-size:22px;font-weight:800">' + fmt(U.openapiCurrent) + '</div><div style="color:var(--ink-3);font-size:12px">현행(' + window.RR_YEAR + ' 시행)</div></div>' +
+      '<div><div style="font-size:22px;font-weight:800">' + fmt(U.openapiUpcoming) + '</div><div style="color:var(--ink-3);font-size:12px">시행예정(연말까지)</div></div>' +
+      '<div><div style="font-size:22px;font-weight:800">' + baseN + '</div><div style="color:var(--ink-3);font-size:12px">당사 적용 국내법규</div></div>' +
+      '<div><div style="font-size:22px;font-weight:800">' + (items().length ? fmt(items().length) : '-') + '</div><div style="color:var(--ink-3);font-size:12px">일치 개정 건</div></div>' +
       '</div>' +
       '<div id="rr-report-slot"></div>' +
-      '<button type="button" id="rr-dl-matched" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid #c7d2fe;border-radius:12px;background:#eef2ff;cursor:pointer">' +
+      '<button type="button" id="rr-dl-matched" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--brand-soft);cursor:pointer">' +
       '<div style="font-weight:700">당사 매칭 개정 결과 (Excel)</div>' +
-      '<div style="font-size:13px;color:#4c1d95;margin-top:4px">' + baseN + '개와 제목 100% 일치하는 ' + window.RR_YEAR + '년 개정 건</div></button>' +
-      '<button type="button" id="rr-dl-base" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid #e5e7eb;border-radius:12px;background:#f8fafc;cursor:pointer">' +
+      '<div style="font-size:13px;color:var(--brand-ink);margin-top:4px">' + baseN + '개와 제목 100% 일치하는 ' + window.RR_YEAR + '년 개정 건</div></button>' +
+      '<button type="button" id="rr-dl-base" style="width:100%;text-align:left;margin:0 0 10px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);cursor:pointer">' +
       '<div style="font-weight:700">당사 적용 국내법규 ' + baseN + ' (Excel)</div>' +
-      '<div style="font-size:13px;color:#64748b;margin-top:4px">기본 적용 목록</div></button>' +
-      '<div style="font-size:12px;color:#64748b;line-height:1.55">조회 기준 ' + (M.asOf || '–') + '. 전체 현행 ' + fmt(U.openapiCurrent) + ' · 올해 시행일 전체(연혁 포함) ' + fmt(U.openapiFuture) + ' 파일은 채팅으로 받은 엑셀을 사용하세요.</div>' +
+      '<div style="font-size:13px;color:var(--ink-3);margin-top:4px">기본 적용 목록</div></button>' +
+      '<div style="font-size:12px;color:var(--ink-3);line-height:1.55">조회 기준 ' + (M.asOf || '–') + '. 전체 현행 ' + fmt(U.openapiCurrent) + ' · 올해 시행일 전체(연혁 포함) ' + fmt(U.openapiFuture) + ' 파일은 채팅으로 받은 엑셀을 사용하세요.</div>' +
       '</div>';
     if (window.rrReport) window.rrReport.mount(inner.querySelector('#rr-report-slot'));   /* 월간·분기 보고서 PPT (report-ppt.js) */
     var m = inner.querySelector('#rr-dl-matched');

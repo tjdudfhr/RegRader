@@ -854,7 +854,10 @@
     return loadLib().then(function () { return collect(opts); }).then(function (input) {
       var pptx = build(window.PptxGenJS, input);
       var name = fileName(input);
-      return pptx.writeFile({ fileName: name, compression: true }).then(function () { return name; });
+      return pptx.writeFile({ fileName: name, compression: true }).then(function () {
+        if (window.rrToast) window.rrToast('‘' + name + '’ 을(를) 내려받았습니다');
+        return name;
+      });
     });
   }
 
@@ -865,12 +868,12 @@
     var t = todayKST(), m = Number(t.slice(5, 7)), q = Math.ceil(m / 3);
     var st = { kind: 'quarter', n: q };
     var pref = getPref();
-    var box = 'padding:6px 8px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;font-size:13px';
+    var box = 'padding:6px 8px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:13px';
     slot.innerHTML =
-      '<div style="border:1px solid #c7d2fe;border-radius:12px;padding:14px;margin:0 0 12px;background:#fafbff">' +
-      '<div style="font-weight:800;margin-bottom:10px">📑 법규 제·개정 동향 보고서 (임원 보고용 PPT)</div>' +
+      '<div style="border:1px solid var(--line);border-radius:12px;padding:14px;margin:0 0 12px;background:var(--surface-2)">' +
+      '<div style="font-weight:800;margin-bottom:10px">법규 제·개정 동향 보고서 (임원 보고용 PPT)</div>' +
       '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">' +
-        '<span id="rr-rep-kind" style="display:inline-flex;border:1px solid #cbd5e1;border-radius:8px;overflow:hidden">' +
+        '<span id="rr-rep-kind" style="display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden">' +
           '<button type="button" data-k="month" style="border:0;padding:6px 12px;cursor:pointer;font:inherit;font-size:13px">월간</button>' +
           '<button type="button" data-k="quarter" style="border:0;padding:6px 12px;cursor:pointer;font:inherit;font-size:13px">분기</button></span>' +
         '<select id="rr-rep-n" style="' + box + '"></select>' +
@@ -880,13 +883,13 @@
       '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">' +
         '<input id="rr-rep-dept" type="text" maxlength="30" placeholder="보고 부서 (예: 법무팀)" style="' + box + ';flex:1;min-width:150px">' +
       '</div>' +
-      '<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:#475569;margin-bottom:6px">' +
+      '<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:6px">' +
         '<label><input type="checkbox" id="rr-rep-secret"> 대외비 표시</label>' +
         '<label><input type="checkbox" id="rr-rep-app" checked> 별첨: 전체 개정 목록</label>' +
         '<label id="rr-rep-trk-l" style="display:none"><input type="checkbox" id="rr-rep-trk" checked> 대응 현황 포함</label></div>' +
-      '<div id="rr-rep-trk-msg" style="font-size:12px;color:#64748b;margin-bottom:10px"></div>' +
-      '<button type="button" id="rr-rep-go" style="width:100%;padding:11px;border:0;border-radius:10px;background:linear-gradient(135deg,#5b67e5,#7c3aed);color:#fff;font:inherit;font-weight:800;cursor:pointer">PPT 만들기</button>' +
-      '<div id="rr-rep-msg" style="font-size:12px;color:#64748b;margin-top:8px;line-height:1.5">보고 요약 → 개정 현황 → 중점 관리 개정 사항 → 향후 시행 예정 → 대응 현황 순으로, 슬라이드마다 결론 한 줄이 먼저 나옵니다. 상세 목록은 별첨으로 들어가고, 문장·표·차트는 PowerPoint에서 바로 고칠 수 있습니다.</div>' +
+      '<div id="rr-rep-trk-msg" style="font-size:12px;color:var(--ink-3);margin-bottom:10px"></div>' +
+      '<button type="button" id="rr-rep-go" style="width:100%;padding:11px;border:0;border-radius:10px;background:var(--brand);color:#fff;font:inherit;font-weight:800;cursor:pointer">PPT 만들기</button>' +
+      '<div id="rr-rep-msg" style="font-size:12px;color:var(--ink-3);margin-top:8px;line-height:1.5">보고 요약 → 개정 현황 → 중점 관리 개정 사항 → 향후 시행 예정 → 대응 현황 순으로, 슬라이드마다 결론 한 줄이 먼저 나옵니다. 상세 목록은 별첨으로 들어가고, 문장·표·차트는 PowerPoint에서 바로 고칠 수 있습니다.</div>' +
       '</div>';
     var sel = slot.querySelector('#rr-rep-n');
     var dept = slot.querySelector('#rr-rep-dept'), secret = slot.querySelector('#rr-rep-secret');
@@ -903,8 +906,8 @@
     function paint() {
       slot.querySelectorAll('#rr-rep-kind button').forEach(function (b) {
         var on = b.dataset.k === st.kind;
-        b.style.background = on ? '#4a57cf' : '#fff';
-        b.style.color = on ? '#fff' : '#334155';
+        b.style.background = on ? 'var(--brand)' : 'var(--surface)';
+        b.style.color = on ? '#fff' : 'var(--ink-2)';
       });
       if (st.kind === 'quarter') {
         sel.innerHTML = QN.map(function (x, i) { return '<option value="' + (i + 1) + '">' + year + '년 ' + x[0] + '</option>'; }).join('');

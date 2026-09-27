@@ -43,6 +43,7 @@
     var m = MEMBERS.filter(function (x) { return x.email === email; })[0];
     return m && m.name ? m.name : (email || '').split('@')[0];
   }
+  function icon(n) { return window.rrIcon ? window.rrIcon(n) : ''; }
   function statusOf(it) { var r = RESP[keyOf(it)]; return r ? r.status : ''; }
 
   /* ---------- 연결 ---------- */
@@ -239,7 +240,7 @@
 
   /* ---------- 왼쪽 메뉴 아래: 로그인 상태 ---------- */
   function paintBadge() {
-    var nav = document.querySelector('.main-tab-navigation .main-tab-container') || document.querySelector('.main-tab-navigation');
+    var nav = document.querySelector('.main-tab-navigation .rr-side-foot') || document.querySelector('.main-tab-navigation .main-tab-container') || document.querySelector('.main-tab-navigation');
     if (!nav) return;
     var el = document.getElementById('rr-trk-who');
     if (!el) {
@@ -250,12 +251,12 @@
     }
     if (session && me && me.role !== 'guest') {
       var nm = me.name || me.email.split('@')[0], rl = me.role === 'admin' ? '총괄' : (me.job || '') + ' 담당';
-      el.innerHTML = '<span class="n">👤 ' + esc(nm) + '</span>' + (nm === rl ? '' : '<span class="j">' + esc(rl) + '</span>') +
-        '<button type="button" data-trk="logout">로그아웃</button>';
+      el.innerHTML = '<span class="av" aria-hidden="true">' + esc(nm.slice(0, 1)) + '</span><span class="who"><span class="n">' + esc(nm) + '</span>' + (nm === rl ? '' : '<span class="j">' + esc(rl) + '</span>') + '</span>' +
+        '<button type="button" data-trk="logout" title="로그아웃" aria-label="로그아웃">' + icon('logout') + '</button>';
     } else if (session) {
-      el.innerHTML = '<span class="n">미등록 계정</span><button type="button" data-trk="logout">로그아웃</button>';
+      el.innerHTML = '<span class="av" aria-hidden="true">?</span><span class="who"><span class="n">미등록 계정</span></span><button type="button" data-trk="logout" title="로그아웃" aria-label="로그아웃">' + icon('logout') + '</button>';
     } else {
-      el.innerHTML = '<button type="button" class="in" data-trk="login">🔐 담당자 로그인</button>';
+      el.innerHTML = '<button type="button" class="in" data-trk="login">' + icon('login') + '담당자 로그인</button>';
     }
   }
 
@@ -478,7 +479,7 @@
     '.rr-trk textarea { resize:vertical; min-height:52px; }',
     '.rr-trk-foot { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:12.5px; color:var(--text-muted,#718096); }',
     '.rr-trk-ro { font-weight:700; }',
-    '.rr-trk-btn { border:0; border-radius:8px; padding:7px 14px; font:inherit; font-size:13px; font-weight:800; cursor:pointer; color:#fff; background:linear-gradient(135deg,#48bb78,#2f855a); }',
+    '.rr-trk-btn { border:1px solid var(--brand); border-radius:8px; padding:7px 14px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; color:#fff; background:var(--brand); box-shadow:0 1px 2px rgba(17,24,39,.12), inset 0 1px 0 rgba(255,255,255,.14); } .rr-trk-btn:hover { background:var(--brand-hover); }',
     '.rr-trk-btn.ghost { color:var(--text-secondary,#4a5568); background:var(--bg-card,#fff); border:1px solid var(--border,#e2e8f0); }',
     '.rr-trk-btn.wide { width:100%; padding:10px; margin-top:8px; }',
     '.rr-trk-btn:disabled { opacity:.6; cursor:default; }',
@@ -507,7 +508,7 @@
     '.rr-trk-t tbody tr[data-tjob] { cursor:pointer; } .rr-trk-t tbody tr[data-tjob]:hover, .rr-trk-t tr.on { background:rgba(102,126,234,.08); }',
     '.rr-trk-t td i { display:inline-block; width:9px; height:9px; border-radius:3px; margin-right:6px; }',
     '.rr-trk-t td.warn { color:#c05621; font-weight:800; } .rr-trk-t td.bad { color:#c53030; font-weight:800; }',
-    '.rr-trk-bar { display:inline-block; width:70px; height:7px; border-radius:4px; background:rgba(160,174,192,.25); margin-right:6px; vertical-align:middle; overflow:hidden; } .rr-trk-bar span { display:block; height:100%; background:#48bb78; }',
+    '.rr-trk-bar { display:inline-block; width:70px; height:6px; border-radius:4px; background:var(--surface-3); margin-right:6px; vertical-align:middle; overflow:hidden; } .rr-trk-bar span { display:block; height:100%; background:var(--brand); border-radius:4px; }',
     '.rr-trk-t.mem td, .rr-trk-t.mem th { text-align:left; } .rr-trk-t.mem input, .rr-trk-t.mem select { font:inherit; font-size:.82rem; padding:.3rem .45rem; border:1px solid var(--border); border-radius:6px; background:var(--bg-card); color:var(--text-primary); width:100%; box-sizing:border-box; }',
     '.rr-trk-filters { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin-bottom:.7rem; }',
     '.rr-trk-filters select, .rr-trk-filters input { font:inherit; font-size:.84rem; padding:.45rem .6rem; border:1px solid var(--border); border-radius:8px; background:var(--bg-card); color:var(--text-primary); }',
