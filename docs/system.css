@@ -707,3 +707,108 @@ body .rr-rp-row:hover { background: var(--surface-2) !important; box-shadow: ins
 body .rr-rp-lh { font-weight: 800; }
 body .rr-rp-tile { border-radius: 10px !important; }
 body .main-tab .tab-text, body .main-link .tab-text { color: inherit !important; }
+
+/* ================================================================
+ * 눈이 편한 톤 (2026-09-27): 순백을 줄인다
+ *  - 바탕은 한 톤 어두운 회색, 카드는 살짝 누른 흰색
+ *  - 위쪽 앱 바도 사이드바처럼 어둡게 → 'ㄱ'자 어두운 틀 안에 부드러운 회색 작업 공간
+ * ================================================================ */
+:root {
+  --canvas: #e3e7ed;
+  --surface: #f5f7fa;
+  --surface-2: #edf0f4;
+  --surface-3: #e5e9ef;
+  --line: #d5dbe4;
+  --line-2: #e0e4ea;
+  --brand-soft: #e3e9fa;
+  --sh-xs: 0 1px 2px rgba(17, 24, 39, 0.06);
+  --sh-sm: 0 1px 3px rgba(17, 24, 39, 0.08), 0 1px 2px rgba(17, 24, 39, 0.05);
+}
+body input[type="text"], body input[type="search"], body input[type="email"], body input[type="date"], body input:not([type]), body select, body textarea { background: #fcfcfd !important; }
+
+/* 어두운 앱 바 */
+body > .container > .header {
+  background: var(--night) !important; border-bottom: 1px solid var(--night) !important;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04), 0 6px 16px -10px rgba(14, 20, 34, 0.6) !important;
+}
+body > .container > .header #rr-page-title { color: #fff !important; }
+body > .container > .header .rr-crumb { color: var(--night-ink-3); }
+body > .container > .header .meta { background: rgba(255, 255, 255, 0.06) !important; border-color: rgba(255, 255, 255, 0.1) !important; color: var(--night-ink-3) !important; }
+body > .container > .header .meta b { color: #fff !important; }
+body > .container > .header .rr-year-select { color: #fff; }
+body > .container > .header .rr-year-select option { color: #111827; }
+body > .container > .header .settings-btn:not(.rr-primary) { background: rgba(255, 255, 255, 0.06) !important; border-color: rgba(255, 255, 255, 0.12) !important; color: var(--night-ink-2) !important; box-shadow: none !important; }
+body > .container > .header .settings-btn:not(.rr-primary):hover { background: rgba(255, 255, 255, 0.12) !important; color: #fff !important; border-color: rgba(255, 255, 255, 0.2) !important; }
+body > .container > .header .rr-hamburger { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.12); color: #fff; }
+body .main-tab-navigation .rr-brand { border-bottom-color: rgba(255, 255, 255, 0.04); }
+
+/* ============ 적용법규 탭 ============ */
+/* 머리 카드: 제목 · 설명 · 총 법규 수 · 법규 추가 */
+body #lawregistry-content .law-registry-view > div:first-child { padding: 18px 24px !important; }
+body #registry-total-count { font-size: 26px !important; font-weight: 800 !important; letter-spacing: -0.03em; color: var(--ink) !important; font-variant-numeric: tabular-nums; }
+/* 목록: 화면 높이만큼 넓게, 계열마다 머리 줄 */
+body #job-function-laws { max-height: calc(100vh - 190px) !important; background: var(--surface); }
+body .rr-rf-sum { background: var(--surface-2) !important; border-bottom: 1px solid var(--line) !important; font-size: 12.5px !important; color: var(--ink-3) !important; padding: 10px 18px !important; }
+body .rr-rf-sum b { color: var(--ink); }
+body .rr-rf { padding: 0 0 8px !important; border-bottom: 1px solid var(--line) !important; }
+body .rr-rf-h {
+  padding: 11px 18px !important; margin: 0 0 6px !important; background: color-mix(in srgb, var(--surface-2) 70%, var(--surface));
+  border-bottom: 1px solid var(--line-2); font-size: 14.5px !important; font-weight: 800; letter-spacing: -0.02em; position: sticky; top: 41px; z-index: 1;
+}
+body .rr-rf .rr-fam-row { padding-left: 18px !important; padding-right: 18px !important; }
+body .rr-rf .rr-fam-row:hover { background: var(--surface-2); }
+body .rr-rf-cat { border-radius: 6px !important; padding: 1px 8px !important; font-size: 11px !important; }
+body .rr-rf-n { color: var(--brand) !important; }
+body .rr-rf .rr-fam-adm { margin-left: 18px; margin-right: 18px; }
+body .rr-card-head { background: var(--surface) !important; }
+
+/* ============ 대응 현황 탭 ============ */
+body #rr-trk-dash { gap: 20px !important; }
+/* 로그인 전 첫 화면 */
+body .rr-trk-intro { border-radius: var(--r-lg); padding: 32px 36px !important; position: relative; overflow: hidden; }
+body .rr-trk-intro::after {
+  content: ""; position: absolute; right: -60px; top: -60px; width: 320px; height: 320px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(143, 169, 255, 0.22), transparent 65%); pointer-events: none;
+}
+.rr-trk-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; color: var(--night-accent); letter-spacing: 0; margin-bottom: 12px; }
+.rr-trk-eyebrow .ri { width: 15px; height: 15px; }
+body .rr-trk-intro h2 { margin: 0 0 10px !important; font-size: 24px !important; line-height: 1.35 !important; font-weight: 800 !important; letter-spacing: -0.035em; color: #fff !important; }
+body .rr-trk-intro p { margin: 0 0 20px !important; max-width: 640px; font-size: 14px !important; line-height: 1.65; color: var(--night-ink-2) !important; }
+.rr-trk-act { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+body .rr-trk-act .rr-trk-btn { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 18px !important; font-size: 14px !important; }
+body .rr-trk-act .rr-trk-btn .ri { width: 16px; height: 16px; }
+body .rr-trk-act .rr-trk-btn.ghost { background: rgba(255,255,255,.08) !important; border-color: rgba(255,255,255,.18) !important; color: #fff !important; }
+.rr-trk-note2 { font-size: 12.5px; color: var(--night-ink-3); }
+.rr-trk-flow { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--night-line); }
+.rr-trk-chip { display: inline-flex; align-items: center; gap: 7px; height: 28px; padding: 0 11px; border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); font-size: 12.5px; font-weight: 700; color: var(--night-ink-2); }
+.rr-trk-chip i { width: 7px; height: 7px; border-radius: 50%; background: #9aa3b5; }
+.rr-trk-chip.rev i { background: #6f9bff; } .rr-trk-chip.need i { background: #f79d4d; } .rr-trk-chip.done i { background: #3ccb7f; } .rr-trk-chip.na i { background: #c3c9d4; }
+.rr-trk-arrow { color: var(--night-ink-3); display: inline-flex; }
+.rr-trk-arrow .ri { width: 14px; height: 14px; }
+.rr-trk-feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.rr-trk-feat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--sh-sm); padding: 20px; }
+.rr-trk-feat .ri-solo { margin-bottom: 12px; }
+.rr-trk-feat b { display: block; font-size: 15px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 6px; }
+.rr-trk-feat p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--ink-3); }
+.rr-trk-pjs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.rr-trk-pj { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line-2); font-size: 13px; color: var(--ink-2); font-weight: 600; }
+.rr-trk-pj i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.rr-trk-pj b { margin-left: auto; font-size: 15px; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+@media (max-width: 900px) { .rr-trk-feats { grid-template-columns: 1fr; } .rr-trk-pjs { grid-template-columns: repeat(2, minmax(0, 1fr)); } body .rr-trk-intro { padding: 24px !important; } body .rr-trk-intro h2 { font-size: 20px !important; } }
+
+/* 로그인 후: 머리 · 표 · 목록 */
+body .rr-trk-head h2 { font-size: 18px !important; font-weight: 800 !important; letter-spacing: -0.025em; }
+body .rr-trk-ct { font-size: 15px; letter-spacing: -0.02em; }
+body .rr-trk-t { font-size: 13px !important; }
+body .rr-trk-t th { background: var(--surface-2) !important; color: var(--ink-3) !important; font-size: 12px !important; padding: 9px 10px !important; border-bottom: 1px solid var(--line) !important; }
+body .rr-trk-t td { padding: 9px 10px !important; border-bottom: 1px solid var(--line-2) !important; color: var(--ink-2) !important; }
+body .rr-trk-t tbody tr[data-tjob]:hover, body .rr-trk-t tr.on { background: var(--brand-soft) !important; }
+body .rr-trk-t td.warn { color: var(--warn) !important; } body .rr-trk-t td.bad { color: var(--danger) !important; }
+body .rr-trk-list { gap: 0 !important; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+body .rr-trk-row { border: 0 !important; border-bottom: 1px solid var(--line-2) !important; border-radius: 0 !important; padding: 9px 14px !important; background: var(--surface) !important; }
+body .rr-trk-row:last-child { border-bottom: 0 !important; }
+body .rr-trk-row:hover { background: var(--surface-2) !important; }
+body .rr-trk-row .dd { color: var(--brand) !important; } body .rr-trk-row .dd.hot { color: var(--danger) !important; }
+body .rr-st { border-radius: 5px !important; }
+body .rr-trk-dialog { border-radius: 16px !important; border: 1px solid var(--line); box-shadow: var(--sh-lg) !important; background: var(--surface) !important; }

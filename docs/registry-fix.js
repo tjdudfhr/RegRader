@@ -22,11 +22,11 @@
       if (el) el.textContent = String(c[k]);
     });
     var all = document.getElementById('job-count-all');
-    if (all) all.textContent = String((items || []).length);
+    if (all) all.textContent = (items || []).length.toLocaleString('ko-KR');
     var tab = document.getElementById('lawregistry-tab-count');
     if (tab) tab.textContent = String((items || []).length || '–');
     var tot = document.getElementById('registry-total-count');
-    if (tot) tot.textContent = String((items || []).length || '–');
+    if (tot) tot.textContent = (items || []).length ? (items || []).length.toLocaleString('ko-KR') : '–';
     /* 적용법규 수는 목록 파일에서 센다 (법규 추가 시 자동 반영) */
     if (items && items.length && window.__rrSetBaseCount) window.__rrSetBaseCount(items.length);
   }
@@ -110,9 +110,9 @@
     var icon = document.getElementById('job-function-icon');
     var head = document.getElementById('job-function-title');
     var cnt = document.getElementById('job-function-count');
-    if (icon) icon.textContent = job === 'all' ? '📋' : '📚';
+    if (icon && !icon.querySelector('svg')) icon.textContent = '📋';   /* 아이콘은 system-ui 가 선 아이콘으로 바꾼다 */
     if (head) head.textContent = job === 'all' ? '전체 적용 법규' : String(title || job).replace(/^\S+\s/, '') + ' 적용 법규';
-    if (cnt) cnt.textContent = view.length + '건';
+    if (cnt) cnt.textContent = view.length.toLocaleString('ko-KR') + '건';
     var host = document.getElementById('job-function-laws');
     if (!host) {
       var items = document.querySelectorAll('.registry-law-item');
@@ -124,7 +124,7 @@
     if (MODE === 'family') {
       var fam = familyView(view, job);
       if (fam) {
-        if (cnt) cnt.textContent = fam.count + '개 계열 · ' + view.length + '건';
+        if (cnt) cnt.textContent = fam.count + '개 계열 · ' + view.length.toLocaleString('ko-KR') + '건';
         host.innerHTML = fam.html;
         host.style.maxHeight = '72vh';
         host.setAttribute('data-rr', String(job));

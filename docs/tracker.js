@@ -290,16 +290,38 @@
   /* ---------- 대응 현황 탭 ---------- */
   var F = { job: '', status: '', q: '', scope: 'attention' };
   function todayISO() { var k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' })); return k.getFullYear() + '-' + String(k.getMonth() + 1).padStart(2, '0') + '-' + String(k.getDate()).padStart(2, '0'); }
+  /* 로그인 전 첫 화면: 무엇을 하는 곳인지 + 로그인 */
+  function intro(action) {
+    var steps = STATUSES.map(function (st) { return '<span class="rr-trk-chip ' + ST_CLS[st] + '"><i></i>' + st + '</span>'; }).join('<span class="rr-trk-arrow">' + icon('chevron') + '</span>');
+    var jobs = JOBS.map(function (j) {
+      var n = items().filter(function (it) { return jobOf(it) === j; }).length;
+      return '<div class="rr-trk-pj"><i style="background:' + (window.rrCatColor ? window.rrCatColor(j) : '#999') + '"></i><span>' + j + '</span><b>' + n + '</b></div>';
+    }).join('');
+    return '<section class="rr-trk-intro rr-night">' +
+        '<div class="rr-trk-eyebrow">' + icon('check') + '대응 현황 관리</div>' +
+        '<h2>개정마다 검토 · 조치 · 완료를 기록하고<br>직무별 진행률을 한눈에 봅니다</h2>' +
+        '<p>직무별 담당자는 자기 직무의 개정을, 총괄은 전체를 기록합니다. 누가 언제 무엇을 바꿨는지 이력이 자동으로 남습니다.</p>' +
+        '<div class="rr-trk-act">' + action + '</div>' +
+        '<div class="rr-trk-flow">' + steps + '</div>' +
+      '</section>' +
+      '<div class="rr-trk-feats">' +
+        '<div class="rr-trk-feat"><span class="ri-solo">' + icon('chart') + '</span><b>직무별 진행률</b><p>8개 직무의 검토 완료율, 30일 안에 시행되는데 아직 끝나지 않은 건, 시행 후에도 남은 건을 바로 봅니다.</p></div>' +
+        '<div class="rr-trk-feat"><span class="ri-solo">' + icon('clock') + '</span><b>기한 · 조치 관리</b><p>개정마다 영향도, 조치 내용, 조치 기한, 완료일, 증빙 링크를 남기고 기한이 지난 건을 챙깁니다.</p></div>' +
+        '<div class="rr-trk-feat"><span class="ri-solo">' + icon('history') + '</span><b>변경 이력 · 보고</b><p>상태를 바꾸면 이력이 자동으로 쌓이고, 보고서 PPT의 ‘대응 현황’ 장에 그대로 들어갑니다.</p></div>' +
+      '</div>' +
+      '<div class="rr-trk-card rr-trk-preview"><div class="rr-trk-ct">올해 대응 대상<small>직무별 개정 건수 · 로그인하면 상태별로 나뉩니다</small></div><div class="rr-trk-pjs">' + jobs + '</div></div>';
+  }
   function paintDash() {
     var host = document.getElementById('rr-trk-dash');
     if (!host) return;
     if (!session || !loaded) {
-      host.innerHTML = '<div class="rr-trk-hero"><h2>✅ 대응 현황</h2><p>직무별 담당자가 개정마다 <b>검토 · 조치 · 완료</b>를 기록하고, 총괄이 한눈에 확인합니다. 누가 언제 바꿨는지 이력이 자동으로 남습니다.</p>' +
-        '<button type="button" class="rr-trk-btn" data-trk="login">담당자 로그인</button><p class="sm">등록된 이메일로만 로그인할 수 있습니다. 등록은 총괄이 합니다.</p></div>';
+      host.innerHTML = intro('<button type="button" class="rr-trk-btn" data-trk="login">' + icon('login') + '담당자 로그인</button>' +
+        '<span class="rr-trk-note2">등록된 이메일로만 로그인할 수 있습니다 · 등록은 총괄이 합니다</span>');
       return;
     }
     if (!me || me.role === 'guest') {
-      host.innerHTML = '<div class="rr-trk-hero"><h2>✅ 대응 현황</h2><p>' + esc(session.user.email) + ' 은(는) 등록된 담당자가 아닙니다. 총괄에게 등록을 요청하세요.</p><button type="button" class="rr-trk-btn ghost" data-trk="logout">로그아웃</button></div>';
+      host.innerHTML = intro('<button type="button" class="rr-trk-btn ghost" data-trk="logout">' + icon('logout') + '로그아웃</button>' +
+        '<span class="rr-trk-note2">' + esc(session.user.email) + ' 은(는) 등록된 담당자가 아닙니다. 총괄에게 등록을 요청하세요.</span>');
       return;
     }
     if (!F.job && me.role !== 'admin' && me.job) F.job = me.job;
