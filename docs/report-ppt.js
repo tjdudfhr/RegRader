@@ -8,8 +8,9 @@
  *   Ⅰ 개정 현황      직무별(직무를 고르면 법령 계열별) · 법규 단계별 · 전기 대비
  *   Ⅱ 중점 관리 개정  제재·의무가 바뀐 개정 중 영향이 큰 것 · 법제처 개정이유의 주요내용을 줄여 적음
  *   Ⅲ 향후 시행 예정  다음 기간 · 월별
- *   Ⅳ 대응 현황      대응 현황 관리에 로그인했을 때만 · 직무별 진행률 · 조치 필요 항목
- *   별첨             제재·의무 변경 상세 · 시행 예정 목록 · 월별 추이 · 전체 개정 목록 · 집계 기준
+ *   Ⅳ 대응 현황      대응 현황 관리에 로그인했을 때만 · 사이트 '대응 현황' 화면과 같은 구성
+ *                    현황(시행 전 대응 · 처리 단계 · 직무별 현황) → 30일 내 시행 → 31일 이후 시행
+ *   별첨             제재·의무 변경 상세 · 시행 예정 목록(대응 현황을 넣으면 '시행 예정 · 대응 목록') · 월별 추이 · 전체 개정 목록 · 집계 기준
  * 본문 슬라이드는 맨 위 한 줄(헤드 메시지)에 결론을 적는다. 문장·표·차트는 모두 PowerPoint 에서 고칠 수 있다.
  * 숫자 기준은 사이트와 같다: 시행일 기준, 개정 건수 = 법령 + 시행일 + 개정구분.
  *
@@ -33,7 +34,7 @@
   var SANCTION = { '벌칙': 1, '과태료': 1, '과징금': 1, '처분': 1 };
   var LEVELS = ['법률', '시행령', '시행규칙', '행정규칙'];
   var ST = ['미검토', '검토중', '조치필요', '조치완료', '해당없음'];
-  var ST_COLOR = { '미검토': C.muted, '검토중': C.orange, '조치필요': C.red, '조치완료': C.green, '해당없음': C.gray };
+  var ST_COLOR = { '미검토': C.muted, '검토중': C.blue, '조치필요': C.orange, '조치완료': C.green, '해당없음': C.faint };   /* 사이트와 같은 색 */
   var ROMAN = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'];
   var W = 13.333, X0 = 0.6, CW = W - 1.2, TOP = 2.1, BOTTOM = 6.8;
 
@@ -372,12 +373,36 @@
       return out;
     };
     var lower = lvN(P, '시행규칙') + lvN(P, '행정규칙');
-    /* 대응 현황: 이번 기간 시행분 + 다음 기간 예정분 */
-    var TG = P.concat(N), stc = {};
+    /* 대응 현황 — 사이트 '대응 현황' 화면과 같은 기준 (보고 기준일 현재 · 올해 개정 전체)
+       시행 전 대응 = 시행일이 기준일 당일 이후 → 30일 내 시행 / 31일 이후 시행
+       시행 후 미완료 = 이미 시행됐는데 조치완료·해당없음이 아닌 건 · 완료 = 조치완료 + 해당없음 */
+    var YR = input.items.filter(function (it) { return it.date.slice(0, 4) === String(input.year) && byJob(it); }).sort(byDate);
+    var isDone = function (it) { var st = stOf(it); return st === '조치완료' || st === '해당없음'; };
+    var openN = function (l) { return count(l, function (it) { return !isDone(it); }); };
+    var PRE = YR.filter(function (it) { return it.daysUntil >= 0; });
+    var SOON = PRE.filter(function (it) { return it.daysUntil <= 30; }), LATER = PRE.filter(function (it) { return it.daysUntil > 30; });
+    var LATE = YR.filter(function (it) { return it.date < input.asOf && !isDone(it); });
+    var stc = {};
     ST.forEach(function (x) { stc[x] = 0; });
-    if (T) TG.forEach(function (it) { stc[stOf(it)]++; });
-    var done = stc['조치완료'] + stc['해당없음'];
-    var overdue = T ? TG.filter(function (it) { var r = rowOf(it); return r && r.due_date && r.due_date < input.asOf && ['조치완료', '해당없음'].indexOf(r.status) < 0; }).length : 0;
+    if (T) PRE.forEach(function (it) { stc[stOf(it)]++; });
+    var yrDone = T ? YR.length - openN(YR) : 0;
+    var isOver = function (it) { var r = rowOf(it); return !!(r && r.due_date && r.due_date < input.asOf && !isDone(it)); };
+    var overdue = T ? count(YR, isOver) : 0;
+    /* 시행 예정 · 대응 목록 (대응 현황을 넣을 때): 다음 기간 시행 예정 + 시행 전 대응을 한 목록으로 — 같은 법규가 두 별첨에 겹치지 않게 */
+    var UP = [];
+    if (T) { var seenUp = {}; PRE.concat(N).forEach(function (it) { if (!seenUp[it.key]) { seenUp[it.key] = 1; UP.push(it); } }); UP.sort(byDate); }
+    var UPT = '시행 예정 · 대응 목록', NT = nextLabel + ' 시행 예정 목록';
+
+    /* 별첨 차례 — 본문 설명에서 번호를 쓰므로 먼저 정한다 */
+    var apx = [];
+    if (R.length) apx.push({ t: '제재·의무 변경 상세', n: chunk(R, 7).length, c: R.length + '건' });
+    if (T) { if (UP.length) apx.push({ t: UPT, n: chunk(UP, 15).length, c: UP.length + '건' }); }
+    else if (input.next && N.length) apx.push({ t: NT, n: chunk(N, 18).length, c: N.length + '건' });
+    apx.push({ t: '월별·직무별 추이', n: 1 });
+    if (input.appendix && P.length) apx.push({ t: '전체 개정 목록', n: chunk(P, 22).length, c: P.length + '건' });
+    apx.push({ t: '집계 기준과 방법', n: 1 });
+    apx.forEach(function (a, i) { a.no = i + 1; });
+    var apxNo = function (t) { var a = apx.filter(function (x) { return x.t === t; })[0]; return a ? a.no : ''; };
 
     /* ===== 표지 ===== */
     var s = add(true);
@@ -408,7 +433,7 @@
       '법규 ' + fmt(laws.length) + '개' + (PV ? ' · ' + input.prev.label + ' ' + fmt(PV.length) + '건' : ''), C.navy, PV ? signed(P.length - PV.length) : '');
     kpi(s, pptx, X0 + (kw + 0.22), TOP, kw, kh, '제재·의무 변경', fmt(R.length) + '건', '제재 ' + sanc.length + '건 · 의무 ' + duty.length + '건 (중복 제외)', C.red);
     kpi(s, pptx, X0 + 2 * (kw + 0.22), TOP, kw, kh, input.next ? nextLabel + ' 시행 예정' : '다음 기간 예정', fmt(N.length) + '건', '제재·의무 변경 ' + nRisk.length + '건', C.orange);
-    if (T) kpi(s, pptx, X0 + 3 * (kw + 0.22), TOP, kw, kh, '대응 완료율', pct(done, TG.length) + '%', '완료 ' + done + ' / 대상 ' + TG.length + ' · 조치 필요 ' + stc['조치필요'], C.green);
+    if (T) kpi(s, pptx, X0 + 3 * (kw + 0.22), TOP, kw, kh, '시행 전 대응 미완료', fmt(openN(PRE)) + '건', '시행 예정 ' + fmt(PRE.length) + '건 · 30일 내 ' + fmt(openN(SOON)) + '건 미완료', C.teal);
     else kpi(s, pptx, X0 + 3 * (kw + 0.22), TOP, kw, kh, '법률·시행령 개정', fmt(lvN(P, '법률') + lvN(P, '시행령')) + '건', '시행규칙 ' + lvN(P, '시행규칙') + ' · 행정규칙 ' + lvN(P, '행정규칙') + '건', C.accent);
 
     var pts = [];
@@ -424,7 +449,9 @@
       ? nextLabel + ' 시행 예정 ' + N.length + '건' + (msN.length > 1 ? '(' + msN.map(function (m) { return m.label + ' ' + m.items.length; }).join('·') + ')' : '') +
         (nRisk.length ? ' 중 제재·의무 변경 ' + nRisk.length + '건' : '') + ' — 시행 전 사내 규정·업무 절차 반영 필요'
       : nextLabel + ' 시행 예정으로 확인된 개정 없음 (' + dot(input.asOf) + ' 기준)']);
-    if (T) pts.push(['대응 현황', '이번 기간 시행분과 ' + (nextLabel || '다음 기간') + ' 예정분 ' + TG.length + '건 중 검토 완료 ' + done + '건(' + pct(done, TG.length) + '%) · 조치 필요 ' + stc['조치필요'] + '건 · 검토 중 ' + stc['검토중'] + '건 · 미검토 ' + stc['미검토'] + '건' + (overdue ? ' — 조치 기한 지난 ' + overdue + '건 확인 필요' : '')]);
+    if (T) pts.push(['대응 현황', '시행 예정 ' + fmt(PRE.length) + '건 중 ' + fmt(openN(PRE)) + '건 미완료 — 30일 내 시행 ' + SOON.length + '건 중 ' + openN(SOON) + '건' +
+      (LATER.length ? ', 31일 이후 시행 ' + LATER.length + '건 중 ' + openN(LATER) + '건' : '') + ' · 조치 필요 ' + stc['조치필요'] + '건' +
+      (LATE.length ? ' · 시행 후 미완료 ' + fmt(LATE.length) + '건' : '') + (overdue ? ' · 조치 기한 지난 ' + overdue + '건' : '') + ' (' + dot(input.asOf) + ' 기준)']);
     s.addNotes(['[보고 요약] ' + msg0, ''].concat(pts.map(function (p, i) { return (i + 1) + '. ' + p[0] + ' — ' + p[1]; }))
       .concat(['', '※ 시행일 기준 집계 · 개정 1건 = 법령 + 시행일 + 개정 구분 · 자료: 국가법령정보센터 (' + dot(input.asOf) + ' 기준)']).join('\n'));
     var py = TOP + kh + 0.3, ph = Math.min(0.98, (BOTTOM - py) / pts.length);
@@ -533,7 +560,7 @@
       table(s, krow, X0, TOP, CW, cols, 10, { valign: 'top', margin: [5, 6, 5, 6] });
       s.addNotes(['[중점 관리 개정 사항] 개정이유 주요내용 (질문 대비)'].concat(K.map(function (it) { return brief(it, 5); }))
         .concat(R.length > K.length ? ['그 밖의 제재·의무 변경: ' + R.slice(K.length).map(function (it) { return it.title + '(' + md(it.date) + ')'; }).join(', ')] : []).join('\n\n'));
-      note(s, (R.length > K.length ? '외 ' + (R.length - K.length) + '건은 별첨 1 「제재·의무 변경 상세」 참조 · ' : '') +
+      note(s, (R.length > K.length ? '외 ' + (R.length - K.length) + '건은 별첨 ' + apxNo('제재·의무 변경 상세') + ' 「제재·의무 변경 상세」 참조 · ' : '') +
         '주요 개정 내용은 법제처 개정이유를 줄인 것이며, 제재·의무 표시는 개정문 자동 분석 결과임(최종 판단은 원문 확인)');
     }
 
@@ -581,60 +608,113 @@
       }
       s.addNotes(nRisk.length ? ['[향후 시행 예정] 제재·의무가 바뀌는 개정 ' + nRisk.length + '건'].concat(nRisk.slice().sort(byDate).map(function (it) { return brief(it, 3); })).join('\n\n')
         : '[향후 시행 예정] 제재·의무가 바뀌는 개정은 확인되지 않음');
-      if (N.length) note(s, (N.length > (msN.length > 1 ? 0 : 12) ? '전체 ' + N.length + '건 목록은 별첨 2 · ' : '') + dot(input.asOf) + ' 기준 공포된 개정만 반영(이후 공포분은 다음 보고에 반영)' +
+      if (N.length) note(s, (N.length > (msN.length > 1 ? 0 : 12) ? '전체 ' + N.length + '건 목록은 별첨 ' + apxNo(T ? UPT : NT) + ' · ' : '') + dot(input.asOf) + ' 기준 공포된 개정만 반영(이후 공포분은 다음 보고에 반영)' +
         (msN.length > 1 ? ' · 달마다 제재·의무 변경과 상위 법규를 먼저 표시' : ''));
     }
 
-    /* ===== Ⅳ. 대응 현황 (대응 현황 관리에 로그인한 경우) ===== */
+    /* ===== Ⅳ. 대응 현황 (대응 현황 관리에 로그인한 경우) — 사이트 '대응 현황' 화면과 같은 구성 ===== */
     if (T) {
+      var secT = sec('대응 현황');
+      var cnt = function (l) { var c = {}; ST.forEach(function (x) { c[x] = 0; }); l.forEach(function (it) { c[stOf(it)]++; }); return c; };
+      var opt = function (cell, o) { cell = typeof cell === 'object' ? cell : { text: String(cell) }; cell.options = Object.assign({}, cell.options || {}, o); return cell; };
+      var ratio = function (l) {   /* 미완료 / 전체 */
+        if (!l.length) return num('–', { color: C.faint });
+        var o = openN(l);
+        return { text: [{ text: fmt(o), options: { bold: true, color: o ? C.ink : C.faint } }, { text: ' / ' + fmt(l.length), options: { color: C.muted } }], options: { align: 'right' } };
+      };
+
+      /* Ⅳ-1 현황: 숫자 4개 · 처리 단계 · 직무별 현황(직무를 고르면 시행 시기별 현황) */
       s = add();
-      frame(s, pptx, sec('대응 현황'), '대상 ' + TG.length + '건 중 검토 완료 ' + done + '건(' + pct(done, TG.length) + '%) — 조치 필요 ' + stc['조치필요'] + '건 · 검토 중 ' + stc['검토중'] + '건 · 미검토 ' + stc['미검토'] + '건' +
-        (overdue ? ', 기한 지난 ' + overdue + '건' : ''));
-      var tj = (input.job ? [input.job] : JOB_ORDER).filter(function (j) { return ofJob(TG, j).length; });
-      var al = ['left', 'left', 'right', 'right', 'right', 'right', 'right', 'right'];
-      var trows = [head(['직무', '담당', '대상', '완료', '조치필요', '검토중', '미검토', '완료율'], al)];
-      tj.forEach(function (j) {
-        var l = ofJob(TG, j), c = {};
-        ST.forEach(function (x) { c[x] = 0; });
-        l.forEach(function (it) { c[stOf(it)]++; });
-        var dn = c['조치완료'] + c['해당없음'];
-        trows.push([jobCell(j), owner(j) || { text: '미지정', options: { color: C.faint } }, num(l.length), num(dn), num(c['조치필요'], { color: c['조치필요'] ? C.red : C.ink, bold: !!c['조치필요'] }),
-          num(c['검토중']), num(c['미검토'], { color: c['미검토'] ? C.orange : C.ink }), num(pct(dn, l.length) + '%', { bold: true })]);
+      frame(s, pptx, secT, '시행 예정 ' + fmt(PRE.length) + '건 중 ' + fmt(openN(PRE)) + '건 미완료' +
+        (SOON.length ? ' — 30일 내 시행 ' + SOON.length + '건 중 ' + openN(SOON) + '건' : '') + ' · 조치 필요 ' + stc['조치필요'] + '건' +
+        (LATE.length ? ' · 시행 후 미완료 ' + fmt(LATE.length) + '건' : ''));
+      var k4 = (CW - 3 * 0.22) / 4, kh4 = 1.24;
+      kpi(s, pptx, X0, TOP, k4, kh4, '시행 전 대응', fmt(openN(PRE)) + '건', '미완료 · 시행 예정 ' + fmt(PRE.length) + '건 중', C.navy);
+      kpi(s, pptx, X0 + (k4 + 0.22), TOP, k4, kh4, '30일 내 시행', fmt(openN(SOON)) + '건', '미완료 · ' + fmt(SOON.length) + '건 중', C.red);
+      kpi(s, pptx, X0 + 2 * (k4 + 0.22), TOP, k4, kh4, '31일 이후 시행', fmt(openN(LATER)) + '건', '미완료 · ' + fmt(LATER.length) + '건 중', C.accent);
+      kpi(s, pptx, X0 + 3 * (k4 + 0.22), TOP, k4, kh4, '시행 후 미완료', fmt(LATE.length) + '건', '올해 검토 완료 ' + pct(yrDone, YR.length) + '% (' + fmt(yrDone) + ' / ' + fmt(YR.length) + '건)', C.orange);
+      var y2 = TOP + kh4 + 0.3, lw = 3.55;
+      /* 처리 단계 (시행 전 건) — 가로 막대 */
+      s.addText('처리 단계 · 시행 전 ' + fmt(PRE.length) + '건', { x: X0, y: y2, w: lw, h: 0.3, fontFace: F, fontSize: 11.5, bold: true, color: C.navy, margin: 0 });
+      var mx = Math.max.apply(null, ST.map(function (k) { return stc[k]; }).concat([1])), rh = 0.5, bx = X0 + 0.95, bwMax = lw - 0.95 - 0.62;
+      ST.forEach(function (k, i) {
+        var yy = y2 + 0.42 + i * rh;
+        s.addText(k, { x: X0, y: yy, w: 0.95, h: rh - 0.1, fontFace: F, fontSize: 10.5, bold: true, color: ST_COLOR[k], margin: 0, valign: 'middle' });
+        s.addShape(pptx.ShapeType.rect, { x: bx, y: yy + (rh - 0.1) / 2 - 0.11, w: bwMax, h: 0.22, fill: { color: C.soft }, line: { color: C.soft } });
+        if (stc[k]) s.addShape(pptx.ShapeType.rect, { x: bx, y: yy + (rh - 0.1) / 2 - 0.11, w: Math.max(bwMax * stc[k] / mx, 0.05), h: 0.22, fill: { color: ST_COLOR[k] }, line: { color: ST_COLOR[k] } });
+        s.addText(fmt(stc[k]) + '건', { x: X0 + lw - 0.6, y: yy, w: 0.6, h: rh - 0.1, fontFace: F, fontSize: 10.5, bold: true, color: stc[k] ? C.ink : C.faint, align: 'right', margin: 0, valign: 'middle' });
+        if (i < 3) s.addText('↓', { x: X0 + 0.3, y: yy + rh - 0.2, w: 0.3, h: 0.2, fontFace: F, fontSize: 8, color: C.faint, margin: 0, align: 'center', valign: 'middle' });
       });
-      var tt = { bold: true, fill: { color: C.soft } };
-      trows.push([{ text: '합계', options: tt }, { text: '', options: tt }, num(TG.length, tt), num(done, tt), num(stc['조치필요'], Object.assign({ color: C.red }, tt)), num(stc['검토중'], tt), num(stc['미검토'], tt), num(pct(done, TG.length) + '%', tt)]);
-      table(s, trows, X0, TOP, 6.6, [1.25, 1.1, 0.62, 0.62, 0.8, 0.72, 0.72, 0.77], 10.5);
-      var ax = X0 + 6.9, aw = CW - 6.9;
-      s.addText('조치 필요 · 검토 중 항목', { x: ax, y: TOP - 0.02, w: aw, h: 0.3, fontFace: F, fontSize: 11.5, bold: true, color: C.navy, margin: 0 });
-      var todo = TG.filter(function (it) { return ['조치필요', '검토중'].indexOf(stOf(it)) >= 0; }).sort(function (a, b) {
-        var ra = rowOf(a) || {}, rb = rowOf(b) || {};
-        return (stOf(a) === '조치필요' ? 0 : 1) - (stOf(b) === '조치필요' ? 0 : 1) || String(ra.due_date || '9999').localeCompare(String(rb.due_date || '9999')) || byDate(a, b);
-      });
-      if (!todo.length) emptyCard(s, pptx, '조치가 필요한 항목이 없습니다.', TOP + 0.4);
-      else {
-        var lr = [head(['법령 (시행일)', '조치 내용', '기한', '상태'])];
-        todo.slice(0, 7).forEach(function (it) {
-          var r = rowOf(it) || {};
-          lr.push([{ text: [{ text: cut(it.title, 26), options: { bold: true, breakLine: true } }, { text: md(it.date) + ' · ' + it.job, options: { color: C.muted, fontSize: 8.5 } }] },
-            { text: cut(r.action || '–', 34), options: { color: r.action ? C.sub : C.faint } },
-            { text: r.due_date ? md(r.due_date) : '–', options: { color: r.due_date && r.due_date < input.asOf ? C.red : C.ink, bold: !!(r.due_date && r.due_date < input.asOf) } },
-            { text: stOf(it), options: { color: ST_COLOR[stOf(it)], bold: true } }]);
+      var rx = X0 + lw + 0.45, rw = CW - lw - 0.45, tt = { bold: true, fill: { color: C.soft } };
+      if (!input.job) {
+        s.addText('직무별 현황', { x: rx, y: y2, w: rw, h: 0.3, fontFace: F, fontSize: 11.5, bold: true, color: C.navy, margin: 0 });
+        var jr = [head(['직무', '담당', '30일 내 시행', '31일 이후 시행', '시행 후 미완료', '올해 검토 완료'], ['left', 'left', 'right', 'right', 'right', 'right'])];
+        JOB_ORDER.forEach(function (j) {
+          var l = ofJob(YR, j), lt = ofJob(LATE, j).length;
+          jr.push([jobCell(j), owner(j) || { text: '미지정', options: { color: C.faint } }, ratio(ofJob(SOON, j)), ratio(ofJob(LATER, j)),
+            num(lt, { color: lt ? C.red : C.faint, bold: !!lt }), num(pct(l.length - openN(l), l.length) + '%', { bold: true })]);
         });
-        table(s, lr, ax, TOP + 0.36, aw, [2.15, 1.65, 0.55, 0.88], 9.5);
-        if (todo.length > 7) s.addText('외 ' + (todo.length - 7) + '건', { x: ax, y: 6.3, w: aw, h: 0.28, fontFace: F, fontSize: 9, color: C.muted, align: 'right', margin: 0 });
+        jr.push([opt('합계', tt), opt('', tt), opt(ratio(SOON), tt), opt(ratio(LATER), tt), num(LATE.length, Object.assign({ color: C.red }, tt)), num(pct(yrDone, YR.length) + '%', tt)]);
+        table(s, jr, rx, y2 + 0.36, rw, [1.45, 1.1, 1.45, 1.45, 1.2, rw - 6.65], 10, { margin: [2.5, 6, 2.5, 6] });
+      } else {
+        s.addText('시행 시기별 현황', { x: rx, y: y2, w: rw, h: 0.3, fontFace: F, fontSize: 11.5, bold: true, color: C.navy, margin: 0 });
+        var tr2 = [head(['구분', '대상', '미검토', '검토중', '조치필요', '완료', '완료율'], ['left', 'right', 'right', 'right', 'right', 'right', 'right'])];
+        var tline = function (label, l, o) {
+          var c = cnt(l), dn = c['조치완료'] + c['해당없음'];
+          return [opt(label, Object.assign({ bold: true }, o || {})), num(l.length, o), num(c['미검토'], o), num(c['검토중'], o),
+            num(c['조치필요'], Object.assign({ color: c['조치필요'] ? C.orange : C.ink, bold: !!c['조치필요'] }, o || {})), num(dn, o), num(pct(dn, l.length) + '%', Object.assign({ bold: true }, o || {}))];
+        };
+        tr2.push(tline('30일 내 시행', SOON));
+        tr2.push(tline('31일 이후 시행', LATER));
+        tr2.push(tline('시행 완료', YR.filter(function (it) { return it.daysUntil < 0; })));
+        tr2.push(tline('합계', YR, tt));
+        table(s, tr2, rx, y2 + 0.36, rw, [1.9, 0.95, 0.95, 0.95, 0.95, 0.95, rw - 6.65], 10.5);
       }
-      note(s, '대상: 이번 기간 시행분 + ' + (nextLabel || '다음 기간') + ' 시행 예정분 · 완료 = 조치완료 + 해당없음 · 대응 현황 관리(RegRader) 기록 기준');
-      var od = TG.filter(function (it) { var r = rowOf(it); return r && r.due_date && r.due_date < input.asOf && ['조치완료', '해당없음'].indexOf(r.status) < 0; });
-      s.addNotes('[대응 현황] 조치 기한이 지난 항목 ' + od.length + '건' + (od.length ? '\n' + od.map(function (it) { var r = rowOf(it); return '- ' + it.title + ' (' + md(it.date) + ' 시행 · ' + it.job + (owner(it.job) ? ' · ' + owner(it.job) : '') + ') 기한 ' + md(r.due_date) + ' · ' + r.status + (r.action ? ' · ' + r.action : ''); }).join('\n') : ''));
+      note(s, '미완료 / 전체 · 완료 = 조치완료 + 해당없음 · ' + dot(input.asOf) + ' 기준 · 대응 현황 관리(RegRader) 기록');
+      var od = YR.filter(isOver);
+      s.addNotes(['[대응 현황] ' + dot(input.asOf) + ' 기준',
+        '시행 전 대응: 시행 예정 ' + PRE.length + '건 중 미완료 ' + openN(PRE) + '건 (30일 내 ' + openN(SOON) + '/' + SOON.length + ', 31일 이후 ' + openN(LATER) + '/' + LATER.length + ')',
+        '처리 단계: ' + ST.map(function (k) { return k + ' ' + stc[k]; }).join(' · '),
+        '시행 후 미완료 ' + LATE.length + '건' + (input.job ? '' : ' — ' + JOB_ORDER.map(function (j) { return [j, ofJob(LATE, j).length]; }).filter(function (x) { return x[1]; }).sort(function (a, b) { return b[1] - a[1]; }).map(function (x) { return x[0] + ' ' + x[1]; }).join(' · ')),
+        '', '조치 기한이 지난 항목 ' + od.length + '건'].concat(od.slice(0, 30).map(function (it) { var r = rowOf(it); return '- ' + it.title + ' (' + md(it.date) + ' 시행 · ' + it.job + (owner(it.job) ? ' · ' + owner(it.job) : '') + ') 기한 ' + md(r.due_date) + ' · ' + r.status + (r.action ? ' · ' + r.action : ''); })).join('\n'));
+
+      /* Ⅳ-2 · Ⅳ-3 시행 시기별 대응 목록: 미완료를 먼저, 시행일순 */
+      var MAXR = 14;
+      var listSlide = function (label, list) {
+        if (!list.length) return;
+        var c = cnt(list), op = openN(list), ov = count(list, isOver);
+        var ord = list.filter(function (it) { return !isDone(it); }).concat(list.filter(isDone));
+        var shown = ord.slice(0, MAXR);
+        s = add();
+        frame(s, pptx, secT + ' — ' + label, label + ' ' + list.length + '건 중 ' + op + '건 미완료' +
+          (op ? ' — ' + ['조치필요', '검토중', '미검토'].filter(function (k) { return c[k]; }).map(function (k) { return k.replace('조치필요', '조치 필요').replace('검토중', '검토 중') + ' ' + c[k] + '건'; }).join(' · ') : ' — 모두 검토 완료') +
+          (ov ? ', 조치 기한 지난 ' + ov + '건' : ''));
+        var one = !!input.job;
+        var hd = one ? ['시행일', 'D-day', '법령', '상태', '조치 내용', '기한'] : ['시행일', 'D-day', '법령', '직무 · 담당', '상태', '조치 내용', '기한'];
+        var rows = [head(hd, one ? ['left', 'left', 'left', 'left', 'left', 'right'] : ['left', 'left', 'left', 'left', 'left', 'left', 'right'])];
+        shown.forEach(function (it) {
+          var r = rowOf(it) || {}, st = stOf(it), dn = isDone(it), over = isOver(it);
+          var dd = { text: it.daysUntil === 0 ? 'D-DAY' : 'D-' + it.daysUntil, options: { color: dn ? C.faint : it.daysUntil <= 30 ? C.red : C.sub, bold: !dn } };
+          var law = { text: [{ text: cut(it.title, one ? 50 : 40), options: { bold: !dn, color: dn ? C.muted : C.ink } }].concat(it.kind ? [{ text: ' ' + it.kind, options: { color: C.faint, fontSize: 8.5 } }] : []) };
+          var row = [{ text: md(it.date), options: { color: dn ? C.faint : C.ink } }, dd, law];
+          if (!one) row.push({ text: [{ text: '● ', options: { color: JOB_COLOR[it.job] || C.faint } }, { text: it.job, options: { color: dn ? C.muted : C.ink } }].concat(owner(it.job) ? [{ text: ' · ' + owner(it.job), options: { color: C.muted } }] : []) });
+          row.push({ text: st, options: { color: ST_COLOR[st], bold: true } });
+          row.push({ text: cut(r.action || '–', one ? 52 : 40), options: { color: r.action ? (dn ? C.muted : C.sub) : C.faint } });
+          row.push({ text: r.due_date ? md(r.due_date) : '–', options: { align: 'right', color: over ? C.red : r.due_date ? C.ink : C.faint, bold: over } });
+          rows.push(row);
+        });
+        table(s, rows, X0, TOP, CW, one ? [0.62, 0.66, 5.0, 0.86, 4.22, CW - 11.36] : [0.62, 0.66, 4.05, 1.72, 0.86, 3.45, CW - 11.36], 9.5, { margin: [2.5, 5, 2.5, 5] });
+        note(s, (ord.length > MAXR ? '미완료 먼저 ' + MAXR + '건 · 외 ' + (ord.length - MAXR) + '건은 별첨 ' + apxNo(UPT) + ' 「' + UPT + '」 · ' : '미완료 먼저 · 시행일순 · ') + '기한 빨간색 = 조치 기한 지남');
+        s.addNotes('[' + label + '] ' + list.length + '건 중 미완료 ' + op + '건\n' + ord.map(function (it) {
+          var r = rowOf(it) || {};
+          return '- ' + md(it.date) + ' ' + it.title + ' (' + it.job + (owner(it.job) ? ' · ' + owner(it.job) : '') + ') ' + stOf(it) + (r.action ? ' · ' + r.action : '') + (r.due_date ? ' · 기한 ' + md(r.due_date) : '');
+        }).join('\n'));
+      };
+      listSlide('30일 내 시행', SOON);
+      listSlide('31일 이후 시행', LATER);
     }
 
     /* ===== 별첨 ===== */
-    var apx = [];
-    if (R.length) apx.push({ t: '제재·의무 변경 상세', n: chunk(R, 7).length, c: R.length + '건' });
-    if (input.next && N.length) apx.push({ t: nextLabel + ' 시행 예정 목록', n: chunk(N, 18).length, c: N.length + '건' });
-    apx.push({ t: '월별·직무별 추이', n: 1 });
-    if (input.appendix && P.length) apx.push({ t: '전체 개정 목록', n: chunk(P, 22).length, c: P.length + '건' });
-    apx.push({ t: '집계 기준과 방법', n: 1 });
     s = add();
     s.addShape(pptx.ShapeType.rect, { x: 0, y: 0.07, w: 4.3, h: 6.88, fill: { color: C.navy }, line: { color: C.navy } });
     s.addText('별첨', { x: 0.9, y: 2.6, w: 3, h: 1.0, fontFace: F, fontSize: 40, bold: true, color: C.white, margin: 0 });
@@ -644,11 +724,9 @@
       alist.push({ text: '별첨 ' + (i + 1) + '.  ', options: { bold: true, color: C.accent } });
       alist.push({ text: a.t + (a.c ? ' (' + a.c + ')' : ''), options: { color: C.ink, bold: true } });
       alist.push({ text: '    ' + at + '쪽', options: { color: C.muted, breakLine: i < apx.length - 1 } });
-      a.no = i + 1;
       at += a.n;
     });
     s.addText(alist, { x: 5.1, y: 1.5, w: 7.6, h: 4.6, fontFace: F, fontSize: 15, margin: 0, valign: 'middle', paraSpaceAfter: 16 });
-    var apxNo = function (t) { var a = apx.filter(function (x) { return x.t === t; })[0]; return a ? a.no : ''; };
 
     /* 별첨: 제재·의무 변경 상세 */
     if (R.length) {
@@ -671,12 +749,12 @@
       });
     }
 
-    /* 별첨: 다음 기간 시행 예정 목록 */
-    if (input.next && N.length) {
+    /* 별첨: 다음 기간 시행 예정 목록 (대응 현황을 넣으면 아래 '시행 예정 · 대응 목록'으로 합친다) */
+    if (!T && input.next && N.length) {
       var np = chunk(N, 18);
       np.forEach(function (pg, i) {
         s = add();
-        aframe(s, pptx, '별첨 ' + apxNo(nextLabel + ' 시행 예정 목록') + '. ' + nextLabel + ' 시행 예정 목록' + (np.length > 1 ? ' (' + (i + 1) + '/' + np.length + ')' : ''),
+        aframe(s, pptx, '별첨 ' + apxNo(NT) + '. ' + NT + (np.length > 1 ? ' (' + (i + 1) + '/' + np.length + ')' : ''),
           input.next.periodText + ' 시행 예정 ' + N.length + '건 (시행일순) · ' + dot(input.asOf) + ' 기준 확인된 것');
         var rows = [head(['시행일', 'D-day', '법령명', '단계', '직무', '구분', '제재·의무'])];
         pg.forEach(function (it) {
@@ -684,6 +762,28 @@
             { text: cut(it.title, 46), options: { bold: isRisk(it) } }, levelOf(it), jobCell(it.job), (it.kind ? it.kind + ' ' : '') + (it.type || ''), { text: flagRuns(it.codes, true) }]);
         });
         table(s, rows, X0, 1.45, CW, [0.72, 0.72, 4.9, 0.9, 1.2, 1.3, 2.39], 9.5);
+      });
+    }
+
+    /* 별첨: 시행 예정 · 대응 목록 — 시행 예정 법규(제재·의무)와 대응 현황(상태·조치·기한)을 한 표로 */
+    if (T && UP.length) {
+      var one = !!input.job, uq = chunk(UP, 15);
+      uq.forEach(function (pg, i) {
+        s = add();
+        aframe(s, pptx, '별첨 ' + apxNo(UPT) + '. ' + UPT + (uq.length > 1 ? ' (' + (i + 1) + '/' + uq.length + ')' : ''),
+          '시행 예정 ' + UP.length + '건 (시행일순) · 미완료 ' + openN(UP) + '건 · ' + dot(input.asOf) + ' 기준 공포분 · 대응 현황 관리 기록');
+        var rows = [head(['시행일', 'D-day', '법령명'].concat(one ? [] : ['직무 · 담당']).concat(['제재·의무', '상태', '조치 내용', '기한']))];
+        pg.forEach(function (it) {
+          var r = rowOf(it) || {}, st = stOf(it), over = isOver(it), dn = isDone(it);
+          var row = [md(it.date), { text: it.daysUntil === 0 ? 'D-DAY' : 'D-' + it.daysUntil, options: { color: it.daysUntil <= 30 ? C.red : C.sub, bold: true } },
+            { text: cut(it.title, one ? 44 : 32), options: { bold: isRisk(it), color: dn ? C.muted : C.ink } }];
+          if (!one) row.push({ text: [{ text: '● ', options: { color: JOB_COLOR[it.job] || C.faint } }, { text: it.job }].concat(owner(it.job) ? [{ text: ' · ' + owner(it.job), options: { color: C.muted } }] : []) });
+          row.push({ text: flagRuns(it.codes, true) }, { text: st, options: { color: ST_COLOR[st], bold: true } },
+            { text: cut(r.action || '–', one ? 30 : 24), options: { color: r.action ? C.sub : C.faint } },
+            { text: r.due_date ? md(r.due_date) : '–', options: { color: over ? C.red : r.due_date ? C.ink : C.faint, bold: over } });
+          rows.push(row);
+        });
+        table(s, rows, X0, 1.45, CW, one ? [0.6, 0.62, 4.3, 1.9, 0.82, 3.05, CW - 11.29] : [0.6, 0.62, 3.1, 1.65, 1.9, 0.82, 2.6, CW - 11.29], 9);
       });
     }
 
