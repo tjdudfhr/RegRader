@@ -468,10 +468,10 @@
     }).join('');
     var admins = MEMBERS.filter(function (x) { return x.role === 'admin'; });
     m.innerHTML = '<div class="rr-dlg" style="--dlg-w:640px" role="dialog" aria-label="담당자 관리">' +
-      '<div class="rr-dlg-h"><span class="rr-dlg-ic">' + icon('users') + '</span><div class="rr-dlg-t"><h2>담당자 관리</h2><p>등록된 이메일만 로그인해서 대응 현황을 볼 수 있습니다</p></div>' +
+      '<div class="rr-dlg-h"><span class="rr-dlg-ic">' + icon('users') + '</span><div class="rr-dlg-t"><h2>담당자 관리</h2></div>' +
       '<button type="button" class="rr-dlg-x" data-x="1" aria-label="닫기">' + icon('x') + '</button></div>' +
       '<div class="rr-dlg-b">' +
-        '<section class="rr-box" id="rr-mem-add"><div class="rr-box-h">담당자 등록<small>이메일로 로그인 링크를 받을 수 있게 됩니다</small></div>' +
+        '<section class="rr-box" id="rr-mem-add"><div class="rr-box-h">담당자 등록</div>' +
           '<div class="rr-grid2">' +
             '<label class="rr-f"><span>이메일</span><input id="rr-mem-email" type="email" placeholder="name@company.com" value="' + esc(keep.email) + '"></label>' +
             '<label class="rr-f"><span>이름</span><input id="rr-mem-name" type="text" placeholder="홍길동" value="' + esc(keep.name) + '"></label>' +
