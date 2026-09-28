@@ -98,6 +98,15 @@ body [id$="-count"], body .rr-rp-tile b, body .rr-job-tile b, body .quarter-coun
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
 ::-webkit-scrollbar-thumb:hover { background: var(--ink-4); background-clip: padding-box; border: 2px solid transparent; }
+/* 긴 목록(적용법규 · 직무별 개정 목록)은 칸 안에서 스크롤된다 — 스크롤 막대를 항상 보이게.
+   맥은 기본으로 스크롤할 때만 잠깐 보이고, 위의 얇은 전역 설정이면 거의 안 보인다.
+   scrollbar-width/color 를 auto 로 두어야 크롬·사파리가 아래 ::-webkit-scrollbar 모양(항상 보임)을 쓴다. */
+#job-function-laws, #law-list { scrollbar-width: auto !important; scrollbar-color: auto !important; }
+#job-function-laws::-webkit-scrollbar, #law-list::-webkit-scrollbar { width: 12px; }
+#job-function-laws::-webkit-scrollbar-track, #law-list::-webkit-scrollbar-track { background: var(--surface-3); border-radius: 10px; }
+#job-function-laws::-webkit-scrollbar-thumb, #law-list::-webkit-scrollbar-thumb { background: #9aa3b2; border: 3px solid var(--surface-3); border-radius: 10px; background-clip: padding-box; min-height: 48px; }
+#job-function-laws::-webkit-scrollbar-thumb:hover, #law-list::-webkit-scrollbar-thumb:hover { background: #6b7385; background-clip: padding-box; }
+@supports (-moz-appearance: none) { #job-function-laws, #law-list { scrollbar-color: #9aa3b2 var(--surface-3) !important; } }
 
 /* ============ 아이콘 ============ */
 .ri { width: 1em; height: 1em; flex: none; display: inline-block; vertical-align: -0.14em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
