@@ -393,7 +393,7 @@
           '<span class="ac" title="' + esc(r.action || '') + '">' + esc(r.action || '') + '</span></div>';
       }).join('') || '<div class="rr-trk-empty">해당하는 개정이 없습니다.</div>') + (list.length > 300 ? '<div class="rr-trk-empty">앞의 300건만 보입니다. 조건을 좁혀 보세요.</div>' : '') + '</div></section>';
     var canAny = canAnyJob();
-    host.innerHTML = hero + jobs + listHtml + '<div class="rr-trk-card" id="rr-trk-members" hidden></div>';
+    host.innerHTML = hero + jobs + listHtml;
   }
   document.addEventListener('change', function (e) {
     var t = e.target;
@@ -443,36 +443,79 @@
     XLSX.writeFile(wb, 'RegRader_대응현황_' + (F.job || '전체') + '_' + todayISO() + '.xlsx');
   }
 
-  /* 총괄: 담당자 관리 */
+  /* 총괄: 담당자 관리 — 버튼을 누르면 바로 앞에 창으로 뜬다 (예전에는 긴 목록 맨 아래에 붙어서 눌러도 안 보였다) */
   function paintMembers() {
-    var box = document.getElementById('rr-trk-members');
-    if (!box) return;
-    box.hidden = false;
-    box.innerHTML = '<div class="rr-trk-ct">담당자 관리 <small>총괄만 보입니다 · 등록한 이메일로 로그인 링크를 받을 수 있습니다</small></div>' +
-      '<table class="rr-trk-t mem"><thead><tr><th>이메일</th><th>이름</th><th>직무</th><th>역할</th><th></th></tr></thead><tbody>' +
-      MEMBERS.slice().sort(function (a, b) { return String(a.job || '').localeCompare(String(b.job || '')); }).map(function (m) {
-        return '<tr><td>' + esc(m.email) + '</td><td>' + esc(m.name) + '</td><td>' + esc(m.job || '-') + '</td><td>' + (m.role === 'admin' ? '총괄' : '담당') + '</td>' +
-          '<td>' + (m.email === me.email ? '' : '<button type="button" class="rr-trk-link" data-mem="del" data-email="' + esc(m.email) + '">삭제</button>') + '</td></tr>';
-      }).join('') +
-      '<tr class="add"><td><input id="rr-mem-email" type="email" placeholder="name@company.com"></td><td><input id="rr-mem-name" placeholder="이름"></td>' +
-      '<td><select id="rr-mem-job">' + JOBS.map(function (j) { return '<option>' + j + '</option>'; }).join('') + '</select></td>' +
-      '<td><select id="rr-mem-role"><option value="member">담당</option><option value="admin">총괄</option></select></td>' +
-      '<td><button type="button" class="rr-trk-btn" data-mem="add">추가</button></td></tr></tbody></table><div class="rr-trk-note" id="rr-mem-note"></div>';
+    var m = document.getElementById('rr-trk-mem-modal');
+    if (!m) {
+      m = document.createElement('div');
+      m.id = 'rr-trk-mem-modal';
+      m.className = 'rr-trk-modal';
+      document.body.appendChild(m);
+      m.addEventListener('click', function (e) { if (e.target === m || (e.target.closest && e.target.closest('[data-x]'))) m.classList.remove('show'); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') m.classList.remove('show'); });
+    }
+    var keep = { email: '', name: '', job: JOBS[0], role: 'member' };
+    ['email', 'name', 'job', 'role'].forEach(function (f) { var el = document.getElementById('rr-mem-' + f); if (el) keep[f] = el.value; });
+    var dot = function (j) { return window.rrCatColor ? window.rrCatColor(j) : '#999'; };
+    var person = function (x) {
+      return '<div class="rr-mem-p"><span class="av">' + esc((x.name || x.email).slice(0, 1)) + '</span><span class="who"><b>' + esc(x.name || x.email.split('@')[0]) + '</b><small>' + esc(x.email) + '</small></span>' +
+        (x.email === me.email ? '<span class="rr-mem-me">나</span>' : '<button type="button" class="rr-btn mini" data-mem="del" data-email="' + esc(x.email) + '">삭제</button>') + '</div>';
+    };
+    var rows = JOBS.map(function (j) {
+      var ps = MEMBERS.filter(function (x) { return x.job === j && x.role !== 'admin'; });
+      return '<div class="rr-mem-row"><span class="rr-mem-job"><i style="background:' + dot(j) + '"></i>' + j + '</span><div class="rr-mem-ps">' +
+        (ps.length ? ps.map(person).join('') : '<span class="rr-mem-none">담당자 없음</span><button type="button" class="rr-btn mini" data-mem="pick" data-job="' + j + '">' + icon('plus') + '지정</button>') + '</div></div>';
+    }).join('');
+    var admins = MEMBERS.filter(function (x) { return x.role === 'admin'; });
+    m.innerHTML = '<div class="rr-dlg" style="--dlg-w:640px" role="dialog" aria-label="담당자 관리">' +
+      '<div class="rr-dlg-h"><span class="rr-dlg-ic">' + icon('users') + '</span><div class="rr-dlg-t"><h2>담당자 관리</h2><p>등록된 이메일만 로그인해서 대응 현황을 볼 수 있습니다</p></div>' +
+      '<button type="button" class="rr-dlg-x" data-x="1" aria-label="닫기">' + icon('x') + '</button></div>' +
+      '<div class="rr-dlg-b">' +
+        '<section class="rr-box" id="rr-mem-add"><div class="rr-box-h">담당자 등록<small>이메일로 로그인 링크를 받을 수 있게 됩니다</small></div>' +
+          '<div class="rr-grid2">' +
+            '<label class="rr-f"><span>이메일</span><input id="rr-mem-email" type="email" placeholder="name@company.com" value="' + esc(keep.email) + '"></label>' +
+            '<label class="rr-f"><span>이름</span><input id="rr-mem-name" type="text" placeholder="홍길동" value="' + esc(keep.name) + '"></label>' +
+            '<label class="rr-f"><span>역할</span><select id="rr-mem-role"><option value="member"' + (keep.role === 'member' ? ' selected' : '') + '>직무 담당</option><option value="admin"' + (keep.role === 'admin' ? ' selected' : '') + '>총괄</option></select></label>' +
+            '<label class="rr-f"><span>직무</span><select id="rr-mem-job"' + (keep.role === 'admin' ? ' disabled' : '') + '>' + JOBS.map(function (j) { return '<option' + (j === keep.job ? ' selected' : '') + '>' + j + '</option>'; }).join('') + '</select></label>' +
+          '</div>' +
+          '<div style="display:flex;justify-content:flex-end;margin-top:12px"><button type="button" class="rr-btn pri" data-mem="add">' + icon('plus') + '등록</button></div>' +
+          '<div class="rr-msg" id="rr-mem-note"></div>' +
+        '</section>' +
+        '<section class="rr-box"><div class="rr-box-h">직무별 담당자<small>' + MEMBERS.filter(function (x) { return x.role !== 'admin'; }).length + '명</small></div>' + rows + '</section>' +
+        '<section class="rr-box"><div class="rr-box-h">총괄<small>전체 직무를 고칠 수 있습니다</small></div>' + (admins.length ? admins.map(person).join('') : '<span class="rr-mem-none">없음</span>') + '</section>' +
+      '</div>' +
+      '<div class="rr-dlg-f"><button type="button" class="rr-btn" data-x="1">닫기</button></div></div>';
+    var role = m.querySelector('#rr-mem-role');
+    role.onchange = function () { m.querySelector('#rr-mem-job').disabled = role.value === 'admin'; };
+    m.classList.add('show');
   }
   function memberAction(b) {
     var note = document.getElementById('rr-mem-note');
+    var say = function (kind, t) { if (note) { note.className = 'rr-msg ' + kind; note.textContent = t; } };
+    if (b.dataset.mem === 'pick') {
+      var js = document.getElementById('rr-mem-job'), rs = document.getElementById('rr-mem-role');
+      if (rs) rs.value = 'member';
+      if (js) { js.disabled = false; js.value = b.dataset.job; }
+      var em = document.getElementById('rr-mem-email');
+      if (em) { em.scrollIntoView({ block: 'center', behavior: 'smooth' }); em.focus(); }
+      return;
+    }
     if (b.dataset.mem === 'add') {
       var email = document.getElementById('rr-mem-email').value.trim().toLowerCase();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { note.textContent = '이메일 주소를 확인해 주세요.'; return; }
-      var row = { email: email, name: document.getElementById('rr-mem-name').value.trim(), job: document.getElementById('rr-mem-role').value === 'admin' ? null : document.getElementById('rr-mem-job').value, role: document.getElementById('rr-mem-role').value };
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { say('err', '이메일 주소를 확인해 주세요.'); return; }
+      var isAdmin = document.getElementById('rr-mem-role').value === 'admin';
+      var row = { email: email, name: document.getElementById('rr-mem-name').value.trim(), job: isAdmin ? null : document.getElementById('rr-mem-job').value, role: isAdmin ? 'admin' : 'member' };
+      b.disabled = true;
       sb.from('members').upsert(row).then(function (r) {
-        if (r.error) { note.textContent = '추가하지 못했습니다: ' + r.error.message; return; }
-        return load().then(paintMembers);
+        b.disabled = false;
+        if (r.error) { say('err', '추가하지 못했습니다: ' + r.error.message); return; }
+        ['rr-mem-email', 'rr-mem-name'].forEach(function (id) { var el = document.getElementById(id); if (el) el.value = ''; });
+        return load().then(function () { paintMembers(); if (window.rrToast) window.rrToast((row.name || email) + ' 님을 ' + (isAdmin ? '총괄로' : row.job + ' 담당으로') + ' 등록했습니다'); });
       });
     } else if (b.dataset.mem === 'del') {
       if (!confirm(b.dataset.email + ' 을(를) 담당자에서 삭제할까요?')) return;
       sb.from('members').delete().eq('email', b.dataset.email).then(function (r) {
-        if (r.error) { note.textContent = '삭제하지 못했습니다: ' + r.error.message; return; }
+        if (r.error) { say('err', '삭제하지 못했습니다: ' + r.error.message); return; }
         return load().then(paintMembers);
       });
     }
