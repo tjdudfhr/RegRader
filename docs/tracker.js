@@ -10,6 +10,7 @@
  *   .popupSection(item)   법령 팝업의 '대응 현황' 칸 { body, extra } (brief-ui.js 가 쓴다)
  *   .status(item)         그 개정의 대응 상태 (없으면 '')
  *   .snapshot()           로그인했을 때 { resp, members, me } — 보고서 PPT 의 '대응 현황'용 (아니면 null)
+ *   .keyOf(item) .jobOf(item)  엑셀(excel-fix.js)이 기록을 법령에 맞출 때 쓴다
  */
 (function () {
   var URL_ = 'https://gzlyjwvounwdubdvwjen.supabase.co';
@@ -430,18 +431,17 @@
     if (mb) memberAction(mb);
   });
 
+  /* 분기별 엑셀과 같은 양식 (excel-fix.js) — 앞쪽에 개정 내용, 뒤쪽에 여기 기록한 대응 칸 */
   function exportXlsx() {
-    if (!(window.XLSX && XLSX.utils)) { alert('엑셀 모듈을 불러오는 중입니다. 잠시 뒤 다시 눌러 주세요.'); return; }
-    var rows = items().filter(function (it) { return !F.job || jobOf(it) === F.job; }).map(function (it) {
-      var r = RESP[keyOf(it)] || {};
-      return { '시행일': it.effectiveDate, '법규명': it.title, '종류': it.kind || it.lawType || '', '개정구분': it.amendmentType || '', '직무': jobOf(it), '소관부처': it.ministry || '',
-        '상태': r.status || '미검토', '영향도': r.impact || '', '조치 내용': r.action || '', '조치 기한': r.due_date || '', '완료일': r.done_date || '', '증빙 링크': r.evidence_url || '',
-        '마지막 수정': r.updated_at ? who(r.updated_by) + ' ' + fmtTime(r.updated_at) : '' };
-    }).sort(function (a, b) { return String(a['시행일']).localeCompare(String(b['시행일'])); });
-    var wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), '대응현황');
-    XLSX.writeFile(wb, 'RegRader_대응현황_' + (F.job || '전체') + '_' + todayISO() + '.xlsx');
+    if (!window.rrExcel) { alert('엑셀 모듈을 불러오는 중입니다. 잠시 뒤 다시 눌러 주세요.'); return; }
+    var job = F.job || '', y = window.RR_YEAR || '';
+    rrExcel.build({
+      items: items().filter(function (it) { return !job || jobOf(it) === job; }),
+      sheet: y + '년 ' + (job || '전체'), title: y + '년 ' + (job || '전체 직무'),
+      file: y + '_대응현황_' + (job || '전체') + '_{date}.xlsx'
+    });
   }
+
 
   /* 총괄: 담당자 관리 — 버튼을 누르면 바로 앞에 창으로 뜬다 (예전에는 긴 목록 맨 아래에 붙어서 눌러도 안 보였다) */
   function paintMembers() {
@@ -551,7 +551,7 @@
     if (!loaded || !me || me.role === 'guest') return null;
     return { resp: RESP, members: MEMBERS.slice(), me: me };
   }
-  window.rrTracker = { popupSection: popupSection, status: statusOf, openLogin: openLogin, snapshot: snapshot };
+  window.rrTracker = { popupSection: popupSection, status: statusOf, openLogin: openLogin, snapshot: snapshot, keyOf: keyOf, jobOf: jobOf };
 
   var st = document.createElement('style');
   st.textContent = [
