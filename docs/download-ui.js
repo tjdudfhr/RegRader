@@ -16,30 +16,57 @@
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), sheet.slice(0, 31));
     XLSX.writeFile(wb, file);
   }
+  /* 파일 이름에 데이터 기준일을 붙인다 (매일 오전 7시 갱신본인지 알 수 있게) */
+  function stamp() {
+    var d = String((window.__rrMeta || {}).asOf || '').replace(/-/g, '');
+    return d || new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  }
+  function levelOf(title) {
+    var f = window.rrFamilies && window.rrFamilies.familyOf ? window.rrFamilies.familyOf(title) : null;
+    var m = f ? f.members.filter(function (x) { return x.title === title; })[0] : null;
+    return { level: m ? m.level : (/시행령$/.test(title) ? '시행령' : /시행규칙$/.test(title) ? '시행규칙' : '법률'), root: f ? f.root : '' };
+  }
+  /* 당사 개정 목록: 화면과 같은 데이터(매일 갱신) · 제재·의무 표시 포함 */
   function downloadMatched() {
-    saveRows(items().map(function (law) {
+    var A = window.rrAmend;
+    saveRows(items().slice().sort(function (a, b) { return String(a.effectiveDate).localeCompare(String(b.effectiveDate)) || String(a.title).localeCompare(String(b.title)); }).map(function (law) {
+      var lv = law.kind ? { level: law.kind, root: law.family || '' } : levelOf(law.title);
       return {
-        '법령명': law.title || '',
         '시행일': law.effectiveDate || '',
-        '상태': law.inForce ? '시행완료' : '시행예정',
-        '제개정구분': law.amendmentType || '',
-        '소관부처': law.ministry || '',
+        '상태': law.daysUntil < 0 ? '시행완료' : law.daysUntil === 0 ? '오늘 시행' : '시행예정',
+        '법령명': law.title || '',
+        '구분': law.kind ? '행정규칙' : '법령',
+        '단계': lv.level,
+        '개정구분': law.amendmentType || '',
         '직무': (law.categories || []).join(', '),
-        '법령유형': law.lawType || '',
+        '계열(법률)': lv.root || law.family || '',
+        '소관부처': law.ministry || '',
+        '제재·의무': A && A.codes ? A.codes(law).join(', ') : '',
         '올해개정회차': (law.eventIndex || 1) + '/' + (law.eventCount || 1),
-        '복수개정': (law.eventCount || 1) > 1 ? 'Y' : 'N',
-        '법령일련번호': (law.meta && law.meta.lsiSeq) || '',
         '원문URL': (law.source && law.source.url) || ''
       };
-    }), '당사매칭개정', window.RR_YEAR + '_당사_매칭_개정결과.xlsx');
+    }), '당사개정목록', window.RR_YEAR + '_당사_개정목록_' + stamp() + '.xlsx');
   }
+  /* 당사 적용법규 목록: 법령(base_laws) + 계열에 연결된 행정규칙(참고용 제외) */
   function downloadBase() {
-    fetch('./base_laws_207.json?v=20260915n', { cache: 'no-store' })
-      .then(function (r) { return r.json(); })
-      .then(function (j) {
-        saveRows((j.items || []).map(function (b, i) {
-          return { '번호': i + 1, '법령명': b.title || '', '직무': (b.categories || []).join(', '), 'ID': b.id || '' };
-        }), '당사적용국내법규', '당사_적용_국내법규_' + (j.items || []).length + '.xlsx');
+    var P = function (f) { return fetch('./' + f + '?v=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.json(); }); };
+    Promise.all([P('base_laws_207.json'), P('admrul_index.json').catch(function () { return { items: [] }; })])
+      .then(function (res) {
+        var ORDER = { '법률': 0, '시행령': 1, '시행규칙': 2 };
+        var laws = (res[0].items || []).map(function (b) {
+          var lv = levelOf(b.title || '');
+          return { t: b.title || '', kind: '법령', lv: lv.level, job: (b.categories || []).join(', '), root: lv.root || b.title, dept: '' };
+        });
+        var adm = ((res[1] && res[1].items) || []).filter(function (x) { return !x.g; }).map(function (x) {
+          return { t: x.n || '', kind: '행정규칙', lv: x.k || '행정규칙', job: x.c || '', root: x.f || '', dept: '' };
+        });
+        var all = laws.concat(adm).sort(function (a, b) {
+          return String(a.job).localeCompare(String(b.job)) || String(a.root).localeCompare(String(b.root)) ||
+            (a.kind === b.kind ? (ORDER[a.lv] != null ? ORDER[a.lv] : 3) - (ORDER[b.lv] != null ? ORDER[b.lv] : 3) : a.kind === '법령' ? -1 : 1) || a.t.localeCompare(b.t);
+        });
+        saveRows(all.map(function (x, i) {
+          return { '번호': i + 1, '직무': x.job, '계열(법률)': x.root, '구분': x.kind, '단계': x.lv, '법령명': x.t };
+        }), '당사적용법규', '당사_적용법규_' + all.length + '개_' + stamp() + '.xlsx');
       })
       .catch(function () { alert('적용법규 목록 파일을 찾지 못했습니다.'); });
   }

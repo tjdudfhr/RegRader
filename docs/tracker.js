@@ -44,6 +44,7 @@
     return m && m.name ? m.name : (email || '').split('@')[0];
   }
   function icon(n) { return window.rrIcon ? window.rrIcon(n) : ''; }
+  function canAnyJob() { return !!me && (me.role === 'admin' || !!me.job); }
   function statusOf(it) { var r = RESP[keyOf(it)]; return r ? r.status : ''; }
 
   /* ---------- 연결 ---------- */
@@ -330,53 +331,69 @@
     var all = items();
     var rows = all.map(function (it) { var r = RESP[keyOf(it)]; return { it: it, st: r ? r.status : '미검토', r: r || null }; });
     var open = function (x) { return x.st !== '조치완료' && x.st !== '해당없음'; };
-    /* 직무별 진행 */
-    var table = JOBS.map(function (j) {
+    var SC = { '미검토': '#a3abba', '검토중': '#4a6ee0', '조치필요': '#e8762c', '조치완료': '#1f9d55', '해당없음': '#cfd5de' };
+    var count = function (list) { var c = {}; STATUSES.forEach(function (s) { c[s] = 0; }); list.forEach(function (x) { c[x.st]++; }); return c; };
+    var bar = function (c, n) { return '<div class="rr-trk-sbar">' + STATUSES.map(function (s) { return c[s] ? '<i style="flex:' + c[s] + ';background:' + SC[s] + '" title="' + s + ' ' + c[s] + '"></i>' : ''; }).join('') + (n ? '' : '<i style="flex:1;background:var(--surface-3)"></i>') + '</div>'; };
+    var pctOf = function (c, n) { return n ? Math.round((c['조치완료'] + c['해당없음']) / n * 100) : 0; };
+    var owner = function (j) { var m = MEMBERS.filter(function (x) { return x.job === j && x.role !== 'admin'; })[0]; return m ? (m.name || m.email.split('@')[0]) : ''; };
+    /* 맨 위: 전체 진행 */
+    var tc = count(rows), tp = pctOf(tc, rows.length);
+    var soonAll = rows.filter(function (x) { return open(x) && x.it.daysUntil >= 0 && x.it.daysUntil <= 30; }).length;
+    var lateAll = rows.filter(function (x) { return open(x) && x.it.effectiveDate < today; }).length;
+    var nm = me.name || me.email.split('@')[0];
+    var hero = '<section class="rr-trk-top rr-night">' +
+      '<div class="l"><div class="rr-trk-eyebrow">' + icon('check') + '대응 현황 · ' + (window.RR_YEAR || '') + '년</div>' +
+        '<div class="big"><b>' + tp + '<small>%</small></b><span>검토 완료<br><em>' + (tc['조치완료'] + tc['해당없음']).toLocaleString('ko-KR') + ' / ' + rows.length.toLocaleString('ko-KR') + '건</em></span></div>' +
+        bar(tc, rows.length) +
+        '<div class="rr-trk-legend">' + STATUSES.map(function (s) {
+          return '<button type="button" data-tst="' + s + '" class="' + (F.status === s ? 'on' : '') + '"><i style="background:' + SC[s] + '"></i>' + s + '<b>' + tc[s].toLocaleString('ko-KR') + '</b></button>';
+        }).join('') + '</div></div>' +
+      '<div class="r"><div class="me"><span class="av">' + esc(nm.slice(0, 1)) + '</span><div><b>' + esc(nm) + '</b><small>' + esc(me.role === 'admin' ? '총괄 · 전체 수정 가능' : (me.job || '') + ' 담당' + (canAnyJob() ? '' : ' · 볼 수만 있음')) + '</small></div></div>' +
+        '<div class="alerts"><div class="' + (soonAll ? 'warn' : '') + '"><b>' + soonAll + '</b><span>30일 내 미완료</span></div><div class="' + (lateAll ? 'bad' : '') + '"><b>' + lateAll + '</b><span>시행 후 미완료</span></div></div>' +
+        '<div class="act"><button type="button" class="rr-btn" id="rr-trk-xls">' + icon('sheet') + '엑셀</button>' +
+        (me.role === 'admin' ? '<button type="button" class="rr-btn" id="rr-trk-mem">' + icon('users') + '담당자 관리</button>' : '') + '</div></div></section>';
+    /* 직무별 카드 */
+    var jobs = '<section class="rr-trk-jobs">' + JOBS.map(function (j) {
       var mine = rows.filter(function (x) { return jobOf(x.it) === j; });
-      var c = {}; STATUSES.forEach(function (s) { c[s] = mine.filter(function (x) { return x.st === s; }).length; });
-      var closed = c['조치완료'] + c['해당없음'];
-      var overdue = mine.filter(function (x) { return open(x) && x.it.effectiveDate < today; }).length;
-      var soon = mine.filter(function (x) { return open(x) && x.it.effectiveDate >= today && x.it.daysUntil <= 30; }).length;
-      var pct = mine.length ? Math.round(closed / mine.length * 100) : 0;
-      return '<tr' + (F.job === j ? ' class="on"' : '') + ' data-tjob="' + j + '"><td><i style="background:' + (window.rrCatColor ? window.rrCatColor(j) : '#999') + '"></i>' + j + '</td><td>' + mine.length + '</td>' +
-        STATUSES.map(function (s) { return '<td>' + (c[s] || '') + '</td>'; }).join('') +
-        '<td><div class="rr-trk-bar"><span style="width:' + pct + '%"></span></div>' + pct + '%</td><td class="' + (soon ? 'warn' : '') + '">' + (soon || '') + '</td><td class="' + (overdue ? 'bad' : '') + '">' + (overdue || '') + '</td></tr>';
-    }).join('');
+      var c = count(mine), p = pctOf(c, mine.length);
+      var soon = mine.filter(function (x) { return open(x) && x.it.daysUntil >= 0 && x.it.daysUntil <= 30; }).length;
+      var late = mine.filter(function (x) { return open(x) && x.it.effectiveDate < today; }).length;
+      return '<button type="button" class="rr-trk-jc' + (F.job === j ? ' on' : '') + '" data-tjob="' + j + '">' +
+        '<div class="h"><i style="background:' + (window.rrCatColor ? window.rrCatColor(j) : '#999') + '"></i><b>' + j + '</b><span class="own">' + esc(owner(j) || '담당 미지정') + '</span><span class="pct">' + p + '%</span></div>' +
+        bar(c, mine.length) +
+        '<div class="m"><span>' + mine.length + '건</span>' + (c['조치필요'] ? '<span class="need">조치필요 ' + c['조치필요'] + '</span>' : '') +
+        (soon ? '<span class="warn">30일 내 ' + soon + '</span>' : '') + (late ? '<span class="bad">시행 후 ' + late + '</span>' : '') + '</div></button>';
+    }).join('') + '</section>';
     /* 목록 */
     var list = rows.filter(function (x) {
       if (F.job && jobOf(x.it) !== F.job) return false;
       if (F.status && x.st !== F.status) return false;
       if (F.q && (x.it.title + ' ' + ((x.r && x.r.action) || '')).toLowerCase().indexOf(F.q) < 0) return false;
-      if (F.scope === 'attention') return open(x) && x.it.daysUntil <= 30 && x.it.daysUntil >= -30;   /* 시행 30일 이내 · 최근 30일 사이 시행됐는데 미완료 */
+      if (F.scope === 'attention') return open(x) && x.it.daysUntil <= 30 && x.it.daysUntil >= -30;
       if (F.scope === 'upcoming') return x.it.daysUntil >= 0;
       return true;
     }).sort(function (a, b) { return String(a.it.effectiveDate).localeCompare(String(b.it.effectiveDate)); });
-    var canAny = me.role === 'admin' || !!me.job;
-    host.innerHTML =
-      '<div class="rr-trk-head"><div><h2>✅ 대응 현황</h2><p>' + esc(me.name || me.email) + ' · ' + esc(me.role === 'admin' ? '총괄 (전체 수정 가능)' : (me.job || '') + ' 담당') + '</p></div>' +
-      '<div class="rr-trk-actions"><button type="button" class="rr-trk-btn ghost" id="rr-trk-xls">엑셀로 내려받기</button>' +
-      (me.role === 'admin' ? '<button type="button" class="rr-trk-btn ghost" id="rr-trk-mem">담당자 관리</button>' : '') + '</div></div>' +
-      '<div class="rr-trk-card"><div class="rr-trk-ct">직무별 진행 <small>줄을 누르면 그 직무만 봅니다 · 진행률 = (조치완료 + 해당없음) / 전체</small></div>' +
-      '<div class="rr-trk-tw"><table class="rr-trk-t"><thead><tr><th>직무</th><th>전체</th>' + STATUSES.map(function (s) { return '<th>' + s + '</th>'; }).join('') + '<th>진행률</th><th>30일 내 미완료</th><th>시행 후 미완료(누적)</th></tr></thead><tbody>' + table + '</tbody></table></div></div>' +
-      '<div class="rr-trk-card"><div class="rr-trk-filters">' +
+    var scopes = [['attention', '챙길 것'], ['upcoming', '시행 예정'], ['all', '올해 전체']];
+    var listHtml = '<section class="rr-trk-card rr-trk-lc">' +
+      '<div class="rr-trk-lh"><span class="rr-seg">' + scopes.map(function (x) { return '<button type="button" data-tscope="' + x[0] + '" class="' + (F.scope === x[0] ? 'on' : '') + '">' + x[1] + '</button>'; }).join('') + '</span>' +
         '<select id="rr-trk-fjob"><option value="">전체 직무</option>' + JOBS.map(function (j) { return '<option' + (F.job === j ? ' selected' : '') + '>' + j + '</option>'; }).join('') + '</select>' +
-        '<select id="rr-trk-fscope"><option value="attention"' + (F.scope === 'attention' ? ' selected' : '') + '>챙길 것 (30일 내 시행 · 최근 30일 시행 미완료)</option><option value="upcoming"' + (F.scope === 'upcoming' ? ' selected' : '') + '>시행 예정 전체</option><option value="all"' + (F.scope === 'all' ? ' selected' : '') + '>올해 전체</option></select>' +
         '<select id="rr-trk-fst"><option value="">모든 상태</option>' + STATUSES.map(function (s) { return '<option' + (F.status === s ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select>' +
-        '<input type="search" id="rr-trk-fq" placeholder="법규명 · 조치 내용 검색" value="' + esc(F.q) + '"><span class="cnt">' + list.length + '건</span></div>' +
+        '<input type="search" id="rr-trk-fq" placeholder="법규명 · 조치 내용 검색" value="' + esc(F.q) + '"><span class="cnt">' + list.length.toLocaleString('ko-KR') + '건</span></div>' +
       '<div class="rr-trk-list">' + (list.slice(0, 300).map(function (x) {
-        var it = x.it, d = it.daysUntil;
-        var dd = d < 0 ? '<span class="dd past">시행 +' + (-d) + '일</span>' : d === 0 ? '<span class="dd hot">D-DAY</span>' : '<span class="dd ' + (d <= 30 ? 'hot' : '') + '">D-' + d + '</span>';
+        var it = x.it, d = it.daysUntil, r = x.r || {};
+        var dd = d < 0 ? '<span class="dd past">+' + (-d) + '일</span>' : d === 0 ? '<span class="dd hot">D-DAY</span>' : '<span class="dd ' + (d <= 30 ? 'hot' : '') + '">D-' + d + '</span>';
+        var due = r.due_date ? '<span class="due' + (open(x) && r.due_date < today ? ' over' : '') + '">' + icon('clock') + esc(String(r.due_date).slice(5).replace('-', '.')) + '</span>' : '<span class="due none"></span>';
         var edit = canEdit(it);
         return '<div class="rr-trk-row" data-tk="' + esc(keyOf(it)) + '">' +
           '<span class="dt">' + esc(String(it.effectiveDate).slice(5).replace('-', '.')) + '</span>' + dd +
-          '<button type="button" class="ttl" data-eid="' + esc(it.id) + '" title="개정 내용 보기">' + esc(it.title) + (it.kind ? ' <small>' + esc(it.kind) + '</small>' : '') + '</button>' +
-          '<span class="jb"><i style="background:' + (window.rrCatColor ? window.rrCatColor(jobOf(it)) : '#999') + '"></i>' + esc(jobOf(it)) + '</span>' +
-          (edit ? '<select class="qs" data-quick="1">' + STATUSES.map(function (s) { return '<option' + (s === x.st ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select>'
+          '<button type="button" class="ttl" data-eid="' + esc(it.id) + '">' + esc(it.title) + (it.kind ? ' <small>' + esc(it.kind) + '</small>' : '') + '</button>' +
+          '<span class="jb"><i style="background:' + (window.rrCatColor ? window.rrCatColor(jobOf(it)) : '#999') + '"></i>' + esc(jobOf(it)) + '</span>' + due +
+          (edit ? '<select class="qs st-' + ST_CLS[x.st] + '" data-quick="1">' + STATUSES.map(function (s) { return '<option' + (s === x.st ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select>'
             : '<span class="rr-st ' + ST_CLS[x.st] + '">' + esc(x.st) + '</span>') +
-          '<span class="ac" title="' + esc((x.r && x.r.action) || '') + '">' + esc((x.r && x.r.action) || '') + '</span></div>';
-      }).join('') || '<div class="rr-trk-empty">해당하는 개정이 없습니다.</div>') + (list.length > 300 ? '<div class="rr-trk-empty">앞의 300건만 표시합니다. 조건을 좁혀 보세요.</div>' : '') + '</div></div>' +
-      '<div class="rr-trk-card" id="rr-trk-members" hidden></div>';
-    if (!canAny) host.querySelector('.rr-trk-head p').textContent += ' (직무가 지정되지 않아 볼 수만 있습니다)';
+          '<span class="ac" title="' + esc(r.action || '') + '">' + esc(r.action || '') + '</span></div>';
+      }).join('') || '<div class="rr-trk-empty">해당하는 개정이 없습니다.</div>') + (list.length > 300 ? '<div class="rr-trk-empty">앞의 300건만 보입니다. 조건을 좁혀 보세요.</div>' : '') + '</div></section>';
+    var canAny = canAnyJob();
+    host.innerHTML = hero + jobs + listHtml + '<div class="rr-trk-card" id="rr-trk-members" hidden></div>';
   }
   document.addEventListener('change', function (e) {
     var t = e.target;
@@ -400,10 +417,15 @@
     }
   });
   document.addEventListener('click', function (e) {
-    var tr = e.target.closest && e.target.closest('.rr-trk-t tbody tr[data-tjob]');
+    var tr = e.target.closest && e.target.closest('[data-tjob]');
     if (tr) { F.job = F.job === tr.dataset.tjob ? '' : tr.dataset.tjob; paintDash(); return; }
-    if (e.target.id === 'rr-trk-xls') exportXlsx();
-    if (e.target.id === 'rr-trk-mem') paintMembers();
+    var ts = e.target.closest && e.target.closest('[data-tst]');
+    if (ts) { F.status = F.status === ts.dataset.tst ? '' : ts.dataset.tst; paintDash(); return; }
+    var sc = e.target.closest && e.target.closest('[data-tscope]');
+    if (sc) { F.scope = sc.dataset.tscope; paintDash(); return; }
+    var bt = e.target.closest && e.target.closest('#rr-trk-xls, #rr-trk-mem');
+    if (bt && bt.id === 'rr-trk-xls') exportXlsx();
+    if (bt && bt.id === 'rr-trk-mem') paintMembers();
     var mb = e.target.closest && e.target.closest('[data-mem]');
     if (mb) memberAction(mb);
   });
