@@ -211,14 +211,15 @@
       m = document.createElement('div');
       m.id = 'rr-trk-modal';
       m.className = 'rr-trk-modal';
-      m.innerHTML = '<div class="rr-trk-dialog" role="dialog" aria-label="담당자 로그인">' +
-        '<div class="rr-trk-dh"><b>🔐 담당자 로그인</b><button type="button" data-x="1" aria-label="닫기">×</button></div>' +
-        '<p>등록된 이메일을 넣으면 로그인 링크를 보내 드립니다. 메일의 링크를 누르면 이 사이트로 돌아와 로그인됩니다. 한 번 로그인하면 이 브라우저에서는 계속 유지됩니다.</p>' +
-        '<input type="email" id="rr-trk-email" placeholder="name@company.com" autocomplete="email">' +
-        '<button type="button" class="rr-trk-btn wide" id="rr-trk-send">로그인 링크 받기</button>' +
-        '<div class="rr-trk-note" id="rr-trk-note"></div></div>';
+      m.innerHTML = '<div class="rr-dlg" style="--dlg-w:440px" role="dialog" aria-label="담당자 로그인">' +
+        '<div class="rr-dlg-h"><span class="rr-dlg-ic">' + icon('login') + '</span><div class="rr-dlg-t"><h2>담당자 로그인</h2><p>등록된 이메일로 로그인 링크를 보내 드립니다</p></div>' +
+        '<button type="button" class="rr-dlg-x" data-x="1" aria-label="닫기">' + icon('x') + '</button></div>' +
+        '<div class="rr-dlg-b"><section class="rr-box" style="display:flex;flex-direction:column;gap:10px">' +
+        '<label class="rr-f"><span>이메일</span><input type="email" id="rr-trk-email" placeholder="name@company.com" autocomplete="email"></label>' +
+        '<button type="button" class="rr-btn pri wide" id="rr-trk-send">' + icon('send') + '로그인 링크 받기</button>' +
+        '<div class="rr-hint" id="rr-trk-note">메일의 링크를 누르면 이 사이트로 돌아와 로그인됩니다</div></section></div></div>';
       document.body.appendChild(m);
-      m.addEventListener('click', function (e) { if (e.target === m || e.target.dataset.x) m.classList.remove('show'); });
+      m.addEventListener('click', function (e) { if (e.target === m || (e.target.closest && e.target.closest('[data-x]'))) m.classList.remove('show'); });
       m.querySelector('#rr-trk-send').addEventListener('click', function () {
         var email = m.querySelector('#rr-trk-email').value.trim().toLowerCase();
         var note = m.querySelector('#rr-trk-note');
@@ -228,7 +229,7 @@
           return c.auth.signInWithOtp({ email: email, options: { emailRedirectTo: /github\.io/.test(location.host) ? SITE : location.origin + location.pathname } });
         }).then(function (r) {
           if (r.error) throw r.error;
-          note.innerHTML = '✅ <b>' + esc(email) + '</b> 으로 로그인 링크를 보냈습니다. 메일함(스팸함 포함)을 확인하세요.';
+          note.innerHTML = '<b>' + esc(email) + '</b> 으로 로그인 링크를 보냈습니다. 메일함(스팸함 포함)을 확인하세요.';
         }).catch(function (e) {
           note.textContent = '보내지 못했습니다: ' + (e && e.message || e) + (/rate|limit|seconds/i.test(String(e && e.message)) ? ' (잠시 뒤 다시 시도하세요)' : '');
         }).then(function () { btn.disabled = false; });

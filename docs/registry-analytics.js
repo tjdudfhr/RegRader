@@ -64,7 +64,7 @@
       ['올해 개정 없음', laws.length - amended.length, (100 - pct) + '%'],
       ['30일 내 시행 예정', soonLaws.length, soonLaws.length ? '⏰ 위 ' + amended.length + '개 중' : '없음']
     ].map(function (t, i) {
-      return '<div class="rr-job-tile' + (i === 3 && soonLaws.length ? ' hot' : '') + '"><span>' + t[0] + '</span><b>' + t[1] + '</b><small>' + t[2] + '</small></div>';
+      return '<div class="rr-job-tile' + (i === 3 && soonLaws.length ? ' hot' : '') + '"><span>' + t[0] + '</span><b>' + (typeof t[1] === 'number' ? t[1].toLocaleString('ko-KR') : t[1]) + '</b><small>' + t[2] + '</small></div>';
     }).join('');
 
     /* 직무별 적용법규: 올해 개정됨 vs 개정 없음 */

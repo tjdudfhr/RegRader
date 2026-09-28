@@ -18,28 +18,8 @@
     '.rr-add-btn:hover { transform:translateY(-2px); }',
     '.rr-pending { font-size:0.8rem; color:var(--text-muted); margin-top:6px; text-align:right; }',
     '.rr-pending b { color:#dd6b20; }',
-    '#rr-add-modal { position:fixed; inset:0; z-index:3000; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.35); backdrop-filter:blur(8px); padding:16px; }',
-    '#rr-add-modal.show { display:flex; }',
-    '.rr-add-box { width:100%; max-width:520px; max-height:calc(100vh - 32px); overflow:auto; background:var(--bg-card,#fff); color:var(--text-primary); border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,.35); }',
-    '.rr-add-head { background:var(--primary-gradient); color:#fff; padding:18px 22px; border-radius:20px 20px 0 0; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }',
-    '.rr-add-head h3 { margin:0; font-size:1.2rem; }',
-    '.rr-add-head p { margin:4px 0 0; font-size:.85rem; opacity:.9; }',
-    '.rr-add-x { background:rgba(255,255,255,.2); border:0; color:#fff; width:34px; height:34px; border-radius:50%; font-size:1.1rem; cursor:pointer; flex:none; }',
-    '.rr-add-body { padding:18px 22px 22px; }',
-    '.rr-add-body label { display:block; font-weight:600; font-size:.88rem; margin:14px 0 6px; }',
-    '.rr-add-body label:first-child { margin-top:0; }',
-    '.rr-add-body input[type=text], .rr-add-body textarea { width:100%; padding:10px 12px; border:1px solid var(--border,#e2e8f0); border-radius:10px; font:400 .95rem Inter,-apple-system,sans-serif; background:var(--bg-primary,#f7fafc); color:var(--text-primary); }',
-    '.rr-add-body textarea { min-height:60px; resize:vertical; }',
-    '.rr-add-body input:focus, .rr-add-body textarea:focus { outline:2px solid var(--primary); outline-offset:1px; }',
-    '.rr-add-hint { font-size:.78rem; color:var(--text-muted); margin-top:5px; }',
-    '.rr-add-warn { font-size:.82rem; color:#c53030; margin-top:6px; display:none; }',
-    '.rr-cats { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }',
-    '.rr-cats button { padding:8px 4px; border:1px solid var(--border,#e2e8f0); border-radius:10px; background:transparent; color:var(--text-secondary); font:500 .85rem Inter,-apple-system,sans-serif; cursor:pointer; }',
-    '.rr-cats button.on { background:var(--primary-gradient); color:#fff; border-color:var(--primary); }',
-    '.rr-check { display:flex !important; align-items:center; gap:8px; font-weight:500 !important; }',
-    '.rr-add-steps { margin:16px 0 0; padding:12px 14px; border-radius:12px; background:rgba(102,126,234,.08); font-size:.82rem; color:var(--text-secondary); line-height:1.6; }',
-    '.rr-add-go { width:100%; margin-top:16px; padding:12px; border:0; border-radius:12px; background:var(--primary-gradient); color:#fff; font:700 1rem Inter,-apple-system,sans-serif; cursor:pointer; }',
-    '.rr-add-go:disabled { opacity:.45; cursor:not-allowed; }',
+    '#rr-add-modal { position:fixed; inset:0; z-index:3000; display:none; }',
+    '.rr-cats { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; } .rr-cats .rr-chipx { justify-content:center; }',
     '@media (max-width:600px){ .rr-cats { grid-template-columns:repeat(2,1fr); } }'
   ].join('\n');
   document.head.appendChild(css);
@@ -58,25 +38,23 @@
     m.id = 'rr-add-modal';
     m.setAttribute('role', 'dialog');
     m.setAttribute('aria-modal', 'true');
+    var ic = function (n) { return window.rrIcon ? window.rrIcon(n) : ''; };
+    var dot = function (c) { return window.rrCatColor ? window.rrCatColor(c) : '#a0aec0'; };
     m.innerHTML =
-      '<div class="rr-add-box">' +
-        '<div class="rr-add-head"><div><h3>적용법규 추가</h3><p>추가하면 해당 법령의 개정이 자동으로 모니터링됩니다.</p></div>' +
-        '<button class="rr-add-x" type="button" aria-label="닫기">✕</button></div>' +
-        '<div class="rr-add-body">' +
-          '<label for="rr-add-name">법령명</label>' +
-          '<input type="text" id="rr-add-name" placeholder="예: 중대재해 처벌 등에 관한 법률" autocomplete="off">' +
-          '<div class="rr-add-hint">정식 명칭을 권장합니다. 약칭(예: 중대재해처벌법)도 법령정보센터에서 찾아 정식 명칭으로 바꿔 등록합니다.</div>' +
-          '<div class="rr-add-warn" id="rr-add-dup"></div>' +
-          '<label>직무</label>' +
-          '<div class="rr-cats" id="rr-add-cats">' + CATS.map(function (c) {
-            return '<button type="button" data-cat="' + c[0] + '">' + c[1] + ' ' + c[0] + '</button>';
-          }).join('') + '</div>' +
-          '<label class="rr-check"><input type="checkbox" id="rr-add-sub" checked> 시행령·시행규칙도 함께 추가</label>' +
-          '<label for="rr-add-memo">메모 (선택)</label>' +
-          '<textarea id="rr-add-memo" placeholder="추가 사유 등"></textarea>' +
-          '<div class="rr-add-steps">① 아래 버튼을 누르면 GitHub 요청 화면이 새 창으로 열립니다.<br>② 내용 확인 후 <b>Create / Submit</b>을 누르면 요청이 등록됩니다.<br>③ 약 10분 안에 법령정보센터에서 확인해 추가하고, 결과를 요청에 댓글로 남깁니다.<br><span style="color:var(--text-muted)">저장소 관리자 계정으로 로그인되어 있어야 처리됩니다.</span></div>' +
-          '<button class="rr-add-go" id="rr-add-go" type="button" disabled>GitHub에서 요청 등록 →</button>' +
-        '</div>' +
+      '<div class="rr-dlg" style="--dlg-w:540px">' +
+        '<div class="rr-dlg-h"><span class="rr-dlg-ic">' + ic('plus') + '</span><div class="rr-dlg-t"><h2>적용법규 추가</h2><p>추가하면 그 법령의 개정을 매일 자동으로 확인합니다</p></div>' +
+        '<button class="rr-dlg-x rr-add-x" type="button" aria-label="닫기">' + ic('x') + '</button></div>' +
+        '<div class="rr-dlg-b"><section class="rr-box" style="display:flex;flex-direction:column;gap:12px">' +
+          '<label class="rr-f"><span>법령명</span><input type="text" id="rr-add-name" placeholder="예: 중대재해 처벌 등에 관한 법률" autocomplete="off"></label>' +
+          '<div class="rr-warn" id="rr-add-dup" style="display:none"></div>' +
+          '<div class="rr-f"><span>직무</span><div class="rr-cats" id="rr-add-cats">' + CATS.map(function (c) {
+            return '<button type="button" class="rr-chipx" data-cat="' + c[0] + '"><i style="background:' + dot(c[0]) + '"></i>' + c[0] + '</button>';
+          }).join('') + '</div></div>' +
+          '<label class="rr-sw"><input type="checkbox" id="rr-add-sub" checked><i></i>시행령·시행규칙도 함께 추가</label>' +
+          '<label class="rr-f"><span>메모 (선택)</span><textarea id="rr-add-memo" placeholder="추가 사유 등"></textarea></label>' +
+        '</section></div>' +
+        '<div class="rr-dlg-f"><span class="sp">GitHub 요청 화면에서 Submit 을 누르면 10분 안에 반영됩니다</span>' +
+          '<button class="rr-btn pri" id="rr-add-go" type="button" disabled>' + ic('send') + '요청 등록</button></div>' +
       '</div>';
     document.body.appendChild(m);
 

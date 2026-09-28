@@ -869,27 +869,24 @@
     var st = { kind: 'quarter', n: q };
     var pref = getPref();
     var box = 'padding:6px 8px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:13px';
+    var ic = function (n) { return window.rrIcon ? window.rrIcon(n) : ''; };
     slot.innerHTML =
-      '<div style="border:1px solid var(--line);border-radius:12px;padding:14px;margin:0 0 12px;background:var(--surface-2)">' +
-      '<div style="font-weight:800;margin-bottom:10px">법규 제·개정 동향 보고서 (임원 보고용 PPT)</div>' +
-      '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">' +
-        '<span id="rr-rep-kind" style="display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden">' +
-          '<button type="button" data-k="month" style="border:0;padding:6px 12px;cursor:pointer;font:inherit;font-size:13px">월간</button>' +
-          '<button type="button" data-k="quarter" style="border:0;padding:6px 12px;cursor:pointer;font:inherit;font-size:13px">분기</button></span>' +
-        '<select id="rr-rep-n" style="' + box + '"></select>' +
-        '<select id="rr-rep-job" style="' + box + '"><option value="">전체 직무</option>' +
-          JOB_ORDER.map(function (j) { return '<option value="' + j + '">' + j + '</option>'; }).join('') + '</select>' +
-      '</div>' +
-      '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px">' +
-        '<input id="rr-rep-dept" type="text" maxlength="30" placeholder="보고 부서 (예: 법무팀)" style="' + box + ';flex:1;min-width:150px">' +
-      '</div>' +
-      '<div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:6px">' +
-        '<label><input type="checkbox" id="rr-rep-secret"> 대외비 표시</label>' +
-        '<label><input type="checkbox" id="rr-rep-app" checked> 별첨: 전체 개정 목록</label>' +
-        '<label id="rr-rep-trk-l" style="display:none"><input type="checkbox" id="rr-rep-trk" checked> 대응 현황 포함</label></div>' +
-      '<div id="rr-rep-trk-msg" style="font-size:12px;color:var(--ink-3);margin-bottom:10px"></div>' +
-      '<button type="button" id="rr-rep-go" style="width:100%;padding:11px;border:0;border-radius:10px;background:var(--brand);color:#fff;font:inherit;font-weight:800;cursor:pointer">PPT 만들기</button>' +
-      '<div id="rr-rep-msg" style="font-size:12px;color:var(--ink-3);margin-top:8px;line-height:1.5"></div>' +
+      '<div class="rr-box-h"><span class="rr-box-ic">' + ic('slides') + '</span>임원 보고용 PPT<small>법규 제·개정 동향 보고</small></div>' +
+      '<div style="display:flex;flex-direction:column;gap:12px">' +
+        '<div class="rr-grid2">' +
+          '<div class="rr-f"><span>기간</span><div class="rr-inline"><span class="rr-seg" id="rr-rep-kind"><button type="button" data-k="month">월간</button><button type="button" data-k="quarter">분기</button></span><select id="rr-rep-n"></select></div></div>' +
+          '<label class="rr-f"><span>직무</span><select id="rr-rep-job"><option value="">전체 직무</option>' +
+            JOB_ORDER.map(function (j) { return '<option value="' + j + '">' + j + '</option>'; }).join('') + '</select></label>' +
+        '</div>' +
+        '<label class="rr-f"><span>보고 부서</span><input id="rr-rep-dept" type="text" maxlength="30" placeholder="예: 법무팀"></label>' +
+        '<div class="rr-sws">' +
+          '<label class="rr-sw"><input type="checkbox" id="rr-rep-secret"><i></i>대외비 표시</label>' +
+          '<label class="rr-sw"><input type="checkbox" id="rr-rep-app" checked><i></i>전체 개정 목록 별첨</label>' +
+          '<label class="rr-sw" id="rr-rep-trk-l" style="display:none"><input type="checkbox" id="rr-rep-trk" checked><i></i>대응 현황 포함</label>' +
+        '</div>' +
+        '<div id="rr-rep-trk-msg" hidden></div>' +
+        '<button type="button" id="rr-rep-go" class="rr-btn pri wide">' + ic('slides') + '<span>PPT 만들기</span></button>' +
+        '<div id="rr-rep-msg" class="rr-hint"></div>' +
       '</div>';
     var sel = slot.querySelector('#rr-rep-n');
     var dept = slot.querySelector('#rr-rep-dept'), secret = slot.querySelector('#rr-rep-secret');
@@ -903,11 +900,7 @@
       trkL.style.display = '';
     }
     function paint() {
-      slot.querySelectorAll('#rr-rep-kind button').forEach(function (b) {
-        var on = b.dataset.k === st.kind;
-        b.style.background = on ? 'var(--brand)' : 'var(--surface)';
-        b.style.color = on ? '#fff' : 'var(--ink-2)';
-      });
+      slot.querySelectorAll('#rr-rep-kind button').forEach(function (b) { b.classList.toggle('on', b.dataset.k === st.kind); });
       if (st.kind === 'quarter') {
         sel.innerHTML = QN.map(function (x, i) { return '<option value="' + (i + 1) + '">' + year + '년 ' + x[0] + '</option>'; }).join('');
       } else {
@@ -927,12 +920,12 @@
       if (!(window.__rrItems || []).length) { msg.textContent = '데이터를 불러오는 중입니다. 잠시 뒤 다시 눌러 주세요.'; return; }
       savePref();
       go.disabled = true;
-      go.textContent = '만드는 중…';
+      go.lastChild.textContent = '만드는 중…';
       generate({ kind: st.kind, n: st.n, job: slot.querySelector('#rr-rep-job').value, appendix: slot.querySelector('#rr-rep-app').checked,
         dept: dept.value.trim(), secret: secret.checked, track: snap && slot.querySelector('#rr-rep-trk').checked ? undefined : false })
-        .then(function (name) { msg.innerHTML = '✅ <b>' + name.replace(/</g, '&lt;') + '</b> 을(를) 내려받았습니다.'; })
+        .then(function () { msg.textContent = ''; })
         .catch(function (e) { msg.textContent = '만들지 못했습니다: ' + (e && e.message || e); })
-        .then(function () { go.disabled = false; go.textContent = 'PPT 만들기'; });
+        .then(function () { go.disabled = false; go.lastChild.textContent = 'PPT 만들기'; });
     };
   }
 

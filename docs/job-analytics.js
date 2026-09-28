@@ -54,7 +54,7 @@
       ['30일 내 시행', soon, soon ? '⏰ 준비 필요' : '없음'],
       ['이후 시행예정', later, '']
     ].map(function (t, i) {
-      return '<div class="rr-job-tile' + (i === 2 && soon ? ' hot' : '') + '"><span>' + t[0] + '</span><b>' + t[1] + '</b><small>' + t[2] + '</small></div>';
+      return '<div class="rr-job-tile' + (i === 2 && soon ? ' hot' : '') + '"><span>' + t[0] + '</span><b>' + (typeof t[1] === 'number' ? t[1].toLocaleString('ko-KR') : t[1]) + '</b><small>' + t[2] + '</small></div>';
     }).join('');
 
     /* 월별 시행 건수 */
