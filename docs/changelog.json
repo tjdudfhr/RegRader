@@ -1,6 +1,132 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-09-28T22:14:44.068229+00:00",
+      "asOf": "2026-09-29",
+      "previousCheckedAt": "2026-09-27T22:00:47.133578+00:00",
+      "totalBefore": 757,
+      "totalAfter": 769,
+      "universeBefore": {
+        "openapiCurrent": 2523,
+        "openapiFuture": 4992,
+        "openapiUpcoming": 391
+      },
+      "universeAfter": {
+        "openapiCurrent": 2533,
+        "openapiFuture": 5231,
+        "openapiUpcoming": 594
+      },
+      "added": [
+        {
+          "title": "승강기 설치검사 및 안전검사에 관한 운영규정",
+          "effectiveDate": "2026-09-28",
+          "amendmentType": "일부개정",
+          "ministry": "행정안전부",
+          "category": "안전",
+          "kind": "고시",
+          "admRulSeq": "2100000285198"
+        },
+        {
+          "title": "대·중소기업 상생협력 촉진에 관한 법률",
+          "effectiveDate": "2026-09-29",
+          "amendmentType": "일부개정",
+          "ministry": "중소벤처기업부",
+          "category": "공정거래",
+          "lsiSeq": "290193"
+        },
+        {
+          "title": "식품위생 분야 종사자의 건강진단 규칙",
+          "effectiveDate": "2026-09-29",
+          "amendmentType": "일부개정",
+          "ministry": "식품의약품안전처",
+          "category": "안전",
+          "lsiSeq": "290621"
+        },
+        {
+          "title": "자본시장과 금융투자업에 관한 법률 시행령",
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "타법개정",
+          "ministry": "금융위원회",
+          "category": "재무회계",
+          "lsiSeq": "290293"
+        },
+        {
+          "title": "근로감독관규정",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "ministry": "고용노동부",
+          "category": "인사노무",
+          "lsiSeq": "290371"
+        },
+        {
+          "title": "독점규제 및 공정거래에 관한 법률",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "일부개정",
+          "ministry": "공정거래위원회",
+          "category": "공정거래",
+          "lsiSeq": "290153"
+        },
+        {
+          "title": "소방시설 설치 및 관리에 관한 법률 시행령",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "ministry": "소방청",
+          "category": "안전",
+          "lsiSeq": "290451"
+        },
+        {
+          "title": "자본시장과 금융투자업에 관한 법률 시행령",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "ministry": "금융위원회",
+          "category": "재무회계",
+          "lsiSeq": "290473"
+        },
+        {
+          "title": "장애인차별금지 및 권리구제 등에 관한 법률 시행령",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "ministry": "보건복지부",
+          "category": "인사노무",
+          "lsiSeq": "290475"
+        },
+        {
+          "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "일부개정",
+          "ministry": "과학기술정보통신부,방송미디어통신위원회",
+          "category": "정보보호",
+          "lsiSeq": "290001"
+        },
+        {
+          "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행령",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "ministry": "과학기술정보통신부,방송미디어통신위원회",
+          "category": "정보보호",
+          "lsiSeq": "290483"
+        },
+        {
+          "title": "환경정책기본법 시행령",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "290593"
+        }
+      ],
+      "removed": [],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "baseLawsBefore": 229,
+      "baseLawsAfter": 229
+    },
+    {
       "checkedAt": "2026-09-27T22:00:47.133578+00:00",
       "asOf": "2026-09-28",
       "previousCheckedAt": "2026-09-26T22:00:51.970921+00:00",
@@ -4326,5 +4452,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-09-27T22:00:47.133578+00:00"
+  "updatedAt": "2026-09-28T22:14:44.068229+00:00"
 }
