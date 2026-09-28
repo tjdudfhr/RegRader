@@ -291,17 +291,26 @@
     .observe(document.documentElement, { childList: true, subtree: true });
 
   /* ---------- 대응 현황 탭 ---------- */
-  /* 목록 조건: 직무 · 상태 · 기간 · 검색. 화면의 숫자 버튼을 누르면 목록이 정확히 그 숫자만큼 나오도록 조건을 맞춘다. */
-  var F = { job: '', status: '', q: '', scope: 'attention', who: '' };
-  var SCOPES = [['attention', '챙길 것'], ['soon', '30일 내'], ['late', '시행 후 미완료'], ['upcoming', '시행 예정'], ['all', '올해 전체']];
+  /* 화면 조건: 직무 탭 · 보기(시행 전 대응 / 시행 후 미완료 / 올해 전체) · 상태 · 검색.
+     보기 탭 숫자는 직무만 반영한다 (올해 전체 = 그 직무의 올해 개정 전부). 상태·검색은 그 안에서 거른다. */
+  var F = { job: '', view: 'pre', status: '', q: '', who: '' };
+  var VIEWS = [['pre', '시행 전 대응'], ['late', '시행 후 미완료'], ['all', '올해 전체']];
   function defJob() { return me && me.role !== 'admin' && me.job ? me.job : ''; }
-  function resetF() { F.job = defJob(); F.status = ''; F.q = ''; F.scope = 'attention'; }
+  function resetF() { F.job = defJob(); F.view = 'pre'; F.status = ''; F.q = ''; }
   /* 누른 뒤 목록이 화면 밖이면 목록으로 내려간다 (예전 담당자 관리처럼 '눌러도 변화 없음'이 되지 않게) */
   function toList() {
     var el = document.querySelector('#rr-trk-dash .rr-trk-lc');
     if (!el) return;
     var t = el.getBoundingClientRect().top;
     if (t < 60 || t > window.innerHeight * 0.55) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function toGroup(g) {
+    var el = document.getElementById('rr-trk-g-' + g) || document.querySelector('#rr-trk-dash .rr-trk-lc');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function toTop() {
+    var el = document.getElementById('rr-trk-dash');
+    if (el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   function todayISO() { var k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' })); return k.getFullYear() + '-' + String(k.getMonth() + 1).padStart(2, '0') + '-' + String(k.getDate()).padStart(2, '0'); }
   /* 로그인 전 첫 화면: 무엇을 하는 곳인지 + 로그인 */
@@ -341,98 +350,119 @@
     if (F.who !== me.email) { F.who = me.email; resetF(); }
     var today = todayISO();
     var rows = items().map(function (it) { var r = RESP[keyOf(it)]; return { it: it, st: r ? r.status : '미검토', r: r || null }; });
-    var open = function (x) { return x.st !== '조치완료' && x.st !== '해당없음'; };
-    var inScope = function (x, sc) {
-      var d = x.it.daysUntil;
-      if (sc === 'attention') return open(x) && d >= -30 && d <= 30;
-      if (sc === 'soon') return open(x) && d >= 0 && d <= 30;
-      if (sc === 'late') return open(x) && x.it.effectiveDate < today;
-      if (sc === 'upcoming') return d >= 0;
-      return true;
-    };
+    var done = function (x) { return x.st === '조치완료' || x.st === '해당없음'; };
+    var isPre = function (x) { return x.it.daysUntil >= 0; };
+    var isSoon = function (x) { return x.it.daysUntil >= 0 && x.it.daysUntil <= 30; };
+    var isLater = function (x) { return x.it.daysUntil > 30; };
+    var isLate = function (x) { return !done(x) && x.it.effectiveDate < today; };
     var SC = { '미검토': '#a3abba', '검토중': '#4a6ee0', '조치필요': '#e8762c', '조치완료': '#1f9d55', '해당없음': '#cfd5de' };
     var count = function (list) { var c = {}; STATUSES.forEach(function (s) { c[s] = 0; }); list.forEach(function (x) { c[x.st]++; }); return c; };
-    var bar = function (c, n) { return '<div class="rr-trk-sbar">' + STATUSES.map(function (s) { return c[s] ? '<i style="flex:' + c[s] + ';background:' + SC[s] + '" title="' + s + ' ' + c[s] + '"></i>' : ''; }).join('') + (n ? '' : '<i style="flex:1;background:var(--surface-3)"></i>') + '</div>'; };
-    var pctOf = function (c, n) { return n ? Math.round((c['조치완료'] + c['해당없음']) / n * 100) : 0; };
+    var bar = function (c, n) { return '<div class="rr-trk-sbar">' + STATUSES.map(function (s) { return c[s] ? '<i style="flex:' + c[s] + ';background:' + SC[s] + '" title="' + s + ' ' + c[s] + '"></i>' : ''; }).join('') + (n ? '' : '<i style="flex:1;background:rgba(255,255,255,.12)"></i>') + '</div>'; };
     var owner = function (j) { var m = MEMBERS.filter(function (x) { return x.job === j && x.role !== 'admin'; })[0]; return m ? (m.name || m.email.split('@')[0]) : ''; };
     var ofJob = function (j) { return j ? rows.filter(function (x) { return jobOf(x.it) === j; }) : rows; };
+    var nOpen = function (l) { return l.filter(function (x) { return !done(x); }).length; };
     var num = function (n) { return n.toLocaleString('ko-KR'); };
-    /* 맨 위: 지금 고른 직무(전체면 전체)의 진행 */
+    var color = function (j) { return window.rrCatColor ? window.rrCatColor(j) : '#999'; };
     var view = ofJob(F.job);
-    var tc = count(view), tp = pctOf(tc, view.length);
-    var soonN = view.filter(function (x) { return inScope(x, 'soon'); }).length;
-    var lateN = view.filter(function (x) { return inScope(x, 'late'); }).length;
-    var nm = me.name || me.email.split('@')[0];
-    var hero = '<section class="rr-trk-top rr-night">' +
-      '<div class="l"><div class="rr-trk-eyebrow">' + icon('check') + '대응 현황 · ' + (window.RR_YEAR || '') + '년 · ' + esc(F.job || '전체 직무') + '</div>' +
-        '<div class="big"><b>' + tp + '<small>%</small></b><span>검토 완료<br><em>' + num(tc['조치완료'] + tc['해당없음']) + ' / ' + num(view.length) + '건</em></span></div>' +
-        bar(tc, view.length) +
-        '<div class="rr-trk-legend">' + STATUSES.map(function (s) {
-          return '<button type="button" data-tst="' + s + '" class="' + (F.status === s ? 'on' : '') + '"><i style="background:' + SC[s] + '"></i>' + s + '<b>' + num(tc[s]) + '</b></button>';
-        }).join('') + '</div></div>' +
-      '<div class="r"><div class="me"><span class="av">' + esc(nm.slice(0, 1)) + '</span><div><b>' + esc(nm) + '</b><small>' + esc(me.role === 'admin' ? '총괄 · 전체 수정 가능' : (me.job || '') + ' 담당' + (canAnyJob() ? '' : ' · 볼 수만 있음')) + '</small></div></div>' +
-        '<div class="alerts">' +
-          '<button type="button" data-tdue="soon" class="' + (soonN ? 'warn' : '') + (F.scope === 'soon' && !F.status ? ' on' : '') + '"><b>' + num(soonN) + '</b><span>30일 내 미완료</span></button>' +
-          '<button type="button" data-tdue="late" class="' + (lateN ? 'bad' : '') + (F.scope === 'late' && !F.status ? ' on' : '') + '"><b>' + num(lateN) + '</b><span>시행 후 미완료</span></button></div>' +
-        '<div class="act"><button type="button" class="rr-btn" id="rr-trk-xls">' + icon('sheet') + '엑셀</button>' +
-        (me.role === 'admin' ? '<button type="button" class="rr-btn" id="rr-trk-mem">' + icon('users') + '담당자 관리</button>' : '') + '</div></div></section>';
-    /* 직무 카드: 맨 앞 '전체' + 8개 직무. 카드 안의 조치필요·30일 내·시행 후 숫자도 누르면 그 건들로 바로 간다 */
-    var chips = function (j, c, n, soon, late) {
-      var cj = ' data-cj="' + esc(j) + '"';
-      return '<div class="m"><span>' + num(n) + '건</span>' +
-        (c['조치필요'] ? '<span class="need" data-tchip="st:조치필요"' + cj + '>조치필요 ' + c['조치필요'] + '</span>' : '') +
-        (soon ? '<span class="warn" data-tchip="due:soon"' + cj + '>30일 내 ' + soon + '</span>' : '') +
-        (late ? '<span class="bad" data-tchip="due:late"' + cj + '>시행 후 ' + late + '</span>' : '') + '</div>';
-    };
-    var jobCard = function (j) {
-      var mine = ofJob(j), c = count(mine), p = pctOf(c, mine.length);
-      var soon = mine.filter(function (x) { return inScope(x, 'soon'); }).length;
-      var late = mine.filter(function (x) { return inScope(x, 'late'); }).length;
-      if (!j) return '<button type="button" class="rr-trk-jc all' + (F.job ? '' : ' on') + '" data-tjob="">' +
-        '<div class="h"><b>전체</b></div><div class="big">' + p + '<small>%</small></div>' + bar(c, mine.length) + chips('', c, mine.length, soon, late) + '</button>';
-      return '<button type="button" class="rr-trk-jc' + (F.job === j ? ' on' : '') + '" data-tjob="' + j + '">' +
-        '<div class="h"><i style="background:' + (window.rrCatColor ? window.rrCatColor(j) : '#999') + '"></i><b>' + j + '</b><span class="own">' + esc(owner(j) || '담당 미지정') + '</span><span class="pct">' + p + '%</span></div>' +
-        bar(c, mine.length) + chips(j, c, mine.length, soon, late) + '</button>';
-    };
-    var jobs = '<section class="rr-trk-jobs">' + [''].concat(JOBS).map(jobCard).join('') + '</section>';
-    /* 목록: 직무·상태·검색으로 거른 뒤 기간 탭으로 나눈다. 탭마다 건수를 보여 준다 */
-    var base = view.filter(function (x) {
+    var pre = view.filter(isPre), soon = pre.filter(isSoon), later = pre.filter(isLater), late = view.filter(isLate);
+    var pc = count(pre);
+    var yearDone = view.length - nOpen(view), yearPct = view.length ? Math.round(yearDone / view.length * 100) : 0;
+
+    /* 1) 직무 탭 — 탭 숫자는 그 직무의 시행 전 미완료 */
+    var badge = function (j) { var n = nOpen(ofJob(j).filter(isPre)); return n ? '<em>' + num(n) + '</em>' : ''; };
+    var role = me.role === 'admin' ? '' : (me.job || '') + ' 담당' + (canAnyJob() ? '' : ' · 보기 전용');
+    var tabs = '<div class="rr-trk-toolbar"><nav class="rr-trk-tabs">' + [''].concat(JOBS).map(function (j) {
+        return '<button type="button" data-tjob="' + j + '" class="' + (F.job === j ? 'on' : '') + '">' + (j ? '<i style="background:' + color(j) + '"></i>' + j : '전체') + badge(j) + '</button>';
+      }).join('') + '</nav>' +
+      '<div class="act">' + (role ? '<span class="who">' + esc(role) + '</span>' : '') +
+        '<button type="button" class="rr-btn" id="rr-trk-xls">' + icon('sheet') + '엑셀</button>' +
+        (me.role === 'admin' ? '<button type="button" class="rr-btn" id="rr-trk-mem">' + icon('users') + '담당자 관리</button>' : '') + '</div></div>';
+
+    /* 2) 시행 전 대응 — 이 화면의 중심. 단계 숫자를 누르면 그 건들만 */
+    var pipe = '<div class="rr-trk-pipe">' + STATUSES.map(function (s, i) {
+        return (i >= 1 && i <= 3 ? '<span class="arr">' + icon('chevron') + '</span>' : i === 4 ? '<span class="sep"></span>' : '') +
+          '<button type="button" data-tst="' + s + '" class="' + (F.view === 'pre' && F.status === s ? 'on' : '') + '"><i style="background:' + SC[s] + '"></i>' + s + '<b>' + num(pc[s]) + '</b></button>';
+      }).join('') + '</div>';
+    var who = F.job ? F.job + (owner(F.job) ? ' · ' + owner(F.job) : '') : '전체 직무';
+    var focus = '<section class="rr-trk-focus rr-night">' +
+      '<div class="l"><div class="rr-trk-eyebrow">' + icon('clock') + '시행 전 대응 · ' + esc(who) + '</div>' +
+        '<div class="big"><b>' + num(nOpen(pre)) + '</b><span>건 미완료<br><em>시행 예정 ' + num(pre.length) + '건 중</em></span></div>' +
+        '<div class="split">' +
+          '<button type="button" data-tgrp="soon"><span>30일 내 시행</span><b>' + num(nOpen(soon)) + '<small> / ' + num(soon.length) + '</small></b></button>' +
+          '<button type="button" data-tgrp="later"><span>31일 이후 시행</span><b>' + num(nOpen(later)) + '<small> / ' + num(later.length) + '</small></b></button>' +
+        '</div></div>' +
+      '<div class="r">' + pipe + bar(pc, pre.length) + '</div></section>';
+    var side = '<section class="rr-trk-side">' +
+      '<button type="button" data-tgo="late" class="' + (F.view === 'late' && !F.status ? 'on' : '') + '"><span class="k">시행 후 미완료</span><span class="v' + (late.length ? ' bad' : '') + '">' + num(late.length) + '<small>건</small></span></button>' +
+      '<div><span class="k">올해 검토 완료</span><span class="v">' + yearPct + '<small>%</small></span><span class="pbar"><i style="width:' + yearPct + '%"></i></span><span class="s">' + num(yearDone) + ' / ' + num(view.length) + '건</span></div>' +
+      '</section>';
+
+    /* 3) 전체 탭에서만: 직무별 현황 표 (행을 누르면 그 직무 탭) */
+    var table = '';
+    if (!F.job) {
+      var cell = function (op, all, cls) { return all ? '<b class="' + (op ? cls : 'zero') + '">' + num(op) + '</b><span class="of"> / ' + num(all) + '</span>' : '<span class="na">–</span>'; };
+      table = '<section class="rr-trk-card rr-trk-tbl"><div class="rr-trk-th">직무별 현황</div><div class="sc"><table>' +
+        '<thead><tr><th>직무</th><th>담당자</th><th>30일 내 시행<small>미완료 / 전체</small></th><th>31일 이후 시행<small>미완료 / 전체</small></th><th>시행 후 미완료</th><th>올해 검토 완료</th></tr></thead><tbody>' +
+        JOBS.map(function (j) {
+          var l = ofJob(j), a = l.filter(isSoon), b = l.filter(isLater), lt = l.filter(isLate).length;
+          var pp = l.length ? Math.round((l.length - nOpen(l)) / l.length * 100) : 0;
+          return '<tr data-tjob="' + j + '"><td><i style="background:' + color(j) + '"></i>' + j + '</td>' +
+            '<td>' + (owner(j) ? esc(owner(j)) : '<span class="na">미지정</span>') + '</td>' +
+            '<td>' + cell(nOpen(a), a.length, 'warn') + '</td><td>' + cell(nOpen(b), b.length, 'hi') + '</td>' +
+            '<td>' + (lt ? '<b class="bad">' + num(lt) + '</b>' : '<span class="na">0</span>') + '</td>' +
+            '<td><span class="pc"><span class="pbar"><i style="width:' + pp + '%"></i></span>' + pp + '%</span></td></tr>';
+        }).join('') + '</tbody></table></div></section>';
+    }
+
+    /* 4) 목록 — 시행 시기별로 묶는다 */
+    var matchF = function (x) {
       if (F.status && x.st !== F.status) return false;
       if (F.q && (x.it.title + ' ' + ((x.r && x.r.action) || '')).toLowerCase().indexOf(F.q) < 0) return false;
       return true;
-    });
-    var list = base.filter(function (x) { return inScope(x, F.scope); })
-      .sort(function (a, b) { return String(a.it.effectiveDate).localeCompare(String(b.it.effectiveDate)); });
-    var plain = F.job === defJob() && !F.status && !F.q && F.scope === 'attention';
+    };
+    var asc = function (a, b) { return String(a.it.effectiveDate).localeCompare(String(b.it.effectiveDate)); };
+    var desc = function (a, b) { return asc(b, a); };
+    var groups = F.view === 'pre' ? [['soon', '30일 내 시행', soon, asc], ['later', '31일 이후 시행', later, asc]]
+      : F.view === 'late' ? [['late', '시행 후 미완료 · 최근 시행 순', late, desc]]
+      : [['soon', '30일 내 시행', soon, asc], ['later', '31일 이후 시행', later, asc], ['past', '시행 완료 · 최근 시행 순', view.filter(function (x) { return x.it.daysUntil < 0; }), desc]];
+    var rowHtml = function (x) {
+      var it = x.it, d = it.daysUntil, r = x.r || {};
+      var dd = d < 0 ? '<span class="dd past">+' + (-d) + '일</span>' : d === 0 ? '<span class="dd hot">D-DAY</span>' : '<span class="dd ' + (d <= 30 ? 'hot' : '') + '">D-' + d + '</span>';
+      var due = r.due_date ? '<span class="due' + (!done(x) && r.due_date < today ? ' over' : '') + '">' + icon('clock') + esc(String(r.due_date).slice(5).replace('-', '.')) + '</span>' : '<span class="due none"></span>';
+      return '<div class="rr-trk-row' + (done(x) ? ' done' : '') + '" data-tk="' + esc(keyOf(it)) + '">' +
+        '<span class="dt">' + esc(String(it.effectiveDate).slice(5).replace('-', '.')) + '</span>' + dd +
+        '<button type="button" class="ttl" data-eid="' + esc(it.id) + '">' + esc(it.title) + (it.kind ? ' <small>' + esc(it.kind) + '</small>' : '') + '</button>' +
+        '<span class="jb"><i style="background:' + color(jobOf(it)) + '"></i>' + esc(jobOf(it)) + '</span>' + due +
+        (canEdit(it) ? '<select class="qs st-' + ST_CLS[x.st] + '" data-quick="1">' + STATUSES.map(function (s) { return '<option' + (s === x.st ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select>'
+          : '<span class="rr-st ' + ST_CLS[x.st] + '">' + esc(x.st) + '</span>') +
+        '<span class="ac" title="' + esc(r.action || '') + '">' + esc(r.action || '') + '</span></div>';
+    };
+    var shown = 0;
+    var body = groups.map(function (g) {
+      var l = g[2].filter(matchF).sort(g[3]);
+      shown += l.length;
+      if (!l.length) return '';
+      var op = nOpen(l);
+      return '<div class="rr-trk-gh' + (g[0] === 'soon' ? ' hot' : '') + '" id="rr-trk-g-' + g[0] + '"><b>' + g[1] + '</b><span>' + num(l.length) + '건' + (g[0] !== 'late' && op ? ' · 미완료 ' + num(op) : '') + '</span></div>' +
+        l.slice(0, 400).map(rowHtml).join('') + (l.length > 400 ? '<div class="rr-trk-empty">앞의 400건만 보입니다. 검색으로 좁혀 보세요.</div>' : '');
+    }).join('');
+    var vcount = { pre: pre.length, late: late.length, all: view.length };
+    var filtered = !!(F.status || F.q);
+    var plain = F.job === defJob() && F.view === 'pre' && !filtered;
     var reset = plain ? '' : '<button type="button" class="rr-btn mini" data-treset="1">' + icon('refresh') + '초기화</button>';
-    var listHtml = '<section class="rr-trk-card rr-trk-lc">' +
-      '<div class="rr-trk-lh"><span class="rr-seg">' + SCOPES.map(function (x) {
-          var n = base.filter(function (y) { return inScope(y, x[0]); }).length;
-          return '<button type="button" data-tscope="' + x[0] + '" class="' + (F.scope === x[0] ? 'on' : '') + '">' + x[1] + '<em>' + num(n) + '</em></button>';
+    var listHtml = '<section class="rr-trk-card rr-trk-lc' + (F.job ? ' onejob' : '') + '">' +
+      '<div class="rr-trk-lh"><span class="rr-seg">' + VIEWS.map(function (v) {
+          return '<button type="button" data-tview="' + v[0] + '" class="' + (F.view === v[0] ? 'on' : '') + '">' + v[1] + '<em>' + num(vcount[v[0]]) + '</em></button>';
         }).join('') + '</span>' +
-        '<select id="rr-trk-fjob"><option value="">전체 직무</option>' + JOBS.map(function (j) { return '<option' + (F.job === j ? ' selected' : '') + '>' + j + '</option>'; }).join('') + '</select>' +
         '<select id="rr-trk-fst"><option value="">모든 상태</option>' + STATUSES.map(function (s) { return '<option' + (F.status === s ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select>' +
-        '<input type="search" id="rr-trk-fq" placeholder="법규명 · 조치 내용 검색" value="' + esc(F.q) + '">' + reset + '</div>' +
-      '<div class="rr-trk-list">' + (list.slice(0, 300).map(function (x) {
-        var it = x.it, d = it.daysUntil, r = x.r || {};
-        var dd = d < 0 ? '<span class="dd past">+' + (-d) + '일</span>' : d === 0 ? '<span class="dd hot">D-DAY</span>' : '<span class="dd ' + (d <= 30 ? 'hot' : '') + '">D-' + d + '</span>';
-        var due = r.due_date ? '<span class="due' + (open(x) && r.due_date < today ? ' over' : '') + '">' + icon('clock') + esc(String(r.due_date).slice(5).replace('-', '.')) + '</span>' : '<span class="due none"></span>';
-        var edit = canEdit(it);
-        return '<div class="rr-trk-row" data-tk="' + esc(keyOf(it)) + '">' +
-          '<span class="dt">' + esc(String(it.effectiveDate).slice(5).replace('-', '.')) + '</span>' + dd +
-          '<button type="button" class="ttl" data-eid="' + esc(it.id) + '">' + esc(it.title) + (it.kind ? ' <small>' + esc(it.kind) + '</small>' : '') + '</button>' +
-          '<span class="jb"><i style="background:' + (window.rrCatColor ? window.rrCatColor(jobOf(it)) : '#999') + '"></i>' + esc(jobOf(it)) + '</span>' + due +
-          (edit ? '<select class="qs st-' + ST_CLS[x.st] + '" data-quick="1">' + STATUSES.map(function (s) { return '<option' + (s === x.st ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select>'
-            : '<span class="rr-st ' + ST_CLS[x.st] + '">' + esc(x.st) + '</span>') +
-          '<span class="ac" title="' + esc(r.action || '') + '">' + esc(r.action || '') + '</span></div>';
-      }).join('') || '<div class="rr-trk-empty">조건에 맞는 개정이 없습니다.' + (reset ? ' ' + reset : '') + '</div>') +
-      (list.length > 300 ? '<div class="rr-trk-empty">앞의 300건만 보입니다. 조건을 좁혀 보세요.</div>' : '') + '</div></section>';
-    host.innerHTML = hero + jobs + listHtml;
+        '<input type="search" id="rr-trk-fq" placeholder="법규명 · 조치 내용 검색" value="' + esc(F.q) + '">' +
+        (filtered ? '<span class="rr-trk-shown">' + num(shown) + '건 표시</span>' : '') + reset + '</div>' +
+      '<div class="rr-trk-list">' + (body || '<div class="rr-trk-empty">조건에 맞는 개정이 없습니다.' + (reset ? ' ' + reset : '') + '</div>') + '</div></section>';
+    host.innerHTML = tabs + '<div class="rr-trk-head2">' + focus + side + '</div>' + table + listHtml;
   }
   document.addEventListener('change', function (e) {
     var t = e.target;
-    if (t.id === 'rr-trk-fjob') { F.job = t.value; paintDash(); }
-    else if (t.id === 'rr-trk-fst') { F.status = t.value; if (t.value) F.scope = 'all'; paintDash(); }
+    if (t.id === 'rr-trk-fst') { F.status = t.value; paintDash(); }
     else if (t.dataset && t.dataset.quick) {
       var rowEl = t.closest('.rr-trk-row');
       var k = rowEl && rowEl.dataset.tk;
@@ -451,25 +481,20 @@
   });
   document.addEventListener('click', function (e) {
     if (!e.target.closest) return;
-    /* 카드 안 숫자(조치필요·30일 내·시행 후): 그 직무 + 그 조건 */
-    var ch = e.target.closest('[data-tchip]');
-    if (ch) {
-      var v = ch.dataset.tchip;
-      F.job = ch.dataset.cj || '';
-      if (v.indexOf('st:') === 0) { F.status = v.slice(3); F.scope = 'all'; } else { F.status = ''; F.scope = v.slice(4); }
-      paintDash(); toList(); return;
-    }
-    /* 직무 카드: 고른 직무를 다시 누르면 전체 */
+    /* 직무 탭 · 직무별 현황 표의 행 */
     var tr = e.target.closest('[data-tjob]');
-    if (tr) { var j = tr.dataset.tjob || ''; F.job = j && F.job === j ? '' : j; paintDash(); return; }
-    /* 상태 버튼: 올해 전체에서 그 상태만 (버튼 숫자 = 목록 건수) */
+    if (tr) { var inTbl = !!tr.closest('.rr-trk-tbl'); F.job = tr.dataset.tjob || ''; paintDash(); if (inTbl) toTop(); return; }
+    /* 시행 전 대응의 단계(미검토 → … → 조치완료): 시행 전 건 중 그 상태만. 다시 누르면 해제 */
     var ts = e.target.closest('[data-tst]');
-    if (ts) { var st = ts.dataset.tst; if (F.status === st) F.status = ''; else { F.status = st; F.scope = 'all'; } paintDash(); toList(); return; }
-    /* 30일 내 미완료 · 시행 후 미완료 */
-    var td = e.target.closest('[data-tdue]');
-    if (td) { var du = td.dataset.tdue; if (F.scope === du && !F.status) F.scope = 'attention'; else { F.scope = du; F.status = ''; } paintDash(); toList(); return; }
-    var sc = e.target.closest('[data-tscope]');
-    if (sc) { F.scope = sc.dataset.tscope; paintDash(); return; }
+    if (ts) { var st = ts.dataset.tst; if (F.view === 'pre' && F.status === st) F.status = ''; else { F.view = 'pre'; F.status = st; } paintDash(); toList(); return; }
+    /* 30일 내 시행 · 31일 이후 시행: 목록의 그 묶음으로 */
+    var tg = e.target.closest('[data-tgrp]');
+    if (tg) { F.view = 'pre'; F.status = ''; paintDash(); toGroup(tg.dataset.tgrp); return; }
+    /* 시행 후 미완료 */
+    var go = e.target.closest('[data-tgo]');
+    if (go) { F.view = go.dataset.tgo; F.status = ''; paintDash(); toList(); return; }
+    var tv = e.target.closest('[data-tview]');
+    if (tv) { F.view = tv.dataset.tview; paintDash(); return; }
     if (e.target.closest('[data-treset]')) { resetF(); paintDash(); return; }
     var bt = e.target.closest && e.target.closest('#rr-trk-xls, #rr-trk-mem');
     if (bt && bt.id === 'rr-trk-xls') exportXlsx();
