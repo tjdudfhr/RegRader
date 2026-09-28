@@ -1024,14 +1024,18 @@ body .rr-dlg {
 .rr-trk-top .me b { display: block; color: #fff; font-size: 14.5px; }
 .rr-trk-top .me small { color: var(--night-ink-3); font-size: 12px; }
 .rr-trk-top .alerts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.rr-trk-top .alerts > div { padding: 12px 14px; border-radius: 10px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); }
+.rr-trk-top .alerts > button { text-align: left; font: inherit; cursor: pointer; padding: 12px 14px; border-radius: 10px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); transition: background .14s ease; min-height: 0 !important; }
+.rr-trk-top .alerts > button:hover { background: rgba(255,255,255,.1); }
+.rr-trk-top .alerts > button.on { background: #fff; border-color: #fff; }
+.rr-trk-top .alerts > button.on b { color: var(--ink) !important; }
+.rr-trk-top .alerts > button.on span { color: var(--ink-3); }
 .rr-trk-top .alerts b { display: block; font-size: 24px; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; }
 .rr-trk-top .alerts span { font-size: 12px; font-weight: 600; color: var(--night-ink-3); }
 .rr-trk-top .alerts .warn b { color: #ffc27a; } .rr-trk-top .alerts .bad b { color: #ff9b91; }
 .rr-trk-top .act { display: flex; gap: 8px; }
 .rr-trk-top .act .rr-btn { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.14); color: #fff; box-shadow: none; }
 .rr-trk-top .act .rr-btn:hover { background: rgba(255,255,255,.14); }
-.rr-trk-jobs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.rr-trk-jobs { display: grid; grid-template-columns: minmax(0, 1.1fr) repeat(4, minmax(0, 1fr)); gap: 12px; }
 .rr-trk-jc { text-align: left; font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 14px 12px; cursor: pointer; box-shadow: var(--sh-xs); display: flex; flex-direction: column; gap: 10px; transition: border-color .14s ease, box-shadow .14s ease, transform .14s var(--ease); min-height: 0 !important; }
 .rr-trk-jc:hover { transform: translateY(-2px); box-shadow: var(--sh-md); }
 .rr-trk-jc.on { border-color: var(--night); box-shadow: 0 0 0 1px var(--night) inset, var(--sh-sm); }
@@ -1043,6 +1047,20 @@ body .rr-dlg {
 .rr-trk-jc .rr-trk-sbar { height: 7px; background: var(--surface-3); }
 .rr-trk-jc .m { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 12px; color: var(--ink-3); font-weight: 600; }
 .rr-trk-jc .m .need { color: #c2410c; } .rr-trk-jc .m .warn { color: var(--warn); } .rr-trk-jc .m .bad { color: var(--danger); }
+.rr-trk-jc .m [data-tchip] { border-radius: 5px; padding: 1px 5px; margin: -1px -5px; }
+.rr-trk-jc .m [data-tchip]:hover { background: var(--surface-3); text-decoration: underline; text-underline-offset: 2px; }
+/* 전체 카드: 직무 카드 왼쪽, 두 줄 높이 */
+.rr-trk-jc.all { grid-row: span 2; }
+.rr-trk-jc.all .h b { font-size: 15px; }
+.rr-trk-jc.all .big { margin-top: auto; font-size: 38px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.rr-trk-jc.all .big small { font-size: 18px; margin-left: 2px; color: var(--ink-3); }
+/* 목록 기간 탭 (탭마다 건수) */
+.rr-trk-lc { scroll-margin-top: 84px; }
+.rr-trk-lh .rr-seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.rr-trk-lh .rr-seg button { white-space: nowrap; }
+.rr-trk-lh .rr-seg button em { font-style: normal; margin-left: 6px; font-size: 11.5px; font-weight: 800; color: var(--ink-4); font-variant-numeric: tabular-nums; }
+.rr-trk-lh .rr-seg button.on em { color: var(--brand); }
+.rr-trk-empty .rr-btn { margin-left: 8px; vertical-align: middle; }
 body .rr-trk-lc { padding: 0 !important; overflow: hidden; }
 .rr-trk-lh { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 1px solid var(--line); background: var(--surface); }
 .rr-trk-lh select, .rr-trk-lh input { height: 38px; padding: 0 10px !important; font: inherit; font-size: 13px !important; }
@@ -1064,7 +1082,11 @@ body .rr-trk-row .qs.st-need { color: #b4480f !important; background: #fff3ea !i
 body .rr-trk-row .qs.st-done { color: #15803d !important; background: #ecf8f0 !important; border-color: #c7ebd3 !important; }
 body .rr-trk-row .qs.st-na { color: var(--ink-3) !important; background: var(--surface-2) !important; }
 body #rr-trk-members { padding: 18px 20px !important; }
-@media (max-width: 1100px) { .rr-trk-top { grid-template-columns: 1fr; } .rr-trk-jobs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 1100px) { .rr-trk-top { grid-template-columns: 1fr; } .rr-trk-jobs { grid-template-columns: repeat(2, minmax(0, 1fr)); } .rr-trk-jc.all { grid-row: auto; grid-column: 1 / -1; } .rr-trk-jc.all .big { font-size: 30px; } }
+@media (max-width: 900px) {
+  body .rr-trk-row { grid-template-columns: 46px 52px minmax(0, 1fr) 62px 100px !important; }
+  body .rr-trk-row .jb, body .rr-trk-row .ac { display: none !important; }
+}
 @media (max-width: 760px) {
   body .rr-trk-row { grid-template-columns: 46px 52px minmax(0, 1fr) 96px !important; }
   body .rr-trk-row .jb, body .rr-trk-row .due, body .rr-trk-row .ac { display: none !important; }
