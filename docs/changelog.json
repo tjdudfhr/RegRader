@@ -1,6 +1,43 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-09-29T22:06:42.547851+00:00",
+      "asOf": "2026-09-30",
+      "previousCheckedAt": "2026-09-28T22:14:44.068229+00:00",
+      "totalBefore": 769,
+      "totalAfter": 770,
+      "universeBefore": {
+        "openapiCurrent": 2533,
+        "openapiFuture": 5231,
+        "openapiUpcoming": 594
+      },
+      "universeAfter": {
+        "openapiCurrent": 2536,
+        "openapiFuture": 5323,
+        "openapiUpcoming": 682
+      },
+      "added": [
+        {
+          "title": "근로기준법",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "ministry": "고용노동부",
+          "category": "인사노무",
+          "lsiSeq": "290781"
+        }
+      ],
+      "removed": [],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "baseLawsBefore": 229,
+      "baseLawsAfter": 229
+    },
+    {
       "checkedAt": "2026-09-28T22:14:44.068229+00:00",
       "asOf": "2026-09-29",
       "previousCheckedAt": "2026-09-27T22:00:47.133578+00:00",
@@ -4452,5 +4489,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-09-28T22:14:44.068229+00:00"
+  "updatedAt": "2026-09-29T22:06:42.547851+00:00"
 }
