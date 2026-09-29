@@ -1,6 +1,1259 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-09-29T23:47:40.379635+00:00",
+      "asOf": "2026-09-30",
+      "previousCheckedAt": "2026-09-29T23:37:09.438960+00:00",
+      "totalBefore": 519,
+      "totalAfter": 647,
+      "universeBefore": {
+        "openapiCurrent": 2536,
+        "openapiFuture": 5323,
+        "openapiUpcoming": 682
+      },
+      "universeAfter": {
+        "openapiCurrent": 2536,
+        "openapiFuture": 5323,
+        "openapiUpcoming": 682
+      },
+      "added": [],
+      "removed": [],
+      "nowInForce": [],
+      "baseLawsAdded": [
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률",
+          "category": "환경",
+          "ministry": "산업통상부",
+          "lawType": "법률"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+          "category": "환경",
+          "ministry": "산업통상부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률 시행규칙",
+          "category": "환경",
+          "ministry": "산업통상부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "건축법",
+          "category": "안전",
+          "ministry": "국토교통부",
+          "lawType": "법률"
+        },
+        {
+          "title": "건축법 시행령",
+          "category": "안전",
+          "ministry": "국토교통부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "건축법 시행규칙",
+          "category": "안전",
+          "ministry": "국토교통부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "건설산업기본법",
+          "category": "공정거래",
+          "ministry": "국토교통부",
+          "lawType": "법률"
+        },
+        {
+          "title": "건설산업기본법 시행령",
+          "category": "공정거래",
+          "ministry": "국토교통부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "건설산업기본법 시행규칙",
+          "category": "공정거래",
+          "ministry": "국토교통부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "대외무역법",
+          "category": "재무회계",
+          "ministry": "산업통상부",
+          "lawType": "법률"
+        },
+        {
+          "title": "대외무역법 시행령",
+          "category": "재무회계",
+          "ministry": "산업통상부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "관세법",
+          "category": "재무회계",
+          "ministry": "재정경제부",
+          "lawType": "법률"
+        },
+        {
+          "title": "관세법 시행령",
+          "category": "재무회계",
+          "ministry": "재정경제부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "관세법 시행규칙",
+          "category": "재무회계",
+          "ministry": "재정경제부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률",
+          "category": "재무회계",
+          "ministry": "재정경제부",
+          "lawType": "법률"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령",
+          "category": "재무회계",
+          "ministry": "재정경제부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+          "category": "재무회계",
+          "ministry": "재정경제부",
+          "lawType": "시행규칙"
+        },
+        {
+          "title": "경제안보를 위한 공급망 안정화 지원 기본법",
+          "category": "정보보호",
+          "ministry": "재정경제부",
+          "lawType": "법률"
+        },
+        {
+          "title": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+          "category": "정보보호",
+          "ministry": "재정경제부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "표시ㆍ광고의 공정화에 관한 법률",
+          "category": "공정거래",
+          "ministry": "공정거래위원회",
+          "lawType": "법률"
+        },
+        {
+          "title": "표시ㆍ광고의 공정화에 관한 법률 시행령",
+          "category": "공정거래",
+          "ministry": "공정거래위원회",
+          "lawType": "시행령"
+        },
+        {
+          "title": "제조물 책임법",
+          "category": "공정거래",
+          "ministry": "공정거래위원회,법무부",
+          "lawType": "법률"
+        }
+      ],
+      "addedByBase": [
+        {
+          "title": "관세법",
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "280363"
+        },
+        {
+          "title": "관세법 시행규칙",
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "282397"
+        },
+        {
+          "title": "관세법 시행령",
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "279957"
+        },
+        {
+          "title": "관세조사 운영에 관한 훈령",
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "훈령",
+          "admRulSeq": "2100000270936"
+        },
+        {
+          "title": "관세청 납세자보호에 관한 고시",
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000271008"
+        },
+        {
+          "title": "덤핑방지관세 부과 신청·조사·판정에 관한 세부운영규정",
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "ministry": "무역위원회",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000270500"
+        },
+        {
+          "title": "보세운송에 관한 고시",
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000270260"
+        },
+        {
+          "title": "사후관리에 관한 고시",
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000271406"
+        },
+        {
+          "title": "품목분류 적용기준에 관한 고시",
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000270194"
+        },
+        {
+          "title": "건설산업기본법 시행규칙",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "국토교통부",
+          "category": "공정거래",
+          "lsiSeq": "282375"
+        },
+        {
+          "title": "건설산업기본법 시행령",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "국토교통부",
+          "category": "공정거래",
+          "lsiSeq": "281245"
+        },
+        {
+          "title": "경제안보를 위한 공급망 안정화 지원 기본법",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "재정경제부",
+          "category": "정보보호",
+          "lsiSeq": "276055"
+        },
+        {
+          "title": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "재정경제부",
+          "category": "정보보호",
+          "lsiSeq": "280785"
+        },
+        {
+          "title": "관세ㆍ통계통합품목분류표",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000273202"
+        },
+        {
+          "title": "관세법",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "280363"
+        },
+        {
+          "title": "관세법",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "276067"
+        },
+        {
+          "title": "관세법 시행규칙",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "282601"
+        },
+        {
+          "title": "관세법 시행령",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "280797"
+        },
+        {
+          "title": "국세 및 관세 관계법규 해석에 관한 업무처리지침",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "kind": "훈령",
+          "admRulSeq": "2100000272790"
+        },
+        {
+          "title": "납세업무 처리에 관한 고시",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000271540"
+        },
+        {
+          "title": "대외무역법",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "재무회계",
+          "lsiSeq": "276491"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "276529"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "280757"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "276141"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "282667"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "280883"
+        },
+        {
+          "title": "징수업무 처리에 관한 고시",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000271562"
+        },
+        {
+          "title": "품목분류 심사 및 운영에 관한 고시",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000271298"
+        },
+        {
+          "title": "Ａ.Ｔ.Ａ.까르네에 의한 일시수출입 통관에 관한 고시",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000271566"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 사무처리에 관한 고시",
+          "effectiveDate": "2026-01-05",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000271656"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+          "effectiveDate": "2026-01-06",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "282745"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령",
+          "effectiveDate": "2026-01-06",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "282485"
+        },
+        {
+          "title": "민간건설공사 표준도급계약서",
+          "effectiveDate": "2026-01-16",
+          "amendmentType": "일부개정",
+          "ministry": "국토교통부",
+          "category": "공정거래",
+          "kind": "고시",
+          "admRulSeq": "2100000272726"
+        },
+        {
+          "title": "수출입물품 등에 대한 품목분류 변경고시",
+          "effectiveDate": "2026-01-22",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000272722"
+        },
+        {
+          "title": "실내건축의 구조·시공방법 등에 관한 기준",
+          "effectiveDate": "2026-01-22",
+          "amendmentType": "일부개정",
+          "ministry": "국토교통부",
+          "category": "안전",
+          "kind": "고시",
+          "admRulSeq": "2100000272946"
+        },
+        {
+          "title": "관세법",
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "268725"
+        },
+        {
+          "title": "대외무역법 시행령",
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "재무회계",
+          "lsiSeq": "282951"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률",
+          "effectiveDate": "2026-02-19",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "283395"
+        },
+        {
+          "title": "보세화물관리에 관한 고시",
+          "effectiveDate": "2026-02-24",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000275032"
+        },
+        {
+          "title": "공장입지 기준고시",
+          "effectiveDate": "2026-02-25",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000274928"
+        },
+        {
+          "title": "산업단지 관리지침",
+          "effectiveDate": "2026-02-25",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000274926"
+        },
+        {
+          "title": "건축법",
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "ministry": "국토교통부",
+          "category": "안전",
+          "lsiSeq": "273437"
+        },
+        {
+          "title": "건축법 시행규칙",
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "ministry": "국토교통부",
+          "category": "안전",
+          "lsiSeq": "283727"
+        },
+        {
+          "title": "건축법 시행령",
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "ministry": "국토교통부",
+          "category": "안전",
+          "lsiSeq": "273503"
+        },
+        {
+          "title": "관세법 시행령",
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "283621"
+        },
+        {
+          "title": "수출입물품 등에 대한 품목분류 변경고시",
+          "effectiveDate": "2026-03-04",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000275046"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률",
+          "effectiveDate": "2026-03-10",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "283929"
+        },
+        {
+          "title": "대외무역법 시행령",
+          "effectiveDate": "2026-03-17",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "재무회계",
+          "lsiSeq": "284507"
+        },
+        {
+          "title": "관세법 시행규칙",
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "284979"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "285001"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+          "effectiveDate": "2026-03-24",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "284773"
+        },
+        {
+          "title": "종합보세구역의 지정 및 운영에 관한 고시",
+          "effectiveDate": "2026-03-24",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000276266"
+        },
+        {
+          "title": "관세법",
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "280363"
+        },
+        {
+          "title": "관세법 시행규칙",
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "284979"
+        },
+        {
+          "title": "관세법 시행령",
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "283621"
+        },
+        {
+          "title": "납세업무 처리에 관한 고시",
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000276770"
+        },
+        {
+          "title": "관세법 시행령",
+          "effectiveDate": "2026-04-03",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "285309"
+        },
+        {
+          "title": "자유무역지역 반출입물품의 관리에 관한 고시",
+          "effectiveDate": "2026-04-06",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000276988"
+        },
+        {
+          "title": "해외개발자원 관세면제 대상 확인 등에 관한 고시",
+          "effectiveDate": "2026-04-07",
+          "amendmentType": "제정",
+          "ministry": "산업통상부",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000277092"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률 시행규칙",
+          "effectiveDate": "2026-04-09",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "285509"
+        },
+        {
+          "title": "관세법 제246조의3에 따른 안전성 검사 업무처리에 관한 고시",
+          "effectiveDate": "2026-04-13",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000277280"
+        },
+        {
+          "title": "관세조사 운영에 관한 훈령",
+          "effectiveDate": "2026-04-13",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "훈령",
+          "admRulSeq": "2100000277356"
+        },
+        {
+          "title": "국가관세종합정보시스템의 이용 및 운영 등에 관한 고시",
+          "effectiveDate": "2026-04-13",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000277282"
+        },
+        {
+          "title": "법규준수도 평가와 운영에 관한 고시",
+          "effectiveDate": "2026-04-13",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000277316"
+        },
+        {
+          "title": "수입물품 유통이력관리에 관한 고시",
+          "effectiveDate": "2026-04-13",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000277312"
+        },
+        {
+          "title": "수출입 안전관리 우수업체 공인 및 갱신심사 운영에 관한 훈령",
+          "effectiveDate": "2026-04-13",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "훈령",
+          "admRulSeq": "2100000277336"
+        },
+        {
+          "title": "수출입신고 오류방지에 관한 고시",
+          "effectiveDate": "2026-04-13",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000277334"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 사무처리에 관한 고시",
+          "effectiveDate": "2026-04-13",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000277308"
+        },
+        {
+          "title": "통관고유부호 및 해외거래처부호 등록·관리에 관한 고시",
+          "effectiveDate": "2026-04-13",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000277306"
+        },
+        {
+          "title": "지식재산권 보호를 위한 수출입통관 사무처리에 관한 고시",
+          "effectiveDate": "2026-04-14",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000277894"
+        },
+        {
+          "title": "경제안보를 위한 공급망 안정화 지원 기본법",
+          "effectiveDate": "2026-04-21",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "정보보호",
+          "lsiSeq": "285519"
+        },
+        {
+          "title": "건축물 안전영향평가 세부기준",
+          "effectiveDate": "2026-04-24",
+          "amendmentType": "일부개정",
+          "ministry": "국토교통부",
+          "category": "안전",
+          "kind": "고시",
+          "admRulSeq": "2100000278188"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+          "effectiveDate": "2026-04-28",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "285609"
+        },
+        {
+          "title": "보세공장 운영에 관한 고시",
+          "effectiveDate": "2026-04-29",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000278432"
+        },
+        {
+          "title": "사후관리에 관한 고시",
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000278566"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "285861"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령",
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "282485"
+        },
+        {
+          "title": "관세법 시행령",
+          "effectiveDate": "2026-05-08",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "285897"
+        },
+        {
+          "title": "수출입물품 등에 대한 품목분류 변경고시",
+          "effectiveDate": "2026-05-14",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000278826"
+        },
+        {
+          "title": "국가산업단지 관리기본계획(광양)",
+          "effectiveDate": "2026-05-21",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000279518"
+        },
+        {
+          "title": "국가산업단지 관리기본계획(구미)",
+          "effectiveDate": "2026-05-21",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000279550"
+        },
+        {
+          "title": "관세청 납세자보호에 관한 고시",
+          "effectiveDate": "2026-06-01",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000280180"
+        },
+        {
+          "title": "추천ㆍ보증 등에 관한 표시ㆍ광고 심사지침",
+          "effectiveDate": "2026-06-01",
+          "amendmentType": "일부개정",
+          "ministry": "공정거래위원회",
+          "category": "공정거래",
+          "kind": "예규",
+          "admRulSeq": "2100000280130"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률",
+          "effectiveDate": "2026-06-02",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "286569"
+        },
+        {
+          "title": "건설산업기본법 시행령",
+          "effectiveDate": "2026-06-23",
+          "amendmentType": "일부개정",
+          "ministry": "국토교통부",
+          "category": "공정거래",
+          "lsiSeq": "287349"
+        },
+        {
+          "title": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+          "effectiveDate": "2026-06-23",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "정보보호",
+          "lsiSeq": "287051"
+        },
+        {
+          "title": "사후관리에 관한 고시",
+          "effectiveDate": "2026-06-23",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000280956"
+        },
+        {
+          "title": "수출입물품 등에 대한 품목분류 변경고시",
+          "effectiveDate": "2026-06-23",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000280452"
+        },
+        {
+          "title": "경제안보를 위한 공급망 안정화 지원 기본법",
+          "effectiveDate": "2026-06-24",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "정보보호",
+          "lsiSeq": "280361"
+        },
+        {
+          "title": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+          "effectiveDate": "2026-06-24",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "정보보호",
+          "lsiSeq": "287051"
+        },
+        {
+          "title": "수출 및 반송통관에 관한 고시",
+          "effectiveDate": "2026-06-26",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000270440"
+        },
+        {
+          "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 사무처리에 관한 고시",
+          "effectiveDate": "2026-06-30",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000281514"
+        },
+        {
+          "title": "관세법",
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "280363"
+        },
+        {
+          "title": "관세법 시행령",
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "283621"
+        },
+        {
+          "title": "보세창고 특허 및 운영에 관한 고시",
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000281688"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률",
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "284085"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "287303"
+        },
+        {
+          "title": "표시·광고의 공정화에 관한 법률 위반사업자등에 대한 과징금부과 세부기준 등에 관한 고시",
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "ministry": "공정거래위원회",
+          "category": "공정거래",
+          "kind": "고시",
+          "admRulSeq": "2100000280504"
+        },
+        {
+          "title": "표시ㆍ광고의 공정화에 관한 법률 시행령",
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "ministry": "공정거래위원회",
+          "category": "공정거래",
+          "lsiSeq": "286999"
+        },
+        {
+          "title": "건설공사 공동도급운영규정",
+          "effectiveDate": "2026-07-08",
+          "amendmentType": "타법개정",
+          "ministry": "국토교통부",
+          "category": "공정거래",
+          "kind": "고시",
+          "admRulSeq": "2100000282380"
+        },
+        {
+          "title": "건축물의 에너지절약설계기준",
+          "effectiveDate": "2026-07-08",
+          "amendmentType": "타법개정",
+          "ministry": "국토교통부",
+          "category": "안전",
+          "kind": "고시",
+          "admRulSeq": "2100000282390"
+        },
+        {
+          "title": "국가산업단지 관리기본계획(구미)",
+          "effectiveDate": "2026-07-09",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000281906"
+        },
+        {
+          "title": "관세법 제226조에 따른 세관장확인물품 및 확인방법 지정고시",
+          "effectiveDate": "2026-07-16",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000282502"
+        },
+        {
+          "title": "국가관세종합정보시스템의 이용 및 운영 등에 관한 고시",
+          "effectiveDate": "2026-07-20",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000282486"
+        },
+        {
+          "title": "건설공사의 하자담보책임에 관한 운영 지침",
+          "effectiveDate": "2026-07-28",
+          "amendmentType": "일부개정",
+          "ministry": "국토교통부",
+          "category": "공정거래",
+          "kind": "예규",
+          "admRulSeq": "2100000283208"
+        },
+        {
+          "title": "건축법 시행령",
+          "effectiveDate": "2026-07-28",
+          "amendmentType": "일부개정",
+          "ministry": "국토교통부",
+          "category": "안전",
+          "lsiSeq": "288339"
+        },
+        {
+          "title": "관세법 시행규칙",
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "288525"
+        },
+        {
+          "title": "대외무역법 시행령",
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "재무회계",
+          "lsiSeq": "288381"
+        },
+        {
+          "title": "수출입신고 오류방지에 관한 고시",
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000283458"
+        },
+        {
+          "title": "관세법",
+          "effectiveDate": "2026-08-11",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "288689"
+        },
+        {
+          "title": "수출입물품 등에 대한 품목분류 변경고시",
+          "effectiveDate": "2026-08-13",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000283732"
+        },
+        {
+          "title": "수출입공고",
+          "effectiveDate": "2026-08-19",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000284142"
+        },
+        {
+          "title": "보세화물 입출항 하선 하기 및 적재에 관한 고시",
+          "effectiveDate": "2026-08-28",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000284290"
+        },
+        {
+          "title": "상습체불건설사업자 명단공표 업무처리 지침",
+          "effectiveDate": "2026-08-31",
+          "amendmentType": "제정",
+          "ministry": "국토교통부",
+          "category": "공정거래",
+          "kind": "고시",
+          "admRulSeq": "2100000284448"
+        },
+        {
+          "title": "전략물자수출입고시",
+          "effectiveDate": "2026-09-01",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000284150"
+        },
+        {
+          "title": "품목분류 적용기준에 관한 고시",
+          "effectiveDate": "2026-09-01",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000284262"
+        },
+        {
+          "title": "표시ㆍ광고 내용의 실증에 관한 운영 고시",
+          "effectiveDate": "2026-09-03",
+          "amendmentType": "일부개정",
+          "ministry": "공정거래위원회",
+          "category": "공정거래",
+          "kind": "고시",
+          "admRulSeq": "2100000284664"
+        },
+        {
+          "title": "징수업무 처리에 관한 고시",
+          "effectiveDate": "2026-09-08",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000284814"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률",
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "283929"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "285609"
+        },
+        {
+          "title": "수출입물품 등에 대한 품목분류 변경고시",
+          "effectiveDate": "2026-09-14",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000284844"
+        },
+        {
+          "title": "건축법 시행령",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "국토교통부",
+          "category": "안전",
+          "lsiSeq": "288849"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "284369"
+        },
+        {
+          "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "lsiSeq": "288883"
+        },
+        {
+          "title": "관세법",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "290673"
+        },
+        {
+          "title": "대외무역법 시행령",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "재무회계",
+          "lsiSeq": "290379"
+        },
+        {
+          "title": "대외무역법",
+          "effectiveDate": "2026-10-22",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "재무회계",
+          "lsiSeq": "285575"
+        },
+        {
+          "title": "건축법",
+          "effectiveDate": "2026-11-12",
+          "amendmentType": "일부개정",
+          "ministry": "국토교통부",
+          "category": "안전",
+          "lsiSeq": "288701"
+        }
+      ],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 229,
+      "baseLawsAfter": 251
+    },
+    {
       "checkedAt": "2026-09-29T23:37:09.438960+00:00",
       "asOf": "2026-09-30",
       "previousCheckedAt": "2026-09-29T23:25:30.356945+00:00",
@@ -6838,5 +8091,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-09-29T23:37:09.438960+00:00"
+  "updatedAt": "2026-09-29T23:47:40.379635+00:00"
 }

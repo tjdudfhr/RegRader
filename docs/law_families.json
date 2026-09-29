@@ -1,9 +1,9 @@
 {
- "generatedAt": "2026-09-26T00:52:25.283831+00:00",
+ "generatedAt": "2026-09-29T23:51:25.685695+00:00",
  "source": "국가법령정보센터 법령체계도 (lsStmd)",
- "baseKey": "bc232e3f4bce415094f25d0c74956449cba9df24",
- "baseCount": 229,
- "familyCount": 74,
+ "baseKey": "b5091a6c7b2d66f5f87a7eecab35b2ac37bbbe83",
+ "baseCount": 251,
+ "familyCount": 83,
  "families": [
   {
    "root": "감염병의 예방 및 관리에 관한 법률",
@@ -62,6 +62,34 @@
    ]
   },
   {
+   "root": "건설산업기본법",
+   "members": [
+    {
+     "title": "건설산업기본법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "공정거래"
+    },
+    {
+     "title": "건설산업기본법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "공정거래",
+     "parent": "건설산업기본법"
+    },
+    {
+     "title": "건설산업기본법 시행규칙",
+     "level": "시행규칙",
+     "kind": "국토교통부령",
+     "inBase": true,
+     "category": "공정거래",
+     "parent": "건설산업기본법 시행령"
+    }
+   ]
+  },
+  {
    "root": "건설폐기물의 재활용촉진에 관한 법률",
    "members": [
     {
@@ -94,6 +122,102 @@
      "inBase": true,
      "category": "환경",
      "parent": "건설폐기물의 재활용촉진에 관한 법률"
+    }
+   ]
+  },
+  {
+   "root": "건축법",
+   "members": [
+    {
+     "title": "건축법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "안전"
+    },
+    {
+     "title": "건축법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "건축법"
+    },
+    {
+     "title": "건축물대장의 기재 및 관리 등에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "국토교통부령",
+     "inBase": false,
+     "parent": "건축법 시행령",
+     "lsiSeq": "273103"
+    },
+    {
+     "title": "건축물의 구조기준 등에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "국토교통부령",
+     "inBase": false,
+     "parent": "건축법 시행령",
+     "lsiSeq": "267091"
+    },
+    {
+     "title": "건축물의 설비기준 등에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "국토교통부령",
+     "inBase": false,
+     "parent": "건축법 시행령",
+     "lsiSeq": "289011"
+    },
+    {
+     "title": "건축물의 피난ㆍ방화구조 등의 기준에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "국토교통부령",
+     "inBase": false,
+     "parent": "건축법 시행령",
+     "lsiSeq": "279461"
+    },
+    {
+     "title": "건축법 시행규칙",
+     "level": "시행규칙",
+     "kind": "국토교통부령",
+     "inBase": true,
+     "category": "안전",
+     "parent": "건축법 시행령"
+    },
+    {
+     "title": "지능형건축물의 인증에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "국토교통부령",
+     "inBase": false,
+     "parent": "건축법",
+     "lsiSeq": "193078"
+    },
+    {
+     "title": "표준설계도서 등의 운영에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "국토교통부령",
+     "inBase": false,
+     "parent": "건축법",
+     "lsiSeq": "264023"
+    }
+   ]
+  },
+  {
+   "root": "경제안보를 위한 공급망 안정화 지원 기본법",
+   "members": [
+    {
+     "title": "경제안보를 위한 공급망 안정화 지원 기본법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "정보보호"
+    },
+    {
+     "title": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "경제안보를 위한 공급망 안정화 지원 기본법"
     }
    ]
   },
@@ -178,6 +302,194 @@
      "inBase": true,
      "category": "인사노무",
      "parent": "고용정책 기본법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "관세법",
+   "members": [
+    {
+     "title": "관세법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "재무회계"
+    },
+    {
+     "title": "관세법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "관세법"
+    },
+    {
+     "title": "관세법 시행규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "관세법 시행령"
+    },
+    {
+     "title": "관세법 제68조에 따른 특별긴급관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": false,
+     "parent": "관세법 시행령",
+     "lsiSeq": "282603"
+    },
+    {
+     "title": "관세법 제69조에 따른 조정관세의 적용에 관한 규정",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "280771"
+    },
+    {
+     "title": "관세법 제71조에 따른 할당관세의 적용에 관한 규정",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "287543"
+    },
+    {
+     "title": "최빈개발도상국에 대한 특혜관세 공여 규정",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "280905"
+    },
+    {
+     "title": "특정국가와의 관세협상에 따른 국제협력관세의 적용에 관한 규정",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "267759"
+    },
+    {
+     "title": "말레이시아산 합판에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "기획재정부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "263789"
+    },
+    {
+     "title": "베트남 및 인도산 페로실리코망간에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "기획재정부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "252977"
+    },
+    {
+     "title": "중국ㆍ태국 및 인도네시아산 폴리아미드 필름에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "기획재정부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "248381"
+    },
+    {
+     "title": "중국산 침엽수 합판에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "기획재정부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "263781"
+    },
+    {
+     "title": "중국산 합판에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "기획재정부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "263783"
+    },
+    {
+     "title": "독일ㆍ프랑스ㆍ노르웨이 및 스웨덴산 폴리염화비닐 페이스트 수지에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "288631"
+    },
+    {
+     "title": "사우디아라비아산 부틸글리콜에테르에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "286195"
+    },
+    {
+     "title": "아시아ㆍ태평양 무역협정 원산지 확인 기준 등에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "282659"
+    },
+    {
+     "title": "일본 및 중국산 4축 이상 수직다관절형 산업용 로봇에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "286205"
+    },
+    {
+     "title": "일본 및 중국산 탄소강 및 그 밖의 합금강 열간압연 제품에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "287461"
+    },
+    {
+     "title": "중국 및 인도산 폴리에틸렌 테레프탈레이트(PET) 필름에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "283817"
+    },
+    {
+     "title": "중국산 단일모드 광섬유에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "284971"
+    },
+    {
+     "title": "중국산 아크릴산 부틸에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "290595"
+    },
+    {
+     "title": "태국산 섬유판에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "285853"
+    },
+    {
+     "title": "태국산 이음매 없는 동관에 대한 덤핑방지관세 부과에 관한 규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": false,
+     "parent": "관세법",
+     "lsiSeq": "289823"
     }
    ]
   },
@@ -546,6 +858,34 @@
    ]
   },
   {
+   "root": "대외무역법",
+   "members": [
+    {
+     "title": "대외무역법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "재무회계"
+    },
+    {
+     "title": "대외무역법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "대외무역법"
+    },
+    {
+     "title": "중소기업수출지원센터의 설치 및 운영 등에 관한 규정",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": false,
+     "parent": "대외무역법",
+     "lsiSeq": "262073"
+    }
+   ]
+  },
+  {
    "root": "도시가스사업법",
    "members": [
     {
@@ -786,6 +1126,34 @@
      "inBase": true,
      "category": "안전",
      "parent": "산업안전보건법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "산업집적활성화 및 공장설립에 관한 법률",
+   "members": [
+    {
+     "title": "산업집적활성화 및 공장설립에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "환경"
+    },
+    {
+     "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "산업집적활성화 및 공장설립에 관한 법률"
+    },
+    {
+     "title": "산업집적활성화 및 공장설립에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "산업통상부령",
+     "inBase": true,
+     "category": "환경",
+     "parent": "산업집적활성화 및 공장설립에 관한 법률 시행령"
     }
    ]
   },
@@ -1362,6 +1730,34 @@
    ]
   },
   {
+   "root": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률",
+   "members": [
+    {
+     "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "재무회계"
+    },
+    {
+     "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률"
+    },
+    {
+     "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+     "level": "시행규칙",
+     "kind": "재정경제부령",
+     "inBase": true,
+     "category": "재무회계",
+     "parent": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
    "root": "잔류성오염물질 관리법",
    "members": [
     {
@@ -1518,6 +1914,18 @@
      "inBase": true,
      "category": "정보보호",
      "parent": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행령"
+    }
+   ]
+  },
+  {
+   "root": "제조물 책임법",
+   "members": [
+    {
+     "title": "제조물 책임법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "공정거래"
     }
    ]
   },
@@ -1850,6 +2258,26 @@
      "inBase": true,
      "category": "환경",
      "parent": "폐기물관리법 시행령"
+    }
+   ]
+  },
+  {
+   "root": "표시ㆍ광고의 공정화에 관한 법률",
+   "members": [
+    {
+     "title": "표시ㆍ광고의 공정화에 관한 법률",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "공정거래"
+    },
+    {
+     "title": "표시ㆍ광고의 공정화에 관한 법률 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "공정거래",
+     "parent": "표시ㆍ광고의 공정화에 관한 법률"
     }
    ]
   },

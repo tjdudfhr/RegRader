@@ -235,8 +235,11 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
     base_renamed = env_list("RR_BASE_RENAMED")    # [{from, to, category, ministry}]
     base_removed = env_list("RR_BASE_REMOVED")    # [{title, category, reason}]
     new_titles = {b.get("title") for b in base_added} | {b.get("to") for b in base_renamed}
-    by_base = [x for x in added if x["title"] in new_titles]
-    added = [x for x in added if x["title"] not in new_titles]
+    # 새로 추가한 법의 계열에 딸린 행정규칙(고시·훈령 등) 개정도 '적용법규 추가로 편입'이다
+    fam_td = {(r.get("t"), r.get("d")) for r in new_rows if r.get("k") and r.get("f") in new_titles}
+    in_base = lambda x: x["title"] in new_titles or (x.get("kind") and (x["title"], x["effectiveDate"]) in fam_td)
+    by_base = [x for x in added if in_base(x)]
+    added = [x for x in added if not in_base(x)]
     old_titles = {b.get("title") for b in base_removed} | {b.get("from") for b in base_renamed}
     removed_by_base = [x for x in removed if x["title"] in old_titles]
     removed = [x for x in removed if x["title"] not in old_titles]

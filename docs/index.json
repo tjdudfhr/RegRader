@@ -1,44 +1,44 @@
 {
   "year": 2026,
-  "totalCount": 365,
-  "generatedAt": "2026-09-29T23:37:09.438960+00:00",
+  "totalCount": 429,
+  "generatedAt": "2026-09-29T23:47:40.379635+00:00",
   "asOf": "2026-09-30",
   "stats": {
     "quarter": {
-      "Q1": 141,
-      "Q2": 84,
-      "Q3": 94,
-      "Q4": 46
+      "Q1": 172,
+      "Q2": 99,
+      "Q3": 108,
+      "Q4": 50
     },
     "categories": {
       "인사노무": 52,
-      "재무회계": 61,
-      "환경": 122,
-      "안전": 76,
-      "정보보호": 23,
-      "공정거래": 20,
+      "재무회계": 95,
+      "환경": 136,
+      "안전": 82,
+      "공정거래": 24,
+      "정보보호": 29,
       "지배구조": 9,
       "지식재산권": 2
     },
     "amendmentType": {
-      "일부개정": 207,
-      "타법개정": 158
+      "일부개정": 242,
+      "타법개정": 187
     },
     "status": {
-      "현행": 319,
-      "시행예정": 46
+      "현행": 379,
+      "시행예정": 50
     },
-    "distinctBaseHit": 154,
-    "baseLaws": 229
+    "distinctBaseHit": 173,
+    "baseLaws": 251
   },
   "integrity": {
-    "checkedAt": "2026-09-29T23:37:09.438973+00:00",
+    "checkedAt": "2026-09-29T23:47:40.379644+00:00",
     "asOf": "2026-09-30",
     "rule": "unique key = title+effectiveDate+amendmentType; match = compact(name)",
-    "uniqueEvents": 365,
-    "uniqueTitles": 154,
-    "titlesWithMultipleEvents": 92,
-    "titlesWithBothInForceAndUpcoming": 22,
+    "uniqueEvents": 429,
+    "uniqueTitles": 173,
+    "titlesWithMultipleEvents": 106,
+    "titlesWithBothInForceAndUpcoming": 26,
     "duplicateKeys": 0,
     "statusConsistentWithDate": true
   },
@@ -193,6 +193,249 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_288717_law_031_2026-09-18_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_280363_law_242_2026-01-01_일부개정",
+      "title": "관세법",
+      "summary": "관세법의 2026년 일부개정사항",
+      "effectiveDate": "2026-01-01",
+      "announcedDate": "2025-12-23",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -272,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001556",
+        "lsiSeq": "280363",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_242"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280363"
+      },
+      "originalTitle": "관세법",
+      "eventIndex": 1,
+      "eventCount": 8,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-02_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276067_law_242_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_268725_law_242_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-07-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288689_law_242_2026-08-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290673_law_242_2026-10-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_282397_law_244_2026-01-01_일부개정",
+      "title": "관세법 시행규칙",
+      "summary": "관세법 시행규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-01-01",
+      "announcedDate": "2025-12-31",
+      "lawType": "기획재정부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -272,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "006392",
+        "lsiSeq": "282397",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_244"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=282397"
+      },
+      "originalTitle": "관세법 시행규칙",
+      "eventIndex": 1,
+      "eventCount": 5,
+      "sameTitlePastCount": 5,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282397_law_244_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282601_law_244_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284979_law_244_2026-03-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284979_law_244_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288525_law_244_2026-07-31_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_279957_law_243_2026-01-01_일부개정",
+      "title": "관세법 시행령",
+      "summary": "관세법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-01-01",
+      "announcedDate": "2025-11-28",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -272,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002421",
+        "lsiSeq": "279957",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_243"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=279957"
+      },
+      "originalTitle": "관세법 시행령",
+      "eventIndex": 1,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_279957_law_243_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280797_law_243_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-03",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285309_law_243_2026-04-03_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-08",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285897_law_243_2026-05-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-07-01_일부개정"
         }
       ]
     },
@@ -1662,6 +1905,224 @@
       ]
     },
     {
+      "id": "matched_2026_282375_law_239_2026-01-02_타법개정",
+      "title": "건설산업기본법 시행규칙",
+      "summary": "건설산업기본법 시행규칙의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-12-30",
+      "lawType": "국토교통부령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "국토교통부",
+      "categories": [
+        "공정거래"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "006184",
+        "lsiSeq": "282375",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_239"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=282375"
+      },
+      "originalTitle": "건설산업기본법 시행규칙",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282375_law_239_2026-01-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_281245_law_238_2026-01-02_타법개정",
+      "title": "건설산업기본법 시행령",
+      "summary": "건설산업기본법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-12-30",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "국토교통부",
+      "categories": [
+        "공정거래"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002115",
+        "lsiSeq": "281245",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_238"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=281245"
+      },
+      "originalTitle": "건설산업기본법 시행령",
+      "eventIndex": 1,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_281245_law_238_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-23",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_287349_law_238_2026-06-23_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_276055_law_248_2026-01-02_타법개정",
+      "title": "경제안보를 위한 공급망 안정화 지원 기본법",
+      "summary": "경제안보를 위한 공급망 안정화 지원 기본법의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-10-01",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "재정경제부",
+      "categories": [
+        "정보보호"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "014551",
+        "lsiSeq": "276055",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_248"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=276055"
+      },
+      "originalTitle": "경제안보를 위한 공급망 안정화 지원 기본법",
+      "eventIndex": 1,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276055_law_248_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-21",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285519_law_248_2026-04-21_일부개정"
+        },
+        {
+          "effectiveDate": "2026-06-24",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280361_law_248_2026-06-24_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_280785_law_249_2026-01-02_타법개정",
+      "title": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+      "summary": "경제안보를 위한 공급망 안정화 지원 기본법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-12-30",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "재정경제부",
+      "categories": [
+        "정보보호"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "014674",
+        "lsiSeq": "280785",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_249"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280785"
+      },
+      "originalTitle": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+      "eventIndex": 1,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280785_law_249_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-23",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_287051_law_249_2026-06-23_일부개정"
+        },
+        {
+          "effectiveDate": "2026-06-24",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_287051_law_249_2026-06-24_일부개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_276461_law_170_2026-01-02_타법개정",
       "title": "고압가스 안전관리법",
       "summary": "고압가스 안전관리법의 2026년 타법개정사항",
@@ -1888,6 +2349,338 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_281221_law_034_2026-01-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_280363_law_242_2026-01-02_일부개정",
+      "title": "관세법",
+      "summary": "관세법의 2026년 일부개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-12-23",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001556",
+        "lsiSeq": "280363",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_242"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280363"
+      },
+      "originalTitle": "관세법",
+      "eventIndex": 2,
+      "eventCount": 8,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-02_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276067_law_242_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_268725_law_242_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-07-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288689_law_242_2026-08-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290673_law_242_2026-10-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_276067_law_242_2026-01-02_타법개정",
+      "title": "관세법",
+      "summary": "관세법의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-10-01",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001556",
+        "lsiSeq": "276067",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_242"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=276067"
+      },
+      "originalTitle": "관세법",
+      "eventIndex": 3,
+      "eventCount": 8,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-02_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276067_law_242_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_268725_law_242_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-07-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288689_law_242_2026-08-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290673_law_242_2026-10-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_282601_law_244_2026-01-02_타법개정",
+      "title": "관세법 시행규칙",
+      "summary": "관세법 시행규칙의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2026-01-02",
+      "lawType": "재정경제부령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "006392",
+        "lsiSeq": "282601",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_244"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=282601"
+      },
+      "originalTitle": "관세법 시행규칙",
+      "eventIndex": 2,
+      "eventCount": 5,
+      "sameTitlePastCount": 5,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282397_law_244_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282601_law_244_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284979_law_244_2026-03-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284979_law_244_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288525_law_244_2026-07-31_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_280797_law_243_2026-01-02_타법개정",
+      "title": "관세법 시행령",
+      "summary": "관세법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-12-30",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002421",
+        "lsiSeq": "280797",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_243"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280797"
+      },
+      "originalTitle": "관세법 시행령",
+      "eventIndex": 2,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_279957_law_243_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280797_law_243_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-03",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285309_law_243_2026-04-03_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-08",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285897_law_243_2026-05-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-07-01_일부개정"
         }
       ]
     },
@@ -2465,6 +3258,59 @@
       ]
     },
     {
+      "id": "matched_2026_276491_law_240_2026-01-02_타법개정",
+      "title": "대외무역법",
+      "summary": "대외무역법의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-10-01",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "산업통상부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001467",
+        "lsiSeq": "276491",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_240"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=276491"
+      },
+      "originalTitle": "대외무역법",
+      "eventIndex": 1,
+      "eventCount": 2,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276491_law_240_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-22",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285575_law_240_2026-10-22_일부개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_281369_law_045_2026-01-02_타법개정",
       "title": "독점규제 및 공정거래에 관한 법률 시행령",
       "summary": "독점규제 및 공정거래에 관한 법률 시행령의 2026년 타법개정사항",
@@ -2738,6 +3584,166 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_281125_law_071_2026-01-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_276529_law_231_2026-01-02_타법개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-10-01",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001463",
+        "lsiSeq": "276529",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_231"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=276529"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률",
+      "eventIndex": 1,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276529_law_231_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-19",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283395_law_231_2026-02-19_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-10",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-03-10_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_286569_law_231_2026-06-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284085_law_231_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-09-11_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284369_law_231_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_280757_law_232_2026-01-02_타법개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-12-30",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002351",
+        "lsiSeq": "280757",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_232"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280757"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "eventIndex": 1,
+      "eventCount": 6,
+      "sameTitlePastCount": 6,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280757_law_232_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-24",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284773_law_232_2026-03-24_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-28",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-04-28_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287303_law_232_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-09-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288883_law_232_2026-09-18_타법개정"
         }
       ]
     },
@@ -3222,6 +4228,177 @@
           "amendmentType": "타법개정",
           "status": "시행예정",
           "id": "matched_2026_290473_law_100_2026-10-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_276141_law_245_2026-01-02_타법개정",
+      "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률",
+      "summary": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-10-01",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010097",
+        "lsiSeq": "276141",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_245"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=276141"
+      },
+      "originalTitle": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276141_law_245_2026-01-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_282667_law_247_2026-01-02_타법개정",
+      "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+      "summary": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2026-01-02",
+      "lawType": "재정경제부령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010172",
+        "lsiSeq": "282667",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_247"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=282667"
+      },
+      "originalTitle": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+      "eventIndex": 1,
+      "eventCount": 4,
+      "sameTitlePastCount": 4,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282667_law_247_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-01-06",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282745_law_247_2026-01-06_일부개정"
+        },
+        {
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285001_law_247_2026-03-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285861_law_247_2026-05-01_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_280883_law_246_2026-01-02_타법개정",
+      "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령",
+      "summary": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-12-30",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010175",
+        "lsiSeq": "280883",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_246"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280883"
+      },
+      "originalTitle": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령",
+      "eventIndex": 1,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280883_law_246_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-01-06",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282485_law_246_2026-01-06_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282485_law_246_2026-05-01_일부개정"
         }
       ]
     },
@@ -4010,6 +5187,130 @@
       ]
     },
     {
+      "id": "matched_2026_282745_law_247_2026-01-06_일부개정",
+      "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+      "summary": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-01-06",
+      "announcedDate": "2026-01-06",
+      "lawType": "재정경제부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -267,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-06",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010172",
+        "lsiSeq": "282745",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_247"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=282745"
+      },
+      "originalTitle": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+      "eventIndex": 2,
+      "eventCount": 4,
+      "sameTitlePastCount": 4,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282667_law_247_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-01-06",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282745_law_247_2026-01-06_일부개정"
+        },
+        {
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285001_law_247_2026-03-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285861_law_247_2026-05-01_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_282485_law_246_2026-01-06_일부개정",
+      "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령",
+      "summary": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-01-06",
+      "announcedDate": "2026-01-06",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -267,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-06",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010175",
+        "lsiSeq": "282485",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_246"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=282485"
+      },
+      "originalTitle": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령",
+      "eventIndex": 2,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280883_law_246_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-01-06",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282485_law_246_2026-01-06_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282485_law_246_2026-05-01_일부개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_282443_law_011_2026-01-22_타법개정",
       "title": "장애인차별금지 및 권리구제 등에 관한 법률 시행령",
       "summary": "장애인차별금지 및 권리구제 등에 관한 법률 시행령의 2026년 타법개정사항",
@@ -4187,6 +5488,95 @@
       ]
     },
     {
+      "id": "matched_2026_268725_law_242_2026-02-01_타법개정",
+      "title": "관세법",
+      "summary": "관세법의 2026년 타법개정사항",
+      "effectiveDate": "2026-02-01",
+      "announcedDate": "2025-01-31",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -241,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-02-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001556",
+        "lsiSeq": "268725",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_242"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=268725"
+      },
+      "originalTitle": "관세법",
+      "eventIndex": 4,
+      "eventCount": 8,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-02_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276067_law_242_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_268725_law_242_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-07-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288689_law_242_2026-08-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290673_law_242_2026-10-02_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_282935_law_074_2026-02-01_타법개정",
       "title": "국가첨단전략산업 경쟁력 강화 및 보호에 관한 특별조치법 시행령",
       "summary": "국가첨단전략산업 경쟁력 강화 및 보호에 관한 특별조치법 시행령의 2026년 타법개정사항",
@@ -4236,6 +5626,71 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_282935_law_074_2026-02-01_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_282951_law_241_2026-02-01_타법개정",
+      "title": "대외무역법 시행령",
+      "summary": "대외무역법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-02-01",
+      "announcedDate": "2026-01-27",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -241,
+      "ministry": "산업통상부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-02-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "003313",
+        "lsiSeq": "282951",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_241"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=282951"
+      },
+      "originalTitle": "대외무역법 시행령",
+      "eventIndex": 1,
+      "eventCount": 4,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282951_law_241_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-17",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284507_law_241_2026-03-17_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288381_law_241_2026-07-31_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290379_law_241_2026-10-02_타법개정"
         }
       ]
     },
@@ -4824,6 +6279,89 @@
       ]
     },
     {
+      "id": "matched_2026_283395_law_231_2026-02-19_타법개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률의 2026년 타법개정사항",
+      "effectiveDate": "2026-02-19",
+      "announcedDate": "2026-02-19",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -223,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-02-19",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001463",
+        "lsiSeq": "283395",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_231"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=283395"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률",
+      "eventIndex": 2,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276529_law_231_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-19",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283395_law_231_2026-02-19_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-10",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-03-10_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_286569_law_231_2026-06-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284085_law_231_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-09-11_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284369_law_231_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_283397_law_156_2026-02-19_타법개정",
       "title": "순환경제사회 전환 촉진법",
       "summary": "순환경제사회 전환 촉진법의 2026년 타법개정사항",
@@ -4956,6 +6494,248 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_289253_law_104_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_273437_law_234_2026-02-27_일부개정",
+      "title": "건축법",
+      "summary": "건축법의 2026년 일부개정사항",
+      "effectiveDate": "2026-02-27",
+      "announcedDate": "2025-08-26",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -215,
+      "ministry": "국토교통부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-02-27",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001823",
+        "lsiSeq": "273437",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_234"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=273437"
+      },
+      "originalTitle": "건축법",
+      "eventIndex": 1,
+      "eventCount": 2,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_273437_law_234_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-12",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_288701_law_234_2026-11-12_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_283727_law_236_2026-02-27_일부개정",
+      "title": "건축법 시행규칙",
+      "summary": "건축법 시행규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-02-27",
+      "announcedDate": "2026-02-27",
+      "lawType": "국토교통부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -215,
+      "ministry": "국토교통부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-02-27",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "006191",
+        "lsiSeq": "283727",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_236"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=283727"
+      },
+      "originalTitle": "건축법 시행규칙",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283727_law_236_2026-02-27_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_273503_law_235_2026-02-27_일부개정",
+      "title": "건축법 시행령",
+      "summary": "건축법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-02-27",
+      "announcedDate": "2025-08-26",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -215,
+      "ministry": "국토교통부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-02-27",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002118",
+        "lsiSeq": "273503",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_235"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=273503"
+      },
+      "originalTitle": "건축법 시행령",
+      "eventIndex": 1,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_273503_law_235_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-28",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288339_law_235_2026-07-28_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288849_law_235_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_283621_law_243_2026-02-27_일부개정",
+      "title": "관세법 시행령",
+      "summary": "관세법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-02-27",
+      "announcedDate": "2026-02-27",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -215,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-02-27",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002421",
+        "lsiSeq": "283621",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_243"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=283621"
+      },
+      "originalTitle": "관세법 시행령",
+      "eventIndex": 3,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_279957_law_243_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280797_law_243_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-03",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285309_law_243_2026-04-03_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-08",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285897_law_243_2026-05-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-07-01_일부개정"
         }
       ]
     },
@@ -5797,6 +7577,89 @@
       ]
     },
     {
+      "id": "matched_2026_283929_law_231_2026-03-10_타법개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률의 2026년 타법개정사항",
+      "effectiveDate": "2026-03-10",
+      "announcedDate": "2026-03-10",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -204,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-03-10",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001463",
+        "lsiSeq": "283929",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_231"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=283929"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률",
+      "eventIndex": 3,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276529_law_231_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-19",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283395_law_231_2026-02-19_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-10",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-03-10_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_286569_law_231_2026-06-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284085_law_231_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-09-11_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284369_law_231_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_284545_law_209_2026-03-12_타법개정",
       "title": "순환골재 품질인증 및 관리에 관한 규칙",
       "summary": "순환골재 품질인증 및 관리에 관한 규칙의 2026년 타법개정사항",
@@ -5911,6 +7774,71 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_286253_law_030_2026-11-27_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_284507_law_241_2026-03-17_일부개정",
+      "title": "대외무역법 시행령",
+      "summary": "대외무역법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-03-17",
+      "announcedDate": "2026-03-17",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -197,
+      "ministry": "산업통상부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-03-17",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "003313",
+        "lsiSeq": "284507",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_241"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=284507"
+      },
+      "originalTitle": "대외무역법 시행령",
+      "eventIndex": 2,
+      "eventCount": 4,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282951_law_241_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-17",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284507_law_241_2026-03-17_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288381_law_241_2026-07-31_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290379_law_241_2026-10-02_타법개정"
         }
       ]
     },
@@ -6495,6 +8423,77 @@
       ]
     },
     {
+      "id": "matched_2026_284979_law_244_2026-03-20_일부개정",
+      "title": "관세법 시행규칙",
+      "summary": "관세법 시행규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-03-20",
+      "announcedDate": "2026-03-20",
+      "lawType": "재정경제부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -194,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-03-20",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "006392",
+        "lsiSeq": "284979",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_244"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=284979"
+      },
+      "originalTitle": "관세법 시행규칙",
+      "eventIndex": 3,
+      "eventCount": 5,
+      "sameTitlePastCount": 5,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282397_law_244_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282601_law_244_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284979_law_244_2026-03-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284979_law_244_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288525_law_244_2026-07-31_일부개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_284973_law_098_2026-03-20_일부개정",
       "title": "국제조세조정에 관한 법률 시행규칙",
       "summary": "국제조세조정에 관한 법률 시행규칙의 2026년 일부개정사항",
@@ -6609,6 +8608,71 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_287787_law_085_2026-07-01_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285001_law_247_2026-03-20_일부개정",
+      "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+      "summary": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-03-20",
+      "announcedDate": "2026-03-20",
+      "lawType": "재정경제부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -194,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-03-20",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010172",
+        "lsiSeq": "285001",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_247"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285001"
+      },
+      "originalTitle": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+      "eventIndex": 3,
+      "eventCount": 4,
+      "sameTitlePastCount": 4,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282667_law_247_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-01-06",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282745_law_247_2026-01-06_일부개정"
+        },
+        {
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285001_law_247_2026-03-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285861_law_247_2026-05-01_일부개정"
         }
       ]
     },
@@ -7145,6 +9209,83 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_288347_law_168_2026-08-01_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_284773_law_232_2026-03-24_타법개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-03-24",
+      "announcedDate": "2026-03-24",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -190,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-03-24",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002351",
+        "lsiSeq": "284773",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_232"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=284773"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "eventIndex": 2,
+      "eventCount": 6,
+      "sameTitlePastCount": 6,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280757_law_232_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-24",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284773_law_232_2026-03-24_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-28",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-04-28_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287303_law_232_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-09-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288883_law_232_2026-09-18_타법개정"
         }
       ]
     },
@@ -8620,6 +10761,332 @@
       ]
     },
     {
+      "id": "matched_2026_280363_law_242_2026-04-01_일부개정",
+      "title": "관세법",
+      "summary": "관세법의 2026년 일부개정사항",
+      "effectiveDate": "2026-04-01",
+      "announcedDate": "2025-12-23",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -182,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-04-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001556",
+        "lsiSeq": "280363",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_242"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280363"
+      },
+      "originalTitle": "관세법",
+      "eventIndex": 5,
+      "eventCount": 8,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-02_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276067_law_242_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_268725_law_242_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-07-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288689_law_242_2026-08-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290673_law_242_2026-10-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_284979_law_244_2026-04-01_일부개정",
+      "title": "관세법 시행규칙",
+      "summary": "관세법 시행규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-04-01",
+      "announcedDate": "2026-03-20",
+      "lawType": "재정경제부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -182,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-04-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "006392",
+        "lsiSeq": "284979",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_244"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=284979"
+      },
+      "originalTitle": "관세법 시행규칙",
+      "eventIndex": 4,
+      "eventCount": 5,
+      "sameTitlePastCount": 5,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282397_law_244_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282601_law_244_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284979_law_244_2026-03-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284979_law_244_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288525_law_244_2026-07-31_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_283621_law_243_2026-04-01_일부개정",
+      "title": "관세법 시행령",
+      "summary": "관세법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-04-01",
+      "announcedDate": "2026-02-27",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -182,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-04-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002421",
+        "lsiSeq": "283621",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_243"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=283621"
+      },
+      "originalTitle": "관세법 시행령",
+      "eventIndex": 4,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_279957_law_243_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280797_law_243_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-03",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285309_law_243_2026-04-03_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-08",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285897_law_243_2026-05-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-07-01_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285309_law_243_2026-04-03_일부개정",
+      "title": "관세법 시행령",
+      "summary": "관세법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-04-03",
+      "announcedDate": "2026-04-03",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -180,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-04-03",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002421",
+        "lsiSeq": "285309",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_243"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285309"
+      },
+      "originalTitle": "관세법 시행령",
+      "eventIndex": 5,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_279957_law_243_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280797_law_243_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-03",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285309_law_243_2026-04-03_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-08",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285897_law_243_2026-05-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-07-01_일부개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_285267_law_162_2026-04-07_일부개정",
       "title": "기후위기 대응을 위한 탄소중립·녹색성장 기본법",
       "summary": "기후위기 대응을 위한 탄소중립·녹색성장 기본법의 2026년 일부개정사항",
@@ -8811,6 +11278,112 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_285435_law_215_2026-04-07_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285509_law_233_2026-04-09_일부개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률 시행규칙",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률 시행규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-04-09",
+      "announcedDate": "2026-04-09",
+      "lawType": "산업통상부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -174,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-04-09",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "006335",
+        "lsiSeq": "285509",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_233"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285509"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률 시행규칙",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-04-09",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285509_law_233_2026-04-09_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285519_law_248_2026-04-21_일부개정",
+      "title": "경제안보를 위한 공급망 안정화 지원 기본법",
+      "summary": "경제안보를 위한 공급망 안정화 지원 기본법의 2026년 일부개정사항",
+      "effectiveDate": "2026-04-21",
+      "announcedDate": "2026-04-21",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -162,
+      "ministry": "재정경제부",
+      "categories": [
+        "정보보호"
+      ],
+      "amendments": [
+        {
+          "date": "2026-04-21",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "014551",
+        "lsiSeq": "285519",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_248"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285519"
+      },
+      "originalTitle": "경제안보를 위한 공급망 안정화 지원 기본법",
+      "eventIndex": 2,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276055_law_248_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-21",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285519_law_248_2026-04-21_일부개정"
+        },
+        {
+          "effectiveDate": "2026-06-24",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280361_law_248_2026-06-24_일부개정"
         }
       ]
     },
@@ -9265,6 +11838,83 @@
       ]
     },
     {
+      "id": "matched_2026_285609_law_232_2026-04-28_일부개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-04-28",
+      "announcedDate": "2026-04-28",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -155,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-04-28",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002351",
+        "lsiSeq": "285609",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_232"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285609"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "eventIndex": 3,
+      "eventCount": 6,
+      "sameTitlePastCount": 6,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280757_law_232_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-24",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284773_law_232_2026-03-24_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-28",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-04-28_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287303_law_232_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-09-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288883_law_232_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_285717_law_100_2026-04-28_일부개정",
       "title": "자본시장과 금융투자업에 관한 법률 시행령",
       "summary": "자본시장과 금융투자업에 관한 법률 시행령의 2026년 일부개정사항",
@@ -9685,6 +12335,130 @@
       ]
     },
     {
+      "id": "matched_2026_285861_law_247_2026-05-01_일부개정",
+      "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+      "summary": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-05-01",
+      "announcedDate": "2026-04-30",
+      "lawType": "재정경제부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -152,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-05-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010172",
+        "lsiSeq": "285861",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_247"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285861"
+      },
+      "originalTitle": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행규칙",
+      "eventIndex": 4,
+      "eventCount": 4,
+      "sameTitlePastCount": 4,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282667_law_247_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-01-06",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282745_law_247_2026-01-06_일부개정"
+        },
+        {
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285001_law_247_2026-03-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285861_law_247_2026-05-01_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_282485_law_246_2026-05-01_일부개정",
+      "title": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령",
+      "summary": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-05-01",
+      "announcedDate": "2026-01-06",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -152,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-05-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010175",
+        "lsiSeq": "282485",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_246"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=282485"
+      },
+      "originalTitle": "자유무역협정의 이행을 위한 관세법의 특례에 관한 법률 시행령",
+      "eventIndex": 3,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280883_law_246_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-01-06",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282485_law_246_2026-01-06_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282485_law_246_2026-05-01_일부개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_285787_law_203_2026-05-06_일부개정",
       "title": "감염병의 예방 및 관리에 관한 법률 시행령",
       "summary": "감염병의 예방 및 관리에 관한 법률 시행령의 2026년 일부개정사항",
@@ -9888,6 +12662,89 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_285827_law_160_2026-05-12_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285897_law_243_2026-05-08_일부개정",
+      "title": "관세법 시행령",
+      "summary": "관세법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-05-08",
+      "announcedDate": "2026-05-08",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -145,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-05-08",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002421",
+        "lsiSeq": "285897",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_243"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285897"
+      },
+      "originalTitle": "관세법 시행령",
+      "eventIndex": 6,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_279957_law_243_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280797_law_243_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-03",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285309_law_243_2026-04-03_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-08",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285897_law_243_2026-05-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-07-01_일부개정"
         }
       ]
     },
@@ -12100,6 +14957,89 @@
       ]
     },
     {
+      "id": "matched_2026_286569_law_231_2026-06-02_타법개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률의 2026년 타법개정사항",
+      "effectiveDate": "2026-06-02",
+      "announcedDate": "2026-06-02",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -120,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-06-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001463",
+        "lsiSeq": "286569",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_231"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286569"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률",
+      "eventIndex": 4,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276529_law_231_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-19",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283395_law_231_2026-02-19_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-10",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-03-10_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_286569_law_231_2026-06-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284085_law_231_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-09-11_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284369_law_231_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_280153_law_048_2026-06-03_일부개정",
       "title": "대·중소기업 상생협력 촉진에 관한 법률",
       "summary": "대·중소기업 상생협력 촉진에 관한 법률의 2026년 일부개정사항",
@@ -13332,6 +16272,118 @@
       ]
     },
     {
+      "id": "matched_2026_287349_law_238_2026-06-23_일부개정",
+      "title": "건설산업기본법 시행령",
+      "summary": "건설산업기본법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-06-23",
+      "announcedDate": "2026-06-23",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -99,
+      "ministry": "국토교통부",
+      "categories": [
+        "공정거래"
+      ],
+      "amendments": [
+        {
+          "date": "2026-06-23",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002115",
+        "lsiSeq": "287349",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_238"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=287349"
+      },
+      "originalTitle": "건설산업기본법 시행령",
+      "eventIndex": 2,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_281245_law_238_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-23",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_287349_law_238_2026-06-23_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_287051_law_249_2026-06-23_일부개정",
+      "title": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+      "summary": "경제안보를 위한 공급망 안정화 지원 기본법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-06-23",
+      "announcedDate": "2026-06-23",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -99,
+      "ministry": "재정경제부",
+      "categories": [
+        "정보보호"
+      ],
+      "amendments": [
+        {
+          "date": "2026-06-23",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "014674",
+        "lsiSeq": "287051",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_249"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=287051"
+      },
+      "originalTitle": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+      "eventIndex": 2,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280785_law_249_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-23",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_287051_law_249_2026-06-23_일부개정"
+        },
+        {
+          "effectiveDate": "2026-06-24",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_287051_law_249_2026-06-24_일부개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_280445_law_202_2026-06-24_일부개정",
       "title": "감염병의 예방 및 관리에 관한 법률",
       "summary": "감염병의 예방 및 관리에 관한 법률의 2026년 일부개정사항",
@@ -13452,6 +16504,124 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_285787_law_203_2026-06-24_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_280361_law_248_2026-06-24_일부개정",
+      "title": "경제안보를 위한 공급망 안정화 지원 기본법",
+      "summary": "경제안보를 위한 공급망 안정화 지원 기본법의 2026년 일부개정사항",
+      "effectiveDate": "2026-06-24",
+      "announcedDate": "2025-12-23",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -98,
+      "ministry": "재정경제부",
+      "categories": [
+        "정보보호"
+      ],
+      "amendments": [
+        {
+          "date": "2026-06-24",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "014551",
+        "lsiSeq": "280361",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_248"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280361"
+      },
+      "originalTitle": "경제안보를 위한 공급망 안정화 지원 기본법",
+      "eventIndex": 3,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276055_law_248_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-21",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285519_law_248_2026-04-21_일부개정"
+        },
+        {
+          "effectiveDate": "2026-06-24",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280361_law_248_2026-06-24_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_287051_law_249_2026-06-24_일부개정",
+      "title": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+      "summary": "경제안보를 위한 공급망 안정화 지원 기본법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-06-24",
+      "announcedDate": "2026-06-23",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -98,
+      "ministry": "재정경제부",
+      "categories": [
+        "정보보호"
+      ],
+      "amendments": [
+        {
+          "date": "2026-06-24",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "014674",
+        "lsiSeq": "287051",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_249"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=287051"
+      },
+      "originalTitle": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+      "eventIndex": 3,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280785_law_249_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-23",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_287051_law_249_2026-06-23_일부개정"
+        },
+        {
+          "effectiveDate": "2026-06-24",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_287051_law_249_2026-06-24_일부개정"
         }
       ]
     },
@@ -14024,6 +17194,178 @@
       ]
     },
     {
+      "id": "matched_2026_280363_law_242_2026-07-01_일부개정",
+      "title": "관세법",
+      "summary": "관세법의 2026년 일부개정사항",
+      "effectiveDate": "2026-07-01",
+      "announcedDate": "2025-12-23",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -91,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001556",
+        "lsiSeq": "280363",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_242"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280363"
+      },
+      "originalTitle": "관세법",
+      "eventIndex": 6,
+      "eventCount": 8,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-02_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276067_law_242_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_268725_law_242_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-07-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288689_law_242_2026-08-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290673_law_242_2026-10-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_283621_law_243_2026-07-01_일부개정",
+      "title": "관세법 시행령",
+      "summary": "관세법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-07-01",
+      "announcedDate": "2026-02-27",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -91,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002421",
+        "lsiSeq": "283621",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_243"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=283621"
+      },
+      "originalTitle": "관세법 시행령",
+      "eventIndex": 7,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_279957_law_243_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280797_law_243_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-03",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285309_law_243_2026-04-03_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-08",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285897_law_243_2026-05-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283621_law_243_2026-07-01_일부개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_284455_law_024_2026-07-01_일부개정",
       "title": "근로자퇴직급여 보장법",
       "summary": "근로자퇴직급여 보장법의 2026년 일부개정사항",
@@ -14386,6 +17728,166 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_287787_law_085_2026-07-01_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_284085_law_231_2026-07-01_타법개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률의 2026년 타법개정사항",
+      "effectiveDate": "2026-07-01",
+      "announcedDate": "2026-03-05",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -91,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001463",
+        "lsiSeq": "284085",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_231"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=284085"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률",
+      "eventIndex": 5,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276529_law_231_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-19",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283395_law_231_2026-02-19_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-10",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-03-10_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_286569_law_231_2026-06-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284085_law_231_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-09-11_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284369_law_231_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_287303_law_232_2026-07-01_타법개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-07-01",
+      "announcedDate": "2026-06-23",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -91,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002351",
+        "lsiSeq": "287303",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_232"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=287303"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "eventIndex": 4,
+      "eventCount": 6,
+      "sameTitlePastCount": 6,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280757_law_232_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-24",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284773_law_232_2026-03-24_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-28",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-04-28_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287303_law_232_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-09-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288883_law_232_2026-09-18_타법개정"
         }
       ]
     },
@@ -15240,6 +18742,53 @@
       ]
     },
     {
+      "id": "matched_2026_286999_law_251_2026-07-01_타법개정",
+      "title": "표시ㆍ광고의 공정화에 관한 법률 시행령",
+      "summary": "표시ㆍ광고의 공정화에 관한 법률 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-07-01",
+      "announcedDate": "2026-06-16",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -91,
+      "ministry": "공정거래위원회",
+      "categories": [
+        "공정거래"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "005361",
+        "lsiSeq": "286999",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_251"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286999"
+      },
+      "originalTitle": "표시ㆍ광고의 공정화에 관한 법률 시행령",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_286999_law_251_2026-07-01_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_287201_law_047_2026-07-01_타법개정",
       "title": "하도급거래 공정화에 관한 법률 시행령",
       "summary": "하도급거래 공정화에 관한 법률 시행령의 2026년 타법개정사항",
@@ -16043,6 +19592,65 @@
       ]
     },
     {
+      "id": "matched_2026_288339_law_235_2026-07-28_일부개정",
+      "title": "건축법 시행령",
+      "summary": "건축법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-07-28",
+      "announcedDate": "2026-07-28",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -64,
+      "ministry": "국토교통부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-28",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002118",
+        "lsiSeq": "288339",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_235"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=288339"
+      },
+      "originalTitle": "건축법 시행령",
+      "eventIndex": 2,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_273503_law_235_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-28",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288339_law_235_2026-07-28_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288849_law_235_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_288347_law_168_2026-07-28_일부개정",
       "title": "산업안전보건법 시행령",
       "summary": "산업안전보건법 시행령의 2026년 일부개정사항",
@@ -16205,6 +19813,142 @@
           "amendmentType": "타법개정",
           "status": "시행예정",
           "id": "matched_2026_290473_law_100_2026-10-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_288525_law_244_2026-07-31_일부개정",
+      "title": "관세법 시행규칙",
+      "summary": "관세법 시행규칙의 2026년 일부개정사항",
+      "effectiveDate": "2026-07-31",
+      "announcedDate": "2026-07-31",
+      "lawType": "재정경제부령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -61,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-31",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "006392",
+        "lsiSeq": "288525",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_244"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=288525"
+      },
+      "originalTitle": "관세법 시행규칙",
+      "eventIndex": 5,
+      "eventCount": 5,
+      "sameTitlePastCount": 5,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_282397_law_244_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282601_law_244_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284979_law_244_2026-03-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284979_law_244_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288525_law_244_2026-07-31_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_288381_law_241_2026-07-31_타법개정",
+      "title": "대외무역법 시행령",
+      "summary": "대외무역법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-07-31",
+      "announcedDate": "2026-07-28",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -61,
+      "ministry": "산업통상부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-31",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "003313",
+        "lsiSeq": "288381",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_241"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=288381"
+      },
+      "originalTitle": "대외무역법 시행령",
+      "eventIndex": 3,
+      "eventCount": 4,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282951_law_241_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-17",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284507_law_241_2026-03-17_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288381_law_241_2026-07-31_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290379_law_241_2026-10-02_타법개정"
         }
       ]
     },
@@ -16649,6 +20393,95 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_288455_law_047_2026-08-11_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_288689_law_242_2026-08-11_일부개정",
+      "title": "관세법",
+      "summary": "관세법의 2026년 일부개정사항",
+      "effectiveDate": "2026-08-11",
+      "announcedDate": "2026-08-11",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -50,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-08-11",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001556",
+        "lsiSeq": "288689",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_242"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=288689"
+      },
+      "originalTitle": "관세법",
+      "eventIndex": 7,
+      "eventCount": 8,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-02_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276067_law_242_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_268725_law_242_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-07-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288689_law_242_2026-08-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290673_law_242_2026-10-02_타법개정"
         }
       ]
     },
@@ -17862,6 +21695,166 @@
       ]
     },
     {
+      "id": "matched_2026_283929_law_231_2026-09-11_타법개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률의 2026년 타법개정사항",
+      "effectiveDate": "2026-09-11",
+      "announcedDate": "2026-03-10",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -19,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-09-11",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001463",
+        "lsiSeq": "283929",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_231"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=283929"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률",
+      "eventIndex": 6,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276529_law_231_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-19",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283395_law_231_2026-02-19_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-10",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-03-10_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_286569_law_231_2026-06-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284085_law_231_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-09-11_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284369_law_231_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285609_law_232_2026-09-11_일부개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-09-11",
+      "announcedDate": "2026-04-28",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -19,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-09-11",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002351",
+        "lsiSeq": "285609",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_232"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285609"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "eventIndex": 5,
+      "eventCount": 6,
+      "sameTitlePastCount": 6,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280757_law_232_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-24",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284773_law_232_2026-03-24_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-28",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-04-28_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287303_law_232_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-09-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288883_law_232_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_283843_law_062_2026-09-11_타법개정",
       "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
       "summary": "정보통신망 이용촉진 및 정보보호 등에 관한 법률의 2026년 타법개정사항",
@@ -17923,6 +21916,65 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_290001_law_062_2026-10-02_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_288849_law_235_2026-09-18_타법개정",
+      "title": "건축법 시행령",
+      "summary": "건축법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-09-18",
+      "announcedDate": "2026-08-18",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -12,
+      "ministry": "국토교통부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-09-18",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002118",
+        "lsiSeq": "288849",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_235"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=288849"
+      },
+      "originalTitle": "건축법 시행령",
+      "eventIndex": 3,
+      "eventCount": 3,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_273503_law_235_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-28",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288339_law_235_2026-07-28_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288849_law_235_2026-09-18_타법개정"
         }
       ]
     },
@@ -18887,6 +22939,166 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_289257_law_195_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_284369_law_231_2026-09-18_타법개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률의 2026년 타법개정사항",
+      "effectiveDate": "2026-09-18",
+      "announcedDate": "2026-03-17",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -12,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-09-18",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001463",
+        "lsiSeq": "284369",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_231"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=284369"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률",
+      "eventIndex": 7,
+      "eventCount": 7,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276529_law_231_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-19",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283395_law_231_2026-02-19_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-10",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-03-10_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_286569_law_231_2026-06-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284085_law_231_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283929_law_231_2026-09-11_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284369_law_231_2026-09-18_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_288883_law_232_2026-09-18_타법개정",
+      "title": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "summary": "산업집적활성화 및 공장설립에 관한 법률 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-09-18",
+      "announcedDate": "2026-08-18",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -12,
+      "ministry": "산업통상부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-09-18",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "002351",
+        "lsiSeq": "288883",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_232"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=288883"
+      },
+      "originalTitle": "산업집적활성화 및 공장설립에 관한 법률 시행령",
+      "eventIndex": 6,
+      "eventCount": 6,
+      "sameTitlePastCount": 6,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280757_law_232_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-24",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284773_law_232_2026-03-24_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-28",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-04-28_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287303_law_232_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285609_law_232_2026-09-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288883_law_232_2026-09-18_타법개정"
         }
       ]
     },
@@ -20109,6 +24321,95 @@
       ]
     },
     {
+      "id": "matched_2026_290673_law_242_2026-10-02_타법개정",
+      "title": "관세법",
+      "summary": "관세법의 2026년 타법개정사항",
+      "effectiveDate": "2026-10-02",
+      "announcedDate": "2026-03-24",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 2,
+      "ministry": "재정경제부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-10-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001556",
+        "lsiSeq": "290673",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_242"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=290673"
+      },
+      "originalTitle": "관세법",
+      "eventIndex": 8,
+      "eventCount": 8,
+      "sameTitlePastCount": 7,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-01-02_일부개정"
+        },
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276067_law_242_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_268725_law_242_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-04-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280363_law_242_2026-07-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-11",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288689_law_242_2026-08-11_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290673_law_242_2026-10-02_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_290371_law_211_2026-10-02_타법개정",
       "title": "근로감독관규정",
       "summary": "근로감독관규정의 2026년 타법개정사항",
@@ -20270,6 +24571,71 @@
           "amendmentType": "타법개정",
           "status": "시행예정",
           "id": "matched_2026_288603_law_042_2026-10-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_290379_law_241_2026-10-02_타법개정",
+      "title": "대외무역법 시행령",
+      "summary": "대외무역법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-10-02",
+      "announcedDate": "2026-09-29",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 2,
+      "ministry": "산업통상부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-10-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "003313",
+        "lsiSeq": "290379",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_241"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=290379"
+      },
+      "originalTitle": "대외무역법 시행령",
+      "eventIndex": 4,
+      "eventCount": 4,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282951_law_241_2026-02-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-17",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284507_law_241_2026-03-17_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-31",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288381_law_241_2026-07-31_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_290379_law_241_2026-10-02_타법개정"
         }
       ]
     },
@@ -21393,6 +25759,112 @@
           "amendmentType": "타법개정",
           "status": "시행예정",
           "id": "matched_2026_290593_law_142_2026-10-08_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285575_law_240_2026-10-22_일부개정",
+      "title": "대외무역법",
+      "summary": "대외무역법의 2026년 일부개정사항",
+      "effectiveDate": "2026-10-22",
+      "announcedDate": "2026-04-21",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 22,
+      "ministry": "산업통상부",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-10-22",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001467",
+        "lsiSeq": "285575",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_240"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285575"
+      },
+      "originalTitle": "대외무역법",
+      "eventIndex": 2,
+      "eventCount": 2,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276491_law_240_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-22",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285575_law_240_2026-10-22_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_288701_law_234_2026-11-12_일부개정",
+      "title": "건축법",
+      "summary": "건축법의 2026년 일부개정사항",
+      "effectiveDate": "2026-11-12",
+      "announcedDate": "2026-08-11",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 43,
+      "ministry": "국토교통부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-11-12",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001823",
+        "lsiSeq": "288701",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_234"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=288701"
+      },
+      "originalTitle": "건축법",
+      "eventIndex": 2,
+      "eventCount": 2,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_273437_law_234_2026-02-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-12",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_288701_law_234_2026-11-12_일부개정"
         }
       ]
     },

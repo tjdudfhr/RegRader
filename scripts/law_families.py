@@ -68,6 +68,18 @@ def find_mst(name):
     return hits[0]["법령일련번호"] if hits else None
 
 
+def law_exists(name):
+    """현행 법령 검색(target=law)에 이름이 정확히 같은 법령이 있는지."""
+    try:
+        j = get_json(SEARCH, {"OC": OC, "target": "law", "type": "JSON", "query": name, "display": "50"})
+    except Exception:  # noqa: BLE001
+        return False
+    laws = (j.get("LawSearch") or {}).get("law") or []
+    if isinstance(laws, dict):
+        laws = [laws]
+    return any(compact(x.get("법령명한글")) == compact(name) for x in laws)
+
+
 def tree(mst):
     """체계도를 펼쳐 ([{name, level, kind, parent, mst}] (법률이 맨 앞), [연결된 행정규칙]) 을 돌려준다."""
     j = get_json(SERVICE, {"OC": OC, "target": "lsStmd", "type": "JSON", "MST": mst})
@@ -242,9 +254,11 @@ def build(items, force=False, log=print):
             adm_by_top.setdefault(members[0]["name"], []).extend(adm)
             log(f"  + {b['title']} -> {members[0]['name']}")
         else:
+            # 체계도가 없는 단독 법률(하위법령이 없는 제조물 책임법 등)은 현행 법령 검색에 있으면 정상으로 둔다
+            live = law_exists(b["title"])
             adopt(guess_root(b), [{"name": b["title"], "level": level_by_name(b["title"]), "kind": b.get("lawType") or "",
-                                   "parent": None, "stale": True}], claim=c)
-            log(f"  + {b['title']}: 국가법령정보센터에서 찾지 못함 (법령명 변경·폐지 확인 필요)")
+                                   "parent": None, "stale": not live}], claim=c)
+            log(f"  + {b['title']}: " + ("체계도 없는 단독 법령" if live else "국가법령정보센터에서 찾지 못함 (법령명 변경·폐지 확인 필요)"))
 
     # 적용법규가 하나도 없는 계열은 버린다 (다른 법률 체계도에 딸려 온 경우). 순서는 체계도 순서(법률 -> 시행령 -> 그 시행규칙) 그대로.
     out = [{"root": r, "members": ms} for r, ms in families.items() if any(m["inBase"] for m in ms)]
