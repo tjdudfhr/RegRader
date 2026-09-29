@@ -212,6 +212,14 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
     scope_keys = {row_key(r) for r in scope_rows}
     removed_by_scope = [change_item(r) for r in sorted(scope_rows, key=lambda r: (r.get("d") or "", r.get("t") or ""))]
     added, removed, now_in_force = diff_rows([r for r in prev_rows if row_key(r) not in scope_keys], new_rows)
+    # 적용 범위 검토에서 되살린 행정규칙(RR_SCOPE_RESTORED = 행정규칙ID 목록)의 개정도 '신규 개정'이 아니라 적용 범위 조정으로 기록한다
+    try:
+        restored_ids = {str(x) for x in json.loads(os.environ.get("RR_SCOPE_RESTORED") or "[]")}
+    except ValueError:
+        restored_ids = set()
+    restored_td = {(r.get("t"), r.get("d")) for r in new_rows if r.get("k") and r.get("i") in restored_ids}
+    added_by_scope = [x for x in added if x.get("kind") and (x["title"], x["effectiveDate"]) in restored_td]
+    added = [x for x in added if not (x.get("kind") and (x["title"], x["effectiveDate"]) in restored_td)]
     # 적용법규를 새로 추가한 경우(process_law_requests.py): 그 법규의 개정은 '신규 개정'이 아니라 '적용법규 추가'로 분리한다
     try:
         base_added = json.loads(os.environ.get("RR_BASE_ADDED") or "[]")
@@ -241,7 +249,8 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         by_base += merged
         added = [x for x in added if not x.get("kind")]
         admrul_merged = {"laws": meta.get("admrulLaws"), "events": len(merged)}
-    admrul_scope = {"laws": len(out_ids), "events": len(removed_by_scope)} if removed_by_scope else None
+    admrul_scope = ({"laws": len(out_ids), "events": len(removed_by_scope), "restored": len(restored_ids), "restoredEvents": len(added_by_scope)}
+                    if removed_by_scope or added_by_scope else None)
     if not (added or removed or now_in_force or base_added or base_renamed or base_removed or admrul_merged or admrul_scope or (u_before and u_before != u_after)):
         print("changelog: 변경 없음", flush=True)
         return
@@ -266,6 +275,7 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         "removedByBase": removed_by_base,
         "admrulScope": admrul_scope,
         "removedByScope": removed_by_scope,
+        "addedByScope": added_by_scope,
         "baseLawsBefore": (prev_meta or {}).get("baseLaws"),
         "baseLawsAfter": meta.get("baseLaws"),
     })

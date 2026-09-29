@@ -184,7 +184,8 @@
     if (!add.length && !ren.length && !rem.length && !mg && !sc) return '';
     var lines = [];
     if (mg) lines.push('<b>행정규칙 ' + num(mg.laws) + '개를 적용법규에 편입</b> · 올해 개정 ' + num(mg.events) + '건 추가');
-    if (sc) lines.push('<b>적용 범위 조정</b> · 회사 사업과 무관한 행정규칙 ' + num(sc.laws) + '개를 적용법규에서 제외 · 올해 개정 ' + num(sc.events) + '건 빠짐');
+    if (sc) lines.push('<b>적용 범위 조정</b> · 회사 사업과 무관한 행정규칙 ' + num(sc.laws) + '개를 적용법규에서 제외' +
+      (sc.events ? ' · 올해 개정 ' + num(sc.events) + '건 빠짐' : '') + (sc.restored ? ' · 행정규칙 ' + num(sc.restored) + '개 되살림' + (sc.restoredEvents ? '(개정 ' + num(sc.restoredEvents) + '건)' : '') : ''));
     if (add.length) lines.push('<b>적용법규 추가 ' + add.length + '개</b> · ' + add.map(function (b) {
       return esc(b.title) + (b.category ? ' <span style="color:var(--text-muted)">[' + esc(b.category) + ']</span>' : '');
     }).join(', '));
