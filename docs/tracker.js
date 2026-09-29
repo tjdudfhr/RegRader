@@ -28,6 +28,37 @@
   var MEMBERS = [];
   var DRAFT = {};           // key -> 편집 중인 값 (팝업이 다시 그려져도 유지)
   var loaded = false;
+  var justIn = /access_token=/.test(location.hash || '');   // 메일 링크로 막 돌아왔다 → 로그인되면 알리고 대응 현황으로
+  var LOGIN_PREF = 'rr-trk-login';
+  function pref() { try { return JSON.parse(localStorage.getItem(LOGIN_PREF) || '{}') || {}; } catch (e) { return {}; } }
+  function setPref(p) { try { localStorage.setItem(LOGIN_PREF, JSON.stringify(Object.assign(pref(), p))); } catch (e) {} }
+  function toast(t) { if (window.rrToast) window.rrToast(t); }
+  /* Supabase 오류 문구 → 한국어 */
+  function authMsg(e) {
+    var t = String(e && (e.message || e.error_description) || e || '');
+    if (/invalid login credentials/i.test(t)) return '이메일 또는 비밀번호가 맞지 않습니다.';
+    if (/email not confirmed/i.test(t)) return '아직 확인되지 않은 계정입니다. 총괄에게 문의하세요.';
+    if (/signups? not allowed/i.test(t)) return '등록되지 않은 이메일입니다. 총괄에게 문의하세요.';
+    if (/not authori[sz]ed|not allowed/i.test(t)) return '이 주소로는 로그인 메일을 보낼 수 없습니다. 비밀번호로 로그인하거나 총괄에게 문의하세요.';
+    if (/rate|limit|seconds|too many/i.test(t)) return '요청이 많습니다. 잠시 뒤 다시 시도하세요.';
+    if (/different from the old/i.test(t)) return '지금 쓰는 비밀번호와 다른 비밀번호를 입력하세요.';
+    if (/at least|weak|short|password/i.test(t)) return '비밀번호가 너무 짧거나 쉽습니다. 8자 이상으로 정해 주세요.';
+    return t || '알 수 없는 오류';
+  }
+  /* 이번 로그인을 비밀번호로 했는지 (토큰의 amr) */
+  function loginMethod() {
+    try {
+      var p = session.access_token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      var amr = JSON.parse(atob(p + '==='.slice((p.length + 3) % 4))).amr || [];
+      return (amr[0] && amr[0].method) || '';
+    } catch (e) { return ''; }
+  }
+  function needPw() {
+    var u = session && session.user;
+    if (!u || !me || me.role === 'guest') return false;
+    if ((u.user_metadata && u.user_metadata.pw) || loginMethod() === 'password') return false;
+    return pref().pwLater !== u.email;
+  }
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function short(t) { return t === '일부개정' ? '일' : t === '타법개정' ? '타' : (t || ''); }
@@ -94,13 +125,24 @@
       sb.from('members').select('*'),
       sb.from('responses').select('*').limit(10000)
     ]).then(function (res) {
+      if (res[0].error) throw res[0].error;
+      if (res[1].error) throw res[1].error;
       MEMBERS = (res[0].data || []);
-      me = MEMBERS.filter(function (m) { return m.email === email; })[0] || { email: email, name: '', job: null, role: 'guest' };
+      me = MEMBERS.filter(function (m) { return String(m.email || '').toLowerCase() === email; })[0] || { email: email, name: '', job: null, role: 'guest' };
       RESP = {};
       (res[1].data || []).forEach(function (r) { RESP[r.key] = r; });
       loaded = true;
       paintAll();
-    }).catch(function (e) { console.warn('[tracker] load', e); });
+      if (justIn) {   /* 방금 로그인: 알리고 대응 현황으로 */
+        justIn = false;
+        toast(me.role === 'guest' ? email + ' 은(는) 등록된 담당자가 아닙니다' : (me.name || email.split('@')[0]) + ' 님, 로그인했습니다');
+        if (typeof window.switchMainTab === 'function') window.switchMainTab('tracker');
+      }
+    }).catch(function (e) {
+      console.warn('[tracker] load', e);
+      justIn = false;
+      toast('대응 현황을 불러오지 못했습니다: ' + authMsg(e));
+    });
   }
 
   /* ---------- 저장 ---------- */
@@ -180,7 +222,9 @@
     if (!b) return;
     var a = b.dataset.trk;
     if (a === 'login') { e.preventDefault(); openLogin(); return; }
-    if (a === 'logout') { e.preventDefault(); client().then(function (c) { return c.auth.signOut(); }).then(afterAuth); return; }
+    if (a === 'logout') { e.preventDefault(); client().then(function (c) { return c.auth.signOut(); }).then(afterAuth).then(function () { toast('로그아웃했습니다'); }); return; }
+    if (a === 'pw') { e.preventDefault(); openPw(); return; }
+    if (a === 'pwlater') { e.preventDefault(); if (session) setPref({ pwLater: session.user.email }); paintDash(); return; }
     var box = b.closest('.rr-trk[data-tk]');
     if (a === 'save' && box) {
       b.disabled = true; b.textContent = '저장 중…';
@@ -206,39 +250,114 @@
     }
   });
 
-  /* ---------- 로그인 창 ---------- */
-  function openLogin() {
+  /* ---------- 로그인 창: 비밀번호(기본) · 메일 링크 ---------- */
+  function openLogin(msg) {
     var m = document.getElementById('rr-trk-modal');
     if (!m) {
       m = document.createElement('div');
       m.id = 'rr-trk-modal';
       m.className = 'rr-trk-modal';
       m.innerHTML = '<div class="rr-dlg" style="--dlg-w:440px" role="dialog" aria-label="담당자 로그인">' +
-        '<div class="rr-dlg-h"><span class="rr-dlg-ic">' + icon('login') + '</span><div class="rr-dlg-t"><h2>담당자 로그인</h2><p>등록된 이메일로 로그인 링크를 보내 드립니다</p></div>' +
+        '<div class="rr-dlg-h"><span class="rr-dlg-ic">' + icon('login') + '</span><div class="rr-dlg-t"><h2>담당자 로그인</h2></div>' +
         '<button type="button" class="rr-dlg-x" data-x="1" aria-label="닫기">' + icon('x') + '</button></div>' +
-        '<div class="rr-dlg-b"><section class="rr-box" style="display:flex;flex-direction:column;gap:10px">' +
-        '<label class="rr-f"><span>이메일</span><input type="email" id="rr-trk-email" placeholder="name@company.com" autocomplete="email"></label>' +
-        '<button type="button" class="rr-btn pri wide" id="rr-trk-send">' + icon('send') + '로그인 링크 받기</button>' +
-        '<div class="rr-hint" id="rr-trk-note">메일의 링크를 누르면 이 사이트로 돌아와 로그인됩니다</div></section></div></div>';
+        '<div class="rr-dlg-b"><form class="rr-box rr-login" autocomplete="on" onsubmit="return false">' +
+        '<span class="rr-seg"><button type="button" data-lm="pw">비밀번호</button><button type="button" data-lm="link">메일 링크</button></span>' +
+        '<label class="rr-f"><span>이메일</span><input type="email" id="rr-trk-email" name="email" placeholder="name@company.com" autocomplete="username email"></label>' +
+        '<label class="rr-f rr-login-pw"><span>비밀번호</span><input type="password" id="rr-trk-pass" name="password" autocomplete="current-password"></label>' +
+        '<button type="submit" class="rr-btn pri wide" id="rr-trk-go"></button>' +
+        '<div class="rr-hint" id="rr-trk-note"></div></form></div></div>';
       document.body.appendChild(m);
       m.addEventListener('click', function (e) { if (e.target === m || (e.target.closest && e.target.closest('[data-x]'))) m.classList.remove('show'); });
-      m.querySelector('#rr-trk-send').addEventListener('click', function () {
-        var email = m.querySelector('#rr-trk-email').value.trim().toLowerCase();
-        var note = m.querySelector('#rr-trk-note');
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { note.textContent = '이메일 주소를 확인해 주세요.'; return; }
-        var btn = this; btn.disabled = true; note.textContent = '보내는 중…';
-        client().then(function (c) {
-          return c.auth.signInWithOtp({ email: email, options: { emailRedirectTo: /github\.io/.test(location.host) ? SITE : location.origin + location.pathname } });
-        }).then(function (r) {
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') m.classList.remove('show'); });
+      m.querySelectorAll('[data-lm]').forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.lm); }); });
+      m.querySelector('form').addEventListener('submit', submit);
+    }
+    function note(t, cls) { var n = m.querySelector('#rr-trk-note'); n.className = cls ? 'rr-msg ' + cls : 'rr-hint'; n.innerHTML = t; }
+    function setMode(md) {
+      m.dataset.mode = md;
+      m.querySelectorAll('[data-lm]').forEach(function (b) { b.classList.toggle('on', b.dataset.lm === md); });
+      m.querySelector('.rr-login-pw').style.display = md === 'pw' ? '' : 'none';
+      m.querySelector('#rr-trk-go').innerHTML = md === 'pw' ? icon('login') + '로그인' : icon('send') + '로그인 링크 받기';
+      note(md === 'pw' ? '비밀번호가 없으면 ‘메일 링크’로 로그인한 뒤 설정할 수 있습니다' : '메일의 링크를 누르면 이 사이트로 돌아와 로그인됩니다');
+    }
+    function submit() {
+      var md = m.dataset.mode, email = m.querySelector('#rr-trk-email').value.trim().toLowerCase(), pass = m.querySelector('#rr-trk-pass');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { note('이메일 주소를 확인해 주세요.', 'err'); return; }
+      if (md === 'pw' && !pass.value) { note('비밀번호를 입력해 주세요.', 'err'); pass.focus(); return; }
+      var btn = m.querySelector('#rr-trk-go'); btn.disabled = true; note(md === 'pw' ? '로그인하는 중…' : '보내는 중…');
+      setPref({ email: email, mode: md });
+      if (md === 'pw') justIn = true;   // 로그인되면 load 가 알리고 대응 현황으로
+      client().then(function (c) {
+        return md === 'pw' ? c.auth.signInWithPassword({ email: email, password: pass.value })
+          : c.auth.signInWithOtp({ email: email, options: { emailRedirectTo: /github\.io/.test(location.host) ? SITE : location.origin + location.pathname } });
+      }).then(function (r) {
+        if (r.error) throw r.error;
+        if (md === 'pw') { pass.value = ''; m.classList.remove('show'); }   /* SIGNED_IN → afterAuth → load 가 알린다 */
+        else note('<b>' + esc(email) + '</b> 으로 로그인 링크를 보냈습니다. 메일함(스팸함 포함)을 확인하세요.', 'ok');
+      }).catch(function (e) { justIn = false; note(authMsg(e), 'err'); }).then(function () { btn.disabled = false; });
+    }
+    var p = pref();
+    setMode(p.mode === 'link' ? 'link' : 'pw');
+    if (p.email && !m.querySelector('#rr-trk-email').value) m.querySelector('#rr-trk-email').value = p.email;
+    if (msg) note(msg, 'err');
+    m.classList.add('show');
+    setTimeout(function () { var i = m.querySelector(p.email && m.dataset.mode === 'pw' ? '#rr-trk-pass' : '#rr-trk-email'); if (i) i.focus(); }, 50);
+  }
+
+  /* 메일 링크가 만료·사용됨 등으로 실패해 돌아온 경우 (#error=…): 이유를 알리고 로그인 창을 연다 */
+  (function linkError() {
+    var h = (location.hash || '') + '&' + (location.search || '').slice(1);
+    if (!/(^|[#&?])error(_code)?=/.test(h)) return;
+    var code = decodeURIComponent((/error_code=([^&]*)/.exec(h) || [])[1] || '');
+    var desc = decodeURIComponent(((/error_description=([^&]*)/.exec(h) || [])[1] || '').replace(/\+/g, ' '));
+    try { history.replaceState(null, '', location.pathname + (/error/.test(location.search) ? '' : location.search)); } catch (e) {}
+    var msg = /expired|invalid|otp/i.test(code + ' ' + desc)
+      ? '로그인 링크가 만료됐거나 이미 사용된 링크입니다. 회사 메일의 보안 검사가 링크를 먼저 열면 이렇게 될 수 있습니다. 비밀번호로 로그인하거나 링크를 다시 받아 주세요.'
+      : '로그인하지 못했습니다' + (desc || code ? ' (' + esc(desc || code) + ')' : '') + '.';
+    setTimeout(function () { openLogin(msg); }, 700);
+  })();
+
+  /* ---------- 비밀번호 설정 · 변경 ---------- */
+  function openPw() {
+    if (!session) { openLogin(); return; }
+    var m = document.getElementById('rr-trk-pw-modal');
+    if (!m) {
+      m = document.createElement('div');
+      m.id = 'rr-trk-pw-modal';
+      m.className = 'rr-trk-modal';
+      m.innerHTML = '<div class="rr-dlg" style="--dlg-w:420px" role="dialog" aria-label="비밀번호 설정">' +
+        '<div class="rr-dlg-h"><span class="rr-dlg-ic">' + icon('lock') + '</span><div class="rr-dlg-t"><h2>비밀번호 설정</h2><p id="rr-pw-who"></p></div>' +
+        '<button type="button" class="rr-dlg-x" data-x="1" aria-label="닫기">' + icon('x') + '</button></div>' +
+        '<div class="rr-dlg-b"><form class="rr-box rr-login" onsubmit="return false">' +
+        '<input type="email" name="email" autocomplete="username" hidden>' +
+        '<label class="rr-f"><span>새 비밀번호 (8자 이상)</span><input type="password" id="rr-pw1" autocomplete="new-password"></label>' +
+        '<label class="rr-f"><span>한 번 더</span><input type="password" id="rr-pw2" autocomplete="new-password"></label>' +
+        '<button type="submit" class="rr-btn pri wide" id="rr-pw-go">' + icon('check') + '저장</button>' +
+        '<div class="rr-hint" id="rr-pw-note">다음부터 이메일과 이 비밀번호로 로그인합니다</div></form></div></div>';
+      document.body.appendChild(m);
+      m.addEventListener('click', function (e) { if (e.target === m || (e.target.closest && e.target.closest('[data-x]'))) m.classList.remove('show'); });
+      m.querySelector('form').addEventListener('submit', function () {
+        var a = m.querySelector('#rr-pw1').value, b = m.querySelector('#rr-pw2').value, n = m.querySelector('#rr-pw-note');
+        var bad = function (t) { n.className = 'rr-msg err'; n.textContent = t; };
+        if (a.length < 8) return bad('8자 이상으로 정해 주세요.');
+        if (a !== b) return bad('두 칸의 비밀번호가 다릅니다.');
+        var btn = m.querySelector('#rr-pw-go'); btn.disabled = true;
+        client().then(function (c) { return c.auth.updateUser({ password: a, data: { pw: true } }); }).then(function (r) {
           if (r.error) throw r.error;
-          note.innerHTML = '<b>' + esc(email) + '</b> 으로 로그인 링크를 보냈습니다. 메일함(스팸함 포함)을 확인하세요.';
-        }).catch(function (e) {
-          note.textContent = '보내지 못했습니다: ' + (e && e.message || e) + (/rate|limit|seconds/i.test(String(e && e.message)) ? ' (잠시 뒤 다시 시도하세요)' : '');
-        }).then(function () { btn.disabled = false; });
+          if (r.data && r.data.user && session) session.user = r.data.user;
+          setPref({ mode: 'pw' });
+          m.classList.remove('show');
+          toast('비밀번호를 저장했습니다. 다음부터 이메일과 비밀번호로 로그인하세요');
+          paintAll();
+        }).catch(function (e) { bad(authMsg(e)); }).then(function () { btn.disabled = false; });
       });
     }
+    m.querySelector('#rr-pw-who').textContent = session.user.email;
+    m.querySelector('input[name=email]').value = session.user.email;
+    m.querySelector('#rr-pw1').value = ''; m.querySelector('#rr-pw2').value = '';
+    var n = m.querySelector('#rr-pw-note'); n.className = 'rr-hint'; n.textContent = '다음부터 이메일과 이 비밀번호로 로그인합니다';
     m.classList.add('show');
-    setTimeout(function () { var i = m.querySelector('#rr-trk-email'); if (i) i.focus(); }, 50);
+    setTimeout(function () { m.querySelector('#rr-pw1').focus(); }, 50);
   }
 
   /* ---------- 왼쪽 메뉴 아래: 로그인 상태 ---------- */
@@ -255,6 +374,7 @@
     if (session && me && me.role !== 'guest') {
       var nm = me.name || me.email.split('@')[0], rl = me.role === 'admin' ? '총괄' : (me.job || '') + ' 담당';
       el.innerHTML = '<span class="av" aria-hidden="true">' + esc(nm.slice(0, 1)) + '</span><span class="who"><span class="n">' + esc(nm) + '</span>' + (nm === rl ? '' : '<span class="j">' + esc(rl) + '</span>') + '</span>' +
+        '<button type="button" data-trk="pw" title="비밀번호 설정" aria-label="비밀번호 설정">' + icon('lock') + '</button>' +
         '<button type="button" data-trk="logout" title="로그아웃" aria-label="로그아웃">' + icon('logout') + '</button>';
     } else if (session) {
       el.innerHTML = '<span class="av" aria-hidden="true">?</span><span class="who"><span class="n">미등록 계정</span></span><button type="button" data-trk="logout" title="로그아웃" aria-label="로그아웃">' + icon('logout') + '</button>';
@@ -458,7 +578,9 @@
         '<input type="search" id="rr-trk-fq" placeholder="법규명 · 조치 내용 검색" value="' + esc(F.q) + '">' +
         (filtered ? '<span class="rr-trk-shown">' + num(shown) + '건 표시</span>' : '') + reset + '</div>' +
       '<div class="rr-trk-list">' + (body || '<div class="rr-trk-empty">조건에 맞는 개정이 없습니다.' + (reset ? ' ' + reset : '') + '</div>') + '</div></section>';
-    host.innerHTML = tabs + '<div class="rr-trk-head2">' + focus + side + '</div>' + table + listHtml;
+    var pwbar = needPw() ? '<div class="rr-trk-pwbar">' + icon('lock') + '<span>비밀번호를 설정하면 다음부터 메일 없이 로그인할 수 있습니다</span>' +
+      '<button type="button" class="rr-btn mini pri" data-trk="pw">비밀번호 설정</button><button type="button" class="rr-btn mini" data-trk="pwlater">나중에</button></div>' : '';
+    host.innerHTML = pwbar + tabs + '<div class="rr-trk-head2">' + focus + side + '</div>' + table + listHtml;
   }
   document.addEventListener('change', function (e) {
     var t = e.target;

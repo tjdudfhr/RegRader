@@ -1137,6 +1137,16 @@ body #rr-trk-members { padding: 18px 20px !important; }
   .rr-trk-pipe { flex-wrap: wrap; } .rr-trk-pipe .arr, .rr-trk-pipe .sep { display: none; } .rr-trk-pipe button { flex: 1 1 30%; }
 }
 
+/* 로그인 · 비밀번호 창 */
+.rr-box.rr-login { display: flex; flex-direction: column; gap: 10px; margin: 0; }
+.rr-login .rr-seg { align-self: flex-start; }
+.rr-login .rr-btn.wide { margin-top: 2px; }
+/* 메일 링크로 들어왔고 아직 비밀번호가 없을 때 대응 현황 맨 위 한 줄 */
+.rr-trk-pwbar { display: flex; align-items: center; gap: 10px; padding: 10px 12px 10px 14px; border-radius: 12px; background: #eef2fd; border: 1px solid #cfd9f7; color: #2f4fc4; font-size: 13px; font-weight: 700; }
+.rr-trk-pwbar .ri { width: 16px; height: 16px; flex: none; }
+.rr-trk-pwbar span { flex: 1; min-width: 0; }
+body .rr-side-foot .rr-trk-who button + button { margin-left: 2px !important; }
+
 /* 담당자 관리 창 */
 .rr-mem-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line-2); }
 .rr-mem-row:first-of-type { border-top: 0; padding-top: 0; }
