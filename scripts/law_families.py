@@ -120,6 +120,7 @@ ADMRUL_OUT = DOCS / "admrul_candidates.json"
 def write_admrul_candidates(families, adm_by_top, log=print):
     """계열마다 체계도에 연결된 행정규칙 -> docs/admrul_candidates.json (scripts/admin_rules.py 가 개정을 붙인다)"""
     from admin_rules import reference_tag
+    from admrul_scope import scope, write_index
     jobs = {f["root"]: sorted({m.get("category") for m in f["members"] if m.get("inBase") and m.get("category")}) for f in families}
     cands, weight = {}, {}
     for top, lst in adm_by_top.items():
@@ -144,14 +145,13 @@ def write_admrul_candidates(families, adm_by_top, log=print):
     items = sorted(cands.values(), key=lambda c: (c["jobs"][:1], c["name"]))
     for c in items:
         c["tag"] = reference_tag(c["name"], c["kind"])
+        c["out"] = scope(c)   # 회사 사업과 무관해 적용법규에서 뺀 것 (scripts/admrul_scope.py)
     ADMRUL_OUT.write_text(json.dumps({"generatedAt": datetime.now(timezone.utc).isoformat(),
                                       "source": "국가법령정보센터 법령체계도 (lsStmd) 연결 행정규칙",
                                       "count": len(items), "items": items}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    # 화면용 짧은 목록: 계열마다 법률 · 시행령 · 시행규칙 다음에 붙는 행정규칙 (대표 계열 하나)
-    (DOCS / "admrul_index.json").write_text(json.dumps({"generatedAt": datetime.now(timezone.utc).isoformat(), "items": [
-        {"i": c["id"], "n": c["name"], "k": c["kind"], "q": c["seq"], "f": (c["families"] or [""])[0], "c": (c["jobs"] or [""])[0],
-         "g": c["tag"], "e": c["effective"]} for c in items]}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    log(f"admrul_candidates: 행정규칙 {len(items)}개 (주요 {sum(1 for c in items if not c['tag'])} · 참고 {sum(1 for c in items if c['tag'])})")
+    write_index(DOCS, items)   # 화면용 짧은 목록 (제외한 것은 넣지 않는다)
+    log(f"admrul_candidates: 행정규칙 {len(items)}개 (적용 {sum(1 for c in items if not c['tag'] and not c['out'])}"
+        f" · 참고 {sum(1 for c in items if c['tag'] and not c['out'])} · 제외 {sum(1 for c in items if c['out'])})")
 
 
 def guess_root(item):

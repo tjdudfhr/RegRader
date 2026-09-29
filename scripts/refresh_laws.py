@@ -130,7 +130,7 @@ AMEND_FULL = {"일": "일부개정", "타": "타법개정", "전": "전부개정
 
 def admrul_main_count():
     c = read_json(DOCS / "admrul_candidates.json", {})
-    return sum(1 for x in (c.get("items") or []) if not x.get("tag"))
+    return sum(1 for x in (c.get("items") or []) if not x.get("tag") and not x.get("out"))
 
 
 def read_json(path: Path, default=None):
@@ -205,7 +205,13 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         path.write_text(json.dumps(log, ensure_ascii=False, indent=2), encoding="utf-8")
         print(f"changelog: 연도 전환 {prev_year} -> {meta['year']}", flush=True)
         return
-    added, removed, now_in_force = diff_rows(prev_rows, new_rows)
+    # 적용 범위에서 뺀 행정규칙(scripts/admrul_scope.py)의 개정은 '삭제'가 아니라 '적용 범위 조정'으로 따로 기록한다
+    out_ids = {c["id"] for c in (read_json(DOCS / "admrul_candidates.json", {}).get("items") or []) if c.get("out")}
+    new_keys = {row_key(r) for r in new_rows}
+    scope_rows = [r for r in prev_rows if r.get("k") and r.get("i") in out_ids and row_key(r) not in new_keys]
+    scope_keys = {row_key(r) for r in scope_rows}
+    removed_by_scope = [change_item(r) for r in sorted(scope_rows, key=lambda r: (r.get("d") or "", r.get("t") or ""))]
+    added, removed, now_in_force = diff_rows([r for r in prev_rows if row_key(r) not in scope_keys], new_rows)
     # 적용법규를 새로 추가한 경우(process_law_requests.py): 그 법규의 개정은 '신규 개정'이 아니라 '적용법규 추가'로 분리한다
     try:
         base_added = json.loads(os.environ.get("RR_BASE_ADDED") or "[]")
@@ -235,7 +241,8 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         by_base += merged
         added = [x for x in added if not x.get("kind")]
         admrul_merged = {"laws": meta.get("admrulLaws"), "events": len(merged)}
-    if not (added or removed or now_in_force or base_added or base_renamed or base_removed or admrul_merged or (u_before and u_before != u_after)):
+    admrul_scope = {"laws": len(out_ids), "events": len(removed_by_scope)} if removed_by_scope else None
+    if not (added or removed or now_in_force or base_added or base_renamed or base_removed or admrul_merged or admrul_scope or (u_before and u_before != u_after)):
         print("changelog: 변경 없음", flush=True)
         return
     log = read_json(path, {"entries": []})
@@ -257,6 +264,8 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         "baseLawsRenamed": base_renamed,
         "baseLawsRemoved": base_removed,
         "removedByBase": removed_by_base,
+        "admrulScope": admrul_scope,
+        "removedByScope": removed_by_scope,
         "baseLawsBefore": (prev_meta or {}).get("baseLaws"),
         "baseLawsAfter": meta.get("baseLaws"),
     })
@@ -264,7 +273,8 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
     path.write_text(json.dumps(log, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"changelog: 신규 {len(added)} / 삭제 {len(removed)} / 시행 {len(now_in_force)} / 적용법규 추가 {len(base_added)}"
           f" / 법령명 변경 {len(base_renamed)} / 적용법규 삭제 {len(base_removed)}"
-          + (f" / 행정규칙 편입 {admrul_merged['events']}건" if admrul_merged else ""), flush=True)
+          + (f" / 행정규칙 편입 {admrul_merged['events']}건" if admrul_merged else "")
+          + (f" / 적용 범위 조정 {admrul_scope['events']}건" if admrul_scope else ""), flush=True)
 
 
 def main():

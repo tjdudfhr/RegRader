@@ -112,7 +112,7 @@ def build(log=print, today: date | None = None):
     for r in rows:
         rid = str(r.get("행정규칙ID") or "")
         ef = iso(r.get("시행일자"))
-        if rid not in cand or not ef.startswith(str(year)):
+        if rid not in cand or cand[rid].get("out") or not ef.startswith(str(year)):   # out: 회사 사업과 무관해 뺀 것
             continue
         key = (rid, ef, r.get("행정규칙일련번호"))
         if key in seen:
@@ -140,7 +140,7 @@ def build(log=print, today: date | None = None):
         "asOf": today.isoformat(),
         "year": year,
         "candidates": len(cand),
-        "candidatesMain": sum(1 for c in cand.values() if not c.get("tag")),
+        "candidatesMain": sum(1 for c in cand.values() if not c.get("tag") and not c.get("out")),
         "items": items,
     }
     EVENTS.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
