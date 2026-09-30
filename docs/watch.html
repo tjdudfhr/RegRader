@@ -72,7 +72,7 @@
   @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
 
   /* 탭: 메인의 main-tab 과 같은 모양 */
-  .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 6px; margin-bottom: 12px; }
+  .tabs { display: grid; grid-template-columns: repeat(5, 1fr); scroll-margin-top: 12px; gap: 6px; padding: 6px; margin-bottom: 12px; }
   .tab {
     border: 1px solid transparent; background: transparent; color: var(--text-secondary);
     border-radius: 12px; padding: 11px 8px; font: 600 .95rem 'Inter', -apple-system, sans-serif; cursor: pointer;
@@ -166,6 +166,8 @@
   .jr { display: grid; grid-template-columns: 70px minmax(0, 1fr) 34px minmax(0, 1.25fr); align-items: center; gap: 10px; width: 100%;
         padding: 7px 6px; border: 0; border-radius: 8px; background: none; color: inherit; font-family: inherit; text-align: left; cursor: pointer; }
   .jr:hover, .jr.on { background: var(--chip); }
+  .an.picked .jr:not(.on), .an.picked .lg:not(.on) { opacity: .45; }
+  .an.picked .jr:not(.on):hover, .an.picked .lg:not(.on):hover { opacity: .8; }
   .jr .nm { display: flex; align-items: center; gap: 6px; font-size: .82rem; font-weight: 700; white-space: nowrap; }
   .jr .nm i { width: 9px; height: 9px; border-radius: 3px; flex: none; }
   .jr .bar { display: flex; gap: 2px; height: 12px; }
@@ -175,10 +177,12 @@
   .jr .nx b { color: var(--text-secondary); font-variant-numeric: tabular-nums; margin-right: 4px; }
   .jr .nx b.u { color: var(--urgent); }
   .jr .nx b.s { color: var(--soon); }
-  .jfilter { display: none; align-items: center; gap: 8px; margin: -6px 0 12px; font-size: .84rem; color: var(--text-secondary); }
+  .jfilter { display: none; align-items: center; flex-wrap: wrap; gap: 8px; margin: -6px 0 12px; font-size: .84rem; color: var(--text-secondary); }
   .jfilter.on { display: flex; }
   .jfilter .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px 4px 10px; border-radius: 999px; color: #fff; font-weight: 700; }
-  .jfilter button { border: 0; background: rgba(255,255,255,.25); color: #fff; border-radius: 999px; width: 20px; height: 20px; cursor: pointer; font-size: .8rem; line-height: 1; }
+  .jfilter .all { border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary); border-radius: 999px; padding: 3px 10px; cursor: pointer; font-size: .8rem; font-weight: 600; }
+  .jfilter .all:hover { color: var(--text-primary); }
+  .jfilter .chip button { border: 0; background: rgba(255,255,255,.25); color: #fff; border-radius: 999px; width: 20px; height: 20px; cursor: pointer; font-size: .8rem; line-height: 1; }
   @media (max-width: 760px) {
     .an-grid { grid-template-columns: 1fr; }
     .jr { grid-template-columns: 64px minmax(0, 1fr) 30px; }
@@ -187,7 +191,7 @@
   @media (max-width: 640px) {
     header h1 { font-size: 1.35rem; }
     .tiers { grid-template-columns: repeat(2, 1fr); }
-    .tabs { grid-template-columns: repeat(2, 1fr); }
+    .tabs { grid-template-columns: repeat(3, 1fr); }
     .dday { min-width: 62px; padding: 5px 8px; }
     .dday b { font-size: 1.1rem; }
   }
@@ -206,6 +210,8 @@
   html.rr-embedded .wrap { max-width: none; padding: 0; }
   html.rr-embedded header { background: none; color: var(--text-primary); box-shadow: none; padding: 0 0 14px; margin-bottom: 8px; border-radius: 0; }
   html.rr-embedded header a.back { display: none; }
+  /* 메인의 상단 고정 헤더(64px)에 가리지 않게 */
+  html.rr-embedded .tabs { scroll-margin-top: 80px; }
   html.rr-embedded header h1 { margin-top: 0; font-size: 1.4rem; color: var(--text-primary); }
   html.rr-embedded header p { color: var(--text-muted); opacity: 1; }
 </style>
@@ -250,8 +256,9 @@
     </div>
   </section>
 
-  <nav class="tabs glass">
+  <nav class="tabs glass" id="tabs">
     <button class="tab on" data-tab="d30">30일 내 시행<span class="n" id="n-d30"></span></button>
+    <button class="tab" data-tab="up">시행예정<span class="n" id="n-up"></span></button>
     <button class="tab" data-tab="multi">복수개정<span class="n" id="n-multi"></span></button>
     <button class="tab" data-tab="diff">최근 변경<span class="n" id="n-diff"></span></button>
     <button class="tab" data-tab="all">전체<span class="n" id="n-all"></span></button>
@@ -338,29 +345,51 @@ function diffLists() {
   const removed = enrich((PREV.items || []).filter(x => !nowK.has(keyOf(x))).map(x => Object.assign({}, x)));
   return { added, removed };
 }
-function render() {
+function filterHit() {
   const q = ($('#q').value || '').trim().toLowerCase();
-  const hit = it => (!JOB || (it.categories || [])[0] === JOB) && (!RISK_ONLY || amRisk(it)) &&
+  return it => (!JOB || (it.categories || [])[0] === JOB) && (!RISK_ONLY || amRisk(it)) &&
     (!q || (it.title + ' ' + (it.ministry || '') + ' ' + (it.categories || []).join(' ')).toLowerCase().includes(q));
+}
+/* 탭별 목록 — 탭 옆 숫자와 목록 건수가 늘 같도록 한 곳에서 만든다 (직무·검색·벌칙 필터 반영) */
+function views() {
+  const hit = filterHit();
   const items = DATA.items.filter(hit);
+  const byDay = (a, b) => a.daysUntil - b.daysUntil || a.title.localeCompare(b.title);
+  const d = diffLists();
+  return {
+    d30: items.filter(it => it.daysUntil >= 0 && it.daysUntil <= 30).sort(byDay),
+    up: items.filter(it => it.daysUntil >= 0).sort(byDay),
+    multi: items.filter(it => (it.eventCount || 1) > 1).sort((a, b) => a.title.localeCompare(b.title) || a.effectiveDate.localeCompare(b.effectiveDate)),
+    all: items.slice().sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate)),
+    added: d.added.filter(hit), removed: d.removed.filter(hit)
+  };
+}
+function render() {
+  const V = views();
   let html = '';
   if (TAB === 'd30') {
-    const view = items.filter(it => it.daysUntil >= 0 && it.daysUntil <= 30).sort((a, b) => a.daysUntil - b.daysUntil || a.title.localeCompare(b.title));
-    html = section('7일 이내 시행', 'var(--urgent)', view.filter(it => it.daysUntil <= 7)) +
-           section('8~30일 이내 시행', 'var(--soon)', view.filter(it => it.daysUntil > 7));
+    html = section('7일 이내 시행', 'var(--urgent)', V.d30.filter(it => it.daysUntil <= 7)) +
+           section('8~30일 이내 시행', 'var(--soon)', V.d30.filter(it => it.daysUntil > 7));
+  } else if (TAB === 'up') {
+    html = section('7일 이내 시행', 'var(--urgent)', V.up.filter(it => it.daysUntil <= 7)) +
+           section('8~30일 이내 시행', 'var(--soon)', V.up.filter(it => it.daysUntil > 7 && it.daysUntil <= 30)) +
+           section('31일 이후 시행', 'var(--later)', V.up.filter(it => it.daysUntil > 30));
   } else if (TAB === 'multi') {
-    const view = items.filter(it => (it.eventCount || 1) > 1).sort((a, b) => a.title.localeCompare(b.title) || a.effectiveDate.localeCompare(b.effectiveDate));
-    html = '<div class="wlist">' + view.map(it => card(it)).join('') + '</div>';
+    html = V.multi.length ? '<div class="wlist">' + V.multi.map(it => card(it)).join('') + '</div>' : '';
   } else if (TAB === 'all') {
-    const view = items.slice().sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate));
-    html = section('시행예정', 'var(--later)', view.filter(it => it.daysUntil >= 0)) +
-           section('시행완료', 'var(--done)', view.filter(it => it.daysUntil < 0).reverse());
+    html = section('시행예정', 'var(--later)', V.all.filter(it => it.daysUntil >= 0)) +
+           section('시행완료', 'var(--done)', V.all.filter(it => it.daysUntil < 0).reverse());
   } else if (TAB === 'diff') {
-    const d = diffLists();
-    html = section('직전 갱신 이후 새로 잡힌 개정', 'var(--urgent)', d.added.filter(hit), '<span class="badge new">NEW</span>') +
-           section('직전 갱신 이후 목록에서 빠진 개정', 'var(--text-muted)', d.removed.filter(hit), '<span class="badge">빠짐</span>');
+    html = section('직전 갱신 이후 새로 잡힌 개정', 'var(--urgent)', V.added, '<span class="badge new">NEW</span>') +
+           section('직전 갱신 이후 목록에서 빠진 개정', 'var(--text-muted)', V.removed, '<span class="badge">빠짐</span>');
   }
-  $('#list').innerHTML = html || `<div class="empty glass">${TAB === 'diff' ? '직전 갱신 이후 변경이 없습니다.' : '해당하는 법령이 없습니다.'}</div>`;
+  $('#n-d30').textContent = V.d30.length;
+  $('#n-up').textContent = V.up.length;
+  $('#n-multi').textContent = V.multi.length;
+  $('#n-diff').textContent = V.added.length + V.removed.length;
+  $('#n-all').textContent = V.all.length;
+  const none = TAB === 'diff' ? '직전 갱신 이후 변경이 없습니다.' : JOB ? esc(JOB) + ' 직무에 해당하는 법령이 없습니다.' : '해당하는 법령이 없습니다.';
+  $('#list').innerHTML = html || `<div class="empty glass">${none}</div>`;
 }
 function stats() {
   const items = DATA.items;
@@ -371,27 +400,46 @@ function stats() {
   $('#t-soon').textContent = soon;
   $('#t-later').textContent = up;
   $('#t-all').textContent = items.length;
-  const d = diffLists();
-  $('#n-d30').textContent = urgent + soon;
-  $('#n-multi').textContent = items.filter(it => (it.eventCount || 1) > 1).length;
-  $('#n-diff').textContent = d.added.length + d.removed.length;
-  $('#n-all').textContent = items.length;
 }
 /* ---- 직무별 시행예정 분석 (오늘 시행분 포함 = 위 '시행예정 전체'와 같은 기준) ---- */
 const CAT_ORDER = ['재무회계', '인사노무', '환경', '지식재산권', '공정거래', '안전', '지배구조', '정보보호'];
 const CHARTS = {};
 function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
 function jobOf(it) { return (it.categories || [])[0] || '기타'; }
+function selectTab(t) {
+  TAB = t;
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
+}
+/* 선택한 직무만 진하게, 나머지는 흐리게 (도넛·월별 막대) */
+function paintCharts() {
+  const col = j => CAT_COLOR[j] || '#a0aec0';
+  const dim = j => JOB && j !== JOB ? col(j) + '38' : col(j);
+  const d = CHARTS.donut;
+  if (d) { d.data.datasets[0].backgroundColor = d.data.labels.map(dim); d.update(); }
+  const m = CHARTS.month;
+  if (m) { m.data.datasets.forEach(ds => { ds.backgroundColor = dim(ds.label); }); m.update(); }
+  const up = DATA.items.filter(it => it.daysUntil >= 0);
+  const n = JOB ? up.filter(it => jobOf(it) === JOB).length : up.length;
+  $('#an-total').textContent = n;
+  $('#an').classList.toggle('picked', !!JOB);
+  $('#an-total').nextElementSibling.textContent = JOB ? JOB + ' 시행예정' : '시행예정';
+}
 function setJob(j) {
   JOB = (j && j !== JOB) ? j : null;
   const f = $('#jfilter');
   if (JOB) {
-    f.innerHTML = `<span class="chip" style="background:${CAT_COLOR[JOB] || '#a0aec0'}">${esc(JOB)}<button type="button" aria-label="직무 선택 해제" title="해제">✕</button></span> 직무만 보는 중`;
-    f.querySelector('button').onclick = () => setJob(null);
+    /* 분석의 직무 건수(시행예정 전체)와 같은 목록을 보여 준다 */
+    selectTab('up');
+    const n = DATA.items.filter(it => it.daysUntil >= 0 && jobOf(it) === JOB).length;
+    f.innerHTML = `<span class="chip" style="background:${CAT_COLOR[JOB] || '#a0aec0'}">${esc(JOB)}<button type="button" aria-label="직무 선택 해제" title="해제">✕</button></span>` +
+      `<span><b>${esc(JOB)}</b> 직무 시행예정 <b>${n}건</b>을 보고 있습니다.</span><button type="button" class="all">전체 직무 보기</button>`;
+    f.querySelectorAll('button').forEach(b => b.onclick = () => setJob(null));
   } else f.innerHTML = '';
   f.classList.toggle('on', !!JOB);
-  document.querySelectorAll('.jr, .lg').forEach(b => b.classList.toggle('on', b.dataset.job === JOB));
+  document.querySelectorAll('.jr, .lg').forEach(b => { b.classList.toggle('on', b.dataset.job === JOB); b.setAttribute('aria-pressed', String(b.dataset.job === JOB)); });
+  paintCharts();
   render();
+  if (JOB) $('#tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 function analysis() {
   const up = DATA.items.filter(it => it.daysUntil >= 0);
@@ -475,6 +523,7 @@ function analysis() {
       onHover: (e, els) => { e.native.target.style.cursor = els.length ? 'pointer' : 'default'; }
     }
   });
+  paintCharts();
 }
 async function loadJSON(url) { const r = await fetch(url + '?v=' + Date.now(), { cache: 'no-store' }); if (!r.ok) throw new Error(url); return r.json(); }
 async function loadCur() {
@@ -503,11 +552,7 @@ Promise.all([
   analysis();
   render();
 }).catch(e => { $('#asof').textContent = '데이터를 불러오지 못했습니다.'; console.error(e); });
-document.querySelectorAll('.tab').forEach(btn => btn.onclick = () => {
-  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b === btn));
-  TAB = btn.dataset.tab;
-  render();
-});
+document.querySelectorAll('.tab').forEach(btn => btn.onclick = () => { selectTab(btn.dataset.tab); render(); });
 $('#q').addEventListener('input', render);
 $('#risk-only').addEventListener('click', () => {
   RISK_ONLY = !RISK_ONLY;
