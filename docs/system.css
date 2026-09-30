@@ -707,7 +707,7 @@ body .law-meta .ri-solo, body .meta-item .ri-solo {
 }
 
 /* ============ 종합: 제재·의무 변경 목록도 표처럼 ============ */
-body .rr-rp-list { gap: 0 !important; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+body .rr-rp-list { gap: 0 !important; border: 1px solid var(--line); border-radius: 12px; overflow-x: hidden; overflow-y: auto; max-height: 560px; background: var(--surface); }   /* 전체 목록은 칸 안에서 스크롤 */
 body .rr-rp-row {
   border: 0 !important; border-bottom: 1px solid var(--line-2) !important; border-radius: 0 !important;
   padding: 10px 14px !important; background: var(--surface) !important; transition: background 0.12s ease;
