@@ -83,7 +83,7 @@
     inner.style.setProperty('--dlg-w', '640px');
     inner.innerHTML =
       '<div class="rr-dlg-h"><span class="rr-dlg-ic">' + ic('download') + '</span>' +
-        '<div class="rr-dlg-t"><h2>보고서 · 내보내기</h2><p>' + window.RR_YEAR + '년 데이터' + (asOf ? ' · ' + asOf.replace(/-/g, '.') + ' 기준' : '') + '</p></div>' +
+        '<div class="rr-dlg-t"><h2>보고서</h2><p>' + window.RR_YEAR + '년 데이터' + (asOf ? ' · ' + asOf.replace(/-/g, '.') + ' 기준' : '') + '</p></div>' +
         '<button type="button" class="rr-dlg-x" onclick="closeDownloadModal()" aria-label="닫기">' + ic('x') + '</button></div>' +
       '<div class="rr-dlg-b">' +
         '<section class="rr-box" id="rr-report-slot"></section>' +
