@@ -719,6 +719,7 @@
     paintBadge();
     paintDash();
     decorate();
+    try { window.dispatchEvent(new Event('rr-trk-change')); } catch (e) {}   /* 직무 분석의 '시행 전 대응' 도넛 등 */
     var m = document.getElementById('law-modal');
     if (m && m.classList.contains('show') && window.__rrBriefRefresh) window.__rrBriefRefresh();
   }
