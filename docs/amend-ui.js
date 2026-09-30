@@ -173,62 +173,131 @@
     renderPanel();
   });
 
-  /* ---------- 종합 현황: 벌칙·과태료·의무 변경 요약 ---------- */
-  var panelState = { code: null, past: false };
+  /* ---------- 종합 현황 (맨 아래): 벌칙·과태료·의무 변경 ----------
+     유형 칸(전체 + 7종) · 기간(올해 전체 / 앞으로 시행 / 시행 완료) · 보기(목록 / 직무별 / 분기별).
+     숫자를 누르면 목록이 정확히 그 숫자만큼 나온다. 직무별·분기별 표의 칸을 누르면 그 조건으로 목록을 연다.
+     '전체'(유형 없음) = 벌칙·과태료·과징금·행정처분·의무 중 하나라도 바뀐 개정 */
+  var P = { code: '', job: '', q: 0, period: 'all', view: 'list' };
+  var QL = ['', '1분기 (1~3월)', '2분기 (4~6월)', '3분기 (7~9월)', '4분기 (10~12월)'];
+  function qOf(it) { return Math.floor((parseInt(String(it.effectiveDate || '').slice(5, 7), 10) - 1) / 3) + 1; }
+  function jobOfIt(it) { return (it.categories || [])[0] || '기타'; }
+  function periodOk(it, p) { var d = it.daysUntil; return p === 'all' || (p === 'upcoming' ? d >= 0 : d < 0); }
+  function codeOk(it, c) { return c ? codes(it).indexOf(c) >= 0 : isRisk(it); }
+  function num(n) { return Number(n || 0).toLocaleString('ko-KR'); }
+  function onPanelClick(e) {
+    var t = e.target.closest ? e.target : null;
+    if (!t) return;
+    var b;
+    if ((b = t.closest('[data-pcode]'))) { P.code = b.dataset.pcode; P.view = 'list'; renderPanel(); return; }
+    if ((b = t.closest('[data-pper]'))) { P.period = b.dataset.pper; renderPanel(); return; }
+    if ((b = t.closest('[data-pview]'))) { P.view = b.dataset.pview; renderPanel(); return; }
+    if ((b = t.closest('[data-pcell]'))) {
+      var v = b.dataset.pcell.split('|');
+      if (v[0] === 'job') P.job = v[1]; else P.q = +v[1] || 0;
+      P.code = v[2] || ''; P.view = 'list'; renderPanel();
+      var lst = document.querySelector('#rr-risk-panel .rr-rp-lh');
+      if (lst && lst.getBoundingClientRect().top > window.innerHeight * 0.6) lst.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if ((b = t.closest('[data-pclear]'))) { var k = b.dataset.pclear; if (k === 'all') { P.code = ''; P.job = ''; P.q = 0; P.period = 'all'; } else P[k] = k === 'q' ? 0 : ''; renderPanel(); }
+  }
   function renderPanel() {
+    var ov = document.getElementById('overview-content');
     var host = document.getElementById('rr-risk-panel');
-    var sum = document.querySelector('#overview-content .rr-summary');
-    if (!host && sum) {
+    if (!ov) return;
+    if (!host) {
       host = document.createElement('section');
       host.id = 'rr-risk-panel';
       host.className = 'rr-risk-panel';
-      sum.parentNode.insertBefore(host, sum.nextSibling);
-      host.addEventListener('click', function (e) {
-        var b = e.target.closest('button[data-code]');
-        if (b) { panelState.code = panelState.code === b.dataset.code ? null : b.dataset.code; renderPanel(); return; }
-        var p = e.target.closest('button[data-past]');
-        if (p) { panelState.past = !panelState.past; renderPanel(); }
-      });
+      host.addEventListener('click', onPanelClick);
+      /* 종합 현황 맨 아래를 지킨다 (다른 칸이 나중에 붙어도) */
+      new MutationObserver(function () { if (ov.lastElementChild !== host) ov.appendChild(host); }).observe(ov, { childList: true });
     }
-    if (!host) return;
+    if (ov.lastElementChild !== host) ov.appendChild(host);
     var items = window.__rrItems || [];
     if (!items.length) { setTimeout(renderPanel, 500); return; }
     var year = window.RR_YEAR || '';
-    var count = {};
-    ORDER.forEach(function (c) { count[c] = 0; });
-    items.forEach(function (it) { codes(it).forEach(function (c) { count[c]++; }); });
-    var riskAll = items.filter(isRisk);
-    var list = items.filter(function (it) {
-      var cs = codes(it);
-      if (panelState.code ? cs.indexOf(panelState.code) < 0 : !isRisk(it)) return false;
-      return panelState.past || !it.inForce;
-    }).sort(function (a, b) {
-      return panelState.past ? String(b.effectiveDate).localeCompare(String(a.effectiveDate)) : String(a.effectiveDate).localeCompare(String(b.effectiveDate));
-    });
-    var tiles = ORDER.map(function (c) {
-      var m = META[c];
-      return '<button type="button" class="rr-rp-tile ' + m.cls + (panelState.code === c ? ' on' : '') + '" data-code="' + c + '" title="' + esc(m.tip) + '">' +
-        '<b>' + count[c] + '</b><span>' + m.icon + ' ' + esc(m.label) + '</span></button>';
-    }).join('');
-    var rows = list.slice(0, 12).map(function (it) {
+    var cats = (window.RR_CAT_ORDER || []).slice();
+    items.forEach(function (it) { var j = jobOfIt(it); if (cats.indexOf(j) < 0) cats.push(j); });
+    var color = function (j) { return window.rrCatColor ? window.rrCatColor(j) : '#999'; };
+
+    var inJ = function (it) { return !P.job || jobOfIt(it) === P.job; };
+    var inQ = function (it) { return !P.q || qOf(it) === P.q; };
+    var scoped = items.filter(function (it) { return inJ(it) && inQ(it); });
+    var inP = scoped.filter(function (it) { return periodOk(it, P.period); });
+    var list = inP.filter(function (it) { return codeOk(it, P.code); })
+      .sort(function (a, b) { return String(a.effectiveDate).localeCompare(String(b.effectiveDate)) || String(a.title).localeCompare(String(b.title)); });
+
+    /* 유형 칸 — 기간·직무·분기 조건을 반영한 숫자 */
+    var tile = function (c) { return inP.filter(function (it) { return codeOk(it, c); }).length; };
+    var tiles = '<button type="button" class="rr-rp-tile all' + (P.code ? '' : ' on') + '" data-pcode="" title="벌칙·과태료·과징금·행정처분·의무 중 하나라도 바뀐 개정">' +
+        '<b>' + num(tile('')) + '</b><span>전체</span></button>' +
+      ORDER.map(function (c) {
+        var m = META[c];
+        return '<button type="button" class="rr-rp-tile ' + m.cls + (P.code === c ? ' on' : '') + '" data-pcode="' + c + '" title="' + esc(m.tip) + '">' +
+          '<b>' + num(tile(c)) + '</b><span>' + m.icon + ' ' + esc(m.label) + '</span></button>';
+      }).join('');
+
+    /* 기간 · 보기 */
+    var per = function (p) { return scoped.filter(function (it) { return periodOk(it, p) && codeOk(it, P.code); }).length; };
+    var seg = function (key, opts, cur) {
+      return '<span class="rr-seg">' + opts.map(function (o) {
+        return '<button type="button" data-' + key + '="' + o[0] + '" class="' + (cur === o[0] ? 'on' : '') + '">' + o[1] + (o[2] != null ? '<em>' + num(o[2]) + '</em>' : '') + '</button>';
+      }).join('') + '</span>';
+    };
+    var bar = '<div class="rr-rp-bar">' +
+      seg('pper', [['all', '올해 전체', per('all')], ['upcoming', '앞으로 시행', per('upcoming')], ['done', '시행 완료', per('done')]], P.period) +
+      '<span class="sp"></span>' + seg('pview', [['list', '목록'], ['job', '직무별'], ['q', '분기별']], P.view) + '</div>';
+    var chips = (P.job || P.q) ? '<div class="rr-rp-chips">' +
+      (P.job ? '<button type="button" class="rr-rp-chip" data-pclear="job"><i style="background:' + color(P.job) + '"></i>' + esc(P.job) + (window.rrIcon ? rrIcon('x') : ' ×') + '</button>' : '') +
+      (P.q ? '<button type="button" class="rr-rp-chip" data-pclear="q">' + esc(QL[P.q]) + (window.rrIcon ? rrIcon('x') : ' ×') + '</button>' : '') +
+      '<button type="button" class="rr-rp-reset" data-pclear="all">초기화</button></div>' : '';
+
+    /* 직무별 · 분기별 한눈에 보기 (행 × 유형) */
+    var matrix = function (kind) {
+      var rows = kind === 'job'
+        ? cats.map(function (j) { return { key: j, label: '<i style="background:' + color(j) + '"></i>' + esc(j), ok: function (it) { return jobOfIt(it) === j; } }; })
+        : [1, 2, 3, 4].map(function (q) { return { key: String(q), label: esc(QL[q]), ok: function (it) { return qOf(it) === q; } }; });
+      var pool = items.filter(function (it) { return periodOk(it, P.period) && (kind === 'job' ? inQ(it) : inJ(it)); });
+      var cols = [''].concat(ORDER);
+      var cell = function (rowKey, sub, c) {
+        var n = sub.filter(function (it) { return codeOk(it, c); }).length;
+        return n ? '<button type="button" data-pcell="' + kind + '|' + rowKey + '|' + c + '" class="' + (c ? META[c].cls : 'all') + '">' + num(n) + '</button>' : '<span class="z">–</span>';
+      };
+      var body = rows.map(function (r) {
+        var sub = pool.filter(r.ok);
+        if (kind === 'job' && !sub.length) return '';
+        return '<tr><th>' + r.label + '</th>' + cols.map(function (c) { return '<td>' + cell(r.key, sub, c) + '</td>'; }).join('') + '</tr>';
+      }).join('');
+      var foot = '<tr class="tot"><th>합계</th>' + cols.map(function (c) { return '<td>' + cell('', pool, c) + '</td>'; }).join('') + '</tr>';
+      var scope = [P.period === 'all' ? '올해 전체' : P.period === 'upcoming' ? '앞으로 시행' : '시행 완료']
+        .concat(kind === 'job' && P.q ? [QL[P.q]] : []).concat(kind === 'q' && P.job ? [P.job] : []).join(' · ');
+      return '<div class="rr-rp-mxh">' + (kind === 'job' ? '직무별' : '분기별') + ' 제재·의무 변경 <span>' + esc(scope) + ' · 칸을 누르면 그 개정 목록</span></div>' +
+        '<div class="rr-rp-mxw"><table class="rr-rp-mx"><thead><tr><th>' + (kind === 'job' ? '직무' : '분기') + '</th>' +
+        cols.map(function (c) { return '<th class="' + (c ? META[c].cls : 'all') + '">' + (c ? esc(META[c].label) : '전체') + '</th>'; }).join('') +
+        '</tr></thead><tbody>' + body + foot + '</tbody></table></div>';
+    };
+
+    var rowHtml = function (it) {
       var d = it.daysUntil;
       var dd = d < 0 ? '<span class="rr-rp-dd done">시행완료</span>' : d === 0 ? '<span class="rr-rp-dd hot">D-DAY</span>' : '<span class="rr-rp-dd ' + (d <= 30 ? 'hot' : '') + '">D-' + d + '</span>';
-      var cat = (it.categories || [])[0] || '';
+      var cat = jobOfIt(it);
       return '<button type="button" class="rr-rp-row" data-eid="' + esc(it.id) + '">' +
         '<span class="rr-rp-date">' + esc(String(it.effectiveDate).slice(5).replace('-', '.')) + '</span>' + dd +
         '<span class="rr-rp-title">' + esc(it.title) + '</span>' +
-        '<span class="rr-rp-cat"><i style="background:' + (window.rrCatColor ? window.rrCatColor(cat) : '#999') + '"></i>' + esc(cat) + '</span>' +
-        badges(codes(it).filter(function (c) { return !panelState.code || c === panelState.code || RISK[c]; })) + '</button>';
-    }).join('');
-    var label = panelState.code ? META[panelState.code].label : '제재·의무 변경';
+        '<span class="rr-rp-cat"><i style="background:' + color(cat) + '"></i>' + esc(cat) + '</span>' +
+        badges(codes(it).filter(function (c) { return !P.code || c === P.code || RISK[c]; })) + '</button>';
+    };
+    var label = [P.code ? META[P.code].label : '제재·의무 변경'].concat(P.job ? [P.job] : []).concat(P.q ? [QL[P.q]] : []).join(' · ');
+    var content = P.view === 'list'
+      ? '<div class="rr-rp-lh"><b>' + esc(label) + '</b><span>' + num(list.length) + '건</span></div>' +
+        '<div class="rr-rp-list">' + (list.slice(0, 500).map(rowHtml).join('') || '<div class="rr-rp-empty">해당하는 개정이 없습니다.</div>') + '</div>'
+      : matrix(P.view);
+
     host.innerHTML =
       '<div class="rr-rp-h"><div><h3>⚠️ ' + esc(year) + '년 벌칙·과태료·의무 변경</h3>' +
-      '<p>개정 ' + items.length + '건 중 ' + riskAll.length + '건</p></div></div>' +
-      '<div class="rr-rp-tiles">' + tiles + '</div>' +
-      '<div class="rr-rp-lh"><b>' + (panelState.past ? '전체 (최근 시행 먼저)' : '앞으로 시행') + ' · ' + esc(label) + '</b><span>' + list.length + '건</span>' +
-      '<button type="button" class="rr-rp-past" data-past="1">' + (panelState.past ? '앞으로 시행만 보기' : '이미 시행된 것도 보기') + '</button></div>' +
-      '<div class="rr-rp-list">' + (rows || '<div class="rr-rp-empty">해당하는 개정이 없습니다.</div>') + '</div>' +
-      (list.length > 12 ? '<div class="rr-rp-more">외 ' + (list.length - 12) + '건은 분기별 개정 현황 목록에서 「벌칙·과태료·의무 변경만」으로 볼 수 있습니다.</div>' : '');
+      '<p>개정 ' + num(items.length) + '건 중 ' + num(items.filter(isRisk).length) + '건</p></div></div>' +
+      '<div class="rr-rp-tiles">' + tiles + '</div>' + bar + chips + content;
   }
   window.addEventListener('rr-year-changed', function () { renderPanel(); });
 
@@ -271,7 +340,32 @@
     '.rr-risk-panel { background:var(--bg-glass); backdrop-filter:blur(20px); border:1px solid var(--glass-border, var(--border)); border-radius:16px; padding:1.2rem 1.4rem; margin:0 0 1.75rem; box-shadow:var(--glass-shadow); }',
     '.rr-rp-h h3 { margin:0; font-size:1.15rem; color:var(--text-primary); }',
     '.rr-rp-h p { margin:.25rem 0 0; font-size:.84rem; color:var(--text-muted); }',
-    '.rr-rp-tiles { display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:.5rem; margin:.9rem 0 1rem; }',
+    '.rr-rp-tiles { display:grid; grid-template-columns:repeat(8, minmax(0,1fr)); gap:.5rem; margin:.9rem 0 1rem; }',
+    '.rr-rp-tile.all { color:var(--ink, #1a202c); }',
+    '.rr-rp-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:0 0 12px; }',
+    '.rr-rp-bar .sp { flex:1; }',
+    '.rr-rp-bar .rr-seg button em { font-style:normal; margin-left:6px; font-size:11.5px; font-weight:800; color:var(--ink-4, #a0aec0); font-variant-numeric:tabular-nums; }',
+    '.rr-rp-bar .rr-seg button.on em { color:var(--brand, #3056d3); }',
+    '.rr-rp-chips { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:-2px 0 10px; }',
+    '.rr-rp-chip { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 8px 0 10px; border:0; border-radius:999px; background:rgba(48,86,211,.1); color:var(--brand, #3056d3); font:inherit; font-size:12.5px; font-weight:800; cursor:pointer; }',
+    '.rr-rp-chip i { width:8px; height:8px; border-radius:2px; }',
+    '.rr-rp-chip .ri { width:13px; height:13px; }',
+    '.rr-rp-reset { border:0; background:none; color:var(--ink-3, #718096); font:inherit; font-size:12.5px; font-weight:700; cursor:pointer; text-decoration:underline; text-underline-offset:2px; }',
+    '.rr-rp-mxh { font-size:.9rem; font-weight:800; color:var(--ink, #1a202c); margin:0 0 .5rem; }',
+    '.rr-rp-mxh span { font-size:.78rem; font-weight:600; color:var(--ink-3, #718096); margin-left:6px; }',
+    '.rr-rp-mxw { overflow-x:auto; border:1px solid var(--line, #e2e8f0); border-radius:12px; background:var(--surface, #fff); }',
+    '.rr-rp-mx { width:100%; border-collapse:collapse; font-size:13px; }',
+    '.rr-rp-mx th, .rr-rp-mx td { padding:8px 10px; border-bottom:1px solid var(--line-2, #edf2f7); text-align:center; white-space:nowrap; font-variant-numeric:tabular-nums; }',
+    '.rr-rp-mx thead th { font-size:12px; font-weight:800; background:var(--surface-2, #f7fafc); border-bottom:1px solid var(--line, #e2e8f0); }',
+    '.rr-rp-mx thead th.all { color:var(--ink, #1a202c); }',
+    '.rr-rp-mx thead th.pen{color:#c53030} .rr-rp-mx thead th.fine{color:#c05621} .rr-rp-mx thead th.sur{color:#975a16} .rr-rp-mx thead th.san{color:#6b46c1} .rr-rp-mx thead th.duty{color:#2c7a7b} .rr-rp-mx thead th.new{color:#2b6cb0} .rr-rp-mx thead th.del{color:#4a5568}',
+    '.rr-rp-mx tbody th { text-align:left; font-weight:800; color:var(--ink, #1a202c); }',
+    '.rr-rp-mx tbody th i { display:inline-block; width:8px; height:8px; border-radius:2px; margin-right:8px; }',
+    '.rr-rp-mx tr.tot th, .rr-rp-mx tr.tot td { background:var(--surface-2, #f7fafc); border-bottom:0; }',
+    '.rr-rp-mx td button { min-width:38px; height:28px; padding:0 8px; border:1px solid transparent; border-radius:8px; background:transparent; font:inherit; font-size:13px; font-weight:800; cursor:pointer; color:var(--ink, #1a202c); }',
+    '.rr-rp-mx td button:hover { background:var(--surface-3, #edf2f7); border-color:var(--line, #e2e8f0); }',
+    '.rr-rp-mx td button.all { color:var(--brand, #3056d3); }',
+    '.rr-rp-mx td .z { color:var(--ink-4, #cbd5e0); }',
     '.rr-rp-tile { text-align:left; border:1px solid var(--border); background:var(--bg-card); border-radius:12px; padding:.55rem .7rem; cursor:pointer; font:inherit; position:relative; overflow:hidden; }',
     '.rr-rp-tile::before { content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:currentColor; opacity:.8; }',
     '.rr-rp-tile b { display:block; font-size:1.45rem; font-weight:800; line-height:1.2; color:var(--text-primary); font-variant-numeric:tabular-nums; }',
@@ -292,8 +386,9 @@
     '.rr-rp-cat { font-size:.75rem; color:var(--text-muted); white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }',
     '.rr-rp-cat i { width:8px; height:8px; border-radius:2px; }',
     '.rr-rp-row .rr-rbs { margin:0; justify-content:flex-end; }',
+    '.rr-rp-list { max-height:560px; overflow-y:auto; padding-right:4px; }',
     '.rr-rp-empty, .rr-rp-more { font-size:.82rem; color:var(--text-muted); padding:.4rem .2rem; }',
-    '@media (max-width: 1100px) { .rr-rp-tiles { grid-template-columns:repeat(4, minmax(0,1fr)); } .rr-rp-row { grid-template-columns:44px 64px minmax(0,1fr); } .rr-rp-row .rr-rp-cat, .rr-rp-row .rr-rbs { grid-column:3; } }'
+    '@media (max-width: 1100px) { .rr-rp-tiles { grid-template-columns:repeat(4, minmax(0,1fr)); } .rr-rp-bar .sp { display:none; } .rr-rp-row { grid-template-columns:44px 64px minmax(0,1fr); } .rr-rp-row .rr-rp-cat, .rr-rp-row .rr-rbs { grid-column:3; } }'
   ].join('\n');
   document.head.appendChild(st);
 })();
