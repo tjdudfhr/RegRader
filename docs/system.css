@@ -629,12 +629,13 @@ body .rr-summary > div:first-child .rr-u-delta.up { color: #9cc0ff !important; }
 body .rr-summary > div:first-child .rr-u-delta.down { color: #ffb38a !important; }
 body .rr-summary > div:first-child .ri-solo { background: rgba(255, 255, 255, 0.08); color: #fff; }
 
-/* 분석 숫자 줄: 첫 숫자만 검정 */
+/* 분석 숫자 줄: 첫 숫자는 브랜드 파랑 — 위의 선택 카드(분기·직무, 검정)와 구분되게 */
 body .rr-job-tiles > .rr-job-tile:first-child {
-  background: var(--night) !important; border-color: var(--night) !important; color: var(--night-ink-2) !important;
-  box-shadow: 0 10px 22px -12px rgba(14, 20, 34, 0.6) !important;
+  background: radial-gradient(120% 140% at 100% 0%, #4a6ee0 0%, transparent 62%), #2c4fc4 !important;
+  border-color: #2c4fc4 !important; color: rgba(255, 255, 255, 0.78) !important;
+  box-shadow: 0 10px 22px -12px rgba(44, 79, 196, 0.65) !important;
 }
-body .rr-job-tiles > .rr-job-tile:first-child * { color: var(--night-ink-2) !important; }
+body .rr-job-tiles > .rr-job-tile:first-child * { color: rgba(255, 255, 255, 0.78) !important; }
 body .rr-job-tiles > .rr-job-tile:first-child b { color: #fff !important; }
 
 /* ============ 분기별 탭 ============ */
