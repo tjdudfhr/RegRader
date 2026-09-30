@@ -124,7 +124,7 @@ def build(log=print, today: date | None = None):
         name = (r.get("행정규칙명") or c["name"]).strip()
         items.append({
             "id": rid,
-            "t": name,
+            "t": c.get("name") or name,   # 현재 명칭 (중간에 이름이 바뀐 고시도 적용법규 목록과 같은 이름으로 센다)
             "k": r.get("행정규칙종류") or c.get("kind") or "",
             "d": ef,
             "p": iso(r.get("발령일자")),

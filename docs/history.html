@@ -181,9 +181,10 @@
   /* 적용법규(기본 목록)가 바뀐 경우 안내: 추가 · 법령명 변경 · 삭제 */
   function baseLine(e) {
     var add = e.baseLawsAdded || [], ren = e.baseLawsRenamed || [], rem = e.baseLawsRemoved || [], mg = e.admrulMerged, sc = e.admrulScope;
-    if (!add.length && !ren.length && !rem.length && !mg && !sc) return '';
+    if (!add.length && !ren.length && !rem.length && !mg && !sc && !e.note) return '';
     var lines = [];
     if (mg) lines.push('<b>행정규칙 ' + num(mg.laws) + '개를 적용법규에 편입</b> · 올해 개정 ' + num(mg.events) + '건 추가');
+    if (e.note) lines.push('<b>' + esc(e.note) + '</b>');
     if (sc) lines.push('<b>적용 범위 조정</b> · 회사 사업과 무관한 행정규칙 ' + num(sc.laws) + '개를 적용법규에서 제외' +
       (sc.events ? ' · 올해 개정 ' + num(sc.events) + '건 빠짐' : '') + (sc.restored ? ' · 행정규칙 ' + num(sc.restored) + '개 되살림' + (sc.restoredEvents ? '(개정 ' + num(sc.restoredEvents) + '건)' : '') : ''));
     if (add.length) lines.push('<b>적용법규 추가 ' + add.length + '개</b> · ' + add.map(function (b) {
@@ -202,6 +203,7 @@
     var p = [];
     if (e.admrulMerged) p.push('행정규칙 편입');
     if (e.admrulScope) p.push('적용 범위 조정');
+    if (e.note && !e.admrulScope && !(e.baseLawsAdded || []).length) p.push('집계 정리');
     if ((e.baseLawsAdded || []).length) p.push('적용법규 +' + e.baseLawsAdded.length);
     if ((e.baseLawsRenamed || []).length) p.push('법령명 변경 ' + e.baseLawsRenamed.length);
     if ((e.baseLawsRemoved || []).length) p.push('적용법규 삭제 ' + e.baseLawsRemoved.length);

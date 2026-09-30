@@ -1,6 +1,38 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-09-30T00:23:04.842361+00:00",
+      "asOf": "2026-09-30",
+      "previousCheckedAt": "2026-09-30T00:12:05.480925+00:00",
+      "totalBefore": 652,
+      "totalAfter": 651,
+      "note": "같은 행정규칙의 이름만 다른 두 버전(같은 시행일)을 한 건으로 정리 · 행정규칙 개정은 현재 명칭으로 표시",
+      "universeBefore": {
+        "openapiCurrent": 2536,
+        "openapiFuture": 5323,
+        "openapiUpcoming": 682
+      },
+      "universeAfter": {
+        "openapiCurrent": 2536,
+        "openapiFuture": 5323,
+        "openapiUpcoming": 682
+      },
+      "added": [],
+      "removed": [],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-09-30T00:12:05.480925+00:00",
       "asOf": "2026-09-30",
       "previousCheckedAt": "2026-09-29T23:47:40.379635+00:00",
@@ -8208,5 +8240,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-09-30T00:12:05.480925+00:00"
+  "updatedAt": "2026-09-30T00:23:04.842361+00:00"
 }

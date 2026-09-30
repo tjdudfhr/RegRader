@@ -1,13 +1,13 @@
 {
   "year": 2026,
-  "totalCount": 429,
-  "generatedAt": "2026-09-29T23:47:40.379635+00:00",
+  "totalCount": 433,
+  "generatedAt": "2026-09-30T00:12:05.480925+00:00",
   "asOf": "2026-09-30",
   "stats": {
     "quarter": {
-      "Q1": 172,
+      "Q1": 175,
       "Q2": 99,
-      "Q3": 108,
+      "Q3": 109,
       "Q4": 50
     },
     "categories": {
@@ -16,28 +16,28 @@
       "환경": 136,
       "안전": 82,
       "공정거래": 24,
-      "정보보호": 29,
+      "정보보호": 33,
       "지배구조": 9,
       "지식재산권": 2
     },
     "amendmentType": {
       "일부개정": 242,
-      "타법개정": 187
+      "타법개정": 191
     },
     "status": {
-      "현행": 379,
+      "현행": 383,
       "시행예정": 50
     },
-    "distinctBaseHit": 173,
-    "baseLaws": 251
+    "distinctBaseHit": 176,
+    "baseLaws": 254
   },
   "integrity": {
-    "checkedAt": "2026-09-29T23:47:40.379644+00:00",
+    "checkedAt": "2026-09-30T00:12:05.480935+00:00",
     "asOf": "2026-09-30",
     "rule": "unique key = title+effectiveDate+amendmentType; match = compact(name)",
-    "uniqueEvents": 429,
-    "uniqueTitles": 173,
-    "titlesWithMultipleEvents": 106,
+    "uniqueEvents": 433,
+    "uniqueTitles": 176,
+    "titlesWithMultipleEvents": 107,
     "titlesWithBothInForceAndUpcoming": 26,
     "duplicateKeys": 0,
     "statusConsistentWithDate": true
@@ -3842,6 +3842,106 @@
       ]
     },
     {
+      "id": "matched_2026_276539_law_253_2026-01-02_타법개정",
+      "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법",
+      "summary": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-10-01",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "산업통상부",
+      "categories": [
+        "정보보호"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "009190",
+        "lsiSeq": "276539",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_253"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=276539"
+      },
+      "originalTitle": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276539_law_253_2026-01-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_281129_law_254_2026-01-02_타법개정",
+      "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령",
+      "summary": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-01-02",
+      "announcedDate": "2025-12-30",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -271,
+      "ministry": "산업통상부",
+      "categories": [
+        "정보보호"
+      ],
+      "amendments": [
+        {
+          "date": "2026-01-02",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "009204",
+        "lsiSeq": "281129",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_254"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=281129"
+      },
+      "originalTitle": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령",
+      "eventIndex": 1,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_281129_law_254_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282977_law_254_2026-02-01_타법개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_281605_law_154_2026-01-02_타법개정",
       "title": "수도법 시행령",
       "summary": "수도법 시행령의 2026년 타법개정사항",
@@ -5691,6 +5791,59 @@
           "amendmentType": "타법개정",
           "status": "시행예정",
           "id": "matched_2026_290379_law_241_2026-10-02_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_282977_law_254_2026-02-01_타법개정",
+      "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령",
+      "summary": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령의 2026년 타법개정사항",
+      "effectiveDate": "2026-02-01",
+      "announcedDate": "2026-01-27",
+      "lawType": "대통령령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -241,
+      "ministry": "산업통상부",
+      "categories": [
+        "정보보호"
+      ],
+      "amendments": [
+        {
+          "date": "2026-02-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "009204",
+        "lsiSeq": "282977",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_254"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=282977"
+      },
+      "originalTitle": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령",
+      "eventIndex": 2,
+      "eventCount": 2,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_281129_law_254_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_282977_law_254_2026-02-01_타법개정"
         }
       ]
     },
@@ -18112,6 +18265,53 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_287833_law_217_2026-07-01_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_288057_law_255_2026-07-01_타법개정",
+      "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행규칙",
+      "summary": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행규칙의 2026년 타법개정사항",
+      "effectiveDate": "2026-07-01",
+      "announcedDate": "2026-07-01",
+      "lawType": "산업통상부령",
+      "amendmentType": "타법개정",
+      "status": "현행",
+      "inForce": true,
+      "daysUntil": -91,
+      "ministry": "산업통상부",
+      "categories": [
+        "정보보호"
+      ],
+      "amendments": [
+        {
+          "date": "2026-07-01",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "009206",
+        "lsiSeq": "288057",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_255"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=288057"
+      },
+      "originalTitle": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행규칙",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 0,
+      "timeline": [
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288057_law_255_2026-07-01_타법개정"
         }
       ]
     },

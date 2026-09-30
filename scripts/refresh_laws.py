@@ -151,6 +151,9 @@ def load_prev_rows():
 
 
 def row_key(r):
+    # 행정규칙은 ID로 맞춘다 (이름만 바뀐 고시가 '빠짐 + 신규'로 잡히지 않게)
+    if r.get("k") and r.get("i"):
+        return ("A:" + str(r["i"]), r.get("d"), r.get("a"))
     return (r.get("t"), r.get("d"), r.get("a"))
 
 
@@ -254,7 +257,11 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         admrul_merged = {"laws": meta.get("admrulLaws"), "events": len(merged)}
     admrul_scope = ({"laws": len(out_ids), "events": len(removed_by_scope), "restored": len(restored_ids), "restoredEvents": len(added_by_scope)}
                     if removed_by_scope or added_by_scope else None)
-    if not (added or removed or now_in_force or base_added or base_renamed or base_removed or admrul_merged or admrul_scope or (u_before and u_before != u_after)):
+    # 화면에 보이던 건수(직전 meta)와 새 건수가 다르면 개별 변동이 없어도 기록한다 (예: 중복 정리). RR_NOTE 로 사유를 남긴다.
+    shown_before = (prev_meta or {}).get("totalCount")
+    total_moved = shown_before is not None and shown_before != meta["totalCount"]
+    note = (os.environ.get("RR_NOTE") or "").strip() or ("집계 정리" if total_moved else "")
+    if not (added or removed or now_in_force or base_added or base_renamed or base_removed or admrul_merged or admrul_scope or total_moved or (u_before and u_before != u_after)):
         print("changelog: 변경 없음", flush=True)
         return
     log = read_json(path, {"entries": []})
@@ -263,8 +270,9 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         "checkedAt": meta["generatedAt"],
         "asOf": meta["asOf"],
         "previousCheckedAt": (prev_meta or {}).get("generatedAt"),
-        "totalBefore": len({row_key(r) for r in prev_rows}),
+        "totalBefore": shown_before if shown_before is not None else len({row_key(r) for r in prev_rows}),
         "totalAfter": meta["totalCount"],
+        "note": note or None,
         "universeBefore": u_before or None,
         "universeAfter": u_after,
         "added": added,
