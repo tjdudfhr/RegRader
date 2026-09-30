@@ -23,6 +23,8 @@ from pathlib import Path
 
 import requests
 
+from admrul_scope import PROMOTE   # 참고 규칙에 걸려도 당사 사업장 지역이라 적용법규로 올린 행정규칙
+
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 CANDIDATES = DOCS / "admrul_candidates.json"
@@ -131,7 +133,7 @@ def build(log=print, today: date | None = None):
             "q": str(r.get("행정규칙일련번호") or ""),
             "c": c.get("jobs") or [],
             "f": c.get("families") or [],
-            "g": reference_tag(name, r.get("행정규칙종류") or c.get("kind") or "", year),
+            "g": "" if rid in PROMOTE else reference_tag(name, r.get("행정규칙종류") or c.get("kind") or "", year),
             "s": 0 if ef < today.isoformat() else 1,   # 0 = 시행완료 (오늘 시행분은 '예정'쪽: 법령과 같은 기준)
         })
     items.sort(key=lambda x: (x["d"], x["t"]))

@@ -1,6 +1,123 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-09-30T00:12:05.480925+00:00",
+      "asOf": "2026-09-30",
+      "previousCheckedAt": "2026-09-29T23:47:40.379635+00:00",
+      "totalBefore": 647,
+      "totalAfter": 652,
+      "universeBefore": {
+        "openapiCurrent": 2536,
+        "openapiFuture": 5323,
+        "openapiUpcoming": 682
+      },
+      "universeAfter": {
+        "openapiCurrent": 2536,
+        "openapiFuture": 5323,
+        "openapiUpcoming": 682
+      },
+      "added": [],
+      "removed": [],
+      "nowInForce": [],
+      "baseLawsAdded": [
+        {
+          "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법",
+          "category": "정보보호",
+          "ministry": "산업통상부",
+          "lawType": "법률"
+        },
+        {
+          "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령",
+          "category": "정보보호",
+          "ministry": "산업통상부",
+          "lawType": "시행령"
+        },
+        {
+          "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행규칙",
+          "category": "정보보호",
+          "ministry": "산업통상부",
+          "lawType": "시행규칙"
+        }
+      ],
+      "addedByBase": [
+        {
+          "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "정보보호",
+          "lsiSeq": "276539"
+        },
+        {
+          "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령",
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "정보보호",
+          "lsiSeq": "281129"
+        },
+        {
+          "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령",
+          "effectiveDate": "2026-02-01",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "정보보호",
+          "lsiSeq": "282977"
+        },
+        {
+          "title": "핵심전략기술과 그 관련 품목 및 소재·부품·장비 분야 경제안보품목등의 선정·확인·재검토 세부절차 등에 관한 고시",
+          "effectiveDate": "2026-04-08",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "정보보호",
+          "kind": "고시",
+          "admRulSeq": "2100000277154"
+        },
+        {
+          "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행규칙",
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "ministry": "산업통상부",
+          "category": "정보보호",
+          "lsiSeq": "288057"
+        }
+      ],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": {
+        "laws": 1094,
+        "events": 1,
+        "restored": 6,
+        "restoredEvents": 1
+      },
+      "removedByScope": [
+        {
+          "title": "추천ㆍ보증 등에 관한 표시ㆍ광고 심사지침",
+          "effectiveDate": "2026-06-01",
+          "amendmentType": "일부개정",
+          "ministry": "공정거래위원회",
+          "category": "공정거래",
+          "kind": "예규",
+          "admRulSeq": "2100000280130"
+        }
+      ],
+      "addedByScope": [
+        {
+          "title": "국가산업단지 관리기본계획(포항블루밸리)",
+          "effectiveDate": "2026-01-11",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000272534"
+        }
+      ],
+      "baseLawsBefore": 251,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-09-29T23:47:40.379635+00:00",
       "asOf": "2026-09-30",
       "previousCheckedAt": "2026-09-29T23:37:09.438960+00:00",
@@ -8091,5 +8208,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-09-29T23:47:40.379635+00:00"
+  "updatedAt": "2026-09-30T00:12:05.480925+00:00"
 }

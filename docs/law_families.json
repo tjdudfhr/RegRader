@@ -1,9 +1,9 @@
 {
- "generatedAt": "2026-09-29T23:51:25.685695+00:00",
+ "generatedAt": "2026-09-30T00:09:18.659501+00:00",
  "source": "국가법령정보센터 법령체계도 (lsStmd)",
- "baseKey": "b5091a6c7b2d66f5f87a7eecab35b2ac37bbbe83",
- "baseCount": 251,
- "familyCount": 83,
+ "baseKey": "dcd2bfc490dc55eb72ac2eeea6cc5ff28135735d",
+ "baseCount": 254,
+ "familyCount": 84,
  "families": [
   {
    "root": "감염병의 예방 및 관리에 관한 법률",
@@ -1282,6 +1282,42 @@
      "inBase": true,
      "category": "환경",
      "parent": "소음·진동관리법"
+    }
+   ]
+  },
+  {
+   "root": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법",
+   "members": [
+    {
+     "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법",
+     "level": "법률",
+     "kind": "법률",
+     "inBase": true,
+     "category": "정보보호"
+    },
+    {
+     "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령",
+     "level": "시행령",
+     "kind": "대통령령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법"
+    },
+    {
+     "title": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행규칙",
+     "level": "시행규칙",
+     "kind": "산업통상부령",
+     "inBase": true,
+     "category": "정보보호",
+     "parent": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령"
+    },
+    {
+     "title": "소재ㆍ부품통계조사규칙",
+     "level": "시행규칙",
+     "kind": "산업통상부령",
+     "inBase": false,
+     "parent": "소재ㆍ부품ㆍ장비산업 경쟁력 강화 및 공급망 안정화를 위한 특별조치법 시행령",
+     "lsiSeq": "278747"
     }
    ]
   },
