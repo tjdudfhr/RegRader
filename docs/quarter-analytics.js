@@ -1,7 +1,7 @@
 /* 분기별 탭 '분기 개정 분석' + '분기 개정 법령 목록'
  * 위쪽 분기 카드(1~4분기)가 선택 버튼이다. 고른 분기를 따라:
  *  - 숫자: 개정 건수(법령 수) / 시행완료 / 30일 내 시행 / 이후 시행예정
- *  - 월별·직무별 시행 건수 (분기의 3개월, 직무별 누적)
+ *  - 월별·직무별 시행 건수 (달마다 도넛, 첫 줄 전체 폭)
  *  - 직무별 개정 (가로 막대, 누르면 직무별 탭의 그 직무)
  *  - 개정 유형 · 법령 종류 (비율 막대)
  *  - 소관부처 TOP 6
@@ -64,20 +64,35 @@
       return '<div class="rr-job-tile' + (i === 2 && soon ? ' hot' : '') + '"><span>' + t[0] + '</span><b>' + (typeof t[1] === 'number' ? t[1].toLocaleString('ko-KR') : t[1]) + '</b><small>' + t[2] + '</small></div>';
     }).join('');
 
-    /* 월별 · 직무별 (누적) */
-    var mLabels = months.map(function (m) { return m + '월'; });
-    make('rr-q-monthly', {
-      type: 'bar',
-      data: { labels: mLabels, datasets: cats.map(function (c) {
-        return { label: c, data: months.map(function (m) { return sel.filter(function (x) { return Number(x.effectiveDate.slice(5, 7)) === m && (x.categories || [])[0] === c; }).length; }),
-          backgroundColor: window.rrCatColor(c), borderColor: k.surface, borderWidth: { top: 2 }, borderSkipped: false, maxBarThickness: 64 };
-      }) },
-      options: { responsive: true, maintainAspectRatio: false, animation: { duration: 500 },
-        plugins: { legend: { position: 'top', align: 'start', labels: { color: k.text, boxWidth: 10, boxHeight: 10, font: { size: 11 }, padding: 10 } },
-          tooltip: { mode: 'index', filter: function (c) { return c.parsed.y > 0; }, callbacks: { title: function (c) { return year + '년 ' + c[0].label; },
-            footer: function (c) { return '합계 ' + c.reduce(function (n, x) { return n + x.parsed.y; }, 0) + '건'; } } } },
-        scales: { x: { stacked: true, grid: { display: false }, ticks: { color: k.text, font: { size: 12 } } },
-          y: { stacked: true, beginAtZero: true, grid: { color: k.grid }, border: { display: false }, ticks: { color: k.muted, font: { size: 11 }, precision: 0, maxTicksLimit: 5 } } } }
+    /* 월별 · 직무별: 달마다 도넛 하나 (가운데 = 그 달 시행 건수, 아래 = 직무별 건수·비중)
+       범례는 분기에 나온 직무를 늘 같은 순서로 세워 세 달을 나란히 비교할 수 있게 한다 */
+    var qJobs = cats.filter(function (c) { return sel.some(function (x) { return (x.categories || [])[0] === c; }); });
+    var box = document.getElementById('rr-q-monthly');
+    Object.keys(charts).forEach(function (id) { if (/^rr-q-m\d/.test(id)) { charts[id].destroy(); delete charts[id]; } });
+    box.innerHTML = months.map(function (m) {
+      return '<div class="rr-q-md"><div class="rr-q-md-plot"><canvas id="rr-q-m' + m + '" role="img"></canvas><div class="rr-q-md-c"><b></b><span>' + m + '월</span></div></div><div class="rr-an-legend"></div></div>';
+    }).join('');
+    months.forEach(function (m, i) {
+      var inM = sel.filter(function (x) { return Number(x.effectiveDate.slice(5, 7)) === m; });
+      var rows = qJobs.map(function (c) { return [c, inM.filter(function (x) { return (x.categories || [])[0] === c; }).length]; });
+      var el = box.children[i], total = inM.length;
+      el.querySelector('.rr-q-md-c b').textContent = total + '건';
+      el.querySelector('canvas').setAttribute('aria-label', year + '년 ' + m + '월 직무별 시행 ' + total + '건 도넛 차트');
+      el.querySelector('.rr-an-legend').innerHTML = rows.length ? rows.map(function (r) {
+        var p = total ? Math.round(r[1] / total * 100) : 0;
+        return '<div class="rr-an-li' + (r[1] ? '' : ' zero') + '"><span class="rr-an-sw" style="background:' + window.rrCatColor(r[0]) + '"></span><span>' + esc(r[0]) + '</span><b>' + (r[1] || '–') + '</b><small>' + (r[1] ? p + '%' : '') + '</small></div>';
+      }).join('') : '<div class="rr-an-li zero"><span>해당하는 개정이 없습니다.</span></div>';
+      var has = rows.filter(function (r) { return r[1] > 0; });
+      make('rr-q-m' + m, {
+        type: 'doughnut',
+        data: has.length
+          ? { labels: has.map(function (r) { return r[0]; }), datasets: [{ data: has.map(function (r) { return r[1]; }), backgroundColor: has.map(function (r) { return window.rrCatColor(r[0]); }), borderColor: k.surface, borderWidth: 2, hoverOffset: 4 }] }
+          : { labels: ['없음'], datasets: [{ data: [1], backgroundColor: k.grid, borderWidth: 0 }] },
+        options: { responsive: true, maintainAspectRatio: false, cutout: '68%', animation: { duration: 500 },
+          plugins: { legend: { display: false }, tooltip: { enabled: has.length > 0, callbacks: {
+            title: function () { return year + '년 ' + m + '월'; },
+            label: function (c) { return ' ' + c.label + ' ' + c.parsed + '건 (' + Math.round(c.parsed / total * 100) + '%)'; } } } } }
+      });
     });
 
     /* 직무별 개정 */
@@ -253,6 +268,19 @@
     '.rr-q-risk[aria-pressed="true"] { background:rgba(229,62,62,.12); border-color:rgba(229,62,62,.55); color:#c53030; }',
     '.rr-q-risk + input { margin-left:0 !important; }',
     '.rr-q-listhead input { margin-left:auto; min-width:220px; padding:.5rem .8rem; border-radius:10px; border:1px solid var(--border); background:var(--bg-card); color:var(--text-primary); font:inherit; font-size:.88rem; }',
+    /* 분기 개정 분석: 첫 줄 = 월별 도넛 3개, 둘째 줄 = 직무별 · 개정 유형 · 소관부처 */
+    '.rr-an-grid.rr-q-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }',
+    '.rr-q-mdonuts { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }',
+    '.rr-q-md { display:flex; flex-direction:column; align-items:center; gap:.9rem; min-width:0; }',
+    '.rr-q-md + .rr-q-md { border-left:1px solid var(--border, #e2e8f0); padding-left:1.5rem; }',
+    '.rr-q-md-plot { position:relative; width:170px; height:170px; }',
+    '.rr-q-md-c { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; }',
+    '.rr-q-md-c b { font-size:1.45rem; font-weight:800; color:var(--text-primary); font-variant-numeric:tabular-nums; line-height:1.1; }',
+    '.rr-q-md-c span { font-size:.8rem; font-weight:700; color:var(--text-muted); margin-top:2px; }',
+    '.rr-q-md .rr-an-legend { width:100%; max-width:240px; gap:.3rem; }',
+    '.rr-q-md .rr-an-li.zero { opacity:.45; }',
+    '@media (max-width: 900px) { .rr-an-grid.rr-q-grid { grid-template-columns: 1fr; } }',
+    '@media (max-width: 640px) { .rr-q-mdonuts { grid-template-columns: 1fr; gap: 1.2rem; } .rr-q-md + .rr-q-md { border-left:0; padding-left:0; border-top:1px solid var(--border, #e2e8f0); padding-top:1.2rem; } }',
     '.rr-q-month { margin-bottom: 1rem; }',
     '.rr-q-month-h { font-size:.82rem; font-weight:800; color:var(--text-secondary); margin:0 0 .4rem .2rem; }',
     '.rr-q-month-h span { color:var(--text-muted); font-weight:600; margin-left:.3rem; }',
