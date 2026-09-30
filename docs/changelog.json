@@ -1,6 +1,123 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-09-30T22:19:45.525386+00:00",
+      "asOf": "2026-10-01",
+      "previousCheckedAt": "2026-09-30T00:23:04.842361+00:00",
+      "totalBefore": 651,
+      "totalAfter": 658,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2536,
+        "openapiFuture": 5323,
+        "openapiUpcoming": 682
+      },
+      "universeAfter": {
+        "openapiCurrent": 2545,
+        "openapiFuture": 5342,
+        "openapiUpcoming": 633
+      },
+      "added": [
+        {
+          "title": "공정거래위원회 회의운영 및 사건절차  등에 관한 규칙",
+          "effectiveDate": "2026-09-28",
+          "amendmentType": "일부개정",
+          "ministry": "공정거래위원회",
+          "category": "공정거래",
+          "kind": "고시",
+          "admRulSeq": "2100000285468"
+        },
+        {
+          "title": "보세창고 특허 및 운영에 관한 고시",
+          "effectiveDate": "2026-09-29",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000285590"
+        },
+        {
+          "title": "특송물품 수입통관 사무처리에 관한 고시",
+          "effectiveDate": "2026-09-29",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000285588"
+        },
+        {
+          "title": "법인세법 시행령",
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "290843"
+        },
+        {
+          "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행령",
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "일부개정",
+          "ministry": "과학기술정보통신부,방송미디어통신위원회",
+          "category": "정보보호",
+          "lsiSeq": "290811"
+        },
+        {
+          "title": "종합부동산세법 시행령",
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "lsiSeq": "290557"
+        },
+        {
+          "title": "지방세법 시행령",
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "일부개정",
+          "ministry": "행정안전부",
+          "category": "재무회계",
+          "lsiSeq": "290815"
+        }
+      ],
+      "removed": [],
+      "nowInForce": [
+        {
+          "title": "자본시장과 금융투자업에 관한 법률",
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "타법개정",
+          "ministry": "금융위원회",
+          "category": "재무회계",
+          "lsiSeq": "285183"
+        },
+        {
+          "title": "자본시장과 금융투자업에 관한 법률 시행령",
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "타법개정",
+          "ministry": "금융위원회",
+          "category": "재무회계",
+          "lsiSeq": "290293"
+        },
+        {
+          "title": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "일부개정",
+          "ministry": "과학기술정보통신부,방송미디어통신위원회",
+          "category": "정보보호",
+          "lsiSeq": "285199"
+        }
+      ],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-09-30T00:23:04.842361+00:00",
       "asOf": "2026-09-30",
       "previousCheckedAt": "2026-09-30T00:12:05.480925+00:00",
@@ -8240,5 +8357,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-09-30T00:23:04.842361+00:00"
+  "updatedAt": "2026-09-30T22:19:45.525386+00:00"
 }
