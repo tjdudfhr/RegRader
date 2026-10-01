@@ -141,6 +141,16 @@
   .note a { color: var(--primary); }
 
 
+  /* 목록: 고정 높이 상자 안에서 스크롤 — 탭을 바꿔도 페이지 높이가 거의 그대로라 화면이 튀지 않는다.
+     끼워 넣은 iframe 높이는 내용으로 정해지므로 vh 대신 px 로 */
+  #list { max-height: 640px; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; padding-right: 6px; scrollbar-width: auto; }
+  #list::-webkit-scrollbar { width: 12px; }
+  #list::-webkit-scrollbar-track { background: var(--surface-3, #f1f3f6); border-radius: 10px; }
+  #list::-webkit-scrollbar-thumb { background: #9aa3b2; border: 3px solid var(--surface-3, #f1f3f6); border-radius: 10px; background-clip: padding-box; min-height: 48px; }
+  #list::-webkit-scrollbar-thumb:hover { background: #6b7385; background-clip: padding-box; }
+  #list .section-title { position: sticky; top: 0; z-index: 2; background: var(--canvas, #f3f5f8); margin: 0 !important; padding: 10px 2px 8px; }
+  #list .wlist { margin-bottom: 12px; }
+  @media (max-width: 640px) { #list { max-height: 560px; } }
   /* 직무 칩 (숫자 = 지금 탭에서 그 직무 건수) */
   .jobs { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 14px; }
   .jobs button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary);
@@ -214,7 +224,7 @@
   html.rr-embedded header p { color: var(--text-muted); opacity: 1; }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="./system.css?v=20261001a">
+<link rel="stylesheet" href="./system.css?v=20261001b">
 <script src="./system-ui.js?v=20260929a"></script>
 </head>
 <body>
@@ -374,8 +384,11 @@ function render() {
   $('#n-diff').textContent = V.added.length + V.removed.length;
   $('#n-all').textContent = V.all.length;
   const none = TAB === 'diff' ? '직전 갱신 이후 변경이 없습니다.' : JOB ? esc(JOB) + ' 직무에 해당하는 법령이 없습니다.' : '해당하는 법령이 없습니다.';
-  $('#list').innerHTML = html || `<div class="empty glass">${none}</div>`;
+  const L = $('#list');
+  L.innerHTML = html || `<div class="empty glass">${none}</div>`;
+  L.scrollTop = 0;
   paintJobs();
+  if (window.rrReportHeight) requestAnimationFrame(window.rrReportHeight);
 }
 /* 직무 칩: 숫자 = 지금 탭(검색·벌칙 필터 포함)에서 그 직무를 누르면 나오는 건수 */
 function paintJobs() {
@@ -557,7 +570,8 @@ $('#list').addEventListener('keydown', ev => {
       var h = Math.ceil(document.body.getBoundingClientRect().height) + 24;
       if (Math.abs(h - last) > 2) { last = h; window.parent.postMessage({ rr: 'embed-height', h: h }, location.origin); }
     }
-    if (window.ResizeObserver) new ResizeObserver(report).observe(document.body);
+    window.rrReportHeight = report;
+    if (window.ResizeObserver) { var ro = new ResizeObserver(report); ro.observe(document.body); var w = document.querySelector('.wrap'); if (w) ro.observe(w); }
     window.addEventListener('load', report);
     setInterval(report, 1000);
     /* 사이트 안 다른 페이지로 가는 링크는 메인의 해당 탭으로 바꾼다 */
