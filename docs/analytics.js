@@ -1,9 +1,6 @@
-/* 분기별 탭 '개정 분석' 대시보드
- *  - 분기 카드마다 직무 구성 막대(가는 누적 막대)
- *  - 직무별 개정 건수 (가로 막대, 누르면 직무별 탭으로 이동)
- *  - 분기 × 직무 (누적 가로 막대, 누르면 분기 상세) + 표로 보기
- *  - 개정 유형 / 법령 종류 (도넛, 3~5조각)
- *  - 소관부처 TOP 8, 올해 여러 번 개정된 법령 TOP 8 (가로 막대, 법령은 누르면 상세 팝업)
+/* 종합 현황 '개정 분석' — 실무자가 사규·업무에 반영할 때 필요한 것 위주 (2026-10-01 개편)
+ *  - 직무별 개정 건수 (실질 개정 / 타법 정비), 직무 × 분기 표, 법령 종류별 반영할 곳, 전체를 읽어야 할 개정(제정·전부개정)
+ *  - 분기별 탭 분기 카드마다 직무 구성 막대(가는 누적 막대), 메뉴 배지, 차트 도구(rrChartKit)도 여기서
  * 색: 직무는 window.rrCatColor (검증된 8색, 고정 순서). 그 밖의 차원은 보라 한 계열의 단계색
  * (라이트/다크 각각 검증). 숫자·글자는 글자색 토큰을 쓰고, 색은 식별용으로만 쓴다.
  * 연도는 데이터에서 읽으므로 해가 바뀌어도 그대로 동작한다.
@@ -42,7 +39,7 @@
   function compute(items) {
     var year = yearOf(items);
     var cats = window.RR_CAT_ORDER || [];
-    var byCat = {}, byQC = {}, byType = {}, byKind = {}, byMin = {}, byLaw = {};
+    var byCat = {}, byQC = {}, byType = {};
     cats.forEach(function (c) { byCat[c] = 0; });
     QUARTERS.forEach(function (q) { byQC[q[0]] = {}; cats.forEach(function (c) { byQC[q[0]][c] = 0; }); });
     items.forEach(function (x) {
@@ -55,18 +52,11 @@
       if (q && byQC[q[0]][c] != null) byQC[q[0]][c]++;
       var t = x.amendmentType || '기타';
       byType[t] = (byType[t] || 0) + 1;
-      var k = kindOf(x);
-      byKind[k] = (byKind[k] || 0) + 1;
-      String(x.ministry || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean).forEach(function (mn) { byMin[mn] = (byMin[mn] || 0) + 1; });
-      (byLaw[x.title] = byLaw[x.title] || []).push(x);
     });
     function top(obj, n) { return Object.keys(obj).map(function (k) { return [k, obj[k]]; }).sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); }).slice(0, n); }
     return {
       year: year, cats: cats, byCat: byCat, byQC: byQC,
-      types: top(byType, 5), kinds: KINDS.map(function (k) { return [k, byKind[k] || 0]; }),
-      ministries: top(byMin, 8),
-      multi: Object.keys(byLaw).map(function (t) { return [t, byLaw[t].length, byLaw[t]]; }).filter(function (r) { return r[1] > 1; })
-        .sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); }).slice(0, 8),
+      types: top(byType, 5),
       total: items.filter(function (x) { return String(x.effectiveDate || '').slice(0, 4) === year; }).length
     };
   }
@@ -90,19 +80,6 @@
       ctx.restore();
     }
   };
-  var centerText = {
-    id: 'rrCenter2',
-    afterDraw: function (chart) {
-      var o = chart.options.plugins.rrCenter2;
-      if (!o) return;
-      var a = chart.chartArea, ctx = chart.ctx, x = (a.left + a.right) / 2, y = (a.top + a.bottom) / 2;
-      ctx.save(); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillStyle = o.color; ctx.font = '800 22px Inter, -apple-system, sans-serif'; ctx.fillText(o.value, x, y - 6);
-      ctx.fillStyle = o.muted; ctx.font = '600 11px Inter, -apple-system, sans-serif'; ctx.fillText(o.label, x, y + 14);
-      ctx.restore();
-    }
-  };
-
   function make(id, cfg) {
     if (charts[id]) charts[id].destroy();
     var el = document.getElementById(id);
@@ -115,12 +92,6 @@
       x: { beginAtZero: true, suggestedMax: Math.ceil(max * 1.15), grid: { color: k.grid }, border: { display: false }, ticks: { color: k.muted, font: { size: 11 }, precision: 0, maxTicksLimit: 5 } },
       y: { grid: { display: false }, border: { display: false }, ticks: { color: k.text, font: { size: 12 }, autoSkip: false } }
     };
-  }
-  function legendHTML(rows, total) {
-    return rows.map(function (r) {
-      var pct = total ? Math.round(r[1] / total * 100) : 0;
-      return '<div class="rr-an-li"><span class="rr-an-sw" style="background:' + r[2] + '"></span><span>' + esc(r[0]) + '</span><b>' + r[1] + '</b><small>' + pct + '%</small></div>';
-    }).join('');
   }
   function goJob(cat) {
     if (typeof window.switchMainTab === 'function') window.switchMainTab('business');
@@ -154,7 +125,7 @@
     var root = document.getElementById('rr-analytics');
     if (!root || !items.length || typeof Chart === 'undefined' || !window.rrCatColor) return false;
     var s = compute(items);
-    var key = JSON.stringify([s.byQC, s.types, s.ministries, s.multi.map(function (m) { return [m[0], m[1]]; })]) + dark();
+    var key = JSON.stringify([s.byQC, s.types]) + dark();
     if (!force && key === lastKey) return true;
     lastKey = key;
     var k = ink(), R = ramp();
@@ -163,128 +134,99 @@
     setTabBadges(s);
     renderStrips(s);
 
-    /* 1. 직무별 개정 건수 */
-    var jobs = s.cats.map(function (c) { return [c, s.byCat[c]]; }).sort(function (a, b) { return b[1] - a[1]; });
+    var A = window.rrAmend, year = s.year;
+    var inYear = items.filter(function (x) { return String(x.effectiveDate || '').slice(0, 4) === year; });
+    var num = function (n) { return n.toLocaleString('ko-KR'); };
+    var isTidy = function (x) { return x.amendmentType === '타법개정'; };
+
+    /* 1. 직무별 개정 건수 — 실질 개정(법 내용 변경) / 타법 정비(용어·인용 조문 정비)로 나눠 검토 부담을 보이게 */
+    var jobs = s.cats.map(function (c) {
+      var xs = inYear.filter(function (x) { return (x.categories || [])[0] === c; });
+      var t = xs.filter(isTidy).length;
+      return [c, xs.length - t, t];
+    }).filter(function (j) { return j[1] + j[2] > 0; }).sort(function (a, b) { return (b[1] + b[2]) - (a[1] + a[2]); });
+    var GRAY = dark() ? '#4a5568' : '#cfd5de';
     make('rr-an-jobs', {
       type: 'bar',
-      data: { labels: jobs.map(function (j) { return j[0]; }), datasets: [{ data: jobs.map(function (j) { return j[1]; }), backgroundColor: jobs.map(function (j) { return window.rrCatColor(j[0]); }), borderRadius: 4, borderSkipped: 'start', barPercentage: 0.72, categoryPercentage: 0.9 }] },
-      options: {
-        indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: { duration: 600 },
-        layout: { padding: { right: 24 } },
+      data: { labels: jobs.map(function (j) { return j[0]; }), datasets: [
+        { label: '실질 개정', data: jobs.map(function (j) { return j[1]; }), backgroundColor: R[1], borderColor: k.surface, borderWidth: { right: 2 }, borderSkipped: false, barPercentage: 0.72, categoryPercentage: 0.9 },
+        { label: '타법 정비', data: jobs.map(function (j) { return j[2]; }), backgroundColor: GRAY, borderRadius: { topRight: 4, bottomRight: 4 }, borderSkipped: false, barPercentage: 0.72, categoryPercentage: 0.9 }
+      ] },
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: { duration: 500 }, layout: { padding: { right: 30 } },
         onClick: function (e, el) { if (el.length) goJob(jobs[el[0].index][0]); },
         onHover: function (e, el) { e.native && (e.native.target.style.cursor = el.length ? 'pointer' : 'default'); },
-        plugins: { legend: { display: false }, rrEndLabels: { color: k.text },
-          tooltip: { callbacks: { label: function (c) { return ' ' + c.parsed.x + '건 (' + Math.round(c.parsed.x / (s.total || 1) * 100) + '%) · 눌러서 직무별 보기'; } } } },
-        scales: hbarScales(k, jobs[0] ? jobs[0][1] : 1)
-      },
+        plugins: { legend: { position: 'top', align: 'start', labels: { color: k.text, boxWidth: 10, boxHeight: 10, font: { size: 11 }, padding: 10 } },
+          rrEndLabels: { color: k.text, totals: jobs.map(function (j) { return j[1] + j[2]; }) },
+          tooltip: { mode: 'index', callbacks: { footer: function (c) { var j = jobs[c[0].dataIndex]; return '합계 ' + (j[1] + j[2]) + '건 · 눌러서 직무별 탭'; } } } },
+        scales: (function () { var sc = hbarScales(k, Math.max.apply(null, jobs.map(function (j) { return j[1] + j[2]; }).concat([1]))); sc.x.stacked = true; sc.y.stacked = true; return sc; })() },
       plugins: [endLabels]
     });
 
-    /* 2. 분기 × 직무 (누적) */
-    var qTotals = QUARTERS.map(function (q) { return s.cats.reduce(function (n, c) { return n + s.byQC[q[0]][c]; }, 0); });
-    make('rr-an-qjob', {
-      type: 'bar',
-      data: {
-        labels: QUARTERS.map(function (q) { return q[1]; }),
-        datasets: s.cats.map(function (c) {
-          return { label: c, data: QUARTERS.map(function (q) { return s.byQC[q[0]][c]; }), backgroundColor: window.rrCatColor(c), borderColor: k.surface, borderWidth: { right: 2 }, borderSkipped: false, barPercentage: 0.72 };
-        })
-      },
-      options: {
-        indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: { duration: 600 },
-        layout: { padding: { right: 28 } },
-        onClick: function (e, el) { if (el.length && window.showQuarterlyDetail) window.showQuarterlyDetail(QUARTERS[el[0].index][0]); },
-        onHover: function (e, el) { e.native && (e.native.target.style.cursor = el.length ? 'pointer' : 'default'); },
-        plugins: {
-          legend: { position: 'top', align: 'start', labels: { color: k.text, boxWidth: 10, boxHeight: 10, useBorderRadius: true, borderRadius: 2, font: { size: 11 }, padding: 10 } },
-          rrEndLabels: { color: k.text, totals: qTotals },
-          tooltip: { mode: 'index', filter: function (c) { return c.parsed.x > 0; }, callbacks: {
-            title: function (c) { return s.year + '년 ' + c[0].label + ' · 합계 ' + qTotals[c[0].dataIndex] + '건'; },
-            footer: function () { return '눌러서 분기 상세 보기'; } } }
-        },
-        scales: (function () { var sc = hbarScales(k, Math.max.apply(null, qTotals.concat([1]))); sc.x.stacked = true; sc.y.stacked = true; return sc; })()
-      },
-      plugins: [endLabels]
-    });
-    /* 표로 보기 (색만으로 구분하지 않도록) */
-    document.getElementById('rr-an-qjob-table').innerHTML =
-      '<table><thead><tr><th>직무</th>' + QUARTERS.map(function (q) { return '<th>' + q[1] + '</th>'; }).join('') + '<th>합계</th></tr></thead><tbody>' +
-      s.cats.map(function (c) {
-        return '<tr><td><span class="rr-an-sw" style="background:' + window.rrCatColor(c) + '"></span>' + c + '</td>' +
-          QUARTERS.map(function (q) { return '<td>' + (s.byQC[q[0]][c] || '·') + '</td>'; }).join('') + '<td><b>' + s.byCat[c] + '</b></td></tr>';
-      }).join('') +
-      '<tr class="tot"><td>합계</td>' + qTotals.map(function (t) { return '<td>' + t + '</td>'; }).join('') + '<td>' + s.total + '</td></tr></tbody></table>';
-
-    /* 3. 개정 유형: 조각이 2~3개뿐이라 도넛 대신 비율 막대 + 설명 */
-    var TYPE_NOTE = { '일부개정': '그 법 자체의 내용을 바꾼 개정', '타법개정': '다른 법 개정에 따라 용어·조문을 맞춘 정비', '전부개정': '법 전체를 새로 쓴 개정', '제정': '새로 만든 법령', '폐지': '없어진 법령' };
-    var tTotal = s.types.reduce(function (n, r) { return n + r[1]; }, 0);
-    /* 두 조각뿐이면 한 단계 건너뛴 색으로 대비를 키운다 */
-    var tStep = s.types.length <= 2 ? [0, 2] : [0, 1, 2, 3];
-    var tColor = function (i) { return R[tStep[Math.min(i, tStep.length - 1)]]; };
-    document.getElementById('rr-an-type-bar').innerHTML = s.types.map(function (r, i) {
-      return '<span style="flex:' + r[1] + ';background:' + tColor(i) + '" title="' + esc(r[0]) + ' ' + r[1] + '건"></span>';
-    }).join('');
-    document.getElementById('rr-an-type-legend').innerHTML = s.types.map(function (r, i) {
-      var pct = tTotal ? Math.round(r[1] / tTotal * 100) : 0;
-      return '<div class="rr-an-li"><span class="rr-an-sw" style="background:' + tColor(i) + '"></span><span>' + esc(r[0]) +
-        (TYPE_NOTE[r[0]] ? ' <small class="note">' + TYPE_NOTE[r[0]] + '</small>' : '') + '</span><b>' + r[1] + '</b><small>' + pct + '%</small></div>';
-    }).join('');
-
-    /* 4. 법령 종류 (도넛, 3조각) */
-    [['rr-an-kind', s.kinds, '법령 종류']].forEach(function (d) {
-      var rows = d[1].map(function (r, i) { return [r[0], r[1], R[Math.min(i, R.length - 1)]]; });
-      var total = rows.reduce(function (n, r) { return n + r[1]; }, 0);
-      make(d[0], {
-        type: 'doughnut',
-        data: { labels: rows.map(function (r) { return r[0]; }), datasets: [{ data: rows.map(function (r) { return r[1]; }), backgroundColor: rows.map(function (r) { return r[2]; }), borderColor: k.surface, borderWidth: 2, hoverOffset: 4 }] },
-        options: { cutout: '68%', responsive: true, maintainAspectRatio: false, animation: { duration: 600 },
-          plugins: { legend: { display: false }, rrCenter2: { value: total, label: '건', color: k.text, muted: k.muted },
-            tooltip: { callbacks: { label: function (c) { return ' ' + c.label + ' ' + c.parsed + '건 (' + Math.round(c.parsed / (total || 1) * 100) + '%)'; } } } } },
-        plugins: [centerText]
-      });
-      document.getElementById(d[0] + '-legend').innerHTML = legendHTML(rows, total);
-    });
-
-    /* 5. 소관부처 TOP 8 */
-    var mins = s.ministries;
-    make('rr-an-min', {
-      type: 'bar',
-      data: { labels: mins.map(function (m) { return m[0]; }), datasets: [{ data: mins.map(function (m) { return m[1]; }), backgroundColor: R[1], borderRadius: 4, borderSkipped: 'start', barPercentage: 0.72 }] },
-      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: { duration: 600 }, layout: { padding: { right: 24 } },
-        plugins: { legend: { display: false }, rrEndLabels: { color: k.text }, tooltip: { callbacks: { label: function (c) { return ' 개정 ' + c.parsed.x + '건'; } } } },
-        scales: hbarScales(k, mins[0] ? mins[0][1] : 1) },
-      plugins: [endLabels]
-    });
-
-    /* 6. 올해 여러 번 개정된 법령 TOP 8 */
-    var multi = s.multi;
-    /* 긴 이름은 줄이되 '시행령/시행규칙' 꼬리는 남겨 법률과 하위법령을 구분한다 */
-    var short = function (t) {
-      if (t.length <= 16) return t;
-      var tail = (t.match(/ (시행령|시행규칙)$/) || [''])[0];
-      return t.slice(0, 15 - tail.length) + '…' + tail;
+    /* 2. 직무 × 분기 표 — 언제 어느 직무에 검토가 몰리는지. 진할수록 많다. 분기 머리를 누르면 분기별 탭 */
+    var curQ = (function () { var t = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' })); return String(t.getFullYear()) === year ? 'Q' + (Math.floor(t.getMonth() / 3) + 1) : ''; })();
+    var qjobs = s.cats.filter(function (c) { return s.byCat[c] > 0; }).sort(function (a, b) { return s.byCat[b] - s.byCat[a]; });
+    var qmax = Math.max.apply(null, [1].concat(qjobs.map(function (c) { return Math.max.apply(null, QUARTERS.map(function (q) { return s.byQC[q[0]][c]; })); })));
+    var heat = function (v) {
+      if (!v) return '';
+      var a = 0.08 + 0.72 * v / qmax;
+      return ' style="background:rgba(48,86,211,' + a.toFixed(2) + ');' + (a > 0.45 ? 'color:#fff' : '') + '"';
     };
-    make('rr-an-multi', {
-      type: 'bar',
-      data: { labels: multi.map(function (m) { return short(m[0]); }), datasets: [{ data: multi.map(function (m) { return m[1]; }), backgroundColor: multi.map(function (m) { return window.rrCatColor((m[2][0].categories || [])[0]); }), borderRadius: 4, borderSkipped: 'start', barPercentage: 0.72 }] },
-      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: { duration: 600 }, layout: { padding: { right: 24 } },
-        onClick: function (e, el) {
-          if (!el.length || typeof window.showLawDetail !== 'function') return;
-          var evs = multi[el[0].index][2].slice().sort(function (a, b) { return String(a.effectiveDate).localeCompare(String(b.effectiveDate)); });
-          var today = new Date().toISOString().slice(0, 10);
-          var next = evs.filter(function (x) { return x.effectiveDate >= today; })[0] || evs[evs.length - 1];
-          window.showLawDetail(next._key || next.id);
-        },
-        onHover: function (e, el) { e.native && (e.native.target.style.cursor = el.length ? 'pointer' : 'default'); },
-        plugins: { legend: { display: false }, rrEndLabels: { color: k.text },
-          tooltip: { callbacks: {
-            title: function (c) { return multi[c[0].dataIndex][0]; },
-            label: function (c) { var m = multi[c.dataIndex]; return ' 올해 ' + m[1] + '회 · ' + ((m[2][0].categories || [])[0] || '') + ' · 눌러서 가장 가까운 개정 보기'; } } } },
-        scales: hbarScales(k, multi[0] ? multi[0][1] : 1) },
-      plugins: [endLabels]
+    var qtot = QUARTERS.map(function (q) { return qjobs.reduce(function (n, c) { return n + s.byQC[q[0]][c]; }, 0); });
+    document.getElementById('rr-an-qtable').innerHTML = '<table class="rr-an-heat"><thead><tr><th>직무</th>' +
+      QUARTERS.map(function (q) { return '<th><button type="button" data-q="' + q[0] + '" class="' + (q[0] === curQ ? 'now' : '') + '" title="' + q[1] + ' 개정 보기">' + q[1] + (q[0] === curQ ? '<i>진행 중</i>' : '') + '</button></th>'; }).join('') +
+      '<th>합계</th></tr></thead><tbody>' +
+      qjobs.map(function (c) {
+        return '<tr><td><span class="sw" style="background:' + window.rrCatColor(c) + '"></span>' + esc(c) + '</td>' +
+          QUARTERS.map(function (q) { var v = s.byQC[q[0]][c]; return '<td class="v' + (q[0] === curQ ? ' now' : '') + '"' + heat(v) + '>' + (v || '<span class="z">–</span>') + '</td>'; }).join('') +
+          '<td class="t">' + num(s.byCat[c]) + '</td></tr>';
+      }).join('') +
+      '</tbody><tfoot><tr><td>합계</td>' + qtot.map(function (v, i) { return '<td class="' + (QUARTERS[i][0] === curQ ? 'now' : '') + '">' + num(v) + '</td>'; }).join('') + '<td>' + num(s.total) + '</td></tr></tfoot></table>';
+
+    /* 3. 법령 종류별 반영할 곳 — 사규·업무 어디를 고칠지. 제재·의무 = 종합 현황 '벌칙·과태료·의무 변경'과 같은 기준.
+          별표·서식 = 개정문에서 별표·별지·서식이 바뀐 개정 (amend_details.json). 행정규칙은 조문 분석 대상이 아니라 '–' */
+    var WHERE = { '법률': '사규 본문 · 원칙과 의무', '시행령': '적용 대상 · 세부 기준', '시행규칙': '업무 절차 · 신고 서식', '행정규칙': '세부 지침 · 기준값 (고시문 원문)' };
+    var detReady = !!(A && A.details && inYear.length && A.details(inYear[0]) !== null);
+    var isForm = function (x) { var d = A && A.details(x); var arts = d ? (d.articles || []).concat(d.changes || []) : []; return arts.some(function (a) { return /별표|별지|서식/.test((a.ref || '') + (a.title || '')); }); };
+    var krows = KINDS.map(function (kd) {
+      var xs = inYear.filter(function (x) { return kindOf(x) === kd; }), adm = kd === '행정규칙';
+      return { k: kd, n: xs.length, real: xs.filter(function (x) { return !isTidy(x); }).length,
+        risk: adm ? null : xs.filter(function (x) { return A && A.isRisk(x); }).length,
+        form: adm ? null : (detReady ? xs.filter(isForm).length : undefined) };
     });
+    var cell = function (v) { return v === null ? '<span class="z" title="행정규칙은 조문 단위 분석 대상이 아닙니다">–</span>' : v === undefined ? '<span class="z">…</span>' : num(v); };
+    var sum = function (f) { return krows.reduce(function (n, r) { return n + (r[f] || 0); }, 0); };
+    document.getElementById('rr-an-kinds').innerHTML = '<table class="rr-an-kt"><thead><tr><th>종류</th><th>개정</th><th>실질 개정</th><th>제재·의무</th><th>별표·서식</th><th>주로 반영할 곳</th></tr></thead><tbody>' +
+      krows.map(function (r) { return '<tr><td>' + r.k + '</td><td>' + num(r.n) + '</td><td>' + num(r.real) + '</td><td>' + cell(r.risk) + '</td><td>' + cell(r.form) + '</td><td class="w">' + WHERE[r.k] + '</td></tr>'; }).join('') +
+      '</tbody><tfoot><tr><td>합계</td><td>' + num(sum('n')) + '</td><td>' + num(sum('real')) + '</td><td>' + num(sum('risk')) + '</td><td>' + (detReady ? num(sum('form')) : '…') + '</td><td></td></tr></tfoot></table>';
+    if (!detReady && A && A.loadDetails) A.loadDetails().then(function () { render(true); });
+
+    /* 4. 전체를 읽어야 할 개정 — 제정·전부개정·폐지제정은 바뀐 부분이 아니라 전체가 새 내용 */
+    var FULL = ['제정', '전부개정', '폐지제정'];
+    var today = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' })); today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    var dd = function (x) { return Math.round((new Date(x.effectiveDate + 'T00:00:00+09:00') - today) / 86400000); };
+    var full = inYear.filter(function (x) { return FULL.indexOf(x.amendmentType) >= 0; }).sort(function (a, b) {
+      var da = dd(a), db = dd(b);
+      if ((da >= 0) !== (db >= 0)) return da >= 0 ? -1 : 1;
+      return da >= 0 ? da - db : db - da;
+    });
+    document.getElementById('rr-an-full-n').textContent = full.length + '건';
+    document.getElementById('rr-an-full').innerHTML = full.length ? '<div class="rr-an-fl">' + full.map(function (x) {
+      var d = dd(x), c = (x.categories || [])[0] || '';
+      return '<button type="button" class="rr-an-fr" data-key="' + esc(x._key || x.id) + '">' +
+        '<span class="ty ' + (x.amendmentType === '제정' ? 'new' : 'all') + '">' + esc(x.amendmentType) + '</span>' +
+        '<span class="tt"><b>' + esc(x.title) + '</b><small><i style="background:' + window.rrCatColor(c) + '"></i>' + esc(c) + ' · ' + esc(kindOf(x)) + ' · ' + esc(String(x.effectiveDate).replace(/-/g, '.')) + '</small></span>' +
+        '<span class="dd' + (d >= 0 ? ' up' : '') + '">' + (d < 0 ? '시행완료' : d === 0 ? 'D-DAY' : 'D-' + d) + '</span></button>';
+    }).join('') + '</div>' : '<div class="rr-an-none">올해 제정·전부개정된 법령이 없습니다.</div>';
+
     return true;
   }
+
+  document.addEventListener('click', function (e) {
+    var q = e.target.closest && e.target.closest('#rr-analytics .rr-an-heat button[data-q]');
+    if (q && typeof window.showQuarterlyDetail === 'function') { window.showQuarterlyDetail(q.getAttribute('data-q')); window.scrollTo(0, 0); return; }
+    var r = e.target.closest && e.target.closest('#rr-analytics .rr-an-fr[data-key]');
+    if (r && typeof window.showLawDetail === 'function') window.showLawDetail(r.getAttribute('data-key'));
+  });
 
   /* 메인 탭 카드의 현재 수치 (개정 건수 · 직무 수 · 적용법규 수) */
   function setTabBadges(s) {
@@ -340,12 +282,48 @@
     '.rr-an th:first-child, .rr-an td:first-child { text-align:left; }',
     '.rr-an th { color:var(--text-muted); font-weight:600; }',
     '.rr-an tr.tot td { font-weight:700; color:var(--text-primary); }',
-    '@media (max-width: 900px) { .rr-an-grid { grid-template-columns: 1fr; } }'
+    /* 직무 × 분기 표 · 법령 종류 표 · 전체를 읽어야 할 개정 */
+    '.rr-an-heat, .rr-an-kt { width:100%; border-collapse:separate; border-spacing:0; font-size:.84rem; font-variant-numeric:tabular-nums; margin:0; }',
+    '.rr-an-heat th, .rr-an-kt th { font-size:.74rem; font-weight:700; color:var(--text-muted); padding:.35rem .4rem; text-align:center; border-bottom:1px solid var(--border); }',
+    '.rr-an-heat th:first-child, .rr-an-kt th:first-child { text-align:left; }',
+    '.rr-an-heat td, .rr-an-kt td { padding:.45rem .4rem; text-align:center; border-bottom:1px solid var(--border); color:var(--text-primary); }',
+    '.rr-an-heat td:first-child, .rr-an-kt td:first-child { text-align:left; font-weight:700; white-space:nowrap; }',
+    '.rr-an-heat td.v { font-weight:700; border-radius:6px; border-bottom-color:transparent; box-shadow: inset 0 0 0 2px var(--bg-card, #fff); }',
+    '.rr-an-heat td.t, .rr-an-heat tfoot td, .rr-an-kt tfoot td { font-weight:800; }',
+    '.rr-an-heat tfoot td, .rr-an-kt tfoot td { border-bottom:0; color:var(--text-secondary); }',
+    '.rr-an-heat .sw { display:inline-block; width:8px; height:8px; border-radius:2px; margin-right:6px; vertical-align:1px; }',
+    '.rr-an-heat .z, .rr-an-kt .z { color:var(--text-muted); font-weight:400; }',
+    '.rr-an-heat th button { border:0; background:none; font:inherit; color:inherit; cursor:pointer; padding:.15rem .35rem; border-radius:6px; display:inline-flex; flex-direction:column; align-items:center; line-height:1.2; }',
+    '.rr-an-heat th button:hover { background:var(--bg-secondary); color:var(--text-primary); }',
+    '.rr-an-heat th button.now { color:var(--primary); }',
+    '.rr-an-heat th button i { font-style:normal; font-size:.66rem; font-weight:700; }',
+    '.rr-an-kt td.w { text-align:left; color:var(--text-secondary); font-size:.8rem; white-space:nowrap; }',
+    '.rr-an-kt th:last-child { text-align:left; }',
+    '.rr-an-fl { max-height:262px; overflow-y:auto; overflow-x:hidden; border:1px solid var(--border); border-radius:12px; }',
+    '.rr-an-fr { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:.7rem; align-items:center; width:100%; padding:.55rem .75rem; border:0; border-bottom:1px solid var(--border); background:var(--bg-card); text-align:left; font:inherit; color:var(--text-primary); cursor:pointer; }',
+    '.rr-an-fr:last-child { border-bottom:0; }',
+    '.rr-an-fr:hover { background:var(--bg-secondary); }',
+    '.rr-an-fr .ty { font-size:.72rem; font-weight:800; padding:.18rem .5rem; border-radius:6px; white-space:nowrap; color:var(--ok, #15803d); background:var(--ok-soft, #ecfdf3); }',
+    '.rr-an-fr .ty.all { color:var(--brand-ink, #1f3a9e); background:var(--brand-soft, #edf1fd); }',
+    '.rr-an-fr .tt { display:flex; flex-direction:column; min-width:0; gap:2px; }',
+    '.rr-an-fr .tt b { font-size:.86rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }',
+    '.rr-an-fr .tt small { font-size:.74rem; color:var(--text-muted); }',
+    '.rr-an-fr .tt small i { display:inline-block; width:7px; height:7px; border-radius:2px; margin-right:5px; vertical-align:1px; }',
+    '.rr-an-fr .dd { font-size:.74rem; font-weight:800; color:var(--text-muted); white-space:nowrap; }',
+    '.rr-an-fr .dd.up { color:var(--warn, #c4580c); }',
+    '.rr-an-none { padding:2rem 0; text-align:center; color:var(--text-muted); font-size:.85rem; }',
+    '.rr-an-cnt { font-style:normal; font-size:.78rem; font-weight:700; color:var(--text-secondary); background:var(--bg-secondary); border-radius:999px; padding:.1rem .55rem; margin-left:.35rem; vertical-align:1px; }',
+    '@media (max-width: 900px) { .rr-an-grid { grid-template-columns: 1fr; } .rr-an-kt td.w { white-space:normal; } }',
+    '#rr-an-qtable, #rr-an-kinds { overflow-x:auto; }',
+    '@media (max-width: 520px) { .rr-an-kt th:nth-child(5), .rr-an-kt td:nth-child(5) { display:none; }' +
+      ' .rr-an-heat, .rr-an-kt { font-size:.76rem; } .rr-an-heat th, .rr-an-heat td, .rr-an-kt th, .rr-an-kt td { padding:.35rem .2rem; }' +
+      ' .rr-an-heat th button { padding:.1rem .15rem; } .rr-an-heat .sw { display:none; } .rr-an-heat th button i { display:none; } }'
   ].join('\n');
   document.head.appendChild(st);
 
   var n = 0;
   var t = setInterval(function () { if (render() || ++n > 100) clearInterval(t); }, 250);
+  if (window.rrAmend && window.rrAmend.ready) window.rrAmend.ready.then(function () { render(true); });
   if (window.matchMedia) {
     var mq = window.matchMedia('(prefers-color-scheme: dark)');
     (mq.addEventListener ? mq.addEventListener.bind(mq, 'change') : mq.addListener.bind(mq))(function () { render(true); });
