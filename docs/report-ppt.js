@@ -49,6 +49,19 @@
   function hasSanction(it) { return (it.codes || []).some(function (c) { return SANCTION[c]; }); }
   function hasDuty(it) { return (it.codes || []).indexOf('의무') >= 0; }
   function isRisk(it) { return hasSanction(it) || hasDuty(it); }
+  /* 사이트(종합 현황 개정 분석 · 직무 분석 · 시행 임박 준비 사항)와 같은 기준 */
+  function isTidy(it) { return it.type === '타법개정'; }
+  var FULL_TYPES = ['제정', '전부개정', '폐지제정'];
+  function isFull(it) { return FULL_TYPES.indexOf(it.type) >= 0; }
+  function hasForm(it) {
+    var d = it.detail, arts = d ? (d.articles || []).concat(d.changes || []) : [];
+    return arts.some(function (a) { return /별표|별지|서식/.test((a.ref || '') + (a.title || '')); });
+  }
+  var PREP_NAMES = ['처벌·제재 기준 변경', '회사 의무 신설·변경', '조문·기준 내용 변경', '타법개정'];
+  function prepType(it) { return hasSanction(it) ? 0 : hasDuty(it) ? 1 : isTidy(it) ? 3 : 2; }
+  var WHERE = { '법률': '사규 본문 · 원칙과 의무', '시행령': '적용 대상 · 세부 기준', '시행규칙': '업무 절차 · 신고 서식', '행정규칙': '세부 지침 · 기준값 (고시문 원문)' };
+  var DEF_REAL = '실질 개정: 그 법령 자체의 의무·기준·절차 등 내용이 바뀐 개정';
+  var DEF_TIDY = '타법개정: 다른 법령 제정·개정에 따라 법령명·기관명·용어·인용 조문 등이 단순 변경된 개정';
   function score(it) { return (it.codes || []).reduce(function (a, c) { return a + ((FLAG[c] || {}).w || 0); }, 0); }
   function levelOf(it) {
     if (it.kind) return '행정규칙';
@@ -469,43 +482,47 @@
     if (!input.job) {
       frame(s, pptx, sec('개정 현황'), input.label + ' 시행 개정 ' + fmt(P.length) + '건' + (PV ? '(' + input.prev.label + ' 대비 ' + change(P.length - PV.length) + ')' : '') +
         (jobRank.length ? ' — ' + jobRank.slice(0, 2).map(function (x) { return x[0] + ' ' + x[1] + '건'; }).join('·') + ' 순' : '') +
-        (P.length ? ', 시행규칙·행정규칙 등 세부 기준 개정이 ' + pct(lower, P.length) + '%' : ''));
+        (P.length ? ', 실질 개정 ' + fmt(count(P, function (x) { return !isTidy(x); })) + '건(타법개정 ' + fmt(count(P, isTidy)) + '건 제외)' : ''));
       var jobs = JOB_ORDER.filter(function (j) { return ofJob(P, j).length || ofJob(N, j).length; });
       if (jobs.length) {
-        s.addChart(pptx.ChartType.bar, jobs.map(function (j) {
-          return { name: j, labels: jobs, values: jobs.map(function (k) { return k === j ? ofJob(P, j).length : 0; }) };
-        }), {
+        s.addChart(pptx.ChartType.bar, [
+          { name: '실질 개정', labels: jobs, values: jobs.map(function (j) { return count(ofJob(P, j), function (x) { return !isTidy(x); }); }) },
+          { name: '타법개정', labels: jobs, values: jobs.map(function (j) { return count(ofJob(P, j), isTidy); }) }
+        ], {
           x: X0 - 0.1, y: TOP - 0.05, w: 5.4, h: 4.55, barDir: 'bar', barGrouping: 'stacked', overlap: 100, barGapWidthPct: 45,
-          chartColors: jobs.map(function (j) { return JOB_COLOR[j]; }), showLegend: false,
-          showValue: true, dataLabelFormatCode: '#,##0;;;', dataLabelFontFace: F, dataLabelFontSize: 10, dataLabelColor: C.white, dataLabelPosition: 'inEnd',
+          chartColors: [C.accent, '9AA3B2'], showLegend: true, legendPos: 't', legendFontFace: F, legendFontSize: 10, legendColor: C.sub,
+          showValue: false,
           catAxisLabelFontFace: F, catAxisLabelFontSize: 11, catAxisLabelColor: C.ink, catAxisOrientation: 'maxMin',
           valAxisHidden: true, valGridLine: { style: 'none' }, catGridLine: { style: 'none' }
         });
       }
       var hasPV = !!PV;
-      var hdr = ['직무', '계', '법률', '시행령', '시행규칙', '행정규칙', '제재·의무'].concat(hasPV ? [input.prev.short || '전기'] : []);
+      var hdr = ['직무', '계', '실질', '법률', '시행령', '시행규칙', '행정규칙', '제재·의무'].concat(hasPV ? [input.prev.short || '전기'] : []);
       var rows = [head(hdr, hdr.map(function (x, i) { return i ? 'right' : 'left'; }))];
       jobs.forEach(function (j) {
         var pj = ofJob(P, j);
-        rows.push([jobCell(j), num(pj.length, { bold: true }), num(lvN(pj, '법률')), num(lvN(pj, '시행령')), num(lvN(pj, '시행규칙')), num(lvN(pj, '행정규칙')),
+        rows.push([jobCell(j), num(pj.length, { bold: true }), num(count(pj, function (x) { return !isTidy(x); }), { color: C.accent, bold: true }), num(lvN(pj, '법률')), num(lvN(pj, '시행령')), num(lvN(pj, '시행규칙')), num(lvN(pj, '행정규칙')),
           num(count(pj, isRisk), { color: count(pj, isRisk) ? C.red : C.ink, bold: !!count(pj, isRisk) })].concat(hasPV ? [num(ofJob(PV, j).length, { color: C.muted })] : []));
       });
       var tot = { bold: true, fill: { color: C.soft } };
-      rows.push([{ text: '합계', options: tot }, num(P.length, tot), num(lvN(P, '법률'), tot), num(lvN(P, '시행령'), tot), num(lvN(P, '시행규칙'), tot), num(lvN(P, '행정규칙'), tot),
+      rows.push([{ text: '합계', options: tot }, num(P.length, tot), num(count(P, function (x) { return !isTidy(x); }), Object.assign({ color: C.accent }, tot)), num(lvN(P, '법률'), tot), num(lvN(P, '시행령'), tot), num(lvN(P, '시행규칙'), tot), num(lvN(P, '행정규칙'), tot),
         num(R.length, Object.assign({ color: C.red }, tot))].concat(hasPV ? [num(PV.length, Object.assign({ color: C.muted }, tot))] : []));
       var rh = Math.min(0.4, 3.75 / rows.length);
-      table(s, rows, tx, TOP, tw, hasPV ? [1.3, 0.62, 0.62, 0.72, 0.86, 0.86, 0.9, 0.8] : [1.45, 0.72, 0.72, 0.8, 0.95, 0.95, 1.09], 10.5, { rowH: rh });
+      table(s, rows, tx, TOP, tw, hasPV ? [1.22, 0.56, 0.56, 0.56, 0.66, 0.8, 0.8, 0.86, 0.66] : [1.36, 0.64, 0.64, 0.64, 0.74, 0.9, 0.9, 0.86], 10, { rowH: rh });
       s.addNotes(['[개정 현황] 직무별 (계 · 법률/시행령/시행규칙/행정규칙 · 제재·의무)'].concat(jobRank.map(function (x) {
         var pj = ofJob(P, x[0]);
         return '- ' + x[0] + ' ' + x[1] + '건 (' + LEVELS.map(function (l) { return l + ' ' + lvN(pj, l); }).join(' · ') + ' · 제재·의무 ' + count(pj, isRisk) + ')';
       })).join('\n'));
       var ms = monthSplit(P, input.start, input.end);
       var mline = (ms.length > 1 ? '월별 시행: ' + ms.map(function (m) { return m.label + ' ' + m.items.length + '건'; }).join(' · ') + '    ' : '');
-      s.addText(mline + '제재·의무: 벌칙·과태료·과징금·행정처분이 신설·변경되거나 회사 의무 조항이 바뀐 개정(개정문 자동 분석)',
-        { x: tx, y: TOP + rh * rows.length + 0.18, w: tw, h: 0.55, fontFace: F, fontSize: 9, color: C.muted, margin: 0, valign: 'top' });
+      s.addText([
+        { text: mline + '제재·의무: 벌칙·과태료·과징금·행정처분이 신설·변경되거나 회사 의무 조항이 바뀐 개정(개정문 자동 분석)', options: { breakLine: true } },
+        { text: DEF_REAL + ' · ' + DEF_TIDY }
+      ], { x: tx, y: TOP + rh * rows.length + 0.14, w: tw, h: 0.75, fontFace: F, fontSize: 9, color: C.muted, margin: 0, valign: 'top', paraSpaceAfter: 3 });
     } else {
       var top = fams.slice(0, 10);
       frame(s, pptx, sec('개정 현황 (법령 계열별)'), input.label + ' ' + input.job + ' 직무 시행 개정 ' + fmt(P.length) + '건' + (PV ? '(' + input.prev.label + ' 대비 ' + change(P.length - PV.length) + ')' : '') +
+        (P.length ? ', 실질 개정 ' + fmt(count(P, function (x) { return !isTidy(x); })) + '건' : '') +
         (top.length ? ' — ' + top.slice(0, 2).map(function (f) { return cut(f[0], 22) + ' 계열 ' + f[1].length + '건'; }).join('·') + ' 순' : ''));
       if (top.length) {
         s.addChart(pptx.ChartType.bar, [{ name: '개정', labels: top.map(function (t) { return cut(t[0], 16); }), values: top.map(function (t) { return t[1].length; }) }], {
@@ -514,13 +531,45 @@
           catAxisLabelFontFace: F, catAxisLabelFontSize: 10, catAxisLabelColor: C.ink, valAxisHidden: true, valGridLine: { style: 'none' }, catGridLine: { style: 'none' }
         });
       } else emptyCard(s, pptx, '이 기간에 시행된 개정이 없습니다.');
-      var fr = [head(['계열(법률)', '계', '법률', '시행령', '시행규칙', '행정규칙', '제재·의무'], ['left', 'right', 'right', 'right', 'right', 'right', 'right'])];
+      var fr = [head(['계열(법률)', '계', '실질', '법률', '시행령', '시행규칙', '행정규칙', '제재·의무'], ['left', 'right', 'right', 'right', 'right', 'right', 'right', 'right'])];
       top.forEach(function (t) {
-        fr.push([cut(t[0], 18), num(t[1].length, { bold: true }), num(lvN(t[1], '법률')), num(lvN(t[1], '시행령')), num(lvN(t[1], '시행규칙')), num(lvN(t[1], '행정규칙')),
+        fr.push([cut(t[0], 15), num(t[1].length, { bold: true }), num(count(t[1], function (x) { return !isTidy(x); }), { color: C.accent, bold: true }), num(lvN(t[1], '법률')), num(lvN(t[1], '시행령')), num(lvN(t[1], '시행규칙')), num(lvN(t[1], '행정규칙')),
           num(count(t[1], isRisk), { color: count(t[1], isRisk) ? C.red : C.ink })]);
       });
-      if (top.length) table(s, fr, tx, TOP, tw, [2.6, 0.55, 0.55, 0.65, 0.75, 0.75, 0.83], 10);
-      note(s, '같은 법률의 시행령·시행규칙·행정규칙을 한 계열로 묶음(국가법령정보센터 법령체계도 기준)' + (fams.length > top.length ? ' · 상위 ' + top.length + '개 계열 표시' : ''));
+      if (top.length) table(s, fr, tx, TOP, tw, [2.1, 0.45, 0.5, 0.5, 0.62, 0.78, 0.78, 0.82], 9.5);
+      note(s, '같은 법률의 시행령·시행규칙·행정규칙을 한 계열로 묶음(법령체계도 기준)' + (fams.length > top.length ? ' · 상위 ' + top.length + '개 계열' : '') + ' · 실질 개정 = 그 법령 자체의 내용 변경 · 타법개정 = 다른 법령 개정에 따른 명칭·인용 조문 단순 변경');
+    }
+
+    /* ===== 사규·업무 반영 포인트 — 사이트 종합 현황 '법령 종류별 반영할 곳' · '전체를 읽어야 할 개정'과 같은 기준 ===== */
+    if (P.length) {
+      s = add();
+      var realP = count(P, function (x) { return !isTidy(x); }), formP = count(P, hasForm), FULL = P.filter(isFull);
+      frame(s, pptx, sec('사규·업무 반영 포인트'), '실질 개정 ' + fmt(realP) + '건 반영 검토' +
+        (formP ? ' — 별표·서식 변경 ' + formP + '건은 기준표·서식 교체' : '') + (FULL.length ? (formP ? ', ' : ' — ') + '제정·전부개정 ' + FULL.length + '건은 전문 검토' : ''));
+      var kr = [head(['법령 종류', '개정', '실질 개정', '제재·의무', '별표·서식', '주로 반영할 곳'], ['left', 'right', 'right', 'right', 'right', 'left'])];
+      var dash = { text: '–', options: { align: 'right', color: C.faint } };
+      LEVELS.forEach(function (l) {
+        var xs = P.filter(function (x) { return levelOf(x) === l; }), adm = l === '행정규칙';
+        kr.push([{ text: l, options: { bold: true } }, num(xs.length), num(count(xs, function (x) { return !isTidy(x); }), { color: C.accent, bold: true }),
+          adm ? dash : num(count(xs, isRisk), { color: count(xs, isRisk) ? C.red : C.ink }), adm ? dash : num(count(xs, hasForm)), { text: WHERE[l], options: { color: C.sub } }]);
+      });
+      var tt = { bold: true, fill: { color: C.soft } };
+      kr.push([{ text: '합계', options: tt }, num(P.length, tt), num(realP, Object.assign({ color: C.accent }, tt)), num(R.length, Object.assign({ color: C.red }, tt)), num(formP, tt), { text: '', options: tt }]);
+      table(s, kr, X0, TOP, CW, [1.6, 1.0, 1.15, 1.15, 1.15, CW - 6.05], 10.5, { rowH: 0.3 });
+      var ly = TOP + 0.3 * kr.length + 0.24;
+      s.addText([{ text: '전체를 읽어야 할 개정', options: { bold: true, color: C.navy, fontSize: 12.5 } }, { text: '   제정·전부개정·폐지제정 ' + FULL.length + '건 — 바뀐 부분이 아니라 전체가 새 내용', options: { color: C.muted, fontSize: 10 } }],
+        { x: X0, y: ly, w: CW, h: 0.34, fontFace: F, margin: 0, valign: 'middle' });
+      if (!FULL.length) s.addText('이 기간에 제정·전부개정된 법령은 없습니다.', { x: X0, y: ly + 0.42, w: CW, h: 0.34, fontFace: F, fontSize: 10.5, color: C.sub, margin: 0 });
+      else {
+        var maxF = Math.max(1, Math.floor((BOTTOM - 0.22 - (ly + 0.42)) / 0.27) - 1), fsel = FULL.slice(0, maxF);
+        var frw = [head(['시행일', '구분', '법령명', '종류', '직무'])];
+        fsel.forEach(function (it) { frw.push([md(it.date), { text: it.type, options: { bold: true, color: it.type === '제정' ? C.green : C.blue } }, cut(it.title, 60), levelOf(it), jobCell(it.job)]); });
+        table(s, frw, X0, ly + 0.42, CW, [0.9, 1.0, CW - 4.6, 1.1, 1.6], 9.5, { rowH: 0.27 });
+        if (FULL.length > fsel.length) note(s, '외 ' + (FULL.length - fsel.length) + '건' + (input.appendix ? ' — 별첨 ' + apxNo('전체 개정 목록') + ' 「전체 개정 목록」 참조' : ''));
+      }
+      s.addNotes(['[사규·업무 반영 포인트]', DEF_REAL, DEF_TIDY, '별표·서식: 개정문에서 별표·별지·서식이 바뀐 개정 (행정규칙은 조문 단위 개정문이 없어 – 표시)',
+        '주로 반영할 곳: 법률 → 사규 본문(원칙·의무) / 시행령 → 적용 대상·세부 기준 / 시행규칙 → 업무 절차·신고 서식 / 행정규칙 → 세부 지침·기준값(고시문 원문)']
+        .concat(FULL.length ? ['', '전체를 읽어야 할 개정:'].concat(FULL.map(function (it) { return '- ' + it.title + ' (' + md(it.date) + ' · ' + it.type + ' · ' + it.job + ')'; })) : []).join('\n'));
     }
 
     /* ===== Ⅱ. 중점 관리 개정 사항 ===== */
@@ -573,7 +622,7 @@
         : nextLabel + ' 시행 예정으로 확인된 개정 없음');
       if (!N.length) emptyCard(s, pptx, input.next.empty || '현재 확인된 시행 예정 개정이 없습니다.');
       else if (msN.length > 1) {
-        var gap = 0.22, cw = (CW - gap * (msN.length - 1)) / msN.length, ch = 4.3, maxRows = 7;
+        var gap = 0.22, cw = (CW - gap * (msN.length - 1)) / msN.length, ch = 4.05, maxRows = 7;
         msN.forEach(function (m, i) {
           var x = X0 + i * (cw + gap), mr = count(m.items, isRisk);
           s.addShape(pptx.ShapeType.rect, { x: x, y: TOP, w: cw, h: ch, fill: { color: C.white }, line: { color: C.line, width: 0.75 } });
@@ -608,8 +657,13 @@
       }
       s.addNotes(nRisk.length ? ['[향후 시행 예정] 제재·의무가 바뀌는 개정 ' + nRisk.length + '건'].concat(nRisk.slice().sort(byDate).map(function (it) { return brief(it, 3); })).join('\n\n')
         : '[향후 시행 예정] 제재·의무가 바뀌는 개정은 확인되지 않음');
-      if (N.length) note(s, (N.length > (msN.length > 1 ? 0 : 12) ? '전체 ' + N.length + '건 목록은 별첨 ' + apxNo(T ? UPT : NT) + ' · ' : '') + dot(input.asOf) + ' 기준 공포된 개정만 반영(이후 공포분은 다음 보고에 반영)' +
-        (msN.length > 1 ? ' · 달마다 제재·의무 변경과 상위 법규를 먼저 표시' : ''));
+      if (N.length) {
+        var pc = [0, 0, 0, 0];
+        N.forEach(function (it) { pc[prepType(it)]++; });
+        note(s, '준비 유형 (시행 임박 \'시행 전 준비 사항\'과 같은 기준): ' + PREP_NAMES.map(function (nm, i) { return nm + ' ' + pc[i] + '건'; }).join(' · '), 6.3);
+        note(s, (N.length > (msN.length > 1 ? 0 : 12) ? '전체 ' + N.length + '건 목록은 별첨 ' + apxNo(T ? UPT : NT) + ' · ' : '') + dot(input.asOf) + ' 기준 공포된 개정만 반영(이후 공포분은 다음 보고에 반영)' +
+          (msN.length > 1 ? ' · 달마다 제재·의무 변경과 상위 법규를 먼저 표시' : ''));
+      }
     }
 
     /* ===== Ⅳ. 대응 현황 (대응 현황 관리에 로그인한 경우) — 사이트 '대응 현황' 화면과 같은 구성 ===== */
@@ -830,12 +884,14 @@
       ['대상', '당사 적용법규 ' + fmt(input.baseCount) + '개 = 법령(법률·시행령·시행규칙) ' + fmt(input.lawCount) + '개 + 그 계열에 법령체계도로 연결된 행정규칙(고시·훈령·예규 등) ' + fmt(input.admCandidates) + '개'],
       ['집계', '시행일 기준. 개정 1건 = 법령 + 시행일 + 개정 구분 (같은 법령이 여러 번 바뀌면 각각 셈)'],
       ['제재·의무', '개정문과 조문 제목을 자동 분석. 벌칙·과태료·과징금·행정처분 조항이 신설·변경된 경우만 표시하고 인용·용어만 바뀐 경우는 제외. 의무는 회사(사업주·사용자 등)가 주어인 “…하여야 한다 / …아니 된다” 문장 기준'],
+      ['실질 개정 · 타법개정', DEF_REAL + '. ' + DEF_TIDY + '. 국가법령정보센터의 개정 구분 기준'],
+      ['반영 포인트', '별표·서식 = 개정문에서 별표·별지·서식이 바뀐 개정. 전체를 읽어야 할 개정 = 제정·전부개정·폐지제정. 준비 유형 = 처벌·제재 > 회사 의무 > 조문·기준 > 타법개정 중 가장 무거운 하나'],
       ['주요 개정 내용', '법제처가 공개한 개정이유(주요내용)에서 제재·의무와 관련된 항목을 먼저 골라 줄여 적음. 원문 표현을 줄인 것이므로 정확한 내용은 원문 확인'],
       ['행정규칙', '법령체계도로 연결된 행정규칙 중 회사 업무(공장 건설 → 제품 생산 → 판매·운송, 회사 공통)와 무관한 것 — 제조사용 제품 인증 기준, 공공기관·타 지역 대상, 기관 운영 등 — 은 적용법규에서 제외. 기관 내부 사무·위원회 운영 등은 참고용으로 분류(사이트 계열 보기에서 흐리게 표시)'],
       ['원문', '개정 취지·조문·신구조문 비교: ' + (input.site || 'RegRader 사이트')]
     ];
     table(s, how.map(function (h) { return [{ text: h[0], options: { bold: true, color: C.navy, fill: { color: C.head } } }, h[1]]; }),
-      X0, 1.45, CW, [1.9, CW - 1.9], 11, { margin: [7, 10, 7, 10] });
+      X0, 1.45, CW, [1.9, CW - 1.9], 10, { margin: [5, 10, 5, 10] });
     return pptx;
   }
 
