@@ -1,7 +1,7 @@
 /* 직무별 탭 '직무 분석' — 바로 위 '직무별 현황' 필터(전체/각 직무)를 따라 함께 바뀐다.
  * 직무 담당자가 바로 알아야 할 것 위주로:
  *  - 시행 현황 숫자 (개정 건수 / 시행완료 / 30일 내 / 이후 예정)
- *  - 개정 성격 (도넛): 법 내용을 바꾼 실질 개정 vs 다른 법에 맞춘 타법 정비
+ *  - 개정 성격 (도넛): 법 내용을 바꾼 실질 개정 vs 다른 법 개정에 따른 타법개정
  *  - 제재 · 의무 변경 (도넛): 벌칙·과태료·과징금·행정처분 > 의무 > 조문 신설·삭제 > 표시 없음 (한 건은 가장 무거운 쪽 하나로)
  *  - 시행 전 대응 (도넛): 대응 현황 기록(tracker.js)의 상태 — 로그인한 담당자·총괄에게만
  *  - 다가오는 시행 (타임라인, 누르면 법령 상세) · 월별 시행 건수
@@ -119,17 +119,17 @@
     }
     var big = function (n, t) { return '<b>' + num(n) + '<small>건</small></b><span>' + t + '</span>'; };
 
-    /* 개정 성격 — 실질 개정(법 내용 변경) vs 타법 정비 */
+    /* 개정 성격 — 실질 개정(법 내용 변경) vs 타법개정(명칭·용어·인용 조문 단순 변경) */
     var TYPE_ORDER = ['일부개정', '전부개정', '제정', '폐지제정', '폐지'];
     var tc = {};
     sel.forEach(function (x) { var t = x.amendmentType || '기타'; tc[t] = (tc[t] || 0) + 1; });
     var tkeys = Object.keys(tc).filter(function (t) { return t !== '타법개정'; })
       .sort(function (a, b) { var ia = TYPE_ORDER.indexOf(a), ib = TYPE_ORDER.indexOf(b); return (ia < 0 ? 9 : ia) - (ib < 0 ? 9 : ib) || tc[b] - tc[a]; });
     var natRows = tkeys.map(function (t, i) { return [t, tc[t], R[[1, 0, 2, 3, 3][Math.min(i, 4)]]]; });
-    if (tc['타법개정']) natRows.push(['타법개정 (정비)', tc['타법개정'], GRAY]);
+    if (tc['타법개정']) natRows.push(['타법개정', tc['타법개정'], GRAY]);
     var real = sel.length - (tc['타법개정'] || 0);
     donut('rr-job-nature', natRows, big(real, '실질 개정'),
-      sel.length ? '<b>' + num(sel.length) + '건 중 ' + num(real) + '건(' + pct(real, sel.length) + '%)</b>이 법 내용 자체를 바꾼 개정입니다. 타법개정은 다른 법 개정에 맞춘 용어·조문 정비입니다.' : '올해 개정이 없습니다.',
+      sel.length ? '<b>' + num(sel.length) + '건 중 ' + num(real) + '건(' + pct(real, sel.length) + '%)</b>이 법 내용 자체를 바꾼 개정입니다. 타법개정은 다른 법 개정에 따라 명칭·용어·인용 조문 등이 단순 변경된 개정입니다.' : '올해 개정이 없습니다.',
       { aria: label + ' 개정 성격 도넛 차트' });
 
     /* 제재 · 의무 변경 — 한 건은 가장 무거운 표시 하나로 센다 (합계 = 개정 건수) */

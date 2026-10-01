@@ -2125,7 +2125,11 @@
                 <div class="rr-an-grid">
                     <div class="rr-an-card">
                         <div class="rr-an-h"><b>직무별 개정 건수</b></div>
-                        <div class="rr-an-plot" style="height:340px"><canvas id="rr-an-jobs" role="img" aria-label="직무별 개정 건수: 실질 개정과 타법 정비 누적 가로 막대 차트"></canvas></div>
+                        <div class="rr-an-plot" style="height:270px"><canvas id="rr-an-jobs" role="img" aria-label="직무별 개정 건수: 실질 개정과 타법개정 누적 가로 막대 차트"></canvas></div>
+                        <div class="rr-an-def" id="rr-an-jobs-def">
+                            <p><b><i class="real"></i>실질 개정</b><span>그 법령 자체의 의무·기준·절차 등 내용이 바뀐 개정입니다. 사규·업무에 반영할지 검토합니다.</span></p>
+                            <p><b><i class="tidy"></i>타법개정</b><span>다른 법령이 제정·개정되면서 그에 맞춰 법령명·기관명·용어·인용 조문 등이 단순 변경된 개정입니다. 사규에 인용된 명칭·조문만 확인하면 됩니다.</span></p>
+                        </div>
                     </div>
                     <div class="rr-an-card">
                         <div class="rr-an-h"><b>직무 × 분기 개정 건수</b></div>
@@ -2275,7 +2279,7 @@
             <div class="rr-job-tiles" id="rr-job-tiles"></div>
             <div class="rr-an-grid rr-job-grid">
                 <div class="rr-an-card">
-                    <div class="rr-an-h"><b>개정 성격</b><span>실질 개정 · 타법 정비</span></div>
+                    <div class="rr-an-h"><b>개정 성격</b><span>실질 개정 · 타법개정</span></div>
                     <div class="rr-jd" id="rr-job-nature"></div>
                 </div>
                 <div class="rr-an-card">
@@ -2468,7 +2472,7 @@
             <div class="tab-pane" id="tracker-content"><div id="rr-trk-dash"></div></div>
 
             <!-- 시행 임박 · 업데이트 내역: 각 페이지를 embed 모드로 끼워 넣는다 (처음 열 때 불러옴) -->
-            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20261001x" title="시행 임박 법령"></iframe></div>
+            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20261001y" title="시행 임박 법령"></iframe></div>
             <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20261001b" title="업데이트 내역"></iframe></div>
         </div>
     </div>
@@ -7246,9 +7250,9 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./dashboard-charts.js?v=20260927u"></script>
     <script src="./year-view.js?v=20260926a"></script>
     <script src="./embed-host.js?v=20260926a"></script>
-    <script src="./analytics.js?v=20261001a"></script>
-    <script src="./job-analytics.js?v=20261001a"></script>
-    <script src="./quarter-analytics.js?v=20261001a"></script>
+    <script src="./analytics.js?v=20261001b"></script>
+    <script src="./job-analytics.js?v=20261001b"></script>
+    <script src="./quarter-analytics.js?v=20261001b"></script>
     <script src="./registry-analytics.js?v=20260928a"></script>
 
 </body>

@@ -430,7 +430,7 @@ const PREP_TYPES = [
   ['sanc', '처벌·제재 기준 변경', '위반 시 벌칙·과태료·과징금·행정처분 기준이 바뀝니다. 해당 업무의 준수 절차와 내부 점검 항목을 확인합니다.'],
   ['duty', '회사 의무 신설·변경', '회사가 새로 지켜야 하거나 내용이 달라지는 의무입니다. 담당 부서의 절차·교육·사내 규정에 반영합니다.'],
   ['change', '조문·기준 내용 변경', '조문이나 별표(기준표)의 내용이 바뀝니다. 당사 업무에 적용되는 조항인지 확인합니다.'],
-  ['tidy', '용어·인용 조문 정비', '다른 법 개정에 맞춘 용어·인용 조문 정비(타법개정)입니다. 사내 규정·서식에 인용된 조문만 확인합니다.']
+  ['tidy', '타법개정 (명칭·인용 조문 변경)', '다른 법령의 제정·개정에 따라 법령명·기관명·용어·인용 조문 등이 단순 변경된 개정입니다. 사내 규정·서식에 인용된 명칭·조문만 확인합니다.']
 ];
 function prepType(it) {
   const c = amCodes(it);
@@ -452,7 +452,7 @@ function evidence(it, type) {
   if (type === 'duty' && (d.duty || []).length) {
     return '“' + clip(String(d.duty[0]).replace(/^제\d+조(의\d+)?\([^)]*\)\s*/, '').replace(/^[①-⑳]\s*/, ''), 120) + '”';
   }
-  if (type === 'tidy') return arts.length ? '정비 조문 ' + arts.length + '개 · ' + arts.slice(0, 3).map(a => a.ref).join(', ') + (arts.length > 3 ? ' 등' : '') : '용어·인용 조문 정비';
+  if (type === 'tidy') return arts.length ? '변경 조문 ' + arts.length + '개 · ' + arts.slice(0, 3).map(a => a.ref).join(', ') + (arts.length > 3 ? ' 등' : '') : '명칭·인용 조문 변경';
   return arts.length ? artTxt(arts, 2) : '';
 }
 function renderPrep() {

@@ -1,5 +1,5 @@
 /* 종합 현황 '개정 분석' — 실무자가 사규·업무에 반영할 때 필요한 것 위주 (2026-10-01 개편)
- *  - 직무별 개정 건수 (실질 개정 / 타법 정비), 직무 × 분기 표, 법령 종류별 반영할 곳, 전체를 읽어야 할 개정(제정·전부개정)
+ *  - 직무별 개정 건수 (실질 개정 / 타법개정, 아래에 두 용어 설명), 직무 × 분기 표, 법령 종류별 반영할 곳, 전체를 읽어야 할 개정(제정·전부개정)
  *  - 분기별 탭 분기 카드마다 직무 구성 막대(가는 누적 막대), 메뉴 배지, 차트 도구(rrChartKit)도 여기서
  * 색: 직무는 window.rrCatColor (검증된 8색, 고정 순서). 그 밖의 차원은 보라 한 계열의 단계색
  * (라이트/다크 각각 검증). 숫자·글자는 글자색 토큰을 쓰고, 색은 식별용으로만 쓴다.
@@ -139,7 +139,7 @@
     var num = function (n) { return n.toLocaleString('ko-KR'); };
     var isTidy = function (x) { return x.amendmentType === '타법개정'; };
 
-    /* 1. 직무별 개정 건수 — 실질 개정(법 내용 변경) / 타법 정비(용어·인용 조문 정비)로 나눠 검토 부담을 보이게 */
+    /* 1. 직무별 개정 건수 — 실질 개정(법 내용 변경) / 타법개정(다른 법 개정에 따른 명칭·용어·인용 조문 단순 변경)으로 나눠 검토 부담을 보이게 */
     var jobs = s.cats.map(function (c) {
       var xs = inYear.filter(function (x) { return (x.categories || [])[0] === c; });
       var t = xs.filter(isTidy).length;
@@ -150,7 +150,7 @@
       type: 'bar',
       data: { labels: jobs.map(function (j) { return j[0]; }), datasets: [
         { label: '실질 개정', data: jobs.map(function (j) { return j[1]; }), backgroundColor: R[1], borderColor: k.surface, borderWidth: { right: 2 }, borderSkipped: false, barPercentage: 0.72, categoryPercentage: 0.9 },
-        { label: '타법 정비', data: jobs.map(function (j) { return j[2]; }), backgroundColor: GRAY, borderRadius: { topRight: 4, bottomRight: 4 }, borderSkipped: false, barPercentage: 0.72, categoryPercentage: 0.9 }
+        { label: '타법개정', data: jobs.map(function (j) { return j[2]; }), backgroundColor: GRAY, borderRadius: { topRight: 4, bottomRight: 4 }, borderSkipped: false, barPercentage: 0.72, categoryPercentage: 0.9 }
       ] },
       options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: { duration: 500 }, layout: { padding: { right: 30 } },
         onClick: function (e, el) { if (el.length) goJob(jobs[el[0].index][0]); },
@@ -161,6 +161,9 @@
         scales: (function () { var sc = hbarScales(k, Math.max.apply(null, jobs.map(function (j) { return j[1] + j[2]; }).concat([1]))); sc.x.stacked = true; sc.y.stacked = true; return sc; })() },
       plugins: [endLabels]
     });
+
+    var def = document.getElementById('rr-an-jobs-def');
+    if (def) { def.querySelector('.real').style.background = R[1]; def.querySelector('.tidy').style.background = GRAY; }
 
     /* 2. 직무 × 분기 표 — 언제 어느 직무에 검토가 몰리는지. 진할수록 많다. 분기 머리를 누르면 분기별 탭 */
     var curQ = (function () { var t = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' })); return String(t.getFullYear()) === year ? 'Q' + (Math.floor(t.getMonth() / 3) + 1) : ''; })();
@@ -311,6 +314,10 @@
     '.rr-an-fr .tt small i { display:inline-block; width:7px; height:7px; border-radius:2px; margin-right:5px; vertical-align:1px; }',
     '.rr-an-fr .dd { font-size:.74rem; font-weight:800; color:var(--text-muted); white-space:nowrap; }',
     '.rr-an-fr .dd.up { color:var(--warn, #c4580c); }',
+    '.rr-an-def { margin-top:.8rem; display:flex; flex-direction:column; gap:.45rem; background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:.7rem .85rem; }',
+    '.rr-an-def p { margin:0; display:grid; grid-template-columns:auto minmax(0,1fr); gap:.5rem; font-size:.8rem; line-height:1.55; color:var(--text-secondary); }',
+    '.rr-an-def b { display:inline-flex; align-items:center; gap:.4rem; color:var(--text-primary); white-space:nowrap; font-weight:800; }',
+    '.rr-an-def b i { width:10px; height:10px; border-radius:3px; display:inline-block; }',
     '.rr-an-none { padding:2rem 0; text-align:center; color:var(--text-muted); font-size:.85rem; }',
     '.rr-an-cnt { font-style:normal; font-size:.78rem; font-weight:700; color:var(--text-secondary); background:var(--bg-secondary); border-radius:999px; padding:.1rem .55rem; margin-left:.35rem; vertical-align:1px; }',
     '@media (max-width: 900px) { .rr-an-grid { grid-template-columns: 1fr; } .rr-an-kt td.w { white-space:normal; } }',
