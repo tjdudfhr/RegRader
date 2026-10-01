@@ -2432,16 +2432,16 @@
                                 <div class="rr-an-plot" style="height:260px"><canvas id="rr-reg-jobs" role="img" aria-label="직무별 적용법규 중 올해 개정된 법규 비율 누적 막대 차트"></canvas></div>
                             </div>
                             <div class="rr-an-card">
-                                <div class="rr-an-h"><b>올해 개정 횟수 분포</b><span>적용법규 수 기준</span></div>
-                                <div class="rr-an-plot" style="height:260px"><canvas id="rr-reg-freq" role="img" aria-label="적용법규의 올해 개정 횟수 분포 막대 차트"></canvas></div>
-                            </div>
-                            <div class="rr-an-card">
                                 <div class="rr-an-h"><b>법령 종류</b><span>법률 · 시행령 · 시행규칙 · 행정규칙</span></div>
                                 <div class="rr-an-donut"><div class="rr-an-plot"><canvas id="rr-reg-kind" role="img" aria-label="적용법규 법령 종류 도넛 차트"></canvas></div><div class="rr-an-legend" id="rr-reg-kind-legend"></div></div>
                             </div>
-                            <div class="rr-an-card">
-                                <div class="rr-an-h"><b>소관부처 TOP 8</b><span>적용법규 수 기준</span></div>
-                                <div class="rr-an-plot" style="height:240px"><canvas id="rr-reg-min" role="img" aria-label="소관부처별 적용법규 수 가로 막대 차트"></canvas></div>
+                            <div class="rr-an-card wide">
+                                <div class="rr-an-h"><b>사업 단계별 적용법규</b></div>
+                                <div class="rr-stg" id="rr-reg-stages"></div>
+                            </div>
+                            <div class="rr-an-card wide">
+                                <div class="rr-an-h"><b>제재·의무가 바뀐 적용법규 <em class="rr-an-cnt" id="rr-reg-risk-n"></em></b></div>
+                                <div id="rr-reg-risk"></div>
                             </div>
                         </div>
                     </div>
@@ -7253,7 +7253,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./analytics.js?v=20261001b"></script>
     <script src="./job-analytics.js?v=20261001b"></script>
     <script src="./quarter-analytics.js?v=20261001b"></script>
-    <script src="./registry-analytics.js?v=20260928a"></script>
+    <script src="./registry-analytics.js?v=20261001a"></script>
 
 </body>
 </html>
