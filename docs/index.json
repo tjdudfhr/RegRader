@@ -1,8 +1,8 @@
 {
   "year": 2026,
   "totalCount": 439,
-  "generatedAt": "2026-10-01T22:00:49.917483+00:00",
-  "asOf": "2026-10-02",
+  "generatedAt": "2026-10-04T00:01:30.381168+00:00",
+  "asOf": "2026-10-04",
   "stats": {
     "quarter": {
       "Q1": 175,
@@ -32,8 +32,8 @@
     "baseLaws": 254
   },
   "integrity": {
-    "checkedAt": "2026-10-01T22:00:49.917495+00:00",
-    "asOf": "2026-10-02",
+    "checkedAt": "2026-10-04T00:01:30.381189+00:00",
+    "asOf": "2026-10-04",
     "rule": "unique key = title+effectiveDate+amendmentType; match = compact(name)",
     "uniqueEvents": 439,
     "uniqueTitles": 176,
@@ -43,8 +43,8 @@
     "statusConsistentWithDate": true
   },
   "universe": {
-    "openapiCurrent": 2732,
-    "openapiFuture": 5424,
+    "openapiCurrent": 2733,
+    "openapiFuture": 5426,
     "openapiUpcoming": 323
   },
   "items": [
@@ -58,7 +58,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -129,7 +129,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -206,7 +206,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -295,7 +295,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -366,7 +366,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -449,7 +449,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -508,7 +508,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -567,7 +567,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -626,7 +626,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -709,7 +709,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -768,7 +768,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -833,7 +833,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -898,7 +898,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -951,7 +951,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "기획예산처,기후에너지환경부",
       "categories": [
         "환경"
@@ -1016,7 +1016,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "원자력안전위원회",
       "categories": [
         "안전"
@@ -1075,7 +1075,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "원자력안전위원회",
       "categories": [
         "안전"
@@ -1134,7 +1134,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "원자력안전위원회",
       "categories": [
         "안전"
@@ -1193,7 +1193,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -1258,7 +1258,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -1305,7 +1305,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -1358,7 +1358,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -1435,7 +1435,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -1512,7 +1512,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -1565,7 +1565,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -1660,7 +1660,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -1737,7 +1737,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -274,
+      "daysUntil": -276,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -1814,7 +1814,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "보건복지부,질병관리청",
       "categories": [
         "안전"
@@ -1879,7 +1879,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "보건복지부,질병관리청",
       "categories": [
         "안전"
@@ -1938,7 +1938,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "국토교통부",
       "categories": [
         "공정거래"
@@ -1985,7 +1985,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "국토교통부",
       "categories": [
         "공정거래"
@@ -2038,7 +2038,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "정보보호"
@@ -2097,7 +2097,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "정보보호"
@@ -2156,7 +2156,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "산업통상부",
       "categories": [
         "안전"
@@ -2215,7 +2215,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -2292,7 +2292,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -2339,7 +2339,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -2386,7 +2386,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -2475,7 +2475,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -2564,7 +2564,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -2635,7 +2635,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -2718,7 +2718,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -2777,7 +2777,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -2830,7 +2830,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -2889,7 +2889,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -2948,7 +2948,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -3007,7 +3007,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -3066,7 +3066,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -3125,7 +3125,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -3214,7 +3214,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "중소벤처기업부",
       "categories": [
         "공정거래"
@@ -3291,7 +3291,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "산업통상부",
       "categories": [
         "재무회계"
@@ -3344,7 +3344,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -3397,7 +3397,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -3456,7 +3456,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -3515,7 +3515,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -3580,7 +3580,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -3627,7 +3627,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -3710,7 +3710,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -3787,7 +3787,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "법무부",
       "categories": [
         "지배구조"
@@ -3834,7 +3834,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "기후에너지환경부",
       "categories": [
         "안전"
@@ -3881,7 +3881,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -3928,7 +3928,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -3981,7 +3981,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -4040,7 +4040,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "행정안전부",
       "categories": [
         "안전"
@@ -4093,7 +4093,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "산업통상부",
       "categories": [
         "안전"
@@ -4140,7 +4140,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "기획예산처,기후에너지환경부",
       "categories": [
         "환경"
@@ -4205,7 +4205,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "기획예산처,기후에너지환경부",
       "categories": [
         "환경"
@@ -4270,7 +4270,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -4371,7 +4371,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -4418,7 +4418,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -4483,7 +4483,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -4542,7 +4542,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -4589,7 +4589,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -4642,7 +4642,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "기후에너지환경부",
       "categories": [
         "안전"
@@ -4689,7 +4689,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -4742,7 +4742,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -4801,7 +4801,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -4854,7 +4854,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -4907,7 +4907,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -4984,7 +4984,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -5079,7 +5079,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -5126,7 +5126,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -5185,7 +5185,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "해양수산부",
       "categories": [
         "환경"
@@ -5232,7 +5232,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -5291,7 +5291,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -273,
+      "daysUntil": -275,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -5338,7 +5338,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -269,
+      "daysUntil": -271,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -5403,7 +5403,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -269,
+      "daysUntil": -271,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -5462,7 +5462,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -253,
+      "daysUntil": -255,
       "ministry": "보건복지부",
       "categories": [
         "인사노무"
@@ -5515,7 +5515,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -248,
+      "daysUntil": -250,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -5580,7 +5580,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "산업통상부",
       "categories": [
         "안전"
@@ -5639,7 +5639,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -5728,7 +5728,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -5781,7 +5781,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "산업통상부",
       "categories": [
         "재무회계"
@@ -5846,7 +5846,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -5899,7 +5899,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "행정안전부",
       "categories": [
         "안전"
@@ -5952,7 +5952,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "과학기술정보통신부",
       "categories": [
         "안전"
@@ -6005,7 +6005,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "과학기술정보통신부",
       "categories": [
         "안전"
@@ -6052,7 +6052,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "과학기술정보통신부",
       "categories": [
         "안전"
@@ -6105,7 +6105,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "기후에너지환경부",
       "categories": [
         "안전"
@@ -6158,7 +6158,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -6217,7 +6217,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -243,
+      "daysUntil": -245,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -6288,7 +6288,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -241,
+      "daysUntil": -243,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -6377,7 +6377,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -234,
+      "daysUntil": -236,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -6436,7 +6436,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -225,
+      "daysUntil": -227,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -6483,7 +6483,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -225,
+      "daysUntil": -227,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -6566,7 +6566,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -225,
+      "daysUntil": -227,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -6619,7 +6619,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -221,
+      "daysUntil": -223,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -6702,7 +6702,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -217,
+      "daysUntil": -219,
       "ministry": "국토교통부",
       "categories": [
         "안전"
@@ -6755,7 +6755,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -217,
+      "daysUntil": -219,
       "ministry": "국토교통부",
       "categories": [
         "안전"
@@ -6802,7 +6802,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -217,
+      "daysUntil": -219,
       "ministry": "국토교통부",
       "categories": [
         "안전"
@@ -6861,7 +6861,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -217,
+      "daysUntil": -219,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -6944,7 +6944,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -217,
+      "daysUntil": -219,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -7003,7 +7003,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -217,
+      "daysUntil": -219,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -7068,7 +7068,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -217,
+      "daysUntil": -219,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -7127,7 +7127,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -217,
+      "daysUntil": -219,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -7174,7 +7174,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -215,
+      "daysUntil": -217,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -7239,7 +7239,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -215,
+      "daysUntil": -217,
       "ministry": "식품의약품안전처",
       "categories": [
         "안전"
@@ -7292,7 +7292,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -214,
+      "daysUntil": -216,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -7339,7 +7339,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -213,
+      "daysUntil": -215,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -7386,7 +7386,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -213,
+      "daysUntil": -215,
       "ministry": "기후에너지환경부,산업통상부",
       "categories": [
         "환경"
@@ -7445,7 +7445,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -210,
+      "daysUntil": -212,
       "ministry": "법무부",
       "categories": [
         "지배구조"
@@ -7504,7 +7504,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -210,
+      "daysUntil": -212,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -7593,7 +7593,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -206,
+      "daysUntil": -208,
       "ministry": "산업통상부",
       "categories": [
         "안전"
@@ -7652,7 +7652,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -206,
+      "daysUntil": -208,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -7699,7 +7699,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -206,
+      "daysUntil": -208,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -7746,7 +7746,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -206,
+      "daysUntil": -208,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -7793,7 +7793,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -206,
+      "daysUntil": -208,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -7876,7 +7876,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -204,
+      "daysUntil": -206,
       "ministry": "국토교통부",
       "categories": [
         "환경"
@@ -7923,7 +7923,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -199,
+      "daysUntil": -201,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -7994,7 +7994,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -199,
+      "daysUntil": -201,
       "ministry": "산업통상부",
       "categories": [
         "재무회계"
@@ -8059,7 +8059,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -199,
+      "daysUntil": -201,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -8148,7 +8148,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -199,
+      "daysUntil": -201,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -8249,7 +8249,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -197,
+      "daysUntil": -199,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -8320,7 +8320,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -197,
+      "daysUntil": -199,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -8391,7 +8391,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -197,
+      "daysUntil": -199,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -8444,7 +8444,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -197,
+      "daysUntil": -199,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -8515,7 +8515,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -197,
+      "daysUntil": -199,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -8586,7 +8586,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -196,
+      "daysUntil": -198,
       "ministry": "산업통상부",
       "categories": [
         "안전"
@@ -8639,7 +8639,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -196,
+      "daysUntil": -198,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -8710,7 +8710,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -196,
+      "daysUntil": -198,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -8769,7 +8769,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -196,
+      "daysUntil": -198,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -8828,7 +8828,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -196,
+      "daysUntil": -198,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -8893,7 +8893,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -196,
+      "daysUntil": -198,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -8946,7 +8946,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -196,
+      "daysUntil": -198,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -8999,7 +8999,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -9058,7 +9058,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -9105,7 +9105,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -9164,7 +9164,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "산업통상부",
       "categories": [
         "안전"
@@ -9211,7 +9211,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -9264,7 +9264,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -9311,7 +9311,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "지식재산처",
       "categories": [
         "정보보호"
@@ -9364,7 +9364,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -9429,7 +9429,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -9506,7 +9506,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -9571,7 +9571,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -9618,7 +9618,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -9677,7 +9677,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -9730,7 +9730,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -9831,7 +9831,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "과학기술정보통신부,방송미디어통신위원회",
       "categories": [
         "정보보호"
@@ -9896,7 +9896,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -9949,7 +9949,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -9996,7 +9996,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10055,7 +10055,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10108,7 +10108,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10161,7 +10161,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -192,
+      "daysUntil": -194,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -10220,7 +10220,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -190,
+      "daysUntil": -192,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10297,7 +10297,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -190,
+      "daysUntil": -192,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10374,7 +10374,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -190,
+      "daysUntil": -192,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10457,7 +10457,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -190,
+      "daysUntil": -192,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10528,7 +10528,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -190,
+      "daysUntil": -192,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10599,7 +10599,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -190,
+      "daysUntil": -192,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10676,7 +10676,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -190,
+      "daysUntil": -192,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10735,7 +10735,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -185,
+      "daysUntil": -187,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10824,7 +10824,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -185,
+      "daysUntil": -187,
       "ministry": "산업통상부",
       "categories": [
         "안전"
@@ -10877,7 +10877,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -185,
+      "daysUntil": -187,
       "ministry": "기획예산처,기후에너지환경부",
       "categories": [
         "환경"
@@ -10942,7 +10942,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -185,
+      "daysUntil": -187,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -10989,7 +10989,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -184,
+      "daysUntil": -186,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -11078,7 +11078,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -184,
+      "daysUntil": -186,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -11149,7 +11149,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -184,
+      "daysUntil": -186,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -11232,7 +11232,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -182,
+      "daysUntil": -184,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -11315,7 +11315,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -178,
+      "daysUntil": -180,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -11398,7 +11398,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -178,
+      "daysUntil": -180,
       "ministry": "기획예산처,기후에너지환경부",
       "categories": [
         "환경"
@@ -11463,7 +11463,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -178,
+      "daysUntil": -180,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -11510,7 +11510,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -176,
+      "daysUntil": -178,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -11557,7 +11557,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -164,
+      "daysUntil": -166,
       "ministry": "재정경제부",
       "categories": [
         "정보보호"
@@ -11616,7 +11616,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -164,
+      "daysUntil": -166,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -11669,7 +11669,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -164,
+      "daysUntil": -166,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -11734,7 +11734,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -162,
+      "daysUntil": -164,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -11829,7 +11829,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -161,
+      "daysUntil": -163,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -11906,7 +11906,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -161,
+      "daysUntil": -163,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -11983,7 +11983,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -161,
+      "daysUntil": -163,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -12078,7 +12078,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -157,
+      "daysUntil": -159,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -12155,7 +12155,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -157,
+      "daysUntil": -159,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -12256,7 +12256,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -156,
+      "daysUntil": -158,
       "ministry": "기획예산처,기후에너지환경부",
       "categories": [
         "환경"
@@ -12321,7 +12321,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -156,
+      "daysUntil": -158,
       "ministry": "기획예산처,기후에너지환경부",
       "categories": [
         "환경"
@@ -12386,7 +12386,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -155,
+      "daysUntil": -157,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -12439,7 +12439,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -154,
+      "daysUntil": -156,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -12522,7 +12522,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -154,
+      "daysUntil": -156,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -12575,7 +12575,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -154,
+      "daysUntil": -156,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -12640,7 +12640,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -154,
+      "daysUntil": -156,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -12699,7 +12699,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -149,
+      "daysUntil": -151,
       "ministry": "보건복지부,질병관리청",
       "categories": [
         "안전"
@@ -12758,7 +12758,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -149,
+      "daysUntil": -151,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -12847,7 +12847,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -149,
+      "daysUntil": -151,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -12906,7 +12906,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -147,
+      "daysUntil": -149,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -12989,7 +12989,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -13060,7 +13060,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -13131,7 +13131,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -13208,7 +13208,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -13291,7 +13291,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -13380,7 +13380,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -13439,7 +13439,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -13492,7 +13492,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -13557,7 +13557,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -13604,7 +13604,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -13663,7 +13663,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -13716,7 +13716,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -13763,7 +13763,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -13816,7 +13816,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -143,
+      "daysUntil": -145,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -13875,7 +13875,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -141,
+      "daysUntil": -143,
       "ministry": "지식재산처",
       "categories": [
         "지식재산권"
@@ -13922,7 +13922,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -141,
+      "daysUntil": -143,
       "ministry": "지식재산처",
       "categories": [
         "지식재산권"
@@ -13969,7 +13969,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -136,
+      "daysUntil": -138,
       "ministry": "개인정보보호위원회",
       "categories": [
         "정보보호"
@@ -14028,7 +14028,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -136,
+      "daysUntil": -138,
       "ministry": "원자력안전위원회",
       "categories": [
         "안전"
@@ -14087,7 +14087,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -135,
+      "daysUntil": -137,
       "ministry": "과학기술정보통신부",
       "categories": [
         "안전"
@@ -14140,7 +14140,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -135,
+      "daysUntil": -137,
       "ministry": "과학기술정보통신부",
       "categories": [
         "안전"
@@ -14193,7 +14193,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -129,
+      "daysUntil": -131,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -14294,7 +14294,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -129,
+      "daysUntil": -131,
       "ministry": "금융위원회",
       "categories": [
         "지배구조"
@@ -14341,7 +14341,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -129,
+      "daysUntil": -131,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -14388,7 +14388,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -127,
+      "daysUntil": -129,
       "ministry": "지식재산처",
       "categories": [
         "정보보호"
@@ -14441,7 +14441,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -127,
+      "daysUntil": -129,
       "ministry": "지식재산처",
       "categories": [
         "정보보호"
@@ -14494,7 +14494,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -127,
+      "daysUntil": -129,
       "ministry": "지식재산처",
       "categories": [
         "정보보호"
@@ -14547,7 +14547,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -127,
+      "daysUntil": -129,
       "ministry": "기후에너지환경부,산업통상부",
       "categories": [
         "환경"
@@ -14606,7 +14606,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -127,
+      "daysUntil": -129,
       "ministry": "기후에너지환경부,산업통상부",
       "categories": [
         "환경"
@@ -14665,7 +14665,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -127,
+      "daysUntil": -129,
       "ministry": "기후에너지환경부,산업통상부",
       "categories": [
         "환경"
@@ -14718,7 +14718,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -127,
+      "daysUntil": -129,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -14765,7 +14765,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -123,
+      "daysUntil": -125,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -14842,7 +14842,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -123,
+      "daysUntil": -125,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -14907,7 +14907,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -123,
+      "daysUntil": -125,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -14972,7 +14972,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -123,
+      "daysUntil": -125,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -15067,7 +15067,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -122,
+      "daysUntil": -124,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -15126,7 +15126,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -122,
+      "daysUntil": -124,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -15209,7 +15209,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -122,
+      "daysUntil": -124,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -15292,7 +15292,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -121,
+      "daysUntil": -123,
       "ministry": "중소벤처기업부",
       "categories": [
         "공정거래"
@@ -15369,7 +15369,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -121,
+      "daysUntil": -123,
       "ministry": "중소벤처기업부",
       "categories": [
         "공정거래"
@@ -15446,7 +15446,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -121,
+      "daysUntil": -123,
       "ministry": "중소벤처기업부",
       "categories": [
         "공정거래"
@@ -15505,7 +15505,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -121,
+      "daysUntil": -123,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -15558,7 +15558,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -121,
+      "daysUntil": -123,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -15611,7 +15611,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -121,
+      "daysUntil": -123,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -15670,7 +15670,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -121,
+      "daysUntil": -123,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -15723,7 +15723,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -115,
+      "daysUntil": -117,
       "ministry": "산업통상부",
       "categories": [
         "안전"
@@ -15776,7 +15776,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -115,
+      "daysUntil": -117,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -15835,7 +15835,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -115,
+      "daysUntil": -117,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -15906,7 +15906,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -113,
+      "daysUntil": -115,
       "ministry": "산업통상부",
       "categories": [
         "안전"
@@ -15953,7 +15953,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -102,
+      "daysUntil": -104,
       "ministry": "국토교통부,기후에너지환경부",
       "categories": [
         "환경"
@@ -16000,7 +16000,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -102,
+      "daysUntil": -104,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -16047,7 +16047,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -102,
+      "daysUntil": -104,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -16094,7 +16094,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -102,
+      "daysUntil": -104,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -16147,7 +16147,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -102,
+      "daysUntil": -104,
       "ministry": "기후에너지환경부,산업통상부",
       "categories": [
         "환경"
@@ -16200,7 +16200,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -102,
+      "daysUntil": -104,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -16253,7 +16253,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -102,
+      "daysUntil": -104,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -16300,7 +16300,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -102,
+      "daysUntil": -104,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -16353,7 +16353,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -102,
+      "daysUntil": -104,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -16430,7 +16430,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -102,
+      "daysUntil": -104,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -16483,7 +16483,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -102,
+      "daysUntil": -104,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -16530,7 +16530,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -101,
+      "daysUntil": -103,
       "ministry": "국토교통부",
       "categories": [
         "공정거래"
@@ -16583,7 +16583,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -101,
+      "daysUntil": -103,
       "ministry": "재정경제부",
       "categories": [
         "정보보호"
@@ -16642,7 +16642,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -100,
+      "daysUntil": -102,
       "ministry": "보건복지부,질병관리청",
       "categories": [
         "안전"
@@ -16707,7 +16707,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -100,
+      "daysUntil": -102,
       "ministry": "보건복지부,질병관리청",
       "categories": [
         "안전"
@@ -16766,7 +16766,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -100,
+      "daysUntil": -102,
       "ministry": "재정경제부",
       "categories": [
         "정보보호"
@@ -16825,7 +16825,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -100,
+      "daysUntil": -102,
       "ministry": "재정경제부",
       "categories": [
         "정보보호"
@@ -16884,7 +16884,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -98,
+      "daysUntil": -100,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -16967,7 +16967,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -98,
+      "daysUntil": -100,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -17032,7 +17032,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -98,
+      "daysUntil": -100,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -17097,7 +17097,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -98,
+      "daysUntil": -100,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -17156,7 +17156,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -94,
+      "daysUntil": -96,
       "ministry": "국민권익위원회",
       "categories": [
         "지배구조"
@@ -17203,7 +17203,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -94,
+      "daysUntil": -96,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -17304,7 +17304,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -17375,7 +17375,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -17452,7 +17452,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -17541,7 +17541,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -17624,7 +17624,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -17677,7 +17677,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "중소벤처기업부",
       "categories": [
         "공정거래"
@@ -17754,7 +17754,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "중소벤처기업부",
       "categories": [
         "공정거래"
@@ -17813,7 +17813,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -17872,7 +17872,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -17931,7 +17931,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -17990,7 +17990,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -18073,7 +18073,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -18150,7 +18150,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "법무부",
       "categories": [
         "지배구조"
@@ -18209,7 +18209,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -18256,7 +18256,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -18321,7 +18321,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -18374,7 +18374,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "산업통상부",
       "categories": [
         "정보보호"
@@ -18421,7 +18421,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -18480,7 +18480,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "원자력안전위원회",
       "categories": [
         "안전"
@@ -18539,7 +18539,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -18586,7 +18586,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -18633,7 +18633,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -18692,7 +18692,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "기후에너지환경부",
       "categories": [
         "안전"
@@ -18745,7 +18745,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -18822,7 +18822,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -18875,7 +18875,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -18970,7 +18970,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -19065,7 +19065,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -19112,7 +19112,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -19171,7 +19171,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -19218,7 +19218,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -93,
+      "daysUntil": -95,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -19277,7 +19277,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -87,
+      "daysUntil": -89,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -19354,7 +19354,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -87,
+      "daysUntil": -89,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -19419,7 +19419,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -87,
+      "daysUntil": -89,
       "ministry": "과학기술정보통신부,방송미디어통신위원회",
       "categories": [
         "정보보호"
@@ -19484,7 +19484,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -87,
+      "daysUntil": -89,
       "ministry": "과학기술정보통신부,방송미디어통신위원회",
       "categories": [
         "정보보호"
@@ -19549,7 +19549,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -85,
+      "daysUntil": -87,
       "ministry": "원자력안전위원회",
       "categories": [
         "안전"
@@ -19608,7 +19608,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -79,
+      "daysUntil": -81,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -19691,7 +19691,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -73,
+      "daysUntil": -75,
       "ministry": "법무부",
       "categories": [
         "지배구조"
@@ -19750,7 +19750,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -73,
+      "daysUntil": -75,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -19803,7 +19803,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -71,
+      "daysUntil": -73,
       "ministry": "법무부",
       "categories": [
         "지배구조"
@@ -19862,7 +19862,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -71,
+      "daysUntil": -73,
       "ministry": "법무부",
       "categories": [
         "지배구조"
@@ -19921,7 +19921,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -66,
+      "daysUntil": -68,
       "ministry": "국토교통부",
       "categories": [
         "안전"
@@ -19980,7 +19980,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -66,
+      "daysUntil": -68,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -20045,7 +20045,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -66,
+      "daysUntil": -68,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -20146,7 +20146,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -63,
+      "daysUntil": -65,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -20217,7 +20217,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -63,
+      "daysUntil": -65,
       "ministry": "산업통상부",
       "categories": [
         "재무회계"
@@ -20282,7 +20282,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -62,
+      "daysUntil": -64,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -20347,7 +20347,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -62,
+      "daysUntil": -64,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -20412,7 +20412,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -62,
+      "daysUntil": -64,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -20477,7 +20477,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -59,
+      "daysUntil": -61,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -20566,7 +20566,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -59,
+      "daysUntil": -61,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -20667,7 +20667,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -59,
+      "daysUntil": -61,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -20726,7 +20726,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -52,
+      "daysUntil": -54,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -20815,7 +20815,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -52,
+      "daysUntil": -54,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -20868,7 +20868,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -52,
+      "daysUntil": -54,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -20927,7 +20927,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -45,
+      "daysUntil": -47,
       "ministry": "식품의약품안전처",
       "categories": [
         "안전"
@@ -20974,7 +20974,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -43,
+      "daysUntil": -45,
       "ministry": "개인정보보호위원회",
       "categories": [
         "정보보호"
@@ -21033,7 +21033,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -43,
+      "daysUntil": -45,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -21104,7 +21104,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -43,
+      "daysUntil": -45,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -21175,7 +21175,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -43,
+      "daysUntil": -45,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -21246,7 +21246,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -43,
+      "daysUntil": -45,
       "ministry": "고용노동부,성평등가족부",
       "categories": [
         "인사노무"
@@ -21305,7 +21305,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -43,
+      "daysUntil": -45,
       "ministry": "고용노동부,성평등가족부",
       "categories": [
         "인사노무"
@@ -21358,7 +21358,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -43,
+      "daysUntil": -45,
       "ministry": "고용노동부,성평등가족부",
       "categories": [
         "인사노무"
@@ -21411,7 +21411,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -43,
+      "daysUntil": -45,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -21464,7 +21464,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -43,
+      "daysUntil": -45,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -21535,7 +21535,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -38,
+      "daysUntil": -40,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -21582,7 +21582,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -38,
+      "daysUntil": -40,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -21641,7 +21641,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -33,
+      "daysUntil": -35,
       "ministry": "행정안전부",
       "categories": [
         "안전"
@@ -21688,7 +21688,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -31,
+      "daysUntil": -33,
       "ministry": "식품의약품안전처",
       "categories": [
         "안전"
@@ -21741,7 +21741,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -24,
+      "daysUntil": -26,
       "ministry": "원자력안전위원회",
       "categories": [
         "안전"
@@ -21800,7 +21800,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -24,
+      "daysUntil": -26,
       "ministry": "원자력안전위원회",
       "categories": [
         "안전"
@@ -21859,7 +21859,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -22,
+      "daysUntil": -24,
       "ministry": "법무부",
       "categories": [
         "지배구조"
@@ -21918,7 +21918,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -21,
+      "daysUntil": -23,
       "ministry": "개인정보보호위원회",
       "categories": [
         "정보보호"
@@ -21965,7 +21965,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -21,
+      "daysUntil": -23,
       "ministry": "개인정보보호위원회",
       "categories": [
         "정보보호"
@@ -22024,7 +22024,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -21,
+      "daysUntil": -23,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -22107,7 +22107,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -21,
+      "daysUntil": -23,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -22184,7 +22184,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -21,
+      "daysUntil": -23,
       "ministry": "과학기술정보통신부,방송미디어통신위원회",
       "categories": [
         "정보보호"
@@ -22249,7 +22249,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "국토교통부",
       "categories": [
         "안전"
@@ -22308,7 +22308,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -22379,7 +22379,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -22450,7 +22450,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -22527,7 +22527,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -22580,7 +22580,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -22663,7 +22663,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -22752,7 +22752,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "고용노동부,성평등가족부",
       "categories": [
         "인사노무"
@@ -22811,7 +22811,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "고용노동부,성평등가족부",
       "categories": [
         "인사노무"
@@ -22864,7 +22864,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "고용노동부,성평등가족부",
       "categories": [
         "인사노무"
@@ -22917,7 +22917,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -22994,7 +22994,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -23077,7 +23077,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -23160,7 +23160,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -23219,7 +23219,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "산업통상부",
       "categories": [
         "안전"
@@ -23272,7 +23272,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -23355,7 +23355,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "산업통상부",
       "categories": [
         "환경"
@@ -23432,7 +23432,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -23485,7 +23485,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -23532,7 +23532,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "안전"
@@ -23585,7 +23585,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "안전"
@@ -23638,7 +23638,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -23733,7 +23733,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -23804,7 +23804,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -23881,7 +23881,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -14,
+      "daysUntil": -16,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -23928,7 +23928,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -10,
+      "daysUntil": -12,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -24017,7 +24017,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -6,
+      "daysUntil": -8,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -24088,7 +24088,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -6,
+      "daysUntil": -8,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -24141,7 +24141,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -6,
+      "daysUntil": -8,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -24212,7 +24212,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -6,
+      "daysUntil": -8,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -24283,7 +24283,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -3,
+      "daysUntil": -5,
       "ministry": "중소벤처기업부",
       "categories": [
         "공정거래"
@@ -24360,7 +24360,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -3,
+      "daysUntil": -5,
       "ministry": "식품의약품안전처",
       "categories": [
         "안전"
@@ -24407,7 +24407,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -1,
+      "daysUntil": -3,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -24472,7 +24472,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -1,
+      "daysUntil": -3,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -24561,7 +24561,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -1,
+      "daysUntil": -3,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -24662,7 +24662,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -1,
+      "daysUntil": -3,
       "ministry": "과학기술정보통신부,방송미디어통신위원회",
       "categories": [
         "정보보호"
@@ -24727,7 +24727,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -1,
+      "daysUntil": -3,
       "ministry": "과학기술정보통신부,방송미디어통신위원회",
       "categories": [
         "정보보호"
@@ -24792,7 +24792,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -1,
+      "daysUntil": -3,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -24851,7 +24851,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": -1,
+      "daysUntil": -3,
       "ministry": "행정안전부",
       "categories": [
         "재무회계"
@@ -24946,7 +24946,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "재정경제부",
       "categories": [
         "재무회계"
@@ -25035,7 +25035,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -25082,7 +25082,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -25153,7 +25153,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -25200,7 +25200,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "산업통상부",
       "categories": [
         "재무회계"
@@ -25265,7 +25265,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -25324,7 +25324,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -25383,7 +25383,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "소방청",
       "categories": [
         "안전"
@@ -25448,7 +25448,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -25537,7 +25537,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -25638,7 +25638,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -25697,7 +25697,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "보건복지부",
       "categories": [
         "인사노무"
@@ -25750,7 +25750,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "과학기술정보통신부,방송미디어통신위원회",
       "categories": [
         "정보보호"
@@ -25815,7 +25815,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "과학기술정보통신부,방송미디어통신위원회",
       "categories": [
         "정보보호"
@@ -25880,7 +25880,7 @@
       "amendmentType": "일부개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -25957,7 +25957,7 @@
       "amendmentType": "타법개정",
       "status": "현행",
       "inForce": true,
-      "daysUntil": 0,
+      "daysUntil": -2,
       "ministry": "공정거래위원회",
       "categories": [
         "공정거래"
@@ -26010,7 +26010,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 6,
+      "daysUntil": 4,
       "ministry": "보건복지부,질병관리청",
       "categories": [
         "안전"
@@ -26075,7 +26075,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 6,
+      "daysUntil": 4,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -26146,7 +26146,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 6,
+      "daysUntil": 4,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -26229,7 +26229,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 6,
+      "daysUntil": 4,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -26318,7 +26318,7 @@
       "amendmentType": "타법개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 6,
+      "daysUntil": 4,
       "ministry": "식품의약품안전처",
       "categories": [
         "안전"
@@ -26371,7 +26371,7 @@
       "amendmentType": "타법개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 6,
+      "daysUntil": 4,
       "ministry": "기획예산처,기후에너지환경부",
       "categories": [
         "환경"
@@ -26436,7 +26436,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 6,
+      "daysUntil": 4,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -26483,7 +26483,7 @@
       "amendmentType": "타법개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 6,
+      "daysUntil": 4,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -26530,7 +26530,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 20,
+      "daysUntil": 18,
       "ministry": "산업통상부",
       "categories": [
         "재무회계"
@@ -26583,7 +26583,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 41,
+      "daysUntil": 39,
       "ministry": "국토교통부",
       "categories": [
         "안전"
@@ -26636,7 +26636,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 41,
+      "daysUntil": 39,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -26719,7 +26719,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 41,
+      "daysUntil": 39,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -26808,7 +26808,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 41,
+      "daysUntil": 39,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -26885,7 +26885,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 41,
+      "daysUntil": 39,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -26956,7 +26956,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 42,
+      "daysUntil": 40,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -27045,7 +27045,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 42,
+      "daysUntil": 40,
       "ministry": "해양수산부",
       "categories": [
         "환경"
@@ -27092,7 +27092,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 49,
+      "daysUntil": 47,
       "ministry": "원자력안전위원회",
       "categories": [
         "안전"
@@ -27151,7 +27151,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 56,
+      "daysUntil": 54,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -27222,7 +27222,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 56,
+      "daysUntil": 54,
       "ministry": "고용노동부,성평등가족부",
       "categories": [
         "인사노무"
@@ -27281,7 +27281,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 56,
+      "daysUntil": 54,
       "ministry": "산업통상부",
       "categories": [
         "안전"
@@ -27328,7 +27328,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 62,
+      "daysUntil": 60,
       "ministry": "중소벤처기업부",
       "categories": [
         "공정거래"
@@ -27405,7 +27405,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 62,
+      "daysUntil": 60,
       "ministry": "중소벤처기업부",
       "categories": [
         "공정거래"
@@ -27464,7 +27464,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 67,
+      "daysUntil": 65,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -27535,7 +27535,7 @@
       "amendmentType": "타법개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 67,
+      "daysUntil": 65,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -27582,7 +27582,7 @@
       "amendmentType": "타법개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 67,
+      "daysUntil": 65,
       "ministry": "고용노동부",
       "categories": [
         "안전"
@@ -27647,7 +27647,7 @@
       "amendmentType": "타법개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 67,
+      "daysUntil": 65,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -27694,7 +27694,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 68,
+      "daysUntil": 66,
       "ministry": "금융위원회",
       "categories": [
         "재무회계"
@@ -27783,7 +27783,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 69,
+      "daysUntil": 67,
       "ministry": "보건복지부,질병관리청",
       "categories": [
         "안전"
@@ -27848,7 +27848,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 69,
+      "daysUntil": 67,
       "ministry": "고용노동부",
       "categories": [
         "인사노무"
@@ -27919,7 +27919,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 69,
+      "daysUntil": 67,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -27996,7 +27996,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 69,
+      "daysUntil": 67,
       "ministry": "기후에너지환경부",
       "categories": [
         "환경"
@@ -28067,7 +28067,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 90,
+      "daysUntil": 88,
       "ministry": "식품의약품안전처",
       "categories": [
         "안전"
@@ -28120,7 +28120,7 @@
       "amendmentType": "일부개정",
       "status": "시행예정",
       "inForce": false,
-      "daysUntil": 90,
+      "daysUntil": 88,
       "ministry": "산업통상부",
       "categories": [
         "안전"
