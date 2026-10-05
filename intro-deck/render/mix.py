@@ -16,8 +16,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 FPS = 30
 # 페이지마다 최소 노출 시간(초): 애니메이션이 다 보일 만큼
-MIN_DUR = [8.5, 5.5, 6, 6, 6, 5.5, 6.5, 6.5, 8, 5.5, 6]
-LEAD = [1.3, 0.7, 0.8, 0.7, 0.7, 0.7, 0.7, 0.8, 0.7, 0.7, 0.9]  # 페이지 시작 → 말 시작
+MIN_DUR = [8.5, 5.5, 6, 6, 6, 5.5, 6.5, 6.5, 8, 5.5, 18, 17, 16, 6]
+LEAD = [1.3, 0.7, 0.8, 0.7, 0.7, 0.7, 0.7, 0.8, 0.7, 0.7, 0.7, 0.7, 0.7, 0.9]  # 페이지 시작 → 말 시작
 TAIL = 1.0  # 말 끝 → 다음 페이지
 END_HOLD = 3.0  # 마지막 말 뒤 여운
 
@@ -49,7 +49,8 @@ def one(pattern):
 
 
 def voices():
-    return [one(f'voice/s{i:02d}.*') for i in range(1, 12)]
+    n = len(json.load(open(os.path.join(HERE, 'narration.json'))))
+    return [one(f'voice/s{i:02d}.*') for i in range(1, n + 1)]
 
 
 def plan():
@@ -130,13 +131,19 @@ def audio():
         labels.append(f'[v{i}]')
     m = len(vs)
     inputs += ['-i', music]
-    # 음악이 영상보다 짧으면 반복(이음새가 들림) 대신 템포를 살짝 늦춰 길이를 맞춘다
-    stretch = min(1.0, dur(music) / total)
-    tempo = f'atempo={stretch:.4f},' if stretch < 0.999 else ''
+    # 음악이 영상보다 짧으면 같은 곡을 도입부를 건너뛰고 6초 크로스페이드로 한 번 더 잇는다
+    mlen = dur(music)
+    loop = mlen < total
     filters.append(f'{"".join(labels)}amix=inputs={m}:normalize=0:dropout_transition=0,apad,atrim=0:{total}[voice]')
     filters.append('[voice]asplit=2[vmain][vkey]')
+    src = f'[{m}:a]aresample=48000,aformat=channel_layouts=stereo'
+    if loop:
+        filters.append(f'{src},asplit=2[ma][mb]')
+        filters.append('[mb]atrim=start=20,asetpts=PTS-STARTPTS[mb2]')
+        filters.append('[ma][mb2]acrossfade=d=6:c1=qsin:c2=qsin[mlong]')
+        src = '[mlong]anull'
     filters.append(
-        f'[{m}:a]aresample=48000,aformat=channel_layouts=stereo,{tempo}apad,atrim=0:{total},asetpts=N/SR/TB,'
+        f'{src},apad,atrim=0:{total},asetpts=N/SR/TB,'
         f'volume={MUSIC_LUFS - lufs(music):.2f}dB,afade=t=in:st=0:d=1.5,afade=t=out:st={total - 3.5:.2f}:d=3.5[bed]'
     )
     filters.append('[bed][vkey]sidechaincompress=threshold=0.03:ratio=3:attack=80:release=900:makeup=1[duck]')

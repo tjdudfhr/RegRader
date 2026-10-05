@@ -15,6 +15,12 @@ import {
   useRef,
   useState,
 } from 'react';
+import useA from './assets/use-a-business.jpg';
+import useB from './assets/use-b-env.jpg';
+import useC from './assets/use-c-list.jpg';
+import useD from './assets/use-d-drawer.jpg';
+import useE from './assets/use-e-watch.jpg';
+import useF from './assets/use-f-report.jpg';
 
 // Radar cinematic: deep navy night sky, brand blue sweep, one data-driven radar
 // bookending the deck (cover = first frame, closing = last frame).
@@ -67,9 +73,57 @@ const dotKeys = STATUS.map((c, k) => {
   }`;
 }).join('\n');
 
+// ─── 사용법 장면: 실제 사이트 화면(2026-10-05) 위에서 커서 · 강조 · 확대가 움직인다 ───
+// 좌표는 화면 비율(0~1). 시간은 초이고, k 로 페이지 길이(내레이션)에 맞춰 늘린다.
+
+const FW = 1088; // 화면 크기 (사이트 1440×900 의 비율 그대로)
+const FH = 680;
+type Pt = [number, number, number]; // t, x, y
+type CamPt = [number, number, number, number]; // t, scale, centerX, centerY
+type UseDef = { id: string; k: number; dur: number; cursor: Pt[]; clicks: number[]; cam: CamPt[] };
+
+const U1: UseDef = {
+  id: 'u1',
+  k: 1.12,
+  dur: 16,
+  cursor: [[0, 0.55, 0.62], [1.0, 0.55, 0.62], [2.4, 0.837, 0.19], [3.6, 0.837, 0.19], [5.0, 0.68, 0.4], [8.6, 0.68, 0.4], [9.8, 0.585, 0.62], [16, 0.585, 0.62]],
+  clicks: [2.55],
+  cam: [[0, 1, 0.5, 0.5], [4.4, 1, 0.5, 0.5], [5.4, 1.25, 0.58, 0.57], [16, 1.25, 0.58, 0.57]],
+};
+const U2: UseDef = {
+  id: 'u2',
+  k: 1,
+  dur: 17,
+  cursor: [[0, 0.6, 0.75], [0.8, 0.6, 0.75], [2.2, 0.4, 0.408], [3.5, 0.4, 0.408], [5.2, 0.7, 0.62], [10.2, 0.7, 0.62], [11.4, 0.538, 0.224], [17, 0.538, 0.224]],
+  clicks: [2.35],
+  cam: [[0, 1, 0.5, 0.5], [4.6, 1, 0.5, 0.5], [5.4, 1.4, 0.69, 0.7], [10.2, 1.4, 0.69, 0.7], [11.0, 1.4, 0.55, 0.3], [17, 1.4, 0.55, 0.3]],
+};
+const U3: UseDef = {
+  id: 'u3',
+  k: 1,
+  dur: 16,
+  cursor: [[0, 0.4, 0.6], [0.6, 0.4, 0.6], [1.9, 0.085, 0.402], [3.0, 0.085, 0.402], [4.2, 0.29, 0.15], [6.4, 0.45, 0.55], [8.4, 0.948, 0.035], [9.6, 0.948, 0.035], [10.8, 0.5, 0.536], [13.2, 0.5, 0.536], [14.2, 0.45, 0.66], [16, 0.45, 0.66]],
+  clicks: [2.05, 8.6],
+  cam: [[0, 1, 0.5, 0.5], [9.6, 1, 0.5, 0.5], [10.4, 1.3, 0.5, 0.52], [16, 1.3, 0.5, 0.52]],
+};
+
+const camT = (s: number, cx: number, cy: number) => {
+  const tx = Math.min(0, Math.max(FW - s * FW, FW / 2 - s * cx * FW));
+  const ty = Math.min(0, Math.max(FH - s * FH, FH / 2 - s * cy * FH));
+  return `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${s})`;
+};
+const useKeys = [U1, U2, U3].map((u) => {
+  const pc = (t: number) => `${((t / u.dur) * 100).toFixed(3)}%`;
+  const cur = u.cursor.map(([t, x, y]) => `${pc(t)} { transform: translate(${(x * FW).toFixed(1)}px, ${(y * FH).toFixed(1)}px); }`).join(' ');
+  const clk = ['0% { transform: scale(1); }', ...u.clicks.flatMap((t) => [`${pc(t - 0.12)} { transform: scale(1); }`, `${pc(t)} { transform: scale(0.78); }`, `${pc(t + 0.18)} { transform: scale(1); }`]), '100% { transform: scale(1); }'].join(' ');
+  const cam = u.cam.map(([t, sc, cx, cy]) => `${pc(t)} { transform: ${camT(sc, cx, cy)}; }`).join(' ');
+  return `@keyframes rgx-cur-${u.id} { ${cur} } @keyframes rgx-clk-${u.id} { ${clk} } @keyframes rgx-cam-${u.id} { ${cam} }`;
+}).join('\n');
+
 const ANIMATED = [
   'rgx-rise', 'rgx-fade', 'rgx-grow', 'rgx-pop', 'rgx-draw', 'rgx-ticker', 'rgx-scan',
   'rgx-ping', 'rgx-travel', 'rgx-node', 'rgx-state', 'rgx-pill', 'rgx-dot', 'rgx-cursor',
+  'rgx-shotin', 'rgx-ring', 'rgx-ringkeep', 'rgx-ripple', 'rgx-stepon', 'rgx-cur', 'rgx-clk', 'rgx-cam',
 ];
 const stillSel = ANIMATED.map((c) => `[data-still] .${c}`).join(', ');
 const reducedSel = ANIMATED.map((c) => `.${c}`).join(', ');
@@ -90,6 +144,18 @@ const css = `
   .rgx-pill { animation: rgx-pill 8s linear infinite; }
   .rgx-cursor { animation: rgx-cursor 2s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
 
+  .rgx-shotin { animation: rgx-shotin 0.45s ease-out both; }
+  .rgx-ring { opacity: 0; animation: rgx-ring linear both; }
+  .rgx-ringkeep { animation: rgx-ringkeep 0.4s cubic-bezier(0.2, 1.1, 0.3, 1) both; }
+  .rgx-ripple { opacity: 0; animation: rgx-ripple 0.7s ease-out both; }
+  .rgx-stepon { animation: rgx-stepon 0.5s ease-out both; }
+  .rgx-cur, .rgx-clk, .rgx-cam { animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1); animation-fill-mode: both; }
+  @keyframes rgx-shotin { from { opacity: 0; } }
+  @keyframes rgx-ring { 0% { opacity: 0; transform: scale(1.06); } 6% { opacity: 1; transform: scale(1); } 90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
+  @keyframes rgx-ringkeep { from { opacity: 0; transform: scale(1.06); } }
+  @keyframes rgx-ripple { 0% { opacity: 0; transform: scale(0.4); } 2% { opacity: 0.9; transform: scale(0.4); } 100% { opacity: 0; transform: scale(2.6); } }
+  @keyframes rgx-stepon { from { opacity: 0.28; } }
+  ${useKeys}
   @keyframes rgx-rise { from { opacity: 0; transform: translateY(22px); filter: blur(8px); } }
   @keyframes rgx-fade { from { opacity: 0; } }
   @keyframes rgx-grow { from { transform: scaleX(0); } }
@@ -794,7 +860,7 @@ const Problem: Page = () => (
     >
       하루 평균 <span style={{ color: 'var(--osd-accent)' }}>15건</span>.
       <br />
-      이걸 매일, 다 확인할 수 있을까요?
+      매일 모두 확인하기는 어렵습니다.
     </h2>
     <div className="rgx-fade" style={{ animationDelay: '600ms' }}>
       <TickerRow items={LAWS_A} top={720} seconds={80} color="rgba(141, 154, 196, 0.55)" />
@@ -1590,6 +1656,225 @@ const Grow: Page = () => (
   </Frame>
 );
 
+// ─── 11–13. 사용법 (실제 사이트 화면) ───
+
+type Box = { x: number; y: number; w: number; h: number };
+
+const Shot = ({ src, at, k }: { src: string; at: number; k: number }) => (
+  <img
+    src={src}
+    alt=""
+    className={at > 0 ? 'rgx-shotin' : undefined}
+    style={{ animationDelay: `${at * k}s`, position: 'absolute', left: 0, top: 0, width: FW, height: FH, display: 'block' }}
+  />
+);
+
+const Ring = ({ box, from, to, k, label, keep, below }: { box: Box; from: number; to?: number; k: number; label?: string; keep?: boolean; below?: boolean }) => (
+  <div
+    className={keep ? 'rgx-ringkeep' : 'rgx-ring'}
+    style={{
+      animationDelay: `${from * k}s`,
+      animationDuration: keep ? undefined : `${((to ?? from + 3) - from) * k}s`,
+      position: 'absolute',
+      left: box.x * FW - 6,
+      top: box.y * FH - 6,
+      width: box.w * FW + 12,
+      height: box.h * FH + 12,
+      boxSizing: 'border-box',
+      border: `3px solid ${ink.mint}`,
+      borderRadius: 10,
+      boxShadow: '0 0 0 6px rgba(126, 226, 168, 0.18)',
+      pointerEvents: 'none',
+    }}
+  >
+    {label && (
+      <span
+        style={{
+          position: 'absolute',
+          left: -3,
+          ...(below ? { top: 'calc(100% + 8px)' } : { bottom: 'calc(100% + 8px)' }),
+          padding: '4px 12px',
+          borderRadius: 8,
+          background: ink.mint,
+          color: ink.deep,
+          fontSize: 18,
+          fontWeight: 700,
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {label}
+      </span>
+    )}
+  </div>
+);
+
+const Ripple = ({ x, y, t, k }: { x: number; y: number; t: number; k: number }) => (
+  <span
+    className="rgx-ripple"
+    style={{
+      animationDelay: `${t * k}s`,
+      position: 'absolute',
+      left: x * FW - 18,
+      top: y * FH - 18,
+      width: 36,
+      height: 36,
+      borderRadius: '50%',
+      border: '3px solid #ffffff',
+      boxShadow: '0 0 0 2px rgba(10, 20, 49, 0.4)',
+      pointerEvents: 'none',
+    }}
+  />
+);
+
+// 화면 안의 모든 것(화면 · 강조 · 커서)이 함께 확대된다
+const Browser = ({ u, children }: { u: UseDef; children: ReactNode }) => {
+  const last = u.cursor[u.cursor.length - 1];
+  return (
+    <div
+      className="rgx-rise"
+      style={{
+        animationDelay: '150ms',
+        position: 'absolute',
+        left: 140,
+        top: 262,
+        width: FW,
+        borderRadius: 14,
+        overflow: 'hidden',
+        background: '#0d1736',
+        border: `1px solid ${ink.panelEdge}`,
+        boxShadow: '0 40px 90px -40px rgba(0, 0, 0, 0.75)',
+      }}
+    >
+      <div style={{ height: 36, display: 'flex', alignItems: 'center', gap: 8, padding: '0 16px', borderBottom: `1px solid ${ink.line}` }}>
+        <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#ff6b5f' }} />
+        <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#ffbd2e' }} />
+        <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#28c840' }} />
+        <span style={{ marginLeft: 18, padding: '3px 14px', borderRadius: 7, background: 'rgba(132, 158, 238, 0.12)', fontFamily: MONO, fontSize: 15, color: ink.muted }}>
+          tjdudfhr.github.io/RegRader
+        </span>
+      </div>
+      <div style={{ position: 'relative', width: FW, height: FH, overflow: 'hidden', background: '#e3e7ed' }}>
+        <div
+          className="rgx-cam"
+          style={{ animationName: `rgx-cam-${u.id}`, animationDuration: `${u.dur * u.k}s`, position: 'absolute', left: 0, top: 0, width: FW, height: FH, transformOrigin: '0 0' }}
+        >
+          {children}
+          <div
+            className="rgx-cur"
+            style={{
+              animationName: `rgx-cur-${u.id}`,
+              animationDuration: `${u.dur * u.k}s`,
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              transform: `translate(${last[1] * FW}px, ${last[2] * FH}px)`,
+              zIndex: 5,
+            }}
+          >
+            <div className="rgx-clk" style={{ animationName: `rgx-clk-${u.id}`, animationDuration: `${u.dur * u.k}s`, transformOrigin: '7px 4px', marginLeft: -7, marginTop: -4 }}>
+              <Cursor />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const UseStepRow = ({ n, title, desc, at, k }: { n: string; title: string; desc: string; at: number; k: number }) => (
+  <div className="rgx-stepon" style={{ animationDelay: `${at * k}s`, display: 'grid', gridTemplateColumns: '58px 1fr', gap: 16 }}>
+    <span
+      style={{
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        border: '2px solid var(--osd-accent)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: MONO,
+        fontSize: 22,
+        color: 'var(--osd-accent)',
+      }}
+    >
+      {n}
+    </span>
+    <div>
+      <div style={{ fontSize: 32, fontWeight: 700, lineHeight: 1.3 }}>{title}</div>
+      <div style={{ marginTop: 6, fontSize: 24, lineHeight: 1.5, color: ink.muted }}>{desc}</div>
+    </div>
+  </div>
+);
+
+const UseSteps = ({ children }: { children: ReactNode }) => (
+  <div style={{ position: 'absolute', left: 1288, top: 290, width: 492, display: 'flex', flexDirection: 'column', gap: 40 }}>{children}</div>
+);
+
+const UseJob: Page = () => (
+  <Frame>
+    <Eyebrow code="STEP 1">사용법 · 직무 선택</Eyebrow>
+    <Heading>내 직무를 고르면, 챙길 일이 바로 보입니다</Heading>
+    <Browser u={U1}>
+      <Shot src={useA} at={0} k={U1.k} />
+      <Shot src={useB} at={3.0} k={U1.k} />
+      <Ring box={{ x: 0.7969, y: 0.1691, w: 0.0795, h: 0.0422 }} from={1.6} to={3.0} k={U1.k} />
+      <Ripple x={0.837} y={0.19} t={2.55} k={U1.k} />
+      <Ring box={{ x: 0.5892, y: 0.3282, w: 0.1812, h: 0.1118 }} from={5.0} to={8.8} k={U1.k} label="30일 내 시행 5건" />
+      <Ring box={{ x: 0.463, y: 0.459, w: 0.243, h: 0.463 }} from={9.6} k={U1.k} keep label="제재·의무 변경 17건" />
+    </Browser>
+    <UseSteps>
+      <UseStepRow n="1" title="직무별 개정 현황" desc="왼쪽 메뉴에서 엽니다" at={0} k={U1.k} />
+      <UseStepRow n="2" title="내 직무 선택" desc="예: 환경 186건" at={2.6} k={U1.k} />
+      <UseStepRow n="3" title="챙길 일 확인" desc="30일 내 시행 5건 · 제재·의무 변경 17건" at={5.0} k={U1.k} />
+    </UseSteps>
+  </Frame>
+);
+
+const UseLaw: Page = () => (
+  <Frame>
+    <Eyebrow code="STEP 2">사용법 · 법령 상세</Eyebrow>
+    <Heading>법령을 누르면, 바뀐 내용과 근거가 보입니다</Heading>
+    <Browser u={U2}>
+      <Shot src={useC} at={0} k={U2.k} />
+      <Shot src={useD} at={2.9} k={U2.k} />
+      <Ring box={{ x: 0.2226, y: 0.3838, w: 0.47, h: 0.0493 }} from={1.5} to={2.9} k={U2.k} />
+      <Ripple x={0.4} y={0.408} t={2.35} k={U2.k} />
+      <Ring box={{ x: 0.406, y: 0.472, w: 0.577, h: 0.52 }} from={5.0} to={10.6} k={U2.k} label="벌칙·과태료·의무 + 근거 조문" />
+      <Ring box={{ x: 0.408, y: 0.206, w: 0.236, h: 0.037 }} from={11.0} k={U2.k} keep below label="개정문 원문 · 신구조문 비교" />
+    </Browser>
+    <UseSteps>
+      <UseStepRow n="1" title="다가오는 시행에서 선택" desc="예: 대기환경보전법 11.12 시행" at={0} k={U2.k} />
+      <UseStepRow n="2" title="벌칙·과태료·의무 변경" desc="근거 조문까지 자동 정리" at={2.9} k={U2.k} />
+      <UseStepRow n="3" title="원문 바로 열기" desc="개정문 원문 · 신구조문 비교 · 현행 법령" at={10.8} k={U2.k} />
+    </UseSteps>
+  </Frame>
+);
+
+const UseReport: Page = () => (
+  <Frame>
+    <Eyebrow code="STEP 3">사용법 · 시행 임박 · 보고서</Eyebrow>
+    <Heading>시행 임박을 확인하고, 보고서로 공유합니다</Heading>
+    <Browser u={U3}>
+      <Shot src={useB} at={0} k={U3.k} />
+      <Shot src={useE} at={2.4} k={U3.k} />
+      <Shot src={useF} at={9.4} k={U3.k} />
+      <Ring box={{ x: 0.0083, y: 0.3813, w: 0.1528, h: 0.0422 }} from={1.3} to={2.4} k={U3.k} />
+      <Ripple x={0.085} y={0.402} t={2.05} k={U3.k} />
+      <Ring box={{ x: 0.193, y: 0.1, w: 0.187, h: 0.097 }} from={3.6} to={6.0} k={U3.k} below label="7일 이내 시행 8건" />
+      <Ring box={{ x: 0.193, y: 0.447, w: 0.778, h: 0.53 }} from={5.6} to={8.2} k={U3.k} label="D-day 순 목록" />
+      <Ring box={{ x: 0.9178, y: 0.015, w: 0.06, h: 0.04 }} from={7.6} to={9.4} k={U3.k} />
+      <Ripple x={0.948} y={0.035} t={8.6} k={U3.k} />
+      <Ring box={{ x: 0.29, y: 0.245, w: 0.42, h: 0.33 }} from={10.0} to={13.4} k={U3.k} label="임원 보고용 PPT" />
+      <Ring box={{ x: 0.29, y: 0.6, w: 0.42, h: 0.2 }} from={13.4} k={U3.k} keep below label="Excel 내려받기" />
+    </Browser>
+    <UseSteps>
+      <UseStepRow n="1" title="시행 임박" desc="D-day 순으로 정리된 목록" at={0} k={U3.k} />
+      <UseStepRow n="2" title="보고서 버튼" desc="화면 오른쪽 위" at={7.6} k={U3.k} />
+      <UseStepRow n="3" title="PPT · Excel" desc="임원 보고용 PPT와 개정 목록 엑셀" at={9.4} k={U3.k} />
+    </UseSteps>
+  </Frame>
+);
+
 // ─── 11. Closing (mirrors the cover so the deck loops) ───
 
 const UseStep = ({ n, text, delay }: { n: string; text: string; delay: number }) => (
@@ -1652,43 +1937,21 @@ export const meta: SlideMeta = {
   createdAt: '2026-10-05T14:45:57.777Z',
 };
 
-export default [Cover, Problem, Funnel, Pipeline, Scope, ThisYear, Sanctions, Soon, Tracker, Grow, Closing] satisfies Page[];
+export default [Cover, Problem, Funnel, Pipeline, Scope, ThisYear, Sanctions, Soon, Tracker, Grow, UseJob, UseLaw, UseReport, Closing] satisfies Page[];
 
 export const notes: (string | undefined)[] = [
-  `오늘 소개할 시스템은 RegRader입니다. 레이더처럼 법규 개정을 훑는다는 뜻이에요.
-화면의 점 하나하나가 올해 우리 회사에 해당하는 실제 개정 1건입니다.
-12시 방향이 1월 1일이고, 시계 방향으로 한 해가 지나갑니다. 링은 직무예요. 바깥쪽부터 환경, 재무회계, 안전 순입니다.
-노란 점은 벌칙·과태료·의무가 바뀐 개정, 초록 테두리 점은 아직 시행 전인 개정입니다.
-10월 5일 아침 기준으로 660건이 잡혀 있습니다.`,
-  `왜 이런 시스템이 필요할까요.
-국가법령정보센터 기준으로 올해 시행되는 법령 개정만 5,426건입니다. 고시 같은 행정규칙은 빼고도 이 정도예요.
-하루 평균 15건 꼴입니다. 이걸 매일 사람이 보면서 우리 회사 것만 골라내는 건 사실상 어렵습니다.`,
-  `RegRader는 순서를 거꾸로 합니다. 우리 회사 적용법규 923개를 먼저 정해 두고, 거기에 해당하는 개정만 남깁니다.
-올해는 660건입니다. 그중 아직 시행 전인 것이 35건, 30일 안에 시행되는 것이 9건이에요.
-담당자는 이 9건부터 보면 됩니다.`,
-  `이 과정은 매일 아침 자동으로 돌아갑니다.
-7시에 시작해서 국가법령정보센터에서 개정 정보를 가져오고, 적용법규와 대조하고,
-개정문을 조문 단위로 읽어 벌칙·과태료·의무가 바뀐 곳을 표시한 다음 사이트를 갱신합니다.
-무엇이 새로 들어오고 빠졌는지도 매일 기록됩니다.`,
-  `지켜보는 범위는 923개입니다. 법률·시행령·시행규칙 254개와 고시·훈령·예규 같은 행정규칙 669개.
-법령체계도를 따라 한 묶음으로 봅니다. 화학물질관리법이라면 법률부터 시행규칙, 그 아래 고시 32건까지 함께 봅니다.
-범위는 공장 건설, 제품 생산, 판매·수출입, 그리고 회사 공통 업무라는 사업 흐름에 맞춰 정했습니다.`,
-  `올해 660건을 직무별로 보면 환경 186, 재무회계 162, 안전 133건 순입니다.
-진한 막대는 실질 개정, 연한 부분은 타법개정입니다. 타법개정은 다른 법이 바뀌면서 용어나 인용 조문만 정리된 경우라 부담이 상대적으로 적습니다.
-분기별로는 1분기에 248건으로 가장 많았고, 4분기는 지금 진행 중입니다.`,
-  `가장 중요한 건 이 69건입니다. 벌칙, 과태료, 과징금, 처분, 또는 회사 의무가 새로 생기거나 바뀐 개정이에요.
-예를 들어 11월 12일 시행되는 대기환경보전법은 저공해자동차 충전시설을 운영하면 설치정보를 전산망에 등록해야 하고,
-등록하지 않으면 과태료, 조치명령을 따르지 않으면 벌칙 대상이 됩니다.
-이런 근거를 개정문에서 자동으로 찾아 조문 번호와 함께 보여 줍니다.`,
-  `시행 임박 화면은 오늘부터 연말까지를 이렇게 보여 줍니다.
-사흘 뒤인 10월 8일에 근로기준법, 화학물질관리법 등 8건이 한꺼번에 시행되고, 그중 3건은 벌칙이 바뀝니다.
-30일 안에 9건, 그 뒤 연말까지 26건이 더 있습니다.`,
-  `확인하는 것으로 끝나지 않습니다. 담당자가 사이트에서 바로 대응 상태를 기록합니다.
-미검토, 검토중, 조치필요, 조치완료 순이고, 해당이 없으면 해당없음으로 닫습니다.
-직무별로 자기 건만 보고, 시행이 가까운 미완료 건이 먼저 나옵니다. 진행 현황은 보고서에도 그대로 들어갑니다.`,
-  `이 시스템은 계속 자랍니다. 빠진 법규가 있으면 사이트에서 추가 요청을 하면 되고, 처음 207개로 시작한 기본 법령이 지금은 254개가 됐습니다.
-매일 바뀐 내용은 업데이트 내역에 남고, 해가 바뀌면 지난해 자료는 보관하고 새해를 자동으로 시작합니다.
-분기 보고용 PPT와 Excel도 버튼 한 번이면 그날 데이터로 만들어집니다.`,
-  `정리하면, 매일 아침 레이더가 먼저 법규 개정을 훑고, 우리는 우리 회사에 해당하는 것만 시행이 가까운 순서대로 보면 됩니다.
-주소는 tjdudfhr.github.io/RegRader 입니다. 접속해서 내 직무를 고르고, 시행 임박 탭부터 확인해 보세요. 감사합니다.`,
+  '매일 아침, 우리 회사에 해당하는 법규 개정을 먼저 찾아 주는 시스템, RegRader입니다. 지금 화면의 점 하나하나가 올해 실제로 포착된 개정 1건입니다.',
+  '올해 시행되는 법령 개정만 5,400건이 넘습니다. 하루 평균 15건입니다. 이를 매일 사람이 모두 읽고, 우리 회사에 해당하는 것만 골라내기는 쉽지 않습니다.',
+  'RegRader는 우리 회사 적용법규 923개를 기준으로, 해당하는 개정만 남깁니다. 올해는 660건이며, 그중 30일 안에 시행되는 9건부터 확인하면 됩니다.',
+  '이 과정은 매일 아침 7시에 자동으로 진행됩니다. 국가법령정보센터에서 개정 정보를 가져와 회사 기준과 대조하고, 개정문까지 분석해 사이트에 게시합니다. 별도로 조작할 필요가 없습니다.',
+  '관리 대상은 법령 254개와, 고시 등 행정규칙 669개입니다. 법률부터 시행령, 시행규칙, 그 아래 고시까지 하나의 체계로 묶어 관리합니다.',
+  '올해 개정을 직무별로 보면 환경, 재무회계, 안전 순으로 많습니다. 다른 법 개정에 따라 용어만 정비된 타법개정은 따로 구분해, 실제로 바뀐 내용에 집중할 수 있도록 했습니다.',
+  '특히 벌칙, 과태료, 회사 의무가 바뀐 개정은 별도로 표시합니다. 올해는 69건입니다. 예를 들어 대기환경보전법은 충전시설 정보를 전산망에 등록해야 하고, 등록하지 않으면 과태료 대상이 됩니다. 이러한 근거를 조문 번호와 함께 제시합니다.',
+  '시행 임박 화면에서는 연말까지 시행될 개정을 날짜순으로 보여 줍니다. 10월 8일에는 근로기준법을 포함해 8건이 한꺼번에 시행됩니다.',
+  '확인으로 끝나지 않습니다. 담당자는 사이트에서 검토중, 조치필요, 조치완료 등 대응 상태를 바로 기록하고, 이 진행 현황은 보고서에 그대로 반영됩니다.',
+  '누락된 법규는 사이트에서 바로 추가를 요청할 수 있습니다. 매일의 변경 사항은 업데이트 내역에 기록되고, 해가 바뀌면 지난해 자료를 보관한 뒤 새해를 자동으로 시작합니다.',
+  '이제 실제 사용 방법을 보겠습니다. 먼저 직무별 개정 현황에서 내 직무를 선택합니다. 환경을 선택하면, 30일 안에 시행되는 5건과 제재나 의무가 바뀐 17건이 바로 표시됩니다.',
+  '목록에서 법령을 누르면 상세 화면이 열립니다. 어떤 벌칙과 과태료, 의무가 새로 생기거나 바뀌었는지 근거 조문과 함께 정리되어 있고, 개정문 원문과 신구조문 비교도 바로 열어 볼 수 있습니다.',
+  '시행 임박 메뉴에서는 곧 시행되는 개정을 D-day 순서로 확인합니다. 보고가 필요할 때는 오른쪽 위의 보고서 버튼을 누르면, 임원 보고용 PPT와 엑셀 파일을 바로 만들 수 있습니다.',
+  '매일 아침, 레이더가 먼저 봅니다. 사이트에 접속해 내 직무를 선택하고, 시행 임박부터 확인하시기 바랍니다.',
 ];
