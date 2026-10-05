@@ -1,6 +1,63 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-10-05T22:00:53.716185+00:00",
+      "asOf": "2026-10-06",
+      "previousCheckedAt": "2026-10-04T22:43:03.898333+00:00",
+      "totalBefore": 660,
+      "totalAfter": 663,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2733,
+        "openapiFuture": 5426,
+        "openapiUpcoming": 323
+      },
+      "universeAfter": {
+        "openapiCurrent": 2734,
+        "openapiFuture": 5432,
+        "openapiUpcoming": 324
+      },
+      "added": [
+        {
+          "title": "건축법 시행령",
+          "effectiveDate": "2026-10-06",
+          "amendmentType": "일부개정",
+          "ministry": "국토교통부",
+          "category": "안전",
+          "lsiSeq": "290833"
+        },
+        {
+          "title": "경제안보를 위한 공급망 안정화 지원 기본법 시행령",
+          "effectiveDate": "2026-10-06",
+          "amendmentType": "일부개정",
+          "ministry": "재정경제부",
+          "category": "정보보호",
+          "lsiSeq": "290555"
+        },
+        {
+          "title": "화학물질관리법 시행령",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "290837"
+        }
+      ],
+      "removed": [],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-10-04T00:01:30.381168+00:00",
       "asOf": "2026-10-04",
       "previousCheckedAt": "2026-10-01T22:00:49.917483+00:00",
@@ -8570,5 +8627,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-10-04T00:01:30.381168+00:00"
+  "updatedAt": "2026-10-05T22:00:53.716185+00:00"
 }
