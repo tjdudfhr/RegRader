@@ -3,8 +3,18 @@ const { chromium } = require(process.env.PLAYWRIGHT || 'playwright');
 const fs = require('fs');
 const path = require('path');
 
-// 9쪽(대응 현황)은 상태가 '조치완료'인 순간을 고른다
-const PICKS = [262, 442, 637, 832, 1027, 1207, 1417, 1627, 1830, 2062, 2300];
+// 페이지가 끝나기 직전 장면을 고른다. 9쪽(대응 현황)은 상태가 '조치완료'인 순간(시작 후 6.5초).
+const TIMING = path.join(__dirname, 'timing.json');
+const DUR = fs.existsSync(TIMING)
+  ? JSON.parse(fs.readFileSync(TIMING, 'utf8')).pages.map((p) => p.dur)
+  : [9, 6, 6.5, 6.5, 6.5, 6, 7, 7, 8.5, 6, 8];
+const PICKS = [];
+let acc = 0;
+DUR.forEach((d, i) => {
+  const start = acc;
+  acc += Math.round(d * 30);
+  PICKS.push(i === 8 ? start + Math.round(6.5 * 30) : acc - 8);
+});
 
 (async () => {
   const imgs = PICKS.map((f) => 'file://' + path.join(__dirname, 'frames', `f${String(f).padStart(5, '0')}.jpg`));

@@ -15,8 +15,11 @@ const OUT = path.join(__dirname, 'frames');
 const PROBE = process.argv.includes('--probe');
 const DECK_URL = (process.env.DECK_URL || 'http://localhost:5173/s/regrader-intro') + '?p=2';
 
-// 페이지별 노출 시간(초). 슬라이드 순서와 같다.
-const DUR = [9, 6, 6.5, 6.5, 6.5, 6, 7, 7, 8.5, 6, 8];
+// 페이지별 노출 시간(초). mix.py plan 이 음성 길이로 정한 timing.json 이 있으면 그것을 쓴다.
+const TIMING = path.join(__dirname, 'timing.json');
+const DUR = fs.existsSync(TIMING)
+  ? JSON.parse(fs.readFileSync(TIMING, 'utf8')).pages.map((p) => p.dur)
+  : [9, 6, 6.5, 6.5, 6.5, 6, 7, 7, 8.5, 6, 8];
 const LEAD = 10; // 2쪽 → 1쪽 전환 프레임은 찍지 않는다
 
 async function main() {
