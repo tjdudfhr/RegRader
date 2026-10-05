@@ -1166,3 +1166,11 @@ body .rr-side-foot .rr-trk-who button + button { margin-left: 2px !important; }
 .rr-mem-none { font-size: 13px; color: var(--ink-4); }
 #rr-trk-mem-modal .rr-box + .rr-box { margin-top: 0; }
 #rr-mem-add .rr-msg { margin-top: 10px; }
+
+/* 시스템 소개 탭: 설명 영상 · 설명자료 PDF */
+.rr-intro { display: flex; flex-direction: column; gap: 16px; padding: 22px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--sh-xs); }
+.rr-intro-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.rr-intro-head h2 { margin: 0; font-size: 18px; font-weight: 800; color: var(--ink); }
+.rr-intro-acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.rr-intro-acts .rr-btn { text-decoration: none; }
+.rr-intro-video { display: block; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: #0a1431; }

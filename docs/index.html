@@ -87,7 +87,7 @@
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./system-ui.js?v=20260929a"></script>
+    <script src="./system-ui.js?v=20261006a"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         // EmailJS 초기화
@@ -1952,7 +1952,7 @@
         }
     </style>
     <link rel="stylesheet" href="./app-shell.css?v=20260927u">
-    <link rel="stylesheet" href="./system.css?v=20261001b">
+    <link rel="stylesheet" href="./system.css?v=20261006a">
 </head>
 <body>
     <!-- 시작 화면 (system-ui.js 가 데이터가 준비되면 걷는다) -->
@@ -2016,6 +2016,11 @@
                 </div>
                 <div class="main-tab" data-tab="history" onclick="switchMainTab('history')" role="tab" aria-selected="false">
                     <span class="tab-icon">🗂️</span><span class="tab-body"><span class="tab-text">업데이트 내역</span></span>
+                </div>
+                <div class="nav-sep" aria-hidden="true"></div>
+                <div class="nav-caption">안내</div>
+                <div class="main-tab" data-tab="intro" onclick="switchMainTab('intro')" role="tab" aria-selected="false">
+                    <span class="tab-icon">📑</span><span class="tab-body"><span class="tab-text">시스템 소개</span></span>
                 </div>
             </div>
             <div class="rr-side-foot">
@@ -2474,6 +2479,21 @@
             <!-- 시행 임박 · 업데이트 내역: 각 페이지를 embed 모드로 끼워 넣는다 (처음 열 때 불러옴) -->
             <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20261001y" title="시행 임박 법령"></iframe></div>
             <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20261001b" title="업데이트 내역"></iframe></div>
+            <!-- 시스템 소개: 설명 영상 · 설명자료 PDF (my-deck/slides/regrader-intro 에서 만든 것) -->
+            <div class="tab-pane" id="intro-content">
+                <section class="rr-intro" aria-label="시스템 소개">
+                    <div class="rr-intro-head">
+                        <h2>시스템 소개</h2>
+                        <div class="rr-intro-acts">
+                            <a class="rr-btn" href="./intro/regrader-intro.pdf" download="RegRader_소개.pdf">📄 설명자료 PDF</a>
+                            <a class="rr-btn" href="./intro/regrader-intro.mp4" download="RegRader_소개.mp4">📥 영상 저장</a>
+                        </div>
+                    </div>
+                    <video class="rr-intro-video" controls playsinline preload="none" poster="./intro/poster.jpg">
+                        <source src="./intro/regrader-intro.mp4" type="video/mp4">
+                    </video>
+                </section>
+            </div>
         </div>
     </div>
 
@@ -3157,6 +3177,9 @@
                 const top = tc.getBoundingClientRect().top + window.scrollY - offset;
                 if (window.scrollY > top) window.scrollTo(0, top);
             };
+            /* 다른 탭으로 가면 소개 영상을 멈춘다 */
+            const _introVideo = document.querySelector('.rr-intro-video');
+            if (_introVideo && tabName !== 'intro' && !_introVideo.paused) _introVideo.pause();
             /* 시행 임박 · 업데이트 내역은 처음 열 때 불러온다 */
             const _frame = document.querySelector('#' + tabName + '-content iframe.rr-embed');
             if (_frame && !_frame.src) _frame.src = _frame.dataset.src;
