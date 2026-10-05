@@ -31,6 +31,16 @@ def dur(path):
     return float(out.strip())
 
 
+def lufs(path):
+    err = subprocess.run(['ffmpeg', '-hide_banner', '-i', path, '-af', 'ebur128', '-f', 'null', '-'],
+                         capture_output=True, text=True).stderr
+    return float(re.findall(r'I:\s+(-?[\d.]+) LUFS', err)[-1])
+
+
+VOICE_LUFS = -16  # 목소리
+MUSIC_LUFS = -30  # 배경음악 바닥 (목소리보다 14 LU 아래). 목소리가 나오면 여기서 더 낮춘다
+
+
 def one(pattern):
     hits = sorted(glob.glob(os.path.join(HERE, pattern)))
     if not hits:
@@ -115,18 +125,22 @@ def audio():
     for i, v in enumerate(vs):
         inputs += ['-i', v]
         ms = int(timing['pages'][i]['voiceAt'] * 1000)
-        filters.append(f'[{i}:a]aresample=48000,aformat=channel_layouts=stereo,adelay={ms}|{ms}[v{i}]')
+        gain = VOICE_LUFS - lufs(v)
+        filters.append(f'[{i}:a]aresample=48000,aformat=channel_layouts=stereo,volume={gain:.2f}dB,adelay={ms}|{ms}[v{i}]')
         labels.append(f'[v{i}]')
     m = len(vs)
-    inputs += ['-stream_loop', '-1', '-i', music]
+    inputs += ['-i', music]
+    # 음악이 영상보다 짧으면 반복(이음새가 들림) 대신 템포를 살짝 늦춰 길이를 맞춘다
+    stretch = min(1.0, dur(music) / total)
+    tempo = f'atempo={stretch:.4f},' if stretch < 0.999 else ''
     filters.append(f'{"".join(labels)}amix=inputs={m}:normalize=0:dropout_transition=0,apad,atrim=0:{total}[voice]')
     filters.append('[voice]asplit=2[vmain][vkey]')
     filters.append(
-        f'[{m}:a]aresample=48000,aformat=channel_layouts=stereo,atrim=0:{total},asetpts=N/SR/TB,'
-        f'volume=-15dB,afade=t=in:st=0:d=1.5,afade=t=out:st={total - 3.5:.2f}:d=3.5[bed]'
+        f'[{m}:a]aresample=48000,aformat=channel_layouts=stereo,{tempo}apad,atrim=0:{total},asetpts=N/SR/TB,'
+        f'volume={MUSIC_LUFS - lufs(music):.2f}dB,afade=t=in:st=0:d=1.5,afade=t=out:st={total - 3.5:.2f}:d=3.5[bed]'
     )
-    filters.append('[bed][vkey]sidechaincompress=threshold=0.015:ratio=5:attack=40:release=600:makeup=1[duck]')
-    filters.append('[vmain][duck]amix=inputs=2:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11[out]')
+    filters.append('[bed][vkey]sidechaincompress=threshold=0.03:ratio=3:attack=80:release=900:makeup=1[duck]')
+    filters.append('[vmain][duck]amix=inputs=2:normalize=0,alimiter=limit=0.89:level=disabled[out]')
     cmd = ['ffmpeg', '-y', '-loglevel', 'error', *inputs, '-filter_complex', ';'.join(filters),
            '-map', '[out]', '-ar', '48000', '-c:a', 'aac', '-b:a', '192k', os.path.join(HERE, 'audio.m4a')]
     run(cmd)
