@@ -74,7 +74,7 @@ async function main() {
   let acc = 0;
   for (const d of DUR) { acc += Math.round(d * FPS); marks.push(acc); }
   const total = marks[marks.length - 1];
-  const probeAt = new Set([15, 120, 255, 330, 600, 1200, 1700, 2000, total - 30]);
+  const probeAt = new Set(process.env.PROBE_AT ? process.env.PROBE_AT.split(',').map(Number) : [15, 120, 255, 330, 600, 1200, 1700, 2000, total - 30]);
 
   let f = 0;
   let pageIdx = 0;

@@ -124,6 +124,7 @@ const ANIMATED = [
   'rgx-rise', 'rgx-fade', 'rgx-grow', 'rgx-pop', 'rgx-draw', 'rgx-ticker', 'rgx-scan',
   'rgx-ping', 'rgx-travel', 'rgx-node', 'rgx-state', 'rgx-pill', 'rgx-dot', 'rgx-cursor',
   'rgx-shotin', 'rgx-ring', 'rgx-ringkeep', 'rgx-ripple', 'rgx-stepon', 'rgx-cur', 'rgx-clk', 'rgx-cam',
+  'rgx-slam', 'rgx-wave',
 ];
 const stillSel = ANIMATED.map((c) => `[data-still] .${c}`).join(', ');
 const reducedSel = ANIMATED.map((c) => `.${c}`).join(', ');
@@ -144,6 +145,10 @@ const css = `
   .rgx-pill { animation: rgx-pill 8s linear infinite; }
   .rgx-cursor { animation: rgx-cursor 2s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
 
+  .rgx-slam { animation: rgx-slam 0.75s cubic-bezier(0.2, 1.25, 0.3, 1) both; }
+  .rgx-wave { opacity: 0; animation: rgx-wave 1.8s cubic-bezier(0.1, 0.6, 0.3, 1) 3 both; }
+  @keyframes rgx-slam { 0% { opacity: 0; transform: scale(1.45); filter: blur(12px); } 55% { opacity: 1; filter: blur(0); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
+  @keyframes rgx-wave { 0% { opacity: 0; transform: scale(0.2); } 8% { opacity: 0.9; } 100% { opacity: 0; transform: scale(1); } }
   .rgx-shotin { animation: rgx-shotin 0.45s ease-out both; }
   .rgx-ring { opacity: 0; animation: rgx-ring linear both; }
   .rgx-ringkeep { animation: rgx-ringkeep 0.4s cubic-bezier(0.2, 1.1, 0.3, 1) both; }
@@ -308,7 +313,7 @@ const EVENTS: Ev[] = EV_RAW.split(',').map((s, i) => {
   };
 });
 
-function drawRadar(ctx: CanvasRenderingContext2D, S: number, phi: number, revealTo: number | null) {
+function drawRadar(ctx: CanvasRenderingContext2D, S: number, phi: number, revealTo: number | null, boost = 0) {
   const cx = S / 2;
   const cy = S / 2;
   const R = S * 0.43;
@@ -393,7 +398,7 @@ function drawRadar(ctx: CanvasRenderingContext2D, S: number, phi: number, reveal
     if (revealTo !== null && e.a > revealTo) continue;
     shown++;
     const d = (((phi - e.a) % TAU) + TAU) % TAU;
-    const glow = Math.exp(-d / 0.75);
+    const glow = Math.max(Math.exp(-d / 0.75), boost);
     const r = r0 + (R - r0) * e.u;
     const x = cx + Math.cos(e.a) * r;
     const y = cy + Math.sin(e.a) * r;
@@ -452,10 +457,12 @@ function drawRadar(ctx: CanvasRenderingContext2D, S: number, phi: number, reveal
 const Radar = ({
   size,
   intro = false,
+  period = PERIOD,
   hitRef,
 }: {
   size: number;
   intro?: boolean;
+  period?: number; // 첫 바퀴(포착) 길이
   hitRef?: RefObject<HTMLSpanElement | null>;
 }) => {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -481,8 +488,10 @@ const Radar = ({
     const t0 = performance.now();
     const loop = (now: number) => {
       const t = (now - t0) / 1000;
-      const phi = intro ? -Math.PI / 2 + (t / PERIOD) * TAU : angOf(TODAY) + (t / PERIOD) * TAU;
-      const shown = drawRadar(ctx, size, phi, intro && t < PERIOD ? phi : null);
+      const phi = intro ? -Math.PI / 2 + (t / period) * TAU : angOf(TODAY) + (t / period) * TAU;
+      // 첫 바퀴를 다 돌면 660개 점이 한꺼번에 번쩍인다
+      const boost = intro && t >= period ? Math.exp(-(t - period) / 0.7) : 0;
+      const shown = drawRadar(ctx, size, phi, intro && t < period ? phi : null, boost);
       if (hitRef?.current && shown !== last) {
         hitRef.current.textContent = fmt(shown);
         last = shown;
@@ -491,7 +500,7 @@ const Radar = ({
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [active, size, intro, hitRef]);
+  }, [active, size, intro, period, hitRef]);
   return <canvas ref={ref} style={{ width: size, height: size, display: 'block' }} />;
 };
 
@@ -703,7 +712,7 @@ const Cover: Page = () => {
   return (
     <Frame footer={false} arcs={false}>
       <div style={{ position: 'absolute', left: 940, top: 60 }}>
-        <Radar size={960} intro hitRef={hits} />
+        <Radar size={960} intro period={12.4} hitRef={hits} />
       </div>
       <div
         style={{
@@ -733,14 +742,21 @@ const Cover: Page = () => {
         >
           Reg<span style={{ color: 'var(--osd-accent)' }}>Rader</span>
         </h1>
-        <p
-          className="rgx-rise"
-          style={{ animationDelay: '260ms', margin: '40px 0 0', fontSize: 42, lineHeight: 1.45, fontWeight: 400 }}
-        >
-          우리 회사에 해당하는 법규 개정을
-          <br />
-          매일 아침 먼저 찾아 드립니다.
-        </p>
+        {/* 내레이션 '모르고 지나치는 법 개정,'(1.6초) · '이제 없습니다.'(4.2초)에 맞춘다 */}
+        <div style={{ margin: '44px 0 0', fontFamily: DISPLAY, fontSize: 72, fontWeight: 700, lineHeight: 1.22, letterSpacing: '-0.04em' }}>
+          <div className="rgx-rise" style={{ animationDelay: '1.6s' }}>
+            모르고 지나치는 법 개정,
+          </div>
+          <div style={{ position: 'relative', display: 'inline-block' }}>
+            <span className="rgx-slam" style={{ animationDelay: '4.15s', display: 'inline-block', color: ink.mint, transformOrigin: '0 60%' }}>
+              이제 없습니다.
+            </span>
+            <span
+              className="rgx-grow"
+              style={{ animationDelay: '4.6s', position: 'absolute', left: 0, right: 0, bottom: -4, height: 5, borderRadius: 3, background: ink.mint, opacity: 0.55 }}
+            />
+          </div>
+        </div>
         <div className="rgx-rise" style={{ animationDelay: '420ms', display: 'flex', gap: 56, marginTop: 64 }}>
           <Readout label="마지막 스캔">10.05 07:43</Readout>
           <Readout label="적용법규">923</Readout>
@@ -1884,11 +1900,34 @@ const UseStep = ({ n, text, delay }: { n: string; text: string; delay: number })
   </div>
 );
 
+const Wave = ({ delay }: { delay: number }) => (
+  <span
+    className="rgx-wave"
+    style={{
+      animationDelay: `${delay}s`,
+      position: 'absolute',
+      left: 940 + 480 - 413,
+      top: 60 + 480 - 413,
+      width: 826,
+      height: 826,
+      borderRadius: '50%',
+      boxSizing: 'border-box',
+      border: `5px solid ${ink.mint}`,
+      boxShadow: '0 0 40px rgba(126, 226, 168, 0.5), inset 0 0 30px rgba(126, 226, 168, 0.25)',
+      pointerEvents: 'none',
+    }}
+  />
+);
+
+// 내레이션: '법이 바뀌면,'(1.0초) · '레이더가 먼저 울립니다.'(2.5초) · '매일 아침 7시, 자동으로.'(5.0초) · 사용 단계(8.3초~)
 const Closing: Page = () => (
   <Frame footer={false} arcs={false}>
     <div style={{ position: 'absolute', left: 940, top: 60 }}>
       <Radar size={960} />
     </div>
+    <Wave delay={3.45} />
+    <Wave delay={4.05} />
+    <Wave delay={4.65} />
     <div
       style={{
         position: 'relative',
@@ -1906,9 +1945,7 @@ const Closing: Page = () => (
         </span>
       </div>
       <h1
-        className="rgx-rise"
         style={{
-          animationDelay: '150ms',
           margin: '40px 0 0',
           fontFamily: 'var(--osd-font-display)',
           fontSize: 96,
@@ -1917,16 +1954,23 @@ const Closing: Page = () => (
           letterSpacing: '-0.045em',
         }}
       >
-        매일 아침,
-        <br />
-        레이더가
-        <br />
-        먼저 봅니다.
+        <span className="rgx-rise" style={{ animationDelay: '1.0s', display: 'block' }}>
+          법이 바뀌면,
+        </span>
+        <span className="rgx-rise" style={{ animationDelay: '2.5s', display: 'block' }}>
+          레이더가 먼저
+        </span>
+        <span className="rgx-slam" style={{ animationDelay: '3.35s', display: 'inline-block', color: ink.mint, transformOrigin: '0 60%' }}>
+          울립니다.
+        </span>
       </h1>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 60 }}>
-        <UseStep n="01" text="사이트 접속" delay={450} />
-        <UseStep n="02" text="내 직무 고르기" delay={570} />
-        <UseStep n="03" text="시행 임박부터 확인" delay={690} />
+      <div className="rgx-rise" style={{ animationDelay: '5.0s', marginTop: 28, fontSize: 36, color: ink.muted }}>
+        매일 아침 7시, 자동으로.
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 52 }}>
+        <UseStep n="01" text="사이트 접속" delay={8300} />
+        <UseStep n="02" text="내 직무 고르기" delay={9600} />
+        <UseStep n="03" text="시행 임박부터 확인" delay={11200} />
       </div>
     </div>
   </Frame>
@@ -1940,7 +1984,7 @@ export const meta: SlideMeta = {
 export default [Cover, Problem, Funnel, Pipeline, Scope, ThisYear, Sanctions, Soon, Tracker, Grow, UseJob, UseLaw, UseReport, Closing] satisfies Page[];
 
 export const notes: (string | undefined)[] = [
-  '매일 아침, 우리 회사에 해당하는 법규 개정을 먼저 찾아 주는 시스템, RegRader입니다. 지금 화면의 점 하나하나가 올해 실제로 포착된 개정 1건입니다.',
+  '모르고 지나치는 법 개정, 이제 없습니다. 매일 아침, 우리 회사에 해당하는 법규 개정을 먼저 찾아내는 시스템, RegRader입니다. 지금 화면의 점 하나하나가 올해 실제로 포착된 개정 1건입니다.',
   '올해 시행되는 법령 개정만 5,400건이 넘습니다. 하루 평균 15건입니다. 이를 매일 사람이 모두 읽고, 우리 회사에 해당하는 것만 골라내기는 쉽지 않습니다.',
   'RegRader는 우리 회사 적용법규 923개를 기준으로, 해당하는 개정만 남깁니다. 올해는 660건이며, 그중 30일 안에 시행되는 9건부터 확인하면 됩니다.',
   '이 과정은 매일 아침 7시에 자동으로 진행됩니다. 국가법령정보센터에서 개정 정보를 가져와 회사 기준과 대조하고, 개정문까지 분석해 사이트에 게시합니다. 별도로 조작할 필요가 없습니다.',
@@ -1953,5 +1997,5 @@ export const notes: (string | undefined)[] = [
   '이제 실제 사용 방법을 보겠습니다. 먼저 직무별 개정 현황에서 내 직무를 선택합니다. 환경을 선택하면, 30일 안에 시행되는 5건과 제재나 의무가 바뀐 17건이 바로 표시됩니다.',
   '목록에서 법령을 누르면 상세 화면이 열립니다. 어떤 벌칙과 과태료, 의무가 새로 생기거나 바뀌었는지 근거 조문과 함께 정리되어 있고, 개정문 원문과 신구조문 비교도 바로 열어 볼 수 있습니다.',
   '시행 임박 메뉴에서는 곧 시행되는 개정을 D-day 순서로 확인합니다. 보고가 필요할 때는 오른쪽 위의 보고서 버튼을 누르면, 임원 보고용 PPT와 엑셀 파일을 바로 만들 수 있습니다.',
-  '매일 아침, 레이더가 먼저 봅니다. 사이트에 접속해 내 직무를 선택하고, 시행 임박부터 확인하시기 바랍니다.',
+  '법이 바뀌면, 레이더가 먼저 울립니다. 매일 아침 7시, 자동으로. 사이트에 접속해 내 직무를 선택하고, 시행 임박부터 확인하시기 바랍니다.',
 ];
