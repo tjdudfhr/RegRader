@@ -7,7 +7,7 @@
   - `assets/use-*.jpg` 사용법 화면 (2026-10-05 데이터 시점 사이트)
 - `render/` — 슬라이드를 영상(MP4) · PDF · 표지 이미지로 만드는 스크립트
   - `narration.json` 내레이션 대본 (`say` 는 음성용, `caption` 은 자막용), 합니다체
-  - `voice/s01..s14.mp3` 페이지별 음성 (Microsoft 신경망 음성 `ko-KR-SunHiNeural`, edge-tts, 속도 -4%)
+  - `voice/s01..s14.mp3` 페이지별 음성 (Microsoft 신경망 음성 `ko-KR-HyunsuMultilingualNeural`, edge-tts)
   - `music.mp3` 배경음악 (Glif · Lyria 3). 영상보다 짧으면 도입부를 건너뛰고 6초 크로스페이드로 한 번 더 잇는다
   - `capture.cjs` 사용법 화면 캡처, `mix.py` 페이지 시간 · 믹스 · 자막, `render.cjs` 프레임, `pdf.cjs` PDF, `make.sh` 전체
 
@@ -29,7 +29,7 @@ npm run dev
 
 ```bash
 pip install edge-tts
-edge-tts --voice ko-KR-SunHiNeural --rate=-4% --text "대본" --write-media intro-deck/render/voice/s01.mp3
+edge-tts --voice ko-KR-HyunsuMultilingualNeural --text "대본" --write-media intro-deck/render/voice/s01.mp3
 ```
 
 ## 영상 · PDF 다시 만들기
