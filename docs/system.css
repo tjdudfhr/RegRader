@@ -1174,3 +1174,6 @@ body .rr-side-foot .rr-trk-who button + button { margin-left: 2px !important; }
 .rr-intro-acts { display: flex; gap: 8px; flex-wrap: wrap; }
 .rr-intro-acts .rr-btn { text-decoration: none; }
 .rr-intro-video { display: block; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: #0a1431; }
+.rr-intro-meta { display: flex; align-items: center; gap: 6px; font-size: 13.5px; color: var(--ink-3); }
+.rr-intro-meta b { color: var(--ink); font-weight: 800; }
+.rr-intro-meta .ri { width: 15px; height: 15px; }

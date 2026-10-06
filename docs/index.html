@@ -1952,7 +1952,7 @@
         }
     </style>
     <link rel="stylesheet" href="./app-shell.css?v=20260927u">
-    <link rel="stylesheet" href="./system.css?v=20261006a">
+    <link rel="stylesheet" href="./system.css?v=20261006b">
 </head>
 <body>
     <!-- 시작 화면 (system-ui.js 가 데이터가 준비되면 걷는다) -->
@@ -2493,6 +2493,19 @@
                         <source src="./intro/regrader-intro.mp4?v=20261006d" type="video/mp4">
                         <track kind="captions" src="./intro/regrader-intro.ko.vtt?v=20261006d" srclang="ko" label="한국어">
                     </video>
+                    <div class="rr-intro-meta">⏱ 총 <b class="rr-intro-len">3분 48초</b> · 한국어 자막</div>
+                    <script>
+                    /* 영상 길이 표시: 영상 정보를 읽으면 실제 길이로 맞춘다 */
+                    (function () {
+                        var v = document.querySelector('.rr-intro-video'), out = document.querySelector('.rr-intro-len');
+                        if (!v || !out) return;
+                        v.addEventListener('loadedmetadata', function () {
+                            var sec = Math.floor(v.duration);
+                            if (!isFinite(sec) || sec <= 0) return;
+                            out.textContent = Math.floor(sec / 60) + '분 ' + (sec % 60) + '초';
+                        });
+                    })();
+                    </script>
                 </section>
             </div>
         </div>

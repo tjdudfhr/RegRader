@@ -26,5 +26,14 @@ mkdir -p ../../docs/intro
 cp regrader-intro.mp4 regrader-intro.pdf ../../docs/intro/
 cp captions.vtt ../../docs/intro/regrader-intro.ko.vtt
 cp "frames/f$(printf %05d "$POSTER").jpg" ../../docs/intro/poster.jpg
+# 시스템 소개 탭의 '총 n분 n초' 표시도 새 길이로
+python3 - "$TOTAL" <<'PY'
+import re, sys
+sec = int(float(sys.argv[1]))  # 플레이어처럼 초 아래는 버린다
+p = '../../docs/index.html'
+s = open(p, encoding='utf-8').read()
+s = re.sub(r'(<b class="rr-intro-len">)[^<]*(</b>)', rf'\g<1>{sec // 60}분 {sec % 60}초\g<2>', s)
+open(p, 'w', encoding='utf-8').write(s)
+PY
 rm -rf frames regrader-intro.mp4 regrader-intro.pdf audio.m4a captions.vtt
 echo "docs/intro/ 갱신 완료 (${TOTAL}s)"
