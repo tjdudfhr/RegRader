@@ -1,6 +1,139 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-10-07T22:15:32.108595+00:00",
+      "asOf": "2026-10-08",
+      "previousCheckedAt": "2026-10-06T22:43:00.635965+00:00",
+      "totalBefore": 664,
+      "totalAfter": 667,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2735,
+        "openapiFuture": 5434,
+        "openapiUpcoming": 325
+      },
+      "universeAfter": {
+        "openapiCurrent": 2751,
+        "openapiFuture": 5438,
+        "openapiUpcoming": 289
+      },
+      "added": [
+        {
+          "title": "수출입 안전관리 우수업체 공인 및 운영에 관한 고시",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000286058"
+        },
+        {
+          "title": "징수업무 처리에 관한 고시",
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000286118"
+        },
+        {
+          "title": "토양정화 검증방법에 관한 고시",
+          "effectiveDate": "2026-10-07",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000285884"
+        }
+      ],
+      "removed": [],
+      "nowInForce": [
+        {
+          "title": "감염병의 예방 및 관리에 관한 법률",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "일부개정",
+          "ministry": "보건복지부,질병관리청",
+          "category": "안전",
+          "lsiSeq": "285325"
+        },
+        {
+          "title": "근로기준법",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "일부개정",
+          "ministry": "고용노동부",
+          "category": "인사노무",
+          "lsiSeq": "285279"
+        },
+        {
+          "title": "기후위기 대응을 위한 탄소중립·녹색성장 기본법",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "285267"
+        },
+        {
+          "title": "기후위기 대응을 위한 탄소중립·녹색성장 기본법 시행령",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "289965"
+        },
+        {
+          "title": "식품위생법",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "타법개정",
+          "ministry": "식품의약품안전처",
+          "category": "안전",
+          "lsiSeq": "285339"
+        },
+        {
+          "title": "온실가스 배출권의 할당 및 거래에 관한 법률 시행령",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "타법개정",
+          "ministry": "기획예산처,기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "289967"
+        },
+        {
+          "title": "화학물질관리법",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "285367"
+        },
+        {
+          "title": "화학물질관리법 시행령",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "290837"
+        },
+        {
+          "title": "환경정책기본법 시행령",
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "290593"
+        }
+      ],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-10-06T22:43:00.635965+00:00",
       "asOf": "2026-10-07",
       "previousCheckedAt": "2026-10-05T22:00:53.716185+00:00",
@@ -8669,5 +8802,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-10-06T22:43:00.635965+00:00"
+  "updatedAt": "2026-10-07T22:15:32.108595+00:00"
 }
