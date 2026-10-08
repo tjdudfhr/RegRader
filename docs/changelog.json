@@ -1,6 +1,66 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-10-08T22:17:11.579148+00:00",
+      "asOf": "2026-10-09",
+      "previousCheckedAt": "2026-10-07T22:15:32.108595+00:00",
+      "totalBefore": 667,
+      "totalAfter": 670,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2751,
+        "openapiFuture": 5438,
+        "openapiUpcoming": 289
+      },
+      "universeAfter": {
+        "openapiCurrent": 2752,
+        "openapiFuture": 5439,
+        "openapiUpcoming": 289
+      },
+      "added": [
+        {
+          "title": "2026년 1분기 공익법인등 지정·변경에 관한 고시",
+          "effectiveDate": "2026-06-30",
+          "amendmentType": "일괄개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000286640"
+        },
+        {
+          "title": "2026년 1분기 공익법인등 지정·변경에 관한 고시",
+          "effectiveDate": "2026-09-30",
+          "amendmentType": "일괄개정",
+          "ministry": "재정경제부",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000286674"
+        },
+        {
+          "title": "외부감사 및 회계 등에 관한 규정",
+          "effectiveDate": "2026-10-07",
+          "amendmentType": "일부개정",
+          "ministry": "금융위원회",
+          "category": "지배구조",
+          "kind": "고시",
+          "admRulSeq": "2100000286680"
+        }
+      ],
+      "removed": [],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-10-07T22:15:32.108595+00:00",
       "asOf": "2026-10-08",
       "previousCheckedAt": "2026-10-06T22:43:00.635965+00:00",
@@ -8802,5 +8862,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-10-07T22:15:32.108595+00:00"
+  "updatedAt": "2026-10-08T22:17:11.579148+00:00"
 }
