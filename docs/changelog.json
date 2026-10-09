@@ -1,6 +1,57 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-10-09T23:09:04.695157+00:00",
+      "asOf": "2026-10-10",
+      "previousCheckedAt": "2026-10-08T22:17:11.579148+00:00",
+      "totalBefore": 670,
+      "totalAfter": 668,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2752,
+        "openapiFuture": 5439,
+        "openapiUpcoming": 289
+      },
+      "universeAfter": {
+        "openapiCurrent": 2752,
+        "openapiFuture": 5439,
+        "openapiUpcoming": 289
+      },
+      "added": [],
+      "removed": [
+        {
+          "title": "화학사고예방관리계획서 작성 등에 관한 규정",
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "일부개정",
+          "ministry": "화학물질안전원",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000285508"
+        },
+        {
+          "title": "토양정화 검증방법에 관한 고시",
+          "effectiveDate": "2026-10-07",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000285884"
+        }
+      ],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-10-08T22:17:11.579148+00:00",
       "asOf": "2026-10-09",
       "previousCheckedAt": "2026-10-07T22:15:32.108595+00:00",
@@ -8862,5 +8913,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-10-08T22:17:11.579148+00:00"
+  "updatedAt": "2026-10-09T23:09:04.695157+00:00"
 }
