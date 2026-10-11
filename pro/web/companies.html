@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>기업별 적용법규 · RegRader Pro</title>
+<style>
+  :root { --ink: #1a202c; --ink-2: #4a5568; --ink-3: #718096; --line: #e2e8f0; --bg: #f5f7fb; --surface: #fff; --brand: #3056d3; --ok: #2f855a; --bad: #c53030; }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink: #edf2f7; --ink-2: #cbd5e0; --ink-3: #a0aec0; --line: #2d3748; --bg: #11151c; --surface: #1a202c; --brand: #7f9cf5; --ok: #68d391; --bad: #fc8181; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+  main { max-width: 960px; margin: 0 auto; padding: 28px 16px 48px; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  p.sub { margin: 0 0 20px; color: var(--ink-3); }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .btn { display: inline-flex; align-items: center; height: 38px; padding: 0 14px; border-radius: 9px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); font-weight: 700; text-decoration: none; }
+  .btn.pri { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .list { display: grid; gap: 10px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: center; }
+  .card h2 { font-size: 16px; margin: 0; }
+  .card .m { color: var(--ink-3); font-size: 13px; }
+  .card .n b { font-size: 15px; color: var(--ink); }
+  .card .act { grid-row: span 2; }
+  .st-running { color: var(--brand); } .st-done { color: var(--ok); } .st-error { color: var(--bad); }
+  .prog { height: 5px; border-radius: 999px; background: var(--line); overflow: hidden; margin-top: 4px; }
+  .prog i { display: block; height: 100%; background: var(--brand); }
+  .empty { padding: 32px; text-align: center; color: var(--ink-3); background: var(--surface); border: 1px dashed var(--line); border-radius: 12px; }
+  @media (max-width: 560px) { .card { grid-template-columns: 1fr; } .card .act { grid-row: auto; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>기업별 적용법규</h1>
+  <p class="sub">RegRader Pro 에서 판정해 RegRader 로 보낸 회사입니다. 회사를 누르면 그 회사의 적용법규로 만든 RegRader 화면(종합 · 분기별 · 직무별 · 적용법규)이 열립니다.</p>
+  <div class="bar">
+    <a class="btn pri" href="/">새 회사 판정하기</a>
+    <a class="btn" href="javascript:location.reload()">새로 고침</a>
+  </div>
+  <div class="list" id="list"><div class="empty">불러오는 중…</div></div>
+</main>
+<script>
+(function () {
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function num(n) { return n == null ? '–' : Number(n).toLocaleString(); }
+  function card(c) {
+    var r = c.result || {}, st = c.state || '';
+    var state = st === 'done' ? '<span class="st-done">수집 완료 · ' + esc(r.asOf || '') + ' 기준</span>'
+      : st === 'running' ? '<span class="st-running">수집 중 · ' + esc(c.step || '') + ' · ' + (c.progress || 0) + '%</span><div class="prog"><i style="width:' + (c.progress || 0) + '%"></i></div>'
+      : st === 'error' ? '<span class="st-error">수집 실패</span>' : esc(st);
+    var open = st === 'done' ? '<a class="btn pri" href="' + esc(c.url) + '" target="_blank" rel="noopener">RegRader 화면 열기</a>' : '';
+    return '<div class="card"><h2>' + esc(c.company) + '</h2><div class="act">' + open + '</div>' +
+      '<div><div class="n">적용법규 <b>' + num(c.laws) + '</b> + 행정규칙 <b>' + num(c.admin) + '</b>' +
+      (st === 'done' ? ' · 올해 개정 <b>' + num(r.totalCount) + '</b>건 (법령 ' + num(r.lawEvents) + ' · 행정규칙 ' + num(r.admrulEvents) + ')' : '') +
+      '</div><div class="m">' + state + (c.date ? ' · 판정 ' + esc(c.date) : '') + '</div></div></div>';
+  }
+  function load() {
+    fetch('/api/regrader/list', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+      var cs = d.companies || [];
+      document.getElementById('list').innerHTML = cs.length ? cs.map(card).join('')
+        : '<div class="empty">아직 보낸 회사가 없습니다. <a href="/">새 회사 판정하기</a>에서 회사를 찾고 판정 결과의 ‘RegRader로 보내기’를 누르세요.</div>';
+      if (cs.some(function (c) { return c.state === 'running'; })) setTimeout(load, 3000);
+    }).catch(function (e) {
+      document.getElementById('list').innerHTML = '<div class="empty">목록을 불러오지 못했습니다: ' + esc(e.message) + '</div>';
+    });
+  }
+  load();
+})();
+</script>
+</body>
+</html>

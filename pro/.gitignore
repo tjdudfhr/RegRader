@@ -1,0 +1,10 @@
+.cache/
+__pycache__/
+*.pyc
+.env
+out/
+.DS_Store
+.venv/
+data/raw/
+data/*.sqlite
+data/*.tmp

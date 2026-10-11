@@ -1,0 +1,395 @@
+{
+  "_note": "한국표준산업분류(KSIC 10차) 코드 앞자리 → 업종 태그. OpenDART 기업개황의 induty_code 에 쓴다. 가장 긴 앞자리가 맞는 줄을 쓴다 (예: 28202 → 2820 → 28). 지주회사(64992)는 회사명에 '금융'이 있으면 금융지주로 본다.",
+  "prefix": {
+    "01": [
+      "ind:agri"
+    ],
+    "02": [
+      "ind:agri"
+    ],
+    "03": [
+      "ind:fishery"
+    ],
+    "05": [
+      "ind:mining"
+    ],
+    "06": [
+      "ind:mining"
+    ],
+    "07": [
+      "ind:mining"
+    ],
+    "08": [
+      "ind:mining"
+    ],
+    "10": [
+      "ind:food"
+    ],
+    "11": [
+      "ind:food"
+    ],
+    "111": [
+      "ind:food",
+      "ind:liquor_tobacco",
+      "act:liquor"
+    ],
+    "12": [
+      "ind:liquor_tobacco",
+      "act:tobacco"
+    ],
+    "13": [
+      "ind:textile"
+    ],
+    "14": [
+      "ind:textile"
+    ],
+    "15": [
+      "ind:textile"
+    ],
+    "17": [
+      "ind:printing"
+    ],
+    "18": [
+      "ind:printing"
+    ],
+    "19": [
+      "ind:chem"
+    ],
+    "192": [
+      "ind:chem",
+      "ind:refinery"
+    ],
+    "20": [
+      "ind:chem"
+    ],
+    "203": [
+      "ind:chem",
+      "ind:agrochem"
+    ],
+    "21": [
+      "ind:pharma"
+    ],
+    "22": [
+      "ind:chem"
+    ],
+    "23": [
+      "ind:mineral"
+    ],
+    "24": [
+      "ind:metal"
+    ],
+    "25": [
+      "ind:metal"
+    ],
+    "252": [
+      "ind:metal",
+      "ind:defense"
+    ],
+    "26": [
+      "ind:electronics"
+    ],
+    "261": [
+      "ind:electronics",
+      "ind:semiconductor"
+    ],
+    "264": [
+      "ind:electronics"
+    ],
+    "27": [
+      "ind:machinery"
+    ],
+    "271": [
+      "ind:medical_device"
+    ],
+    "28": [
+      "ind:electronics"
+    ],
+    "2820": [
+      "ind:electronics"
+    ],
+    "29": [
+      "ind:machinery"
+    ],
+    "30": [
+      "ind:auto_mfg",
+      "ind:machinery"
+    ],
+    "31": [
+      "ind:machinery"
+    ],
+    "311": [
+      "ind:shipbuilding"
+    ],
+    "312": [
+      "ind:railway"
+    ],
+    "313": [
+      "ind:aerospace"
+    ],
+    "35": [
+      "ind:energy"
+    ],
+    "35111": [
+      "ind:energy",
+      "ind:nuclear",
+      "act:power_gen"
+    ],
+    "36": [
+      "ind:energy"
+    ],
+    "37": [
+      "ind:waste"
+    ],
+    "38": [
+      "ind:waste"
+    ],
+    "383": [
+      "ind:recycling"
+    ],
+    "39": [
+      "ind:waste"
+    ],
+    "41": [
+      "ind:construction"
+    ],
+    "42": [
+      "ind:construction"
+    ],
+    "45": [
+      "ind:auto_sales"
+    ],
+    "46": [
+      "ind:wholesale"
+    ],
+    "47": [
+      "ind:retail"
+    ],
+    "473": [
+      "ind:fuel"
+    ],
+    "49": [
+      "ind:logistics"
+    ],
+    "491": [
+      "ind:railway"
+    ],
+    "492": [
+      "ind:passenger"
+    ],
+    "493": [
+      "ind:logistics"
+    ],
+    "50": [
+      "ind:shipping"
+    ],
+    "51": [
+      "ind:aviation"
+    ],
+    "52": [
+      "ind:logistics"
+    ],
+    "55": [
+      "ind:hospitality",
+      "act:lodging"
+    ],
+    "56": [
+      "ind:hospitality"
+    ],
+    "58": [
+      "ind:printing"
+    ],
+    "582": [
+      "ind:it"
+    ],
+    "59": [
+      "ind:broadcast"
+    ],
+    "60": [
+      "ind:broadcast",
+      "act:broadcaster"
+    ],
+    "61": [
+      "ind:telecom"
+    ],
+    "62": [
+      "ind:it"
+    ],
+    "63": [
+      "ind:it"
+    ],
+    "641": [
+      "ind:bank"
+    ],
+    "6419": [
+      "ind:fin_service"
+    ],
+    "642": [
+      "ind:securities"
+    ],
+    "649": [
+      "ind:fin_service"
+    ],
+    "6491": [
+      "ind:credit"
+    ],
+    "64992": [
+      "ind:holding"
+    ],
+    "65": [
+      "ind:insurance"
+    ],
+    "66": [
+      "ind:fin_service"
+    ],
+    "661": [
+      "ind:securities"
+    ],
+    "662": [
+      "ind:insurance"
+    ],
+    "68": [
+      "ind:realestate"
+    ],
+    "70": [
+      "act:rnd"
+    ],
+    "711": [
+      "ind:professional"
+    ],
+    "712": [
+      "ind:professional"
+    ],
+    "713": [
+      "ind:advertising"
+    ],
+    "714": [
+      "ind:professional"
+    ],
+    "715": [
+      "ind:professional"
+    ],
+    "721": [
+      "ind:engineering"
+    ],
+    "7291": [
+      "ind:testing"
+    ],
+    "731": [
+      "ind:veterinary"
+    ],
+    "742": [
+      "ind:cleaning"
+    ],
+    "751": [
+      "ind:staffing"
+    ],
+    "752": [
+      "ind:travel"
+    ],
+    "753": [
+      "ind:security_service"
+    ],
+    "85": [
+      "ind:education"
+    ],
+    "86": [
+      "ind:medical"
+    ],
+    "87": [
+      "ind:welfare"
+    ],
+    "90": [
+      "ind:broadcast"
+    ],
+    "91": [
+      "ind:leisure"
+    ],
+    "96": [
+      "ind:personal_service"
+    ],
+    "5821": [
+      "ind:it",
+      "ind:game"
+    ],
+    "6201": [
+      "ind:it",
+      "act:si"
+    ],
+    "6202": [
+      "ind:it",
+      "act:si"
+    ],
+    "63112": [
+      "ind:it",
+      "act:cloud"
+    ],
+    "101": [
+      "ind:food",
+      "act:meat"
+    ],
+    "105": [
+      "ind:food",
+      "act:dairy"
+    ],
+    "108": [
+      "ind:food",
+      "act:feed"
+    ],
+    "4940": [
+      "ind:logistics",
+      "act:parcel"
+    ],
+    "5911": [
+      "ind:broadcast",
+      "act:film"
+    ],
+    "5912": [
+      "ind:broadcast",
+      "act:film"
+    ],
+    "5913": [
+      "ind:broadcast",
+      "act:film"
+    ],
+    "5914": [
+      "ind:broadcast",
+      "act:film"
+    ],
+    "592": [
+      "ind:broadcast",
+      "act:music"
+    ],
+    "901": [
+      "ind:broadcast",
+      "act:performance"
+    ],
+    "5812": [
+      "ind:printing",
+      "act:news"
+    ],
+    "5813": [
+      "ind:printing",
+      "act:news"
+    ],
+    "3511": [
+      "ind:energy",
+      "act:power_gen"
+    ],
+    "3512": [
+      "ind:energy",
+      "act:power_grid"
+    ],
+    "352": [
+      "ind:energy",
+      "act:gas_supply"
+    ],
+    "353": [
+      "ind:energy",
+      "act:district_heat"
+    ],
+    "3191": [
+      "ind:machinery",
+      "ind:defense"
+    ]
+  }
+}
