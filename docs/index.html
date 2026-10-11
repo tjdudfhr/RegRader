@@ -87,7 +87,7 @@
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./system-ui.js?v=20261006a"></script>
+    <script src="./system-ui.js?v=20261012a"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         // EmailJS 초기화
@@ -2006,6 +2006,9 @@
                 <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')" role="tab" aria-selected="false">
                     <span class="tab-icon">📚</span><span class="tab-body"><span class="tab-text">적용법규</span></span>
                 </div>
+                <div class="main-tab" data-tab="pro" onclick="switchMainTab('pro')" role="tab" aria-selected="false">
+                    <span class="tab-icon">🔎</span><span class="tab-body"><span class="tab-text">기업별 적용법규</span></span>
+                </div>
                 <div class="nav-sep" aria-hidden="true"></div>
                 <div class="nav-caption">알림 · 기록</div>
                 <div class="main-tab" data-tab="tracker" onclick="switchMainTab('tracker')" role="tab" aria-selected="false">
@@ -2473,6 +2476,9 @@
                 </div>
             </div>
         
+            <!-- 기업별 적용법규: RegRader Pro (pro/) — 회사 이름으로 적용법규를 판정해 회사별 RegRader 를 만든다 (pro-tab.js) -->
+            <div class="tab-pane" id="pro-content"><div id="rr-pro"></div></div>
+
             <!-- 대응 현황: 직무별 담당자가 개정마다 검토·조치를 기록 (tracker.js · Supabase) -->
             <div class="tab-pane" id="tracker-content"><div id="rr-trk-dash"></div></div>
 
@@ -7291,6 +7297,7 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./job-analytics.js?v=20261001b"></script>
     <script src="./quarter-analytics.js?v=20261001b"></script>
     <script src="./registry-analytics.js?v=20261001a"></script>
+    <script src="./pro-tab.js?v=20261012a"></script>
 
 </body>
 </html>

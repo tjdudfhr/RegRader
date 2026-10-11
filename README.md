@@ -40,3 +40,16 @@
 - OC는 저장소 Secrets `LAW_OC` 사용 (없으면 코드 기본값)
 
 수동 실행: Actions → Weekly law refresh → Run workflow
+
+## 기업별 적용법규 (RegRader Pro · `pro/`)
+
+화면의 **기업별 적용법규** 탭. 회사 이름으로 공공데이터 · DART 를 조회해 현행 법률 전부를 적용 · 미적용으로 판정하고,
+그 회사 적용법규로 이 RegRader 와 같은 분기별 · 직무별 모니터링을 만든다.
+
+- Pro 는 법제처 · DART 를 조회하는 로컬 서버다 (국내 인터넷 PC): `cd pro && python3 server.py` → http://127.0.0.1:8787
+- 판정 결과의 **RegRader로 보내기** → 이 저장소에 커밋된 `scripts/refresh_laws.py` 를 그대로 돌려 회사별 데이터를 만든다
+  (결과는 `pro/out/regrader/<회사>/`, 저장소에 넣지 않는다). 보낸 회사 목록은 http://127.0.0.1:8787/rr/
+- 탭은 그 PC 의 Pro 화면으로 연결만 한다. 공개 사이트가 PC 의 데이터를 읽지 않는다 (CORS 를 열지 않음)
+- `pro/` 는 git subtree 다 (원본: 비공개 저장소 `tjdudfhr/regrader-pro`). 최신으로:
+  `git subtree pull --prefix=pro https://github.com/tjdudfhr/regrader-pro.git main --squash`
+- 처음 쓸 때: 회사 찾기 자료 준비와 OpenDART 인증키 설정 — `pro/README.md`
