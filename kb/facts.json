@@ -1,0 +1,2299 @@
+{
+  "_note": "회사 사실의 사전 판단. 확인된 사실(공공데이터·공시·사용자 수정)이 없으면 likely 조건이 하나라도 맞을 때 '예(추정)', 아니면 '아니오(추정)'. review 는 공개 자료로 알 수 없고 판정이 갈리면 중요한 법령이 바뀌는 몇 가지에만 둔다 ('검토 권장', 판정은 막지 않는다). 조건은 다른 추정 사실을 쓸 수 있다. any(하나라도)·all(모두)·none(하나도 아님)·flag·gte·lt(employees·assets)·regions.",
+  "groups": {
+    "MFG": [
+      "ind:chem",
+      "ind:metal",
+      "ind:electronics",
+      "ind:machinery",
+      "ind:mineral",
+      "ind:food",
+      "ind:pharma",
+      "ind:semiconductor",
+      "ind:refinery",
+      "ind:agrochem",
+      "ind:auto_mfg",
+      "ind:shipbuilding",
+      "ind:textile",
+      "ind:medical_device",
+      "ind:defense",
+      "ind:printing",
+      "ind:cosmetics",
+      "ind:aerospace"
+    ],
+    "CHEMISH": [
+      "ind:chem",
+      "ind:electronics",
+      "ind:metal",
+      "ind:pharma",
+      "ind:semiconductor",
+      "ind:refinery",
+      "ind:agrochem",
+      "ind:cosmetics"
+    ],
+    "HEAVY": [
+      "ind:chem",
+      "ind:metal",
+      "ind:electronics",
+      "ind:machinery",
+      "ind:mineral",
+      "ind:semiconductor",
+      "ind:refinery",
+      "ind:shipbuilding",
+      "ind:auto_mfg",
+      "ind:aerospace"
+    ],
+    "FIN": [
+      "ind:bank",
+      "ind:savings_bank",
+      "ind:internet_bank",
+      "ind:credit",
+      "ind:securities",
+      "ind:insurance",
+      "ind:fin_holding",
+      "ind:fin_service"
+    ],
+    "CHEMCORE": [
+      "ind:chem",
+      "ind:refinery",
+      "ind:semiconductor",
+      "ind:agrochem"
+    ],
+    "BUILDING_USERS": [
+      "ind:medical",
+      "ind:welfare",
+      "ind:education",
+      "ind:hospitality",
+      "ind:leisure"
+    ],
+    "FINOP": [
+      "ind:bank",
+      "ind:savings_bank",
+      "ind:internet_bank",
+      "ind:credit",
+      "ind:securities",
+      "ind:insurance",
+      "ind:fin_service"
+    ],
+    "OFFICE": [
+      "ind:it",
+      "ind:game",
+      "ind:telecom",
+      "ind:broadcast",
+      "ind:advertising",
+      "ind:professional",
+      "ind:engineering",
+      "ind:staffing",
+      "ind:holding",
+      "ind:fin_holding",
+      "ind:bank",
+      "ind:savings_bank",
+      "ind:internet_bank",
+      "ind:credit",
+      "ind:securities",
+      "ind:insurance",
+      "ind:fin_service",
+      "ind:virtual_asset",
+      "ind:travel",
+      "ind:realestate",
+      "ind:education"
+    ]
+  },
+  "facts": {
+    "site:factory": {
+      "likely": [
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 10
+          }
+        }
+      ]
+    },
+    "site:office": {
+      "likely": [
+        {
+          "always": true
+        }
+      ]
+    },
+    "site:lab": {
+      "likely": [
+        {
+          "all": [
+            "act:rnd"
+          ],
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:pharma",
+            "ind:semiconductor",
+            "ind:testing"
+          ]
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "site:warehouse": {
+      "likely": [
+        {
+          "any": [
+            "ind:logistics"
+          ]
+        }
+      ]
+    },
+    "site:construction": {
+      "likely": [
+        {
+          "any": [
+            "ind:construction"
+          ]
+        }
+      ]
+    },
+    "site:cafeteria": {
+      "likely": [
+        {
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:medical",
+            "ind:welfare",
+            "ind:education"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        }
+      ]
+    },
+    "site:complex": {},
+    "site:owned": {
+      "likely": [
+        {
+          "any": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "ind:medical",
+            "ind:welfare",
+            "ind:hospitality",
+            "ind:leisure",
+            "ind:fuel",
+            "ind:energy",
+            "ind:railway",
+            "ind:nuclear"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        },
+        {
+          "any": [
+            "ind:retail",
+            "ind:logistics"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ],
+      "review": [
+        {
+          "none": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "permit:factory": {
+      "likely": [
+        {
+          "any": [
+            "site:factory"
+          ]
+        }
+      ]
+    },
+    "permit:air": {
+      "likely": [
+        {
+          "any": [
+            "HEAVY",
+            "ind:pharma",
+            "ind:food",
+            "ind:agrochem"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 20
+          }
+        },
+        {
+          "any": [
+            "ind:medical",
+            "ind:hospitality",
+            "ind:energy"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "permit:water": {
+      "likely": [
+        {
+          "any": [
+            "CHEMISH",
+            "ind:food",
+            "ind:textile",
+            "ind:mineral"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 20
+          }
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "permit:noise": {
+      "likely": [
+        {
+          "any": [
+            "ind:metal",
+            "ind:machinery",
+            "ind:mineral",
+            "ind:shipbuilding",
+            "ind:auto_mfg"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 20
+          }
+        }
+      ]
+    },
+    "permit:odor": {
+      "likely": [
+        {
+          "any": [
+            "CHEMISH",
+            "ind:food",
+            "ind:mineral"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        }
+      ]
+    },
+    "permit:integrated": {
+      "likely": [
+        {
+          "any": [
+            "HEAVY",
+            "ind:pharma",
+            "ind:food",
+            "ind:agrochem"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "permit:waste": {
+      "likely": [
+        {
+          "any": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "ind:medical",
+            "ind:construction",
+            "ind:logistics"
+          ]
+        },
+        {
+          "gte": {
+            "employees": 300
+          },
+          "none": [
+            "OFFICE"
+          ]
+        }
+      ]
+    },
+    "permit:designated_waste": {
+      "likely": [
+        {
+          "any": [
+            "CHEMISH"
+          ],
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 30
+          }
+        },
+        {
+          "any": [
+            "ind:shipbuilding",
+            "ind:auto_mfg"
+          ],
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "all": [
+            "site:lab"
+          ],
+          "any": [
+            "MFG",
+            "ind:medical",
+            "ind:testing"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        }
+      ]
+    },
+    "permit:hazchem": {
+      "likely": [
+        {
+          "any": [
+            "CHEMCORE"
+          ],
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "CHEMISH"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "permit:dangerous": {
+      "likely": [
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 100
+          },
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "CHEMCORE",
+            "ind:fuel"
+          ]
+        },
+        {
+          "any": [
+            "site:owned"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        },
+        {
+          "any": [
+            "ind:aviation",
+            "ind:shipping"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "permit:gas": {
+      "likely": [
+        {
+          "any": [
+            "CHEMCORE",
+            "ind:metal"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "permit:soil": {
+      "likely": [
+        {
+          "any": [
+            "ind:refinery",
+            "ind:fuel"
+          ]
+        },
+        {
+          "any": [
+            "ind:chem"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:metal"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "eq:tank"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "permit:radiation": {
+      "likely": [
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "ind:semiconductor",
+            "ind:nuclear",
+            "ind:testing"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:metal",
+            "ind:shipbuilding"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        },
+        {
+          "any": [
+            "HEAVY"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        }
+      ]
+    },
+    "permit:dust": {
+      "likely": [
+        {
+          "any": [
+            "ind:construction"
+          ]
+        },
+        {
+          "any": [
+            "ind:mineral",
+            "ind:metal",
+            "ind:mining"
+          ],
+          "all": [
+            "site:factory"
+          ]
+        }
+      ]
+    },
+    "eq:boiler": {
+      "likely": [
+        {
+          "any": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        },
+        {
+          "any": [
+            "ind:food"
+          ],
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "site:owned"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "ind:medical",
+            "ind:hospitality",
+            "ind:welfare"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        }
+      ]
+    },
+    "eq:pressure": {
+      "likely": [
+        {
+          "any": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "eq:crane": {
+      "likely": [
+        {
+          "any": [
+            "ind:metal",
+            "ind:machinery",
+            "ind:shipbuilding",
+            "ind:auto_mfg"
+          ],
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 300
+          },
+          "all": [
+            "site:factory"
+          ]
+        }
+      ]
+    },
+    "eq:forklift": {
+      "likely": [
+        {
+          "any": [
+            "site:factory",
+            "site:warehouse"
+          ]
+        },
+        {
+          "any": [
+            "ind:logistics",
+            "ind:wholesale"
+          ],
+          "gte": {
+            "employees": 30
+          }
+        }
+      ]
+    },
+    "eq:lift": {
+      "likely": [
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 300
+          },
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "ind:construction"
+          ]
+        }
+      ]
+    },
+    "eq:elevator": {
+      "likely": [
+        {
+          "any": [
+            "site:owned"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "BUILDING_USERS",
+            "ind:retail"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        }
+      ]
+    },
+    "eq:exhaust": {
+      "likely": [
+        {
+          "any": [
+            "CHEMISH"
+          ],
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 50
+          },
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "site:lab"
+          ]
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "eq:robot": {
+      "likely": [
+        {
+          "any": [
+            "ind:auto_mfg",
+            "ind:electronics",
+            "ind:semiconductor"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:machinery"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "eq:press": {
+      "likely": [
+        {
+          "any": [
+            "ind:metal",
+            "ind:machinery",
+            "ind:auto_mfg"
+          ],
+          "all": [
+            "site:factory"
+          ]
+        }
+      ]
+    },
+    "eq:power": {
+      "likely": [
+        {
+          "any": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "site:owned"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        }
+      ]
+    },
+    "eq:refrigeration": {
+      "likely": [
+        {
+          "any": [
+            "ind:food",
+            "ind:pharma",
+            "ind:fishery"
+          ],
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "ind:logistics"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:retail"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "eq:lpg": {
+      "likely": [
+        {
+          "any": [
+            "HEAVY"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "eq:citygas": {
+      "likely": [
+        {
+          "any": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "site:owned"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "BUILDING_USERS"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        }
+      ]
+    },
+    "eq:tank": {
+      "likely": [
+        {
+          "any": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:fuel",
+            "ind:refinery"
+          ]
+        },
+        {
+          "any": [
+            "ind:logistics"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "site:owned"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        }
+      ]
+    },
+    "eq:water_tank": {
+      "likely": [
+        {
+          "any": [
+            "site:owned"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "BUILDING_USERS"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        }
+      ]
+    },
+    "eq:drinking": {
+      "likely": [
+        {
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        }
+      ]
+    },
+    "eq:diesel": {
+      "likely": [
+        {
+          "any": [
+            "ind:logistics",
+            "ind:construction",
+            "ind:passenger"
+          ]
+        },
+        {
+          "any": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        }
+      ]
+    },
+    "eq:vehicle": {
+      "likely": [
+        {
+          "any": [
+            "site:factory",
+            "ind:logistics",
+            "ind:construction",
+            "ind:passenger",
+            "ind:auto_sales",
+            "ind:security_service",
+            "ind:cleaning",
+            "ind:wholesale"
+          ]
+        },
+        {
+          "gte": {
+            "employees": 50
+          },
+          "none": [
+            "OFFICE"
+          ]
+        }
+      ]
+    },
+    "eq:groundwater": {
+      "likely": [
+        {
+          "any": [
+            "ind:agri"
+          ]
+        },
+        {
+          "any": [
+            "ind:leisure"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        }
+      ]
+    },
+    "sub:hazchem": {
+      "likely": [
+        {
+          "any": [
+            "CHEMCORE",
+            "ind:pharma"
+          ]
+        },
+        {
+          "any": [
+            "CHEMISH"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "ind:testing"
+          ]
+        },
+        {
+          "all": [
+            "site:lab"
+          ],
+          "any": [
+            "MFG",
+            "ind:medical",
+            "ind:testing"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        }
+      ]
+    },
+    "sub:newchem": {
+      "likely": [
+        {
+          "any": [
+            "CHEMCORE"
+          ],
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "CHEMISH"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "sub:dangerous": {
+      "likely": [
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 100
+          },
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "CHEMCORE",
+            "ind:fuel",
+            "ind:pharma"
+          ]
+        },
+        {
+          "all": [
+            "site:lab"
+          ],
+          "any": [
+            "MFG",
+            "ind:medical",
+            "ind:testing"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        }
+      ]
+    },
+    "sub:gas": {
+      "likely": [
+        {
+          "any": [
+            "CHEMCORE",
+            "ind:metal"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "all": [
+            "site:lab"
+          ],
+          "any": [
+            "MFG",
+            "ind:medical",
+            "ind:testing"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        }
+      ]
+    },
+    "sub:pops": {
+      "likely": [
+        {
+          "any": [
+            "HEAVY",
+            "ind:energy"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        }
+      ]
+    },
+    "sub:radioactive": {
+      "likely": [
+        {
+          "any": [
+            "ind:nuclear"
+          ]
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "sub:biocide": {
+      "likely": [
+        {
+          "any": [
+            "ind:cleaning"
+          ]
+        }
+      ]
+    },
+    "sub:special_chem": {
+      "likely": [
+        {
+          "any": [
+            "ind:refinery",
+            "ind:agrochem",
+            "ind:semiconductor"
+          ]
+        },
+        {
+          "any": [
+            "ind:chem",
+            "ind:electronics"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "act:export": {
+      "likely": [
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:pharma",
+            "ind:medical_device",
+            "ind:semiconductor"
+          ],
+          "gte": {
+            "employees": 30
+          }
+        },
+        {
+          "any": [
+            "ind:wholesale"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:aviation",
+            "ind:shipping"
+          ]
+        },
+        {
+          "any": [
+            "ind:retail"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        }
+      ],
+      "review": [
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 20
+          },
+          "lt": {
+            "employees": 100
+          }
+        }
+      ]
+    },
+    "act:overseas": {
+      "likely": [
+        {
+          "gte": {
+            "employees": 300
+          },
+          "flag": "listed"
+        },
+        {
+          "gte": {
+            "employees": 300
+          },
+          "flag": "group"
+        },
+        {
+          "gte": {
+            "employees": 1000
+          }
+        },
+        {
+          "any": [
+            "ind:aviation",
+            "ind:shipping",
+            "ind:travel"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        }
+      ]
+    },
+    "act:subcontract": {
+      "likely": [
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 10
+          }
+        },
+        {
+          "any": [
+            "ind:construction"
+          ]
+        },
+        {
+          "any": [
+            "act:si",
+            "ind:broadcast",
+            "ind:advertising",
+            "ind:engineering"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        }
+      ],
+      "review": [
+        {
+          "any": [
+            "ind:it",
+            "ind:logistics",
+            "ind:retail",
+            "ind:wholesale"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        }
+      ]
+    },
+    "act:partner": {
+      "likely": [
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "act:dealer": {
+      "likely": [
+        {
+          "any": [
+            "ind:auto_mfg",
+            "ind:food",
+            "ind:pharma",
+            "ind:cosmetics"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "ind:liquor_tobacco"
+          ]
+        },
+        {
+          "any": [
+            "ind:telecom"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "act:ad": {
+      "likely": [
+        {
+          "any": [
+            "ind:food",
+            "ind:pharma",
+            "ind:retail",
+            "ind:cosmetics"
+          ]
+        },
+        {
+          "any": [
+            "act:b2c"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        }
+      ]
+    },
+    "act:product": {
+      "likely": [
+        {
+          "any": [
+            "MFG"
+          ]
+        }
+      ]
+    },
+    "act:consumer_online": {
+      "likely": [
+        {
+          "any": [
+            "ind:retail"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "act:online": {
+      "likely": [
+        {
+          "gte": {
+            "employees": 10
+          }
+        },
+        {
+          "any": [
+            "ind:it"
+          ]
+        }
+      ]
+    },
+    "act:construction_order": {
+      "likely": [
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:realestate"
+          ]
+        }
+      ]
+    },
+    "act:rnd": {
+      "likely": [
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:it",
+            "ind:pharma",
+            "ind:semiconductor",
+            "ind:medical_device"
+          ],
+          "gte": {
+            "employees": 30
+          }
+        },
+        {
+          "any": [
+            "site:lab"
+          ]
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        }
+      ]
+    },
+    "act:core_tech": {
+      "likely": [
+        {
+          "any": [
+            "ind:semiconductor"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:defense",
+            "ind:nuclear"
+          ]
+        },
+        {
+          "any": [
+            "ind:shipbuilding",
+            "ind:auto_mfg"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        },
+        {
+          "any": [
+            "ind:electronics"
+          ],
+          "all": [
+            "act:rnd"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "act:dispatch": {
+      "likely": [
+        {
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "act:fixed_term": {
+      "likely": [
+        {
+          "gte": {
+            "employees": 10
+          }
+        }
+      ]
+    },
+    "act:union": {
+      "likely": [
+        {
+          "gte": {
+            "employees": 1000
+          }
+        },
+        {
+          "gte": {
+            "employees": 300
+          },
+          "flag": "listed"
+        },
+        {
+          "any": [
+            "ind:bank",
+            "ind:insurance",
+            "ind:securities",
+            "ind:passenger",
+            "ind:energy",
+            "ind:railway",
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "act:ghg": {
+      "likely": [
+        {
+          "any": [
+            "HEAVY"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        },
+        {
+          "any": [
+            "ind:energy",
+            "ind:aviation"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:telecom",
+            "ind:retail",
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 3000
+          }
+        },
+        {
+          "gte": {
+            "employees": 1000
+          },
+          "flag": "group"
+        }
+      ]
+    },
+    "act:energy": {
+      "likely": [
+        {
+          "any": [
+            "HEAVY"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "ind:energy",
+            "ind:aviation",
+            "ind:shipping"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:medical",
+            "ind:retail",
+            "ind:telecom"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        },
+        {
+          "any": [
+            "site:owned"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        }
+      ]
+    },
+    "act:foreign_worker": {
+      "likely": [
+        {
+          "any": [
+            "MFG"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 10
+          },
+          "lt": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "ind:construction",
+            "ind:agri",
+            "ind:fishery",
+            "ind:shipbuilding"
+          ],
+          "gte": {
+            "employees": 10
+          }
+        }
+      ],
+      "review": [
+        {
+          "any": [
+            "ind:hospitality",
+            "ind:logistics"
+          ],
+          "gte": {
+            "employees": 30
+          }
+        }
+      ]
+    },
+    "act:franchise": {},
+    "act:standard_terms": {
+      "likely": [
+        {
+          "always": true
+        }
+      ]
+    },
+    "act:brand": {
+      "likely": [
+        {
+          "always": true
+        }
+      ]
+    },
+    "act:port": {
+      "likely": [
+        {
+          "any": [
+            "ind:refinery",
+            "ind:metal",
+            "ind:shipbuilding"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 300
+          },
+          "regions": [
+            "울산",
+            "부산",
+            "인천",
+            "포항",
+            "광양",
+            "여수",
+            "당진",
+            "서산",
+            "군산",
+            "목포",
+            "평택",
+            "거제",
+            "통영",
+            "창원",
+            "사천",
+            "보령",
+            "태안",
+            "삼척",
+            "동해",
+            "강릉",
+            "경주",
+            "영암",
+            "순천",
+            "시흥",
+            "안산",
+            "고성",
+            "남해",
+            "하동"
+          ]
+        },
+        {
+          "any": [
+            "ind:chem"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 1000
+          },
+          "regions": [
+            "울산",
+            "부산",
+            "인천",
+            "포항",
+            "광양",
+            "여수",
+            "당진",
+            "서산",
+            "군산",
+            "목포",
+            "평택",
+            "거제",
+            "통영",
+            "창원",
+            "사천",
+            "보령",
+            "태안",
+            "삼척",
+            "동해",
+            "강릉",
+            "경주",
+            "영암",
+            "순천",
+            "시흥",
+            "안산",
+            "고성",
+            "남해",
+            "하동"
+          ]
+        },
+        {
+          "any": [
+            "ind:shipping"
+          ]
+        }
+      ]
+    },
+    "act:plant_construction": {},
+    "act:welfare_fund": {
+      "likely": [
+        {
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "listed": {},
+    "audited": {
+      "likely": [
+        {
+          "flag": "listed"
+        },
+        {
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "group": {},
+    "act:b2c": {
+      "likely": [
+        {
+          "any": [
+            "ind:retail",
+            "ind:hospitality",
+            "ind:medical",
+            "ind:education",
+            "ind:personal_service",
+            "ind:leisure",
+            "ind:telecom",
+            "ind:bank",
+            "ind:savings_bank",
+            "ind:internet_bank",
+            "ind:insurance",
+            "ind:credit",
+            "ind:passenger",
+            "ind:aviation",
+            "ind:travel",
+            "ind:auto_sales",
+            "ind:game",
+            "ind:fuel",
+            "ind:veterinary",
+            "act:consumer_online",
+            "act:direct_sales",
+            "act:franchise",
+            "ind:cosmetics"
+          ]
+        }
+      ]
+    },
+    "act:direct_sales": {
+      "likely": [
+        {
+          "any": [
+            "ind:insurance"
+          ]
+        },
+        {
+          "any": [
+            "ind:telecom",
+            "ind:credit"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "act:public_contract": {
+      "likely": [
+        {
+          "any": [
+            "ind:construction"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        },
+        {
+          "any": [
+            "ind:engineering"
+          ],
+          "gte": {
+            "employees": 30
+          }
+        },
+        {
+          "any": [
+            "ind:defense"
+          ]
+        },
+        {
+          "any": [
+            "ind:testing"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        },
+        {
+          "any": [
+            "ind:security_service",
+            "ind:cleaning"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "act:si"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        }
+      ],
+      "review": [
+        {
+          "any": [
+            "ind:it",
+            "ind:security_service",
+            "ind:cleaning",
+            "ind:testing"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        }
+      ]
+    },
+    "act:gov_fund": {
+      "likely": [
+        {
+          "all": [
+            "act:rnd"
+          ],
+          "any": [
+            "MFG",
+            "ind:testing"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        }
+      ]
+    },
+    "act:ai": {
+      "likely": [
+        {
+          "any": [
+            "ind:it",
+            "ind:game"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "ind:internet_bank"
+          ]
+        },
+        {
+          "any": [
+            "ind:telecom"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        }
+      ]
+    },
+    "act:location": {
+      "likely": [
+        {
+          "any": [
+            "ind:logistics",
+            "ind:passenger"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:telecom",
+            "ind:security_service"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        }
+      ]
+    },
+    "act:epay": {
+      "likely": [
+        {
+          "any": [
+            "ind:game"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "ind:telecom"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        }
+      ]
+    },
+    "act:broadcaster": {},
+    "act:foreign_investment": {},
+    "act:guard": {
+      "likely": [
+        {
+          "any": [
+            "ind:energy",
+            "ind:defense"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "ind:nuclear"
+          ]
+        },
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 3000
+          },
+          "all": [
+            "site:factory"
+          ]
+        }
+      ]
+    },
+    "act:animal_test": {
+      "likely": [
+        {
+          "any": [
+            "ind:pharma"
+          ],
+          "all": [
+            "site:lab"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        }
+      ]
+    },
+    "act:ks": {
+      "likely": [
+        {
+          "any": [
+            "ind:mineral"
+          ],
+          "all": [
+            "site:factory"
+          ]
+        },
+        {
+          "any": [
+            "ind:metal"
+          ],
+          "all": [
+            "site:factory"
+          ],
+          "gte": {
+            "employees": 50
+          }
+        }
+      ]
+    },
+    "act:kids_product": {},
+    "act:health_food": {},
+    "act:critical_infra": {
+      "likely": [
+        {
+          "any": [
+            "ind:energy"
+          ],
+          "gte": {
+            "employees": 300
+          }
+        },
+        {
+          "any": [
+            "ind:nuclear",
+            "ind:railway"
+          ]
+        },
+        {
+          "any": [
+            "ind:telecom",
+            "ind:bank",
+            "ind:aviation",
+            "ind:shipping"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        },
+        {
+          "any": [
+            "ind:medical"
+          ],
+          "gte": {
+            "employees": 3000
+          }
+        },
+        {
+          "any": [
+            "MFG"
+          ],
+          "gte": {
+            "employees": 5000
+          }
+        },
+        {
+          "any": [
+            "ind:it"
+          ],
+          "all": [
+            "act:cloud"
+          ],
+          "gte": {
+            "employees": 1000
+          }
+        }
+      ]
+    },
+    "act:emc": {
+      "likely": [
+        {
+          "any": [
+            "ind:telecom",
+            "ind:medical_device"
+          ]
+        },
+        {
+          "any": [
+            "ind:electronics"
+          ],
+          "all": [
+            "act:b2c"
+          ]
+        }
+      ]
+    },
+    "act:si": {},
+    "act:cloud": {},
+    "act:esign": {},
+    "act:fin_group": {
+      "review": [
+        {
+          "any": [
+            "FINOP"
+          ],
+          "gte": {
+            "employees": 100
+          }
+        }
+      ]
+    },
+    "act:vc": {},
+    "act:lodging": {},
+    "act:film": {},
+    "act:music": {},
+    "act:performance": {},
+    "act:news": {},
+    "act:meat": {},
+    "act:dairy": {},
+    "act:feed": {},
+    "act:ginseng": {},
+    "act:parcel": {},
+    "act:taxi": {},
+    "act:bio_material": {},
+    "act:food_mfg": {},
+    "act:power_gen": {},
+    "act:power_grid": {},
+    "act:gas_supply": {},
+    "act:district_heat": {},
+    "act:cpa": {},
+    "act:law_firm": {},
+    "act:tax_firm": {},
+    "act:patent_firm": {},
+    "act:labor_firm": {},
+    "act:appraisal": {},
+    "act:customs_broker": {},
+    "act:liquor": {},
+    "act:tobacco": {}
+  }
+}
