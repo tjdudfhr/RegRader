@@ -1,9 +1,29 @@
 /* 화면 잠금 — 비밀번호를 넣어야 RegRader 화면이 보인다 (한 번 맞히면 이 브라우저에 기억).
  *
  * 모든 화면(<head> 맨 앞)에서 불린다: index · watch · history · mobile_v2 · pro/ (브라우저판 Pro · 회사 화면).
+ * 아래에 최신 화면 확인도 같이 한다 (맨 먼저 불리는 파일이라).
  * GitHub Pages 는 서버가 없어 '화면 잠금'이다: 공개 저장소의 자료(json)와 코드는 주소로 직접 받을 수 있다.
  * 비밀번호 원문은 넣지 않고 SHA-256 해시만 비교한다. 바꾸려면 HASH 를 새 비밀번호의 해시로.
  */
+/* 최신 화면 확인 — GitHub Pages 는 화면 파일을 브라우저가 10분까지 저장해 두고 다시 쓴다.
+ * 서버의 화면이 지금 연 것보다 새로우면 한 번 새로 연다 (다른 컴퓨터 · 휴대폰에서 예전 화면이 나오지 않게). */
+(function () {
+  'use strict';
+  try {
+    var key = 'rr-fresh:' + location.pathname;
+    if (Date.now() - Number(sessionStorage.getItem(key) || 0) < 60000) return;   // 방금 새로 열었으면 또 확인하지 않는다
+    var mine = Date.parse(document.lastModified);
+    if (!mine) return;
+    fetch(location.pathname, { method: 'HEAD', cache: 'no-store' }).then(function (r) {
+      var srv = Date.parse(r.headers.get('last-modified') || '');
+      if (r.ok && srv && srv - mine > 5000) {
+        sessionStorage.setItem(key, String(Date.now()));
+        location.reload();
+      }
+    }).catch(function () {});
+  } catch (e) { /* 확인을 못 해도 화면은 그대로 연다 */ }
+})();
+
 (function () {
   'use strict';
   var HASH = '0c39212c181a0c0182b25a0e9099eb767a9cb3167ed70b9f0ec0bc30322e5265';
