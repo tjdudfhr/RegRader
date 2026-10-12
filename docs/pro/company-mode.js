@@ -78,23 +78,16 @@
     });
     if (/[?&]embed=1/.test(location.search)) return;
     rec.then(function (r) {
-      var b = document.createElement('div');
-      b.id = 'rr-pro-company';
-      b.style.cssText = 'position:fixed;right:12px;bottom:12px;z-index:2500;max-width:calc(100% - 24px);padding:8px 14px;border-radius:12px;' +
-        'background:rgba(17,24,39,.9);color:#fff;font:600 12.5px/1.5 -apple-system,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.25)';
+      /* 회사 이름: 화면 맨 위(앱 바) · 사이드바 · 탭 제목 (company-chip.js) */
       var home = window.RR_PRO_HOME ? HOME : location.pathname;
+      var label = window.RR_PRO_HOME ? '다른 회사 검색' : '원래 화면';
+      if (!window.rrCompanyChip) return;
       if (r) {
         var p = r.files['pro_company.json'] || {};
-        document.title = 'RegRader · ' + r.company + ' 법규 개정 모니터링';
-        b.innerHTML = '<b></b> · 적용법규 ' + p.laws + ' + 행정규칙 ' + p.admin + ' (RegRader Pro ' + (p.date || '') + ' 판정) · ' +
-          '<a href="' + home + '" style="color:#a5b4fc">' + (window.RR_PRO_HOME ? 'RegRader Pro' : '원래 화면') + '</a>';
-        b.firstChild.textContent = r.company;
+        window.rrCompanyChip({ company: r.company, laws: p.laws, admin: p.admin, date: p.date, home: home, homeLabel: label });
       } else {
-        b.innerHTML = '이 브라우저에 ‘<b></b>’ 데이터가 없습니다. <a href="' + HOME + '" style="color:#a5b4fc">RegRader Pro</a>에서 회사를 판정하고 ‘RegRader로 보내기’를 눌러 주세요. · ' +
-          '<a href="' + home + '" style="color:#a5b4fc">원래 화면</a>';
-        b.querySelector('b').textContent = slug;
+        window.rrCompanyChip({ company: slug, missing: true, home: HOME, homeLabel: 'RegRader Pro 에서 판정하기' });
       }
-      document.body.appendChild(b);
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ui);
