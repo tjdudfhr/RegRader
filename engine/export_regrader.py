@@ -164,6 +164,7 @@ def build_site(force=False, log=print):
             text = add_etc_job(tar.extractfile(m).read().decode("utf-8"))
             if rel.name == "index.html":
                 text = text.replace("</body>", '    <script src="./pro-company.js"></script>\n</body>', 1)
+                text = text.replace('data-src="./pro/?embed=1"', 'data-src="/?embed=1"')   # 기업별 적용법규 검색 탭: 이 서버의 Pro 화면
                 # 회사 사본은 매일 자동 수집하지 않는다 (RegRader Pro 에서 다시 보내면 새로 수집)
                 text = text.replace("<b>매일 07:00 자동 수집</b>", "<b>RegRader Pro 에서 보낼 때 수집</b>")
             dest.write_text(text, encoding="utf-8")
