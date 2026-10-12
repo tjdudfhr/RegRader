@@ -1,0 +1,44 @@
+{
+  "name": "예시) 금속부품 제조사",
+  "numbers": {
+    "employees": 180,
+    "assets": 900
+  },
+  "flags": [],
+  "tags": [
+    "ind:metal",
+    "ind:machinery",
+    "site:factory",
+    "site:office",
+    "site:cafeteria",
+    "site:complex",
+    "permit:air",
+    "permit:water",
+    "permit:waste",
+    "permit:hazchem",
+    "permit:factory",
+    "eq:boiler",
+    "eq:crane",
+    "eq:forklift",
+    "eq:exhaust",
+    "eq:press",
+    "eq:power",
+    "eq:tank",
+    "sub:hazchem",
+    "sub:dangerous",
+    "act:export",
+    "act:subcontract",
+    "act:partner",
+    "act:product",
+    "act:fixed_term",
+    "act:union"
+  ],
+  "regions": {
+    "provinces": [
+      "경남"
+    ],
+    "cities": [
+      "창원"
+    ]
+  }
+}

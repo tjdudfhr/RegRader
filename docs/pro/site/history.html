@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>window.RR_PRO_DATA = "https://raw.githubusercontent.com/tjdudfhr/RegRader/pro-data/"; window.RR_PRO_HOME = "../";</script><script src="../company-mode.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RegRader · 업데이트 내역</title>
+<style>
+  :root {
+    --primary: #667eea;
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --bg-primary: #f7fafc;
+    --bg-card: #ffffff;
+    --border: #e2e8f0;
+    --new: #2563eb;   --new-bg: #eff6ff;
+    --live: #059669;  --live-bg: #ecfdf5;
+    --gone: #dc2626;  --gone-bg: #fef2f2;
+    --base: #7c3aed;  --base-bg: #f5f3ff;
+    --adm: #0f766e;   --adm-bg: #ecfdf5;
+    /* 직무 색: 메인과 같은 검증 팔레트 */
+    --c-재무회계: #2a78d6; --c-인사노무: #eb6834; --c-환경: #1baf7a; --c-지식재산권: #eda100;
+    --c-공정거래: #e87ba4; --c-안전: #008300; --c-지배구조: #4a3aa7; --c-정보보호: #e34948;
+  }
+  /* 메인과 같이 시스템 다크 모드를 따른다 */
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    background: var(--bg-primary);
+    background-image: radial-gradient(circle at 25% 25%, #667eea22 0%, transparent 50%),
+                      radial-gradient(circle at 75% 75%, #f093fb22 0%, transparent 50%);
+    color: var(--text-primary);
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 16px; }
+  header {
+    background: var(--primary-gradient);
+    color: #fff;
+    border-radius: 20px;
+    padding: 22px 22px 18px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, .25);
+  }
+  header a.back { color: #fff; opacity: .85; text-decoration: none; font-size: .88rem; }
+  header a.back:hover { opacity: 1; }
+  header h1 { margin: 8px 0 4px; font-size: 1.6rem; }
+  header p { margin: 0; opacity: .9; font-size: .9rem; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0; }
+  .stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; }
+  .stat b { display: block; font-size: 1.45rem; font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--text-muted); font-size: .8rem; }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+  .chip {
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary);
+    border-radius: 999px; padding: 7px 14px; font-size: .85rem; cursor: pointer; font-family: inherit;
+  }
+  .chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .search {
+    flex: 1; min-width: 180px; border: 1px solid var(--border); border-radius: 10px;
+    padding: 8px 12px; font-size: .9rem; font-family: inherit; background: var(--bg-card);
+  }
+  .picker { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 12px 14px; margin: 16px 0 0; }
+  .picker label { display: block; font-size: .8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+  .picker-row { display: flex; gap: 8px; align-items: center; }
+  .picker select {
+    flex: 1; min-width: 0; font-family: inherit; font-size: .95rem; color: var(--text-primary);
+    padding: 9px 12px; border: 1px solid var(--border); border-radius: 10px; background: #fff; cursor: pointer;
+  }
+  .picker select:focus, .nav-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+  .nav-btn {
+    width: 40px; height: 40px; flex: none; border: 1px solid var(--border); border-radius: 10px; background: #fff;
+    font-size: 1.3rem; line-height: 1; color: var(--text-secondary); cursor: pointer; font-family: inherit;
+  }
+  .nav-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+  .nav-btn:disabled { opacity: .35; cursor: default; }
+  .entry { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 14px; overflow: hidden; }
+  .entry-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .entry-date { font-weight: 700; font-size: 1.05rem; }
+  .entry-sub { color: var(--text-muted); font-size: .8rem; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .badge { font-size: .78rem; padding: 3px 9px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
+  .b-new { background: var(--new-bg); color: var(--new); }
+  .b-live { background: var(--live-bg); color: var(--live); }
+  .b-gone { background: var(--gone-bg); color: var(--gone); }
+  .b-base { background: var(--base-bg); color: var(--base); }
+  .b-adm { background: var(--adm-bg); color: var(--adm); }
+  .base-added { margin: 10px 16px 4px; padding: 10px 12px; border-radius: 12px; background: var(--base-bg); font-size: .85rem; color: var(--text-secondary); }
+  .base-added b { color: var(--base); }
+  .b-plain { background: #f1f5f9; color: var(--text-secondary); font-weight: 500; }
+  .group { padding: 10px 16px 6px; }
+  .group h3 { margin: 4px 0 8px; font-size: .9rem; display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .law { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 9px 0; border-top: 1px dashed var(--border); }
+  .law:first-of-type { border-top: 0; }
+  .law-title { font-weight: 600; }
+  .law-title a { color: inherit; text-decoration: none; }
+  .law-title a:hover { color: var(--primary); text-decoration: underline; }
+  .law-meta { color: var(--text-muted); font-size: .8rem; grid-column: 1; }
+  .law-date { grid-row: 1 / span 2; grid-column: 2; text-align: right; font-size: .85rem; font-variant-numeric: tabular-nums; color: var(--text-secondary); }
+  .cat { font-size: .72rem; padding: 1px 7px; border-radius: 6px; color: #fff; margin-right: 4px; background: #a0aec0; }
+  .universe { padding: 10px 16px 14px; color: var(--text-secondary); font-size: .85rem; }
+  .empty { text-align: center; color: var(--text-muted); padding: 40px 16px; background: var(--bg-card); border: 1px dashed var(--border); border-radius: 16px; }
+  .note { color: var(--text-muted); font-size: .8rem; margin: 18px 4px 30px; }
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    header h1 { font-size: 1.35rem; }
+    .law { grid-template-columns: 1fr; }
+    .law-date { grid-row: auto; grid-column: 1; text-align: left; }
+  }
+</style>
+<script>
+  /* ?embed=1 : 메인 페이지의 탭 안에 끼워 넣어 보여줄 때 (제목 줄·메인으로 링크를 숨기고, 높이를 메인에 알린다) */
+  (function () {
+    if (new URLSearchParams(location.search).get('embed') === '1' && window.parent !== window) {
+      document.documentElement.classList.add('rr-embedded');
+      window.RR_EMBEDDED = true;
+    }
+  })();
+</script>
+<style>
+  html.rr-embedded body { background: transparent !important; background-image: none !important; min-height: 0 !important; }
+  html.rr-embedded .wrap { max-width: none; padding: 0; }
+  html.rr-embedded header { background: none; color: var(--text-primary); box-shadow: none; padding: 0 0 14px; margin-bottom: 8px; border-radius: 0; }
+  html.rr-embedded header a.back { display: none; }
+  html.rr-embedded header h1 { margin-top: 0; font-size: 1.4rem; color: var(--text-primary); }
+  html.rr-embedded header p { color: var(--text-muted); opacity: 1; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="./system.css?v=20261001b">
+<script src="./system-ui.js?v=20260929a"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="./">← RegRader 메인으로</a>
+    <h1>업데이트 내역</h1>
+    <p id="head-sub">불러오는 중…</p>
+  </header>
+
+  <div class="picker">
+    <label for="date-select">조회 날짜</label>
+    <div class="picker-row">
+      <button class="nav-btn" id="prev-btn" title="이전 업데이트" aria-label="이전 업데이트">‹</button>
+      <select id="date-select" disabled><option>불러오는 중…</option></select>
+      <button class="nav-btn" id="next-btn" title="다음 업데이트" aria-label="다음 업데이트">›</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b id="s-runs">–</b><span id="s-runs-label">변동 기록</span></div>
+    <div class="stat"><b id="s-new" style="color:var(--new)">–</b><span id="s-new-label">신규 개정 (누적)</span></div>
+    <div class="stat"><b id="s-live" style="color:var(--live)">–</b><span id="s-live-label">새로 시행 (누적)</span></div>
+    <div class="stat"><b id="s-gone" style="color:var(--gone)">–</b><span id="s-gone-label">목록에서 빠짐 (누적)</span></div>
+  </div>
+
+  <div class="tools">
+    <button class="chip on" data-f="all">전체</button>
+    <button class="chip" data-f="added">신규 개정</button>
+    <button class="chip" data-f="nowInForce">새로 시행</button>
+    <button class="chip" data-f="removed">빠짐</button>
+    <button class="chip" data-f="addedByBase">적용법규 추가</button>
+    <input class="search" id="q" type="search" placeholder="법령명·부처·직무 검색">
+  </div>
+
+  <div id="list"></div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var TYPES = {
+    added: { label: '신규 개정', cls: 'b-new', color: 'var(--new)' },
+    nowInForce: { label: '새로 시행', cls: 'b-live', color: 'var(--live)' },
+    removed: { label: '목록에서 빠짐', cls: 'b-gone', color: 'var(--gone)' },
+    addedByBase: { label: '적용법규 추가로 편입', cls: 'b-base', color: 'var(--base)' }
+  };
+  var ORDER = ['added', 'nowInForce', 'removed', 'addedByBase'];
+  /* 적용법규(기본 목록)가 바뀐 경우 안내: 추가 · 법령명 변경 · 삭제 */
+  function baseLine(e) {
+    var add = e.baseLawsAdded || [], ren = e.baseLawsRenamed || [], rem = e.baseLawsRemoved || [], mg = e.admrulMerged, sc = e.admrulScope;
+    if (!add.length && !ren.length && !rem.length && !mg && !sc && !e.note) return '';
+    var lines = [];
+    if (mg) lines.push('<b>행정규칙 ' + num(mg.laws) + '개를 적용법규에 편입</b> · 올해 개정 ' + num(mg.events) + '건 추가');
+    if (e.note) lines.push('<b>' + esc(e.note) + '</b>');
+    if (sc) lines.push('<b>적용 범위 조정</b> · 회사 사업과 무관한 행정규칙 ' + num(sc.laws) + '개를 적용법규에서 제외' +
+      (sc.events ? ' · 올해 개정 ' + num(sc.events) + '건 빠짐' : '') + (sc.restored ? ' · 행정규칙 ' + num(sc.restored) + '개 되살림' + (sc.restoredEvents ? '(개정 ' + num(sc.restoredEvents) + '건)' : '') : ''));
+    if (add.length) lines.push('<b>적용법규 추가 ' + add.length + '개</b> · ' + add.map(function (b) {
+      return esc(b.title) + (b.category ? ' <span style="color:var(--text-muted)">[' + esc(b.category) + ']</span>' : '');
+    }).join(', '));
+    if (ren.length) lines.push('<b>법령명 변경 ' + ren.length + '개</b> · ' + ren.map(function (b) {
+      return esc(b.from) + ' → ' + esc(b.to);
+    }).join(', '));
+    if (rem.length) lines.push('<b>적용법규에서 삭제 ' + rem.length + '개</b> · ' + rem.map(function (b) {
+      return esc(b.title) + (b.reason ? ' <span style="color:var(--text-muted)">(' + esc(b.reason) + ')</span>' : '');
+    }).join(', '));
+    var count = e.baseLawsBefore && e.baseLawsAfter ? '<div style="margin-bottom:4px">적용법규 ' + num(e.baseLawsBefore) + ' → <b>' + num(e.baseLawsAfter) + '개</b></div>' : '';
+    return '<div class="base-added">' + count + lines.join('<br>') + '</div>';
+  }
+  function baseSummary(e) {
+    var p = [];
+    if (e.admrulMerged) p.push('행정규칙 편입');
+    if (e.admrulScope) p.push('적용 범위 조정');
+    if (e.note && !e.admrulScope && !(e.baseLawsAdded || []).length) p.push('집계 정리');
+    if ((e.baseLawsAdded || []).length) p.push('적용법규 +' + e.baseLawsAdded.length);
+    if ((e.baseLawsRenamed || []).length) p.push('법령명 변경 ' + e.baseLawsRenamed.length);
+    if ((e.baseLawsRemoved || []).length) p.push('적용법규 삭제 ' + e.baseLawsRemoved.length);
+    return p;
+  }
+  var entries = [];
+  var filter = 'all';
+  var selected = 0; /* 드롭다운에서 고른 기록의 순번(0 = 가장 최근), 'all' = 전체 기간 */
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function num(n) { return n == null ? '–' : Number(n).toLocaleString('ko-KR'); }
+  function kst(iso, withTime) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return iso || '';
+    var opt = { timeZone: 'Asia/Seoul', year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
+    if (withTime) { opt.hour = '2-digit'; opt.minute = '2-digit'; }
+    return d.toLocaleString('ko-KR', opt);
+  }
+  function lawRow(x) {
+    /* 행정규칙(고시·훈령·예규)은 admRulSeq 로 원문을 연다 */
+    var url = x.admRulSeq ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + encodeURIComponent(x.admRulSeq)
+      : x.lsiSeq ? 'https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + encodeURIComponent(x.lsiSeq) : '';
+    var title = url ? '<a href="' + url + '" target="_blank" rel="noopener">' + esc(x.title) + '</a>' : esc(x.title);
+    var cat = x.category ? '<span class="cat" style="background:var(--c-' + esc(x.category) + ', #a0aec0)">' + esc(x.category) + '</span>' : '';
+    return '<div class="law"><div class="law-title">' + title + '</div>' +
+      '<div class="law-date">시행 ' + esc(x.effectiveDate) + '</div>' +
+      '<div class="law-meta">' + cat + (x.kind ? esc(x.kind) + ' · ' : '') + esc(x.ministry) + (x.amendmentType ? ' · ' + esc(x.amendmentType) : '') +
+      (x.reference ? ' · <span title="회사 준수사항과 거리가 멀어 참고용으로 분류">참고: ' + esc(x.reference) + '</span>' : '') + '</div></div>';
+  }
+  function matches(x, q) {
+    if (!q) return true;
+    return (x.title + ' ' + x.ministry + ' ' + x.category + ' ' + x.amendmentType).toLowerCase().indexOf(q) >= 0;
+  }
+  /* 참고 줄: 국가법령정보센터 전체 법령 수 (당사 적용 여부와 무관 -> 위의 당사 적용 개정 수와는 따로 움직인다) */
+  function universeLine(e) {
+    var a = e.universeAfter || {}, b = e.universeBefore || {};
+    if (!b.openapiCurrent || a.openapiCurrent == null) return '';
+    var parts = [];
+    function part(label, x, y) {
+      if (x == null || y == null || x === y) return;
+      var d = y - x;
+      parts.push(label + ' ' + num(x) + ' → <b>' + num(y) + '</b> (' + (d > 0 ? '+' : '−') + num(Math.abs(d)) + ')');
+    }
+    part('현행', b.openapiCurrent, a.openapiCurrent);
+    part('시행예정', b.openapiUpcoming, a.openapiUpcoming);
+    if (!parts.length) return '';
+    return '<div class="universe">참고 · 국가법령정보센터 ' + String(e.asOf || '').slice(0, 4) + '년 전체 법령 (당사 적용 여부와 무관): ' + parts.join(' · ') + '</div>';
+  }
+  function render() {
+    var q = (document.getElementById('q').value || '').trim().toLowerCase();
+    var shown = selected === 'all' ? entries : (entries[selected] ? [entries[selected]] : []);
+    var html = shown.map(function (e) {
+      if (e.type === 'yearRollover') return (filter === 'all' && !q) ? rolloverSection(e) : '';
+      var types = filter === 'all' ? ORDER : [filter];
+      var groups = types.map(function (t) {
+        var rows = (e[t] || []).filter(function (x) { return matches(x, q); });
+        if (!rows.length) return '';
+        return '<div class="group"><h3><span class="dot" style="background:' + TYPES[t].color + '"></span>' +
+          TYPES[t].label + ' ' + rows.length + '건</h3>' + rows.map(lawRow).join('') + '</div>';
+      }).join('');
+      var uni = (filter === 'all' && !q) ? universeLine(e) : '';
+      var base = ((filter === 'all' || filter === 'addedByBase') && !q) ? baseLine(e) : '';
+      if (!groups && !uni && !base) return '';
+      var badges = ORDER.map(function (t) {
+        var n = (e[t] || []).length;
+        return n ? '<span class="badge ' + TYPES[t].cls + '">' + TYPES[t].label + ' ' + n + '</span>' : '';
+      }).join('') + '<span class="badge b-plain">전체 ' + num(e.totalBefore) + ' → ' + num(e.totalAfter) + '건</span>';
+      var sub = '';
+      return '<section class="entry"><div class="entry-head"><div><div class="entry-date">' + kst(e.checkedAt, true) +
+        '</div><div class="entry-sub">' + esc(sub) + '</div></div><div class="badges">' + badges + '</div></div>' +
+        base + groups + uni + '</section>';
+    }).join('');
+    document.getElementById('list').innerHTML = html ||
+      '<div class="empty">' + (entries.length ? '조건에 맞는 내역이 없습니다.' : '아직 기록된 업데이트가 없습니다.') + '</div>';
+  }
+  function setStat(id, value, label) {
+    document.getElementById(id).textContent = value;
+    document.getElementById(id + '-label').textContent = label;
+  }
+  /* 연도 전환: 작년 개정 전체를 '빠짐'으로, 올해 개정 전체를 '신규'로 나열하지 않고 한 건으로 보여준다 */
+  function rolloverSection(e) {
+    var u0 = e.universeBefore || {}, u1 = e.universeAfter || {};
+    return '<section class="entry"><div class="entry-head"><div><div class="entry-date">' + kst(e.checkedAt, true) +
+      '</div><div class="entry-sub">새해 첫 자동 갱신</div></div><div class="badges"><span class="badge b-base">연도 전환 ' +
+      esc(e.fromYear) + ' → ' + esc(e.toYear) + '</span></div></div>' +
+      '<div class="universe">모니터링 기준 연도가 <b>' + esc(e.fromYear) + '년</b>에서 <b>' + esc(e.toYear) + '년</b>으로 바뀌었습니다.<br>' +
+      '당사 적용 개정: ' + esc(e.fromYear) + '년 ' + num(e.totalBefore) + '건 → ' + esc(e.toYear) + '년 ' + num(e.totalAfter) + '건 (새해 첫날 기준, 이후 공포되는 개정이 계속 추가됩니다)<br>' +
+      (u1.openapiCurrent != null ? '국가법령정보센터 ' + esc(e.toYear) + '년 시행 법령: 현행 ' + num(u1.openapiCurrent) + (u1.openapiUpcoming != null ? ' · 시행예정 ' + num(u1.openapiUpcoming) : '') + '<br>' : '') +
+      '<span style="color:var(--text-muted)">' + esc(e.fromYear) + '년 데이터는 <a href="./' + esc(e.archive || ('archive/' + e.fromYear + '/')) + 'meta.json" target="_blank" rel="noopener">보관 폴더</a>에 그대로 남아 있습니다.</span></div></section>';
+  }
+  function stats() {
+    var all = selected === 'all';
+    var pool = all ? entries : (entries[selected] ? [entries[selected]] : []);
+    var sum = function (t) { return pool.reduce(function (n, e) { return n + (e[t] || []).length; }, 0); };
+    var e = pool[0];
+    if (!all && e && e.type === 'yearRollover') setStat('s-runs', num(e.totalAfter), e.toYear + '년 당사 적용 개정');
+    else if (all || !e) setStat('s-runs', num(entries.length), '변동 기록');
+    else setStat('s-runs', num(e.totalAfter), '당사 적용 개정 (' + (e.totalAfter - e.totalBefore >= 0 ? '+' : '') + (e.totalAfter - e.totalBefore) + ')');
+    var suffix = all ? ' (누적)' : '';
+    setStat('s-new', num(sum('added')), '신규 개정' + suffix);
+    setStat('s-live', num(sum('nowInForce')), '새로 시행' + suffix);
+    setStat('s-gone', num(sum('removed')), '목록에서 빠짐' + suffix);
+  }
+
+  /* ---- 날짜 드롭다운 ---- */
+  var sel = document.getElementById('date-select');
+  var prevBtn = document.getElementById('prev-btn');
+  var nextBtn = document.getElementById('next-btn');
+  function shortDate(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return iso || '';
+    return d.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+  function optionLabel(e) {
+    if (e.type === 'yearRollover') return shortDate(e.checkedAt) + '  —  연도 전환 ' + e.fromYear + ' → ' + e.toYear;
+    var parts = ORDER.map(function (t) {
+      var n = (e[t] || []).length;
+      return n ? TYPES[t].label.replace('목록에서 ', '') + ' ' + n : '';
+    }).filter(Boolean).concat(baseSummary(e));
+    return shortDate(e.checkedAt) + '  —  ' + (parts.length ? parts.join(' · ') : '전체 법령 수만 변동');
+  }
+  function fillSelect() {
+    sel.innerHTML = entries.map(function (e, i) {
+      return '<option value="' + i + '">' + esc(optionLabel(e)) + (i === 0 ? '  (최신)' : '') + '</option>';
+    }).join('') + (entries.length > 1 ? '<option value="all">전체 기간 모아보기 (' + entries.length + '회)</option>' : '');
+    sel.disabled = !entries.length;
+    if (!entries.length) sel.innerHTML = '<option>아직 기록이 없습니다</option>';
+  }
+  function select(value, push) {
+    selected = value === 'all' ? 'all' : Math.max(0, Math.min(entries.length - 1, Number(value) || 0));
+    sel.value = String(selected);
+    /* ‹ 는 더 이전(오래된) 기록, › 는 더 최근 기록 */
+    prevBtn.disabled = selected === 'all' || selected >= entries.length - 1;
+    nextBtn.disabled = selected === 'all' || selected <= 0;
+    if (push) {
+      var e = entries[selected];
+      var url = new URL(location.href);
+      if (selected === 'all') url.searchParams.set('d', 'all');
+      else if (selected === 0 || !e) url.searchParams.delete('d');
+      else url.searchParams.set('d', e.checkedAt);
+      history.replaceState(null, '', url);
+    }
+    stats();
+    render();
+  }
+  function fromUrl() {
+    var d = new URL(location.href).searchParams.get('d');
+    if (!d) return 0;
+    if (d === 'all') return 'all';
+    for (var i = 0; i < entries.length; i++) if (entries[i].checkedAt === d) return i;
+    return 0;
+  }
+  sel.addEventListener('change', function () { select(sel.value, true); });
+  prevBtn.addEventListener('click', function () { select(selected + 1, true); });
+  nextBtn.addEventListener('click', function () { select(selected - 1, true); });
+
+  document.querySelectorAll('.chip').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.chip').forEach(function (x) { x.classList.toggle('on', x === b); });
+      filter = b.getAttribute('data-f');
+      render();
+    });
+  });
+  document.getElementById('q').addEventListener('input', render);
+
+  Promise.all([
+    fetch('./changelog.json?v=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : { entries: [] }; }),
+    fetch('./meta.json?v=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
+  ]).then(function (res) {
+    entries = (res[0] && res[0].entries) || [];
+    var meta = res[1] || {};
+    document.getElementById('head-sub').textContent = meta.generatedAt
+      ? '마지막 확인 ' + kst(meta.generatedAt, true)
+      : '';
+    fillSelect();
+    select(fromUrl(), false);
+  }).catch(function (e) {
+    document.getElementById('head-sub').textContent = '내역을 불러오지 못했습니다.';
+    console.error(e);
+  });
+})();
+</script>
+<script>
+  /* 끼워 넣어진 경우: 내용 높이가 바뀔 때마다 메인에 알린다 */
+  (function () {
+    if (!window.RR_EMBEDDED) return;
+    var last = 0;
+    function report() {
+      /* 문서 전체 높이(=iframe 높이 이상)가 아니라 내용 높이를 잰다 — 내용이 줄면 iframe 도 줄어들게 */
+      var h = Math.ceil(document.body.getBoundingClientRect().height) + 24;
+      if (Math.abs(h - last) > 2) { last = h; window.parent.postMessage({ rr: 'embed-height', h: h }, location.origin); }
+    }
+    if (window.ResizeObserver) new ResizeObserver(report).observe(document.body);
+    window.addEventListener('load', report);
+    setInterval(report, 1000);
+    /* 사이트 안 다른 페이지로 가는 링크는 메인의 해당 탭으로 바꾼다 */
+    var TAB = { 'history.html': 'history', 'watch.html': 'watch', '': 'overview', 'index.html': 'overview' };
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href]');
+      if (!a || a.target === '_blank') return;
+      var u = new URL(a.href, location.href);
+      if (u.origin !== location.origin) return;
+      var name = u.pathname.split('/').pop();
+      if (TAB[name] == null) return;
+      e.preventDefault();
+      window.parent.postMessage({ rr: 'go-tab', tab: TAB[name] }, location.origin);
+    });
+  })();
+</script>
+</body>
+</html>

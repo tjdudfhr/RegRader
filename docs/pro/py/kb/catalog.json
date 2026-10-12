@@ -1,0 +1,836 @@
+{
+  "version": 1,
+  "numbers": [
+    {
+      "id": "employees",
+      "label": "상시근로자 수",
+      "unit": "명",
+      "placeholder": "예: 120"
+    },
+    {
+      "id": "assets",
+      "label": "자산총액",
+      "unit": "억원",
+      "placeholder": "예: 800"
+    }
+  ],
+  "flags": [
+    {
+      "id": "listed",
+      "label": "상장회사 (유가증권·코스닥)"
+    },
+    {
+      "id": "audited",
+      "label": "외부감사 대상 (감사보고서 제출)"
+    },
+    {
+      "id": "group",
+      "label": "공시대상기업집단 소속 (대기업 계열사)"
+    }
+  ],
+  "sections": [
+    {
+      "id": "industry",
+      "label": "업종",
+      "options": [
+        {
+          "id": "ind:chem",
+          "label": "화학·석유화학 제조"
+        },
+        {
+          "id": "ind:refinery",
+          "label": "석유 정제 (정유)"
+        },
+        {
+          "id": "ind:agrochem",
+          "label": "비료·농약 제조"
+        },
+        {
+          "id": "ind:metal",
+          "label": "1차 금속·금속가공 제조"
+        },
+        {
+          "id": "ind:electronics",
+          "label": "전기·전자·이차전지 제조"
+        },
+        {
+          "id": "ind:semiconductor",
+          "label": "반도체 제조·설계"
+        },
+        {
+          "id": "ind:machinery",
+          "label": "기계·장비·자동차부품 제조"
+        },
+        {
+          "id": "ind:mineral",
+          "label": "시멘트·내화물·유리 등 비금속광물 제조"
+        },
+        {
+          "id": "ind:food",
+          "label": "식품·음료 제조"
+        },
+        {
+          "id": "ind:pharma",
+          "label": "의약품 제조"
+        },
+        {
+          "id": "ind:cosmetics",
+          "label": "화장품 제조·판매"
+        },
+        {
+          "id": "ind:construction",
+          "label": "건설업"
+        },
+        {
+          "id": "ind:logistics",
+          "label": "물류·화물운송"
+        },
+        {
+          "id": "ind:it",
+          "label": "IT·소프트웨어·플랫폼"
+        },
+        {
+          "id": "ind:retail",
+          "label": "도소매·유통"
+        },
+        {
+          "id": "ind:bank",
+          "label": "은행 (시중·지방·특수은행)"
+        },
+        {
+          "id": "ind:savings_bank",
+          "label": "상호저축은행"
+        },
+        {
+          "id": "ind:internet_bank",
+          "label": "인터넷전문은행"
+        },
+        {
+          "id": "ind:credit",
+          "label": "신용카드·할부·리스·여신금융"
+        },
+        {
+          "id": "ind:securities",
+          "label": "증권·자산운용·투자자문·신탁"
+        },
+        {
+          "id": "ind:insurance",
+          "label": "보험 (보험사·보험대리점·중개)"
+        },
+        {
+          "id": "ind:fin_holding",
+          "label": "금융지주회사"
+        },
+        {
+          "id": "ind:fin_service",
+          "label": "기타 금융 지원 서비스 (손해사정·금융 중개 등)"
+        },
+        {
+          "id": "ind:virtual_asset",
+          "label": "가상자산사업자 (거래소·보관·지갑)"
+        },
+        {
+          "id": "ind:energy",
+          "label": "전기·가스·열 공급 (발전·도시가스·집단에너지)"
+        },
+        {
+          "id": "ind:nuclear",
+          "label": "원자력 발전·핵연료·방사성폐기물"
+        },
+        {
+          "id": "ind:fuel",
+          "label": "주유소·연료 판매·가스 충전"
+        },
+        {
+          "id": "ind:telecom",
+          "label": "통신 (기간·부가통신)"
+        },
+        {
+          "id": "ind:broadcast",
+          "label": "방송·영화·음악·공연 (콘텐츠)"
+        },
+        {
+          "id": "ind:game",
+          "label": "게임 개발·게임장"
+        },
+        {
+          "id": "ind:aviation",
+          "label": "항공 운송"
+        },
+        {
+          "id": "ind:shipping",
+          "label": "해운·항만 하역"
+        },
+        {
+          "id": "ind:passenger",
+          "label": "버스·택시 여객운송"
+        },
+        {
+          "id": "ind:railway",
+          "label": "철도 운영·철도차량 제조"
+        },
+        {
+          "id": "ind:travel",
+          "label": "여행업"
+        },
+        {
+          "id": "ind:hospitality",
+          "label": "숙박·음식점"
+        },
+        {
+          "id": "ind:wholesale",
+          "label": "도매·상품 중개"
+        },
+        {
+          "id": "ind:auto_sales",
+          "label": "자동차 판매·정비"
+        },
+        {
+          "id": "ind:realestate",
+          "label": "부동산 개발·임대·중개"
+        },
+        {
+          "id": "ind:professional",
+          "label": "법무·회계·세무·컨설팅"
+        },
+        {
+          "id": "ind:engineering",
+          "label": "엔지니어링·건축설계·측량"
+        },
+        {
+          "id": "ind:testing",
+          "label": "시험·검사·분석"
+        },
+        {
+          "id": "ind:advertising",
+          "label": "광고"
+        },
+        {
+          "id": "ind:staffing",
+          "label": "인력공급·근로자파견·고용알선"
+        },
+        {
+          "id": "ind:security_service",
+          "label": "경비·보안 서비스"
+        },
+        {
+          "id": "ind:cleaning",
+          "label": "건물 청소·소독·방역"
+        },
+        {
+          "id": "ind:education",
+          "label": "학원·교육 서비스"
+        },
+        {
+          "id": "ind:medical",
+          "label": "병원·의원 (의료기관)"
+        },
+        {
+          "id": "ind:veterinary",
+          "label": "동물병원"
+        },
+        {
+          "id": "ind:welfare",
+          "label": "사회복지·요양·보육 시설"
+        },
+        {
+          "id": "ind:waste",
+          "label": "폐기물 수집·운반·처리, 하수 처리"
+        },
+        {
+          "id": "ind:leisure",
+          "label": "체육시설·오락·관광시설"
+        },
+        {
+          "id": "ind:personal_service",
+          "label": "미용·세탁·목욕·장례·예식"
+        },
+        {
+          "id": "ind:agri",
+          "label": "농업·축산·임업"
+        },
+        {
+          "id": "ind:fishery",
+          "label": "어업·양식·수산가공"
+        },
+        {
+          "id": "ind:mining",
+          "label": "광업·채석"
+        },
+        {
+          "id": "ind:textile",
+          "label": "섬유·의복·가죽 제조"
+        },
+        {
+          "id": "ind:printing",
+          "label": "인쇄·출판·신문·잡지"
+        },
+        {
+          "id": "ind:auto_mfg",
+          "label": "자동차·부품 제조"
+        },
+        {
+          "id": "ind:shipbuilding",
+          "label": "선박 건조·선박 부품 제조"
+        },
+        {
+          "id": "ind:aerospace",
+          "label": "항공기·우주선·부품 제조"
+        },
+        {
+          "id": "ind:defense",
+          "label": "방위산업 (방산물자·군용기 생산)"
+        },
+        {
+          "id": "ind:liquor_tobacco",
+          "label": "주류·담배 제조·유통"
+        },
+        {
+          "id": "ind:medical_device",
+          "label": "의료기기 제조·판매"
+        },
+        {
+          "id": "ind:recycling",
+          "label": "재생원료·고철 수집·가공"
+        },
+        {
+          "id": "ind:holding",
+          "label": "지주회사 (비금융)"
+        }
+      ]
+    },
+    {
+      "id": "site",
+      "label": "사업장",
+      "options": [
+        {
+          "id": "site:factory",
+          "label": "공장 (제조시설)"
+        },
+        {
+          "id": "site:office",
+          "label": "사무실"
+        },
+        {
+          "id": "site:lab",
+          "label": "연구소·실험실"
+        },
+        {
+          "id": "site:warehouse",
+          "label": "물류창고"
+        },
+        {
+          "id": "site:construction",
+          "label": "건설 현장"
+        },
+        {
+          "id": "site:cafeteria",
+          "label": "직원식당 (집단급식소)"
+        },
+        {
+          "id": "site:complex",
+          "label": "산업단지 입주"
+        },
+        {
+          "id": "site:owned",
+          "label": "사업장 건물·토지 소유"
+        }
+      ]
+    },
+    {
+      "id": "permit",
+      "label": "인허가·신고",
+      "options": [
+        {
+          "id": "permit:air",
+          "label": "대기오염물질 배출시설"
+        },
+        {
+          "id": "permit:water",
+          "label": "폐수 배출시설"
+        },
+        {
+          "id": "permit:noise",
+          "label": "소음·진동 배출시설"
+        },
+        {
+          "id": "permit:odor",
+          "label": "악취 배출시설 (신고대상)"
+        },
+        {
+          "id": "permit:integrated",
+          "label": "환경오염시설 통합허가"
+        },
+        {
+          "id": "permit:waste",
+          "label": "사업장폐기물 배출자"
+        },
+        {
+          "id": "permit:designated_waste",
+          "label": "지정폐기물 배출"
+        },
+        {
+          "id": "permit:hazchem",
+          "label": "유해화학물질 영업허가 (제조·사용·판매·보관·운반)"
+        },
+        {
+          "id": "permit:dangerous",
+          "label": "위험물 제조소·저장소·취급소 설치허가"
+        },
+        {
+          "id": "permit:gas",
+          "label": "고압가스 제조·저장 허가·신고"
+        },
+        {
+          "id": "permit:soil",
+          "label": "특정토양오염관리대상시설 (유류·유해물질 저장)"
+        },
+        {
+          "id": "permit:radiation",
+          "label": "방사선발생장치·방사성동위원소 사용허가·신고"
+        },
+        {
+          "id": "permit:factory",
+          "label": "공장 등록"
+        },
+        {
+          "id": "permit:dust",
+          "label": "비산먼지 발생사업 신고 (야적·싣기 등)"
+        }
+      ]
+    },
+    {
+      "id": "equipment",
+      "label": "설비",
+      "options": [
+        {
+          "id": "eq:boiler",
+          "label": "보일러"
+        },
+        {
+          "id": "eq:pressure",
+          "label": "압력용기"
+        },
+        {
+          "id": "eq:crane",
+          "label": "크레인·호이스트"
+        },
+        {
+          "id": "eq:forklift",
+          "label": "지게차"
+        },
+        {
+          "id": "eq:vehicle",
+          "label": "업무용 차량 보유·운행"
+        },
+        {
+          "id": "eq:lift",
+          "label": "리프트·곤돌라"
+        },
+        {
+          "id": "eq:elevator",
+          "label": "승강기 (엘리베이터)"
+        },
+        {
+          "id": "eq:exhaust",
+          "label": "국소배기장치"
+        },
+        {
+          "id": "eq:robot",
+          "label": "산업용 로봇·컨베이어"
+        },
+        {
+          "id": "eq:press",
+          "label": "프레스·전단기"
+        },
+        {
+          "id": "eq:power",
+          "label": "자가용 전기설비 (수전설비)"
+        },
+        {
+          "id": "eq:refrigeration",
+          "label": "냉동설비 (고압가스)"
+        },
+        {
+          "id": "eq:lpg",
+          "label": "LPG 저장·사용 시설"
+        },
+        {
+          "id": "eq:citygas",
+          "label": "도시가스 사용시설"
+        },
+        {
+          "id": "eq:tank",
+          "label": "유류 저장탱크"
+        },
+        {
+          "id": "eq:water_tank",
+          "label": "저수조 (물탱크)"
+        },
+        {
+          "id": "eq:drinking",
+          "label": "지하수 음용시설·공용 정수기"
+        },
+        {
+          "id": "eq:groundwater",
+          "label": "지하수 개발·이용 (관정)"
+        },
+        {
+          "id": "eq:diesel",
+          "label": "경유 차량 보유"
+        }
+      ]
+    },
+    {
+      "id": "substance",
+      "label": "취급 물질",
+      "options": [
+        {
+          "id": "sub:hazchem",
+          "label": "유해화학물질 (유독·허가·제한·금지·사고대비물질)"
+        },
+        {
+          "id": "sub:newchem",
+          "label": "화학물질 제조·수입 (연 1톤 이상 등록 대상 포함)"
+        },
+        {
+          "id": "sub:special_chem",
+          "label": "특수관리 화학물질 (화학무기협약 특정화학물질·오존층파괴물질·마약류 원료물질)"
+        },
+        {
+          "id": "sub:dangerous",
+          "label": "위험물 (인화성 액체 등)"
+        },
+        {
+          "id": "sub:gas",
+          "label": "고압가스"
+        },
+        {
+          "id": "sub:radioactive",
+          "label": "방사성물질"
+        },
+        {
+          "id": "sub:pops",
+          "label": "잔류성 오염물질 (PCBs 함유 설비 등)"
+        },
+        {
+          "id": "sub:biocide",
+          "label": "생활화학제품·살생물제(처리제품) 제조·수입"
+        }
+      ]
+    },
+    {
+      "id": "activity",
+      "label": "사업 활동",
+      "options": [
+        {
+          "id": "act:export",
+          "label": "수출입"
+        },
+        {
+          "id": "act:overseas",
+          "label": "해외법인·해외 특수관계자 거래"
+        },
+        {
+          "id": "act:foreign_investment",
+          "label": "외국인투자기업 (외국인투자 촉진법 등록)"
+        },
+        {
+          "id": "act:subcontract",
+          "label": "제조·수리·건설 하도급 (위탁)"
+        },
+        {
+          "id": "act:dealer",
+          "label": "대리점 운영"
+        },
+        {
+          "id": "act:ad",
+          "label": "제품 표시·광고"
+        },
+        {
+          "id": "act:consumer_online",
+          "label": "소비자 대상 온라인 판매"
+        },
+        {
+          "id": "act:b2c",
+          "label": "일반 소비자 대상 판매·서비스 (B2C)"
+        },
+        {
+          "id": "act:direct_sales",
+          "label": "방문·전화권유·다단계 판매"
+        },
+        {
+          "id": "act:online",
+          "label": "웹사이트·앱 회원 서비스"
+        },
+        {
+          "id": "act:si",
+          "label": "시스템 통합(SI)·소프트웨어 개발 용역"
+        },
+        {
+          "id": "act:cloud",
+          "label": "클라우드·호스팅·데이터센터 서비스 제공"
+        },
+        {
+          "id": "act:esign",
+          "label": "전자서명 인증 서비스 (사설인증서·본인확인)"
+        },
+        {
+          "id": "act:fin_group",
+          "label": "금융지주회사의 자회사"
+        },
+        {
+          "id": "act:lodging",
+          "label": "숙박업 (호텔·콘도·모텔)"
+        },
+        {
+          "id": "act:film",
+          "label": "영화·드라마·방송프로그램 제작·배급·상영"
+        },
+        {
+          "id": "act:music",
+          "label": "음반·음원 제작·연예기획"
+        },
+        {
+          "id": "act:performance",
+          "label": "공연 기획·공연장 운영"
+        },
+        {
+          "id": "act:news",
+          "label": "신문·잡지·인터넷신문 발행"
+        },
+        {
+          "id": "act:meat",
+          "label": "도축·육류 가공·식육 판매"
+        },
+        {
+          "id": "act:dairy",
+          "label": "원유·유가공품 생산"
+        },
+        {
+          "id": "act:feed",
+          "label": "사료 제조"
+        },
+        {
+          "id": "act:ginseng",
+          "label": "인삼·홍삼 제조"
+        },
+        {
+          "id": "act:parcel",
+          "label": "택배·소화물 배송"
+        },
+        {
+          "id": "act:taxi",
+          "label": "택시 운송"
+        },
+        {
+          "id": "act:bio_material",
+          "label": "혈액·인체조직·세포·유전자 치료제 취급"
+        },
+        {
+          "id": "act:vc",
+          "label": "창업투자·벤처투자 (벤처투자회사·벤처투자조합)"
+        },
+        {
+          "id": "act:ai",
+          "label": "인공지능 서비스 개발·제공 (생성형·고영향 AI)"
+        },
+        {
+          "id": "act:location",
+          "label": "위치정보 수집·이용 (위치기반서비스·차량관제)"
+        },
+        {
+          "id": "act:epay",
+          "label": "전자지급결제대행·선불충전 (PG·간편결제)"
+        },
+        {
+          "id": "act:broadcaster",
+          "label": "방송사업 허가·승인·등록 (지상파·유료방송·채널)"
+        },
+        {
+          "id": "act:construction_order",
+          "label": "건설공사 발주"
+        },
+        {
+          "id": "act:public_contract",
+          "label": "국가·지자체·공공기관 입찰·계약"
+        },
+        {
+          "id": "act:rnd",
+          "label": "연구개발·특허 (직무발명)"
+        },
+        {
+          "id": "act:animal_test",
+          "label": "동물실험 수행 (실험동물 사용)"
+        },
+        {
+          "id": "act:gov_fund",
+          "label": "정부 R&D 과제·보조금·출연금 수령"
+        },
+        {
+          "id": "act:core_tech",
+          "label": "국가핵심기술·첨단전략기술 보유"
+        },
+        {
+          "id": "act:critical_infra",
+          "label": "국가핵심기반·주요정보통신기반시설·비상대비 중점관리업체 지정"
+        },
+        {
+          "id": "act:dispatch",
+          "label": "파견근로자 사용"
+        },
+        {
+          "id": "act:fixed_term",
+          "label": "기간제·단시간 근로자 고용"
+        },
+        {
+          "id": "act:union",
+          "label": "노동조합 있음"
+        },
+        {
+          "id": "act:ghg",
+          "label": "온실가스 배출권 할당·목표관리 대상"
+        },
+        {
+          "id": "act:energy",
+          "label": "에너지다소비사업자 (연 2,000 TOE 이상)"
+        },
+        {
+          "id": "act:partner",
+          "label": "대기업과 위탁·협력 거래"
+        },
+        {
+          "id": "act:product",
+          "label": "제조물 공급 (B2B 포함)"
+        },
+        {
+          "id": "act:emc",
+          "label": "전기·전자기기 제조·수입 (전자파 적합성평가·KC 전파인증 대상)"
+        },
+        {
+          "id": "act:ks",
+          "label": "KS 인증 제품 생산"
+        },
+        {
+          "id": "act:kids_product",
+          "label": "어린이제품 (13세 이하용) 제조·수입·판매"
+        },
+        {
+          "id": "act:health_food",
+          "label": "건강기능식품 제조·수입·판매"
+        },
+        {
+          "id": "act:foreign_worker",
+          "label": "외국인 근로자 고용"
+        },
+        {
+          "id": "act:guard",
+          "label": "청원경찰 배치 (청원주)"
+        },
+        {
+          "id": "act:franchise",
+          "label": "가맹사업 (가맹본부)"
+        },
+        {
+          "id": "act:standard_terms",
+          "label": "정형화된 약관·표준계약서로 거래"
+        },
+        {
+          "id": "act:brand",
+          "label": "자체 상호·브랜드(상표) 사용"
+        },
+        {
+          "id": "act:port",
+          "label": "항만 하역·해역으로 배출"
+        },
+        {
+          "id": "act:plant_construction",
+          "label": "공장 신·증설 계획 (환경영향평가 규모)"
+        },
+        {
+          "id": "act:welfare_fund",
+          "label": "사내근로복지기금·우리사주·선택적 복지"
+        },
+        {
+          "id": "act:food_mfg",
+          "label": "식품제조가공업 영업등록 (부대 사업 포함)"
+        },
+        {
+          "id": "act:power_gen",
+          "label": "발전사업 (전기 생산)"
+        },
+        {
+          "id": "act:power_grid",
+          "label": "송전·배전·전기판매"
+        },
+        {
+          "id": "act:gas_supply",
+          "label": "가스 제조·공급 (도시가스·수소)"
+        },
+        {
+          "id": "act:district_heat",
+          "label": "집단에너지 (열·증기 공급)"
+        },
+        {
+          "id": "act:cpa",
+          "label": "회계법인·감사인"
+        },
+        {
+          "id": "act:law_firm",
+          "label": "법무법인"
+        },
+        {
+          "id": "act:tax_firm",
+          "label": "세무법인"
+        },
+        {
+          "id": "act:patent_firm",
+          "label": "특허법인"
+        },
+        {
+          "id": "act:labor_firm",
+          "label": "노무법인"
+        },
+        {
+          "id": "act:appraisal",
+          "label": "감정평가법인"
+        },
+        {
+          "id": "act:customs_broker",
+          "label": "관세법인"
+        },
+        {
+          "id": "act:liquor",
+          "label": "주류 제조·수입·도매"
+        },
+        {
+          "id": "act:tobacco",
+          "label": "담배 제조·수입·판매"
+        }
+      ]
+    }
+  ],
+  "regions": {
+    "label": "사업장 소재지",
+    "provinces": [
+      "서울",
+      "부산",
+      "대구",
+      "인천",
+      "광주",
+      "대전",
+      "울산",
+      "세종",
+      "경기",
+      "강원",
+      "충북",
+      "충남",
+      "전북",
+      "전남",
+      "경북",
+      "경남",
+      "제주"
+    ],
+    "cityPlaceholder": "시·군 (예: 포항, 광양)"
+  }
+}

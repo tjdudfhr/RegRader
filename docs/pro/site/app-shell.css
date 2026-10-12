@@ -1,0 +1,292 @@
+/* RegRader 앱 레이아웃 (미리보기)
+ *  - 얇은 상단 헤더 (첫 화면에 숫자·차트가 바로 보이게)
+ *  - 왼쪽 세로 메뉴: 분기별 · 직무별 · 적용법규 + 시행 임박 · 업데이트 내역 (스크롤해도 고정)
+ *  - 적용법규 탭의 '직무 분야' 목록은 위쪽 버튼 줄로 (사이드바 두 개가 되지 않게)
+ *  - 1100px 이하: 메뉴를 위쪽 가로 막대로 접는다
+ * HTML 은 거의 옮기지 않고 .container 의 grid 배치로 만든다 (header / summary / nav / content 네 덩어리).
+ */
+
+/* ---------- 전체 배치 ---------- */
+.container {
+  display: grid;
+  grid-template-columns: 208px minmax(0, 1fr);
+  grid-template-areas:
+    "header  header"
+    "nav     archive"
+    "nav     content";
+  /* 메뉴(화면 높이)가 archive+content 두 줄에 걸쳐 있어서, 내용이 짧은 탭(예: 분기별)이면 남는 높이가
+     비어 있는 archive 줄로 가서 내용이 아래로 밀렸다 → 남는 높이는 content 줄이 받게 한다 */
+  grid-template-rows: auto auto 1fr;
+  column-gap: 1.5rem;
+  align-items: start;
+}
+.container > .header { grid-area: header; }
+.container > .rr-archive-bar { grid-area: archive; }
+.container > .rr-summary { grid-area: summary; min-width: 0; }
+.container > .main-tab-navigation { grid-area: nav; }
+.container > .tab-content { grid-area: content; min-width: 0; }
+
+/* ---------- 얇은 헤더 ---------- */
+.header {
+  min-height: 0;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: left;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.25rem;
+  border-radius: 18px;
+}
+.header .header-content {
+  flex: 0 1 auto;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.75rem;
+  transform: none;
+}
+.header h1 {
+  font-size: 1.7rem;
+  margin: 0;
+  letter-spacing: -0.02em;
+  text-shadow: none;
+}
+.header .subtitle {
+  font-size: 0.95rem;
+  margin: 0;
+  opacity: 0.9;
+}
+.header .meta {
+  margin: 0 0 0 auto;
+  padding: 0 12rem 0 0;          /* 오른쪽 아이콘 버튼 자리 */
+  border-top: none;
+  align-self: center;
+  text-align: right;
+  font-size: 0.8rem;
+}
+.header .settings-btn {
+  width: 38px;
+  height: 38px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.header .settings-btn:hover { transform: translateY(-50%) scale(1.06); }
+.header .settings-btn svg { width: 17px; height: 17px; }
+
+/* ---------- 왼쪽 메뉴 ---------- */
+.main-tab-navigation {
+  position: sticky;
+  top: 1rem;
+  margin: 0;
+  padding: 0.9rem 0.6rem;
+  min-height: calc(100vh - 2rem);   /* 세로로 화면을 채우는 사이드바 */
+  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--bg-card);
+  box-shadow: 0 8px 28px rgba(31, 38, 135, 0.08);
+}
+.main-tab-navigation .nav-caption {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding: 0.35rem 0.6rem 0.4rem;
+}
+.main-tab-navigation .nav-sep { height: 1px; background: var(--border); margin: 0.9rem 0.4rem; }
+.main-tab-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.main-tab, .main-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 0.55rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.main-tab { box-shadow: none; }
+.main-tab::after {                 /* 선택 표시: 왼쪽 세로 막대 */
+  left: -0.6rem;
+  right: auto;
+  top: 0.55rem;
+  bottom: 0.55rem;
+  width: 4px;
+  height: auto;
+  border-radius: 0 4px 4px 0;
+}
+.main-tab:hover, .main-link:hover { background: var(--bg-primary); color: var(--text-primary); }
+.main-tab:hover::after { background: transparent; }
+.main-tab.active {
+  background: rgba(102, 126, 234, 0.10);
+  border-color: transparent;
+  box-shadow: none;
+}
+.main-tab .tab-icon, .main-link .tab-icon {
+  width: 34px;
+  height: 34px;
+  font-size: 1.05rem;
+  border-radius: 10px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+}
+.main-tab .tab-text, .main-link .tab-text { font-size: 0.88rem; font-weight: 700; white-space: nowrap; }
+.main-tab .tab-desc { display: none; }
+.main-tab .tab-badge, .main-link .tab-badge {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.12rem 0.45rem;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.main-link .tab-badge.hot { color: #c53030; border-color: rgba(229, 62, 62, 0.45); background: rgba(229, 62, 62, 0.08); }
+.main-link .ext { margin-left: auto; font-size: 0.8rem; color: var(--text-muted); }
+.main-link .tab-badge + .ext { margin-left: 0.25rem; }
+
+/* ---------- 요약 카드 간격 ---------- */
+.rr-summary > div { margin-bottom: 1.25rem !important; }
+
+/* ---------- 적용법규 탭: 직무 분야를 위쪽 버튼 줄로 ---------- */
+#lawregistry-content .job-function-list + * { margin-top: 0; }
+#lawregistry-content .law-registry-view > div[style*="padding: 1.2rem"]:has(.job-function-list) { margin-bottom: 1.25rem; }
+#lawregistry-content .law-registry-view > div[style*="grid-template-columns: 320px"] {
+  grid-template-columns: 1fr !important;
+  min-height: 0 !important;
+}
+#lawregistry-content .job-function-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+#lawregistry-content .job-function-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.8rem;
+  margin: 0;
+  width: auto;
+}
+
+/* ---------- 좁은 화면: 메뉴를 위쪽 가로 막대로 ---------- */
+@media (max-width: 1100px) {
+  .container {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "header" "nav" "archive" "content";
+    grid-template-rows: none;
+  }
+  .main-tab-navigation {
+    top: 0;
+    z-index: 50;
+    min-height: 0;
+    padding: 0.4rem;
+    margin-bottom: 1rem;
+    border-radius: 14px;
+    overflow-x: auto;
+  }
+  .main-tab-navigation .nav-caption, .main-tab-navigation .nav-sep { display: none; }
+  .main-tab-container { flex-direction: row; align-items: center; }
+  /* 위쪽 가로 막대에서는 로그인 표시를 빼고(대응 현황 탭·팝업에서 로그인), 탭을 낮게 */
+  .main-tab-navigation .rr-trk-who { display: none; }
+  .main-tab, .main-link { padding: 0.45rem 0.7rem; flex: none; }
+  .main-tab .tab-icon, .main-link .tab-icon { width: 28px; height: 28px; font-size: 0.95rem; border-radius: 8px; }
+  .main-tab::after { left: 0.6rem; right: 0.6rem; top: auto; bottom: -0.4rem; width: auto; height: 3px; border-radius: 3px 3px 0 0; }
+  .main-tab .tab-badge, .main-link .tab-badge { display: none; }
+  .header .subtitle { display: none; }
+  .header .meta { padding-right: 11rem; }
+}
+@media (max-width: 700px) {
+  .header .meta { display: none; }
+  .main-tab .tab-text, .main-link .tab-text { font-size: 0.85rem; }
+}
+
+/* ---------- 시행 임박 · 업데이트 내역 탭 (끼워 넣은 페이지) ---------- */
+iframe.rr-embed {
+  display: block;
+  width: 100%;
+  min-height: 600px;
+  border: 0;
+  background: transparent;
+  color-scheme: normal;
+}
+/* 종합 현황 탭: 요약 카드들과 '개정 분석' 상자 사이를 띄운다 */
+#overview-content .rr-summary > div:last-child { margin-bottom: 1.75rem !important; }
+
+/* ---------- 직무 버튼 (직무별 현황 · 직무 분야): 작게 줄여 한 줄에 9개 ---------- */
+#business-content .business-filter { padding: 1.1rem 1.25rem; }
+#business-content .filter-tabs,
+#lawregistry-content .job-function-list {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+#business-content .filter-tab,
+#lawregistry-content .job-function-item {
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem 0.3rem;
+  font-size: 0.78rem;
+  border-radius: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+#lawregistry-content .job-function-item { gap: 0.3rem; }
+/* 한 줄에 9개가 들어가도록 아이콘은 숨기고 개수는 작은 글자로 */
+#lawregistry-content .job-function-item .job-icon { display: none; }
+#lawregistry-content .job-function-item .job-name { overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+#lawregistry-content .job-function-item .job-count { font-size: 0.72rem; padding: 0; background: none !important; border: 0; color: inherit; opacity: 0.7; font-weight: 700; }
+@media (max-width: 1250px) {
+  #business-content .filter-tabs,
+  #lawregistry-content .job-function-list { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
+}
+/* 전체 법령 카드: 전일 대비 */
+.rr-u-delta { font-size: 0.72rem; font-weight: 600; color: var(--text-muted); margin-top: 0.15rem; min-height: 1em; }
+.rr-u-delta.up { color: #2563eb; }
+.rr-u-delta.down { color: #c2410c; }
+/* 적용법규 탭: 계열 / 목록 보기 */
+.rr-reg-mode { display: inline-flex; gap: 2px; margin-left: auto; padding: 2px; border-radius: 10px; background: rgba(255, 255, 255, 0.18); }
+.rr-reg-mode + #job-function-count { margin-left: 0.5rem !important; }
+.rr-reg-mode button { border: 0; background: transparent; color: rgba(255, 255, 255, 0.85); font: inherit; font-size: 0.8rem; font-weight: 700; padding: 0.25rem 0.7rem; border-radius: 8px; cursor: pointer; }
+.rr-reg-mode button.on { background: #fff; color: #4c51bf; }
+.rr-rf-sum { padding: 0.75rem 1rem; font-size: 0.84rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); background: var(--bg-card); position: sticky; top: 0; z-index: 1; }
+.rr-rf-sum .warn { color: #c05621; font-weight: 700; }
+.rr-rf { padding: 0.6rem 0.75rem 0.7rem; border-bottom: 1px solid var(--border); }
+.rr-rf:last-child { border-bottom: 0; }
+.rr-rf-h { display: flex; align-items: center; gap: 0.45rem; padding: 0.15rem 0.35rem 0.35rem; font-size: 0.98rem; color: var(--text-primary); }
+.rr-rf-cat { font-size: 0.7rem; font-weight: 700; color: #fff; background: var(--c); border-radius: 999px; padding: 0.05rem 0.5rem; }
+.rr-rf-n { margin-left: auto; font-size: 0.78rem; font-weight: 700; color: var(--primary); white-space: nowrap; }
+.rr-rf-n.zero { color: var(--text-muted); font-weight: 600; }
+.rr-rf .rr-fam-row { padding-top: 5px; padding-bottom: 5px; }
+.rr-rf .rr-fam-name { font-size: 0.9rem; }
+/* 휴대폰 폭: 팝업 · 요약 칸 */
+@media (max-width: 600px) {
+  #law-modal .info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .rr-risk-dl { grid-template-columns: 1fr !important; gap: 2px 0 !important; }
+  .rr-risk-dl dd { margin: 0 0 8px !important; }
+  .rr-trk-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .rr-rp-lh { flex-wrap: wrap; }
+  .rr-rp-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .rr-q-listhead input, #rr-adm-q { min-width: 0 !important; width: 100%; }
+  .rr-q-risk, .rr-q-report { margin-left: 0 !important; }
+}
+/* 당사 적용 법규 개정 현황: 숫자 묶음은 제목 오른쪽에 (줄이 넘쳐도 오른쪽 정렬) */
+.rr-sum-nums { margin-left: auto; justify-content: flex-end; }
+/* 제목은 한 줄 그대로, 부제만 줄바꿈되며 줄어든다. 그래도 자리가 모자라면 숫자 묶음이 아랫줄 오른쪽으로 */
+.rr-sum-title { flex: 1 1 0; }
+@media (min-width: 701px) { .rr-sum-title > div > div:first-child { white-space: nowrap; } }
+@media (max-width: 700px) { .rr-sum-nums { margin-left: 0; justify-content: flex-start; } }

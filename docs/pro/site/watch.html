@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>window.RR_PRO_DATA = "https://raw.githubusercontent.com/tjdudfhr/RegRader/pro-data/"; window.RR_PRO_HOME = "../";</script><script src="../company-mode.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RegRader · 시행 임박 법령</title>
+<style>
+  /* 색상은 메인(index.html)과 같은 변수를 쓴다. 다크 모드도 메인과 같은 방식(시스템 설정)을 따른다. */
+  :root {
+    --primary: #667eea;
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --bg-primary: #f7fafc;
+    --bg-card: #ffffff;
+    --bg-glass: rgba(255, 255, 255, 0.7);
+    --border: #e2e8f0;
+    --chip: #edf2f7;
+    --urgent: #e53e3e;  --urgent-bg: rgba(229, 62, 62, 0.10);
+    --soon: #dd6b20;    --soon-bg: rgba(221, 107, 32, 0.10);
+    --later: #805ad5;   --later-bg: rgba(128, 90, 213, 0.10);
+    --done: #38a169;    --done-bg: rgba(56, 161, 105, 0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    background: var(--bg-primary);
+    background-image: radial-gradient(circle at 25% 25%, #667eea22 0%, transparent 50%),
+                      radial-gradient(circle at 75% 75%, #f093fb22 0%, transparent 50%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 16px; }
+  .glass {
+    background: var(--bg-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow);
+  }
+
+  header {
+    background: var(--primary-gradient);
+    color: #fff;
+    border-radius: 24px;
+    padding: 22px 24px 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    margin-bottom: 18px;
+  }
+  header a.back { color: #fff; opacity: .85; text-decoration: none; font-size: .88rem; }
+  header a.back:hover { opacity: 1; }
+  header h1 { margin: 8px 0 4px; font-size: 1.65rem; font-weight: 800; letter-spacing: -0.01em; }
+  header p { opacity: .9; font-size: .9rem; }
+
+  /* 긴급도 요약 */
+  .tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 18px; }
+  .tier { padding: 14px 16px; position: relative; overflow: hidden; }
+  .tier::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--c, var(--primary)); }
+  .tier b { display: block; font-size: 1.9rem; font-weight: 800; color: var(--c, var(--text-primary)); font-variant-numeric: tabular-nums; line-height: 1.2; }
+  .tier span { color: var(--text-muted); font-size: .82rem; font-weight: 500; }
+  .tier.urgent { --c: var(--urgent); }
+  .tier.soon { --c: var(--soon); }
+  .tier.later { --c: var(--later); }
+  .pulse { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--urgent); margin-left: 6px; vertical-align: middle; animation: pulse 1.6s ease-out infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(229, 62, 62, .55); } 100% { box-shadow: 0 0 0 10px rgba(229, 62, 62, 0); } }
+  @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+
+  /* 탭: 메인의 main-tab 과 같은 모양 */
+  .tabs { display: grid; grid-template-columns: repeat(5, 1fr); scroll-margin-top: 12px; gap: 6px; padding: 6px; margin-bottom: 12px; }
+  .tab {
+    border: 1px solid transparent; background: transparent; color: var(--text-secondary);
+    border-radius: 12px; padding: 11px 8px; font: 600 .95rem 'Inter', -apple-system, sans-serif; cursor: pointer;
+    transition: all .25s ease;
+  }
+  .tab:hover { background: var(--chip); }
+  .tab.on { background: var(--primary-gradient); color: #fff; border-color: var(--primary); box-shadow: 0 4px 16px rgba(102, 126, 234, .3); }
+  .tab .n { font-size: .78rem; opacity: .8; margin-left: 4px; font-weight: 500; }
+
+  .searchrow { display: flex; gap: 8px; align-items: stretch; margin-bottom: 16px; }
+  .searchrow .search { margin-bottom: 0; flex: 1; min-width: 0; }
+  .risk-toggle { border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary); border-radius: 12px; padding: 0 14px; font: 700 .85rem 'Inter', -apple-system, sans-serif; cursor: pointer; white-space: nowrap; }
+  .risk-toggle[aria-pressed="true"] { background: var(--urgent-bg); border-color: var(--urgent); color: var(--urgent); }
+  .rb { font-size: .72rem; font-weight: 800; padding: 3px 8px; border-radius: 999px; }
+  .rb.pen { color: #c53030; background: rgba(229,62,62,.12); } .rb.fine { color: #c05621; background: rgba(221,107,32,.13); }
+  .rb.sur { color: #975a16; background: rgba(214,158,46,.18); } .rb.san { color: #6b46c1; background: rgba(128,90,213,.13); }
+  .rb.duty { color: #2c7a7b; background: rgba(56,178,172,.15); } .rb.new { color: #2b6cb0; background: rgba(66,153,225,.13); }
+  .rb.del { color: #4a5568; background: rgba(160,174,192,.22); }
+  @media (max-width: 640px) { .searchrow { flex-direction: column; } .risk-toggle { padding: 10px 14px; } }
+  .search {
+    width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border);
+    background: var(--bg-card); color: var(--text-primary); font: 400 .95rem 'Inter', -apple-system, sans-serif; margin-bottom: 16px;
+  }
+  .search:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+
+  .section-title { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1rem; margin: 18px 4px 10px; }
+  .section-title .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+  .section-title .cnt { color: var(--text-muted); font-weight: 500; font-size: .88rem; }
+
+  .card { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 14px 16px; margin-bottom: 10px; position: relative; overflow: hidden; }
+  .card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--c, transparent); }
+  .card.urgent { --c: var(--urgent); }
+  .card.soon { --c: var(--soon); }
+  .card.later { --c: var(--later); }
+  .card.done { --c: var(--done); }
+  .title { font-weight: 700; font-size: 1.02rem; }
+  .meta { color: var(--text-muted); font-size: .83rem; }
+  .dday {
+    grid-row: 1 / span 2; grid-column: 2; align-self: start; text-align: center; min-width: 74px;
+    padding: 6px 10px; border-radius: 12px; background: var(--cbg, var(--chip)); color: var(--c, var(--text-secondary));
+  }
+  .dday b { display: block; font-size: 1.25rem; font-weight: 800; line-height: 1.2; font-variant-numeric: tabular-nums; }
+  .dday small { font-size: .72rem; font-weight: 600; }
+  .card.urgent .dday { --cbg: var(--urgent-bg); }
+  .card.soon .dday { --cbg: var(--soon-bg); }
+  .card.later .dday { --cbg: var(--later-bg); }
+  .card.done .dday { --cbg: var(--done-bg); }
+  .rest { grid-column: 1 / -1; }
+  .card[data-key] { cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+  .card[data-key]:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(31, 38, 135, .22); }
+  .card[data-key]:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  /* 메인 페이지의 법령 상세 팝업을 그대로 띄우는 투명 iframe (평소에는 숨김) */
+  #rr-popup { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: transparent; z-index: 9999; visibility: hidden; pointer-events: none; }
+  #rr-popup.open { visibility: visible; pointer-events: auto; }
+  body.rr-loading, body.rr-loading .card { cursor: progress; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 2px; }
+  .badge { font-size: .75rem; padding: 3px 9px; border-radius: 999px; background: var(--chip); color: var(--text-secondary); font-weight: 500; }
+  .badge.new { background: var(--urgent-bg); color: var(--urgent); font-weight: 700; }
+  .badge.adm { background: rgba(15, 118, 110, .10); color: #0f766e; font-weight: 700; }
+  .cat { color: #fff; font-weight: 600; }
+  .tl { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tl span { font-size: .74rem; border: 1px solid var(--border); border-radius: 8px; padding: 2px 7px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .tl span.now { border-color: var(--primary); color: var(--primary); font-weight: 600; }
+  .tl span.future { border-style: dashed; }
+  .empty { text-align: center; color: var(--text-muted); padding: 40px 16px; }
+  .note { color: var(--text-muted); font-size: .8rem; margin: 18px 4px 30px; }
+  .note a { color: var(--primary); }
+
+
+  /* 목록: 고정 높이 상자 안에서 스크롤 — 탭을 바꿔도 페이지 높이가 거의 그대로라 화면이 튀지 않는다.
+     끼워 넣은 iframe 높이는 내용으로 정해지므로 vh 대신 px 로 */
+  #list { max-height: 640px; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; padding-right: 6px; scrollbar-width: auto; }
+  #list::-webkit-scrollbar { width: 12px; }
+  #list::-webkit-scrollbar-track { background: var(--surface-3, #f1f3f6); border-radius: 10px; }
+  #list::-webkit-scrollbar-thumb { background: #9aa3b2; border: 3px solid var(--surface-3, #f1f3f6); border-radius: 10px; background-clip: padding-box; min-height: 48px; }
+  #list::-webkit-scrollbar-thumb:hover { background: #6b7385; background-clip: padding-box; }
+  #list .section-title { position: sticky; top: 0; z-index: 2; background: var(--canvas, #f3f5f8); margin: 0 !important; padding: 10px 2px 8px; }
+  #list .wlist { margin-bottom: 12px; }
+  @media (max-width: 640px) { #list { max-height: 560px; } }
+  /* 직무 칩 (숫자 = 지금 탭에서 그 직무 건수) */
+  .jobs { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 14px; }
+  .jobs button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary);
+    border-radius: 999px; padding: 5px 11px; font: 600 .82rem inherit; font-family: inherit; cursor: pointer; }
+  .jobs button i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+  .jobs button b { font-variant-numeric: tabular-nums; color: var(--text-primary); font-weight: 800; }
+  .jobs button:hover { border-color: var(--text-muted); }
+  .jobs button.on { background: var(--text-primary); border-color: var(--text-primary); color: var(--bg-card); }
+  .jobs button.on b { color: var(--bg-card); }
+  .jobs button:disabled { opacity: .4; cursor: default; }
+
+  /* 시행 전 준비 사항: 할 일 유형별로 (한 건은 가장 무거운 유형 하나로) */
+  .prep { margin-top: 28px; padding: 18px 18px 20px; }
+  .prep-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .prep-head h2 { font-size: 1.1rem; font-weight: 800; margin: 0; }
+  .prep-head .seg { margin-left: auto; display: inline-flex; background: var(--chip); border-radius: 10px; padding: 3px; gap: 2px; }
+  .prep-head .seg button { border: 0; background: none; border-radius: 8px; padding: 6px 12px; font: 600 .82rem inherit; font-family: inherit; color: var(--text-secondary); cursor: pointer; }
+  .prep-head .seg button b { margin-left: 4px; font-variant-numeric: tabular-nums; }
+  .prep-head .seg button.on { background: var(--bg-card); color: var(--text-primary); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .prep-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
+  .pg { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 14px 10px; min-width: 0; display: flex; flex-direction: column; }
+  .pg-h { display: flex; align-items: center; gap: 8px; }
+  .pg-h i { width: 10px; height: 10px; border-radius: 3px; background: var(--pc); flex: none; }
+  .pg-h b { font-size: .95rem; font-weight: 800; }
+  .pg-h .n { margin-left: auto; font-weight: 800; font-size: 1.05rem; font-variant-numeric: tabular-nums; color: var(--pc); }
+  .pg-say { margin: 8px 0 10px; font-size: .82rem; line-height: 1.55; color: var(--text-secondary); }
+  .pg-list { display: flex; flex-direction: column; max-height: 300px; overflow-y: auto; overflow-x: hidden; border-top: 1px solid var(--border); }
+  .pg.sanc { --pc: #d92d20; } .pg.duty { --pc: #c4580c; } .pg.change { --pc: #3056d3; } .pg.tidy { --pc: #6b7280; }
+  .pr { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 10px; align-items: start; width: 100%; padding: 9px 4px; border: 0; border-bottom: 1px solid var(--border);
+    background: none; text-align: left; font-family: inherit; color: inherit; cursor: pointer; }
+  .pr:last-child { border-bottom: 0; }
+  .pr:hover { background: var(--chip); }
+  .pr .dd { font-size: .74rem; font-weight: 800; text-align: center; border-radius: 7px; padding: 3px 0; font-variant-numeric: tabular-nums; background: var(--later-bg); color: var(--later); }
+  .pr .dd.u { background: var(--urgent-bg); color: var(--urgent); } .pr .dd.s { background: var(--soon-bg); color: var(--soon); }
+  .pr .pt { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .pr .pt b { font-size: .88rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pr .pt b i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: 1px; }
+  .pr .pt small { font-size: .78rem; line-height: 1.5; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .pg-none { padding: 14px 4px; font-size: .82rem; color: var(--text-muted); border-top: 1px solid var(--border); }
+  @media (max-width: 760px) { .prep-grid { grid-template-columns: 1fr; } .prep-head .seg { margin-left: 0; } }
+  @media (max-width: 760px) {
+    .an-grid { grid-template-columns: 1fr; }
+    .jr { grid-template-columns: 64px minmax(0, 1fr) 30px; }
+    .jr .nx { grid-column: 1 / -1; padding-left: 15px; }
+  }
+  @media (max-width: 640px) {
+    header h1 { font-size: 1.35rem; }
+    .tiers { grid-template-columns: repeat(2, 1fr); }
+    .tabs { grid-template-columns: repeat(3, 1fr); }
+    .dday { min-width: 62px; padding: 5px 8px; }
+    .dday b { font-size: 1.1rem; }
+  }
+</style>
+<script>
+  /* ?embed=1 : 메인 페이지의 탭 안에 끼워 넣어 보여줄 때 (제목 줄·메인으로 링크를 숨기고, 높이를 메인에 알린다) */
+  (function () {
+    if (new URLSearchParams(location.search).get('embed') === '1' && window.parent !== window) {
+      document.documentElement.classList.add('rr-embedded');
+      window.RR_EMBEDDED = true;
+    }
+  })();
+</script>
+<style>
+  html.rr-embedded body { background: transparent !important; background-image: none !important; min-height: 0 !important; }
+  html.rr-embedded .wrap { max-width: none; padding: 0; }
+  html.rr-embedded header { background: none; color: var(--text-primary); box-shadow: none; padding: 0 0 14px; margin-bottom: 8px; border-radius: 0; }
+  html.rr-embedded header a.back { display: none; }
+  /* 메인의 상단 고정 헤더(64px)에 가리지 않게 */
+  html.rr-embedded .tabs { scroll-margin-top: 80px; }
+  html.rr-embedded header h1 { margin-top: 0; font-size: 1.4rem; color: var(--text-primary); }
+  html.rr-embedded header p { color: var(--text-muted); opacity: 1; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="./system.css?v=20261001b">
+<script src="./system-ui.js?v=20260929a"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="./">← RegRader 메인으로</a>
+    <h1>시행 임박 법령</h1>
+    <p id="asof">불러오는 중…</p>
+  </header>
+
+  <div class="tiers">
+    <div class="tier glass urgent"><b id="t-urgent">–</b><span>7일 이내 시행</span></div>
+    <div class="tier glass soon"><b id="t-soon">–</b><span>8~30일 이내 시행</span></div>
+    <div class="tier glass later"><b id="t-later">–</b><span>시행예정 전체</span></div>
+    <div class="tier glass"><b id="t-all">–</b><span>당사 적용 개정</span></div>
+  </div>
+
+
+
+  <nav class="tabs glass" id="tabs">
+    <button class="tab on" data-tab="d30">30일 내 시행<span class="n" id="n-d30"></span></button>
+    <button class="tab" data-tab="up">시행예정<span class="n" id="n-up"></span></button>
+    <button class="tab" data-tab="multi">복수개정<span class="n" id="n-multi"></span></button>
+    <button class="tab" data-tab="diff">최근 변경<span class="n" id="n-diff"></span></button>
+    <button class="tab" data-tab="all">전체<span class="n" id="n-all"></span></button>
+  </nav>
+
+  <div class="searchrow">
+    <input class="search" id="q" type="search" placeholder="법령명 · 부처 · 직무 검색">
+    <button type="button" class="risk-toggle" id="risk-only" aria-pressed="false" >⚠️ 벌칙·과태료·의무 변경만</button>
+  </div>
+  <div class="jobs" id="jobs" role="group" aria-label="직무"></div>
+  <div id="list"></div>
+
+  <section class="prep glass" id="prep">
+    <div class="prep-head"><h2 id="prep-title">시행 전 준비 사항</h2>
+      <div class="seg" id="prep-scope"><button type="button" data-scope="d30" class="on">30일 내 시행<b id="ps-d30"></b></button><button type="button" data-scope="up">시행예정 전체<b id="ps-up"></b></button></div>
+    </div>
+    <div class="prep-grid" id="prep-grid"></div>
+  </section>
+
+</div>
+
+<script>
+const TODAY = (() => { const k = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' })); return new Date(k.getFullYear(), k.getMonth(), k.getDate()); })();
+let DATA = { items: [] }, PREV = { items: [] }, TAB = 'd30', JOB = null, RISK_ONLY = false;
+/* 개정 표시(벌칙·과태료·과징금·행정처분·조문 신설·의무·삭제): amend_flags.json (scripts/amend_details.py) */
+let AMEND = {};
+const AM_META = { '벌칙': 'pen', '과태료': 'fine', '과징금': 'sur', '처분': 'san', '의무': 'duty', '신설': 'new', '삭제': 'del' };
+const AM_LABEL = { '처분': '행정처분', '신설': '조문 신설', '삭제': '조문 삭제' };
+const AM_RISK = ['벌칙', '과태료', '과징금', '처분', '의무'];
+function amKey(it) { const a = it.amendmentType === '일부개정' ? '일' : it.amendmentType === '타법개정' ? '타' : (it.amendmentType || ''); return it.title + '|' + it.effectiveDate + '|' + a; }
+function amCodes(it) { const c = AMEND[amKey(it)] || []; return Object.keys(AM_META).filter(k => c.includes(k)); }
+function amRisk(it) { return amCodes(it).some(c => AM_RISK.includes(c)); }
+function amBadges(it) { return amCodes(it).map(c => `<span class="rb ${AM_META[c]}">${AM_LABEL[c] || c}</span>`).join(''); }
+const $ = s => document.querySelector(s);
+/* 직무 색: 메인(index.html head 의 rrCatColor)과 같은 검증 팔레트 */
+const CAT_COLOR = false /* 밝은 화면 고정 */
+  ? { '재무회계': '#3987e5', '인사노무': '#d95926', '환경': '#199e70', '지식재산권': '#c98500', '공정거래': '#d55181', '안전': '#008300', '지배구조': '#9085e9', '정보보호': '#e66767' }
+  : { '재무회계': '#2a78d6', '인사노무': '#eb6834', '환경': '#1baf7a', '지식재산권': '#eda100', '공정거래': '#e87ba4', '안전': '#008300', '지배구조': '#4a3aa7', '정보보호': '#e34948' };
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function daysUntil(iso) { return Math.round((new Date(iso + 'T00:00:00+09:00') - TODAY) / 86400000); }
+function keyOf(x) { return [x.title, x.effectiveDate, x.amendmentType || ''].join('|'); }
+function tierOf(d) { return d < 0 ? 'done' : d <= 7 ? 'urgent' : d <= 30 ? 'soon' : 'later'; }
+function expandMini(rows) {
+  return (rows || []).map((r, i) => ({
+    id: 'ev_' + i, title: r.t, effectiveDate: r.d, popupKey: [r.t || '', r.d || '', r.a || ''].join('|'),
+    amendmentType: r.a === '일' ? '일부개정' : (r.a === '타' ? '타법개정' : r.a),
+    status: r.s === 0 ? '현행' : '시행예정', ministry: r.m || '', categories: r.c ? [r.c] : [], kind: r.k || '',
+    /* efYd(시행일)를 붙여야 그 날 시행되는 본문이 열린다. 없으면 이미 지난 연혁 버전이 열려 '현행법이 아닙니다'가 뜬다. */
+    source: { url: !r.u ? '' : r.k ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + r.u
+      : ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u + (r.d ? '&efYd=' + String(r.d).replace(/-/g, '') : '')) }
+  }));
+}
+function enrich(items) {
+  const by = {};
+  items.forEach(it => { (by[it.title] = by[it.title] || []).push(it); });
+  Object.values(by).forEach(group => {
+    group.sort((a, b) => String(a.effectiveDate || '').localeCompare(String(b.effectiveDate || '')));
+    const past = group.filter(g => daysUntil(g.effectiveDate) <= 0).length;
+    const timeline = group.map(g => ({ effectiveDate: g.effectiveDate, amendmentType: g.amendmentType || '', status: daysUntil(g.effectiveDate) <= 0 ? '현행' : '시행예정' }));
+    group.forEach((g, i) => { g.eventIndex = i + 1; g.eventCount = group.length; g.sameTitlePastCount = past; g.sameTitleUpcomingCount = group.length - past; g.timeline = timeline; });
+  });
+  items.forEach(it => { it.daysUntil = daysUntil(it.effectiveDate); });
+  return items;
+}
+function ddayBlock(d) {
+  return `<div class="dday"><b>${d < 0 ? 'D+' + (-d) : d === 0 ? 'D-DAY' : 'D-' + d}</b></div>`;
+}
+function card(it, extra = '') {
+  const cat = (it.categories || [])[0];
+  const catBadge = cat ? `<span class="badge cat" style="background:${CAT_COLOR[cat] || '#a0aec0'}">${esc(cat)}</span>` : '';
+  /* 복수개정 탭에서만 '올해 N회'를 붙인다 */
+  const multi = TAB === 'multi' && it.eventCount > 1 ? `<span class="badge">올해 ${it.eventCount}회</span>` : '';
+  const keyAttr = it.popupKey ? ` data-key="${esc(it.popupKey)}" tabindex="0" role="button"` : '';
+  return `<article class="card wrow ${tierOf(it.daysUntil)}"${keyAttr}>
+    ${ddayBlock(it.daysUntil)}
+    <div class="wmain"><div class="title">${esc(it.title)}</div>
+      <div class="meta">${esc(String(it.ministry || '').split(',')[0])} · ${esc(it.effectiveDate)} · ${esc(it.amendmentType || '')}</div></div>
+    <div class="badges">${extra}${catBadge}${it.kind ? `<span class="badge adm">${esc(it.kind)}</span>` : ''}${amBadges(it)}${multi}</div>
+  </article>`;
+}
+function section(title, color, list, extra) {
+  if (!list.length) return '';
+  return `<div class="section-title"><span class="dot" style="--c:${color}"></span>${title}<span class="cnt">${list.length}건</span></div>` +
+    '<div class="wlist">' + list.map(it => card(it, extra)).join('') + '</div>';
+}
+function diffLists() {
+  const nowK = new Set(DATA.items.map(keyOf));
+  const prevK = new Set((PREV.items || []).map(keyOf));
+  const added = DATA.items.filter(x => !prevK.has(keyOf(x)));
+  const removed = enrich((PREV.items || []).filter(x => !nowK.has(keyOf(x))).map(x => Object.assign({}, x)));
+  return { added, removed };
+}
+function filterHit(anyJob) {
+  const q = ($('#q').value || '').trim().toLowerCase();
+  return it => (anyJob || !JOB || (it.categories || [])[0] === JOB) && (!RISK_ONLY || amRisk(it)) &&
+    (!q || (it.title + ' ' + (it.ministry || '') + ' ' + (it.categories || []).join(' ')).toLowerCase().includes(q));
+}
+/* 탭별 목록 — 탭 옆 숫자와 목록 건수가 늘 같도록 한 곳에서 만든다 (직무·검색·벌칙 필터 반영) */
+function views(anyJob) {
+  const hit = filterHit(anyJob);
+  const items = DATA.items.filter(hit);
+  const byDay = (a, b) => a.daysUntil - b.daysUntil || a.title.localeCompare(b.title);
+  const d = diffLists();
+  return {
+    d30: items.filter(it => it.daysUntil >= 0 && it.daysUntil <= 30).sort(byDay),
+    up: items.filter(it => it.daysUntil >= 0).sort(byDay),
+    multi: items.filter(it => (it.eventCount || 1) > 1).sort((a, b) => a.title.localeCompare(b.title) || a.effectiveDate.localeCompare(b.effectiveDate)),
+    all: items.slice().sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate)),
+    added: d.added.filter(hit), removed: d.removed.filter(hit)
+  };
+}
+function render() {
+  const V = views();
+  let html = '';
+  if (TAB === 'd30') {
+    html = section('7일 이내 시행', 'var(--urgent)', V.d30.filter(it => it.daysUntil <= 7)) +
+           section('8~30일 이내 시행', 'var(--soon)', V.d30.filter(it => it.daysUntil > 7));
+  } else if (TAB === 'up') {
+    html = section('7일 이내 시행', 'var(--urgent)', V.up.filter(it => it.daysUntil <= 7)) +
+           section('8~30일 이내 시행', 'var(--soon)', V.up.filter(it => it.daysUntil > 7 && it.daysUntil <= 30)) +
+           section('31일 이후 시행', 'var(--later)', V.up.filter(it => it.daysUntil > 30));
+  } else if (TAB === 'multi') {
+    html = V.multi.length ? '<div class="wlist">' + V.multi.map(it => card(it)).join('') + '</div>' : '';
+  } else if (TAB === 'all') {
+    html = section('시행예정', 'var(--later)', V.all.filter(it => it.daysUntil >= 0)) +
+           section('시행완료', 'var(--done)', V.all.filter(it => it.daysUntil < 0).reverse());
+  } else if (TAB === 'diff') {
+    html = section('직전 갱신 이후 새로 잡힌 개정', 'var(--urgent)', V.added, '<span class="badge new">NEW</span>') +
+           section('직전 갱신 이후 목록에서 빠진 개정', 'var(--text-muted)', V.removed, '<span class="badge">빠짐</span>');
+  }
+  $('#n-d30').textContent = V.d30.length;
+  $('#n-up').textContent = V.up.length;
+  $('#n-multi').textContent = V.multi.length;
+  $('#n-diff').textContent = V.added.length + V.removed.length;
+  $('#n-all').textContent = V.all.length;
+  const none = TAB === 'diff' ? '직전 갱신 이후 변경이 없습니다.' : JOB ? esc(JOB) + ' 직무에 해당하는 법령이 없습니다.' : '해당하는 법령이 없습니다.';
+  const L = $('#list');
+  L.innerHTML = html || `<div class="empty glass">${none}</div>`;
+  L.scrollTop = 0;
+  paintJobs();
+  if (window.rrReportHeight) requestAnimationFrame(window.rrReportHeight);
+}
+/* 직무 칩: 숫자 = 지금 탭(검색·벌칙 필터 포함)에서 그 직무를 누르면 나오는 건수 */
+function paintJobs() {
+  const V = views(true);
+  const cur = TAB === 'diff' ? V.added.concat(V.removed) : V[TAB] || [];
+  const n = j => cur.filter(it => jobOf(it) === j).length;
+  const jobs = CAT_ORDER.concat(Array.from(new Set(cur.map(jobOf))).filter(j => !CAT_ORDER.includes(j)));
+  $('#jobs').innerHTML = `<button type="button" data-job="" class="${JOB ? '' : 'on'}" aria-pressed="${!JOB}">전체<b>${cur.length}</b></button>` +
+    jobs.map(j => { const c = n(j); return `<button type="button" data-job="${esc(j)}" class="${JOB === j ? 'on' : ''}" aria-pressed="${JOB === j}"${c || JOB === j ? '' : ' disabled'}><i style="background:${CAT_COLOR[j] || '#a0aec0'}"></i>${esc(j)}<b>${c}</b></button>`; }).join('');
+}
+function stats() {
+  const items = DATA.items;
+  const urgent = items.filter(it => it.daysUntil >= 0 && it.daysUntil <= 7).length;
+  const soon = items.filter(it => it.daysUntil > 7 && it.daysUntil <= 30).length;
+  const up = items.filter(it => it.daysUntil >= 0).length; /* 오늘 시행분 포함 — 메인의 시행예정과 같은 기준 */
+  $('#t-urgent').innerHTML = urgent + (urgent ? '<span class="pulse" title="7일 이내 시행"></span>' : '');
+  $('#t-soon').textContent = soon;
+  $('#t-later').textContent = up;
+  $('#t-all').textContent = items.length;
+}
+const CAT_ORDER = ['재무회계', '인사노무', '환경', '지식재산권', '공정거래', '안전', '지배구조', '정보보호', '기타'];
+function jobOf(it) { return (it.categories || [])[0] || '기타'; }
+function selectTab(t) {
+  TAB = t;
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
+}
+function setJob(j) {
+  JOB = j || null;
+  render();
+  renderPrep();
+}
+
+/* ---- 시행 전 준비 사항 ----
+   시행 예정 개정을 '할 일' 유형으로 나눈다. 한 건은 가장 무거운 유형 하나에만 넣는다 (네 칸 합계 = 위 숫자).
+   근거(바뀐 조문 · 벌칙 조항 · 의무 문장)는 amend_details.json (scripts/amend_details.py, 개정문 기준) */
+let DET = null, PREP = 'd30';
+const SANC = ['벌칙', '과태료', '과징금', '처분'];
+const PREP_TYPES = [
+  ['sanc', '처벌·제재 기준 변경', '위반 시 벌칙·과태료·과징금·행정처분 기준이 바뀝니다. 해당 업무의 준수 절차와 내부 점검 항목을 확인합니다.'],
+  ['duty', '회사 의무 신설·변경', '회사가 새로 지켜야 하거나 내용이 달라지는 의무입니다. 담당 부서의 절차·교육·사내 규정에 반영합니다.'],
+  ['change', '조문·기준 내용 변경', '조문이나 별표(기준표)의 내용이 바뀝니다. 당사 업무에 적용되는 조항인지 확인합니다.'],
+  ['tidy', '타법개정 (명칭·인용 조문 변경)', '다른 법령의 제정·개정에 따라 법령명·기관명·용어·인용 조문 등이 단순 변경된 개정입니다. 사내 규정·서식에 인용된 명칭·조문만 확인합니다.']
+];
+function prepType(it) {
+  const c = amCodes(it);
+  if (c.some(x => SANC.includes(x))) return 'sanc';
+  if (c.includes('의무')) return 'duty';
+  return it.amendmentType === '타법개정' ? 'tidy' : 'change';
+}
+function clip(t, n) { t = String(t || '').replace(/\s+/g, ' ').trim(); return t.length > n ? t.slice(0, n - 1) + '…' : t; }
+function evidence(it, type) {
+  const d = DET && DET[amKey(it)];
+  if (!d) return '';
+  const arts = (d.changes && d.changes.length ? d.changes : d.articles) || [];
+  const artTxt = (list, k) => list.slice(0, k).map(a => a.ref + (a.title ? '(' + a.title + ')' : '') + (a.ops && a.ops.length ? ' ' + a.ops.join('·') : '')).join(', ') + (list.length > k ? ' 외 ' + (list.length - k) + '개' : '');
+  if (type === 'sanc') {
+    const L = { penalty: '벌칙', fine: '과태료', surcharge: '과징금', sanction: '행정처분' }, f = d.flags || {};
+    const t = Object.keys(L).filter(k => (f[k] || []).length).map(k => L[k] + ' ' + f[k].map(x => String(x.ref).replace(/\(.*$/, '')).join('·')).join(' / ');
+    return (t ? t + ' 변경' : artTxt(arts, 2)) + (amCodes(it).includes('의무') ? ' · 회사 의무 변경 포함' : '');
+  }
+  if (type === 'duty' && (d.duty || []).length) {
+    return '“' + clip(String(d.duty[0]).replace(/^제\d+조(의\d+)?\([^)]*\)\s*/, '').replace(/^[①-⑳]\s*/, ''), 120) + '”';
+  }
+  if (type === 'tidy') return arts.length ? '변경 조문 ' + arts.length + '개 · ' + arts.slice(0, 3).map(a => a.ref).join(', ') + (arts.length > 3 ? ' 등' : '') : '명칭·인용 조문 변경';
+  return arts.length ? artTxt(arts, 2) : '';
+}
+function renderPrep() {
+  const up = DATA.items.filter(it => it.daysUntil >= 0 && (!JOB || jobOf(it) === JOB));
+  const d30 = up.filter(it => it.daysUntil <= 30);
+  $('#ps-d30').textContent = d30.length;
+  $('#ps-up').textContent = up.length;
+  $('#prep-title').textContent = '시행 전 준비 사항' + (JOB ? ' · ' + JOB : '');
+  document.querySelectorAll('#prep-scope button').forEach(b => b.classList.toggle('on', b.dataset.scope === PREP));
+  const list = (PREP === 'd30' ? d30 : up).slice().sort((a, b) => a.daysUntil - b.daysUntil || a.title.localeCompare(b.title));
+  const by = {};
+  list.forEach(it => { (by[prepType(it)] = by[prepType(it)] || []).push(it); });
+  $('#prep-grid').innerHTML = PREP_TYPES.map(([k, name, say]) => {
+    const g = by[k] || [];
+    return `<div class="pg ${k}"><div class="pg-h"><i></i><b>${name}</b><span class="n">${g.length}건</span></div><p class="pg-say">${say}</p>` +
+      (g.length ? '<div class="pg-list">' + g.map(it => {
+        const d = it.daysUntil, cls = d <= 7 ? 'u' : d <= 30 ? 's' : '';
+        const ev = evidence(it, k);
+        return `<button type="button" class="pr" data-key="${esc(it.popupKey)}"><span class="dd ${cls}">${d === 0 ? 'D-DAY' : 'D-' + d}</span>` +
+          `<span class="pt"><b title="${esc(it.title)}">${JOB ? '' : `<i style="background:${CAT_COLOR[jobOf(it)] || '#a0aec0'}"></i>`}${esc(it.title)}</b>` +
+          `<small>${esc(it.effectiveDate.slice(5).replace('-', '.'))} 시행 · ${esc(it.amendmentType || '')}${ev ? ' · ' + esc(ev) : ''}</small></span></button>`;
+      }).join('') + '</div>' : '<div class="pg-none">해당하는 개정이 없습니다.</div>') + '</div>';
+  }).join('');
+}
+async function loadJSON(url) { const r = await fetch(url + '?v=' + Date.now(), { cache: 'no-store' }); if (!r.ok) throw new Error(url); return r.json(); }
+async function loadCur() {
+  /* upcoming_next.json: 연말에 미리 모아 둔 다음 해 1~2월 시행분 (연초 시행 법령도 D-30 에 잡히도록) */
+  const settled = await Promise.allSettled([0, 1, 2, 3, 4, 5, 6, 7].map(i => loadJSON('./m' + i + '.json')).concat([loadJSON('./upcoming_next.json')]));
+  let rows = [];
+  settled.forEach(s => { if (s.status === 'fulfilled' && Array.isArray(s.value) && s.value[0] && s.value[0].t) rows = rows.concat(s.value); });
+  const seen = {};
+  rows = rows.filter(r => { const k = (r.t || '') + '|' + (r.d || '') + '|' + (r.a || ''); if (seen[k]) return false; seen[k] = 1; return true; });
+  if (rows.length) return { items: expandMini(rows) };
+  const data = await loadJSON('./index.json');
+  return Array.isArray(data) ? { items: data } : data;
+}
+Promise.all([
+  loadCur(),
+  loadJSON('./previous_index.json').catch(() => ({ items: [] })),
+  loadJSON('./meta.json').catch(() => ({}))
+]).then(([cur, prev, meta]) => {
+  DATA = cur;
+  PREV = Array.isArray(prev) ? { items: prev } : prev;
+  DATA.items = enrich(DATA.items || []);
+  const today = TODAY.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' });
+  const upd = meta.generatedAt ? ' · 데이터 ' + new Date(meta.generatedAt).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' 갱신' : '';
+  $('#asof').textContent = '오늘(' + today + ') 기준 남은 날' + upd;
+  stats();
+  render();
+  renderPrep();
+  /* 준비 사항의 근거(바뀐 조문·벌칙 조항·의무 문장)는 크므로 목록을 그린 뒤 받는다 */
+  loadJSON('./amend_details.json').then(j => { DET = (j && j.items) || {}; renderPrep(); }).catch(() => {});
+}).catch(e => { $('#asof').textContent = '데이터를 불러오지 못했습니다.'; console.error(e); });
+document.querySelectorAll('.tab').forEach(btn => btn.onclick = () => { selectTab(btn.dataset.tab); render(); });
+$('#q').addEventListener('input', render);
+$('#risk-only').addEventListener('click', () => {
+  RISK_ONLY = !RISK_ONLY;
+  $('#risk-only').setAttribute('aria-pressed', String(RISK_ONLY));
+  render();
+});
+loadJSON('./amend_flags.json').then(j => { AMEND = (j && j.items) || {}; render(); if (DATA.items.length) renderPrep(); }).catch(() => {});
+$('#jobs').addEventListener('click', ev => {
+  const b = ev.target.closest('button[data-job]');
+  if (b && !b.disabled) setJob(b.dataset.job === JOB ? null : b.dataset.job);
+});
+$('#prep-scope').addEventListener('click', ev => {
+  const b = ev.target.closest('button[data-scope]');
+  if (b) { PREP = b.dataset.scope; renderPrep(); }
+});
+$('#prep').addEventListener('click', ev => {
+  const r = ev.target.closest('.pr[data-key]');
+  if (r) openPopup(r.dataset.key);
+});
+
+/* ---- 법령 상세 팝업: 메인(분기별 탭)과 똑같은 팝업을 띄운다 ---- */
+const popup = document.createElement('iframe');
+popup.id = 'rr-popup';
+popup.title = '법령 상세';
+if (!window.RR_EMBEDDED) { popup.src = './?desktop=true&embed=popup'; document.body.appendChild(popup); }
+function openPopup(key) {
+  if (window.RR_EMBEDDED) { window.parent.postMessage({ rr: 'open-law', key: key }, location.origin); return; }
+  document.body.classList.add('rr-loading');
+  popup.classList.add('open');
+  popup.contentWindow.postMessage({ rr: 'open', key }, location.origin);
+}
+window.addEventListener('message', ev => {
+  if (ev.origin !== location.origin || ev.source !== popup.contentWindow || !ev.data) return;
+  if (ev.data.rr === 'closed') { popup.classList.remove('open'); document.body.classList.remove('rr-loading'); }
+});
+popup.addEventListener('load', () => {
+  /* 팝업이 실제로 열리면 로딩 커서를 끈다 */
+  try {
+    const m = popup.contentDocument.getElementById('law-modal');
+    if (m) new MutationObserver(() => { if (m.classList.contains('show')) document.body.classList.remove('rr-loading'); })
+      .observe(m, { attributes: true, attributeFilter: ['class'] });
+  } catch (e) {}
+});
+$('#list').addEventListener('click', ev => {
+  const card = ev.target.closest('.card[data-key]');
+  if (card) openPopup(card.dataset.key);
+});
+$('#list').addEventListener('keydown', ev => {
+  if (ev.key !== 'Enter' && ev.key !== ' ') return;
+  const card = ev.target.closest('.card[data-key]');
+  if (card) { ev.preventDefault(); openPopup(card.dataset.key); }
+});
+</script>
+<script>
+  /* 끼워 넣어진 경우: 내용 높이가 바뀔 때마다 메인에 알린다 */
+  (function () {
+    if (!window.RR_EMBEDDED) return;
+    var last = 0;
+    function report() {
+      /* 문서 전체 높이(=iframe 높이 이상)가 아니라 내용 높이를 잰다 — 내용이 줄면 iframe 도 줄어들게 */
+      var h = Math.ceil(document.body.getBoundingClientRect().height) + 24;
+      if (Math.abs(h - last) > 2) { last = h; window.parent.postMessage({ rr: 'embed-height', h: h }, location.origin); }
+    }
+    window.rrReportHeight = report;
+    if (window.ResizeObserver) { var ro = new ResizeObserver(report); ro.observe(document.body); var w = document.querySelector('.wrap'); if (w) ro.observe(w); }
+    window.addEventListener('load', report);
+    setInterval(report, 1000);
+    /* 사이트 안 다른 페이지로 가는 링크는 메인의 해당 탭으로 바꾼다 */
+    var TAB = { 'history.html': 'history', 'watch.html': 'watch', '': 'overview', 'index.html': 'overview' };
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href]');
+      if (!a || a.target === '_blank') return;
+      var u = new URL(a.href, location.href);
+      if (u.origin !== location.origin) return;
+      var name = u.pathname.split('/').pop();
+      if (TAB[name] == null) return;
+      e.preventDefault();
+      window.parent.postMessage({ rr: 'go-tab', tab: TAB[name] }, location.origin);
+    });
+  })();
+</script>
+</body>
+</html>
