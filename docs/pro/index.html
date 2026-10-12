@@ -475,10 +475,7 @@
       const x = e.target.closest('.picked .x');
       if (x && x.dataset.undeny) { S.denied.delete(x.dataset.undeny); renderForm(); return; }
       if (x) { S.tags.delete(x.dataset.id); delete S.evidence[x.dataset.id]; renderForm(); return; }
-      const cand = e.target.closest('.cand');
-      if (cand) { pick(cand.dataset.key); }
     });
-    $('#find').addEventListener('submit', (e) => { e.preventDefault(); find(); });
     hero(co);
     $('#form').addEventListener('submit', (e) => { e.preventDefault(); run(); });
     $('#b-ai').addEventListener('click', () => research());
@@ -495,6 +492,25 @@
     if (on) { $('#hero-cands').appendChild(cands); setTimeout(() => $('#hq').focus(), 0); }
     else $('#find').insertAdjacentElement('afterend', cands);
   }
+  /* 검색 · 처음 화면 버튼은 페이지가 열리자마자 연결한다. 자료를 받기 전에 누르면 브라우저가 페이지를 새로 열어
+     '검색이 안 되는' 것처럼 보였다 (검색은 회사 목록만 있으면 되고, 회사를 고른 뒤의 일은 준비가 끝나면 한다). */
+  function wireEarly() {
+    $('#find').addEventListener('submit', (e) => { e.preventDefault(); find(); });
+    $('#hfind').addEventListener('submit', (e) => { e.preventDefault(); $('#q').value = $('#hq').value; find(); });
+    $('#quick').insertAdjacentHTML('beforeend', QUICK.map((q) => `<button type="button" data-q="${esc(q)}">${esc(q)}</button>`).join(''));
+    $('#quick').addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-q]');
+      if (b) { $('#hq').value = b.dataset.q; $('#q').value = b.dataset.q; find(); }
+    });
+    $('#b-manual').addEventListener('click', () => { landing(false); $('#add').open = true; });
+    $('#b-hero').addEventListener('click', () => { $('#hq').value = $('#q').value; landing(true); });
+    document.addEventListener('click', (e) => {
+      const cand = e.target.closest('.cand');
+      if (cand) pick(cand.dataset.key);
+    });
+    landing(true);
+  }
+
   function hero(co) {
     const n = (x) => Number(x).toLocaleString();
     $('#hstats').innerHTML = [
@@ -503,16 +519,7 @@
       [String((status.jobs || []).length || 9) + '개', '직무 (인사노무 · 안전 · 환경 · 재무회계 …)'],
       [co.nps ? co.nps : '–', '회사 자료 기준 (매월 갱신)'],
     ].map(([b, t]) => `<div class="hstat"><b>${esc(b)}</b><span>${esc(t)}</span></div>`).join('');
-    $('#quick').insertAdjacentHTML('beforeend', QUICK.map((q) => `<button type="button" data-q="${esc(q)}">${esc(q)}</button>`).join(''));
-    $('#quick').addEventListener('click', (e) => {
-      const b = e.target.closest('button[data-q]');
-      if (b) { $('#hq').value = b.dataset.q; $('#hfind').requestSubmit(); }
-    });
-    $('#hfind').addEventListener('submit', (e) => { e.preventDefault(); $('#q').value = $('#hq').value; find(); });
-    $('#b-manual').addEventListener('click', () => { landing(false); $('#add').open = true; });
-    $('#b-hero').addEventListener('click', () => { $('#hq').value = $('#q').value; landing(true); });
-    if (!co.ready) { landing(false); return; }   // 회사 찾기 자료가 없으면 바로 직접 입력
-    landing(true);
+    if (!co.ready) landing(false);   // 회사 찾기 자료가 없으면 바로 직접 입력
   }
 
   function toggle(group, id) {
@@ -625,6 +632,7 @@
   async function pick(key) {
     if (document.body.classList.contains('landing')) { $('#q').value = $('#hq').value; landing(false); }
     $('#cands').innerHTML = '';
+    await ready;
     try {
       const data = await post('/api/company/draft', { key });
       S.research = data.research;
@@ -1036,7 +1044,8 @@
     render();
   });
 
-  init();
+  wireEarly();
+  const ready = init();
 })();
 </script>
 </body>
