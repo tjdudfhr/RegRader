@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <script>window.RR_PRO_DATA = "https://raw.githubusercontent.com/tjdudfhr/RegRader/pro-data/"; window.RR_PRO_HOME = "../";</script><script src="../company-mode.js"></script>
+    <script src="./gate.js?v=20261012a"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RegRader · 법규 개정 모니터링</title>
@@ -88,7 +89,7 @@
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./system-ui.js?v=20261012a"></script>
+    <script src="./system-ui.js?v=20261012b"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         // EmailJS 초기화
@@ -2007,9 +2008,6 @@
                 <div class="main-tab" data-tab="lawregistry" onclick="switchMainTab('lawregistry')" role="tab" aria-selected="false">
                     <span class="tab-icon">📚</span><span class="tab-body"><span class="tab-text">적용법규</span></span>
                 </div>
-                <div class="main-tab" data-tab="pro" onclick="switchMainTab('pro')" role="tab" aria-selected="false">
-                    <span class="tab-icon">🔎</span><span class="tab-body"><span class="tab-text">기업별 적용법규</span></span>
-                </div>
                 <div class="nav-sep" aria-hidden="true"></div>
                 <div class="nav-caption">알림 · 기록</div>
                 <div class="main-tab" data-tab="tracker" onclick="switchMainTab('tracker')" role="tab" aria-selected="false">
@@ -2025,6 +2023,9 @@
                 <div class="nav-caption">안내</div>
                 <div class="main-tab" data-tab="intro" onclick="switchMainTab('intro')" role="tab" aria-selected="false">
                     <span class="tab-icon">📑</span><span class="tab-body"><span class="tab-text">시스템 소개</span></span>
+                </div>
+                <div class="main-tab" data-tab="pro" onclick="switchMainTab('pro')" role="tab" aria-selected="false">
+                    <span class="tab-icon">🔎</span><span class="tab-body"><span class="tab-text">기업별 적용법규 검색</span></span>
                 </div>
             </div>
             <div class="rr-side-foot">
@@ -2483,8 +2484,12 @@
                 </div>
             </div>
         
-            <!-- 기업별 적용법규: RegRader Pro (pro/) — 회사 이름으로 적용법규를 판정해 회사별 RegRader 를 만든다 (pro-tab.js) -->
-            <div class="tab-pane" id="pro-content"><div id="rr-pro"></div></div>
+            <!-- 기업별 적용법규 검색: 브라우저판 RegRader Pro (docs/pro/) 를 끼워 넣는다 — 회사 검색 → 판정 → 회사별 분기별·직무별 (처음 열 때 불러옴) -->
+            <div class="tab-pane" id="pro-content"><iframe class="rr-embed rr-pro-frame" data-src="../?embed=1" title="기업별 적용법규 검색"></iframe></div>
+            <style>
+                /* 탭 높이 안에서 Pro 화면이 스스로 스크롤한다 (왼쪽 검색 · 오른쪽 결과) */
+                #pro-content iframe.rr-pro-frame { height: calc(100vh - 104px); min-height: 640px; }
+            </style>
 
             <!-- 대응 현황: 직무별 담당자가 개정마다 검토·조치를 기록 (tracker.js · Supabase) -->
             <div class="tab-pane" id="tracker-content"><div id="rr-trk-dash"></div></div>
@@ -7304,7 +7309,6 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./job-analytics.js?v=20261001b"></script>
     <script src="./quarter-analytics.js?v=20261001b"></script>
     <script src="./registry-analytics.js?v=20261001a"></script>
-    <script src="./pro-tab.js?v=20261012a"></script>
 
 </body>
 </html>

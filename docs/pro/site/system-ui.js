@@ -182,11 +182,11 @@
     quarterly: ['현황', '분기별 개정 현황', 'calendar'],
     business: ['현황', '직무별 개정 현황', 'briefcase'],
     lawregistry: ['현황', '적용법규', 'book'],
-    pro: ['현황', '기업별 적용법규', 'search'],
     tracker: ['알림 · 기록', '대응 현황', 'check'],
     watch: ['알림 · 기록', '시행 임박', 'clock'],
     history: ['알림 · 기록', '업데이트 내역', 'history'],
-    intro: ['안내', '시스템 소개', 'slides']
+    intro: ['안내', '시스템 소개', 'slides'],
+    pro: ['안내', '기업별 적용법규 검색', 'search']
   };
   var ORDER = Object.keys(TABS);
   var cur = 'overview';
