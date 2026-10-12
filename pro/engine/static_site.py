@@ -330,6 +330,7 @@ def web(dest, data_url=DATA_URL, log=print):
     for name, fixes in (("index.html", [('href="/rr/"', 'href="./companies.html"')]),
                         ("companies.html", [('href="/"', 'href="./index.html"')])):
         t = (ROOT / "web" / name).read_text(encoding="utf-8").replace("</head>", pre + '<script src="./static-api.js"></script>\n</head>', 1)
+        t = re.sub(r"(<head[^>]*>)", lambda m: m.group(1) + '\n<script src="../gate.js"></script>', t, count=1)   # RegRader 화면 잠금
         for a, b in fixes:
             t = t.replace(a, b)
         (dest / name).write_text(t, encoding="utf-8")
@@ -355,6 +356,7 @@ def web(dest, data_url=DATA_URL, log=print):
         t = re.sub(r"(<head[^>]*>)", lambda m: m.group(1) + "\n" + tag, p.read_text(encoding="utf-8"), count=1)
         t = t.replace('    <script src="./pro-company.js"></script>\n', "").replace('"./intro/', '"../../intro/')
         t = t.replace("<b>RegRader Pro 에서 보낼 때 수집</b>", "<b>매일 07:00 자동 수집</b>")   # 브라우저판 자료는 매일 갱신된다
+        t = t.replace('data-src="./pro/?embed=1"', 'data-src="../?embed=1"')   # 기업별 적용법규 검색 탭: 이 사이트의 브라우저판
         p.write_text(t, encoding="utf-8")
     log(f"브라우저판 → {dest} (RegRader {head[:7]} 화면 사본 · 자료 {data_url})")
 
