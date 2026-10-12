@@ -40,3 +40,6 @@ else
   git push --quiet origin main
   echo "업로드 완료 (${COUNT}건)"
 fi
+
+# RegRader Pro 브라우저판 자료 (docs/pro/ 가 읽는 pro-data 브랜치). 실패해도 위 갱신은 이미 끝났다.
+scripts/pro_publish.sh >> "$HOME/Library/Logs/RegRader-pro.log" 2>&1 || echo "Pro 자료 갱신 실패 (로그: ~/Library/Logs/RegRader-pro.log)"

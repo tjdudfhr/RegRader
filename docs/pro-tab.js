@@ -2,14 +2,14 @@
  *
  * 회사 이름으로 공공데이터 · DART 를 조회해 현행 법률 전부를 적용 · 미적용으로 판정하고,
  * 그 회사 적용법규로 이 RegRader 와 같은 분기별 · 직무별 모니터링을 만든다.
- * Pro 는 법제처 · DART 를 조회하는 로컬 서버(pro/server.py, 국내 인터넷 PC)라
- *   - 이 사이트(GitHub Pages)에서는 그 PC 의 Pro 화면으로 가는 링크와 실행 안내만 보인다 (PC 의 데이터를 읽지 않는다)
- *   - Pro 서버가 띄운 RegRader 화면(/rr/<회사>/) 안에서는 같은 서버에서 보낸 회사 목록을 읽어 바로 보여 준다
+ *   - 이 사이트(GitHub Pages)에서 바로 된다: docs/pro/ 가 판정 엔진을 브라우저에서 돌린다 (서버 · 키 없음)
+ *   - Pro 서버(pro/server.py)가 띄운 회사별 화면(/rr/<회사>/) 안에서는 그 서버의 보낸 회사 목록을 보여 준다
  */
 (function () {
   'use strict';
   var LOCAL = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) && /^\/rr\//.test(location.pathname);
-  var PRO = LOCAL ? location.origin : 'http://127.0.0.1:8787';
+  var PRO = LOCAL ? location.origin + '/' : (location.pathname.indexOf('/pro/site/') >= 0 ? '../' : './pro/');
+  var LIST = LOCAL ? location.origin + '/rr/' : PRO + 'companies.html';
   var README = 'https://github.com/tjdudfhr/RegRader/blob/main/pro/README.md';
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -53,18 +53,19 @@
   function head() {
     return '<section class="rr-pro-card"><div class="rr-pro-head"><div><h2>기업별 적용법규</h2>' +
       '<p>RegRader Pro · 회사 이름만 넣으면 그 회사에 적용되는 법규를 찾아 RegRader 로 모니터링합니다.</p></div>' +
-      '<div class="rr-pro-acts"><a class="rr-btn pri" href="' + PRO + '/" target="_blank" rel="noopener">새 회사 판정하기</a>' +
-      '<a class="rr-btn" href="' + PRO + '/rr/" target="_blank" rel="noopener">보낸 회사 목록</a></div></div>' +
+      '<div class="rr-pro-acts"><a class="rr-btn pri" href="' + PRO + '">새 회사 판정하기</a>' +
+      '<a class="rr-btn" href="' + LIST + '">보낸 회사 목록</a></div></div>' +
       '<div class="rr-pro-steps">' + STEPS.map(function (s, i) {
         return '<div class="rr-pro-step"><i>' + (i + 1) + '</i><b>' + esc(s[0]) + '</b><span>' + esc(s[1]) + '</span></div>';
       }).join('') + '</div></section>';
   }
 
   function run() {
-    return '<section class="rr-pro-card rr-pro-run"><h3>실행</h3>' +
-      '<p>Pro 는 법제처 · DART 를 조회하는 로컬 서버라 국내 인터넷 PC 에서 켭니다. 켜 두면 위 버튼이 그 PC 의 Pro 화면을 엽니다.</p>' +
-      '<pre>cd RegRader/pro\npython3 server.py      # → http://127.0.0.1:8787</pre>' +
-      '<p>처음 한 번은 회사 찾기 자료 준비와 OpenDART 인증키 설정이 필요합니다 — <a href="' + README + '" target="_blank" rel="noopener">pro/README.md</a></p></section>';
+    return '<section class="rr-pro-card rr-pro-run"><h3>안내</h3>' +
+      '<p>이 사이트에서 바로 됩니다. 판정 엔진이 이 브라우저 안에서 돌고, 회사 정보 · 판정 결과는 어디로도 보내지 않습니다. 처음 열 때 엔진을 받느라 10~20초 걸립니다.</p>' +
+      '<p>회사 찾기에는 국민연금 가입자 30명 이상 법인과 상장사가 들어 있습니다 (공공데이터 · DART, 매월 갱신). 그 밖의 회사는 근로자 수 · 업종 · 지역을 직접 넣어 판정합니다.</p>' +
+      '<p>법령 개정 자료는 매일 07:00 이 RegRader 와 같이 갱신됩니다. 보낸 회사는 이 브라우저에 저장되어 ‘보낸 회사 목록’에서 다시 엽니다.</p>' +
+      '<p>DART 를 실시간으로 다시 조회하는 서버판(pro/server.py)도 있습니다 — <a href="' + README + '" target="_blank" rel="noopener">pro/README.md</a></p></section>';
   }
 
   function company(c) {
