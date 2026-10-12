@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<script src="../gate.js"></script>
+<script src="../gate.js?v=260f48e1"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RegRader Pro · 적용법규 자동 구성</title>
@@ -40,6 +40,52 @@
   @media (max-width: 1000px) { main { grid-template-columns: 1fr; } aside { position: static !important; max-height: none !important; } }
 
   aside { position: sticky; top: 74px; max-height: calc(100vh - 92px); overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+  /* ---------- 처음 화면: 가운데 큰 검색 창 (회사를 고르면 판정 화면으로) ---------- */
+  #hero { display: none; }
+  body.landing #hero { display: block; }
+  body.landing main, body.landing footer { display: none; }
+  #hero { padding: 28px 18px 36px; }
+  .hero-card { max-width: 980px; margin: 0 auto; border-radius: 22px; padding: 40px 40px 30px; color: #fff; position: relative; overflow: hidden;
+    background: radial-gradient(120% 140% at 0% 0%, #3a5fe0 0%, #213a9a 45%, #0f1a3a 100%); box-shadow: 0 18px 50px rgba(15, 26, 58, .28); }
+  .hero-card::after { content: ""; position: absolute; right: -80px; top: -80px; width: 320px; height: 320px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(126, 226, 168, .22), transparent 65%); pointer-events: none; }
+  .hero-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; letter-spacing: .02em; color: #c7d4ff;
+    background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .16); border-radius: 999px; padding: 4px 11px; }
+  .hero-tag i { width: 7px; height: 7px; border-radius: 50%; background: #7ee2a8; }
+  .hero-card h1 { margin: 16px 0 8px; font-size: 32px; line-height: 1.25; letter-spacing: -0.035em; font-weight: 800; }
+  .hero-card p.lead2 { margin: 0 0 22px; max-width: 640px; color: #c7d4ff; font-size: 15px; line-height: 1.6; }
+  .hsearch { display: flex; gap: 10px; max-width: 720px; background: #fff; border-radius: 16px; padding: 7px; box-shadow: 0 10px 30px rgba(0, 0, 0, .25); }
+  .hsearch .ic { flex: none; width: 46px; display: grid; place-items: center; color: var(--ink-3); }
+  .hsearch input { flex: 1; min-width: 0; border: 0; outline: 0; font: 600 17px/1.2 var(--font); color: var(--ink); background: transparent; }
+  .hsearch input::placeholder { color: var(--ink-4); font-weight: 500; }
+  .hsearch button { flex: none; height: 50px; padding: 0 26px; border: 0; border-radius: 12px; background: var(--brand); color: #fff; font: 700 16px var(--font); cursor: pointer; }
+  .hsearch button:hover { background: var(--brand-ink); }
+  .quick { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-top: 14px; font-size: 12.5px; color: #c7d4ff; }
+  .quick button { border: 1px solid rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .08); color: #fff; border-radius: 999px; padding: 5px 12px;
+    font: 600 12.5px var(--font); cursor: pointer; }
+  .quick button:hover { background: rgba(255, 255, 255, .18); }
+  #hero .cands { max-width: 720px; margin-top: 12px; }
+  #hero .cands .cand { padding: 12px 14px; border-radius: 12px; box-shadow: 0 4px 14px rgba(0, 0, 0, .12); }
+  #hero .cands .msg { color: #fff; }
+  .hstats { max-width: 980px; margin: 18px auto 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .hstat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  .hstat b { display: block; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); }
+  .hstat span { font-size: 12.5px; color: var(--ink-3); }
+  .hsteps { max-width: 980px; margin: 14px auto 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .hstep { display: flex; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  .hstep .n { flex: none; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; font-weight: 800; color: var(--brand-ink); background: var(--brand-soft); }
+  .hstep b { display: block; font-size: 14.5px; margin-bottom: 3px; }
+  .hstep span { font-size: 12.5px; color: var(--ink-3); line-height: 1.55; }
+  .hfoot { max-width: 980px; margin: 14px auto 0; display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: space-between; font-size: 12.5px; color: var(--ink-3); }
+  .hfoot button, .hfoot a { border: 0; background: none; padding: 0; font: 700 13px var(--font); color: var(--brand); cursor: pointer; text-decoration: none; }
+  .back-hero { float: right; border: 0; background: none; padding: 2px 0; font: 700 12.5px var(--font); color: var(--brand); cursor: pointer; }
+  @media (max-width: 760px) {
+    #hero { padding: 14px 10px 24px; } .hero-card { padding: 26px 18px 22px; border-radius: 18px; } .hero-card h1 { font-size: 24px; }
+    .hsearch .ic { display: none; } .hsearch input { padding-left: 10px; font-size: 16px; } .hsearch button { padding: 0 16px; height: 46px; }
+    .hstats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hsteps { grid-template-columns: 1fr; }
+  }
+  html.embed #hero { padding-top: 4px; }
+
   html.embed body { background: transparent; }
   html.embed header { display: none; }
   html.embed main { padding: 0 2px 2px; }
@@ -132,6 +178,10 @@
   section#out { min-width: 0; }
   .empty, .loading { background: var(--surface); border: 1px dashed #c9d1de; border-radius: 14px; padding: 48px 24px; text-align: center; color: var(--ink-3); }
   .empty ol { display: inline-block; text-align: left; margin: 10px 0 0; padding-left: 20px; color: var(--ink-2); }
+  .empty { border-style: solid; border-color: var(--line); background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%); }
+  .empty b { display: block; font-size: 15px; color: var(--ink); margin-bottom: 4px; }
+  .empty .em-ic { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 16px; margin-bottom: 12px; color: var(--brand); background: var(--brand-soft); }
+  .empty ol li { margin: 4px 0; }
   .loading .spin { width: 28px; height: 28px; border: 3px solid var(--brand-soft); border-top-color: var(--brand); border-radius: 50%; margin: 0 auto 12px; animation: spin 0.9s linear infinite; }
   .loading.ai .spin { border-color: var(--ai-soft); border-top-color: var(--ai); }
   .loading small { display: block; margin-top: 6px; color: var(--ink-4); font-variant-numeric: tabular-nums; }
@@ -277,8 +327,33 @@
   <b>RegRader Pro</b><span class="sub">적용법규 자동 구성</span><span class="beta">BETA</span>
   <span class="ai-state" id="ai-state"><i></i><span>자료 확인 중</span></span>
 </header>
+<section id="hero" aria-label="기업별 적용법규 검색">
+  <div class="hero-card">
+    <span class="hero-tag"><i></i>RegRader Pro · 기업별 적용법규 검색</span>
+    <h1>회사 이름만 넣으면,<br>적용되는 법규가 나옵니다</h1>
+    <p class="lead2">공공데이터 · DART 로 회사를 찾아 현행 법률 전부를 적용 · 미적용으로 판정하고, 그 회사의 분기별 · 직무별 법규 개정 모니터링을 바로 만듭니다.</p>
+    <form class="hsearch" id="hfind" autocomplete="off">
+      <span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7.5"/><path d="m20.5 20.5-4.2-4.2"/></svg></span>
+      <input id="hq" placeholder="회사 이름을 입력하세요 (예: 에코프로비엠)" aria-label="회사 이름">
+      <button type="submit">검색</button>
+    </form>
+    <div class="quick" id="quick"><span>바로 찾기</span></div>
+    <div id="hero-cands"></div>
+  </div>
+  <div class="hstats" id="hstats"></div>
+  <div class="hsteps">
+    <div class="hstep"><span class="n">1</span><div><b>회사 찾기</b><span>국민연금 · 등록공장 · 인허가 공공데이터와 DART 공시로 업종 · 사업장 · 근로자 수 · 상장 · 외부감사를 채웁니다.</span></div></div>
+    <div class="hstep"><span class="n">2</span><div><b>적용법규 판정</b><span>현행 법률 전부를 적용 · 추정 · 미적용으로 판정하고 직무별로 나눕니다. 판정 근거와 주요 의무 조문도 함께 보입니다.</span></div></div>
+    <div class="hstep"><span class="n">3</span><div><b>RegRader로 보내기</b><span>그 회사 적용법규로 RegRader 와 같은 분기별 · 직무별 개정 화면을 만듭니다.</span></div></div>
+  </div>
+  <div class="hfoot">
+    <span>판정 결과는 검토용입니다. 최종 적용 여부는 담당자가 판단합니다.</span>
+    <span><button type="button" id="b-manual">목록에 없는 회사 · 직접 입력해서 판정 →</button> &nbsp; <a href="./companies.html" id="hero-list">보낸 회사 목록 →</a></span>
+  </div>
+</section>
 <main>
   <aside>
+    <button type="button" class="back-hero" id="b-hero">← 새로 검색</button>
     <h2>회사 찾기</h2>
     <p class="lead">회사명을 넣으면 국민연금·등록공장 공공데이터에서 업종, 사업장, 근로자 수, 공장을 찾아 채웁니다. 빠진 것만 더하면 됩니다.</p>
     <form class="find" id="find" autocomplete="off">
@@ -323,11 +398,12 @@
   </aside>
   <section id="out">
     <div class="empty">
-      <b>회사명을 넣고 찾기를 누르세요.</b>
+      <span class="em-ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M9 17h1M14 17h1"/></svg></span>
+      <b>왼쪽에서 회사를 찾거나 정보를 넣고 ‘적용법규 후보 만들기’를 누르세요.</b>
       <ol>
-        <li>공공데이터에서 회사를 찾아 업종·사업장·근로자 수·공장을 채웁니다</li>
-        <li>틀린 항목은 빼고, ‘이 업종에서 흔한 항목’ 중 해당하는 것을 누릅니다</li>
-        <li>적용 법령·고시 후보가 직무별로 정리됩니다. 빠진 법령은 직접 추가합니다</li>
+        <li>회사를 찾으면 업종 · 사업장 · 근로자 수 · 공장 · 상장 · 외부감사가 채워집니다</li>
+        <li>목록에 없는 회사는 근로자 수 · 자산 · 사업장 지역 · 업종 항목을 직접 고릅니다</li>
+        <li>적용 법령 · 고시가 직무별로 정리되고, ‘RegRader로 보내기’로 분기별 · 직무별 화면을 만듭니다</li>
       </ol>
     </div>
   </section>
@@ -403,11 +479,40 @@
       if (cand) { pick(cand.dataset.key); }
     });
     $('#find').addEventListener('submit', (e) => { e.preventDefault(); find(); });
+    hero(co);
     $('#form').addEventListener('submit', (e) => { e.preventDefault(); run(); });
     $('#b-ai').addEventListener('click', () => research());
     $('#b-reset').addEventListener('click', () => { S.research = null; $('#q').value = ''; $('#cands').innerHTML = ''; setProfile({}); });
     $('#b-example').addEventListener('click', async () => { S.research = null; $('#cands').innerHTML = ''; setProfile(await getJSON('/api/example')); });
     renderForm();
+  }
+
+  /* ---------- 처음 화면 (가운데 큰 검색 창) ---------- */
+  const QUICK = ['에코프로비엠', '삼성전자', '카카오', '현대건설', '신한카드', '네이버'];
+  function landing(on) {
+    document.body.classList.toggle('landing', on);
+    const cands = $('#cands');
+    if (on) { $('#hero-cands').appendChild(cands); setTimeout(() => $('#hq').focus(), 0); }
+    else $('#find').insertAdjacentElement('afterend', cands);
+  }
+  function hero(co) {
+    const n = (x) => Number(x).toLocaleString();
+    $('#hstats').innerHTML = [
+      co.count ? [n(co.count) + '곳', '검색할 수 있는 회사 (가입자 30명 이상 법인 · 상장사)'] : ['공공데이터', '국민연금 · 등록공장 · 인허가로 회사 찾기'],
+      ['1,725개', '판정하는 현행 법률 (전부)'],
+      [String((status.jobs || []).length || 9) + '개', '직무 (인사노무 · 안전 · 환경 · 재무회계 …)'],
+      [co.nps ? co.nps : '–', '회사 자료 기준 (매월 갱신)'],
+    ].map(([b, t]) => `<div class="hstat"><b>${esc(b)}</b><span>${esc(t)}</span></div>`).join('');
+    $('#quick').insertAdjacentHTML('beforeend', QUICK.map((q) => `<button type="button" data-q="${esc(q)}">${esc(q)}</button>`).join(''));
+    $('#quick').addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-q]');
+      if (b) { $('#hq').value = b.dataset.q; $('#hfind').requestSubmit(); }
+    });
+    $('#hfind').addEventListener('submit', (e) => { e.preventDefault(); $('#q').value = $('#hq').value; find(); });
+    $('#b-manual').addEventListener('click', () => { landing(false); $('#add').open = true; });
+    $('#b-hero').addEventListener('click', () => { $('#hq').value = $('#q').value; landing(true); });
+    if (!co.ready) { landing(false); return; }   // 회사 찾기 자료가 없으면 바로 직접 입력
+    landing(true);
   }
 
   function toggle(group, id) {
@@ -518,6 +623,7 @@
   }
 
   async function pick(key) {
+    if (document.body.classList.contains('landing')) { $('#q').value = $('#hq').value; landing(false); }
     $('#cands').innerHTML = '';
     try {
       const data = await post('/api/company/draft', { key });
