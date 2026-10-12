@@ -242,7 +242,8 @@
   /* ---------- /api/... ---------- */
   var routes = {
     'GET /api/status': function () {
-      return index().then(function (ix) {
+      /* 화면 준비는 작은 meta.json 으로 (회사 색인 2MB 는 검색할 때 받는다). 없으면 색인으로 */
+      return getJSON(DATA + 'companies/meta.json').catch(index).then(function (ix) {
         return { ai: false, jobs: JOBS, browser: true,
           company: { ready: true, nps: (ix.dataAsOf || {}).nps || (ix.generatedAt || '').slice(0, 7), count: ix.count } };
       });
@@ -293,5 +294,5 @@
   };
 
   /* 화면을 여는 동안 판정 엔진을 미리 받아 둔다 (처음 한 번 10~20초) */
-  if (!window.RR_PRO_NO_PRELOAD) setTimeout(function () { engine().catch(function () {}); }, 800);
+  if (!window.RR_PRO_NO_PRELOAD) setTimeout(function () { index().catch(function () {}); engine().catch(function () {}); }, 300);
 })();

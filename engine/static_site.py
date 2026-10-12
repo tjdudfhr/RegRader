@@ -233,6 +233,7 @@ def _store(results, listed, min_members, merge, log=print):
     size = _write(dest / "index.json", {"generatedAt": _now(), "builtAt": built, "count": len(rows), "minMembers": min_members, "dataAsOf": CM.meta(),
                                        "fields": ["key", "stem", "name", "employees", "workplaces", "factories", "industry", "address", "listed"],
                                        "rows": rows})
+    _write(dest / "meta.json", {"generatedAt": _now(), "count": len(rows), "minMembers": min_members, "dataAsOf": CM.meta()})   # 화면 준비용 (작다)
     total = sum(_write(dest / "d" / f"{sh}.json", d)[1] for sh, d in shards.items())
     log(f"companies: {len(rows)}곳 · 색인 {size[0] / 1e6:.1f}MB (압축 {size[1] / 1e6:.1f}MB) · 고친 묶음 {len(shards)}개 (압축 {total / 1e6:.1f}MB)")
 
