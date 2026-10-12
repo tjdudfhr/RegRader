@@ -154,6 +154,8 @@ def build_site(force=False, log=print):
         rel = Path(*p.parts[1:])
         if rel.suffix.lower() not in ASSET_EXT and rel.name not in ASSET_NAMES:
             continue   # 데이터(json·xlsx)와 문서는 회사마다 새로 만든다
+        if rel.parts[0] == "pro":
+            continue   # 브라우저판 Pro (docs/pro/) 는 회사 화면 사본에 넣지 않는다
         dest = tmp / "docs" / rel
         dest.parent.mkdir(parents=True, exist_ok=True)
         if rel.name in STUBS:
