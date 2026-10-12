@@ -320,6 +320,7 @@ def web(dest, data_url=DATA_URL, log=print):
     dest/py/                            판정 엔진 코드 · kb (Pyodide 가 읽는다)
     dest/site/                          회사 RegRader 화면: 커밋된 RegRader 화면 사본(직무 '기타' 추가) + company-mode.js
     """
+    import hashlib
     import re
     import shutil
     from engine import export_regrader as X
@@ -330,7 +331,9 @@ def web(dest, data_url=DATA_URL, log=print):
     for name, fixes in (("index.html", [('href="/rr/"', 'href="./companies.html"')]),
                         ("companies.html", [('href="/"', 'href="./index.html"')])):
         t = (ROOT / "web" / name).read_text(encoding="utf-8").replace("</head>", pre + '<script src="./static-api.js"></script>\n</head>', 1)
-        t = re.sub(r"(<head[^>]*>)", lambda m: m.group(1) + '\n<script src="../gate.js"></script>', t, count=1)   # RegRader 화면 잠금
+        gate = Path(X.REPO) / "docs" / "gate.js"
+        gate_v = hashlib.sha1(gate.read_bytes()).hexdigest()[:8] if gate.exists() else "0"
+        t = re.sub(r"(<head[^>]*>)", lambda m: m.group(1) + f'\n<script src="../gate.js?v={gate_v}"></script>', t, count=1)   # RegRader 화면 잠금 · 최신 화면 확인
         for a, b in fixes:
             t = t.replace(a, b)
         (dest / name).write_text(t, encoding="utf-8")
