@@ -276,6 +276,7 @@ engine/export_regrader.py 가 만든 파일이다. RegRader 원본 scripts/admru
 같은 이름(scope · apply · write_index · PROMOTE · EXCLUDE · KEEP)을 둔다.
   company_scope.json
     keep   Pro 가 적용으로 고른 행정규칙ID (추천 · 관련 · 묶음) — 이름 규칙의 '참고'로 접지 않는다
+    all    true 면 연결 행정규칙을 모두 남긴다 (전체 법률 수집 — engine/static_site.py universe)
     extra  법령체계도에 연결돼 있지 않지만 Pro 가 꼭 넣은 고시 — 후보 목록(admrul_candidates.json)에 덧붙인다
 나머지 연결 행정규칙은 '이 회사 사업과 무관'(pro)으로 뺀다.
 바로 반영: python3 scripts/admrul_scope.py --apply
@@ -289,13 +290,21 @@ from pathlib import Path
 
 _CFG = json.loads((Path(__file__).resolve().parent / "company_scope.json").read_text(encoding="utf-8"))
 REASONS = {"pro": "RegRader Pro 판정: 이 회사 사업과 무관"}
+ALL = bool(_CFG.get("all"))   # 전체 법률 수집(브라우저용 공통 자료): 연결 행정규칙을 모두 남긴다
+
+
+class _Every(set):
+    def __contains__(self, item):
+        return True
+
+
 KEEP: set[str] = set(_CFG.get("keep") or [])
-PROMOTE: set[str] = KEEP
+PROMOTE: set[str] = _Every() if ALL else KEEP
 EXCLUDE: dict[str, str] = {}
 
 
 def scope(item: dict) -> str:
-    return "" if str(item.get("id") or "") in KEEP else "pro"
+    return "" if ALL or str(item.get("id") or "") in KEEP else "pro"
 
 
 def _with_extra(docs: Path, items: list) -> list:
@@ -532,7 +541,7 @@ def run(ws, log=print):
                              env=dict(os.environ, PYTHONWARNINGS="ignore"))
         for line in p.stdout:
             changed = prog.feed(line)
-            if not line.startswith("[pro] ") or "법제처 응답" in line:   # 진행 줄은 기록에 남기지 않는다
+            if not line.startswith("[pro] ") or "법제처 응답" in line:   # 진행 줄은 기록에 남기지 않는다 (응답 요약 · 실패는 남긴다)
                 fh.write(line)
                 fh.flush()
                 if not line.startswith("  "):   # 쪽마다 찍는 줄은 화면에 다 보이지 않는다

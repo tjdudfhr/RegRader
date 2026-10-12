@@ -91,7 +91,17 @@ def get(url, params=None, **kw):
         except (OSError, ValueError):
             r = None
     if r is None:
-        r = _get(url, params=params, **kw)
+        # 법제처가 느릴 때가 있다: 시간 초과 · 연결 끊김은 쉬었다가 몇 번 더 (한 법령 때문에 계열 단계 전체가 건너뛰어지지 않게)
+        kw["timeout"] = max(kw.get("timeout") or 0, 150)   # 체계도가 큰 법령은 40초를 넘기기도 한다
+        for attempt in range(4):
+            try:
+                r = _get(url, params=params, **kw)
+                break
+            except (requests.Timeout, requests.ConnectionError):
+                if attempt == 3:
+                    print(f"[pro] 법제처 응답 없음: {p.get('target')} {p.get('query') or p.get('MST') or p.get('ID') or ''}", flush=True)
+                    raise
+                time.sleep(3 * (attempt + 1))
         _count["net"] += 1
         # 법령·행정규칙 원문(개정문 분석)은 RegRader 가 이미 따로 저장한다 → 여기 두지 않는다
         if r.status_code == 200 and not ("lawService" in str(url) and p.get("target") in ("law", "admrul")):
