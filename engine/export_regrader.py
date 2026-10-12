@@ -23,6 +23,7 @@ RegRader 와 다른 점 (회사별 사본에서만)
   - 대응 현황(Supabase 로그인)과 GitHub 법규 추가 요청은 끈다 — 회사 사본의 사용 기록이 RegRader 쪽으로 가지 않게
   - 행정규칙 범위는 RegRader 의 회사 검토 목록 대신 Pro 판정(추천 · 관련 · 묶음)을 쓴다
 """
+import hashlib
 import io
 import json
 import os
@@ -114,19 +115,14 @@ def add_etc_job(text):
     return text
 
 
-PRO_JS = """/* RegRader Pro 회사별 사본: 어느 회사 데이터인지 제목과 머리글에 붙인다 (pro_company.json) */
+PRO_JS = """/* RegRader Pro 회사별 사본: 어느 회사 데이터인지 화면 맨 위 · 사이드바 · 탭 제목에 표시한다 (pro_company.json · company-chip.js) */
 (function () {
   fetch('./pro_company.json?v=' + Date.now(), { cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (c) {
-      if (!c || !c.company) return;
-      document.title = 'RegRader · ' + c.company + ' 법규 개정 모니터링';
-      var b = document.createElement('div');
-      b.id = 'rr-pro-company';
-      b.style.cssText = 'position:fixed;right:12px;bottom:12px;z-index:2500;padding:6px 12px;border-radius:999px;' +
-        'background:rgba(26,32,44,.86);color:#fff;font:600 12px/1.4 -apple-system,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.2)';
-      b.textContent = c.company + ' · 적용법규 ' + c.laws + ' + 행정규칙 ' + c.admin + ' (RegRader Pro ' + (c.date || '') + ' 판정)';
-      document.body.appendChild(b);
+      if (!c || !c.company || !window.rrCompanyChip) return;
+      window.rrCompanyChip({ company: c.company, laws: c.laws, admin: c.admin, date: c.date || String(c.generatedAt || '').slice(0, 10),
+                             home: '/', homeLabel: '다른 회사 판정' });
     })
     .catch(function () {});
 })();
@@ -163,7 +159,8 @@ def build_site(force=False, log=print):
         elif rel.suffix in (".html", ".js"):
             text = add_etc_job(tar.extractfile(m).read().decode("utf-8"))
             if rel.name == "index.html":
-                text = text.replace("</body>", '    <script src="./pro-company.js"></script>\n</body>', 1)
+                chip_v = hashlib.sha1((ROOT / "web" / "company-chip.js").read_bytes()).hexdigest()[:8]   # 바뀌면 브라우저가 새로 받게
+                text = text.replace("</body>", f'    <script src="./company-chip.js?v={chip_v}"></script>\n    <script src="./pro-company.js"></script>\n</body>', 1)
                 text = text.replace('data-src="./pro/?embed=1"', 'data-src="/?embed=1"')   # 기업별 적용법규 검색 탭: 이 서버의 Pro 화면
                 # 회사 사본은 매일 자동 수집하지 않는다 (RegRader Pro 에서 다시 보내면 새로 수집)
                 text = text.replace("<b>매일 07:00 자동 수집</b>", "<b>RegRader Pro 에서 보낼 때 수집</b>")
@@ -172,6 +169,7 @@ def build_site(force=False, log=print):
             dest.write_bytes(tar.extractfile(m).read())
         n += 1
     (tmp / "docs" / "pro-company.js").write_text(PRO_JS, encoding="utf-8")
+    shutil.copy2(ROOT / "web" / "company-chip.js", tmp / "docs" / "company-chip.js")   # 회사 이름 표시 (브라우저판 사본도 쓴다)
     missing = [s for s in SCRIPTS if not (tmp / "scripts" / s).exists()]
     if missing:
         raise RuntimeError(f"RegRader 저장소에 수집 스크립트가 없습니다: {', '.join(missing)}")

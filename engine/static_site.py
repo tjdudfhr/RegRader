@@ -347,8 +347,10 @@ def web(dest, data_url=DATA_URL, log=print):
     site = dest / "site"
     shutil.rmtree(site, ignore_errors=True)
     shutil.copytree(X.SITE / "docs", site, ignore=shutil.ignore_patterns("intro", "pro-company.js"))
+    import hashlib
+    mode_v = hashlib.sha1((ROOT / "web" / "company-mode.js").read_bytes()).hexdigest()[:8]   # 바뀌면 브라우저가 새로 받게
     tag = (f'<script>window.RR_PRO_DATA = {json.dumps(data_url)}; window.RR_PRO_HOME = "../";</script>'
-           '<script src="../company-mode.js"></script>')
+           f'<script src="../company-mode.js?v={mode_v}"></script>')
     for name in ("index.html", "watch.html", "history.html"):
         p = site / name
         if not p.exists():
