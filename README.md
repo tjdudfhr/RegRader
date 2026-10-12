@@ -126,6 +126,27 @@ python3 -m engine.export_regrader 에코프로비엠 --no-run   # 적용법규 �
 - 회사 사본에서는 직무에 '기타'를 더하고, 대응 현황(Supabase 로그인)과 GitHub 법규 추가 요청은 끈다.
 - 행정규칙 범위는 RegRader 의 회사 검토 목록 대신 Pro 판정(추천 · 관련 · 묶음)을 쓴다.
 
+### 브라우저판 (RegRader 사이트 · 서버 없음)
+
+https://tjdudfhr.github.io/RegRader/pro/ — 판정 엔진(engine/*.py)을 Pyodide(브라우저 파이썬)로 그대로 돌린다.
+맥 서버판과 같은 엔진 · 같은 결과다 (8개 회사로 계열 · 상태 · 직무 · 행정규칙 ID 까지 일치 확인).
+
+- 법제처 조회 대신 `lawpack.json` (판정에 나오는 법령 1,725개의 현행 정보 · 법령체계도 · 고시)
+- 회사 찾기: 국민연금 가입자 30명 이상 법인 + 상장사 (약 4.9만 곳). 개인사업자는 넣지 않는다. 그 밖의 회사는 직접 입력
+- RegRader로 보내기: 회사마다 수집하지 않고, **전체 법률 수집 결과**(현행 법률 전체를 적용법규로 둔 RegRader 수집)에서
+  회사 적용법규 · 행정규칙만 골라 만든다 (`engine/rr_static.py`, 즉시). 회사 작업 폴더에서 실제로 수집한 것과
+  적용법규 · 행정규칙 · 계열 배치가 같다 (`python3 -m engine.static_site check`)
+- 결과는 방문자 브라우저(IndexedDB)에만 저장된다. 회사 RegRader 화면: `docs/pro/site/?company=<회사>`
+
+자료는 맥에서 만들어 RegRader 저장소의 `pro-data` 브랜치(기록 없이 덮어쓰기)에 올린다 — RegRader `scripts/pro_publish.sh` 가 매일 07:00 갱신 뒤에 부른다.
+
+```bash
+python3 -m engine.static_site daily      # pack → universe → (30일마다 companies) → publish
+python3 -m engine.static_site web ~/RegRader-autoupdate/docs/pro   # Pro 코드를 바꿨을 때 브라우저판 화면 다시 만들기
+```
+
+- 상장사 DART 조회는 한 곳씩 (동시에 부르면 OpenDART 가 막는다). 연속 10번 실패하면 멈추고 다음 갱신 때 이어서 (`dart_pass`)
+
 ## 회사 찾기 자료 준비
 
 공공데이터를 내려받아 `data/raw/` 에 두고 색인을 만든다 (모두 무료, 이용허락 제한 없음). 원본과 색인은 git 에 올리지 않는다.
@@ -207,6 +228,10 @@ python3 -m engine.suggest examples/manufacturer.json   # 결과: out/result.json
 | `kb/industry_laws.json` | 국세청 업종코드 1,542개 → 업종 태그·업종 법규 (묶음 307개 + 세부 업종) |
 | `engine/industry.py` | 업종코드 → 업종 법규, 업종 표 → 판정 규칙, 전수 매칭 점검(`status`) |
 | `kb/admin_scope.json` | 행정규칙 범위: 기관 내부용·다른 업종·계열별 남길 것 |
+| `engine/static_site.py` | 브라우저판 자료: lawpack · 전체 법률 수집 · 회사 찾기 자료 · 화면 · pro-data 올리기 · 점검 |
+| `engine/rr_static.py` | 전체 법률 수집 결과에서 회사 RegRader 데이터 골라내기 (브라우저에서도 돈다) |
+| `engine/rr_launch.py` | RegRader 수집 실행기 (법제처 응답 공유 · 재시도 · 진행 표시) |
+| `web/static-api.js` · `web/company-mode.js` | 브라우저판: /api 를 브라우저 안에서 처리 · 회사 RegRader 화면 |
 | `engine/export_regrader.py` | 판정 결과 → RegRader 형식 데이터 + 커밋된 RegRader 수집 실행 (`/rr/<회사>/` 화면) |
 | `engine/benchmark.py` | 기준 목록(저장소 밖 파일)과 계열·법령·행정규칙 포함률 비교 |
 | `engine/classify.py` | 판정 엔진: 모든 법령 → 적용·추정·확인 필요·미적용 (3값 논리) |
