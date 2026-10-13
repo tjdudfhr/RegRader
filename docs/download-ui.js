@@ -3,6 +3,8 @@
   function items() {
     return window.__rrItems || window.lawsData || [];
   }
+  /* 내려받는 파일 이름 · 제목의 '당사' 자리 — 회사 화면(RegRader Pro 회사 보기)에서는 그 회사 이름 (window.RR_WHO) */
+  function WHO() { return String(window.RR_WHO || '당사').replace(/[\\/:*?"<>|]/g, ''); }
   function saveRows(rows, sheet, file) {
     if (!(window.XLSX && XLSX.utils)) {
       alert('엑셀 모듈을 아직 못 불러왔습니다. 2초 뒤 다시 눌러주세요.');
@@ -45,7 +47,7 @@
         '올해개정회차': (law.eventIndex || 1) + '/' + (law.eventCount || 1),
         '원문URL': (law.source && law.source.url) || ''
       };
-    }), '당사개정목록', window.RR_YEAR + '_당사_개정목록_' + stamp() + '.xlsx');
+    }), WHO() + '개정목록', window.RR_YEAR + '_' + WHO() + '_개정목록_' + stamp() + '.xlsx');
   }
   /* 당사 적용법규 목록: 법령(base_laws) + 계열에 연결된 행정규칙(참고용 제외) */
   function downloadBase() {
@@ -66,7 +68,7 @@
         });
         saveRows(all.map(function (x, i) {
           return { '번호': i + 1, '직무': x.job, '계열(법률)': x.root, '구분': x.kind, '단계': x.lv, '법령명': x.t };
-        }), '당사적용법규', '당사_적용법규_' + all.length + '개_' + stamp() + '.xlsx');
+        }), WHO() + '적용법규', WHO() + '_적용법규_' + all.length + '개_' + stamp() + '.xlsx');
       })
       .catch(function () { alert('적용법규 목록 파일을 찾지 못했습니다.'); });
   }
@@ -88,8 +90,8 @@
       '<div class="rr-dlg-b">' +
         '<section class="rr-box" id="rr-report-slot"></section>' +
         '<section class="rr-box"><div class="rr-box-h"><span class="rr-box-ic">' + ic('sheet') + '</span>엑셀 파일</div>' +
-          '<button type="button" class="rr-opt" id="rr-dl-matched"><span class="rr-box-ic">' + ic('sheet') + '</span><span><b>당사 개정 목록</b><small>' + window.RR_YEAR + '년 개정 ' + (items().length ? fmt(items().length) : '–') + '건</small></span><span class="go">' + ic('download') + '</span></button>' +
-          '<button type="button" class="rr-opt" id="rr-dl-base"><span class="rr-box-ic">' + ic('sheet') + '</span><span><b>당사 적용법규 목록</b><small>법령·행정규칙 ' + baseN + '개</small></span><span class="go">' + ic('download') + '</span></button>' +
+          '<button type="button" class="rr-opt" id="rr-dl-matched"><span class="rr-box-ic">' + ic('sheet') + '</span><span><b>' + WHO() + ' 개정 목록</b><small>' + window.RR_YEAR + '년 개정 ' + (items().length ? fmt(items().length) : '–') + '건</small></span><span class="go">' + ic('download') + '</span></button>' +
+          '<button type="button" class="rr-opt" id="rr-dl-base"><span class="rr-box-ic">' + ic('sheet') + '</span><span><b>' + WHO() + ' 적용법규 목록</b><small>법령·행정규칙 ' + baseN + '개</small></span><span class="go">' + ic('download') + '</span></button>' +
         '</section>' +
       '</div>';
     if (window.rrReport) window.rrReport.mount(inner.querySelector('#rr-report-slot'));   /* 월간·분기 보고서 PPT (report-ppt.js) */

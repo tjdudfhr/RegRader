@@ -374,7 +374,7 @@
     });
     return build({
       items: items, sheet: info.name, title: window.RR_YEAR + '년 ' + info.name,
-      file: window.RR_YEAR + '_' + info.short + '_법령개정_{date}.xlsx', empty: '해당 분기에 개정 법령이 없습니다.'
+      file: window.RR_YEAR + '_' + (window.RR_WHO ? String(window.RR_WHO).replace(/[\\/:*?"<>|]/g, '') + '_' : '') + info.short + '_법령개정_{date}.xlsx', empty: '해당 분기에 개정 법령이 없습니다.'
     });
   };
 })();

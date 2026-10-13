@@ -25,6 +25,8 @@
     red: 'C53030', orange: 'C05621', amber: '975A16', purple: '6B46C1', teal: '2C7A7B', blue: '2B6CB0', gray: '4A5568', green: '2F855A'
   };
   var JOB_ORDER = ['재무회계', '인사노무', '환경', '지식재산권', '공정거래', '안전', '지배구조', '정보보호'];
+  /* 내려받는 파일 이름 · 제목의 '당사' 자리 — 회사 화면(RegRader Pro 회사 보기)에서는 그 회사 이름 (window.RR_WHO) */
+  function WHO() { return String(window.RR_WHO || '당사').replace(/[\\/:*?"<>|]/g, ''); }
   var JOB_COLOR = { '재무회계': '2A78D6', '인사노무': 'EB6834', '환경': '1BAF7A', '지식재산권': 'EDA100', '공정거래': 'E87BA4', '안전': '008300', '지배구조': '4A3AA7', '정보보호': 'E34948', '기타': 'A0AEC0' };
   var FLAG = {
     '벌칙': { c: C.red, w: 5 }, '과태료': { c: C.orange, w: 4 }, '과징금': { c: C.amber, w: 4 }, '처분': { c: C.purple, w: 3, label: '행정처분' },
@@ -368,7 +370,7 @@
       var m = ((T && T.members) || []).filter(function (x) { return x.job === j && x.role !== 'admin'; })[0];
       return m ? (m.name || m.email.split('@')[0]) : '';
     };
-    var who = input.job ? input.job + ' 직무' : '당사';
+    var who = input.job ? input.job + ' 직무' : WHO();
     var nextLabel = input.next ? input.next.label : '';
     var msN = input.next ? monthSplit(N, input.next.start, input.next.end) : [];
     var jobRank = JOB_ORDER.concat(['기타']).map(function (j) { return [j, ofJob(P, j).length]; })
@@ -427,7 +429,7 @@
     s.addText(input.label, { x: 1.15, y: 2.2, w: 11, h: 0.7, fontFace: F, fontSize: 28, bold: true, color: C.navy, margin: 0 });
     s.addText('법규 제·개정 동향 보고', { x: 1.15, y: 2.9, w: 11.4, h: 1.0, fontFace: F, fontSize: 44, bold: true, color: C.ink, margin: 0 });
     s.addShape(pptx.ShapeType.rect, { x: 1.15, y: 4.18, w: 1.1, h: 0.06, fill: { color: C.accent }, line: { color: C.accent } });
-    s.addText((input.job ? input.job + ' 직무 · ' : '') + '당사 적용법규 ' + fmt(input.baseCount) + '개 · ' + input.periodText + ' 시행분',
+    s.addText((input.job ? input.job + ' 직무 · ' : '') + WHO() + ' 적용법규 ' + fmt(input.baseCount) + '개 · ' + input.periodText + ' 시행분',
       { x: 1.15, y: 4.42, w: 11, h: 0.42, fontFace: F, fontSize: 15, color: C.sub, margin: 0 });
     var sign = [{ text: dot(input.reportDate || input.asOf), options: { breakLine: !!input.dept } }];
     if (input.dept) sign.push({ text: input.dept, options: { bold: true, fontSize: 18 } });
@@ -881,7 +883,7 @@
     aframe(s, pptx, '별첨 ' + apxNo('집계 기준과 방법') + '. 집계 기준과 방법');
     var how = [
       ['자료', '국가법령정보센터 OpenAPI (매일 오전 7시 자동 확인, ' + dot(input.asOf) + ' 기준). 공포됐지만 아직 시행되지 않은 개정도 포함'],
-      ['대상', '당사 적용법규 ' + fmt(input.baseCount) + '개 = 법령(법률·시행령·시행규칙) ' + fmt(input.lawCount) + '개 + 그 계열에 법령체계도로 연결된 행정규칙(고시·훈령·예규 등) ' + fmt(input.admCandidates) + '개'],
+      ['대상', WHO() + ' 적용법규 ' + fmt(input.baseCount) + '개 = 법령(법률·시행령·시행규칙) ' + fmt(input.lawCount) + '개 + 그 계열에 법령체계도로 연결된 행정규칙(고시·훈령·예규 등) ' + fmt(input.admCandidates) + '개'],
       ['집계', '시행일 기준. 개정 1건 = 법령 + 시행일 + 개정 구분 (같은 법령이 여러 번 바뀌면 각각 셈)'],
       ['제재·의무', '개정문과 조문 제목을 자동 분석. 벌칙·과태료·과징금·행정처분 조항이 신설·변경된 경우만 표시하고 인용·용어만 바뀐 경우는 제외. 의무는 회사(사업주·사용자 등)가 주어인 “…하여야 한다 / …아니 된다” 문장 기준'],
       ['실질 개정 · 타법개정', DEF_REAL + '. ' + DEF_TIDY + '. 국가법령정보센터의 개정 구분 기준'],
@@ -1004,7 +1006,7 @@
   }
 
   function fileName(input) {
-    return (input.label + ' 법규 제·개정 동향 보고' + (input.job ? ' (' + input.job + ')' : '') + '.pptx').replace(/[\\/:*?"<>|]/g, '');
+    return ((window.RR_WHO ? WHO() + ' ' : '') + input.label + ' 법규 제·개정 동향 보고' + (input.job ? ' (' + input.job + ')' : '') + '.pptx').replace(/[\\/:*?"<>|]/g, '');
   }
   function generate(opts) {
     return loadLib().then(function () { return collect(opts); }).then(function (input) {
