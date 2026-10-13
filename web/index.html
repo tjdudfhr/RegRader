@@ -875,8 +875,68 @@
       msg = `✅ ${esc(r.asOf || '')} 기준 올해 개정 ${r.totalCount ?? 0}건 (법령 ${r.lawEvents ?? 0} · 행정규칙 ${r.admrulEvents ?? 0}) · 적용법규 ${r.baseLaws ?? 0} + 행정규칙 ${r.admrulLaws ?? 0}
         · <a href="${esc(st.url)}" target="_blank" rel="noopener">RegRader 화면 열기 →</a>`;
     } else if (st?.state === 'error') msg = `<span class="bad">만들지 못했습니다: ${esc(st.error || '')}</span>`;
-    return `<div class="rrx"><button type="button" class="btn" data-rrx="1" ${st?.state === 'running' ? 'disabled' : ''}>RegRader로 보내기</button><span>${msg}</span>
+    return `<div class="rrx"><button type="button" class="btn" data-rrx="1" ${st?.state === 'running' ? 'disabled' : ''}>RegRader로 보내기</button>
+      <button type="button" class="btn" data-xlsx="1" title="이 회사의 적용법규 · 행정규칙 · 미적용 이유를 엑셀로">엑셀로 받기</button><span>${msg}</span>
       <span class="sp" style="flex:1"></span><a href="/rr/" target="_blank" rel="noopener">보낸 회사 목록</a>${bar}</div>`;
+  }
+
+  /* 엑셀로 받기: 지금 판정한 회사(선택한 것)의 적용법규 · 행정규칙 · 미적용 이유 · 회사 정보. 회사를 바꿔 판정하면 그 회사 것 */
+  const XLSX_LIB = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  let xlsxP = null;
+  function xlsxLib() {
+    if (window.XLSX) return Promise.resolve(window.XLSX);
+    return xlsxP || (xlsxP = new Promise((ok, bad) => {
+      const sc = document.createElement('script');
+      sc.src = XLSX_LIB; sc.onload = () => ok(window.XLSX); sc.onerror = () => { xlsxP = null; bad(new Error('엑셀 모듈을 받지 못했습니다')); };
+      document.head.appendChild(sc);
+    }));
+  }
+  const shortName = (n) => String(n || '회사').replace(/\((주|유|사|재)\)|[㈜㈔㈕]|주식회사|유한회사|유한책임회사|\s임직원$/g, '').replace(/[\\/:*?"<>|]/g, '').trim() || '회사';
+  async function downloadXlsx(btn) {
+    const p = profile();
+    const name = shortName(p.name);
+    btn.disabled = true;
+    try {
+      const X = await xlsxLib();
+      const rows = selectedRows();
+      const laws = rows.filter((r) => r.type === '법령').map((r, i) => ({
+        '번호': i + 1, '직무': r.category, '판정': r.verdict || (r.tier === '직접 추가' ? '직접 추가' : STATUS[r.status] || r.status),
+        '법령 계열': r.family, '법령명': r.name, '단계': r.kind, '판정 근거': r.why, '주요 의무': r.duties || '',
+      }));
+      const adm = rows.filter((r) => r.type === '행정규칙').map((r, i) => ({
+        '번호': i + 1, '직무': r.category, '법령 계열': r.family, '행정규칙명': r.name, '종류': r.kind,
+        '구분': r.matched === '관련' ? '관련' : r.matched === '묶음' ? '묶음' : '추천', '맞은 낱말': ['관련', '묶음'].includes(r.matched) ? '' : r.matched,
+      }));
+      const no = (result.notApplicable || []).map((x, i) => ({
+        '번호': i + 1, '직무': x.job, '법령': x.root, '미적용 이유': (x.reasons || []).join(' / ') || x.scopeLabel || '',
+        '추정': x.estimated ? '예' : '',
+      }));
+      const fl = (id) => (p.flags || []).includes(id) ? '예' : '아니오';
+      const info = [
+        ['회사', p.name], ['판정일', new Date().toISOString().slice(0, 10)], ['상시근로자 수', p.numbers?.employees || ''],
+        ['자산총액(억원)', p.numbers?.assets || ''], ['상장회사', fl('listed')], ['외부감사 대상', fl('audited')], ['공시대상기업집단 소속', fl('group')],
+        ['사업장 시·도', (p.regions?.provinces || []).join(', ')], ['사업장 시·군', (p.regions?.cities || []).join(', ')],
+        ['회사 특성(업종 · 시설 · 활동)', (p.tags || []).filter((t) => !t.startsWith('nts:')).map(factLabel).join(', ')],
+        ['적용법규', `법령 ${laws.length}개 · 행정규칙 ${adm.length}개`],
+        ['안내', '판정 결과는 검토용 후보입니다. 최종 적용 여부는 담당자가 판단합니다. (RegRader Pro)'],
+      ].map(([k, v]) => ({ '항목': k, '내용': v }));
+      const wb = X.utils.book_new();
+      const sheet = (data, title, widths) => {
+        const ws = X.utils.json_to_sheet(data.length ? data : [{ '': '없음' }]);
+        ws['!cols'] = widths.map((w) => ({ wch: w }));
+        X.utils.book_append_sheet(wb, ws, title);
+      };
+      sheet(laws, '적용법규', [6, 10, 10, 30, 40, 8, 60, 60]);
+      sheet(adm, '행정규칙', [6, 10, 30, 50, 8, 8, 24]);
+      sheet(no, '미적용 (이유)', [6, 10, 40, 70, 6]);
+      sheet(info, '회사 정보', [24, 80]);
+      const d = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+      X.writeFile(wb, `${name}_적용법규_법령${laws.length}_행정규칙${adm.length}_${d}.xlsx`);
+    } catch (e) {
+      alert(e.message);
+    } finally {
+      btn.disabled = false;
+    }
   }
 
   function rrPayload() {
@@ -1027,6 +1087,7 @@
     if (!t || !t.closest('#out')) return;
     if (t.matches('.tab')) { catFilter = t.dataset.cat; render(); return; }
     if (t.dataset.rrx) { rrExport(); return; }
+    if (t.dataset.xlsx) { downloadXlsx(t); return; }
     if (t.dataset.ans) { answer(t.dataset.ans, t.dataset.v === '1'); return; }
     if (t.dataset.numsave) { const v = Number(document.querySelector(`[data-num="${t.dataset.numsave}"]`)?.value || 0); if (v > 0) answer(t.dataset.numsave, v); return; }
     if (t.dataset.qmore) { qOpen = !qOpen; render(); return; }

@@ -3,7 +3,7 @@
  * Pro 화면(index.html)이 부르는 /api/... 를 여기서 받는다 (fetch 를 감싼다).
  *   회사 찾기 · 회사 정보   ← 맥에서 미리 만든 회사 색인 · 회사 정보 초안 (RR_PRO_DATA/companies/)
  *   판정 · 법령 추가        ← 판정 엔진(engine/*.py)을 Pyodide(브라우저 파이썬)로 그대로 돌린다. 법제처 조회는 lawpack 으로
- *   RegRader로 보내기       ← 전체 법률 수집 결과(RR_PRO_DATA/universe/)에서 회사 데이터를 골라(engine/rr_static.py)
+ *   RegRader로 보내기       ← 전체 법률 수집 결과(RR_PRO_DATA/universe/)에서 회사 데이터를 골라(rr-static.js, 파이썬판과 같은 규칙)
  *                             이 브라우저(IndexedDB)에 두고, RegRader 화면을 ?company= 로 연다 (company-mode.js)
  * 맥의 서버판(server.py)과 같은 엔진 · 같은 응답 모양이다. 키 · 회사별 결과는 어디로도 보내지 않는다.
  */
@@ -12,7 +12,7 @@
   var PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/';
   var DATA = window.RR_PRO_DATA || './data/';
   var PY = window.RR_PRO_PY || './py/';
-  var ENGINE = ['__init__', 'lawapi', 'suggest', 'classify', 'universe', 'industry', 'rr_static'];
+  var ENGINE = ['__init__', 'lawapi', 'suggest', 'classify', 'universe', 'industry'];
   var KB = ['catalog', 'facts', 'rules', 'universe', 'industry_laws', 'duties', 'admin_scope'];
   var SHARDS = 1024;
   var JOBS = ['인사노무', '공정거래', '정보보호', '지식재산권', '재무회계', '안전', '환경', '지배구조', '기타'];
@@ -75,16 +75,7 @@
     'def api_law(name, job, profile_json):',
     '    return json.dumps(S.add_law(name, job, json.loads(profile_json)), ensure_ascii=False)',
     'def api_laws(q):',
-    '    return json.dumps(lawapi.find_laws(q), ensure_ascii=False)',
-    'def api_regrader(families_json, company, universe_json):',
-    '    from engine import rr_static',
-    '    fams = json.loads(families_json)',
-    '    names, ids = {}, set()',
-    '    for f in fams:',
-    "        for a in lawapi.family(f['root'])['admin']:",
-    "            names.setdefault(a['name'], a['id'])",
-    "            ids.add(a['id'])",
-    '    return json.dumps(rr_static.build(fams, company, json.loads(universe_json), tree_names=names, tree_ids=ids), ensure_ascii=False)'
+    '    return json.dumps(lawapi.find_laws(q), ensure_ascii=False)'
   ].join('\n');
 
   function engine() {
@@ -229,12 +220,30 @@
       result: { asOf: m.asOf, totalCount: m.totalCount, lawEvents: m.lawEvents, admrulEvents: m.admrulEvents, baseLaws: m.baseLaws, admrulLaws: m.admrulLaws } };
   }
   function rrUrl(s) { return (window.RR_PRO_SITE || '../') + '?company=' + encodeURIComponent(s); }
+  function lawpack() { return once('lawpack', function () { return getJSON(DATA + 'lawpack.json'); }); }
+
+  /* 회사 화면을 나중에 최신 전체 수집으로 다시 만들 때 쓰는 입력만 남긴다 (company-mode.js) */
+  function slim(f) {
+    return { root: f.root, category: f.category, job: f.job, status: f.status, tier: f.tier, reasons: f.reasons || [], presumed: f.presumed || [],
+      verified: f.verified, ministry: f.ministry, members: (f.members || []).map(function (m) { return { name: m.name, level: m.level, kind: m.kind }; }) };
+  }
+
   function exportCompany(body) {
-    var s = slug(body.company);
-    return Promise.all([universe(), engine()]).then(function (r) {
-      return call('api_regrader', JSON.stringify(body.families || []), body.company, r[0]);
-    }).then(function (files) {
-      var rec = { slug: s, company: body.company, savedAt: new Date().toISOString(), files: files };
+    var s = slug(body.company), fams = body.families || [];
+    return Promise.all([universe(), lawpack()]).then(function (r) {
+      var u = JSON.parse(r[0]), lp = r[1], names = {}, ids = {};
+      fams.forEach(function (f) {
+        var fam = lp.family[f.root] || (function () {   // 이름 표기가 조금 다른 경우 (가운뎃점 · 공백)
+          var k = window.rrStatic.compact(f.root);
+          for (var n in lp.family) if (window.rrStatic.compact(n) === k) return lp.family[n];
+          return null;
+        })();
+        ((fam && fam.admin) || []).forEach(function (a) { if (!(a.name in names)) names[a.name] = a.id; ids[a.id] = 1; });
+      });
+      var keep = window.rrStatic.keepIds(fams, names);
+      var treeIds = Object.keys(keep).filter(function (id) { return ids[id]; });   // Pro 체계도 안의 것 (밖의 것은 '필수 고시')
+      var files = window.rrStatic.build(fams, body.company, u, { keep: keep, treeIds: treeIds });
+      var rec = { slug: s, company: body.company, savedAt: new Date().toISOString(), families: fams.map(slim), keep: keep, treeIds: treeIds, files: files };
       return store('readwrite', function (st) { st.put(rec); }).then(function () { return status(rec); });
     });
   }

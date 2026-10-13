@@ -2,7 +2,11 @@
 
 실행: python3 -m unittest discover -s tests
 """
+import json
+import shutil
+import subprocess
 import unittest
+from pathlib import Path
 
 from engine import rr_static as R
 
@@ -82,6 +86,49 @@ class BuildTest(unittest.TestCase):
         out = R.filter_amend(doc, R.amend_keys(self.out))
         self.assertEqual(out["items"], {"가법|2026-01-01|일": {"r": 0}})
         self.assertEqual(out["reasons"], ["r2"])
+
+
+NODE = shutil.which("node")
+JS = Path(__file__).resolve().parents[1] / "web" / "rr-static.js"
+RUN = ("const R=require(process.argv[1]);let s='';process.stdin.setEncoding('utf8');process.stdin.on('data',d=>s+=d).on('end',()=>{const a=JSON.parse(s);"
+       "process.stdout.write(JSON.stringify(R.build(a.families,a.company,a.universe,a.opt)))})")
+
+
+def run_js(families, company, universe, opt):
+    p = subprocess.run([NODE, "-e", RUN, str(JS)], input=json.dumps({"families": families, "company": company, "universe": universe, "opt": opt}),
+                       capture_output=True, text=True, check=True)
+    return json.loads(p.stdout)
+
+
+def strip_time(x):
+    """시각(만든 때)만 빼고 비교한다."""
+    if isinstance(x, dict):
+        return {k: strip_time(v) for k, v in x.items() if k not in ("generatedAt", "updatedAt", "date")}
+    if isinstance(x, list):
+        return [strip_time(v) for v in x]
+    return x
+
+
+@unittest.skipUnless(NODE, "node 가 없어 자바스크립트판 비교를 건너뜀")
+class JsSameAsPythonTest(unittest.TestCase):
+    """web/rr-static.js (브라우저) 가 engine/rr_static.py 와 같은 결과를 내는지."""
+    def check(self, fams, u, **opt):
+        py = R.build(fams, "가회사", u, **opt)
+        js = run_js(fams, "가회사", u, {"keep": opt.get("keep"), "treeNames": opt.get("tree_names"),
+                                        "treeIds": sorted(opt["tree_ids"]) if opt.get("tree_ids") is not None else None})
+        self.assertEqual(strip_time(js), strip_time(py))
+
+    def test_same_basic(self):
+        self.check(FAMS, universe())
+
+    def test_same_with_extra_and_dedupe(self):
+        u = universe()
+        u["admrul_candidates.json"]["items"].append({"id": "X9", "name": "다 고시", "kind": "고시", "seq": "93", "effective": "20260601",
+                                                     "families": ["다법"], "jobs": ["기타"], "tag": "", "out": ""})
+        u["admrul_events.json"]["items"].append({"id": "X9", "t": "다 고시", "k": "고시", "d": "2026-06-01", "p": "2026-05-20",
+                                                 "a": "제정", "m": "부", "q": "93", "s": 1, "g": ""})
+        fams = [dict(FAMS[0], admin=FAMS[0]["admin"] + [{"id": "X9", "name": "다 고시"}])]
+        self.check(fams, u, tree_ids={"A1", "A2"})
 
 
 if __name__ == "__main__":

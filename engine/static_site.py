@@ -309,7 +309,7 @@ def dart_pass(max_fail=10, limit=None, log=print):
     return len(results)
 
 
-ENGINE_FILES = ["__init__", "lawapi", "suggest", "classify", "universe", "industry", "rr_static"]
+ENGINE_FILES = ["__init__", "lawapi", "suggest", "classify", "universe", "industry"]
 KB_FILES = ["catalog", "facts", "rules", "universe", "industry_laws", "duties", "admin_scope"]
 DATA_URL = "https://raw.githubusercontent.com/tjdudfhr/RegRader/pro-data/"
 
@@ -331,14 +331,17 @@ def web(dest, data_url=DATA_URL, log=print):
     pre = f'<script>window.RR_PRO_DATA = {json.dumps(data_url)}; window.RR_PRO_PY = "./py/"; window.RR_PRO_SITE = "./site/";</script>\n'
     for name, fixes in (("index.html", [('href="/rr/"', 'href="./companies.html"')]),
                         ("companies.html", [('href="/"', 'href="./index.html"')])):
-        t = (ROOT / "web" / name).read_text(encoding="utf-8").replace("</head>", pre + '<script src="./static-api.js"></script>\n</head>', 1)
+        rs_v = hashlib.sha1((ROOT / "web" / "rr-static.js").read_bytes()).hexdigest()[:8]
+        api_v = hashlib.sha1((ROOT / "web" / "static-api.js").read_bytes()).hexdigest()[:8]
+        t = (ROOT / "web" / name).read_text(encoding="utf-8").replace(
+            "</head>", pre + f'<script src="./rr-static.js?v={rs_v}"></script>\n<script src="./static-api.js?v={api_v}"></script>\n</head>', 1)
         gate = Path(X.REPO) / "docs" / "gate.js"
         gate_v = hashlib.sha1(gate.read_bytes()).hexdigest()[:8] if gate.exists() else "0"
         t = re.sub(r"(<head[^>]*>)", lambda m: m.group(1) + f'\n<script src="../gate.js?v={gate_v}"></script>', t, count=1)   # RegRader 화면 잠금 · 최신 화면 확인
         for a, b in fixes:
             t = t.replace(a, b)
         (dest / name).write_text(t, encoding="utf-8")
-    for name in ("static-api.js", "company-mode.js"):
+    for name in ("static-api.js", "company-mode.js", "rr-static.js"):
         shutil.copy2(ROOT / "web" / name, dest / name)
     for n in ENGINE_FILES:
         shutil.copy2(ROOT / "engine" / f"{n}.py", dest / "py" / "engine" / f"{n}.py")
@@ -353,8 +356,9 @@ def web(dest, data_url=DATA_URL, log=print):
     shutil.copytree(X.SITE / "docs", site, ignore=shutil.ignore_patterns("intro", "pro-company.js"))
     import hashlib
     mode_v = hashlib.sha1((ROOT / "web" / "company-mode.js").read_bytes()).hexdigest()[:8]   # 바뀌면 브라우저가 새로 받게
+    rs_v = hashlib.sha1((ROOT / "web" / "rr-static.js").read_bytes()).hexdigest()[:8]
     tag = (f'<script>window.RR_PRO_DATA = {json.dumps(data_url)}; window.RR_PRO_HOME = "../";</script>'
-           f'<script src="../company-mode.js?v={mode_v}"></script>')
+           f'<script src="../rr-static.js?v={rs_v}"></script><script src="../company-mode.js?v={mode_v}"></script>')
     for name in ("index.html", "watch.html", "history.html"):
         p = site / name
         if not p.exists():
@@ -430,6 +434,29 @@ def daily(push=True, log=print):
     publish(push=push, log=log)
 
 
+def _js_same(families, company, universe, keep, tree_ids, py_out):
+    """브라우저용 web/rr-static.js 가 같은 입력에 파이썬판과 같은 결과를 내는지 (node 가 없으면 None)."""
+    import shutil
+    import subprocess
+    node = shutil.which("node")
+    if not node:
+        return None
+    run = ("const R=require(process.argv[1]);let s='';process.stdin.setEncoding('utf8');process.stdin.on('data',d=>s+=d).on('end',()=>{const a=JSON.parse(s);"
+           "process.stdout.write(JSON.stringify(R.build(a.families,a.company,a.universe,a.opt)))})")
+    payload = json.dumps({"families": families, "company": company, "universe": universe,
+                          "opt": {"keep": keep, "treeIds": sorted(tree_ids)}}, ensure_ascii=False)
+    js = json.loads(subprocess.run([node, "-e", run, str(ROOT / "web" / "rr-static.js")], input=payload, capture_output=True,
+                                   text=True, check=True).stdout)
+
+    def strip(x):
+        if isinstance(x, dict):
+            return {k: strip(v) for k, v in x.items() if k not in ("generatedAt", "updatedAt", "date")}
+        if isinstance(x, list):
+            return [strip(v) for v in x]
+        return x
+    return strip(js) == strip(json.loads(json.dumps(py_out, ensure_ascii=False)))
+
+
 def check(names, log=print):
     """골라 만든 회사 데이터(rr_static) ↔ 회사 작업 폴더에서 실제 수집한 데이터(export_regrader) 비교.
     입력은 그 작업 폴더가 쓴 것 그대로 (적용법규 목록 · company_scope.json) — 판정 결과가 아니라 '고르는 규칙'만 본다."""
@@ -465,6 +492,10 @@ def check(names, log=print):
                "개정 줄": (len(g_rows), len(r_rows), len(g_rows ^ r_rows)),
                "계열 배치": (len(fam(got["law_families.json"])), len(fam(real["law_families.json"])), len(fam(got["law_families.json"]) ^ fam(real["law_families.json"])))}
         log(f"{name}: " + " · ".join(f"{k} 골라냄 {a} / 실제 {b} / 다름 {c}" for k, (a, b, c) in res.items()))
+        js_ok = _js_same(list(fams.values()), scope.get("company") or name, u, keep, set(scope["keep"]) - set(extra), got)
+        if js_ok is not None:
+            log(f"   자바스크립트판(web/rr-static.js): {'파이썬판과 같음' if js_ok else '파이썬판과 다름!'}")
+            ok = ok and js_ok
         for r in sorted(g_rows - r_rows)[:6]:
             log(f"   골라냄에만: {r}")
         for r in sorted(r_rows - g_rows)[:6]:

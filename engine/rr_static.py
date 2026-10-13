@@ -4,12 +4,11 @@
 회사 데이터는 그중 회사 적용법규(법령 이름)와 Pro 가 고른 행정규칙(ID)의 행만 남기고, 직무 · 계열 표시만 회사 기준으로 다시 붙인다.
 (scripts/refresh_laws.py · law_families.py · admin_rules.py 가 회사 작업 폴더에서 만드는 것과 같은 규칙)
 
-브라우저(Pyodide)에서도 그대로 돈다: 표준 라이브러리만 쓴다.
+같은 규칙의 자바스크립트판이 web/rr-static.js 다 (브라우저에서 즉시 · tests/test_rr_static.py 가 결과가 같은지 본다).
     build(families, company, universe) → {파일 이름: 내용}
       families  판정 결과의 계열 (RegRader로 보내기 화면이 보내는 것과 같은 모양)
       universe  {파일 이름: 내용} — base_laws_207 · law_families · admrul_candidates · admrul_events · upcoming_next · meta · m0~m7
 """
-import hashlib
 import re
 from datetime import datetime, timezone
 
@@ -31,6 +30,14 @@ def _level(m):
         return lv
     t = (m.get("name") or "").strip()
     return "시행령" if t.endswith("시행령") else "시행규칙" if t.endswith("시행규칙") else "법률"
+
+
+def _fnv(text):
+    """32비트 FNV-1a (UTF-8) — 자바스크립트판(web/rr-static.js)과 같은 값. 계열 목록의 baseKey 용."""
+    h = 0x811C9DC5
+    for b in text.encode("utf-8"):
+        h = ((h ^ b) * 0x01000193) & 0xFFFFFFFF
+    return f"{h:08x}"
 
 
 def _now():
@@ -156,7 +163,7 @@ def build(families, company, universe, keep=None, tree_names=None, tree_ids=None
         "base_laws_207.json": {"generatedAt": now, "year": umeta.get("year"), "description": f"{company} 적용 법규 {len(items)}개 (RegRader Pro 판정)",
                                "total_laws": len(items), "items": items, "updatedAt": now},
         "law_families.json": {"generatedAt": now, "source": "국가법령정보센터 법령체계도 (lsStmd) — RegRader Pro 전체 법률 수집에서 고름",
-                              "baseKey": hashlib.sha1("\n".join(sorted(compact(t) for t in titles)).encode("utf-8")).hexdigest(),
+                              "baseKey": _fnv("\n".join(sorted(compact(t) for t in titles))),
                               "baseCount": len(items), "familyCount": len(fams), "families": fams},
         "admrul_index.json": {"generatedAt": now, "items": index},
         "upcoming_next.json": upcoming,
