@@ -80,7 +80,6 @@
   function build(k) {
     window.__rrHold = true;
     function say(t) {
-      document.documentElement.classList.remove('rr-soft');
       var el = document.querySelector('#rr-boot .rr-boot-sub');
       if (el) el.textContent = slug + ' · ' + t + ' 중…';
     }
@@ -149,7 +148,7 @@
 
   function ui() {
     /* 시행 임박 · 업데이트 내역 탭(iframe)도 같은 회사로 */
-    document.querySelectorAll('iframe.rr-embed[data-src]').forEach(function (f) {
+    document.querySelectorAll('iframe.rr-embed[data-src]:not(.rr-pro-frame)').forEach(function (f) {   // 기업별 적용법규 검색(Pro) 화면은 그대로
       if (f.dataset.src.indexOf('company=') < 0) f.dataset.src += (f.dataset.src.indexOf('?') < 0 ? '?' : '&') + 'company=' + encodeURIComponent(slug);
     });
     if (/[?&]embed=1/.test(location.search)) return;
