@@ -32,7 +32,7 @@
 </style>
 <script>window.RR_PRO_DATA = "https://raw.githubusercontent.com/tjdudfhr/RegRader/pro-data/"; window.RR_PRO_PY = "./py/"; window.RR_PRO_SITE = "./site/";</script>
 <script src="./rr-static.js?v=55501459"></script>
-<script src="./static-api.js?v=a0b7206d"></script>
+<script src="./static-api.js?v=31252288"></script>
 </head>
 <body>
 <main>
@@ -49,6 +49,10 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   /* RegRader 의 '기업별 적용법규 검색' 팝업 안이면 새 탭 대신 RegRader 창 자체를 그 회사 화면으로 */
   var TARGET = window.parent !== window ? ' target="_top"' : ' target="_blank" rel="noopener"';
+  if (window.parent !== window) document.addEventListener('click', function (e) {   // 팝업을 걷고 매끄럽게 (system-ui.js 의 rrProLeave)
+    var a = e.target.closest('a[target="_top"]');
+    try { if (a && window.parent.rrProLeave) { e.preventDefault(); window.parent.rrProLeave(a.href); } } catch (x) { /* 링크대로 */ }
+  });
   function num(n) { return n == null ? '–' : Number(n).toLocaleString(); }
   function card(c) {
     var r = c.result || {}, st = c.state || '';

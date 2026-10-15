@@ -506,7 +506,7 @@
 <script src="./review-cloud.js?v=e8542ee2"></script>
 <script>window.RR_PRO_DATA = "https://raw.githubusercontent.com/tjdudfhr/RegRader/pro-data/"; window.RR_PRO_PY = "./py/"; window.RR_PRO_SITE = "./site/";</script>
 <script src="./rr-static.js?v=55501459"></script>
-<script src="./static-api.js?v=a0b7206d"></script>
+<script src="./static-api.js?v=31252288"></script>
 </head>
 <body>
 <header>
@@ -605,7 +605,7 @@
   const esc = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const safeUrl = (u) => (/^https?:\/\//i.test(u || '') ? u : '');
   const compact = (t) => String(t || '').replace(/[\s·ㆍ]/g, '');
-  // RegRader 의 회사 검색창이 뒤에서 띄운 판정 엔진(?warm=1): 화면에 보이지 않으므로 커서를 가져가지 않는다
+  // 회사 화면(company-mode.js)이 뒤에서 띄운 판정 엔진(?warm=1): 화면에 보이지 않으므로 커서를 가져가지 않는다
   const WARM = /[?&]warm=1/.test(location.search);
   let autoRun = false, autoSay = null;   // rrProAuto 실행 중: RegRader 창을 옮기지 않고 진행 단계를 알린다
   const LAW_URL = (n) => 'https://www.law.go.kr/법령/' + encodeURIComponent(n);
@@ -1647,6 +1647,10 @@
   let rrWin = null;
   // RegRader 의 '기업별 적용법규 검색' 팝업 안(embed)이면 새 창 대신 RegRader 창 자체를 그 회사 화면으로 옮긴다
   const embedded = document.documentElement.classList.contains('embed') && window.parent !== window;
+  if (embedded) document.addEventListener('click', (e) => {   // 'RegRader 화면 열기' 같은 링크도 같은 길로
+    const a = e.target.closest('a[target="_top"]');
+    if (a && a.href) { e.preventDefault(); rrOpen(a.href); }
+  });
   if (embedded) document.addEventListener('keydown', (e) => {   // ESC: 열린 안내 창부터, 없으면 RegRader 팝업을 닫는다
     if (e.key !== 'Escape') return;
     const dlg = document.querySelector('.rvdlg');
@@ -1654,9 +1658,12 @@
     try { if (window.parent.rrProClose) window.parent.rrProClose(); } catch (err) { /* 다른 출처면 그냥 둔다 */ }
   });
   function rrOpen(url) {
-    if (!url || autoRun) return;   // 자동 실행: 이동은 부른 쪽(RegRader 검색창)이 한다
+    if (!url || autoRun) return;   // 자동 실행: 부른 회사 화면이 스스로 다시 그린다
     const abs = new URL(url, location.href).href;
-    if (embedded) { try { window.top.location.href = abs; return; } catch (e) { /* 다른 사이트에 끼워진 경우: 새 창으로 */ } }
+    if (embedded) {   // RegRader 팝업 안: 팝업을 걷고 그 회사 화면으로 매끄럽게 (system-ui.js 의 rrProLeave)
+      try { if (window.parent.rrProLeave) { window.parent.rrProLeave(abs); return; } } catch (e) { /* 아래로 */ }
+      try { sessionStorage.setItem('rr-soft', '1'); window.top.location.href = abs; return; } catch (e) { /* 다른 사이트에 끼워진 경우: 새 창으로 */ }
+    }
     if (rrWin && !rrWin.closed) { rrWin.location.href = abs; rrWin.focus(); }
     else window.open(abs, '_blank', 'noopener');
     rrWin = null;
@@ -1669,7 +1676,7 @@
         String(p.name || '회사').replace(/[<>&]/g, '') + ' RegRader 화면을 만드는 중입니다…</p>');
     } catch (e) { rrWin = null; }
     try {
-      rrState = await post('/api/regrader', { company: p.name, profile: p, families: rrPayload() });
+      rrState = await post('/api/regrader', { company: p.name, key: curKey || '', profile: p, families: rrPayload() });
     } catch (e) {
       rrState = { state: 'error', error: e.message };
     }
@@ -1679,8 +1686,9 @@
     else if (rrWin) { try { rrWin.close(); } catch (e) { /* 닫지 못해도 그대로 */ } rrWin = null; }
   }
 
-  /* RegRader 의 '기업별 적용법규 검색' 창이 부른다: 회사 고르기 → 판정(저장해 둔 검토 반영) → RegRader 화면 만들기까지
-     화면을 누르지 않고 한 번에. 손으로 할 때와 같은 함수(pick · run · rrExport)를 그대로 쓴다 — 결과가 같다. */
+  /* 회사 화면 링크(?company=&key=)를 이 브라우저에서 처음 열 때 회사 화면(company-mode.js)이 부른다:
+     회사 고르기 → 판정(저장해 둔 검토 반영) → RegRader 화면 만들기까지 화면을 누르지 않고 한 번에.
+     손으로 할 때와 같은 함수(pick · run · rrExport)를 그대로 쓴다 — 결과가 같다. */
   window.rrProAuto = async function (key, say) {
     autoRun = true;
     autoSay = (t) => { try { if (say) say(t); } catch (e) { /* 알림 실패는 무시 */ } };
