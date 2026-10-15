@@ -124,14 +124,14 @@ def fact_effects():
             for x in w.get(k) or []:
                 if isinstance(x, str):
                     ids |= set(groups.get(x, [x]))
-        for fid in ids:
+        for fid in sorted(ids):   # 순서를 고정해 다시 만들어도 파일이 같게
             laws = out.setdefault(fid, [])
             seen = {x["name"] for x in laws}
             for law in r["laws"]:
                 if law["name"] not in seen:
                     seen.add(law["name"])
                     laws.append({"name": law["name"], "job": law.get("job") or "기타", "why": r.get("why") or ""})
-    return out
+    return dict(sorted(out.items()))
 
 
 def load_catalog():
