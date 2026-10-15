@@ -257,6 +257,7 @@
           company: { ready: true, nps: (ix.dataAsOf || {}).nps || (ix.generatedAt || '').slice(0, 7), count: ix.count } };
       });
     },
+    'GET /api/codes': function () { return getJSON(PY + 'kb/ntscodes.json'); },
     'GET /api/catalog': function () {
       return Promise.all([getJSON(PY + 'kb/catalog.json'), getJSON(PY + 'kb/effects.json').catch(function () { return {}; })])
         .then(function (r) { return Object.assign({}, r[0], { effects: r[1] }); });

@@ -6,6 +6,7 @@ AI 기능은 .env 의 ANTHROPIC_API_KEY 가 있을 때 켜진다.
 API
 - GET  /api/status          회사 찾기 자료 기준일, AI 사용 가능 여부
 - GET  /api/catalog         입력 항목
+- GET  /api/codes           국세청 업종코드 전부 (항목 추가의 '업종코드로 찾기')
 - GET  /api/company?q=      회사명 → 후보 (공공데이터, 무료)
 - POST /api/company/draft   {"key"} → 회사 정보 초안 + 근거
 - POST /api/suggest         {"profile", "research", "ai"} → 적용법규 후보
@@ -41,7 +42,7 @@ def load_env(path=ROOT / ".env"):
 
 load_env()
 
-from engine import companydb, export_regrader, lawapi  # noqa: E402
+from engine import companydb, export_regrader, industry, lawapi  # noqa: E402
 from engine.suggest import JOBS, add_law, apply_ai, fact_effects, load_catalog, plain_categories, suggest  # noqa: E402
 
 try:
@@ -124,6 +125,8 @@ class Handler(SimpleHTTPRequestHandler):
                 })
             if url.path == "/api/catalog":
                 return self._json(200, dict(load_catalog(), effects=fact_effects()))
+            if url.path == "/api/codes":
+                return self._json(200, industry.codes_doc())
             if url.path == "/api/example":
                 return self._json(200, json.loads((ROOT / "examples" / "manufacturer.json").read_text(encoding="utf-8")))
             if url.path == "/api/company":
