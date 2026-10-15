@@ -829,12 +829,18 @@
     {
       "id": "soil-tank",
       "when": {
-        "any": [
+        "all": [
           "eq:tank"
+        ],
+        "any": [
+          "MFG",
+          "ind:fuel",
+          "ind:refinery",
+          "ind:logistics"
         ]
       },
       "tier": "확인",
-      "why": "유류 저장탱크 (용량에 따라 특정토양오염관리대상시설)",
+      "why": "유류 저장탱크 (용량에 따라 특정토양오염관리대상시설) — 공장 · 주유소 · 물류 시설의 대형 탱크 (사옥 비상발전기 탱크는 보통 대상 용량 미만)",
       "laws": [
         {
           "name": "토양환경보전법",
@@ -2034,7 +2040,7 @@
           "site:factory"
         ],
         "gte": {
-          "employees": 1000
+          "factory_employees": 1000
         }
       },
       "tier": "확인",
