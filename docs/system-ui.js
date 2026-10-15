@@ -11,6 +11,11 @@
 (function () {
   'use strict';
 
+  /* 검색창에서 회사 화면으로(또는 되돌아) 넘어온 경우: 시작 화면(로고)을 건너뛰고 앱 틀을 바로 보인다 */
+  if (window.top === window) try {
+    if (sessionStorage.getItem('rr-soft')) { sessionStorage.removeItem('rr-soft'); document.documentElement.classList.add('rr-soft'); }
+  } catch (e) { /* 저장소를 못 쓰면 평소처럼 */ }
+
   /* ---------- 아이콘 (Lucide 계열 선 아이콘, 24x24) ---------- */
   var P = {
     dashboard: '<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
@@ -188,18 +193,188 @@
     intro: ['안내', '시스템 소개', 'slides']
   };
 
-  /* ---------- 기업별 적용법규 검색 팝업 (RegRader Pro 브라우저판) ----------
-   * 사이드바 맨 위 버튼 · 주소 #pro 로 연다. 팝업 안에서 회사 검색 → 판정 → 'RegRader로 보내기'를 누르면
-   * 팝업이 닫히고 그 회사의 RegRader 화면으로 바로 넘어간다 (Pro 가 위 창을 그 주소로 옮긴다).
-   * 닫았다 다시 열면 하던 화면 그대로 (iframe 을 남겨 둔다) */
-  function proUrl() {
-    if (window.RR_PRO_URL) return window.RR_PRO_URL;
-    var p = location.pathname;
-    if (/\/pro\/site\//.test(p)) return '../?embed=1';   // 회사 RegRader 화면(브라우저판) 안에서
-    if (/\/rr\//.test(p)) return '/?embed=1';             // 맥 서버판 회사 화면 안에서
-    return './pro/?embed=1';
+  /* ---------- 기업별 적용법규 검색 (검색창 → 바로 그 회사 화면) ----------
+   * 사이드바 맨 위 버튼 · 앱 바 검색 아이콘 · 주소 #pro 로 연다.
+   * 검색창에서 회사를 고르면 그 자리에서 판정하고(뒤에 띄워 둔 RegRader Pro 판정 엔진, 손으로 할 때와 같은 함수),
+   * 끝나면 그 회사의 RegRader 화면으로 넘어간다 — 앱 바 · 사이드바는 그대로, 본문만 바뀐다 (system.css 의 화면 전환).
+   * 검색창을 여는 순간 판정 엔진을 미리 받아 두어 고른 뒤 기다림을 줄인다.
+   * 서버판(맥, /rr/)은 예전처럼 Pro 화면을 팝업으로 띄운다. */
+  var SERVER = !!window.RR_PRO_URL || /\/rr\//.test(location.pathname);
+  var IN_CO = /\/pro\/site\//.test(location.pathname);       // 회사 RegRader 화면(브라우저판) 안
+  function proApp() { return IN_CO ? '../' : './pro/'; }     // RegRader Pro 브라우저판
+  function coSite() { return IN_CO ? './' : './pro/site/'; } // 회사 RegRader 화면
+  function homeUrl() { return IN_CO ? '../../' : './'; }      // 당사 RegRader
+  var SEARCH_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+  function escH(t) { return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  /* 다음 화면에서 시작 화면(로고)을 건너뛴다: 같은 사이트 안에서 넘어갈 때 깜빡임 없이 */
+  function soft(url) {
+    try { sessionStorage.setItem('rr-soft', '1'); } catch (e) { /* 저장소를 못 쓰면 시작 화면이 잠깐 보일 뿐 */ }
+    location.href = url;
   }
-  function proPop() {
+
+  /* 최근 본 회사 (이 브라우저) */
+  var RECENT = 'rr-pro-recent';
+  function recent() { try { return JSON.parse(localStorage.getItem(RECENT) || '[]'); } catch (e) { return []; } }
+  window.rrProRecent = function (x) {
+    if (!x || !x.slug) return;
+    var list = recent().filter(function (r) { return r.slug !== x.slug; });
+    list.unshift({ slug: x.slug, key: x.key || '', name: x.name || x.slug, laws: x.laws, admin: x.admin, at: x.at || new Date().toISOString().slice(0, 10) });
+    try { localStorage.setItem(RECENT, JSON.stringify(list.slice(0, 8))); } catch (e) { /* 못 남겨도 그만 */ }
+  };
+
+  /* 판정 엔진: RegRader Pro 화면을 보이지 않게 띄운다 (회사 색인 · 판정 엔진을 한 번만 받는다) */
+  var eng = null;
+  function engine() {
+    if (eng) return eng;
+    var f = document.createElement('iframe');
+    f.className = 'rr-find-engine';
+    f.title = '판정 엔진';
+    f.tabIndex = -1;
+    f.setAttribute('aria-hidden', 'true');
+    f.src = proApp() + '?embed=1&warm=1';
+    eng = new Promise(function (ok, bad) {
+      var t0 = Date.now();
+      (function wait() {
+        var w = null;
+        try { w = f.contentWindow; } catch (e) { w = null; }
+        if (w && w.rrProApi && w.rrProAuto) return ok(w);
+        if (Date.now() - t0 > 90000) return bad(new Error('판정 엔진을 열지 못했습니다. 인터넷 연결을 확인해 주세요.'));
+        setTimeout(wait, 100);
+      })();
+    });
+    eng.catch(function () { eng = null; f.remove(); });
+    document.body.appendChild(f);
+    return eng;
+  }
+
+  var STEPS = ['회사 정보 · 검토 기록 확인', '현행 법률 1,725개 판정', 'RegRader 화면 만들기'];
+  var finding = 0;   // 진행 중인 판정 번호 (닫거나 다른 회사를 고르면 앞의 결과는 버린다)
+
+  function finder() {
+    var el = document.getElementById('rr-find');
+    if (el) return el;
+    el = document.createElement('div');
+    el.id = 'rr-find';
+    el.className = 'rr-find';
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-modal', 'true');
+    el.setAttribute('aria-label', '기업별 적용법규 검색');
+    el.innerHTML = '<div class="card">' +
+      '<label class="in">' + SEARCH_ICON + '<input type="search" placeholder="회사 이름을 입력하세요 (예: 에코프로비엠)" autocomplete="off" spellcheck="false" aria-label="회사 이름">' +
+      '<kbd>ESC</kbd></label><div class="body" role="listbox" aria-label="검색 결과"></div>' +
+      '<div class="foot"><span>상장사 · 국민연금 가입자 30명 이상 법인 · 회사 이름으로 적용법규를 판정해 그 회사의 개정 모니터링 화면을 엽니다</span>' +
+      '<a href="' + proApp() + '" target="_blank" rel="noopener">목록에 없는 회사 · 직접 입력 ↗</a></div></div>';
+    var input = el.querySelector('input'), body = el.querySelector('.body'), timer = null, rows = [], at = -1, q0 = '';
+
+    function mark(i) {
+      at = i;
+      rows.forEach(function (r, k) { r.classList.toggle('on', k === i); if (k === i) r.scrollIntoView({ block: 'nearest' }); });
+    }
+    function rowHtml(attrs, title, badge, sub, right) {
+      return '<button type="button" class="row" role="option" ' + attrs + '><span class="ic">' + SEARCH_ICON + '</span><span class="tx"><b>' + title + '</b>' +
+        (badge ? '<em>' + badge + '</em>' : '') + '<small>' + sub + '</small></span>' + (right ? '<span class="rt">' + right + '</span>' : '') + '</button>';
+    }
+    function paint(html) { body.innerHTML = html; rows = [].slice.call(body.querySelectorAll('.row')); mark(rows.length ? 0 : -1); }
+    function idle() {
+      var me = new URLSearchParams(location.search).get('company');
+      var list = recent().filter(function (r) { return r.slug !== me; }).slice(0, 6);
+      var h = '';
+      if (IN_CO) h += '<div class="sec">지금 보는 화면</div>' + rowHtml('data-home="1"', '당사 RegRader 화면으로', '', '우리 회사 적용법규(등록부) 기준 화면으로 돌아갑니다', '↩');
+      if (list.length) {
+        h += '<div class="sec">최근 본 회사 <small>바로 열립니다</small></div>' + list.map(function (r) {
+          var n = (r.laws != null ? '법령 ' + Number(r.laws).toLocaleString() + ' · 행정규칙 ' + Number(r.admin || 0).toLocaleString() + ' · ' : '') + (r.at || '') + ' 판정';
+          return rowHtml('data-slug="' + escH(r.slug) + '" data-key="' + escH(r.key) + '"', escH(r.name), '', escH(n), '열기');
+        }).join('');
+      }
+      if (!h) h = '<p class="msg">회사 이름을 두 글자 이상 넣으면 바로 찾습니다. 고르면 적용법규를 판정해 그 회사의 RegRader 화면을 엽니다.</p>';
+      paint(h);
+    }
+    function hl(name, q) {
+      var e = escH(name), k = escH(q.trim());
+      var i = k ? e.indexOf(k) : -1;
+      return i < 0 ? e : e.slice(0, i) + '<mark>' + e.slice(i, i + k.length) + '</mark>' + e.slice(i + k.length);
+    }
+    function search(q) {
+      q0 = q;
+      if (q.trim().length < 2) return idle();
+      if (!rows.length || !body.querySelector('.row[data-pick]')) paint('<p class="msg"><span class="spin"></span>회사 목록을 불러오는 중…</p>');
+      engine().then(function (w) { return w.rrProApi.search(q, 8); }).then(function (res) {
+        if (q !== q0) return;
+        if (!res.length) return paint('<p class="msg">‘' + escH(q) + '’ 에 맞는 회사가 없습니다. 이름을 조금 다르게 넣거나, 아래 ‘직접 입력’으로 판정하세요.</p>');
+        paint(res.map(function (c) {
+          var badge = c.listedAs ? escH((c.listedAs.market || '상장') + ' ' + (c.listedAs.code || '')) : '';
+          var sub = [c.industry && c.industry.name, c.employees ? '국민연금 ' + Number(c.employees).toLocaleString() + '명' : '',
+            c.factoryCount ? '공장 ' + c.factoryCount + '곳' : '', (c.address || '').split(' ').slice(0, 2).join(' ')].filter(Boolean).map(escH).join(' · ');
+          return rowHtml('data-pick="' + escH(c.key) + '" data-name="' + escH(c.name) + '"', hl(c.name, q), badge, sub, '판정');
+        }).join(''));
+      }, function (e) {
+        if (q === q0) paint('<p class="msg err">' + escH(e.message) + '</p>');
+      });
+    }
+    function progress(name, step, t0) {
+      var sec = Math.round((Date.now() - t0) / 1000);
+      body.innerHTML = '<div class="run"><div class="co"><span class="spin"></span><b>' + escH(name) + '</b><small>' + sec + '초</small></div><ol>' +
+        STEPS.map(function (t, i) { return '<li class="' + (i < step ? 'done' : i === step ? 'now' : '') + '">' + t + '</li>'; }).join('') +
+        '</ol><p>처음 한 번은 판정 엔진을 받느라 10~20초 걸릴 수 있습니다. 저장해 둔 검토(맞음 · 아님)는 자동으로 반영합니다.</p></div>';
+      rows = [];
+    }
+    function pick(key, name) {
+      var me = ++finding, step = 0, t0 = Date.now();
+      el.classList.add('busy');
+      input.disabled = true;
+      progress(name, 0, t0);
+      var tick = setInterval(function () { if (me === finding) progress(name, step, t0); else clearInterval(tick); }, 1000);
+      engine().then(function (w) {
+        return w.rrProAuto(key, function (t) {
+          var i = STEPS.indexOf(t);
+          if (i >= 0 && me === finding) { step = i; progress(name, step, t0); }
+        });
+      }).then(function (r) {
+        clearInterval(tick);
+        if (me !== finding) return;
+        var slug = new URL(r.url).searchParams.get('company');
+        window.rrProRecent({ slug: slug, key: key, name: r.company || name, laws: r.laws, admin: r.admin });
+        step = 3; progress(name, step, t0);
+        var u = new URL(r.url);
+        u.searchParams.set('key', key);
+        soft(u.href);
+      }, function (e) {
+        clearInterval(tick);
+        if (me !== finding) return;
+        el.classList.remove('busy');
+        input.disabled = false;
+        body.innerHTML = '<p class="msg err">' + escH(e && e.message || e) + '</p>';
+        rows = [];
+      });
+    }
+    function choose(r) {
+      if (!r) return;
+      if (r.dataset.home) return soft(homeUrl());
+      if (r.dataset.slug) return soft(coSite() + '?company=' + encodeURIComponent(r.dataset.slug) + (r.dataset.key ? '&key=' + encodeURIComponent(r.dataset.key) : ''));
+      if (r.dataset.pick) pick(r.dataset.pick, r.dataset.name);
+    }
+    input.addEventListener('input', function () { clearTimeout(timer); var q = input.value; timer = setTimeout(function () { search(q); }, 140); });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (rows.length) mark((at + (e.key === 'ArrowDown' ? 1 : -1) + rows.length) % rows.length);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (input.value.trim().length >= 2 && input.value !== q0) { clearTimeout(timer); search(input.value); return; }
+        choose(rows[at]);
+      }
+    });
+    body.addEventListener('mousemove', function (e) { var r = e.target.closest('.row'); if (r) { var i = rows.indexOf(r); if (i >= 0 && i !== at) mark(i); } });
+    body.addEventListener('click', function (e) { choose(e.target.closest('.row')); });
+    el.addEventListener('mousedown', function (e) { if (e.target === el) window.rrProClose(); });
+    el.rrIdle = idle;
+    document.body.appendChild(el);
+    return el;
+  }
+
+  /* 서버판(맥): 예전 팝업 */
+  function legacyPop() {
     var pop = document.getElementById('rr-pro-pop');
     if (pop) return pop;
     pop = document.createElement('div');
@@ -214,22 +389,38 @@
     document.body.appendChild(pop);
     return pop;
   }
+
   window.rrProOpen = function () {
-    var pop = proPop(), f = pop.querySelector('iframe');
-    if (!f.getAttribute('src')) f.setAttribute('src', proUrl());
-    pop.classList.add('open');
-    document.documentElement.style.overflow = 'hidden';
     nav(false);
+    if (SERVER) {
+      var pop = legacyPop(), f = pop.querySelector('iframe');
+      if (!f.getAttribute('src')) f.setAttribute('src', window.RR_PRO_URL || (IN_CO ? '../?embed=1' : '/?embed=1'));
+      pop.classList.add('open');
+      document.documentElement.style.overflow = 'hidden';
+      return;
+    }
+    var el = finder(), input = el.querySelector('input');
+    engine();   // 고르기 전에 판정 엔진을 받기 시작한다
+    if (!el.classList.contains('busy')) { input.disabled = false; if (!input.value) el.rrIdle(); }
+    el.classList.add('open');
+    document.documentElement.style.overflow = 'hidden';
+    setTimeout(function () { input.focus(); input.select(); }, 30);
   };
   window.rrProClose = function () {
-    var pop = document.getElementById('rr-pro-pop');
-    if (pop) pop.classList.remove('open');
+    ['rr-pro-pop', 'rr-find'].forEach(function (id) { var x = document.getElementById(id); if (x) x.classList.remove('open'); });
+    var f = document.getElementById('rr-find');
+    if (f && f.classList.contains('busy')) { finding++; f.classList.remove('busy'); f.querySelector('input').disabled = false; f.rrIdle(); }   // 판정 중에 닫으면 그만둔다
     document.documentElement.style.overflow = '';
     if (location.hash === '#pro') try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) {}
   };
   document.addEventListener('keydown', function (e) {
-    var pop = document.getElementById('rr-pro-pop');
-    if (e.key === 'Escape' && pop && pop.classList.contains('open')) window.rrProClose();
+    if (e.key !== 'Escape') return;
+    var open = document.querySelector('#rr-pro-pop.open, #rr-find.open');
+    if (open) window.rrProClose();
+  });
+  /* 버튼에 마우스를 올리면 판정 엔진을 미리 받기 시작한다 */
+  document.addEventListener('pointerover', function (e) {
+    if (!SERVER && e.target.closest && e.target.closest('.rr-pro-cta, .rr-pro-mini') && document.body) engine();
   });
   function proFromHash() { if (location.hash === '#pro') window.rrProOpen(); }
   window.addEventListener('hashchange', proFromHash);
@@ -342,6 +533,7 @@
     if (!b) { document.body.classList.add('rr-ready'); openFromHash(); return; }
     var t0 = Date.now();
     (function wait() {
+      if (window.__rrHold) { t0 = Date.now(); return setTimeout(wait, 80); }   // 회사 화면을 그 자리에서 만드는 중 (company-mode.js)
       var ready = (window.__rrItems && window.__rrItems.length) || Date.now() - t0 > 6000;
       if (!ready) return setTimeout(wait, 80);
       document.body.classList.add('rr-ready');
