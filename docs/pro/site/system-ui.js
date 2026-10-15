@@ -11,11 +11,6 @@
 (function () {
   'use strict';
 
-  /* 기업별 적용법규 검색 팝업에서 회사 화면으로 넘어온 경우: 시작 화면(로고)을 건너뛰고 앱 틀을 바로 보인다 */
-  if (window.top === window) try {
-    if (sessionStorage.getItem('rr-soft')) { sessionStorage.removeItem('rr-soft'); document.documentElement.classList.add('rr-soft'); }
-  } catch (e) { /* 저장소를 못 쓰면 평소처럼 */ }
-
   /* ---------- 아이콘 (Lucide 계열 선 아이콘, 24x24) ---------- */
   var P = {
     dashboard: '<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
@@ -190,73 +185,20 @@
     tracker: ['알림 · 기록', '대응 현황', 'check'],
     watch: ['알림 · 기록', '시행 임박', 'clock'],
     history: ['알림 · 기록', '업데이트 내역', 'history'],
-    intro: ['안내', '시스템 소개', 'slides']
+    intro: ['안내', '시스템 소개', 'slides'],
+    pro: ['검색', '기업별 적용법규 검색', 'search']
   };
 
-  /* ---------- 기업별 적용법규 검색 팝업 (RegRader Pro 브라우저판) ----------
-   * 사이드바 맨 위 버튼 · 앱 바 검색 아이콘 · 주소 #pro 로 연다. 팝업 안에서 회사 검색 → 판정(근거 · AI 추정 확인) → 'RegRader로 보내기'.
-   * 보내면 팝업이 닫히고 그 회사 RegRader 화면으로 넘어간다 (rrProLeave) — 시작 화면(로고) 없이, 앱 바 · 사이드바는 그대로 두고
-   * 본문만 바뀐다 (system.css 의 화면 전환). 버튼에 마우스를 올리면 팝업 속 Pro 를 미리 띄워 판정 엔진을 받아 둔다.
-   * 닫았다 다시 열면 하던 화면 그대로 (iframe 을 남겨 둔다) */
-  function proUrl() {
-    if (window.RR_PRO_URL) return window.RR_PRO_URL;
-    var p = location.pathname;
-    if (/\/pro\/site\//.test(p)) return '../?embed=1';   // 회사 RegRader 화면(브라우저판) 안에서
-    if (/\/rr\//.test(p)) return '/?embed=1';             // 맥 서버판 회사 화면 안에서
-    return './pro/?embed=1';
-  }
-  function proPop() {
-    var pop = document.getElementById('rr-pro-pop');
-    if (pop) return pop;
-    pop = document.createElement('div');
-    pop.id = 'rr-pro-pop';
-    pop.className = 'rr-pro-pop';
-    pop.setAttribute('role', 'dialog');
-    pop.setAttribute('aria-modal', 'true');
-    pop.setAttribute('aria-label', '기업별 적용법규 검색');
-    pop.innerHTML = '<div class="panel"><div class="bar"><b>🔎 기업별 적용법규 검색</b><small>회사 이름으로 찾아 적용법규를 판정하고, ‘RegRader로 보내기’로 그 회사의 모니터링 화면을 엽니다</small>' +
-      '<button type="button" class="x" aria-label="닫기">×</button></div><iframe title="기업별 적용법규 검색"></iframe></div>';
-    pop.addEventListener('click', function (e) { if (e.target === pop || e.target.closest('.x')) window.rrProClose(); });
-    document.body.appendChild(pop);
-    return pop;
-  }
-  function warm() {
-    var f = proPop().querySelector('iframe');
-    if (!f.getAttribute('src')) f.setAttribute('src', proUrl());
-    return f;
-  }
-  window.rrProOpen = function () {
-    var f = warm(), pop = proPop();
-    pop.classList.remove('leaving');
-    pop.classList.add('open');
-    document.documentElement.style.overflow = 'hidden';
-    nav(false);
-    setTimeout(function () {   // 미리 띄워 둔 Pro 첫 화면이면 검색칸에 커서
-      try { var d = f.contentDocument, hq = d && d.getElementById('hq'); if (hq && d.body.classList.contains('landing')) hq.focus(); } catch (e) { /* 그대로 */ }
-    }, 60);
-  };
-  window.rrProClose = function () {
-    var pop = document.getElementById('rr-pro-pop');
-    if (pop) pop.classList.remove('open');
-    document.documentElement.style.overflow = '';
-    if (location.hash === '#pro') try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) {}
-  };
-  /* 팝업 속 Pro 가 'RegRader로 보내기' · 'RegRader 화면 열기' 때 부른다: 팝업을 걷고 그 회사 화면으로 매끄럽게 */
-  window.rrProLeave = function (url) {
-    try { sessionStorage.setItem('rr-soft', '1'); } catch (e) { /* 저장소를 못 쓰면 시작 화면이 잠깐 보일 뿐 */ }
-    var pop = document.getElementById('rr-pro-pop');
-    if (pop) pop.classList.add('leaving');
-    setTimeout(function () { location.href = url; }, 170);
-  };
-  document.addEventListener('keydown', function (e) {
-    var pop = document.getElementById('rr-pro-pop');
-    if (e.key === 'Escape' && pop && pop.classList.contains('open')) window.rrProClose();
+  /* ---------- 기업별 적용법규 검색 (RegRader Pro 브라우저판) ----------
+   * 사이드바 맨 위 버튼 · 앱 바 검색 아이콘 · 주소 #pro 로 오른쪽 내용 영역(#pro-content)에 연다.
+   * 회사 검색 → 판정(근거 · AI 추정 확인) → 'RegRader로 보내기' 를 누르면 그 회사 RegRader 화면이 새 탭으로 열린다.
+   * 버튼에 마우스를 올리면 미리 불러 판정 엔진을 받아 둔다. 다른 탭에 갔다 와도 하던 화면 그대로. */
+  function proFrame() { return document.querySelector('#pro-content iframe.rr-embed'); }
+  window.rrProOpen = function () { if (typeof window.switchMainTab === 'function') window.switchMainTab('pro'); nav(false); };
+  document.addEventListener('pointerover', function (e) {
+    var f = e.target.closest && e.target.closest('.rr-pro-cta, .rr-pro-mini') ? proFrame() : null;
+    if (f && !f.src) f.src = f.dataset.src;
   });
-  document.addEventListener('pointerover', function (e) {   // 버튼에 마우스를 올리면 미리 띄운다
-    if (e.target.closest && e.target.closest('.rr-pro-cta, .rr-pro-mini') && document.body) warm();
-  });
-  function proFromHash() { if (location.hash === '#pro') window.rrProOpen(); }
-  window.addEventListener('hashchange', proFromHash);
   var ORDER = Object.keys(TABS);
   var cur = 'overview';
   function setTitle(tab) {
@@ -328,7 +270,6 @@
   }
   /* 주소에 탭이 있으면(#quarterly) 데이터가 준비된 뒤 그 탭을 연다 */
   function openFromHash() {
-    proFromHash();
     var t = (location.hash || '').slice(1);
     if (TABS[t] && t !== 'overview' && typeof window.switchMainTab === 'function') window.switchMainTab(t, { fromHistory: true });
   }

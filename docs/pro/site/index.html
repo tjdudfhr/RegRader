@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<script>window.RR_PRO_DATA = "https://raw.githubusercontent.com/tjdudfhr/RegRader/pro-data/"; window.RR_PRO_HOME = "../../#pro";</script><script src="../rr-static.js?v=55501459"></script><script src="../company-mode.js?v=eba2aede"></script>
+<script>window.RR_PRO_DATA = "https://raw.githubusercontent.com/tjdudfhr/RegRader/pro-data/"; window.RR_PRO_HOME = "../../#pro";</script><script src="../rr-static.js?v=55501459"></script><script src="../company-mode.js?v=14d0725e"></script>
     <script src="./gate.js?v=20261012b"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,7 +89,7 @@
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./system-ui.js?v=20261015g"></script>
+    <script src="./system-ui.js?v=20261016a"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         // EmailJS 초기화
@@ -1954,7 +1954,7 @@
         }
     </style>
     <link rel="stylesheet" href="./app-shell.css?v=20260927u">
-    <link rel="stylesheet" href="./system.css?v=20261015g">
+    <link rel="stylesheet" href="./system.css?v=20261016a">
 </head>
 <body>
     <!-- 시작 화면 (system-ui.js 가 데이터가 준비되면 걷는다) -->
@@ -1975,7 +1975,7 @@
                 </div>
             </div>
             <div class="rr-top-right">
-                <button type="button" class="settings-btn rr-pro-mini" onclick="rrProOpen()" title="기업별 적용법규 검색" aria-label="기업별 적용법규 검색" aria-haspopup="dialog">
+                <button type="button" class="settings-btn rr-pro-mini" onclick="rrProOpen()" title="기업별 적용법규 검색" aria-label="기업별 적용법규 검색">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
                 </button>
                 <div class="meta" title="국가법령정보센터에서 매일 오전 7시에 자동으로 확인합니다"><span class="rr-dot" aria-hidden="true"></span><span id="year" class="rr-year">2026</span>년 · 업데이트 <b id="rr-ts-short">확인 중</b><span id="timestamp" hidden>로딩 중...</span></div>
@@ -1997,8 +1997,8 @@
                 <svg class="rr-brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#3056d3"/><circle cx="16" cy="16" r="9.5" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="1.8"/><circle cx="16" cy="16" r="5" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.8"/><g class="sweep"><path d="M16 16 22.7 9.3" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></g><circle cx="16" cy="16" r="2" fill="#fff"/><circle cx="21.2" cy="20.6" r="1.7" fill="#7ee2a8"/></svg>
                 <div><div class="rr-brand-name">RegRader</div><div class="rr-brand-sub">법규 개정 모니터링</div></div>
             </div>
-            <!-- 기업별 적용법규 검색: 누르면 팝업 (RegRader Pro 브라우저판, system-ui.js 의 rrProOpen) -->
-            <button type="button" class="rr-pro-cta" onclick="rrProOpen()" aria-haspopup="dialog">
+            <!-- 기업별 적용법규 검색: 누르면 오른쪽 내용 영역에 RegRader Pro 브라우저판 (#pro-content) -->
+            <button type="button" class="rr-pro-cta" data-tab="pro" onclick="rrProOpen()">
                 <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
                 <span><b>기업별 적용법규 검색</b><small>회사 이름으로 적용법규 찾기</small></span>
             </button>
@@ -2496,6 +2496,8 @@
             <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20261001y" title="시행 임박 법령"></iframe></div>
             <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20261001b" title="업데이트 내역"></iframe></div>
             <!-- 시스템 소개: 설명 영상 · 설명자료 PDF (my-deck/slides/regrader-intro 에서 만든 것) -->
+            <!-- 기업별 적용법규 검색: 브라우저판 RegRader Pro (docs/pro/) 를 끼워 넣는다 — 회사 검색 → 판정 → 'RegRader로 보내기'(새 탭) (처음 열 때 불러옴) -->
+            <div class="tab-pane" id="pro-content"><iframe class="rr-embed rr-pro-frame" data-src="../?embed=1" title="기업별 적용법규 검색"></iframe></div>
             <div class="tab-pane" id="intro-content">
                 <section class="rr-intro" aria-label="시스템 소개">
                     <div class="rr-intro-head">
@@ -3215,7 +3217,7 @@
             if (_frame && !_frame.src) _frame.src = _frame.dataset.src;
 
             // Update tab buttons
-            document.querySelectorAll('.main-tab').forEach(tab => {
+            document.querySelectorAll('.main-tab, .rr-pro-cta').forEach(tab => {   // 사이드바 맨 위 '기업별 적용법규 검색' 버튼도 탭처럼
                 tab.classList.remove('active');
             });
             document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
