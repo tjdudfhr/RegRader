@@ -47,13 +47,15 @@
 <script>
 (function () {
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  /* RegRader 의 '기업별 적용법규 검색' 팝업 안이면 새 탭 대신 RegRader 창 자체를 그 회사 화면으로 */
+  var TARGET = window.parent !== window ? ' target="_top"' : ' target="_blank" rel="noopener"';
   function num(n) { return n == null ? '–' : Number(n).toLocaleString(); }
   function card(c) {
     var r = c.result || {}, st = c.state || '';
     var state = st === 'done' ? '<span class="st-done">수집 완료 · ' + esc(r.asOf || '') + ' 기준</span>'
       : st === 'running' ? '<span class="st-running">수집 중 · ' + esc(c.step || '') + ' · ' + (c.progress || 0) + '%</span><div class="prog"><i style="width:' + (c.progress || 0) + '%"></i></div>'
       : st === 'error' ? '<span class="st-error">수집 실패</span>' : esc(st);
-    var open = st === 'done' ? '<a class="btn pri" href="' + esc(c.url) + '" target="_blank" rel="noopener">RegRader 화면 열기</a>' : '';
+    var open = st === 'done' ? '<a class="btn pri" href="' + esc(c.url) + '"' + TARGET + '>RegRader 화면 열기</a>' : '';
     return '<div class="card"><h2>' + esc(c.company) + '</h2><div class="act">' + open + '</div>' +
       '<div><div class="n">적용법규 <b>' + num(c.laws) + '</b> + 행정규칙 <b>' + num(c.admin) + '</b>' +
       (st === 'done' ? ' · 올해 개정 <b>' + num(r.totalCount) + '</b>건 (법령 ' + num(r.lawEvents) + ' · 행정규칙 ' + num(r.admrulEvents) + ')' : '') +
