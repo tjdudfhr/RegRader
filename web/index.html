@@ -444,6 +444,19 @@
   @keyframes rr-drop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
   .card .body .src { display: inline-block; margin: 10px 0 0 27px; font-size: 12.5px; font-weight: 700; color: var(--brand); text-decoration: none; }
   .card .body .src:hover { text-decoration: underline; }
+  .rrx .rv { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.18); font-size: 12px; color: #c7d2fe; }
+  .rrx .rv b { color: #fff; font-size: 12.5px; }
+  .rrx .rv span { flex: 1 1 200px; min-width: 0; }
+  .rrx .rv button { height: 28px; padding: 0 10px; border-radius: 7px; border: 1px solid rgba(255,255,255,.35); background: rgba(255,255,255,.1); color: #fff; font: 700 12px var(--font); cursor: pointer; white-space: nowrap; }
+  .rrx .rv button:hover { background: rgba(255,255,255,.2); }
+  .rrx .rv button.lite { border-color: transparent; background: none; color: #c7d2fe; text-decoration: underline; }
+  .rvdlg { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; padding: 16px; background: rgba(15, 23, 42, .55); }
+  .rvbox { width: 100%; max-width: 620px; background: var(--surface); border-radius: 14px; padding: 18px 18px 14px; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+  .rvbox h3 { margin: 0 0 6px; font-size: 16px; } .rvbox p { margin: 0 0 10px; font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+  .rvbox textarea { width: 100%; height: 180px; box-sizing: border-box; border: 1px solid var(--line); border-radius: 9px; padding: 10px; font: 12px/1.4 ui-monospace, Menlo, monospace; resize: vertical; }
+  .rvbox .rvbtn { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+  .rvbox .rvbtn button { height: 34px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); font: 700 13px var(--font); cursor: pointer; }
+  .rvbox .rvbtn .go2 { background: var(--brand); border-color: var(--brand); color: #fff; }
   .pill.common { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
   .adm h4 small { font-weight: 500; color: var(--ink-4); margin-left: 4px; }
   .adm .rev { margin-top: 8px; padding: 6px 10px 4px; border-radius: 8px; background: var(--check-soft); }
@@ -1077,6 +1090,66 @@
     }
   }
 
+  /* ---------- 검토 저장: 맞음/아님 답 · 법령/행정규칙 체크를 회사별로 이 브라우저에 저장하고,
+     다른 컴퓨터나 Claude 에게 넘길 수 있게 글로 복사 · 붙여넣기 ---------- */
+  let curKey = null, defOff = new Set(), restoreFrom = null, reviewNote = null, saveTimer = null;
+  const reviewKey = (key) => 'rr-pro-review:' + (key || curKey || 'manual:' + compact(profile().name));
+  function loadReview(key) { try { return JSON.parse(localStorage.getItem(reviewKey(key)) || 'null'); } catch (e) { return null; } }
+  function reviewState() {
+    const p = profile(), sel = selCounts();
+    return { v: 1, company: p.name, key: curKey, savedAt: new Date().toISOString(),
+      tags: [...S.tags], flags: [...S.flags], denied: [...S.denied], codes: [...S.codes.entries()],
+      numbers: p.numbers, provinces: [...S.provinces], cities: $('#f-cities').value,
+      off: [...off].filter((k) => !defOff.has(k)), on: [...defOff].filter((k) => !off.has(k)),
+      counts: { laws: sel.laws, admin: sel.adm } };
+  }
+  function saveReview() {
+    if (!result || !curKey) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => { try { localStorage.setItem(reviewKey(), JSON.stringify(reviewState())); } catch (e) { /* 저장 못 해도 화면은 그대로 */ } }, 300);
+  }
+  function applyReview(r, evidence) {
+    S.tags = new Set(r.tags || []); S.flags = new Set(r.flags || []); S.denied = new Set(r.denied || []);
+    S.provinces = new Set(r.provinces || []); S.codes = new Map(r.codes || []);
+    S.evidence = {};
+    for (const id of S.tags) S.evidence[id] = evidence[id] || { basis: '직접', evidence: '검토에서 답함', source: '' };
+    if (r.numbers) { $('#n-employees').value = r.numbers.employees || ''; $('#n-assets').value = r.numbers.assets || ''; }
+    if (r.cities != null) $('#f-cities').value = r.cities;
+    restoreFrom = r;
+    renderForm();
+  }
+  function reviewBox() {
+    if (!curKey) return '';
+    return `<div class="rv"><b>검토 저장</b><span>${reviewNote ? `${esc(new Date(reviewNote).toLocaleString('ko-KR'))}에 저장한 검토를 불러왔습니다 · ` : ''}맞음/아님 답과 체크는 이 브라우저에 자동 저장됩니다</span>
+      <button type="button" data-rvcopy="1" title="다른 컴퓨터나 Claude 대화창에 붙여 넣을 수 있는 글로 복사">검토 결과 복사</button>
+      <button type="button" data-rvload="1" title="복사해 둔 검토 결과를 붙여 넣어 불러오기">붙여넣어 불러오기</button>
+      ${reviewNote || loadReview() ? '<button type="button" data-rvreset="1" class="lite" title="저장한 검토를 지우고 Pro 판정 그대로">처음 판정으로</button>' : ''}</div>`;
+  }
+  function reviewDialog(mode) {
+    const text = mode === 'copy' ? 'RegRader Pro 검토 결과\n' + JSON.stringify(reviewState()) : '';
+    const d = document.createElement('div');
+    d.className = 'rvdlg';
+    d.innerHTML = `<div class="rvbox" role="dialog" aria-label="검토 결과"><h3>${mode === 'copy' ? '검토 결과 — 복사했습니다' : '검토 결과 붙여넣기'}</h3>
+      <p>${mode === 'copy' ? '아래 글이 복사되었습니다. 다른 컴퓨터의 ‘붙여넣어 불러오기’나 Claude 대화창에 그대로 붙여 넣으세요. (복사가 안 됐으면 글을 모두 선택해 복사하세요)' : '‘검토 결과 복사’로 복사한 글을 아래에 붙여 넣고 ‘불러오기’를 누르세요.'}</p>
+      <textarea spellcheck="false">${esc(text)}</textarea>
+      <div class="rvbtn">${mode === 'copy' ? '' : '<button type="button" data-rvapply="1" class="go2">불러오기</button>'}<button type="button" data-rvclose="1">닫기</button></div></div>`;
+    document.body.appendChild(d);
+    const ta = d.querySelector('textarea');
+    if (mode === 'copy') { ta.select(); try { navigator.clipboard.writeText(text); } catch (e) { /* 직접 복사 */ } } else ta.focus();
+    d.addEventListener('click', async (e) => {
+      if (e.target === d || e.target.closest('[data-rvclose]')) { d.remove(); return; }
+      if (e.target.closest('[data-rvapply]')) {
+        try {
+          const r = JSON.parse(ta.value.slice(ta.value.indexOf('{')));
+          if (!r.key) throw new Error('회사 정보가 없는 글입니다.');
+          localStorage.setItem(reviewKey(r.key), JSON.stringify(r));
+          d.remove();
+          await pick(r.key);
+        } catch (err) { alert('불러오지 못했습니다: ' + err.message); }
+      }
+    });
+  }
+
   async function pick(key) {
     if (document.body.classList.contains('landing')) { $('#q').value = $('#hq').value; landing(false); }
     $('#cands').innerHTML = '';
@@ -1084,7 +1157,10 @@
     try {
       const data = await post('/api/company/draft', { key });
       S.research = data.research;
+      curKey = key; reviewNote = null;
       setProfile(data.profile, data.research.tagEvidence || {});
+      const saved = loadReview(key);
+      if (saved) applyReview(saved, data.research.tagEvidence || {});
       if ((S.research.industries || []).length) loadCodes().then(renderBrief, () => {});
       await run();
     } catch (e) {
@@ -1129,6 +1205,13 @@
       for (const f of result.families) if (f.verdict === '해당 가능성 낮음' || f.status === '확인') off.add(famKey(f));
       if (!quiet) userOn.clear();
       for (const f of result.families) for (const a of f.adminMore) off.add(admKey(f, a));   // 검토 필요: 그 제도를 쓸 때만 → 기본으로 고르지 않음
+      defOff = new Set(off);
+      if (!quiet && restoreFrom) {   // 저장해 둔 검토: 기본과 다르게 체크를 뺀 것 · 넣은 것
+        (restoreFrom.off || []).forEach((k) => off.add(k));
+        (restoreFrom.on || []).forEach((k) => { off.delete(k); userOn.add(k); });
+        reviewNote = restoreFrom.savedAt;
+        restoreFrom = null;
+      }
       if (quiet) {   // 체크를 해제해 둔 것 · 펼쳐 둔 것은 그대로
         keepOff.forEach((k) => off.add(k)); keepOpen.forEach((k) => opened.add(k)); keepDuty.forEach((k) => dutyOpen.add(k));
         userOn.forEach((k) => off.delete(k));
@@ -1398,7 +1481,7 @@
     return `<div class="rrx" role="region" aria-label="RegRader로 보내기">
       <div class="co"><small>지금 판정한 회사</small><b>${esc(p.name || '직접 입력한 회사')}</b><span>보낼 것: 법령 ${sel.laws.toLocaleString()} + 행정규칙 ${sel.adm.toLocaleString()} (체크한 것)</span></div>
       <div class="acts">${go}<button type="button" class="sec" data-xlsx="1" title="이 회사의 적용법규 · 행정규칙 · 미적용 이유를 엑셀로">엑셀로 받기</button></div>
-      <div class="msg">${msg} · <a href="/rr/" target="_blank" rel="noopener">보낸 회사 목록</a></div>${bar}</div>`;
+      <div class="msg">${msg} · <a href="/rr/" target="_blank" rel="noopener">보낸 회사 목록</a></div>${bar}${reviewBox()}</div>`;
   }
 
   /* 엑셀로 받기: 지금 판정한 회사(선택한 것)의 적용법규 · 행정규칙 · 미적용 이유 · 회사 정보. 회사를 바꿔 판정하면 그 회사 것 */
@@ -1439,6 +1522,7 @@
         ['사업장 시·도', (p.regions?.provinces || []).join(', ')], ['사업장 시·군', (p.regions?.cities || []).join(', ')],
         ['회사 업종(업종코드)', [...(S.research?.industries || []).map((i) => `${i.code} ${i.name}`), ...[...S.codes.keys()].map((c) => `${c} ${CODE_BY[c] ? codeName(CODE_BY[c]).small : ''} (직접 추가)`)].join(', ')],
         ['회사 특성(업종 · 시설 · 활동)', (p.tags || []).filter((t) => !t.startsWith('nts:')).map(factLabel).join(', ')],
+        ['해당 없음으로 답한 사실', (p.denied || []).filter((t) => !t.startsWith('nts:')).map(factLabel).join(', ')],
         ['적용법규', `법령 ${laws.length}개 · 행정규칙 ${adm.length}개`],
         ['안내', '판정 결과는 검토용 후보입니다. 최종 적용 여부는 담당자가 판단합니다. (RegRader Pro)'],
       ].map(([k, v]) => ({ '항목': k, '내용': v }));
@@ -1520,6 +1604,7 @@
     if (result.aiError) banner = `<div class="banner bad">AI 판단을 하지 못해 규칙 결과만 보여 드립니다. ${esc(result.aiError)}</div>`;
     else if (result.ai) banner = '<div class="banner ai">AI가 법령마다 직무와 적용 여부를 판단했습니다.</div>';
     $('#rrx-slot').innerHTML = rrBox();
+    saveReview();
     $('#found-slot').innerHTML = foundBox(jobs);
     optDetail();
     $('#presume-slot').innerHTML = presumeBox();
@@ -1613,6 +1698,9 @@
     if (t.matches('.tab')) { catFilter = t.dataset.cat; render(); return; }
     if (t.dataset.rrx) { rrExport(); return; }
     if (t.dataset.xlsx) { downloadXlsx(t); return; }
+    if (t.dataset.rvcopy) { reviewDialog('copy'); return; }
+    if (t.dataset.rvload) { reviewDialog('load'); return; }
+    if (t.dataset.rvreset) { try { localStorage.removeItem(reviewKey()); } catch (e) { /* 없음 */ } reviewNote = null; pick(curKey); return; }
     if (t.dataset.ans) { answer(t.dataset.ans, t.dataset.v === '1'); return; }
     if (t.dataset.numsave) { const v = Number(document.querySelector(`[data-num="${t.dataset.numsave}"]`)?.value || 0); if (v > 0) answer(t.dataset.numsave, v); return; }
     if (t.dataset.qmore) { qOpen = !qOpen; render(); return; }
