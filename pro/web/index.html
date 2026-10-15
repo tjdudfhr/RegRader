@@ -454,6 +454,9 @@
   .rvdlg { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; padding: 16px; background: rgba(15, 23, 42, .55); }
   .rvbox { width: 100%; max-width: 620px; background: var(--surface); border-radius: 14px; padding: 18px 18px 14px; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
   .rvbox h3 { margin: 0 0 6px; font-size: 16px; } .rvbox p { margin: 0 0 10px; font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+  .rvbox .rvin { width: 100%; height: 38px; box-sizing: border-box; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px; margin-bottom: 8px; font: inherit; }
+  .rvbox .rvnote { min-height: 18px; color: var(--brand-ink); font-size: 12.5px; }
+  .rrx .rv .cl { flex: 1 1 260px; color: #bfdbfe; }
   .rvbox textarea { width: 100%; height: 180px; box-sizing: border-box; border: 1px solid var(--line); border-radius: 9px; padding: 10px; font: 12px/1.4 ui-monospace, Menlo, monospace; resize: vertical; }
   .rvbox .rvbtn { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
   .rvbox .rvbtn button { height: 34px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); font: 700 13px var(--font); cursor: pointer; }
@@ -499,6 +502,7 @@
   .crow .cown { flex: none; font-size: 11.5px; font-weight: 700; color: var(--ok); white-space: nowrap; }
   .pk.code b { color: var(--brand-ink); }
 </style>
+<script src="review-cloud.js"></script>
 </head>
 <body>
 <header>
@@ -1104,6 +1108,13 @@
   /* ---------- 검토 저장: 맞음/아님 답 · 법령/행정규칙 체크를 회사별로 이 브라우저에 저장하고,
      다른 컴퓨터나 Claude 에게 넘길 수 있게 글로 복사 · 붙여넣기 ---------- */
   let curKey = null, defOff = new Set(), restoreFrom = null, reviewNote = null, saveTimer = null;
+  let cloud = { on: false }, cloudTimer = null, cloudLast = '', cloudMsg = '', reviewBy = '';
+  const hasCloud = () => !!window.rrCloud;
+  function cloudRefresh(fresh) {
+    if (!hasCloud()) return Promise.resolve(cloud);
+    return window.rrCloud.status(fresh).then((st) => { cloud = st || { on: false }; if (result) $('#rrx-slot').innerHTML = rrBox(); return cloud; });
+  }
+  const sameReview = (a) => JSON.stringify(Object.assign({}, a, { savedAt: '' }));
   const reviewKey = (key) => 'rr-pro-review:' + (key || curKey || 'manual:' + compact(profile().name));
   function loadReview(key) { try { return JSON.parse(localStorage.getItem(reviewKey(key)) || 'null'); } catch (e) { return null; } }
   function reviewState() {
@@ -1118,6 +1129,17 @@
     if (!result || !curKey) return;
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => { try { localStorage.setItem(reviewKey(), JSON.stringify(reviewState())); } catch (e) { /* 저장 못 해도 화면은 그대로 */ } }, 300);
+    if (!cloud.on || !hasCloud()) return;
+    clearTimeout(cloudTimer);
+    cloudTimer = setTimeout(() => {   // 클라우드: 바뀌었을 때만 (판정을 다시 그리기만 한 것은 저장하지 않는다)
+      const st = reviewState(), sig = sameReview(st), key = curKey;
+      if (sig === cloudLast) return;
+      window.rrCloud.save(key, st.company, st).then((r) => {
+        if (r && r.ok) { cloudLast = sig; cloudMsg = `☁ ${new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} 클라우드에 저장됨`; }
+        else if (r && r.error) cloudMsg = '⚠ 클라우드 저장 실패: ' + r.error;
+        const el = document.querySelector('.rrx .rv .cl'); if (el) el.textContent = cloudMsg;
+      });
+    }, 1500);
   }
   function applyReview(r, evidence) {
     S.tags = new Set(r.tags || []); S.flags = new Set(r.flags || []); S.denied = new Set(r.denied || []);
@@ -1131,7 +1153,11 @@
   }
   function reviewBox() {
     if (!curKey) return '';
-    return `<div class="rv"><b>검토 저장</b><span>${reviewNote ? `${esc(new Date(reviewNote).toLocaleString('ko-KR'))}에 저장한 검토를 불러왔습니다 · ` : ''}맞음/아님 답과 체크는 이 브라우저에 자동 저장됩니다</span>
+    const who = reviewBy ? `${esc(reviewBy.split('@')[0])}님이 ` : '';
+    const cl = !hasCloud() ? '' : cloud.on
+      ? `<span class="cl">${esc(cloudMsg || `☁ 클라우드 저장 켜짐 (${cloud.email}) — 어느 컴퓨터에서든 같은 검토`)}</span><button type="button" data-cloudout="1" class="lite">로그아웃</button>`
+      : `<span class="cl">${cloud.error ? '⚠ ' + esc(cloud.error) : '☁ 로그인하면 어느 컴퓨터에서든 같은 검토를 불러옵니다'}</span>${cloud.email && !cloud.error ? '' : '<button type="button" data-cloudin="1">로그인</button>'}`;
+    return `<div class="rv"><b>검토 저장</b><span>${reviewNote ? `${who}${esc(new Date(reviewNote).toLocaleString('ko-KR'))}에 저장한 검토를 불러왔습니다 · ` : ''}맞음/아님 답과 체크는 자동 저장됩니다</span>${cl}
       <button type="button" data-rvcopy="1" title="다른 컴퓨터나 Claude 대화창에 붙여 넣을 수 있는 글로 복사">검토 결과 복사</button>
       <button type="button" data-rvload="1" title="복사해 둔 검토 결과를 붙여 넣어 불러오기">붙여넣어 불러오기</button>
       ${reviewNote || loadReview() ? '<button type="button" data-rvreset="1" class="lite" title="저장한 검토를 지우고 Pro 판정 그대로">처음 판정으로</button>' : ''}</div>`;
@@ -1161,6 +1187,32 @@
     });
   }
 
+  function loginDialog() {
+    const d = document.createElement('div');
+    d.className = 'rvdlg';
+    d.innerHTML = `<div class="rvbox" role="dialog" aria-label="클라우드 저장 로그인"><h3>클라우드 저장 로그인</h3>
+      <p>RegRader ‘대응 현황 관리’와 같은 계정입니다. 구성원으로 등록된 이메일만 쓸 수 있습니다. 비밀번호가 없으면 비워 두고 ‘로그인 링크 받기’ — 메일의 링크를 누른 뒤 이 화면을 새로 여세요.</p>
+      <input type="email" class="rvin" placeholder="이메일" autocomplete="email"><input type="password" class="rvin" placeholder="비밀번호 (없으면 비워 두기)" autocomplete="current-password">
+      <p class="rvnote"></p><div class="rvbtn"><button type="button" data-go="1" class="go2">로그인</button><button type="button" data-rvclose="1">닫기</button></div></div>`;
+    document.body.appendChild(d);
+    const [em, pw] = d.querySelectorAll('input'), note = d.querySelector('.rvnote'), go = d.querySelector('[data-go]');
+    em.focus();
+    pw.addEventListener('input', () => { go.textContent = pw.value ? '로그인' : '로그인 링크 받기'; });
+    go.textContent = '로그인 링크 받기';
+    d.addEventListener('click', (e) => {
+      if (e.target === d || e.target.closest('[data-rvclose]')) { d.remove(); return; }
+      if (!e.target.closest('[data-go]')) return;
+      const email = em.value.trim();
+      if (!/.+@.+/.test(email)) { note.textContent = '이메일을 넣어 주세요.'; return; }
+      go.disabled = true;
+      window.rrCloud.signIn(email, pw.value).then((r) => {
+        if (r.sent) { note.textContent = email + ' 으로 로그인 링크를 보냈습니다. 메일의 링크를 누른 뒤 이 화면을 새로 여세요.'; return; }
+        d.remove();
+        return cloudRefresh(true).then(() => { if (curKey) pick(curKey); });
+      }).catch((err) => { note.textContent = err.message; }).then(() => { go.disabled = false; });
+    });
+  }
+
   async function pick(key) {
     if (document.body.classList.contains('landing')) { $('#q').value = $('#hq').value; landing(false); }
     $('#cands').innerHTML = '';
@@ -1170,7 +1222,17 @@
       S.research = data.research;
       curKey = key; reviewNote = null;
       setProfile(data.profile, data.research.tagEvidence || {});
-      const saved = loadReview(key);
+      let saved = loadReview(key);
+      reviewBy = '';
+      if (hasCloud()) {   // 어느 컴퓨터에서 저장했든: 클라우드 것이 더 최근이면 그것으로
+        await cloudRefresh();
+        const remote = cloud.on ? await Promise.race([window.rrCloud.load(key), new Promise((ok) => setTimeout(() => ok(null), 5000))]) : null;
+        if (remote && remote.data && (!saved || Date.parse(remote.updated_at) > Date.parse(saved.savedAt || 0))) {
+          saved = Object.assign({}, remote.data, { savedAt: remote.updated_at });
+          reviewBy = remote.updated_by || '';
+        }
+        cloudLast = saved ? sameReview(saved) : '';
+      }
       if (saved) applyReview(saved, data.research.tagEvidence || {});
       if ((S.research.industries || []).length) loadCodes().then(renderBrief, () => {});
       await run();
@@ -1729,7 +1791,15 @@
     if (t.dataset.xlsx) { downloadXlsx(t); return; }
     if (t.dataset.rvcopy) { reviewDialog('copy'); return; }
     if (t.dataset.rvload) { reviewDialog('load'); return; }
-    if (t.dataset.rvreset) { try { localStorage.removeItem(reviewKey()); } catch (e) { /* 없음 */ } reviewNote = null; pick(curKey); return; }
+    if (t.dataset.rvreset) {
+      if (!confirm('저장한 검토(맞음/아님 · 체크)를 지우고 Pro 판정 그대로 볼까요? 클라우드에 저장된 것도 지웁니다.')) return;
+      try { localStorage.removeItem(reviewKey()); } catch (e) { /* 없음 */ }
+      reviewNote = null;
+      Promise.resolve(hasCloud() && cloud.on ? window.rrCloud.remove(curKey) : null).then(() => pick(curKey));
+      return;
+    }
+    if (t.dataset.cloudin) { loginDialog(); return; }
+    if (t.dataset.cloudout) { window.rrCloud.signOut().then(() => { cloud = { on: false }; cloudMsg = ''; $('#rrx-slot').innerHTML = rrBox(); }); return; }
     if (t.dataset.ans) { answer(t.dataset.ans, t.dataset.v === '1'); return; }
     if (t.dataset.numsave) { const v = Number(document.querySelector(`[data-num="${t.dataset.numsave}"]`)?.value || 0); if (v > 0) answer(t.dataset.numsave, v); return; }
     if (t.dataset.qmore) { qOpen = !qOpen; render(); return; }
@@ -1775,6 +1845,7 @@
 
   wireEarly();
   const ready = init();
+  ready.then(() => cloudRefresh());
 })();
 </script>
 </body>
