@@ -265,7 +265,6 @@ PATTERNS = [
     ("act:ai", r"생성형\s*(?:AI|인공지능)|인공지능\s*(?:서비스|플랫폼|모델)|AI\s*(?:서비스|플랫폼|모델)", ("II.",)),
     ("act:epay", r"전자금융업|선불\s*전자지급|전자지급결제대행|PG\s*사업|간편\s*결제\s*서비스", ("II.",)),
     ("act:location", r"위치기반\s*서비스|위치정보\s*사업", ("II.",)),
-    ("ind:game", r"게임\s*(?:개발|퍼블리싱|서비스|사업)|(?:온라인|모바일|PC|콘솔)\s*게임|MMORPG", ("II.",)),
     ("act:performance", r"공연\s*(?:기획|사업|매출|개최|제작)|콘서트\s*(?:투어|개최|매출)|월드\s*투어", ("II.",)),
     ("act:broadcaster", r"방송사업자|방송채널사용사업|종합유선방송|위성방송사업|IPTV\s*사업", ("II.",)),
     ("act:animal_test", r"동물\s*실험|비임상\s*시험", None),
@@ -380,11 +379,19 @@ def evidence(c):
                 put(fact, True, _snippet(*hit))
         # 사업의 내용(II.)에 IT 서비스 · 시스템 통합 사업이 여러 번 나오면 회사 사업으로 본다
         # ('회사와 연결 종속회사는 IT서비스 사업과 …을 영위' 처럼 종속회사와 함께 쓰는 문장이 많아 한 문장으로는 판단하지 않는다)
+        # — 사업의 개요(II. 첫머리)에 나와야 회사 자신의 사업이다 (뒤쪽 종속회사 설명만 있으면 아니다: 한국전력 → 한전KDN)
         biz = " ".join(b for t, b in secs.items() if t.startswith("II."))
+        head = biz[:1500]
         it_rx = r"IT\s*서비스|시스템\s*통합|System\s*Integration|정보시스템\s*(?:구축|운영)|(?:ERP|MES)\s*(?:시스템\s*)?구축|IT\s*아웃소싱"
         n_it = len(re.findall(it_rx, biz))
-        if n_it >= 5 and "act:si" not in facts:
-            put("act:si", True, f"사업의 내용에 IT 서비스 · 시스템 통합 사업 설명 {n_it}곳 — " + _snippet(biz, re.search(it_rx, biz)))
+        if n_it >= 5 and re.search(it_rx, head) and "act:si" not in facts:
+            put("act:si", True, f"사업의 개요에 IT 서비스 · 시스템 통합 사업 (사업의 내용 {n_it}곳) — " + _snippet(head, re.search(it_rx, head)))
+        game_rx = r"게임\s*(?:개발|퍼블리싱|서비스|사업)|(?:온라인|모바일|PC|콘솔)\s*게임|MMORPG"
+        # 자회사가 주어인 문장('…카카오게임즈는 모바일 게임…', '종속회사는 …')은 회사 자신의 사업이 아니다
+        own = [m for m in re.finditer(game_rx, head)
+               if not OTHER_RX.search(head[max(0, m.start() - 60):m.start()]) and not re.search(r"[가-힣A-Za-z]+게임즈", head[max(0, m.start() - 60):m.start()])]
+        if own and len(re.findall(game_rx, biz)) >= 3 and "ind:game" not in facts:
+            put("ind:game", True, "사업의 개요에 게임 사업 — " + _snippet(head, own[0]))
         year = int(re.search(r"\((\d{4})\.", rep["report"]).group(1)) if re.search(r"\((\d{4})\.", rep["report"]) else date.today().year - 1
         emp = employees(code, year)
         if emp and emp["total"]:

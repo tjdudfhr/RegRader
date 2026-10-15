@@ -416,7 +416,10 @@ def with_industry(profile):
     facts = [f for c in codes for f in ((industry.resolve(c) or {}).get("facts") or [])]
     if not facts:
         return profile
-    return dict(profile, tags=list(dict.fromkeys(list(profile.get("tags") or []) + facts + ["nts:known"])))
+    # 'nts:known'(업종 태그 조건을 끄는 표시)은 회사 정보 초안이 정한 대로만 — 공시로 확인한 업종(게임 등)이
+    # 업종코드표에 없으면 초안이 두지 않는다 (companydb.draft). 여기서 다시 붙이면 게임산업진흥법 같은 법령이 꺼진다
+    known = ["nts:known"] if "nts:known" in (profile.get("tags") or []) else []
+    return dict(profile, tags=list(dict.fromkeys(list(profile.get("tags") or []) + facts + known)))
 
 
 SMALL_FACTORY = 30
