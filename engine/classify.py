@@ -21,7 +21,7 @@ KB = Path(__file__).resolve().parents[1] / "kb"
 T, F, U = "T", "F", "U"
 STATUS_RANK = {"적용": 0, "추정": 1, "확인": 2, "미적용": 3}
 STATUS_LABEL = {"적용": "적용", "추정": "적용(추정)", "확인": "확인 필요", "미적용": "미적용"}
-NUM_LABEL = {"employees": ("상시근로자", "명"), "assets": ("자산총액", "억원")}
+NUM_LABEL = {"employees": ("상시근로자", "명"), "assets": ("자산총액", "억원"), "factory_employees": ("공장 근무 인원", "명")}
 FLAG_NO = {"listed": "비상장", "audited": "외부감사 대상 아님", "group": "공시대상기업집단 소속 아님"}
 
 

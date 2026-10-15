@@ -862,7 +862,8 @@ def draft(c, catalog, cmap=None):
             # 공시 표준산업분류가 있으면 국민연금 사업장별 신고 업종은 쓰지 않는다 (사업장마다 엉뚱하게 신고된 경우가 많다:
             # 카지노를 '건물 임대업', 경비업체를 '조명장치 제조업'으로)
             keep = set(opendart.ksic_tags(ksic, od.get("corp_name") or c["name"]))
-            inds = [r for r in inds if not [t for t in r["tags"] if t.startswith("ind:")] or set(r["tags"]) & keep]
+            # 업종 태그가 없는 일반 코드(예: '기타 사업서비스', '작곡가')도 버린다 — 남기면 '업종코드 확인'으로 공시 업종(게임 · 음악 …)의 법령을 덮는다
+            inds = [r for r in inds if set(r["tags"]) & keep]
             for t in [t for t in tags if t.startswith("ind:") and t not in keep and ev[t]["evidence"].startswith("국민연금")]:
                 tags.remove(t)
                 ev.pop(t)
@@ -883,6 +884,8 @@ def draft(c, catalog, cmap=None):
             elif f not in tags and f in labels:
                 denied.append(f)
                 denied_ev[f] = {"basis": "확인", "evidence": v["evidence"], "source": v["source"]}
+        if "act:si" in tags and "ind:it" not in tags:   # IT 서비스 · 시스템 통합 사업을 하면 IT 업종 (표준산업분류가 엔지니어링 등이어도)
+            add("ind:it", "확인", ev["act:si"]["evidence"], ev["act:si"]["source"])
         if od.get("employees"):
             employees = od["employees"]
             employees_note = (f"DART {od['report']['report']} 직원 현황 {employees:,}명"
@@ -962,12 +965,17 @@ def draft(c, catalog, cmap=None):
         f"국민연금 가입자 {c['employees']:,}명 (사업장 {wp_n}곳)" if wp_n else "",
         f"등록공장 {len(facs)}곳" if facs else "",
     ] if x)
+    # 공시 · 사업보고서로 확인한 업종(예: 게임) 중 국민연금 업종코드표가 다루지 않는 것이 있으면 'nts:known' 을 두지 않는다
+    # — 두면 업종 태그로 거는 법령(게임산업진흥법 등)이 꺼진다. 업종코드표 법령은 nts 사실로 그대로 붙는다
+    covered = set().union(*[set(r["tags"]) for r in inds]) if inds else set()
+    uncovered = [t for t in tags if t.startswith("ind:") and ev.get(t, {}).get("basis") == "확인"
+                 and not ev[t]["evidence"].startswith("국민연금") and t not in covered]
     profile = {
         "name": c["name"],
         "numbers": {"employees": employees, "assets": assets},
         "flags": flags,
         "denied": denied,
-        "tags": tags + list(dict.fromkeys(f for r in inds for f in r["facts"])) + (["nts:known"] if inds else []),
+        "tags": tags + list(dict.fromkeys(f for r in inds for f in r["facts"])) + (["nts:known"] if inds and not uncovered else []),
         "regions": {"provinces": provinces, "cities": cities},
     }
     research = {
