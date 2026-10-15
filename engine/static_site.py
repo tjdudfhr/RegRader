@@ -344,10 +344,12 @@ def web(dest, data_url=DATA_URL, log=print):
         gate = Path(X.REPO) / "docs" / "gate.js"
         gate_v = hashlib.sha1(gate.read_bytes()).hexdigest()[:8] if gate.exists() else "0"
         t = re.sub(r"(<head[^>]*>)", lambda m: m.group(1) + f'\n<script src="../gate.js?v={gate_v}"></script>', t, count=1)   # RegRader 화면 잠금 · 최신 화면 확인
+        cloud_v = hashlib.sha1((ROOT / "web" / "review-cloud.js").read_bytes()).hexdigest()[:8]
+        t = t.replace('<script src="review-cloud.js"></script>', f'<script src="./review-cloud.js?v={cloud_v}"></script>')   # 검토 결과 클라우드 저장
         for a, b in fixes:
             t = t.replace(a, b)
         (dest / name).write_text(t, encoding="utf-8")
-    for name in ("static-api.js", "company-mode.js", "rr-static.js"):
+    for name in ("static-api.js", "company-mode.js", "rr-static.js", "review-cloud.js"):
         shutil.copy2(ROOT / "web" / name, dest / name)
     for n in ENGINE_FILES:
         shutil.copy2(ROOT / "engine" / f"{n}.py", dest / "py" / "engine" / f"{n}.py")
