@@ -270,7 +270,6 @@
   }
   /* 주소에 탭이 있으면(#quarterly) 데이터가 준비된 뒤 그 탭을 연다 */
   function openFromHash() {
-    proFromHash();
     var t = (location.hash || '').slice(1);
     if (TABS[t] && t !== 'overview' && typeof window.switchMainTab === 'function') window.switchMainTab(t, { fromHistory: true });
   }
