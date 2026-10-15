@@ -127,7 +127,9 @@ def check_archetypes():
     rules = load_rules()
     errs, n = [], 0
     cases = {c["id"]: c for c in data["cases"]}
+    from engine.suggest import with_industry
     for case in data["cases"]:
+        case = dict(case, profile=with_industry(case["profile"]))   # 업종코드(industryCodes)로 업종 사실을 붙인다 (판정 화면과 같이)
         cls = classify(case["profile"], rules)
         get = lambda name: cls.get(lawapi.compact(name))  # noqa: E731
         errs += [f"[{case['id']}] {e}" for e in check_invariants(case["profile"], rules)]

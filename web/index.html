@@ -995,6 +995,7 @@
       tags: [...S.tags],
       denied: [...S.denied],
       regions: { provinces: [...S.provinces], cities: $('#f-cities').value.split(',').map((s) => s.trim()).filter(Boolean) },
+      industryCodes: (S.research?.industries || []).map((i) => i.code),   // 엔진이 지금 업종 표로 업종 사실을 다시 붙인다
     };
   }
 
@@ -1035,8 +1036,9 @@
     $('#brief').innerHTML = `<div class="brief">
       <div class="bn">${esc(r.officialName || r.query)}<span>${esc(asOf)}</span></div>
       ${r.summary ? `<p>${esc(r.summary)}</p>` : ''}
-      ${(r.industries || []).length ? `<div class="inds"><b>업종</b> ${r.industries.map((i) => `<details><summary>${esc(i.code)} ${esc(i.name)} <small>업종 법규 ${i.laws.length}개</small></summary>
-        <ul>${i.laws.map((l) => `<li><a href="${LAW_URL(l)}" target="_blank" rel="noopener">${esc(l)}</a></li>`).join('')}</ul></details>`).join('')}
+      ${(r.industries || []).length ? `<div class="inds"><b>업종</b> ${r.industries.map((i) => { const laws = CODE_BY[i.code]?.l || i.laws;   // 업종 표가 바뀌었으면 지금 표로
+        return `<details><summary>${esc(i.code)} ${esc(i.name)} <small>업종 법규 ${laws.length}개</small></summary>
+        <ul>${laws.map((l) => `<li><a href="${LAW_URL(l)}" target="_blank" rel="noopener">${esc(l)}</a></li>`).join('')}</ul></details>`; }).join('')}
         <small class="src">국세청 업종코드 (국민연금 사업장 신고 업종) — 업종마다 인허가·규제 법령을 정해 둔 표로 바로 적용</small></div>` : ''}
       ${sites.length ? `<details ${sites.length <= 4 ? 'open' : ''}><summary>사업장·공장 ${(r.sites || []).length}곳</summary><ul class="sites">${sites.map((s) => `<li><b>${esc(s.name)}</b> <small>${esc(s.kind)}${s.address ? ' · ' + esc(s.address) : ''}</small></li>`).join('')}</ul></details>` : ''}
       ${(r.facts || []).length ? `<details><summary>찾은 사실 ${r.facts.length}건</summary><ul>${r.facts.map((f) => `<li>${esc(f.text)}${safeUrl(f.source) ? ` <a href="${esc(f.source)}" target="_blank" rel="noopener">출처</a>` : ''}</li>`).join('')}</ul></details>` : ''}
@@ -1069,6 +1071,7 @@
       const data = await post('/api/company/draft', { key });
       S.research = data.research;
       setProfile(data.profile, data.research.tagEvidence || {});
+      if ((S.research.industries || []).length) loadCodes().then(renderBrief, () => {});
       await run();
     } catch (e) {
       $('#out').innerHTML = `<div class="err">${esc(e.message)}</div>`;

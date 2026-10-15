@@ -2153,6 +2153,130 @@
         "위생교육",
         "위생등급"
       ]
+    },
+    {
+      "id": "item:construction_site",
+      "when": {
+        "any": [
+          "site:construction"
+        ]
+      },
+      "tier": "확인",
+      "why": "건설 현장 — 건설폐기물 처리 · 특정공사 소음진동 사전신고 · 비산먼지 발생사업 신고 (공사 규모 요건)",
+      "laws": [
+        {
+          "name": "건설폐기물의 재활용촉진에 관한 법률",
+          "job": "환경"
+        },
+        {
+          "name": "소음ㆍ진동관리법",
+          "job": "환경"
+        },
+        {
+          "name": "대기환경보전법",
+          "job": "환경"
+        }
+      ]
+    },
+    {
+      "id": "item:health_food_ad",
+      "when": {
+        "any": [
+          "act:health_food"
+        ]
+      },
+      "tier": "필수",
+      "why": "건강기능식품의 표시 · 기능성 광고 (자율심의)",
+      "laws": [
+        {
+          "name": "식품 등의 표시ㆍ광고에 관한 법률",
+          "job": "공정거래"
+        }
+      ]
+    },
+    {
+      "id": "item:emc_safety",
+      "when": {
+        "any": [
+          "act:emc"
+        ]
+      },
+      "tier": "필수",
+      "why": "전기 · 전자제품 제조 · 수입 — KC 안전인증 · 안전확인",
+      "laws": [
+        {
+          "name": "전기용품 및 생활용품 안전관리법",
+          "job": "기타"
+        }
+      ]
+    },
+    {
+      "id": "item:emc_recycle",
+      "when": {
+        "any": [
+          "act:emc"
+        ]
+      },
+      "tier": "확인",
+      "why": "전기 · 전자제품 제조 · 수입업자 — 회수 · 재활용 의무 (대상 제품 · 규모 요건)",
+      "laws": [
+        {
+          "name": "전기ㆍ전자제품 및 자동차의 자원순환에 관한 법률",
+          "job": "환경"
+        }
+      ]
+    },
+    {
+      "id": "item:food_label",
+      "when": {
+        "any": [
+          "act:meat",
+          "act:dairy",
+          "act:ginseng",
+          "act:liquor"
+        ]
+      },
+      "tier": "필수",
+      "why": "식품 · 축산물 · 주류의 표시 · 광고 기준",
+      "laws": [
+        {
+          "name": "식품 등의 표시ㆍ광고에 관한 법률",
+          "job": "공정거래"
+        }
+      ]
+    },
+    {
+      "id": "item:food_mfg_extra",
+      "when": {
+        "any": [
+          "act:ginseng",
+          "act:liquor"
+        ]
+      },
+      "tier": "필수",
+      "why": "인삼 · 홍삼 제품, 주류 제조 — 식품 제조 · 위생 기준 (영업등록 · 자가품질검사)",
+      "laws": [
+        {
+          "name": "식품위생법",
+          "job": "안전"
+        }
+      ]
+    },
+    {
+      "id": "item:parcel_truck",
+      "when": {
+        "any": [
+          "act:parcel"
+        ]
+      },
+      "tier": "필수",
+      "why": "택배 — 화물자동차 운송사업 (택배용 화물자동차)",
+      "laws": [
+        {
+          "name": "화물자동차 운수사업법",
+          "job": "기타"
+        }
+      ]
     }
   ]
 }
