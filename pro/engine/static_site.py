@@ -278,8 +278,9 @@ def _dart_ok(draft):
     return bool(od) and not od.get("error")
 
 
-def dart_pass(max_fail=10, limit=None, log=print):
-    """상장사 중 DART 근거가 없는 회사를 한 곳씩 DART 로 다시 만든다. 연속 max_fail 번 실패하면 멈춘다 (다음 날 이어서)."""
+def dart_pass(max_fail=10, limit=None, redo=False, log=print):
+    """상장사 중 DART 근거가 없는 회사를 한 곳씩 DART 로 다시 만든다. 연속 max_fail 번 실패하면 멈춘다 (다음 날 이어서).
+    redo 면 상장사 전부를 다시 만든다 (회사 정보 판독 규칙을 고친 뒤)."""
     dest = OUT / "companies"
     ix = json.loads((dest / "index.json").read_text(encoding="utf-8"))
     todo = []
@@ -287,7 +288,7 @@ def dart_pass(max_fail=10, limit=None, log=print):
         if not r[8]:
             continue
         d = json.loads((dest / "d" / f"{shard_of(r[0])}.json").read_text(encoding="utf-8")).get(r[0]) or {}
-        if not _dart_ok(d):
+        if redo or not _dart_ok(d):
             todo.append(r[0])
     todo = todo[:limit] if limit else todo
     if not todo:
@@ -526,6 +527,9 @@ def main(argv):
         return 0
     if cmd == "companies":
         only = [a for a in argv[1:] if "|" in a]
+        if "--dart-all" in argv:   # 판독 규칙을 고친 뒤: 상장사 전부를 DART 로 다시
+            dart_pass(redo=True, max_fail=30)
+            return 0
         if "--dart" in argv:   # 상장사 중 DART 근거가 없는 곳만 한 곳씩 다시
             dart_pass()
             return 0

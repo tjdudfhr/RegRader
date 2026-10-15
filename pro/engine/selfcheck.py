@@ -127,9 +127,9 @@ def check_archetypes():
     rules = load_rules()
     errs, n = [], 0
     cases = {c["id"]: c for c in data["cases"]}
-    from engine.suggest import with_industry
+    from engine.suggest import normalize
     for case in data["cases"]:
-        case = dict(case, profile=with_industry(case["profile"]))   # 업종코드(industryCodes)로 업종 사실을 붙인다 (판정 화면과 같이)
+        case = dict(case, profile=normalize(case["profile"]))   # 업종코드(industryCodes)로 업종 사실을 붙인다 (판정 화면과 같이)
         cls = classify(case["profile"], rules)
         get = lambda name: cls.get(lawapi.compact(name))  # noqa: E731
         errs += [f"[{case['id']}] {e}" for e in check_invariants(case["profile"], rules)]
@@ -150,8 +150,8 @@ def check_archetypes():
     for fl in data.get("flips", []):
         n += 1
         base = cases[fl["case"]]["profile"]
-        before = classify(base, rules)[lawapi.compact(fl["law"])]["status"]
-        after = classify(_apply_answer(base, fl["answer"]), rules)[lawapi.compact(fl["law"])]["status"]
+        before = classify(normalize(base), rules)[lawapi.compact(fl["law"])]["status"]
+        after = classify(normalize(_apply_answer(base, fl["answer"])), rules)[lawapi.compact(fl["law"])]["status"]
         if (before, after) != (fl["from"], fl["to"]):
             errs.append(f"[{fl['case']}] {fl['law']} 답 {fl['answer']}: 기대 {fl['from']}→{fl['to']}, 결과 {before}→{after}")
     return errs, n

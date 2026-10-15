@@ -173,7 +173,7 @@ def matches(when, profile):
 def classify_profile(profile, rules=None):
     """등록된 모든 법령의 판정 (engine/classify.py)."""
     from engine.classify import classify
-    return classify(with_industry(profile), rules if rules is not None else load_rules())
+    return classify(normalize(profile), rules if rules is not None else load_rules())
 
 
 def candidates(profile, rules=None, statuses=("적용", "추정", "확인")):
@@ -419,10 +419,33 @@ def with_industry(profile):
     return dict(profile, tags=list(dict.fromkeys(list(profile.get("tags") or []) + facts + ["nts:known"])))
 
 
+SMALL_FACTORY = 30
+
+
+def with_scale(profile):
+    """공장 근무 인원(factory_employees): 공장 설비 사실(보일러 · 유류탱크 · 위험물 · 배출시설 …)을 추정할 때 쓰는 인원.
+    주업종이 제조업이면 상시근로자 수 그대로, 제조업이 아닌 회사(IT · 서비스 · 유통 …)의 등록공장은 작은 부수 공장으로 본다
+    — 회사 전체 인원(예: IT 회사 2,000명)을 공장 인원으로 보면 제조 설비를 줄줄이 잘못 추정한다."""
+    nums = dict(profile.get("numbers") or {})
+    if nums.get("factory_employees"):
+        return profile
+    from engine.classify import facts_kb
+    tags = set(profile.get("tags") or [])
+    emp = float(nums.get("employees") or 0)
+    mfg = tags & set(facts_kb()["groups"]["MFG"])
+    nums["factory_employees"] = emp if mfg else (min(emp, SMALL_FACTORY) if "site:factory" in tags else 1)
+    return dict(profile, numbers=nums)
+
+
+def normalize(profile):
+    """판정 전에 회사 정보를 맞춘다: 업종코드 → 업종 사실, 공장 근무 인원."""
+    return with_scale(with_industry(profile))
+
+
 def suggest(profile, workers=4):
     """회사 정보 → 등록된 모든 법령의 판정과, 적용·추정·확인 법령의 체계도·행정규칙·의무."""
     from engine.classify import Facts, presumptions, questions, reviews
-    profile = with_industry(profile)
+    profile = normalize(profile)
     cls = classify_profile(profile)
     cands = [dict(c, jobs=[c["job"]]) for c in cls.values() if c["status"] != "미적용"]
     regions = region_tokens(profile)
@@ -525,7 +548,7 @@ def main(argv):
 
 def add_law(name, job, profile):
     """사용자가 직접 넣은 법령 하나를 법제처에서 확인하고 체계도로 펼친다."""
-    profile = with_industry(profile)
+    profile = normalize(profile)
     c = {"root": name, "jobs": [job], "job": job, "tier": "직접 추가", "reasons": [],
          "ruleIds": [], "keywords": {}, "admNames": []}
     f = resolve(c, region_tokens(profile), admin_tags(profile))

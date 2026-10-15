@@ -199,7 +199,7 @@ class KnowledgeBaseTest(unittest.TestCase):
             if "flag" in w:
                 self.assertIn(w["flag"], flags)
             for k in w.get("gte", {}):
-                self.assertIn(k, nums)
+                self.assertIn(k, nums | {"factory_employees"})   # 공장 근무 인원은 엔진이 계산 (suggest.with_scale)
 
     def test_rule_ids_unique_and_complete(self):
         rules = load_rules()
@@ -258,6 +258,18 @@ class DutyTest(unittest.TestCase):
                   "산업재해보상보험법", "고용보험 및 산업재해보상보험의 보험료징수 등에 관한 법률",
                   "장애인고용촉진 및 직업재활법", "노동절 제정에 관한 법률"):
             self.assertIn(n, names)
+
+    def test_factory_of_non_manufacturer_is_small(self):
+        # IT 회사(2,000명)의 등록공장 하나로 회사 전체를 제조 공장처럼 보지 않는다
+        from engine.suggest import normalize
+        it = normalize({"numbers": {"employees": 2000}, "tags": ["ind:it", "site:factory"]})
+        mfg = normalize({"numbers": {"employees": 2000}, "tags": ["ind:chem", "site:factory"]})
+        self.assertEqual(it["numbers"]["factory_employees"], 30)
+        self.assertEqual(mfg["numbers"]["factory_employees"], 2000)
+        from engine.classify import classify
+        cls = classify(dict(it, denied=["site:owned"]), load_rules())   # 공장 때문에 붙는 설비 사실만 본다 (큰 사옥 소유는 따로)
+        for n in ("위험물안전관리법", "토양환경보전법", "에너지이용 합리화법"):
+            self.assertEqual(cls[lawapi.compact(n)]["status"], "미적용", n)
 
     def test_only_laws_that_make_the_company_act(self):
         # 적용법규 = 회사를 직접 구속하고 그 법 때문에 회사가 행위를 해야 하는 법.

@@ -265,6 +265,8 @@ PATTERNS = [
     ("act:ai", r"생성형\s*(?:AI|인공지능)|인공지능\s*(?:서비스|플랫폼|모델)|AI\s*(?:서비스|플랫폼|모델)", ("II.",)),
     ("act:epay", r"전자금융업|선불\s*전자지급|전자지급결제대행|PG\s*사업|간편\s*결제\s*서비스", ("II.",)),
     ("act:location", r"위치기반\s*서비스|위치정보\s*사업", ("II.",)),
+    ("ind:game", r"게임\s*(?:개발|퍼블리싱|서비스|사업)|(?:온라인|모바일|PC|콘솔)\s*게임|MMORPG", ("II.",)),
+    ("act:performance", r"공연\s*(?:기획|사업|매출|개최|제작)|콘서트\s*(?:투어|개최|매출)|월드\s*투어", ("II.",)),
     ("act:broadcaster", r"방송사업자|방송채널사용사업|종합유선방송|위성방송사업|IPTV\s*사업", ("II.",)),
     ("act:animal_test", r"동물\s*실험|비임상\s*시험", None),
     ("act:foreign_investment", r"외국인\s*투자\s*기업", None),
@@ -290,7 +292,7 @@ NEGATIVE = [
 
 # 인허가가 필요한 활동은 연결 자회사 설명이 아니라 회사 자신의 사업일 때만 인정한다 (사업보고서는 연결 기준으로 쓴다)
 SELF_ONLY = {"ind:railway", "ind:fishery", "ind:defense", "act:health_food", "act:kids_product", "act:parcel", "act:bio_material", "act:port", "act:vc", "act:epay", "act:broadcaster", "act:location", "act:esign", "act:cloud", "act:si", "act:franchise", "act:direct_sales",
-             "act:public_contract", "act:ai"}
+             "act:public_contract", "act:ai", "act:performance"}
 SELF_RX = re.compile(r"당사|당행|회사는|회사가|우리\s*회사")
 OTHER_RX = re.compile(r"종속(?:회사|기업)|자회사|계열사|관계(?:회사|기업)|연결\s*대상|지분\s*법")
 
@@ -376,6 +378,13 @@ def evidence(c):
                     break
             if hit:
                 put(fact, True, _snippet(*hit))
+        # 사업의 내용(II.)에 IT 서비스 · 시스템 통합 사업이 여러 번 나오면 회사 사업으로 본다
+        # ('회사와 연결 종속회사는 IT서비스 사업과 …을 영위' 처럼 종속회사와 함께 쓰는 문장이 많아 한 문장으로는 판단하지 않는다)
+        biz = " ".join(b for t, b in secs.items() if t.startswith("II."))
+        it_rx = r"IT\s*서비스|시스템\s*통합|System\s*Integration|정보시스템\s*(?:구축|운영)|(?:ERP|MES)\s*(?:시스템\s*)?구축|IT\s*아웃소싱"
+        n_it = len(re.findall(it_rx, biz))
+        if n_it >= 5 and "act:si" not in facts:
+            put("act:si", True, f"사업의 내용에 IT 서비스 · 시스템 통합 사업 설명 {n_it}곳 — " + _snippet(biz, re.search(it_rx, biz)))
         year = int(re.search(r"\((\d{4})\.", rep["report"]).group(1)) if re.search(r"\((\d{4})\.", rep["report"]) else date.today().year - 1
         emp = employees(code, year)
         if emp and emp["total"]:
