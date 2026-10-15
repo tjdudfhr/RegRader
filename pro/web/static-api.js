@@ -197,8 +197,7 @@
     });
   }
   window.rrProStore = { get: function (slug) { return store('readonly', function (st) { return st.get(slug); }); } };
-  /* RegRader 의 회사 검색창(system-ui.js)이 뒤에 띄운 이 페이지에서 바로 쓴다 — 회사 색인은 한 번만 받는다 */
-  window.rrProApi = { search: function (q, limit) { return search(q, limit); }, slug: function (n) { return slug(n); } };
+
 
   function slug(name) {
     var s = String(name || '').replace(/\((주|유|사|재)\)|[㈜㈔㈕]|주식회사|유한회사|유한책임회사|합자회사|합명회사|사단법인|재단법인|\s임직원$/g, '');
@@ -217,11 +216,12 @@
   function status(rec) {
     if (!rec) return { state: 'none' };
     var m = rec.files['meta.json'], p = rec.files['pro_company.json'];
-    return { company: rec.company, slug: rec.slug, url: rrUrl(rec.slug), state: 'done', step: '완료', progress: 100,
+    return { company: rec.company, slug: rec.slug, url: rrUrl(rec.slug, rec.key), state: 'done', step: '완료', progress: 100,
       startedAt: rec.savedAt, finishedAt: rec.savedAt, laws: p.laws, admin: p.admin, families: p.families, byJob: p.byJob, date: p.date,
       result: { asOf: m.asOf, totalCount: m.totalCount, lawEvents: m.lawEvents, admrulEvents: m.admrulEvents, baseLaws: m.baseLaws, admrulLaws: m.admrulLaws } };
   }
-  function rrUrl(s) { return (window.RR_PRO_SITE || '../') + '?company=' + encodeURIComponent(s); }
+  /* key(회사 찾기 키)를 붙여 두면 이 브라우저에 화면이 없어도(링크를 다른 곳에서 열 때) 회사 화면이 그 자리에서 다시 만든다 (company-mode.js) */
+  function rrUrl(s, k) { return (window.RR_PRO_SITE || '../') + '?company=' + encodeURIComponent(s) + (k ? '&key=' + encodeURIComponent(k) : ''); }
   function lawpack() { return once('lawpack', function () { return getJSON(DATA + 'lawpack.json'); }); }
 
   /* 회사 화면을 나중에 최신 전체 수집으로 다시 만들 때 쓰는 입력만 남긴다 (company-mode.js) */
@@ -245,7 +245,7 @@
       var keep = window.rrStatic.keepIds(fams, names);
       var treeIds = Object.keys(keep).filter(function (id) { return ids[id]; });   // Pro 체계도 안의 것 (밖의 것은 '필수 고시')
       var files = window.rrStatic.build(fams, body.company, u, { keep: keep, treeIds: treeIds });
-      var rec = { slug: s, company: body.company, savedAt: new Date().toISOString(), families: fams.map(slim), keep: keep, treeIds: treeIds, files: files };
+      var rec = { slug: s, key: body.key || '', company: body.company, savedAt: new Date().toISOString(), families: fams.map(slim), keep: keep, treeIds: treeIds, files: files };
       return store('readwrite', function (st) { st.put(rec); }).then(function () { return status(rec); });
     });
   }

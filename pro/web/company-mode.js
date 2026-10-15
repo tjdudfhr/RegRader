@@ -56,7 +56,7 @@
   function getJSON(url) { return realFetch(url, { cache: 'no-cache' }).then(function (res) { if (!res.ok) throw new Error(url); return res.json(); }); }
 
   /* 최신 전체 수집으로 다시 만들기: 기준일(meta.asOf · generatedAt)이 바뀌었을 때만.
-     방금(1시간 안) 만들거나 확인한 화면은 확인을 건너뛰어 바로 그린다 (검색창에서 넘어올 때 기다림 없이) */
+     방금(1시간 안) 만들거나 확인한 화면은 확인을 건너뛰어 바로 그린다 ('RegRader로 보내기' 직후 기다림 없이) */
   var FRESH_MS = 60 * 60 * 1000;
   function refresh(r) {
     if (!r || !r.families || !window.rrStatic) return Promise.resolve(r);   // 예전 방식으로 저장한 회사는 그대로 (다시 보내면 자동 갱신)
@@ -76,7 +76,7 @@
   }
 
   /* 이 브라우저에 이 회사 화면이 없을 때(링크로 처음 연 경우): RegRader Pro 판정 엔진을 보이지 않게 띄워
-     검색창과 같은 순서(회사 정보 → 판정 · 저장된 검토 반영 → 화면 만들기)로 만든다. 그동안 시작 화면에 진행 단계를 보인다 */
+     Pro 에서 손으로 할 때와 같은 순서(회사 정보 → 판정 · 저장된 검토 반영 → 화면 만들기)로 만든다. 그동안 시작 화면에 진행 단계를 보인다 */
   function build(k) {
     window.__rrHold = true;
     function say(t) {
@@ -160,7 +160,6 @@
       if (!window.rrCompanyChip) return;
       if (r) {
         var p = r.files['pro_company.json'] || {};
-        if (window.rrProRecent) window.rrProRecent({ slug: slug, key: key, name: r.company, laws: p.laws, admin: p.admin, at: p.date });   // 검색창의 '최근 본 회사'
         window.rrCompanyChip({ company: r.company, laws: p.laws, admin: p.admin, date: p.date, home: home, homeLabel: label });
       } else {
         window.rrCompanyChip({ company: slug, missing: true, home: HOME, homeLabel: 'RegRader Pro 에서 판정하기' });
