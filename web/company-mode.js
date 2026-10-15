@@ -155,12 +155,10 @@
     if (/[?&]embed=1/.test(location.search)) return;
     rec.then(function (r) {
       /* 회사 이름: 화면 맨 위(앱 바) · 사이드바 · 탭 제목 (company-chip.js) */
-      var home = window.RR_PRO_HOME ? HOME : location.pathname;
-      var label = window.RR_PRO_HOME ? '다른 회사 검색' : '원래 화면';
       if (!window.rrCompanyChip) return;
       if (r) {
         var p = r.files['pro_company.json'] || {};
-        window.rrCompanyChip({ company: r.company, laws: p.laws, admin: p.admin, date: p.date, home: home, homeLabel: label });
+        window.rrCompanyChip({ company: r.company, laws: p.laws, admin: p.admin, date: p.date });   // 다른 회사는 '기업별 적용법규 검색' 버튼으로
       } else {
         window.rrCompanyChip({ company: slug, missing: true, home: HOME, homeLabel: 'RegRader Pro 에서 판정하기' });
       }

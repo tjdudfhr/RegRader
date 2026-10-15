@@ -2,7 +2,7 @@
  *
  * window.rrCompanyChip({ company, laws, admin, date, home, homeLabel, missing })
  *   company    회사 이름          laws · admin   적용법규(법령) · 행정규칙 수     date  판정한 날
- *   home       다른 회사를 고르는 곳 (Pro 화면)   homeLabel  그 링크 이름
+ *   home       데이터가 없을 때 판정하러 가는 곳 (Pro 화면)   homeLabel  그 링크 이름
  *   missing    true 면 '이 브라우저에 이 회사 데이터가 없다'고 알린다
  * 브라우저판(company-mode.js)과 맥 서버판 회사 화면(pro-company.js)이 같이 쓴다.
  */
@@ -22,7 +22,6 @@
     '.rr-co .go { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px; border-radius: 9px; text-decoration: none; white-space: nowrap;',
     '  font-size: 12.5px; font-weight: 700; color: #e6ecff; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .14); transition: background .15s, border-color .15s; }',
     '.rr-co .go:hover { background: rgba(255, 255, 255, .13); border-color: rgba(255, 255, 255, .26); }',
-    '.rr-co .go svg { width: 14px; height: 14px; }',
     '.rr-co.miss .ic { background: linear-gradient(135deg, #f08a24, #dd6b20); box-shadow: none; }',
     '.rr-co.miss small { color: #ffcf8a; }',
     '.rr-co.m, .rr-co-crumb { display: none; }',
@@ -37,9 +36,6 @@
   ].join('\n');
   var ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
     '<path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M9 17h1M14 17h1"/></svg>';
-
-  var SWAP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<path d="M7 4 3 8l4 4M3 8h13M17 20l4-4-4-4M21 16H8"/></svg>';
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -69,12 +65,10 @@
       : '법령 ' + n(o.laws) + ' · 행정규칙 ' + n(o.admin) + (o.date ? ' · ' + o.date + ' 판정' : '')));
     chip.appendChild(ic);
     chip.appendChild(tx);
-    if (o.home) {
+    if (o.home && o.missing) {   // 데이터가 없을 때만 'RegRader Pro 에서 판정하기' (다른 회사는 '기업별 적용법규 검색' 버튼으로)
       var a = el('a', 'go');
       a.href = o.home;
-      a.title = o.homeLabel || '다른 회사 검색';
-      a.innerHTML = o.missing ? '' : SWAP;
-      a.appendChild(document.createTextNode(o.missing ? (o.homeLabel || '판정하기') : '다른 회사'));
+      a.appendChild(document.createTextNode(o.homeLabel || '판정하기'));
       chip.appendChild(a);
     }
     chip.title = o.company + (o.missing ? '' : ' 의 적용법규로 만든 RegRader 화면');
@@ -84,10 +78,6 @@
       left.insertBefore(chip, left.querySelector('.rr-top-title'));
     }
     else document.body.insertBefore(chip, document.body.firstChild);
-    var go = chip.querySelector('a.go');
-    if (go && !o.missing) go.addEventListener('click', function (e) {   // 이 화면 안에서 바로 '기업별 적용법규 검색' 팝업을 연다 (system-ui.js)
-      if (window.rrProOpen) { e.preventDefault(); window.rrProOpen(); }
-    });
     ['rr-co-m', 'rr-co-crumb'].forEach(function (id) { var x = document.getElementById(id); if (x) x.remove(); });
     var title = document.querySelector('.rr-top-title');
     if (title) {   // 좁은 화면: 앱 바 제목 위 한 줄
