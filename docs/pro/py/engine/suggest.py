@@ -108,7 +108,7 @@ def duties_for(root, profile, duties=None, facts=None):
 
 @lru_cache(maxsize=1)
 def fact_effects():
-    """입력 항목(사실) → 그 사실을 조건으로 쓰는 판정 규칙의 법령 이름 (화면 '항목 추가'의 '관련 법령 N').
+    """입력 항목(사실) → 그 사실을 조건으로 쓰는 판정 규칙의 법령 [{name, job, why}] (화면 '항목 추가'의 관련 법령).
     묶음 이름(facts.json groups, 예: MFG)은 그 안의 항목으로 풀어서 센다. 'none'(해당하면 빠지는 조건)은 넣지 않는다."""
     groups = json.loads((KB / "facts.json").read_text(encoding="utf-8")).get("groups", {})
     out = {}
@@ -122,10 +122,12 @@ def fact_effects():
                 if isinstance(x, str):
                     ids |= set(groups.get(x, [x]))
         for fid in ids:
-            names = out.setdefault(fid, [])
+            laws = out.setdefault(fid, [])
+            seen = {x["name"] for x in laws}
             for law in r["laws"]:
-                if law["name"] not in names:
-                    names.append(law["name"])
+                if law["name"] not in seen:
+                    seen.add(law["name"])
+                    laws.append({"name": law["name"], "job": law.get("job") or "기타", "why": r.get("why") or ""})
     return out
 
 
