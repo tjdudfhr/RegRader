@@ -348,6 +348,8 @@ def web(dest, data_url=DATA_URL, log=print):
     for n in KB_FILES:
         shutil.copy2(ROOT / "kb" / f"{n}.json", dest / "py" / "kb" / f"{n}.json")
     shutil.copy2(ROOT / "examples" / "manufacturer.json", dest / "py" / "examples" / "manufacturer.json")
+    from engine.suggest import fact_effects
+    _write(dest / "py" / "kb" / "effects.json", fact_effects())   # 항목 추가 화면의 '관련 법령 N' (서버판은 /api/catalog 가 붙인다)
 
     # 회사 RegRader 화면: 커밋된 RegRader 화면(_site, 직무 '기타' 추가 · 대응 현황 끔) + 회사 보기 스크립트
     head = X.build_site(log=log)

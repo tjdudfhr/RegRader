@@ -130,7 +130,8 @@
   .grp h3 small { color: var(--ink-4); font-weight: 500; }
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   label.f { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--ink-3); }
-  label.f input { height: 36px; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px; color: var(--ink); background: var(--surface-2); }
+  label.f input { width: 100%; min-width: 0; height: 36px; border: 1px solid var(--line); border-radius: 8px; padding: 0 10px; color: var(--ink); background: var(--surface-2); }
+  .row > * { min-width: 0; }
   label.f input:focus { outline: 2px solid var(--brand); outline-offset: -1px; background: #fff; }
   label.f .hint { font-size: 11.5px; color: var(--brand-ink); line-height: 1.4; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -168,6 +169,33 @@
 
   /* 회사 정보 한 상자 · 항목 추가 상자 */
   .rcol { min-width: 0; }
+  /* 오른쪽 칸: AI가 찾아낸 적용법규 · AI 판단 근거 */
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin: 0 0 14px; }
+  .ph { margin: 0 0 10px; font-size: 15px; font-weight: 800; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+  .ph small { font-size: 12px; font-weight: 600; color: var(--ink-3); }
+  .found .big { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-bottom: 10px; }
+  .found .big b { font-size: 30px; font-weight: 800; letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .found .big span { font-size: 13.5px; color: var(--ink-2); }
+  .found .big em { font-style: normal; color: var(--ink-3); font-size: 12.5px; }
+  .jobs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .jb { display: inline-flex; align-items: baseline; gap: 5px; border: 1px solid var(--line); background: var(--surface-2); border-radius: 10px; padding: 7px 11px;
+    font: 600 13px var(--font); color: var(--ink-2); cursor: pointer; }
+  .jb b { font-size: 15px; color: var(--brand-ink); }
+  .jb:hover, .jb[aria-pressed="true"] { border-color: var(--brand); background: var(--brand-soft); }
+  .bsec { padding: 10px 0; border-top: 1px solid var(--line-2); }
+  .bsec:first-of-type { border-top: 0; padding-top: 0; }
+  .bsec h4 { margin: 0 0 8px; font-size: 13px; color: var(--ink-2); }
+  .bsec h4 small { color: var(--ink-4); font-weight: 500; margin-left: 4px; }
+  .bsec details summary { cursor: pointer; font-size: 13px; font-weight: 700; color: var(--ink-2); }
+  .bsec details[open] summary { margin-bottom: 6px; }
+  .bsec .src { font-size: 12px; color: var(--ink-3); margin: 0 0 6px; }
+  /* 항목 추가: 항목마다 관련 법령 수 · 고르기 전에 무엇이 들어오는지 */
+  .opt { display: inline-flex; align-items: center; gap: 5px; }
+  .opt i { font-style: normal; font-size: 11px; font-weight: 800; color: var(--brand-ink); background: var(--brand-soft); border-radius: 6px; padding: 0 5px; }
+  .opt[aria-pressed="true"] i { background: rgba(255, 255, 255, .25); color: #fff; }
+  .sechint { font-size: 12.5px; color: var(--ink-3); margin: -4px 0 8px; }
+  .optdetail { min-height: 34px; margin-top: 8px; padding: 8px 10px; border-radius: 9px; background: var(--surface-2); font-size: 12.5px; color: var(--ink-2); line-height: 1.5; }
+  .optdetail b { color: var(--ink); }
   .cobox, .addbox { margin-top: 14px; border-radius: 14px; padding: 14px 14px 4px; }
   .rcol .addbox { margin: 0 0 14px; }
   .addbox > summary { list-style: none; cursor: pointer; margin: 0; }
@@ -240,9 +268,10 @@
   .toolbar .sp { flex: 1; }
   .toolbar .sel { color: var(--ink-3); font-size: 13px; }
   /* 맨 위 실행 막대: RegRader로 보내기 · 엑셀 (스크롤해도 따라온다) */
-  .rrx { position: sticky; top: 64px; z-index: 4; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0 0 14px;
+  #rrx-slot { position: sticky; top: 64px; z-index: 5; }   /* 막대를 감싼 칸이 따라와야 스크롤해도 보인다 */
+  html.embed #rrx-slot { top: 0; }
+  .rrx { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0 0 14px;
     padding: 14px 16px; border-radius: 14px; color: #fff; background: linear-gradient(135deg, #0f1a3a 0%, #1f3a9e 100%); box-shadow: 0 10px 26px rgba(15, 26, 58, .28); }
-  html.embed .rrx { top: 0; }
   .rrx .co { flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
   .rrx .co small { font-size: 11.5px; color: #a9b6dd; font-weight: 700; }
   .rrx .co b { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -415,7 +444,7 @@
 
     <form id="form" autocomplete="off">
       <section class="cobox" aria-label="회사 정보">
-        <h3 class="boxh">회사 정보 <small>공공데이터 · DART 로 채운 것 — 틀린 항목은 × 로 빼세요</small></h3>
+        <h3 class="boxh">회사 정보 <small>공공데이터 · DART 로 채운 것 — 숫자는 고칠 수 있습니다</small></h3>
         <div id="brief"></div>
         <button type="button" class="sub-btn" id="b-ai" hidden>AI로 웹에서 더 조사하기 (유료)</button>
         <div class="grp">
@@ -428,16 +457,21 @@
           <details class="pick" id="prov-box"><summary id="prov-sum"></summary><div class="chips" id="provinces"></div></details>
           <label class="f" style="margin-top:8px">시·군 <input id="f-cities" placeholder="예: 포항, 광양 (쉼표로 구분)"></label>
         </div>
-        <div class="grp">
-          <h3>찾은 항목 <small id="picked-n"></small></h3>
-          <ul class="picked" id="picked"></ul>
-        </div>
       </section>
       <button type="submit" hidden aria-hidden="true" tabindex="-1"></button>
     </form>
   </aside>
   <div class="rcol">
     <div id="rrx-slot"></div>
+    <section id="found-slot" aria-label="AI가 찾아낸 적용법규"></section>
+    <section class="panel" id="basis" aria-label="AI 판단 근거" hidden>
+      <h3 class="ph">AI 판단 근거 <small>회사 사실을 이렇게 보고 판정했습니다 — 틀린 것만 고치세요</small></h3>
+      <div class="bsec">
+        <h4>확인한 사실 <small id="picked-n"></small></h4>
+        <ul class="picked" id="picked"></ul>
+      </div>
+      <div id="presume-slot"></div>
+    </section>
   <details class="addbox" id="addbox" open>
     <summary class="boxh"><span class="plus" aria-hidden="true">＋</span> 항목 추가 <small>회사에 해당하는 업종 · 설비 · 물질 · 활동을 누르면 아래 적용법규에 바로 반영됩니다</small></summary>
       <div class="grp" id="sugg-grp" hidden>
@@ -506,15 +540,35 @@
     $('#nums').innerHTML = catalog.numbers.map((n) => `<label class="f">${esc(n.label)} (${esc(n.unit)})
       <input id="n-${n.id}" type="number" min="0" placeholder="${esc(n.placeholder)}"><span class="hint" id="h-${n.id}"></span></label>`).join('');
     $('#provinces').innerHTML = catalog.regions.provinces.map((p) => chip(p, p, 'provinces')).join('');
+    const EFF = catalog.effects || {};
+    const SEC_HINT = { '업종': '회사가 하는 사업 — 여러 개 고를 수 있습니다', '사업장': '사업장 · 시설의 형태',
+      '인허가·신고': '회사가 받은 인허가 · 신고', '설비': '보유한 설비 — 안전검사 · 정기검사 대상', '취급 물질': '취급하는 화학물질 · 위험물 · 가스',
+      '사업 활동': '거래 · 영업 · 고용 · 정보 처리 같은 활동' };
+    const optChip = (o) => {
+      const laws = EFF[o.id] || [];
+      return `<button type="button" class="chip opt" data-id="${esc(o.id)}" data-group="tags" aria-pressed="false"
+        title="${esc(laws.length ? '관련 법령: ' + laws.slice(0, 12).join(', ') + (laws.length > 12 ? ' 외' : '') : '')}">${esc(o.label)}${laws.length ? `<i>${laws.length}</i>` : ''}</button>`;
+    };
     $('#sections').innerHTML = `<div class="sectabs" role="tablist">${catalog.sections.map((s, i) =>
         `<button type="button" class="sectab" role="tab" data-sec="${i}" aria-selected="${i === 0}">${esc(s.label)}<i data-cnt="${i}"></i></button>`).join('')}</div>
+      <p class="sechint" id="sechint">${esc(SEC_HINT[catalog.sections[0].label] || '')}</p>
       <input id="opt-q" class="optq" placeholder="항목 찾기 (예: 크레인, 폐기물, 개인정보, 수출)" aria-label="항목 찾기">
       ${catalog.sections.map((s, i) => `<div class="sec" data-sec="${i}" ${i ? 'hidden' : ''}><h4 hidden>${esc(s.label)}</h4>
-        <div class="chips">${s.options.map((o) => chip(o.id, o.label, 'tags')).join('')}</div></div>`).join('')}`;
+        <div class="chips">${s.options.map(optChip).join('')}</div></div>`).join('')}
+      <div class="optdetail" id="optdetail">항목에 마우스를 올리면 관련 법령이 보입니다. 숫자는 그 항목과 관련된 법령 수입니다. 누르면 아래 적용법규에 바로 반영됩니다.</div>`;
+    const showDetail = (c) => {
+      const o = tagInfo[c.dataset.id] || {};
+      const laws = EFF[c.dataset.id] || [];
+      $('#optdetail').innerHTML = `<b>${esc(o.label || '')}</b> ${c.getAttribute('aria-pressed') === 'true' ? '(골랐음 — 다시 누르면 뺍니다)' : ''} — ` +
+        (laws.length ? `관련 법령 ${laws.length}개: ${laws.map(esc).join(', ')}` : '이 항목만으로 더해지는 법령은 없고, 다른 항목과 함께 판정에 쓰입니다.');
+    };
+    $('#sections').addEventListener('mouseover', (e) => { const c = e.target.closest('.opt'); if (c) showDetail(c); });
+    $('#sections').addEventListener('focusin', (e) => { const c = e.target.closest('.opt'); if (c) showDetail(c); });
     let secOn = 0;
     const showSec = (i) => {
       secOn = i;
       document.querySelectorAll('#sections .sectab').forEach((t) => t.setAttribute('aria-selected', String(+t.dataset.sec === i)));
+      $('#sechint').textContent = SEC_HINT[catalog.sections[i].label] || '';
       document.querySelectorAll('#sections .sec').forEach((x) => { x.hidden = +x.dataset.sec !== i; x.querySelector('h4').hidden = true; x.querySelectorAll('.chip').forEach((c) => { c.hidden = false; }); });
     };
     $('#sections').addEventListener('click', (e) => { const t = e.target.closest('.sectab'); if (t) { $('#opt-q').value = ''; showSec(+t.dataset.sec); } });
@@ -633,7 +687,8 @@
     const prov = [...S.provinces];
     $('#prov-sum').innerHTML = prov.length ? prov.map((p) => `<b>${esc(p)}</b>`).join(' · ') : '<span style="color:var(--ink-4)">시·도를 고르지 않았습니다</span>';
     const ids = [...S.tags].filter((id) => !id.startsWith('nts:'));  // 업종 사실은 위 '업종'에 따로 보인다
-    $('#picked-n').textContent = ids.length ? `${ids.length}개 · 틀린 항목은 × 로 빼세요 (● 확인 ● 추정 ● 직접)` : '';
+    $('#picked-n').textContent = ids.length ? `${ids.length}개 · 틀린 것은 × 로 빼세요 (● 공시·공공데이터로 확인 ● 추정 ● 직접 추가)` : '';
+    $('#basis').hidden = !(result || ids.length);
     const pl = $('#picked');
     pl.classList.add('chips2');
     const evid = [];
@@ -644,7 +699,7 @@
       if (ev.evidence || ev.source) evid.push({ t, ev });
       return `<li class="pk" title="${esc(t.section + ' · ' + basis + (ev.evidence ? ' — ' + ev.evidence : ''))}"><span class="dot ${esc(ev.basis)}"></span><b>${esc(t.label)}</b>
         <button type="button" class="x" data-id="${esc(id)}" aria-label="${esc(t.label)} 빼기">×</button></li>`;
-    }).join('') : '<li class="none">회사를 찾으면 여기에 채워집니다. 오른쪽 ‘항목 추가’에서 더할 수 있습니다.</li>';
+    }).join('') : '<li class="none">회사를 찾으면 여기에 채워집니다. 아래 ‘항목 추가’에서 더할 수 있습니다.</li>';
     const den = [...S.denied].filter((id) => !FLAG_IDS.has(id));
     if (den.length) pl.innerHTML += den.map((id) => `<li class="pk no" title="해당 없음"><b>${esc(tagInfo[id]?.label || id)}</b>
         <button type="button" class="x" data-undeny="${esc(id)}" aria-label="해당 없음 취소">×</button></li>`).join('');
@@ -927,6 +982,30 @@
     return { applied: (c['적용'] || 0) + (c['추정'] || 0), pending: c['확인'] || 0, no: c['미적용'] || 0 };
   }
 
+  /* AI가 찾아낸 적용법규: 합계 하나 + 직무별 수 (누르면 그 직무 목록으로) */
+  function foundBox(jobs) {
+    const sm = result.summary, bs = sm.byStatus || {}, adm = sm.adminTotal ?? sm.admin;
+    return `<div class="panel found">
+      <h3 class="ph">AI가 찾아낸 적용법규 <small>현행 법률 ${(sm.registry || 0).toLocaleString()}개를 모두 판정한 결과</small></h3>
+      <div class="big"><b>${(sm.laws + adm).toLocaleString()}</b><span>적용법규 = 법령 ${sm.laws.toLocaleString()} + 행정규칙 ${adm.toLocaleString()}</span>
+        <em>법령 계열 ${(bs['적용'] || 0) + (bs['추정'] || 0)}개 (그중 추정 ${bs['추정'] || 0}) · 미적용 ${(bs['미적용'] || 0).toLocaleString()}</em></div>
+      <div class="jobs">${jobs.map((j) => { const c = jobCounts(j); return c.applied || c.pending ? `<button type="button" class="jb" data-cat="${esc(j)}" aria-pressed="${j === catFilter}">${esc(j)} <b>${c.applied + c.pending}</b></button>` : ''; }).join('')}</div>
+    </div>`;
+  }
+
+  /* AI 판단 근거 중 '추정 · 경계 · 입력 필요' (확인한 사실은 위 칸에 renderForm 이 그린다) */
+  function presumeBox() {
+    const qs = result.questions || [], ps = result.presumptions || [], rv = result.reviews || [];
+    const od = (S.research && S.research.opendart) || null;
+    const row = (x, yesLabel, noLabel, why) => `<div class="ask"><span class="q">${esc(x.label)}${why ? ` <small class="why">${esc(why)}</small>` : ''}</span>
+      <small title="${esc(x.laws.join(', '))}">법령 ${x.laws.length}개</small><span class="sp"></span>
+      <button type="button" class="yes" data-ans="${esc(x.fact)}" data-v="1">${yesLabel}</button><button type="button" class="no" data-ans="${esc(x.fact)}" data-v="0">${noLabel}</button></div>`;
+    return `${od && od.report ? `<p class="src">DART: ${esc(od.corp)} <a href="${esc(od.report.url)}" target="_blank" rel="noopener">${esc(od.report.report)}</a> 본문 · 직원 현황과 공공데이터로 확인했습니다.</p>` : ''}
+      ${qs.length ? `<div class="bsec"><h4>입력이 필요한 값 ${qs.length}개 <small>공공데이터에 없어 판정할 수 없습니다</small></h4>${qs.map((q) => askRow(q.fact, q.laws)).join('')}</div>` : ''}
+      ${ps.length ? `<div class="bsec"><details${qOpen ? ' open' : ''}><summary>AI가 추정한 사실 ${ps.length}개 — 맞는지 확인하세요</summary>${ps.map((x) => row(x, '맞음', '아님', x.why ? '근거: ' + x.why : '')).join('')}</details></div>` : ''}
+      ${rv.length ? `<div class="bsec"><details><summary>‘아니오’로 봤지만 경계에 있는 사실 ${rv.length}개 — 해당하면 ‘예’</summary>${rv.slice(0, 5).map((x) => row(x, '예', '아니오 확정', '')).join('')}</details></div>` : ''}`;
+  }
+
   function questionPanel() {
     // 판정은 이미 끝났다. 근로자 수·지역처럼 전혀 모르는 값만 묻고, 나머지는 AI 판단 근거로 접어 둔다 (틀린 것만 고치면 된다)
     const qs = result.questions || [];
@@ -1116,14 +1195,10 @@
     else if (result.ai) banner = '<div class="banner ai">AI가 법령마다 직무와 적용 여부를 판단했습니다.</div>';
     const admTotal = s.adminTotal ?? s.admin;
     $('#rrx-slot').innerHTML = rrBox();
-    let html = banner + `<div class="stats">
-      <div class="stat first"><b>${(s.laws + admTotal).toLocaleString()}</b><span>적용법규 합계 (법령 ${s.laws} + 행정규칙 ${admTotal})</span></div>
-      <div class="stat"><b>${(bs['적용'] || 0) + (bs['추정'] || 0)}</b><span>적용 법령 계열 (추정 ${bs['추정'] || 0} 포함)</span></div>
-      <div class="stat"><b>${(result.presumptions || []).length}</b><span>AI 추정 사실 (법령 ${bs['추정'] || 0}개 판정${(result.questions || []).length ? ` · 입력 필요 ${(result.questions || []).length}` : ''})</span></div>
-      <div class="stat"><b>${bs['미적용'] || 0}</b><span>미적용 (현행 법률 ${(s.registry || 0).toLocaleString()}건 전부 판정)</span></div>
-    </div>
-    ${questionPanel()}
-    <div class="toolbar">
+    $('#found-slot').innerHTML = foundBox(jobs);
+    $('#presume-slot').innerHTML = presumeBox();
+    $('#basis').hidden = false;
+    let html = banner + `<div class="toolbar" id="list-top">
       <button type="button" class="tab" data-cat="전체" aria-pressed="${catFilter === '전체'}">전체<i>${(bs['적용'] || 0) + (bs['추정'] || 0)}</i></button>
       ${jobs.map((j) => { const c = jobCounts(j); return `<button type="button" class="tab" data-cat="${esc(j)}" aria-pressed="${j === catFilter}" title="적용 ${c.applied} · 확인 필요 ${c.pending} · 미적용 ${c.no}">${esc(j)}<i>${c.applied}${c.pending ? ` +${c.pending}` : ''}</i></button>`; }).join('')}
       <span class="sp"></span>
@@ -1203,7 +1278,8 @@
   document.addEventListener('click', (e) => {
     if (!result) return;
     const t = e.target.closest('button');
-    if (!t || !(t.closest('#out') || t.closest('#rrx-slot'))) return;
+    if (!t || !(t.closest('#out') || t.closest('#rrx-slot') || t.closest('#found-slot') || t.closest('#basis'))) return;
+    if (t.matches('.jb')) { catFilter = t.dataset.cat; render(); $('#list-top').scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
     if (t.matches('.tab')) { catFilter = t.dataset.cat; render(); return; }
     if (t.dataset.rrx) { rrExport(); return; }
     if (t.dataset.xlsx) { downloadXlsx(t); return; }

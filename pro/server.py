@@ -42,7 +42,7 @@ def load_env(path=ROOT / ".env"):
 load_env()
 
 from engine import companydb, export_regrader, lawapi  # noqa: E402
-from engine.suggest import JOBS, add_law, apply_ai, load_catalog, plain_categories, suggest  # noqa: E402
+from engine.suggest import JOBS, add_law, apply_ai, fact_effects, load_catalog, plain_categories, suggest  # noqa: E402
 
 try:
     from engine import ai  # noqa: E402
@@ -123,7 +123,7 @@ class Handler(SimpleHTTPRequestHandler):
                     "company": dict(companydb.meta(), ready=True) if companydb.ready() else {"ready": False},
                 })
             if url.path == "/api/catalog":
-                return self._json(200, load_catalog())
+                return self._json(200, dict(load_catalog(), effects=fact_effects()))
             if url.path == "/api/example":
                 return self._json(200, json.loads((ROOT / "examples" / "manufacturer.json").read_text(encoding="utf-8")))
             if url.path == "/api/company":
