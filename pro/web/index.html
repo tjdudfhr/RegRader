@@ -1552,15 +1552,17 @@
       msg = `✅ 보냈습니다 · ${esc(r.asOf || '')} 기준 올해 개정 ${r.totalCount ?? 0}건 (법령 ${r.lawEvents ?? 0} · 행정규칙 ${r.admrulEvents ?? 0}) · 적용법규 ${r.baseLaws ?? 0} + 행정규칙 ${r.admrulLaws ?? 0}`;
     } else if (st?.state === 'changed') msg = '⚠️ 보낸 뒤 항목이 바뀌었습니다. 다시 보내야 RegRader 화면에 반영됩니다.';
     else if (st?.state === 'error') msg = `<span class="bad">만들지 못했습니다: ${esc(st.error || '')}</span>`;
+    // RegRader 팝업 안(embed)에서는 새 탭 대신 RegRader 창 자체를 그 회사 화면으로 옮긴다
+    const linkTarget = document.documentElement.classList.contains('embed') && window.parent !== window ? 'target="_top"' : 'target="_blank" rel="noopener"';
     const go = st?.state === 'changed'
-      ? `<button type="button" class="go" data-rrx="1">RegRader로 다시 보내기 →</button><a class="sec" style="display:inline-flex;align-items:center;text-decoration:none" href="${esc(st.url)}" target="_blank" rel="noopener">지난 화면 열기</a>`
+      ? `<button type="button" class="go" data-rrx="1">RegRader로 다시 보내기 →</button><a class="sec" style="display:inline-flex;align-items:center;text-decoration:none" href="${esc(st.url)}" ${linkTarget}>지난 화면 열기</a>`
       : done
-      ? `<a class="go" href="${esc(st.url)}" target="_blank" rel="noopener">RegRader 화면 열기 →</a><button type="button" class="sec" data-rrx="1">다시 보내기</button>`
+      ? `<a class="go" href="${esc(st.url)}" ${linkTarget}>RegRader 화면 열기 →</a><button type="button" class="sec" data-rrx="1">다시 보내기</button>`
       : `<button type="button" class="go" data-rrx="1" ${running ? 'disabled' : ''}>RegRader로 보내기 →</button>`;
     return `<div class="rrx" role="region" aria-label="RegRader로 보내기">
       <div class="co"><small>지금 판정한 회사</small><b>${esc(p.name || '직접 입력한 회사')}</b><span>보낼 것: 법령 ${sel.laws.toLocaleString()} + 행정규칙 ${sel.adm.toLocaleString()} (체크한 것)</span></div>
       <div class="acts">${go}<button type="button" class="sec" data-xlsx="1" title="이 회사의 적용법규 · 행정규칙 · 미적용 이유를 엑셀로">엑셀로 받기</button></div>
-      <div class="msg">${msg} · <a href="/rr/" target="_blank" rel="noopener">보낸 회사 목록</a></div>${bar}${reviewBox()}</div>`;
+      <div class="msg">${msg} · <a href="/rr/" ${linkTarget}>보낸 회사 목록</a></div>${bar}${reviewBox()}</div>`;
   }
 
   /* 엑셀로 받기: 지금 판정한 회사(선택한 것)의 적용법규 · 행정규칙 · 미적용 이유 · 회사 정보. 회사를 바꿔 판정하면 그 회사 것 */
