@@ -1,4 +1,4 @@
-/* 회사 RegRader 화면의 회사 이름 표시 — 화면 맨 위(앱 바, 스크롤해도 보임) · 사이드바 · 로딩 화면 · 브라우저 탭 제목.
+/* 회사 RegRader 화면의 회사 이름 표시 — 화면 맨 위(앱 바 맨 앞, 스크롤해도 보임) · 로딩 화면 · 브라우저 탭 제목.
  *
  * window.rrCompanyChip({ company, laws, admin, date, home, homeLabel, missing })
  *   company    회사 이름          laws · admin   적용법규(법령) · 행정규칙 수     date  판정한 날
@@ -11,7 +11,8 @@
   var css = [
     '.rr-top-left.rr-has-co { display: flex !important; flex-direction: row !important; align-items: center !important; min-width: 0; }',
     /* 앱 바(어두운 바탕) 안: 상자 없이 구분선 하나로 이어 붙인다 */
-    '.rr-co { display: flex; align-items: center; gap: 12px; min-width: 0; margin-left: 20px; padding-left: 20px; border-left: 1px solid rgba(255, 255, 255, .14); }',
+    /* 회사 이름이 맨 앞, 그 뒤에 구분선 · 지금 화면 제목(종합 현황 · 분기별 개정 현황 …) */
+    '.rr-co { display: flex; align-items: center; gap: 12px; min-width: 0; margin-right: 22px; padding-right: 22px; border-right: 1px solid rgba(255, 255, 255, .14); }',
     '.rr-co .ic { flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; color: #fff;',
     '  background: linear-gradient(135deg, #3d6bff, #6a4bff); box-shadow: 0 6px 14px -6px rgba(61, 107, 255, .8), inset 0 1px 0 rgba(255, 255, 255, .2); }',
     '.rr-co .ic svg { width: 18px; height: 18px; }',
@@ -24,9 +25,11 @@
     '.rr-co .go svg { width: 14px; height: 14px; }',
     '.rr-co.miss .ic { background: linear-gradient(135deg, #f08a24, #dd6b20); box-shadow: none; }',
     '.rr-co.miss small { color: #ffcf8a; }',
-    '.rr-co.m { display: none; }',
-    /* 좁은 화면: 앱 바 안에는 자리가 없어 앱 바 바로 아래 한 줄(밝은 바탕)로 */
+    '.rr-co.m, .rr-co-crumb { display: none; }',
+    /* 좁은 화면: 앱 바 제목 위에 작은 글씨로 회사 이름 (회사 바꾸기는 앱 바의 검색 버튼). 데이터가 없을 때만 앱 바 아래 안내 줄 */
     '@media (max-width: 900px) { .rr-top-left .rr-co { display: none; }',
+    '  .rr-co-crumb { display: block; max-width: 46vw; margin-bottom: 1px; font: 700 12px/1.25 var(--font, sans-serif); color: rgba(214, 224, 255, .72);',
+    '    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em; }',
     '  .rr-co.m { display: flex; margin: 12px 14px 0; padding: 10px 12px; border: 1px solid var(--line, #e5e7eb); border-radius: 14px; background: var(--surface, #fff); }',
     '  .rr-co.m b { color: var(--ink, #111827); font-size: 15px; } .rr-co.m small { color: var(--ink-3, #6b7280); white-space: normal; line-height: 1.35; }',
     '  .rr-co.m .tx { flex: 1; } .rr-co.m .go { color: var(--brand, #3056d3); background: var(--brand-soft, #eef2ff); border-color: transparent; }',
@@ -76,26 +79,32 @@
     }
     chip.title = o.company + (o.missing ? '' : ' 의 적용법규로 만든 RegRader 화면');
     var left = document.querySelector('.rr-top-left');
-    if (left) { left.classList.add('rr-has-co'); left.appendChild(chip); }
+    if (left) {   // 앱 바: [회사] │ [화면 제목] — 좁은 화면 메뉴 버튼(☰)은 맨 앞 그대로
+      left.classList.add('rr-has-co');
+      left.insertBefore(chip, left.querySelector('.rr-top-title'));
+    }
     else document.body.insertBefore(chip, document.body.firstChild);
-    var oldM = document.getElementById('rr-co-m');
-    if (oldM) oldM.remove();
+    var go = chip.querySelector('a.go');
+    if (go && !o.missing) go.addEventListener('click', function (e) {   // 이 화면 안에서 바로 '기업별 적용법규 검색' 팝업을 연다 (system-ui.js)
+      if (window.rrProOpen) { e.preventDefault(); window.rrProOpen(); }
+    });
+    ['rr-co-m', 'rr-co-crumb'].forEach(function (id) { var x = document.getElementById(id); if (x) x.remove(); });
+    var title = document.querySelector('.rr-top-title');
+    if (title) {   // 좁은 화면: 앱 바 제목 위 한 줄
+      var cr = el('span', 'rr-co-crumb', o.company);
+      cr.id = 'rr-co-crumb';
+      title.insertBefore(cr, title.firstChild);
+    }
     var bar = document.querySelector('.container > .header');
-    if (bar) {
+    if (bar && o.missing) {
       var m = chip.cloneNode(true);
       m.id = 'rr-co-m';
-      [chip, m].forEach(function (x) {
-        var go = x.querySelector('a.go');
-        if (go && !o.missing) go.addEventListener('click', function (e) {   // 이 화면 안에서 바로 검색창을 연다 (system-ui.js)
-          if (window.rrProOpen) { e.preventDefault(); window.rrProOpen(); }
-        });
-      });
       m.classList.add('m');
       bar.insertAdjacentElement('afterend', m);
     }
 
-    /* 사이드바 · 로딩 화면의 부제 → 회사 이름 */
-    document.querySelectorAll('.rr-brand-sub, .rr-boot-sub').forEach(function (x) { x.textContent = o.company; });
+    /* 로딩 화면의 부제 → 회사 이름 (사이드바 로고 밑 '법규 개정 모니터링'은 그대로 — 회사 이름은 앱 바 맨 앞에만) */
+    document.querySelectorAll('.rr-boot-sub').forEach(function (x) { x.textContent = o.company; });
 
     /* 브라우저 탭 제목: 탭을 바꿔도 회사 이름이 앞에 오게 */
     var prefix = o.company + ' · ';
