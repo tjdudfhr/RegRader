@@ -1445,7 +1445,7 @@
     const cond = xs.filter((x) => !x.scopeLabel);
     const groups = {};
     for (const x of xs.filter((x) => x.scopeLabel)) (groups[x.scope] = groups[x.scope] || []).push(x);
-    const order = ['general', 'business', 'region', 'deal', 'procedure', 'support', 'org', 'person', 'event', 'public'];
+    const order = ['general', 'incidental', 'business', 'region', 'deal', 'procedure', 'support', 'org', 'person', 'event', 'public'];
     return `<details class="noapp"><summary>미적용 ${xs.length}개 — 왜 적용되지 않는지</summary>
       ${cond.length ? `<div class="lead">회사 사실상 해당 없음 ${cond.length}개</div><ul>${cond.map((x) => li(x, '')).join('')}</ul>` : ''}
       ${order.filter((k) => groups[k]).map((k) => {

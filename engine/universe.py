@@ -59,7 +59,7 @@ def load():
     return json.loads(KBFILE.read_text(encoding="utf-8")) if KBFILE.exists() else {"laws": {}, "scopes": {}}
 
 
-OUT_OF_SCOPE = ("public", "org", "person", "event", "region", "support", "procedure", "deal", "business", "general")
+OUT_OF_SCOPE = ("public", "org", "person", "event", "region", "support", "procedure", "deal", "business", "general", "incidental")
 
 
 def reason(entry, scopes):
@@ -74,6 +74,12 @@ def reason(entry, scopes):
         return f"{note}에만 적용"
     if entry["scope"] == "general":
         return f"일반 기본법 — {note}"
+    if entry["scope"] == "incidental":
+        return f"부수 부담 — {note} (회사가 따로 할 행위 없음)"
+    if entry["scope"] == "procedure":
+        return f"절차 · 처벌법 — {note}"
+    if entry["scope"] == "support":
+        return f"{note}만 관련 (회사 의무 아님)"
     return note
 
 
