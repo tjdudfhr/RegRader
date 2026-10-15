@@ -370,7 +370,7 @@ def web(dest, data_url=DATA_URL, log=print):
     import hashlib
     mode_v = hashlib.sha1((ROOT / "web" / "company-mode.js").read_bytes()).hexdigest()[:8]   # 바뀌면 브라우저가 새로 받게
     rs_v = hashlib.sha1((ROOT / "web" / "rr-static.js").read_bytes()).hexdigest()[:8]
-    tag = (f'<script>window.RR_PRO_DATA = {json.dumps(data_url)}; window.RR_PRO_HOME = "../";</script>'
+    tag = (f'<script>window.RR_PRO_DATA = {json.dumps(data_url)}; window.RR_PRO_HOME = "../../#pro";</script>'
            f'<script src="../rr-static.js?v={rs_v}"></script><script src="../company-mode.js?v={mode_v}"></script>')
     for name in ("index.html", "watch.html", "history.html"):
         p = site / name
