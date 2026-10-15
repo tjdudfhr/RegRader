@@ -1221,7 +1221,9 @@ body > .container > .header .settings-btn.rr-pro-mini { display: none !important
 @keyframes rr-find-in { from { opacity: 0; transform: translateY(-10px) scale(.985); } }
 .rr-find .in { display: flex; align-items: center; gap: 12px; padding: 0 18px; height: 64px; border-bottom: 1px solid var(--line, #e5e7eb); cursor: text; }
 .rr-find .in svg { flex: none; width: 22px; height: 22px; stroke: var(--brand, #3056d3); fill: none; stroke-width: 2.3; stroke-linecap: round; }
-.rr-find .in input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font: 600 18px/1 var(--font); color: var(--ink, #111827); letter-spacing: -0.01em; }
+.rr-find .in input { flex: 1; min-width: 0; height: 100%; margin: 0; padding: 0; border: 0 !important; border-radius: 0 !important; outline: 0; background: transparent !important; box-shadow: none !important;
+  -webkit-appearance: none; appearance: none; font: 600 18px/1 var(--font); color: var(--ink, #111827); letter-spacing: -0.01em; }
+.rr-find .in .x { display: none; flex: none; height: 34px; padding: 0 12px; border: 0; border-radius: 9px; background: var(--canvas, #f3f4f6); font: 700 13px/1 var(--font); color: var(--ink-2, #374151); cursor: pointer; }
 .rr-find .in input:focus, .rr-find .in input:focus-visible { outline: none !important; box-shadow: none !important; border: 0 !important; }
 .rr-find .in:focus-within { box-shadow: inset 0 -2px 0 var(--brand, #3056d3); }
 .rr-find .in input::placeholder { color: var(--ink-4, #9ca3af); font-weight: 500; }
@@ -1270,6 +1272,9 @@ body > .container > .header .settings-btn.rr-pro-mini { display: none !important
   .rr-find .card { width: 100%; max-height: none; border-radius: 0; border: 0; }
   .rr-find .body { flex: 1; }
   .rr-find .foot span { display: none; }
+  .rr-find .in kbd { display: none; }
+  .rr-find .in .x { display: inline-flex; align-items: center; }
+  .rr-find .in input { font-size: 17px; }
 }
 
 /* 같은 사이트 안에서 회사 화면으로 넘어갈 때: 시작 화면 없이, 앱 바 · 사이드바는 그대로 두고 본문만 바뀐다 */

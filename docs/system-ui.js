@@ -262,7 +262,7 @@
     el.setAttribute('aria-label', '기업별 적용법규 검색');
     el.innerHTML = '<div class="card">' +
       '<label class="in">' + SEARCH_ICON + '<input type="search" placeholder="회사 이름을 입력하세요 (예: 에코프로비엠)" autocomplete="off" spellcheck="false" aria-label="회사 이름">' +
-      '<kbd>ESC</kbd></label><div class="body" role="listbox" aria-label="검색 결과"></div>' +
+      '<kbd>ESC</kbd><button type="button" class="x">닫기</button></label><div class="body" role="listbox" aria-label="검색 결과"></div>' +
       '<div class="foot"><span>상장사 · 국민연금 가입자 30명 이상 법인 · 회사 이름으로 적용법규를 판정해 그 회사의 개정 모니터링 화면을 엽니다</span>' +
       '<a href="' + proApp() + '" target="_blank" rel="noopener">목록에 없는 회사 · 직접 입력 ↗</a></div></div>';
     var input = el.querySelector('input'), body = el.querySelector('.body'), timer = null, rows = [], at = -1, q0 = '';
@@ -369,6 +369,7 @@
     // 사이트의 다른 클릭 처리(법령 목록 등)가 가로채지 않게 먼저 받는다
     body.addEventListener('click', function (e) { var r = e.target.closest('.row'); if (!r) return; e.stopPropagation(); choose(r); });
     el.addEventListener('mousedown', function (e) { if (e.target === el) window.rrProClose(); });
+    el.querySelector('.x').addEventListener('click', function (e) { e.preventDefault(); window.rrProClose(); });
     el.rrIdle = idle;
     document.body.appendChild(el);
     return el;
