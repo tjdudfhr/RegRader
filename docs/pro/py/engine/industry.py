@@ -98,12 +98,17 @@ def _rules(_mtime):
 
 def tag_core(tag):
     """업종 항목(예: ind:staffing) → (그 업종의 업종코드 묶음들, 기본 법규).
-    기본 법규 = 그 항목이 붙은 업종 묶음 전부에 공통인 법령 (업종마다 다른 법령은 넣지 않는다 — 업종코드로 고르면 정확히 붙는다)."""
+    기본 법규 = 그 항목이 붙은 업종 묶음 전부에 공통인 법령. 묶음 안에서는 세부 업종 법령까지 합친다
+    (항목 이름이 그 묶음 전체를 가리킨다 — 예: '인력공급·근로자파견·고용알선' → 직업안정법 + 파견법).
+    묶음마다 다른 법령은 넣지 않는다 — 업종코드로 고르면 정확히 붙는다."""
     doc = load()
     gl = {}
     for g, v in doc["groups"].items():
         if tag in v.get("tags", []):
             gl.setdefault(g, set()).update(v.get("laws", []))
+            for c, cv in doc["codes"].items():
+                if c[:4] == g:
+                    gl[g].update(cv.get("laws", []))
     for c, v in doc["codes"].items():
         if tag in v.get("tags", []):
             base = set() if v.get("only") else set(doc["groups"].get(c[:4], {}).get("laws", []))
