@@ -84,6 +84,12 @@
     if (bar) {
       var m = chip.cloneNode(true);
       m.id = 'rr-co-m';
+      [chip, m].forEach(function (x) {
+        var go = x.querySelector('a.go');
+        if (go && !o.missing) go.addEventListener('click', function (e) {   // 이 화면 안에서 바로 검색창을 연다 (system-ui.js)
+          if (window.rrProOpen) { e.preventDefault(); window.rrProOpen(); }
+        });
+      });
       m.classList.add('m');
       bar.insertAdjacentElement('afterend', m);
     }

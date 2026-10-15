@@ -197,6 +197,8 @@
     });
   }
   window.rrProStore = { get: function (slug) { return store('readonly', function (st) { return st.get(slug); }); } };
+  /* RegRader 의 회사 검색창(system-ui.js)이 뒤에 띄운 이 페이지에서 바로 쓴다 — 회사 색인은 한 번만 받는다 */
+  window.rrProApi = { search: function (q, limit) { return search(q, limit); }, slug: function (n) { return slug(n); } };
 
   function slug(name) {
     var s = String(name || '').replace(/\((주|유|사|재)\)|[㈜㈔㈕]|주식회사|유한회사|유한책임회사|합자회사|합명회사|사단법인|재단법인|\s임직원$/g, '');
