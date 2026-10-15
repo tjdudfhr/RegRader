@@ -812,6 +812,11 @@
      "any": [
       "ind:construction"
      ]
+    },
+    {
+     "any": [
+      "site:construction"
+     ]
     }
    ],
    "adm": [
@@ -3049,6 +3054,11 @@
       "ind:shipping",
       "ind:railway"
      ]
+    },
+    {
+     "any": [
+      "act:taxi"
+     ]
     }
    ],
    "adm": [
@@ -3549,6 +3559,11 @@
      "any": [
       "ind:passenger"
      ]
+    },
+    {
+     "any": [
+      "act:taxi"
+     ]
     }
    ],
    "adm": [
@@ -3621,6 +3636,11 @@
      "any": [
       "eq:vehicle",
       "ind:insurance"
+     ]
+    },
+    {
+     "any": [
+      "act:taxi"
      ]
     }
    ]
@@ -4466,6 +4486,11 @@
       "ind:travel",
       "ind:veterinary",
       "act:consumer_online"
+     ]
+    },
+    {
+     "any": [
+      "act:epay"
      ]
     }
    ],
@@ -5729,6 +5754,12 @@
       "ind:fishery",
       "ind:wholesale",
       "site:cafeteria"
+     ]
+    },
+    {
+     "any": [
+      "act:food_mfg",
+      "act:meat"
      ]
     }
    ],
@@ -9426,6 +9457,11 @@
       "ind:game",
       "ind:broadcast",
       "ind:liquor_tobacco"
+     ]
+    },
+    {
+     "any": [
+      "act:tobacco"
      ]
     }
    ]

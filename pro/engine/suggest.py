@@ -170,7 +170,7 @@ def matches(when, profile):
 def classify_profile(profile, rules=None):
     """등록된 모든 법령의 판정 (engine/classify.py)."""
     from engine.classify import classify
-    return classify(profile, rules if rules is not None else load_rules())
+    return classify(with_industry(profile), rules if rules is not None else load_rules())
 
 
 def candidates(profile, rules=None, statuses=("적용", "추정", "확인")):
@@ -346,9 +346,23 @@ def admin_tags(profile):
 STATUS_RANK = {"적용": 0, "추정": 1, "확인": 2, "미적용": 3}
 
 
+def with_industry(profile):
+    """회사 업종코드(industryCodes) → 업종 판정 사실(nts:묶음 · nts:세부)을 지금 업종 표로 다시 붙인다.
+    회사 정보 초안은 미리(30일마다) 만들어 두므로, 업종 표를 고친 뒤에도 고친 세부 업종 법령이 바로 반영되게."""
+    codes = profile.get("industryCodes") or []
+    if not codes:
+        return profile
+    from engine import industry
+    facts = [f for c in codes for f in ((industry.resolve(c) or {}).get("facts") or [])]
+    if not facts:
+        return profile
+    return dict(profile, tags=list(dict.fromkeys(list(profile.get("tags") or []) + facts + ["nts:known"])))
+
+
 def suggest(profile, workers=4):
     """회사 정보 → 등록된 모든 법령의 판정과, 적용·추정·확인 법령의 체계도·행정규칙·의무."""
     from engine.classify import Facts, presumptions, questions, reviews
+    profile = with_industry(profile)
     cls = classify_profile(profile)
     cands = [dict(c, jobs=[c["job"]]) for c in cls.values() if c["status"] != "미적용"]
     regions = region_tokens(profile)
@@ -444,6 +458,7 @@ def main(argv):
 
 def add_law(name, job, profile):
     """사용자가 직접 넣은 법령 하나를 법제처에서 확인하고 체계도로 펼친다."""
+    profile = with_industry(profile)
     c = {"root": name, "jobs": [job], "job": job, "tier": "직접 추가", "reasons": [],
          "ruleIds": [], "keywords": {}, "admNames": []}
     f = resolve(c, region_tokens(profile), admin_tags(profile))

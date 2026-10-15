@@ -1486,6 +1486,238 @@
         "약사법",
         "생활화학제품 및 살생물제의 안전관리에 관한 법률"
       ]
+    },
+    {
+      "id": "nts_jobagency",
+      "name": "고용알선업 (업종 749100, 20명)",
+      "profile": {
+        "numbers": {
+          "employees": 20
+        },
+        "denied": [
+          "listed",
+          "audited",
+          "group"
+        ],
+        "regions": {
+          "provinces": [
+            "경기"
+          ]
+        },
+        "tags": [
+          "ind:staffing"
+        ],
+        "industryCodes": [
+          "749100"
+        ]
+      },
+      "applied": [
+        "직업안정법"
+      ],
+      "미적용": [
+        "파견근로자 보호 등에 관한 법률"
+      ]
+    },
+    {
+      "id": "nts_tempstaff",
+      "name": "임시인력공급업 (업종 749101, 20명)",
+      "profile": {
+        "numbers": {
+          "employees": 20
+        },
+        "denied": [
+          "listed",
+          "audited",
+          "group"
+        ],
+        "regions": {
+          "provinces": [
+            "경기"
+          ]
+        },
+        "tags": [
+          "ind:staffing"
+        ],
+        "industryCodes": [
+          "749101"
+        ]
+      },
+      "applied": [
+        "직업안정법",
+        "파견근로자 보호 등에 관한 법률"
+      ],
+      "미적용": []
+    },
+    {
+      "id": "nts_social_rnd",
+      "name": "경제·경영학 연구개발 (업종 730008, 20명)",
+      "profile": {
+        "numbers": {
+          "employees": 20
+        },
+        "denied": [
+          "listed",
+          "audited",
+          "group"
+        ],
+        "regions": {
+          "provinces": [
+            "경기"
+          ]
+        },
+        "tags": [],
+        "industryCodes": [
+          "730008"
+        ]
+      },
+      "applied": [],
+      "미적용": [
+        "생명윤리 및 안전에 관한 법률",
+        "실험동물에 관한 법률"
+      ]
+    },
+    {
+      "id": "nts_bio_rnd",
+      "name": "의학·약학 연구개발 (업종 730003, 20명)",
+      "profile": {
+        "numbers": {
+          "employees": 20
+        },
+        "denied": [
+          "listed",
+          "audited",
+          "group"
+        ],
+        "regions": {
+          "provinces": [
+            "경기"
+          ]
+        },
+        "tags": [],
+        "industryCodes": [
+          "730003"
+        ]
+      },
+      "applied": [
+        "생명윤리 및 안전에 관한 법률",
+        "실험동물에 관한 법률",
+        "동물보호법"
+      ],
+      "미적용": []
+    },
+    {
+      "id": "nts_elevator",
+      "name": "승강기 제조 (업종 291503, 20명)",
+      "profile": {
+        "numbers": {
+          "employees": 20
+        },
+        "denied": [
+          "listed",
+          "audited",
+          "group"
+        ],
+        "regions": {
+          "provinces": [
+            "경기"
+          ]
+        },
+        "tags": [],
+        "industryCodes": [
+          "291503"
+        ]
+      },
+      "applied": [
+        "승강기 안전관리법"
+      ],
+      "미적용": []
+    },
+    {
+      "id": "nts_optician",
+      "name": "안경점 (업종 523541, 20명)",
+      "profile": {
+        "numbers": {
+          "employees": 20
+        },
+        "denied": [
+          "listed",
+          "audited",
+          "group"
+        ],
+        "regions": {
+          "provinces": [
+            "경기"
+          ]
+        },
+        "tags": [],
+        "industryCodes": [
+          "523541"
+        ]
+      },
+      "applied": [
+        "의료기사 등에 관한 법률",
+        "의료기기법"
+      ],
+      "미적용": []
+    },
+    {
+      "id": "nts_warehouse",
+      "name": "일반창고 (업종 630201, 20명)",
+      "profile": {
+        "numbers": {
+          "employees": 20
+        },
+        "denied": [
+          "listed",
+          "audited",
+          "group"
+        ],
+        "regions": {
+          "provinces": [
+            "경기"
+          ]
+        },
+        "tags": [],
+        "industryCodes": [
+          "630201"
+        ]
+      },
+      "applied": [
+        "물류시설의 개발 및 운영에 관한 법률"
+      ],
+      "미적용": [
+        "위험물안전관리법"
+      ]
+    },
+    {
+      "id": "nts_animal_feed",
+      "name": "동물용 사료 제조 (업종 153104, 20명)",
+      "profile": {
+        "numbers": {
+          "employees": 20
+        },
+        "denied": [
+          "listed",
+          "audited",
+          "group"
+        ],
+        "regions": {
+          "provinces": [
+            "경기"
+          ]
+        },
+        "tags": [],
+        "industryCodes": [
+          "153104"
+        ]
+      },
+      "applied": [
+        "사료관리법"
+      ],
+      "미적용": [
+        "식품위생법",
+        "양곡관리법"
+      ]
     }
   ],
   "flips": [
