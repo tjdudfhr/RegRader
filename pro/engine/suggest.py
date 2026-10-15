@@ -12,7 +12,7 @@ from functools import lru_cache
 import re
 import sys
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 from engine import lawapi
@@ -46,13 +46,15 @@ PLACES = [
     "하남", "광명", "부천", "안양", "군포", "의왕", "과천", "오산", "고양", "서귀포", "삽교", "진위천", "임진강", "섬진강", "만경강",
     "동진강", "형산강", "태화강", "안성천", "한탄강", "팔당",
 ]
-REGION_MARKS = ["산업단지", "산단", "농공단지", "유역환경청", "지방환경청", "특별대책지역", "수계", "유역", "총량관리", "지역지정", "설치제한"]
+# (산업단지 · 지역지정은 빼 둔다 — '산업단지 관리지침'처럼 전국 공통인 것이 많다. 특정 단지는 지명으로 잡힌다)
+REGION_MARKS = ["농공단지", "유역환경청", "지방환경청", "특별대책지역", "수계", "유역", "총량관리", "설치제한"]
 # 업종 전용 고시: 회사 업종과 맞을 때만 남긴다 ('업종'이 이름에 있을 때)
 INDUSTRY_WORDS = {
     "반도체": "ind:electronics", "디스플레이": "ind:electronics", "전자": "ind:electronics", "이차전지": "ind:electronics",
     "석유화학": "ind:chem", "화학": "ind:chem", "도금": "ind:metal", "철강": "ind:metal", "금속": "ind:metal",
     "자동차": "ind:machinery", "기계": "ind:machinery", "제약": "ind:pharma", "의약품": "ind:pharma", "화장품": "ind:pharma",
     "식품": "ind:food", "시멘트": "ind:mineral", "염색": "ind:textile", "섬유": "ind:textile", "조선": "ind:ship",
+    "표면처리": "ind:metal",
 }
 CONSTRUCTION_TAGS = ("ind:construction", "site:construction", "act:construction_order")
 # 체계도에 딸려 오지만 특정 품목·국가·지역만 대상인 하위법령
@@ -66,10 +68,10 @@ BUNDLES = [("NFPC", "화재안전성능기준(NFPC) — 소방시설 종류별 �
 JURISDICTION = {
     "한강": ["서울", "경기", "인천", "강원", "충북"], "낙동강": ["부산", "울산", "경남", "대구", "경북"],
     "금강": ["대전", "세종", "충남", "충북", "전북"], "영산강": ["광주", "전남"], "섬진강": ["전남", "전북", "경남"],
-    "대구지방환경청": ["대구", "경북"], "원주지방환경청": ["강원"], "전북지방환경청": ["전북"], "새만금": ["전북"],
+    "대구지방환경청": ["대구", "경북"], "낙동강유역환경청": ["부산", "울산", "경남"], "금강유역환경청": ["대전", "세종", "충남", "충북"],
+    "영산강유역환경청": ["광주", "전남"], "한강유역환경청": ["서울", "경기", "인천"], "원주지방환경청": ["강원"], "전북지방환경청": ["전북"], "새만금": ["전북"],
     "수도권": ["서울", "경기", "인천"],
 }
-TOP_N = 8
 
 
 def load_rules(universe=True):
@@ -189,7 +191,8 @@ def region_tokens(profile):
 
 
 _PLACE_RX = None
-AMBIGUOUS_PLACES = ["부여", "영양", "보은", "인제", "청양", "고성", "의령", "진도"]  # 보통 낱말로도 쓰인다
+AMBIGUOUS_PLACES = ["부여", "영양", "보은", "인제", "청양", "고성", "의령", "진도",   # 보통 낱말로도 쓰인다 (시 · 군이 붙을 때만 지명)
+                    "예산", "고령", "장수", "구리", "양주", "청주", "진주", "동해", "남해", "영광", "화성", "금산", "보성"]
 
 
 def _place_rx():
@@ -203,12 +206,38 @@ def _place_rx():
     return _PLACE_RX
 
 
+# 이름 앞에 붙어도 특정 단지를 가리키지 않는 말 ('스마트그린산업단지', '국가산업단지')
+GENERIC_COMPLEX = {"스마트그린", "국가", "일반", "지방", "농공", "노후", "첨단", "도시첨단", "산업", "공업", "주택", "공동주택", "택지", "아파트", "물류", "특화"}
+
+
+def named_complex(name):
+    """특정 산업단지 · 외국인투자지역을 가리키는지 ('마산진북산업단지', '광주첨단과학 국가산업단지', '구례자연드림파크2단지')."""
+    if not re.search(r"산업단지|산단|단지|외국인투자지역|자유무역지역", name):
+        return False
+    for tok in re.findall(r"[가-힣A-Za-z0-9]+", name):
+        m = re.match(r"(.+?)(?:국가|일반|지방|농공|도시첨단)?(?:산업단지|산단|\d*단지|외국인투자지역|자유무역지역)$", tok)
+        if m and m.group(1) not in GENERIC_COMPLEX:
+            return True
+        if any(tok.startswith(p) and len(tok) > len(p) for p in PLACES if p not in AMBIGUOUS_PLACES):
+            return True
+    return False
+
+
+def near_region(name, regions):
+    """지역 행정규칙이 회사 사업장 지역에 해당하는지. 관할 이름은 가장 구체적인 것으로 본다 ('낙동강유역환경청' ≠ '낙동강' 수계)."""
+    if any(t in name for t in regions):
+        return True
+    key = next((k for k in sorted(JURISDICTION, key=len, reverse=True) if k in name), None)
+    return bool(key and set(JURISDICTION[key]) & set(regions))
+
+
 def is_regional(name):
-    if _place_rx().search(name) or any(m in name for m in REGION_MARKS):
+    if _place_rx().search(name) or any(m in name for m in REGION_MARKS) or named_complex(name):
         return True
     # '…지정·고시(구례 용방)'처럼 끝 괄호에 장소가 붙은 것 (연도·NFPC 번호는 제외)
     m = re.search(r"\(([^()]*)\)\s*$", name)
-    return bool(m and not re.search(r"\d|NFPC|NFTC|[A-Za-z]", m.group(1)) and _place_rx().search("(" + m.group(1)))
+    return bool(m and not re.search(r"\d|NFPC|NFTC|[A-Za-z]", m.group(1))
+                and (_place_rx().search("(" + m.group(1)) or any(m.group(1).startswith(p) for p in PLACES if p not in AMBIGUOUS_PLACES)))
 
 
 _SCOPE = None
@@ -221,42 +250,64 @@ def admin_scope():
         d = json.loads((KB / "admin_scope.json").read_text(encoding="utf-8"))
         _SCOPE = {
             "audience": re.compile(d["audience"]),
+            "keep": re.compile(d["keep"]),
+            "plan": re.compile(d["plan"]),
+            "review": re.compile(d["review"]),
             "sector": [(re.compile(x["rx"]), set(x["unless"])) for x in d["sector"]],
             "families": {lawapi.compact(k): {kk: re.compile(vv) for kk, vv in v.items()} for k, v in d["families"].items()},
         }
     return _SCOPE
 
 
+def old_year(name, today=None):
+    """이름의 연도가 모두 지난해보다 앞이면 지난 연도 고시 (예: '2019년도 목표관리업체 변경')."""
+    years = [int(y) for y in re.findall(r"(?<!\d)((?:19|20)\d\d)(?!\d)", name)]
+    return bool(years) and max(years) < (today or date.today()).year - 1
+
+
+def admin_review(name):
+    """그 제도(지원 · 융자 · 인증)를 쓸 때만 해당하는 행정규칙 → 검토 필요."""
+    return bool(admin_scope()["review"].search(name))
+
+
 def admin_out(name, tags=(), root=""):
     """이 행정규칙을 뺄 이유 (남기면 빈 문자열)."""
     sc = admin_scope()
+    if old_year(name):
+        return "old"
+    fam = sc["families"].get(lawapi.compact(root)) or {}
+    if sc["keep"].search(name) or ("keep" in fam and fam["keep"].search(name)) or admin_review(name):
+        return ""
+    if sc["plan"].search(name) and not is_regional(name):
+        return "plan"   # 전국 단위 정부 계획 (지역 계획은 아래 지역 확인으로)
     if any(n in name for n in ADM_NOISE) or sc["audience"].search(name):
         return "audience"
     tags = set(tags)
     for rx, unless in sc["sector"]:
         if rx.search(name) and not unless & tags:
             return "sector"
-    fam = sc["families"].get(lawapi.compact(root)) or {}
     if "only" in fam and not fam["only"].search(name):
         return "scope"
     if "drop" in fam and fam["drop"].search(name):
         return "scope"
-    if "업종" in name:
-        words = [w for w in INDUSTRY_WORDS if w in name]
+    if "업종" in name:   # 업종 앞에 적힌 업종만 본다 ('염색업종 유해화학물질 …'의 '화학'은 업종이 아니다)
+        head = name.split("업종")[0]
+        words = [w for w in INDUSTRY_WORDS if w in head]
         if words and not any(INDUSTRY_WORDS[w] in tags for w in words):
             return "sector"
     return ""
 
 
 def pick_admin(admin, keywords, regions, tags=(), root="", strict=False):
-    """연결된 행정규칙을 골라 낸다 → (추천, 관련, 묶음, 뺀 수).
+    """연결된 행정규칙을 골라 낸다 → (적용, 검토 필요, 묶음, 뺀 수).
 
-    - 기관 내부용·다른 업종·계열 범위 밖은 뺀다 (kb/admin_scope.json)
+    - 기관 내부용 · 다른 업종 · 지난 연도 · 계열 범위 밖은 뺀다 (kb/admin_scope.json)
     - 특정 지역 것은 회사 사업장 지역과 맞을 때만 남긴다
-    - 규칙 키워드가 이름에 든 것·사업장 지역 것은 점수순으로 TOP_N 개 '추천', 나머지 남긴 것은 '관련' (둘 다 적용 후보)
+    - 지원 · 융자 · 인증처럼 그 제도를 쓸 때만 해당하는 것은 '검토 필요' (기본으로 고르지 않는다)
+    - 나머지는 모두 '적용' — 규칙 낱말이 이름에 든 것 · 사업장 지역 것을 앞에 (개수로 자르지 않는다)
     - NFPC 같은 수십 종 기술기준은 한 줄 묶음으로
     """
-    scored, related, bundles, other = [], [], {}, 0
+    scored, related, review, bundles, other = [], [], [], {}, 0
     for a in admin:
         nm = a["name"]
         if admin_out(nm, tags, root):
@@ -264,7 +315,7 @@ def pick_admin(admin, keywords, regions, tags=(), root="", strict=False):
             continue
         local = False
         if is_regional(nm):
-            near = any(t in nm for t in regions) or any(k in nm and set(v) & set(regions) for k, v in JURISDICTION.items())
+            near = near_region(nm, regions)
             if not near:
                 other += 1
                 continue
@@ -273,6 +324,9 @@ def pick_admin(admin, keywords, regions, tags=(), root="", strict=False):
         if bundle:
             if bundle[1]:
                 bundles.setdefault(bundle[1], []).append(a)
+            continue
+        if admin_review(nm):
+            review.append(dict(a, matched=["검토 필요"]))
             continue
         hit = [k for k in keywords if k in nm]
         if not hit and not local:
@@ -285,15 +339,20 @@ def pick_admin(admin, keywords, regions, tags=(), root="", strict=False):
         scored.append(dict(a, matched=hit + (["사업장 지역"] if local else []), score=score))
     scored.sort(key=lambda a: (-a["score"], a["name"]))
     related.sort(key=lambda a: (a.get("kind") != "고시", a["name"]))
-    seen, uniq = set(), []
-    for a in scored + related:
-        if a["name"] not in seen:
-            seen.add(a["name"])
-            uniq.append(a)
-    n_scored = min(len({a["name"] for a in scored}), TOP_N)
+    review.sort(key=lambda a: a["name"])
+
+    def uniq(xs, seen):
+        out = []
+        for a in xs:
+            if a["name"] not in seen:
+                seen.add(a["name"])
+                out.append(a)
+        return out
+    seen = set()
+    apply = uniq(scored + related, seen)
     picks = [dict(b, bundle=[x["name"] for x in items]) for b, items in
              (({"id": "bundle:" + label, "name": label, "kind": "묶음", "matched": ["소방시설"]}, items) for label, items in bundles.items())]
-    return uniq[:n_scored], uniq[n_scored:], picks, other
+    return apply, uniq(review, seen), picks, other
 
 
 def resolve(c, regions=(), tags=()):
@@ -316,9 +375,6 @@ def resolve(c, regions=(), tags=()):
         a = lawapi.search_admrul(nm)
         if a:
             picked.insert(0, dict(a, matched=["필수 고시"], link=c["root"], score=99))
-    if len(picked) > TOP_N:
-        more = picked[TOP_N:] + more
-        picked = picked[:TOP_N]
     return dict(
         c,
         verified=bool(info),
@@ -405,6 +461,10 @@ def suggest(profile, workers=4):
         st = c.get("status", "미적용")
         by_job_status.setdefault(c["job"], {"적용": 0, "추정": 0, "확인": 0, "미적용": 0})[st] += 1
 
+    def adm_names(fs):   # 적용 행정규칙 이름 (여러 법령에 같이 딸린 것은 한 번만)
+        return ({lawapi.compact(a["name"]) for f in fs for a in f["admin"]}
+                | {lawapi.compact(n) for f in fs for b in f["bundles"] for n in b["bundle"]})
+
     def adm_total(fs):
         return sum(len(f["admin"]) + len(f["adminMore"]) + sum(len(b["bundle"]) for b in f["bundles"]) for f in fs)
 
@@ -422,6 +482,9 @@ def suggest(profile, workers=4):
             "admin": sum(len(f["admin"]) for f in applied),
             "adminRelated": sum(len(f["adminMore"]) for f in applied),
             "adminTotal": adm_total(applied),
+            # 적용 행정규칙 (추천 · 묶음) 과 검토 필요 (그 제도를 쓸 때만) — 화면 · 엑셀의 행정규칙 수는 '적용'
+            "adminApply": len(adm_names(applied)),
+            "adminReview": len({lawapi.compact(a["name"]) for f in applied for a in f["adminMore"]} - adm_names(applied)),
             "pendingLaws": sum(len(f["members"]) or 1 for f in pending),
             "pendingAdmin": adm_total(pending),
             "byJob": by_job,
@@ -446,7 +509,7 @@ def main(argv):
     out.mkdir(exist_ok=True)
     (out / "result.json").write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
     s = res["summary"]
-    print(f"법령 계열 {s['families']}개 · 법령 {s['laws']}개 · 추천 행정규칙 {s['admin']}개")
+    print(f"법령 계열 {s['families']}개 · 법령 {s['laws']}개 · 적용 행정규칙 {s['adminApply']}개 · 검토 필요 {s['adminReview']}개")
     print("직무별:", s["byJob"])
     if s["notFound"]:
         print("법제처에서 찾지 못한 이름:", s["notFound"])
@@ -519,6 +582,8 @@ def apply_ai(res, cls, profile):
         laws=sum(len(f["members"]) or 1 for f in fams),
         admin=sum(len(f["admin"]) for f in fams),
         adminRelated=sum(len(f["adminMore"]) for f in fams),
+        adminApply=len({lawapi.compact(a["name"]) for f in fams for a in f["admin"]} | {lawapi.compact(n) for f in fams for b in f["bundles"] for n in b["bundle"]}),
+        adminReview=len({lawapi.compact(a["name"]) for f in fams for a in f["adminMore"]}),
         adminTotal=sum(len(f["admin"]) + len(f["adminMore"]) + sum(len(b["bundle"]) for b in f["bundles"]) for f in fams),
         aiAdded=added,
         aiLow=[f["root"] for f in fams if f.get("verdict") == "해당 가능성 낮음"],

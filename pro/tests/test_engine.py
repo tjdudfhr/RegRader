@@ -91,15 +91,42 @@ class AdminPickTest(unittest.TestCase):
         self.assertEqual(len(picked + more), 3)
 
     def test_related_rules_kept_without_keywords(self):
-        a = [self.adm("배출시설 자가측정 고시"), self.adm("대기오염물질 배출시설 설치허가 세부기준")]
+        # 낱말이 맞지 않아도 걸러지지 않은 것은 모두 '적용' (낱말이 맞는 것이 앞)
+        a = [self.adm("대기오염물질 배출시설 설치허가 세부기준"), self.adm("배출시설 자가측정 고시")]
         picked, more, _, _ = pick_admin(a, {"자가측정": 2.0}, [])
-        self.assertEqual([x["name"] for x in picked], ["배출시설 자가측정 고시"])
-        self.assertEqual([x["name"] for x in more], ["대기오염물질 배출시설 설치허가 세부기준"])
+        self.assertEqual([x["name"] for x in picked], ["배출시설 자가측정 고시", "대기오염물질 배출시설 설치허가 세부기준"])
+        self.assertEqual(more, [])
+
+    def test_support_programs(self):
+        # 사업주 일반 지원제도는 적용, 회사가 그 대상일 때만 해당하는 것(중소기업 지원 · 고용위기지역 · 체불)은 검토 필요
+        a = [self.adm("사업주 직업능력개발훈련 지원규정"), self.adm("공동근로복지기금 지원사업 운영규정"), self.adm("안전보건교육규정"),
+             self.adm("중소기업 직업능력개발 지원사업 실시규정"), self.adm("고용위기지역 지정 고시"), self.adm("임금등 체불 근로자 생계비 융자사업 고시")]
+        picked, more, _, _ = pick_admin(a, {}, [])
+        self.assertEqual(sorted(x["name"] for x in picked), ["공동근로복지기금 지원사업 운영규정", "사업주 직업능력개발훈련 지원규정", "안전보건교육규정"])
+        self.assertEqual(sorted(x["name"] for x in more), ["고용위기지역 지정 고시", "임금등 체불 근로자 생계비 융자사업 고시", "중소기업 직업능력개발 지원사업 실시규정"])
+
+    def test_word_fragments_are_not_sectors_or_places(self):
+        # '퇴직연금제도로'의 '도로', '통보양식'의 '양식', '예산 편성'의 '예산(군)'은 업종 · 지명이 아니다
+        a = [self.adm("개인형퇴직연금제도로의 이전 예외사유 해당금액 고시"), self.adm("확정급여형퇴직연금제도의 재정검증결과 통보양식 고시"),
+             self.adm("원료 및 제조물로 인한 중대시민재해 예방에 필요한 인력 및 예산 편성 지침")]
+        picked, _, _, _ = pick_admin(a, {}, ["경북"])
+        self.assertEqual(len(picked), 3)
+
+    def test_named_complex_is_regional(self):
+        a = [self.adm("수질오염물질 배출허용기준 중 별도배출허용기준 지정(마산진북산업단지)"), self.adm("산업단지 관리지침"),
+             self.adm("국가산업단지 관리기본계획(포항블루밸리)"), self.adm("제5차 시설물의 안전 및 유지관리 기본계획(2023∼2027)")]
+        picked, _, _, _ = pick_admin(a, {}, ["경북", "포항"])
+        self.assertEqual(sorted(x["name"] for x in picked), ["국가산업단지 관리기본계획(포항블루밸리)", "산업단지 관리지침"])
+
+    def test_old_year_notices_dropped(self):
+        a = [self.adm("2019년도 산업·발전부문 온실가스 목표관리업체 변경"), self.adm("2026년도 사업종류별 산재보험료율")]
+        picked, _, _, _ = pick_admin(a, {}, [])
+        self.assertEqual([x["name"] for x in picked], ["2026년도 사업종류별 산재보험료율"])
 
     def test_family_scope_only(self):
         a = [self.adm("예방접종의 실시기준 및 방법"), self.adm("감염병 유급휴가 비용 지원 기준")]
-        _, more, _, _ = pick_admin(a, {}, [], root="감염병의 예방 및 관리에 관한 법률")
-        self.assertEqual([x["name"] for x in more], ["감염병 유급휴가 비용 지원 기준"])
+        picked, more, _, _ = pick_admin(a, {}, [], root="감염병의 예방 및 관리에 관한 법률")
+        self.assertEqual([x["name"] for x in picked + more], ["감염병 유급휴가 비용 지원 기준"])
 
     def test_watershed_jurisdiction(self):
         a = [self.adm("(대구지방환경청) 수질오염물질의 배출허용기준 중 별도배출허용기준")]
@@ -108,12 +135,12 @@ class AdminPickTest(unittest.TestCase):
         picked, more, _, _ = pick_admin(a, {}, ["전남"])
         self.assertEqual(picked + more, [])
 
-    def test_ranked_and_capped(self):
+    def test_ranked_not_capped(self):
+        # 개수로 자르지 않는다 (예전에는 8개까지만 '추천'이라 핵심 고시가 '관련'으로 밀렸다)
         a = [self.adm(f"배출시설 자가측정 고시 {i}") for i in range(12)] + [self.adm("배출시설 관련 규정")]
         picked, more, _, other = pick_admin(a, self.KW, [])
-        self.assertEqual(len(picked), 8)
-        self.assertEqual(len(picked) + len(more), 13)
-        self.assertTrue(all("자가측정" in x["matched"] for x in picked))
+        self.assertEqual((len(picked), len(more)), (13, 0))
+        self.assertTrue(all("자가측정" in x["matched"] for x in picked[:12]))
 
     def test_industry_specific_needs_matching_industry(self):
         a = [self.adm("반도체·디스플레이 제조업종 유해화학물질 취급시설 설치 및 관리에 관한 고시")]
