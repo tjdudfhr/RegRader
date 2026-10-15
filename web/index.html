@@ -1336,7 +1336,7 @@
         ${badge(f)}
         ${f.aiAdded ? '<span class="pill aiadd">AI 추가 제안</span>' : ''}
         ${f.kind ? `<span class="pill kind">${esc(f.kind)}</span>` : ''}
-        ${f.scope === 'all' ? '<span class="pill common" title="업종 · 규모와 상관없이 모든 회사에 적용되는 기본법 (근로자 · 법인이면 해당)">모든 회사 공통</span>' : ''}
+        ${f.scope === 'all' ? '<span class="pill common" title="업종 · 규모와 상관없이 근로자를 쓰는 · 법인인 모든 회사에 해당하는 의무">모든 회사 공통</span>' : ''}
         ${f.verified ? '' : '<span class="pill check">이름 확인</span>'}
         <span class="min" title="${esc(f.ministry || '')}">${cnt ? `<span class="cnt">${esc(cnt)}</span>` : ''}${esc(shortMin(f.ministry))}</span>
         <span class="chev" aria-hidden="true"></span>
@@ -1388,7 +1388,7 @@
     return `<div class="panel found">
       <h3 class="ph">AI가 찾아낸 적용법규 <small>현행 법률 ${(sm.registry || 0).toLocaleString()}개를 모두 판정한 결과</small></h3>
       <div class="big"><b>${(sm.laws + adm).toLocaleString()}</b><span>적용법규 = 법령 ${sm.laws.toLocaleString()} + 적용 행정규칙 ${adm.toLocaleString()}</span>
-        <em>법령 계열 ${(bs['적용'] || 0) + (bs['추정'] || 0)}개 (그중 추정 ${bs['추정'] || 0}${common ? ` · 모든 회사 공통 기본법 ${common}` : ''}) · 미적용 ${(bs['미적용'] || 0).toLocaleString()}${rev ? ` · 검토 필요 행정규칙 ${rev.toLocaleString()}개 별도 (지원 · 융자 · 인증 제도 — 쓰면 체크)` : ''}</em></div>
+        <em>법령 계열 ${(bs['적용'] || 0) + (bs['추정'] || 0)}개 (그중 추정 ${bs['추정'] || 0}${common ? ` · 모든 회사 공통 ${common}` : ''}) · 미적용 ${(bs['미적용'] || 0).toLocaleString()}${rev ? ` · 검토 필요 행정규칙 ${rev.toLocaleString()}개 별도 (지원 · 융자 · 인증 제도 — 쓰면 체크)` : ''}</em></div>
     </div>`;
   }
 
@@ -1445,7 +1445,7 @@
     const cond = xs.filter((x) => !x.scopeLabel);
     const groups = {};
     for (const x of xs.filter((x) => x.scopeLabel)) (groups[x.scope] = groups[x.scope] || []).push(x);
-    const order = ['business', 'region', 'deal', 'procedure', 'support', 'org', 'person', 'event', 'public'];
+    const order = ['general', 'business', 'region', 'deal', 'procedure', 'support', 'org', 'person', 'event', 'public'];
     return `<details class="noapp"><summary>미적용 ${xs.length}개 — 왜 적용되지 않는지</summary>
       ${cond.length ? `<div class="lead">회사 사실상 해당 없음 ${cond.length}개</div><ul>${cond.map((x) => li(x, '')).join('')}</ul>` : ''}
       ${order.filter((k) => groups[k]).map((k) => {
@@ -1615,7 +1615,7 @@
       <span class="sp"></span>
       ${(() => { const cf = result.families.filter((f) => f.scope === 'all'); if (!cf.length) return '';
         const allOff = cf.every((f) => off.has(famKey(f)));
-        return `<button type="button" class="xall" data-common="1" title="민법 · 상업등기법 · 공직선거법처럼 모든 회사에 공통인 기본법 — 관리 목록에서 빼거나 다시 넣습니다">${allOff ? `공통 기본법 ${cf.length}개 다시 넣기` : `공통 기본법 ${cf.length}개 빼기`}</button>`; })()}
+        return `<button type="button" class="xall" data-common="1" title="업종 · 규모와 상관없이 모든 회사에 공통인 의무(4대보험 부담금 · 예비군 · 세법 등) — 관리 목록에서 빼거나 다시 넣습니다">${allOff ? `모든 회사 공통 ${cf.length}개 다시 넣기` : `모든 회사 공통 ${cf.length}개 빼기`}</button>`; })()}
       <button type="button" class="xall" data-xall="1">${visibleFams().every((f) => cardOpen.has(f.root)) ? '모두 접기 ▲' : '모두 펼치기 ▼'}</button>
       <span class="sel">선택 ${rows.length}건</span>
     </div>` + addLawBox();
