@@ -100,9 +100,10 @@ class AdminPickTest(unittest.TestCase):
     def test_support_programs(self):
         # 사업주 일반 지원제도는 적용, 회사가 그 대상일 때만 해당하는 것(중소기업 지원 · 고용위기지역 · 체불)은 검토 필요
         a = [self.adm("사업주 직업능력개발훈련 지원규정"), self.adm("공동근로복지기금 지원사업 운영규정"), self.adm("안전보건교육규정"),
-             self.adm("중소기업 직업능력개발 지원사업 실시규정"), self.adm("고용위기지역 지정 고시"), self.adm("임금등 체불 근로자 생계비 융자사업 고시")]
+             self.adm("중소기업 직업능력개발 지원사업 실시규정"), self.adm("고용위기지역 지정 고시"), self.adm("임금등 체불 근로자 생계비 융자사업 고시"),
+             self.adm("상습체불사업주 결정을 위한 월보수액 산정방법 고시")]
         picked, more, _, _ = pick_admin(a, {}, [])
-        self.assertEqual(sorted(x["name"] for x in picked), ["공동근로복지기금 지원사업 운영규정", "사업주 직업능력개발훈련 지원규정", "안전보건교육규정"])
+        self.assertEqual(sorted(x["name"] for x in picked), ["공동근로복지기금 지원사업 운영규정", "사업주 직업능력개발훈련 지원규정", "상습체불사업주 결정을 위한 월보수액 산정방법 고시", "안전보건교육규정"])
         self.assertEqual(sorted(x["name"] for x in more), ["고용위기지역 지정 고시", "임금등 체불 근로자 생계비 융자사업 고시", "중소기업 직업능력개발 지원사업 실시규정"])
 
     def test_word_fragments_are_not_sectors_or_places(self):
@@ -117,6 +118,11 @@ class AdminPickTest(unittest.TestCase):
              self.adm("국가산업단지 관리기본계획(포항블루밸리)"), self.adm("제5차 시설물의 안전 및 유지관리 기본계획(2023∼2027)")]
         picked, _, _, _ = pick_admin(a, {}, ["경북", "포항"])
         self.assertEqual(sorted(x["name"] for x in picked), ["국가산업단지 관리기본계획(포항블루밸리)", "산업단지 관리지침"])
+
+    def test_place_inside_word_is_not_near(self):
+        a = [self.adm("목포항 1종 항만배후단지 관리규정"), self.adm("포항항 1종 항만배후단지관리규정")]
+        picked, _, _, _ = pick_admin(a, {}, ["경북", "포항"])
+        self.assertEqual([x["name"] for x in picked], ["포항항 1종 항만배후단지관리규정"])
 
     def test_old_year_notices_dropped(self):
         a = [self.adm("2019년도 산업·발전부문 온실가스 목표관리업체 변경"), self.adm("2026년도 사업종류별 산재보험료율")]
