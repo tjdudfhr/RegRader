@@ -44,7 +44,7 @@ PLACES = [
     "울릉", "의성", "군위", "칠곡", "성주", "고령", "청도", "예천", "함안", "창녕", "의령", "하동", "남해", "산청", "함양", "거창",
     "합천", "기장", "울주", "강화", "옹진", "가평", "양평", "여주", "포천", "연천", "동두천", "양주", "의정부", "남양주", "구리",
     "하남", "광명", "부천", "안양", "군포", "의왕", "과천", "오산", "고양", "서귀포", "삽교", "진위천", "임진강", "섬진강", "만경강",
-    "동진강", "형산강", "태화강", "안성천", "한탄강", "팔당",
+    "동진강", "형산강", "태화강", "안성천", "한탄강", "팔당", "부평", "주안",
 ]
 # (산업단지 · 지역지정은 빼 둔다 — '산업단지 관리지침'처럼 전국 공통인 것이 많다. 특정 단지는 지명으로 잡힌다)
 REGION_MARKS = ["농공단지", "유역환경청", "지방환경청", "특별대책지역", "수계", "유역", "총량관리", "설치제한"]
@@ -59,7 +59,8 @@ INDUSTRY_WORDS = {
 CONSTRUCTION_TAGS = ("ind:construction", "site:construction", "act:construction_order")
 # 체계도에 딸려 오지만 특정 품목·국가·지역만 대상인 하위법령
 MEMBER_NOISE = ["덤핑방지관세", "특혜관세", "관세협상", "긴급관세", "조정관세", "할당관세", "외국인관광객", "여행객", "면세점",
-                "농ㆍ축산", "농·축산", "비영리법인의 설립 및 감독", "비영리법인 설립 및 감독", "비영리법인의 설립과 감독"]
+                "농ㆍ축산", "농·축산", "비영리법인의 설립 및 감독", "비영리법인 설립 및 감독", "비영리법인의 설립과 감독",
+                "지능형건축물", "표준설계도서", "수출지원센터", "통계조사규칙"]
 # 수십 종이 한 묶음으로 오는 기술기준은 한 줄로 접는다
 BUNDLES = [("NFPC", "화재안전성능기준(NFPC) — 소방시설 종류별 설치·관리 기준"),
            ("NFTC", "화재안전기술기준(NFTC) — 소방시설 종류별 세부 기술기준"),
@@ -225,7 +226,7 @@ def named_complex(name):
 
 def near_region(name, regions):
     """지역 행정규칙이 회사 사업장 지역에 해당하는지. 관할 이름은 가장 구체적인 것으로 본다 ('낙동강유역환경청' ≠ '낙동강' 수계)."""
-    if any(t in name for t in regions):
+    if any(re.search(r"(?<![가-힣])" + re.escape(t), name) for t in regions):   # '목포항'의 '포항'은 포항이 아니다
         return True
     key = next((k for k in sorted(JURISDICTION, key=len, reverse=True) if k in name), None)
     return bool(key and set(JURISDICTION[key]) & set(regions))
@@ -251,6 +252,7 @@ def admin_scope():
         _SCOPE = {
             "audience": re.compile(d["audience"]),
             "keep": re.compile(d["keep"]),
+            "never": re.compile(d["never"]),
             "plan": re.compile(d["plan"]),
             "review": re.compile(d["review"]),
             "sector": [(re.compile(x["rx"]), set(x["unless"])) for x in d["sector"]],
@@ -275,6 +277,8 @@ def admin_out(name, tags=(), root=""):
     sc = admin_scope()
     if old_year(name):
         return "old"
+    if sc["never"].search(name):
+        return "audience"
     fam = sc["families"].get(lawapi.compact(root)) or {}
     if sc["keep"].search(name) or ("keep" in fam and fam["keep"].search(name)) or admin_review(name):
         return ""
@@ -290,7 +294,7 @@ def admin_out(name, tags=(), root=""):
         return "scope"
     if "drop" in fam and fam["drop"].search(name):
         return "scope"
-    if "업종" in name:   # 업종 앞에 적힌 업종만 본다 ('염색업종 유해화학물질 …'의 '화학'은 업종이 아니다)
+    if re.search(r"업종(?!별)", name):   # 업종 앞에 적힌 업종만 본다 ('염색업종 유해화학물질 …'의 '화학'은 업종이 아니다, '업종별'은 업종 지정이 아니다)
         head = name.split("업종")[0]
         words = [w for w in INDUSTRY_WORDS if w in head]
         if words and not any(INDUSTRY_WORDS[w] in tags for w in words):

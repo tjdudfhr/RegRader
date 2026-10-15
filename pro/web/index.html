@@ -444,6 +444,7 @@
   @keyframes rr-drop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
   .card .body .src { display: inline-block; margin: 10px 0 0 27px; font-size: 12.5px; font-weight: 700; color: var(--brand); text-decoration: none; }
   .card .body .src:hover { text-decoration: underline; }
+  .pill.common { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
   .adm h4 small { font-weight: 500; color: var(--ink-4); margin-left: 4px; }
   .adm .rev { margin-top: 8px; padding: 6px 10px 4px; border-radius: 8px; background: var(--check-soft); }
   .adm .rev h4 { color: var(--check); }
@@ -1252,6 +1253,7 @@
         ${badge(f)}
         ${f.aiAdded ? '<span class="pill aiadd">AI 추가 제안</span>' : ''}
         ${f.kind ? `<span class="pill kind">${esc(f.kind)}</span>` : ''}
+        ${f.scope === 'all' ? '<span class="pill common" title="업종 · 규모와 상관없이 모든 회사에 적용되는 기본법 (근로자 · 법인이면 해당)">모든 회사 공통</span>' : ''}
         ${f.verified ? '' : '<span class="pill check">이름 확인</span>'}
         <span class="min" title="${esc(f.ministry || '')}">${cnt ? `<span class="cnt">${esc(cnt)}</span>` : ''}${esc(shortMin(f.ministry))}</span>
         <span class="chev" aria-hidden="true"></span>
@@ -1299,10 +1301,11 @@
   /* AI가 찾아낸 적용법규: 합계 하나 + 직무별 수 (누르면 그 직무 목록으로) */
   function foundBox(jobs) {
     const sm = result.summary, bs = sm.byStatus || {}, adm = admApply(sm), rev = sm.adminReview || 0;
+    const common = (result.families || []).filter((f) => f.scope === 'all' && f.status !== '확인').length;
     return `<div class="panel found">
       <h3 class="ph">AI가 찾아낸 적용법규 <small>현행 법률 ${(sm.registry || 0).toLocaleString()}개를 모두 판정한 결과</small></h3>
       <div class="big"><b>${(sm.laws + adm).toLocaleString()}</b><span>적용법규 = 법령 ${sm.laws.toLocaleString()} + 적용 행정규칙 ${adm.toLocaleString()}</span>
-        <em>법령 계열 ${(bs['적용'] || 0) + (bs['추정'] || 0)}개 (그중 추정 ${bs['추정'] || 0}) · 미적용 ${(bs['미적용'] || 0).toLocaleString()}${rev ? ` · 검토 필요 행정규칙 ${rev.toLocaleString()}개 별도 (지원 · 융자 · 인증 제도 — 쓰면 체크)` : ''}</em></div>
+        <em>법령 계열 ${(bs['적용'] || 0) + (bs['추정'] || 0)}개 (그중 추정 ${bs['추정'] || 0}${common ? ` · 모든 회사 공통 기본법 ${common}` : ''}) · 미적용 ${(bs['미적용'] || 0).toLocaleString()}${rev ? ` · 검토 필요 행정규칙 ${rev.toLocaleString()}개 별도 (지원 · 융자 · 인증 제도 — 쓰면 체크)` : ''}</em></div>
     </div>`;
   }
 
@@ -1525,6 +1528,9 @@
       <button type="button" class="tab" data-cat="전체" aria-pressed="${catFilter === '전체'}">전체<i>${(bs['적용'] || 0) + (bs['추정'] || 0)}</i></button>
       ${jobs.map((j) => { const c = jobCounts(j); return `<button type="button" class="tab" data-cat="${esc(j)}" aria-pressed="${j === catFilter}" title="적용 ${c.applied} · 확인 필요 ${c.pending} · 미적용 ${c.no}">${esc(j)}<i>${c.applied}${c.pending ? ` +${c.pending}` : ''}</i></button>`; }).join('')}
       <span class="sp"></span>
+      ${(() => { const cf = result.families.filter((f) => f.scope === 'all'); if (!cf.length) return '';
+        const allOff = cf.every((f) => off.has(famKey(f)));
+        return `<button type="button" class="xall" data-common="1" title="민법 · 상업등기법 · 공직선거법처럼 모든 회사에 공통인 기본법 — 관리 목록에서 빼거나 다시 넣습니다">${allOff ? `공통 기본법 ${cf.length}개 다시 넣기` : `공통 기본법 ${cf.length}개 빼기`}</button>`; })()}
       <button type="button" class="xall" data-xall="1">${visibleFams().every((f) => cardOpen.has(f.root)) ? '모두 접기 ▲' : '모두 펼치기 ▼'}</button>
       <span class="sel">선택 ${rows.length}건</span>
     </div>` + addLawBox();
@@ -1613,6 +1619,13 @@
     if (t.dataset.duty) { const r = t.dataset.duty; dutyOpen.has(r) ? dutyOpen.delete(r) : dutyOpen.add(r); render(); return; }
     if (t.matches('.more')) { const r = t.dataset.more; opened.has(r) ? opened.delete(r) : opened.add(r); render(); return; }
     if (t.dataset.addlaw) { addLaw(t.dataset.addlaw); return; }
+    if (t.dataset.common) {
+      const cf = result.families.filter((f) => f.scope === 'all'), allOff = cf.every((f) => off.has(famKey(f)));
+      cf.forEach((f) => (allOff ? off.delete(famKey(f)) : off.add(famKey(f))));
+      cf.forEach((f) => (allOff ? userOn.add(famKey(f)) : userOn.delete(famKey(f))));
+      render();
+      return;
+    }
     if (t.dataset.xall) {
       const vis = visibleFams(), all = vis.every((f) => cardOpen.has(f.root));
       vis.forEach((f) => (all ? cardOpen.delete(f.root) : cardOpen.add(f.root)));
