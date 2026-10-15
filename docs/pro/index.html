@@ -167,7 +167,44 @@
   .basis.추정 { background: var(--check-soft); color: var(--check); }
   .basis.직접 { background: var(--brand-soft); color: var(--brand-ink); }
 
-  .actions { position: sticky; bottom: -18px; margin: 4px -18px -18px; padding: 12px 18px; background: linear-gradient(transparent, var(--surface) 30%); display: flex; gap: 8px; }
+  /* 회사 정보 한 상자 · 항목 추가 상자 */
+  .rcol { min-width: 0; }
+  .cobox, .addbox { margin-top: 14px; border-radius: 14px; padding: 14px 14px 4px; }
+  .rcol .addbox { margin: 0 0 14px; }
+  .addbox > summary { list-style: none; cursor: pointer; margin: 0; }
+  .addbox > summary::-webkit-details-marker { display: none; }
+  .addbox > summary::after { content: '접기 ▲'; margin-left: auto; font-size: 12px; font-weight: 700; color: var(--brand); }
+  .addbox:not([open]) > summary::after { content: '펼치기 ▼'; }
+  .addbox[open] > summary { margin-bottom: 8px; }
+  .pk { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 3px 4px 3px 10px; font-size: 12.5px; }
+  .pk small { color: var(--ink-4); }
+  .pk .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-4); }
+  .pk .dot.확인 { background: var(--ok); } .pk .dot.추정 { background: var(--check); } .pk .dot.직접 { background: var(--brand); }
+  .pk.no { text-decoration: line-through; color: var(--ink-3); }
+  .pk .x { border: 0; background: none; color: var(--ink-4); font-size: 15px; line-height: 1; cursor: pointer; padding: 0 5px; border-radius: 999px; }
+  .pk .x:hover { color: var(--warn); background: var(--warn-soft); }
+  .picked.chips2 { display: flex; flex-wrap: wrap; gap: 6px; }
+  .evs { margin-top: 8px; font-size: 12px; color: var(--ink-3); }
+  .evs summary { cursor: pointer; font-weight: 700; color: var(--brand); }
+  .evs ul { margin: 6px 0 0; padding-left: 16px; } .evs li { margin: 3px 0; } .evs a { color: var(--brand); font-weight: 700; }
+  .cobox { border: 1px solid #cfdaf5; background: linear-gradient(180deg, var(--brand-soft), #fff 140px); }
+  .addbox { border: 2px solid var(--brand); background: var(--surface); padding-bottom: 12px; box-shadow: 0 6px 18px rgba(48, 86, 211, .12); }
+  .boxh { margin: 0 0 8px; font-size: 15px; font-weight: 800; color: var(--ink); display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+  .boxh small { font-size: 12px; font-weight: 600; color: var(--ink-3); }
+  .addbox .boxh { color: var(--brand-ink); }
+  .addbox .plus { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; background: var(--brand); color: #fff; font-size: 15px; line-height: 1; }
+  .cobox .brief { margin: 0 0 4px; border: 0; background: none; padding: 0 0 10px; }
+  .cobox .grp, .addbox .grp { padding: 12px 0; }
+  .sectabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 10px; }
+  .sectab { border: 1px solid var(--line); background: var(--surface-2); border-radius: 999px; padding: 6px 12px; font: 700 12.5px var(--font); color: var(--ink-2); cursor: pointer; }
+  .sectab[aria-selected="true"] { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .sectab i { font-style: normal; margin-left: 4px; font-weight: 800; color: var(--brand); }
+  .sectab[aria-selected="true"] i { color: #dbe4ff; }
+  .optq { width: 100%; height: 38px; border: 1px solid var(--line); border-radius: 9px; padding: 0 12px; background: var(--surface-2); margin-bottom: 10px; font: inherit; }
+  .addbox .sec h4 { margin: 0 0 6px; font-size: 12px; color: var(--ink-3); }
+  .addbox .sec .chips { max-height: 168px; overflow: auto; padding-right: 4px; }   /* 결과가 아래로 너무 밀리지 않게 */
+  .addbox #sugg { max-height: 96px; overflow: auto; }
+  .busy-note { font-weight: 700; color: #ffe08a; }
   .btn { height: 38px; padding: 0 14px; border-radius: 9px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); font-weight: 700; cursor: pointer; }
   .btn.pri { background: var(--brand); border-color: var(--brand); color: #fff; flex: 1; }
   .btn.pri:hover { background: var(--brand-ink); }
@@ -203,13 +240,28 @@
   .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 4px 0 12px; }
   .toolbar .sp { flex: 1; }
   .toolbar .sel { color: var(--ink-3); font-size: 13px; }
-  .rrx { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: -4px 0 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); font-size: 13px; color: var(--ink-2); }
-  .rrx .btn { height: 34px; }
-  .rrx .bad { color: #c53030; }
-  .rrx a { font-weight: 700; color: var(--brand); }
-  .rrx .bar { flex-basis: 100%; height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
-  .rrx .bar i { display: block; height: 100%; background: var(--brand); transition: width .6s ease; }
-  .rrx .t { color: var(--ink-3); }
+  /* 맨 위 실행 막대: RegRader로 보내기 · 엑셀 (스크롤해도 따라온다) */
+  .rrx { position: sticky; top: 64px; z-index: 4; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0 0 14px;
+    padding: 14px 16px; border-radius: 14px; color: #fff; background: linear-gradient(135deg, #0f1a3a 0%, #1f3a9e 100%); box-shadow: 0 10px 26px rgba(15, 26, 58, .28); }
+  html.embed .rrx { top: 0; }
+  .rrx .co { flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .rrx .co small { font-size: 11.5px; color: #a9b6dd; font-weight: 700; }
+  .rrx .co b { font-size: 18px; font-weight: 800; letter-spacing: -0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rrx .co span { font-size: 12.5px; color: #c7d4ff; }
+  .rrx .acts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .rrx .go { height: 46px; padding: 0 22px; border: 0; border-radius: 12px; background: #7ee2a8; color: #0f1a3a; font: 800 15.5px var(--font); cursor: pointer;
+    box-shadow: 0 6px 16px rgba(126, 226, 168, .35); text-decoration: none; display: inline-flex; align-items: center; }
+  .rrx .go:hover { background: #9af0bf; }
+  .rrx .go:disabled { opacity: .6; cursor: default; }
+  .rrx .sec { height: 46px; padding: 0 16px; border: 1px solid rgba(255, 255, 255, .35); border-radius: 12px; background: rgba(255, 255, 255, .06); color: #fff;
+    font: 700 14px var(--font); cursor: pointer; }
+  .rrx .sec:hover { background: rgba(255, 255, 255, .14); }
+  .rrx .msg { flex-basis: 100%; font-size: 13px; color: #dbe4ff; }
+  .rrx .msg a { color: #7ee2a8; font-weight: 800; }
+  .rrx .bad { color: #ffb4a8; }
+  .rrx .bar { flex-basis: 100%; height: 6px; border-radius: 999px; background: rgba(255, 255, 255, .18); overflow: hidden; }
+  .rrx .bar i { display: block; height: 100%; background: #7ee2a8; transition: width .6s ease; }
+  .rrx .t { color: #a9b6dd; }
   .tab { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px; font-size: 13px; cursor: pointer; color: var(--ink-2); }
   .tab[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
   .tab i { font-style: normal; color: var(--ink-4); margin-left: 4px; }
@@ -356,7 +408,6 @@
   <aside>
     <button type="button" class="back-hero" id="b-hero">← 새로 검색</button>
     <h2>회사 찾기</h2>
-    <p class="lead">회사명을 넣으면 국민연금·등록공장 공공데이터에서 업종, 사업장, 근로자 수, 공장을 찾아 채웁니다. 빠진 것만 더하면 됩니다.</p>
     <form class="find" id="find" autocomplete="off">
       <div class="qrow">
         <input id="q" placeholder="회사명 (예: ○○화학)" aria-label="회사명">
@@ -365,49 +416,52 @@
     </form>
     <div class="note" id="db-off" hidden></div>
     <ul class="cands" id="cands"></ul>
-    <div id="brief"></div>
-    <button type="button" class="sub-btn" id="b-ai" hidden>AI로 웹에서 더 조사하기 (유료)</button>
 
     <form id="form" autocomplete="off">
-      <div class="grp">
-        <h3>기본 정보</h3>
-        <div class="row" id="nums"></div>
-        <div class="flags" id="flags" aria-label="공시로 정한 회사 구분"></div>
-      </div>
-      <div class="grp">
-        <h3>사업장 소재지 <small>지역 고시를 고르는 데 씁니다</small></h3>
-        <details class="pick" id="prov-box"><summary id="prov-sum"></summary><div class="chips" id="provinces"></div></details>
-        <label class="f" style="margin-top:8px">시·군 <input id="f-cities" placeholder="예: 포항, 광양 (쉼표로 구분)"></label>
-      </div>
-      <div class="grp">
-        <h3>찾은 항목 <small id="picked-n"></small></h3>
-        <ul class="picked" id="picked"></ul>
-      </div>
-      <div class="grp" id="sugg-grp" hidden>
-        <h3>이 업종에서 흔한 항목 <small>해당하면 눌러서 추가하세요</small></h3>
-        <div class="chips" id="sugg"></div>
-      </div>
-      <div class="grp">
-        <details class="add" id="add"><summary>항목 직접 추가</summary><div id="sections"></div></details>
-      </div>
-      <div class="actions">
-        <button type="button" class="btn" id="b-example">예시</button>
-        <button type="button" class="btn" id="b-reset">초기화</button>
-        <button type="submit" class="btn pri" id="b-run">적용법규 후보 만들기</button>
-      </div>
+      <section class="cobox" aria-label="회사 정보">
+        <h3 class="boxh">회사 정보 <small>공공데이터 · DART 로 채운 것 — 틀린 항목은 × 로 빼세요</small></h3>
+        <div id="brief"></div>
+        <button type="button" class="sub-btn" id="b-ai" hidden>AI로 웹에서 더 조사하기 (유료)</button>
+        <div class="grp">
+          <h3>기본 정보</h3>
+          <div class="row" id="nums"></div>
+          <div class="flags" id="flags" aria-label="공시로 정한 회사 구분"></div>
+        </div>
+        <div class="grp">
+          <h3>사업장 소재지 <small>지역 고시를 고르는 데 씁니다</small></h3>
+          <details class="pick" id="prov-box"><summary id="prov-sum"></summary><div class="chips" id="provinces"></div></details>
+          <label class="f" style="margin-top:8px">시·군 <input id="f-cities" placeholder="예: 포항, 광양 (쉼표로 구분)"></label>
+        </div>
+        <div class="grp">
+          <h3>찾은 항목 <small id="picked-n"></small></h3>
+          <ul class="picked" id="picked"></ul>
+        </div>
+      </section>
+      <button type="submit" hidden aria-hidden="true" tabindex="-1"></button>
     </form>
   </aside>
-  <section id="out">
+  <div class="rcol">
+    <div id="rrx-slot"></div>
+  <details class="addbox" id="addbox" open>
+    <summary class="boxh"><span class="plus" aria-hidden="true">＋</span> 항목 추가 <small>회사에 해당하는 업종 · 설비 · 물질 · 활동을 누르면 아래 적용법규에 바로 반영됩니다</small></summary>
+      <div class="grp" id="sugg-grp" hidden>
+        <h3>이 업종에서 흔한 항목 <small>해당하면 누르세요</small></h3>
+        <div class="chips" id="sugg"></div>
+      </div>
+      <div id="sections"></div>
+  </details>
+    <section id="out">
     <div class="empty">
       <span class="em-ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M9 17h1M14 17h1"/></svg></span>
-      <b>왼쪽에서 회사를 찾거나 정보를 넣고 ‘적용법규 후보 만들기’를 누르세요.</b>
+      <b>왼쪽에서 회사를 찾거나 ‘항목 추가’에서 해당하는 항목을 누르면 적용법규가 바로 판정됩니다.</b>
       <ol>
         <li>회사를 찾으면 업종 · 사업장 · 근로자 수 · 공장 · 상장 · 외부감사가 채워집니다</li>
         <li>목록에 없는 회사는 근로자 수 · 자산 · 사업장 지역 · 업종 항목을 직접 고릅니다</li>
         <li>적용 법령 · 고시가 직무별로 정리되고, ‘RegRader로 보내기’로 분기별 · 직무별 화면을 만듭니다</li>
       </ol>
     </div>
-  </section>
+    </section>
+  </div>
 </main>
 <footer>회사 정보: 국민연금공단 「국민연금 가입 사업장 내역」, 한국산업단지공단 「전국등록공장현황」(공공데이터포털, 이용허락 제한 없음). 법령명과 하위 법령·고시는 국가법령정보센터 Open API로 확인합니다. 추천 결과는 검토용 후보이며, 최종 적용 여부는 담당자가 판단합니다.</footer>
 <script>
@@ -456,8 +510,28 @@
     $('#nums').innerHTML = catalog.numbers.map((n) => `<label class="f">${esc(n.label)} (${esc(n.unit)})
       <input id="n-${n.id}" type="number" min="0" placeholder="${esc(n.placeholder)}"><span class="hint" id="h-${n.id}"></span></label>`).join('');
     $('#provinces').innerHTML = catalog.regions.provinces.map((p) => chip(p, p, 'provinces')).join('');
-    $('#sections').innerHTML = catalog.sections.map((s) => `
-      <div class="sec"><h4>${esc(s.label)}</h4><div class="chips">${s.options.map((o) => chip(o.id, o.label, 'tags')).join('')}</div></div>`).join('');
+    $('#sections').innerHTML = `<div class="sectabs" role="tablist">${catalog.sections.map((s, i) =>
+        `<button type="button" class="sectab" role="tab" data-sec="${i}" aria-selected="${i === 0}">${esc(s.label)}<i data-cnt="${i}"></i></button>`).join('')}</div>
+      <input id="opt-q" class="optq" placeholder="항목 찾기 (예: 크레인, 폐기물, 개인정보, 수출)" aria-label="항목 찾기">
+      ${catalog.sections.map((s, i) => `<div class="sec" data-sec="${i}" ${i ? 'hidden' : ''}><h4 hidden>${esc(s.label)}</h4>
+        <div class="chips">${s.options.map((o) => chip(o.id, o.label, 'tags')).join('')}</div></div>`).join('')}`;
+    let secOn = 0;
+    const showSec = (i) => {
+      secOn = i;
+      document.querySelectorAll('#sections .sectab').forEach((t) => t.setAttribute('aria-selected', String(+t.dataset.sec === i)));
+      document.querySelectorAll('#sections .sec').forEach((x) => { x.hidden = +x.dataset.sec !== i; x.querySelector('h4').hidden = true; x.querySelectorAll('.chip').forEach((c) => { c.hidden = false; }); });
+    };
+    $('#sections').addEventListener('click', (e) => { const t = e.target.closest('.sectab'); if (t) { $('#opt-q').value = ''; showSec(+t.dataset.sec); } });
+    $('#opt-q').addEventListener('input', () => {
+      const q = $('#opt-q').value.trim().replace(/\s+/g, '');
+      if (!q) { showSec(secOn); return; }
+      document.querySelectorAll('#sections .sec').forEach((x) => {
+        let n = 0;
+        x.querySelectorAll('.chip').forEach((c) => { const hit = c.textContent.replace(/\s+/g, '').includes(q); c.hidden = !hit; n += hit; });
+        x.hidden = !n; x.querySelector('h4').hidden = !n;
+      });
+    });
+    $('#opt-q').addEventListener('keydown', (e) => { if (e.key === 'Enter') e.preventDefault(); });
 
     const st = $('#ai-state');
     const co = status.company || {};
@@ -466,22 +540,21 @@
     if (!co.ready) {
       $('#db-off').hidden = false;
       $('#db-off').textContent = '회사 찾기 자료가 아직 없습니다. README의 ‘회사 찾기 자료 준비’를 따르거나, 아래 항목을 직접 고르세요.';
-      $('#add').open = true;
     }
     $('#b-ai').hidden = !status.ai;
 
     document.addEventListener('click', (e) => {
-      const c = e.target.closest('aside .chip');
+      const c = e.target.closest('.chip[data-group]');
       if (c) { toggle(c.dataset.group, c.dataset.id); return; }
       const x = e.target.closest('.picked .x');
-      if (x && x.dataset.undeny) { S.denied.delete(x.dataset.undeny); renderForm(); return; }
-      if (x) { S.tags.delete(x.dataset.id); delete S.evidence[x.dataset.id]; renderForm(); return; }
+      if (x && x.dataset.undeny) { S.denied.delete(x.dataset.undeny); renderForm(); scheduleRun(); return; }
+      if (x) { S.tags.delete(x.dataset.id); delete S.evidence[x.dataset.id]; renderForm(); scheduleRun(); return; }
     });
     hero(co);
-    $('#form').addEventListener('submit', (e) => { e.preventDefault(); run(); });
+    $('#form').addEventListener('submit', (e) => { e.preventDefault(); scheduleRun(); });
     $('#b-ai').addEventListener('click', () => research());
-    $('#b-reset').addEventListener('click', () => { S.research = null; $('#q').value = ''; $('#cands').innerHTML = ''; setProfile({}); });
-    $('#b-example').addEventListener('click', async () => { S.research = null; $('#cands').innerHTML = ''; setProfile(await getJSON('/api/example')); });
+    /* 숫자 · 시·군을 바꾸면 법규를 다시 판정한다 (항목 찾기 칸은 빼고) */
+    $('#form').addEventListener('change', (e) => { if (e.target.matches('input') && e.target.id !== 'opt-q') scheduleRun(); });
     renderForm();
   }
 
@@ -503,7 +576,7 @@
       const b = e.target.closest('button[data-q]');
       if (b) { $('#hq').value = b.dataset.q; $('#q').value = b.dataset.q; find(); }
     });
-    $('#b-manual').addEventListener('click', () => { landing(false); $('#add').open = true; });
+    $('#b-manual').addEventListener('click', () => { landing(false); $('#addbox').open = true; setTimeout(() => { $('#addbox').scrollIntoView({ behavior: 'smooth', block: 'start' }); $('#opt-q').focus(); }, 50); });
     $('#b-hero').addEventListener('click', () => { $('#hq').value = $('#q').value; landing(true); });
     document.addEventListener('click', (e) => {
       const cand = e.target.closest('.cand');
@@ -528,30 +601,63 @@
     if (set.has(id)) { set.delete(id); if (group === 'tags') delete S.evidence[id]; }
     else { set.add(id); S.denied.delete(id); if (group === 'tags') S.evidence[id] = { basis: '직접', evidence: '', source: '' }; }
     renderForm();
+    scheduleRun();
+  }
+
+  /* 항목 · 숫자를 바꾸면 잠깐 기다렸다가 다시 판정 ('적용법규 후보 만들기' 버튼 없이). 판정 중에 또 바뀌면 끝난 뒤 한 번 더 */
+  let runTimer = null, running = null, again = false;
+  function hasInput() {
+    const p = profile();
+    return !!(S.research || p.tags.length || p.flags.length || p.numbers.employees || p.numbers.assets || p.regions.provinces.length);
+  }
+  function scheduleRun() {
+    clearTimeout(runTimer);
+    runTimer = setTimeout(async () => {
+      if (!hasInput()) return;
+      if (running) { again = true; return; }
+      running = run(true, true);
+      await running;
+      running = null;
+      if (again) { again = false; scheduleRun(); }
+    }, 450);
   }
 
   function renderForm() {
     renderFlags();
-    document.querySelectorAll('aside .chip').forEach((c) => {
+    document.querySelectorAll('.chip[data-group]').forEach((c) => {
       const on = S[c.dataset.group]?.has(c.dataset.id);
       c.setAttribute('aria-pressed', on ? 'true' : 'false');
       c.classList.toggle('found', !!on && c.dataset.group === 'tags' && S.evidence[c.dataset.id]?.basis === '확인');
     });
+    catalog.sections.forEach((sec, i) => {
+      const n = sec.options.filter((o) => S.tags.has(o.id)).length;
+      const el = document.querySelector(`#sections [data-cnt="${i}"]`);
+      if (el) el.textContent = n ? n : '';
+    });
     const prov = [...S.provinces];
     $('#prov-sum').innerHTML = prov.length ? prov.map((p) => `<b>${esc(p)}</b>`).join(' · ') : '<span style="color:var(--ink-4)">시·도를 고르지 않았습니다</span>';
     const ids = [...S.tags].filter((id) => !id.startsWith('nts:'));  // 업종 사실은 위 '업종'에 따로 보인다
-    $('#picked-n').textContent = ids.length ? `${ids.length}개 · 틀린 항목은 × 로 빼세요` : '';
-    $('#picked').innerHTML = ids.length ? ids.map((id) => {
+    $('#picked-n').textContent = ids.length ? `${ids.length}개 · 틀린 항목은 × 로 빼세요 (● 확인 ● 추정 ● 직접)` : '';
+    const pl = $('#picked');
+    pl.classList.add('chips2');
+    const evid = [];
+    pl.innerHTML = ids.length ? ids.map((id) => {
       const t = tagInfo[id] || { label: id, section: '' };
       const ev = S.evidence[id] || { basis: '직접' };
-      const src = safeUrl(ev.source);
-      return `<li><div class="t"><small>${esc(t.section)}</small><b>${esc(t.label)}</b><span class="basis ${esc(ev.basis)}">${esc(ev.basis === '직접' ? '직접 추가' : ev.basis)}</span>
-        <button type="button" class="x" data-id="${esc(id)}" aria-label="${esc(t.label)} 빼기">×</button></div>
-        ${ev.evidence || src ? `<div class="ev">${esc(ev.evidence)}${src ? `<a href="${esc(src)}" target="_blank" rel="noopener">출처</a>` : ''}</div>` : ''}</li>`;
-    }).join('') : '<li class="none">회사를 찾으면 여기에 채워집니다. 직접 추가해도 됩니다.</li>';
+      const basis = ev.basis === '직접' ? '직접 추가' : ev.basis;
+      if (ev.evidence || ev.source) evid.push({ t, ev });
+      return `<li class="pk" title="${esc(t.section + ' · ' + basis + (ev.evidence ? ' — ' + ev.evidence : ''))}"><span class="dot ${esc(ev.basis)}"></span><b>${esc(t.label)}</b>
+        <button type="button" class="x" data-id="${esc(id)}" aria-label="${esc(t.label)} 빼기">×</button></li>`;
+    }).join('') : '<li class="none">회사를 찾으면 여기에 채워집니다. 오른쪽 ‘항목 추가’에서 더할 수 있습니다.</li>';
     const den = [...S.denied].filter((id) => !FLAG_IDS.has(id));
-    if (den.length) $('#picked').innerHTML += den.map((id) => `<li class="no"><div class="t"><small>${esc(tagInfo[id]?.section || '')}</small><b>${esc(tagInfo[id]?.label || id)}</b><span class="basis 아님">해당 없음</span>
-        <button type="button" class="x" data-undeny="${esc(id)}" aria-label="해당 없음 취소">×</button></div></li>`).join('');
+    if (den.length) pl.innerHTML += den.map((id) => `<li class="pk no" title="해당 없음"><b>${esc(tagInfo[id]?.label || id)}</b>
+        <button type="button" class="x" data-undeny="${esc(id)}" aria-label="해당 없음 취소">×</button></li>`).join('');
+    let evBox = $('#picked-ev');
+    if (!evBox) { evBox = document.createElement('div'); evBox.id = 'picked-ev'; pl.insertAdjacentElement('afterend', evBox); }
+    evBox.innerHTML = evid.length ? `<details class="evs"><summary>근거 보기 (${evid.length})</summary><ul>${evid.map(({ t, ev }) => {
+      const src = safeUrl(ev.source);
+      return `<li><b>${esc(t.label)}</b> · ${esc(ev.basis)} — ${esc(ev.evidence || '')}${src ? ` <a href="${esc(src)}" target="_blank" rel="noopener">출처</a>` : ''}</li>`;
+    }).join('')}</ul></details>` : '';
     const sugg = (S.research?.suggestions || []).filter((x) => !S.tags.has(x.id) && tagInfo[x.id]);
     $('#sugg-grp').hidden = !sugg.length;
     $('#sugg').innerHTML = sugg.map((x) => `<button type="button" class="chip sg" data-id="${esc(x.id)}" data-group="tags" aria-pressed="false" title="${esc(x.why)}">${esc(tagInfo[x.id].label)}</button>`).join('');
@@ -667,14 +773,22 @@
     }
   }
 
-  async function run(keepTab = false) {
-    const btn = $('#b-run');
-    btn.disabled = true;
-    const stop = waiting('', '법제처에서 법령과 고시를 확인하고 있습니다.', '처음에는 1분 정도 걸릴 수 있습니다');
+  async function run(keepTab = false, quiet = false) {
+    quiet = quiet && !!result;
+    let stop = () => {};
+    if (quiet) {
+      const m = document.querySelector('.rrx .msg');
+      if (m) m.innerHTML = '<span class="busy-note">⏳ 항목이 바뀌어 적용법규를 다시 판정하는 중…</span>';
+    } else stop = waiting('', '법제처에서 법령과 고시를 확인하고 있습니다.', '처음에는 1분 정도 걸릴 수 있습니다');
+    const keepOff = quiet ? new Set(off) : null, keepOpen = quiet ? new Set(opened) : null, keepDuty = quiet ? new Set(dutyOpen) : null;
     try {
       result = await post('/api/suggest', { profile: profile(), research: S.research, ai: false });
       off.clear(); opened.clear(); dutyOpen.clear(); if (!keepTab) catFilter = '전체'; lawHits = []; lawMsg = null;
       for (const f of result.families) if (f.verdict === '해당 가능성 낮음' || f.status === '확인') off.add(famKey(f));
+      if (quiet) {   // 체크를 해제해 둔 것 · 펼쳐 둔 것은 그대로
+        keepOff.forEach((k) => off.add(k)); keepOpen.forEach((k) => opened.add(k)); keepDuty.forEach((k) => dutyOpen.add(k));
+        if (rrState?.state === 'done') rrState = Object.assign({}, rrState, { state: 'changed' });   // 보낸 뒤 항목이 바뀌었다
+      }
       stop();
       if (!keepTab) rrState = null;
       render();
@@ -682,8 +796,6 @@
     } catch (e) {
       stop();
       $('#out').innerHTML = `<div class="err">${esc(e.message)} 국내 인터넷에서 실행 중인지 확인한 뒤 다시 시도해 주세요.</div>`;
-    } finally {
-      btn.disabled = false;
     }
   }
 
@@ -864,24 +976,30 @@
   /* RegRader 로 내보내기: 선택한 적용법규로 RegRader(현행 시스템) 데이터를 만들고 분기별·직무별 화면을 연다 */
   let rrState = null, rrTimer = null;
   function rrBox() {
-    const st = rrState;
-    let msg = '선택한 적용법규로 RegRader 모니터링 화면(분기별 · 직무별 · 적용법규 · 계열)을 만듭니다.';
+    const st = rrState, p = profile(), sm = result.summary, adm = sm.adminTotal ?? sm.admin;
+    const running = st?.state === 'running', done = st?.state === 'done';
+    let msg = '이 회사 적용법규로 RegRader 모니터링 화면(종합 · 분기별 · 직무별 · 적용법규)을 만듭니다.';
     let bar = '';
-    if (st?.state === 'running') {
+    if (running) {
       const pct = Math.max(1, Math.min(99, st.progress || 0));
       const sec = st.startedAt ? Math.max(0, Math.round((Date.now() - Date.parse(st.startedAt)) / 1000)) : 0;
       const took = sec >= 60 ? `${Math.floor(sec / 60)}분 ${sec % 60}초` : `${sec}초`;
       msg = `⏳ ${esc(st.step || '진행 중')} <span class="t">· ${pct}% · ${took} 지남</span>`;
       bar = `<div class="bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>`;
-    }
-    else if (st?.state === 'done') {
+    } else if (done) {
       const r = st.result || {};
-      msg = `✅ ${esc(r.asOf || '')} 기준 올해 개정 ${r.totalCount ?? 0}건 (법령 ${r.lawEvents ?? 0} · 행정규칙 ${r.admrulEvents ?? 0}) · 적용법규 ${r.baseLaws ?? 0} + 행정규칙 ${r.admrulLaws ?? 0}
-        · <a href="${esc(st.url)}" target="_blank" rel="noopener">RegRader 화면 열기 →</a>`;
-    } else if (st?.state === 'error') msg = `<span class="bad">만들지 못했습니다: ${esc(st.error || '')}</span>`;
-    return `<div class="rrx"><button type="button" class="btn" data-rrx="1" ${st?.state === 'running' ? 'disabled' : ''}>RegRader로 보내기</button>
-      <button type="button" class="btn" data-xlsx="1" title="이 회사의 적용법규 · 행정규칙 · 미적용 이유를 엑셀로">엑셀로 받기</button><span>${msg}</span>
-      <span class="sp" style="flex:1"></span><a href="./companies.html" target="_blank" rel="noopener">보낸 회사 목록</a>${bar}</div>`;
+      msg = `✅ 보냈습니다 · ${esc(r.asOf || '')} 기준 올해 개정 ${r.totalCount ?? 0}건 (법령 ${r.lawEvents ?? 0} · 행정규칙 ${r.admrulEvents ?? 0}) · 적용법규 ${r.baseLaws ?? 0} + 행정규칙 ${r.admrulLaws ?? 0}`;
+    } else if (st?.state === 'changed') msg = '⚠️ 보낸 뒤 항목이 바뀌었습니다. 다시 보내야 RegRader 화면에 반영됩니다.';
+    else if (st?.state === 'error') msg = `<span class="bad">만들지 못했습니다: ${esc(st.error || '')}</span>`;
+    const go = st?.state === 'changed'
+      ? `<button type="button" class="go" data-rrx="1">RegRader로 다시 보내기 →</button><a class="sec" style="display:inline-flex;align-items:center;text-decoration:none" href="${esc(st.url)}" target="_blank" rel="noopener">지난 화면 열기</a>`
+      : done
+      ? `<a class="go" href="${esc(st.url)}" target="_blank" rel="noopener">RegRader 화면 열기 →</a><button type="button" class="sec" data-rrx="1">다시 보내기</button>`
+      : `<button type="button" class="go" data-rrx="1" ${running ? 'disabled' : ''}>RegRader로 보내기 →</button>`;
+    return `<div class="rrx" role="region" aria-label="RegRader로 보내기">
+      <div class="co"><small>지금 판정한 회사</small><b>${esc(p.name || '직접 입력한 회사')}</b><span>적용법규 ${sm.laws} + 행정규칙 ${adm}</span></div>
+      <div class="acts">${go}<button type="button" class="sec" data-xlsx="1" title="이 회사의 적용법규 · 행정규칙 · 미적용 이유를 엑셀로">엑셀로 받기</button></div>
+      <div class="msg">${msg} · <a href="./companies.html" target="_blank" rel="noopener">보낸 회사 목록</a></div>${bar}</div>`;
   }
 
   /* 엑셀로 받기: 지금 판정한 회사(선택한 것)의 적용법규 · 행정규칙 · 미적용 이유 · 회사 정보. 회사를 바꿔 판정하면 그 회사 것 */
@@ -1001,6 +1119,7 @@
     if (result.aiError) banner = `<div class="banner bad">AI 판단을 하지 못해 규칙 결과만 보여 드립니다. ${esc(result.aiError)}</div>`;
     else if (result.ai) banner = '<div class="banner ai">AI가 법령마다 직무와 적용 여부를 판단했습니다.</div>';
     const admTotal = s.adminTotal ?? s.admin;
+    $('#rrx-slot').innerHTML = rrBox();
     let html = banner + `<div class="stats">
       <div class="stat first"><b>${(s.laws + admTotal).toLocaleString()}</b><span>적용법규 합계 (법령 ${s.laws} + 행정규칙 ${admTotal})</span></div>
       <div class="stat"><b>${(bs['적용'] || 0) + (bs['추정'] || 0)}</b><span>적용 법령 계열 (추정 ${bs['추정'] || 0} 포함)</span></div>
@@ -1013,7 +1132,7 @@
       ${jobs.map((j) => { const c = jobCounts(j); return `<button type="button" class="tab" data-cat="${esc(j)}" aria-pressed="${j === catFilter}" title="적용 ${c.applied} · 확인 필요 ${c.pending} · 미적용 ${c.no}">${esc(j)}<i>${c.applied}${c.pending ? ` +${c.pending}` : ''}</i></button>`; }).join('')}
       <span class="sp"></span>
       <span class="sel">선택 ${rows.length}건</span>
-    </div>` + rrBox() + addLawBox();
+    </div>` + addLawBox();
     for (const j of jobs) {
       if (catFilter !== '전체' && catFilter !== j) continue;
       const c = jobCounts(j);
@@ -1088,7 +1207,7 @@
   document.addEventListener('click', (e) => {
     if (!result) return;
     const t = e.target.closest('button');
-    if (!t || !t.closest('#out')) return;
+    if (!t || !(t.closest('#out') || t.closest('#rrx-slot'))) return;
     if (t.matches('.tab')) { catFilter = t.dataset.cat; render(); return; }
     if (t.dataset.rrx) { rrExport(); return; }
     if (t.dataset.xlsx) { downloadXlsx(t); return; }
