@@ -1638,15 +1638,25 @@
   }
 
   let rrWin = null;
+  // RegRader 의 '기업별 적용법규 검색' 팝업 안(embed)이면 새 창 대신 RegRader 창 자체를 그 회사 화면으로 옮긴다
+  const embedded = document.documentElement.classList.contains('embed') && window.parent !== window;
+  if (embedded) document.addEventListener('keydown', (e) => {   // ESC: 열린 안내 창부터, 없으면 RegRader 팝업을 닫는다
+    if (e.key !== 'Escape') return;
+    const dlg = document.querySelector('.rvdlg');
+    if (dlg) { dlg.remove(); return; }
+    try { if (window.parent.rrProClose) window.parent.rrProClose(); } catch (err) { /* 다른 출처면 그냥 둔다 */ }
+  });
   function rrOpen(url) {
     if (!url) return;
-    if (rrWin && !rrWin.closed) { rrWin.location.href = new URL(url, location.href).href; rrWin.focus(); }
-    else window.open(url, '_blank', 'noopener');
+    const abs = new URL(url, location.href).href;
+    if (embedded) { try { window.top.location.href = abs; return; } catch (e) { /* 다른 사이트에 끼워진 경우: 새 창으로 */ } }
+    if (rrWin && !rrWin.closed) { rrWin.location.href = abs; rrWin.focus(); }
+    else window.open(abs, '_blank', 'noopener');
     rrWin = null;
   }
   async function rrExport() {
     const p = profile();
-    try {   // 누르는 순간 새 창을 연다 (나중에 열면 브라우저가 팝업으로 막는다)
+    if (!embedded) try {   // 누르는 순간 새 창을 연다 (나중에 열면 브라우저가 팝업으로 막는다)
       rrWin = window.open('', '_blank');
       if (rrWin) rrWin.document.write('<meta charset="utf-8"><title>RegRader</title><p style="font:16px sans-serif;padding:40px;color:#334155">⏳ ' +
         String(p.name || '회사').replace(/[<>&]/g, '') + ' RegRader 화면을 만드는 중입니다…</p>');

@@ -185,9 +185,54 @@
     tracker: ['알림 · 기록', '대응 현황', 'check'],
     watch: ['알림 · 기록', '시행 임박', 'clock'],
     history: ['알림 · 기록', '업데이트 내역', 'history'],
-    intro: ['안내', '시스템 소개', 'slides'],
-    pro: ['안내', '기업별 적용법규 검색', 'search']
+    intro: ['안내', '시스템 소개', 'slides']
   };
+
+  /* ---------- 기업별 적용법규 검색 팝업 (RegRader Pro 브라우저판) ----------
+   * 사이드바 맨 위 버튼 · 주소 #pro 로 연다. 팝업 안에서 회사 검색 → 판정 → 'RegRader로 보내기'를 누르면
+   * 팝업이 닫히고 그 회사의 RegRader 화면으로 바로 넘어간다 (Pro 가 위 창을 그 주소로 옮긴다).
+   * 닫았다 다시 열면 하던 화면 그대로 (iframe 을 남겨 둔다) */
+  function proUrl() {
+    if (window.RR_PRO_URL) return window.RR_PRO_URL;
+    var p = location.pathname;
+    if (/\/pro\/site\//.test(p)) return '../?embed=1';   // 회사 RegRader 화면(브라우저판) 안에서
+    if (/\/rr\//.test(p)) return '/?embed=1';             // 맥 서버판 회사 화면 안에서
+    return './pro/?embed=1';
+  }
+  function proPop() {
+    var pop = document.getElementById('rr-pro-pop');
+    if (pop) return pop;
+    pop = document.createElement('div');
+    pop.id = 'rr-pro-pop';
+    pop.className = 'rr-pro-pop';
+    pop.setAttribute('role', 'dialog');
+    pop.setAttribute('aria-modal', 'true');
+    pop.setAttribute('aria-label', '기업별 적용법규 검색');
+    pop.innerHTML = '<div class="panel"><div class="bar"><b>🔎 기업별 적용법규 검색</b><small>회사 이름으로 찾아 적용법규를 판정하고, ‘RegRader로 보내기’로 그 회사의 모니터링 화면을 엽니다</small>' +
+      '<button type="button" class="x" aria-label="닫기">×</button></div><iframe title="기업별 적용법규 검색"></iframe></div>';
+    pop.addEventListener('click', function (e) { if (e.target === pop || e.target.closest('.x')) window.rrProClose(); });
+    document.body.appendChild(pop);
+    return pop;
+  }
+  window.rrProOpen = function () {
+    var pop = proPop(), f = pop.querySelector('iframe');
+    if (!f.getAttribute('src')) f.setAttribute('src', proUrl());
+    pop.classList.add('open');
+    document.documentElement.style.overflow = 'hidden';
+    nav(false);
+  };
+  window.rrProClose = function () {
+    var pop = document.getElementById('rr-pro-pop');
+    if (pop) pop.classList.remove('open');
+    document.documentElement.style.overflow = '';
+    if (location.hash === '#pro') try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) {}
+  };
+  document.addEventListener('keydown', function (e) {
+    var pop = document.getElementById('rr-pro-pop');
+    if (e.key === 'Escape' && pop && pop.classList.contains('open')) window.rrProClose();
+  });
+  function proFromHash() { if (location.hash === '#pro') window.rrProOpen(); }
+  window.addEventListener('hashchange', proFromHash);
   var ORDER = Object.keys(TABS);
   var cur = 'overview';
   function setTitle(tab) {
@@ -259,6 +304,7 @@
   }
   /* 주소에 탭이 있으면(#quarterly) 데이터가 준비된 뒤 그 탭을 연다 */
   function openFromHash() {
+    proFromHash();
     var t = (location.hash || '').slice(1);
     if (TABS[t] && t !== 'overview' && typeof window.switchMainTab === 'function') window.switchMainTab(t, { fromHistory: true });
   }
