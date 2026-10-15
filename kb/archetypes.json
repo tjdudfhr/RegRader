@@ -1718,6 +1718,37 @@
         "식품위생법",
         "양곡관리법"
       ]
+    },
+    {
+      "id": "elec_parts_b2b",
+      "name": "전자부품 · 소재 B2B 제조 (200명, 완제품 아님)",
+      "profile": {
+        "numbers": {
+          "employees": 200
+        },
+        "tags": [
+          "ind:electronics",
+          "site:factory"
+        ],
+        "denied": [
+          "listed",
+          "audited",
+          "group",
+          "act:emc",
+          "act:b2c"
+        ],
+        "regions": {
+          "provinces": [
+            "경기"
+          ]
+        }
+      },
+      "미적용": [
+        "전기용품 및 생활용품 안전관리법",
+        "전기ㆍ전자제품 및 자동차의 자원순환에 관한 법률",
+        "상가건물 임대차보호법",
+        "소상공인 생계형 적합업종 지정에 관한 특별법"
+      ]
     }
   ],
   "flips": [

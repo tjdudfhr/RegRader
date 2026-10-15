@@ -47,12 +47,14 @@ def run(ref, company, ref_admin=None):
             by_status[f.get("status", "적용")] = by_status.get(f.get("status", "적용"), 0) + 1
         law_total += len(r["laws"])
         law_hit += sum(1 for n in r["laws"] if lawapi.compact(n) in ours_law)
-    ours_adm = {lawapi.compact(a["name"]) for f in res["families"] for a in f["admin"] + f["adminMore"]}
-    ours_adm |= {lawapi.compact(n) for f in res["families"] for b in f["bundles"] for n in b["bundle"]}
+    apply = {lawapi.compact(a["name"]) for f in res["families"] for a in f["admin"]}
+    apply |= {lawapi.compact(n) for f in res["families"] for b in f["bundles"] for n in b["bundle"]}
+    review = {lawapi.compact(a["name"]) for f in res["families"] for a in f["adminMore"]} - apply
     adm = None
     if ref_admin:
-        hit = ours_adm & ref_admin
-        adm = {"recall": len(hit) / len(ref_admin), "ours": len(ours_adm), "ref": len(ref_admin), "hit": len(hit)}
+        hit, rhit = apply & ref_admin, review & ref_admin
+        adm = {"recall": len(hit) / len(ref_admin), "ours": len(apply), "ref": len(ref_admin), "hit": len(hit),
+               "review": len(review), "reviewHit": len(rhit), "missing": sorted(ref_admin - apply - review)}
     return {"company": hits[0]["name"], "profile": draft["profile"], "families": len(res["families"]),
             "laws": res["summary"]["laws"], "admin": res["summary"]["admin"], "adminTotal": res["summary"]["adminTotal"], "adm": adm,
             "familyRecall": len(found) / len(ref), "lawRecall": law_hit / max(law_total, 1), "missing": missing,
@@ -68,15 +70,15 @@ def main(argv):
     ref_admin = None
     if args[:1] == ["--admin"]:
         items = json.loads(open(args[1], encoding="utf-8").read())["items"]
-        ref_admin = {lawapi.compact(a.get("n") or a.get("name")) for a in items}
+        ref_admin = {lawapi.compact(a.get("n") or a.get("name")) for a in items if not a.get("g")}   # RegRader 가 따로 표시한 것(g)은 빼고
         args = args[2:]
     for company in args:
         r = run(ref, company, ref_admin)
         if not r:
             print(f"{company}: 찾지 못함")
             continue
-        print(f"== {r['company']}  계열 {r['families']} · 법령 {r['laws']} · 행정규칙 {r['adminTotal']} (추천 {r['admin']})"
-              f" · 합계 {r['laws'] + r['adminTotal']}")
+        print(f"== {r['company']}  계열 {r['families']} · 법령 {r['laws']} · 적용 행정규칙 {r['summary']['adminApply']}"
+              f" · 합계 {r['laws'] + r['summary']['adminApply']} (검토 필요 행정규칙 {r['summary']['adminReview']} 별도)")
         print(f"   기준 계열 {r['familyRecall']:.0%} · 기준 법령(시행령·규칙 포함) {r['lawRecall']:.0%} 포함"
               f" — 기준 계열의 판정: 적용 {r['foundBy']['적용']} · 추정 {r['foundBy']['추정']} · 확인 필요 {r['foundBy']['확인']}")
         bs = r["summary"].get("byStatus") or {}
@@ -84,7 +86,8 @@ def main(argv):
             print(f"   등록 법령 {r['summary']['registry']}개 판정: " + " · ".join(f"{k} {v}" for k, v in bs.items()))
         if r["adm"]:
             a = r["adm"]
-            print(f"   기준 행정규칙 {a['hit']}/{a['ref']} ({a['recall']:.0%}) 포함 · 기준에 없는 행정규칙 {a['ours'] - a['hit']}")
+            print(f"   기준 행정규칙 {a['ref']}개 중 적용 {a['hit']} ({a['recall']:.0%}) · 검토 필요 {a['reviewHit']} · 없음 {len(a['missing'])}"
+                  f" — 적용 {a['ours']}개 중 기준에 없는 것 {a['ours'] - a['hit']} · 검토 필요 {a['review']}개")
         for m in r["missing"]:
             print(f"   빠짐 [{m['category']}] {m['root']}")
     return 0
