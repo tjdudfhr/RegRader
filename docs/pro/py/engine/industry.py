@@ -92,7 +92,85 @@ def _rules(_mtime):
         if v["laws"]:
             out.append({"id": f"nts:{k}", "scope": "industry", "when": {"any": [f"nts:{k}"]}, "tier": "필수",
                         "why": f"업종 {k} {v['name']} — 이 업종의 인허가·규제 법령", "laws": [law(n) for n in v["laws"]]})
+    out.extend(tag_rules())
     return tuple(out)
+
+
+def tag_core(tag):
+    """업종 항목(예: ind:staffing) → (그 업종의 업종코드 묶음들, 기본 법규).
+    기본 법규 = 그 항목이 붙은 업종 묶음 전부에 공통인 법령 (업종마다 다른 법령은 넣지 않는다 — 업종코드로 고르면 정확히 붙는다)."""
+    doc = load()
+    gl = {}
+    for g, v in doc["groups"].items():
+        if tag in v.get("tags", []):
+            gl.setdefault(g, set()).update(v.get("laws", []))
+    for c, v in doc["codes"].items():
+        if tag in v.get("tags", []):
+            base = set() if v.get("only") else set(doc["groups"].get(c[:4], {}).get("laws", []))
+            gl.setdefault(c[:4], set()).update(base | set(v.get("laws", [])))
+    if not gl:
+        return [], []
+    common = set.intersection(*gl.values())
+    return sorted(gl), sorted(common)
+
+
+def _covered():
+    """정밀 규칙 · 현행 법률 분류표가 이미 조건으로 쓰는 항목 (묶음 이름은 풀어서)."""
+    from engine import universe as U
+    groups = json.loads((ROOT / "kb" / "facts.json").read_text(encoding="utf-8")).get("groups", {})
+    rules = json.loads((ROOT / "kb" / "rules.json").read_text(encoding="utf-8"))["rules"] + list(U.rules())
+    out = set()
+    for r in rules:
+        w = r.get("when") or {}
+        for k in ("any", "all"):
+            for x in w.get(k) or [] if isinstance(w, dict) else []:
+                if isinstance(x, str):
+                    out |= set(groups.get(x, [x]))
+    return out
+
+
+def tag_rules():
+    """업종 항목을 직접 골랐는데 기존 규칙에 그 항목으로 붙는 법령이 하나도 없을 때만 (예: 인력공급 → 파견법 · 직업안정법).
+    이미 세부 조건으로 맞춰 둔 업종 항목은 건드리지 않는다 (넓게 덮으면 오히려 틀린다 — 자체 점검의 유형별 정답이 잡는다).
+    회사 업종코드가 이미 그 업종 묶음이면 업종 표가 정확하니 붙이지 않는다."""
+    from engine.suggest import load_catalog
+    jobs = _jobs()
+    covered = _covered()
+    out = []
+    for sec in load_catalog()["sections"]:
+        for o in sec["options"]:
+            if not o["id"].startswith("ind:") or o["id"] in covered:
+                continue
+            groups, laws = tag_core(o["id"])
+            if not laws:
+                continue
+            out.append({"id": f"tag:{o['id']}", "scope": "industry", "tier": "필수",
+                        "when": {"any": [o["id"]], "none": [f"nts:{g}" for g in groups]},
+                        "why": f"업종 '{o['label']}' — 이 업종 전부에 공통인 인허가 · 규제 법령 (업종코드 표 기준)",
+                        "laws": [{"name": n, "job": jobs.get(lawapi.compact(n), "기타")} for n in laws]})
+    return out
+
+
+def code_list():
+    """국세청 업종코드 전부 → [{c 코드, n 이름, g 묶음, gn 묶음 이름, l 업종 법규, f 판정 사실, t 업종 태그}] (화면 '업종코드로 찾기').
+    공장 태그는 뺀다 (회사 찾기와 같이 — 업종만으로 공장이 있다고 보지 않는다. 공장은 '사업장'에서 고른다)."""
+    doc = load()
+    names = doc.get("names", {})
+    out = []
+    for code in sorted(names):
+        r = resolve(code)
+        if not r:
+            continue
+        out.append({"c": code, "n": names[code], "g": code[:4], "gn": doc["groups"].get(code[:4], {}).get("name", ""), "l": r["laws"],
+                    "f": r["facts"], "t": [t for t in r["tags"] if t != "site:factory"]})
+    return out
+
+
+def codes_doc():
+    """화면 '업종코드로 찾기' 자료: 업종코드 전부 + 업종 법규의 직무."""
+    codes = code_list()
+    jobs = _jobs()
+    return {"codes": codes, "jobs": {n: jobs.get(lawapi.compact(n), "기타") for n in sorted({n for c in codes for n in c["l"]})}}
 
 
 def parse_nts(hwpx):
