@@ -259,6 +259,14 @@ class DutyTest(unittest.TestCase):
                   "장애인고용촉진 및 직업재활법", "노동절 제정에 관한 법률"):
             self.assertIn(n, names)
 
+    def test_industry_codes_do_not_switch_off_confirmed_industry(self):
+        # 게임 회사(엔씨): 국민연금 업종코드(응용 소프트웨어)로 업종 사실을 다시 붙여도 게임산업진흥법이 꺼지지 않는다
+        from engine.suggest import normalize
+        from engine.classify import classify
+        p = normalize({"numbers": {"employees": 3000}, "tags": ["ind:it", "ind:game"], "industryCodes": ["722000"], "regions": {"provinces": ["경기"]}})
+        self.assertNotIn("nts:known", p["tags"])
+        self.assertEqual(classify(p, load_rules())[lawapi.compact("게임산업진흥에 관한 법률")]["status"], "적용")
+
     def test_factory_of_non_manufacturer_is_small(self):
         # IT 회사(2,000명)의 등록공장 하나로 회사 전체를 제조 공장처럼 보지 않는다
         from engine.suggest import normalize

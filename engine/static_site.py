@@ -294,11 +294,15 @@ def dart_pass(max_fail=10, limit=None, redo=False, log=print):
     if not todo:
         log("dart: 상장사 DART 근거 모두 있음")
         return 0
-    results, fails = {}, 0
+    results, fails, saved = {}, 0, 0
     for key in todo:
         _, res, err = _draft_one((key, True))
         if res and _dart_ok(res["draft"]):
             results[key], fails = res, 0
+            if len(results) >= 300:   # 중간에 끊겨도 만든 것은 남게 300곳마다 저장
+                _store(results, _listed_rows(list(results)), ix.get("minMembers", 30), merge=True, log=log)
+                saved += len(results)
+                results = {}
         else:
             fails += 1
             if fails >= max_fail:
@@ -306,8 +310,9 @@ def dart_pass(max_fail=10, limit=None, redo=False, log=print):
                 break
     if results:
         _store(results, _listed_rows(list(results)), ix.get("minMembers", 30), merge=True, log=log)
-    log(f"dart: 상장사 {len(todo)}곳 중 {len(results)}곳 DART 반영")
-    return len(results)
+    saved += len(results)
+    log(f"dart: 상장사 {len(todo)}곳 중 {saved}곳 DART 반영")
+    return saved
 
 
 ENGINE_FILES = ["__init__", "lawapi", "suggest", "classify", "universe", "industry"]
