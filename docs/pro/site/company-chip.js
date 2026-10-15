@@ -28,7 +28,7 @@
     /* 좁은 화면: 앱 바 안에는 자리가 없어 앱 바 바로 아래 한 줄(밝은 바탕)로 */
     '@media (max-width: 900px) { .rr-top-left .rr-co { display: none; }',
     '  .rr-co.m { display: flex; margin: 12px 14px 0; padding: 10px 12px; border: 1px solid var(--line, #e5e7eb); border-radius: 14px; background: var(--surface, #fff); }',
-    '  .rr-co.m b { color: var(--ink, #111827); font-size: 15px; } .rr-co.m small { color: var(--ink-3, #6b7280); }',
+    '  .rr-co.m b { color: var(--ink, #111827); font-size: 15px; } .rr-co.m small { color: var(--ink-3, #6b7280); white-space: normal; line-height: 1.35; }',
     '  .rr-co.m .tx { flex: 1; } .rr-co.m .go { color: var(--brand, #3056d3); background: var(--brand-soft, #eef2ff); border-color: transparent; }',
     '  .rr-co.m.miss small { color: #b45309; } }'
   ].join('\n');
