@@ -359,10 +359,13 @@
   .qpanel h3 small { color: var(--ink-3); font-weight: 500; font-size: 12px; margin-left: 6px; }
   .ask { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-top: 1px dashed var(--line-2); font-size: 13px; }
   .ask:first-of-type { border-top: 0; }
-  .ask .q { font-weight: 700; color: var(--ink); }
+  .ask .q { flex: 1 1 auto; min-width: 0; font-weight: 700; color: var(--ink); }   /* 긴 설명은 줄바꿈, 버튼은 한 줄 그대로 */
   .ask small { color: var(--ink-4); }
-  .ask .sp { flex: 1; }
+  .ask > small { flex: none; white-space: nowrap; }
+  .ask .sp { flex: 0 0 0; }
+  .ask .q small.why { display: block; margin: 2px 0 0; padding: 0; color: var(--ink-3); font-weight: 400; font-size: 12px; line-height: 1.45; }
   .ask input { width: 90px; height: 28px; border: 1px solid var(--line); border-radius: 7px; padding: 0 8px; }
+  .ask button { flex: none; white-space: nowrap; }
   .ask button, .stnote button { border: 1px solid var(--line); background: #fff; border-radius: 7px; padding: 3px 12px; font-weight: 700; cursor: pointer; font-size: 12.5px; }
   .ask button.yes { color: var(--must); border-color: #c9d6f7; }
   .ask button.no, .stnote button.no { color: var(--warn); border-color: #f3c9c4; }
