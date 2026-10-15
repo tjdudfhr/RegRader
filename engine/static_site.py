@@ -351,6 +351,7 @@ def web(dest, data_url=DATA_URL, log=print):
         (dest / name).write_text(t, encoding="utf-8")
     for name in ("static-api.js", "company-mode.js", "rr-static.js", "review-cloud.js"):
         shutil.copy2(ROOT / "web" / name, dest / name)
+    shutil.copy2(ROOT / "scripts" / "supabase_pro_reviews.sql", dest / "supabase_pro_reviews.sql")   # '처음 설정' 창이 보여 준다
     for n in ENGINE_FILES:
         shutil.copy2(ROOT / "engine" / f"{n}.py", dest / "py" / "engine" / f"{n}.py")
     for n in KB_FILES:
