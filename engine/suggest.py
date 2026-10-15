@@ -495,6 +495,10 @@ def suggest(profile, workers=4):
         return ({lawapi.compact(a["name"]) for f in fs for a in f["admin"]}
                 | {lawapi.compact(n) for f in fs for b in f["bundles"] for n in b["bundle"]})
 
+    def law_names(fs):
+        """적용 법령 수: 두 계열이 같이 쓰는 하위 법령(예: 특허권 등의 등록령)은 한 번만 — RegRader 회사 화면의 개수와 같게."""
+        return len({lawapi.compact(m["name"]) for f in fs for m in (f["members"] or [{"name": f["root"]}])})
+
     def adm_total(fs):
         return sum(len(f["admin"]) + len(f["adminMore"]) + sum(len(b["bundle"]) for b in f["bundles"]) for f in fs)
 
@@ -508,14 +512,14 @@ def suggest(profile, workers=4):
             "families": len(applied),
             "pending": len(pending),
             "notApplicable": len(not_app),
-            "laws": sum(len(f["members"]) or 1 for f in applied),
+            "laws": law_names(applied),
             "admin": sum(len(f["admin"]) for f in applied),
             "adminRelated": sum(len(f["adminMore"]) for f in applied),
             "adminTotal": adm_total(applied),
             # 적용 행정규칙 (추천 · 묶음) 과 검토 필요 (그 제도를 쓸 때만) — 화면 · 엑셀의 행정규칙 수는 '적용'
             "adminApply": len(adm_names(applied)),
             "adminReview": len({lawapi.compact(a["name"]) for f in applied for a in f["adminMore"]} - adm_names(applied)),
-            "pendingLaws": sum(len(f["members"]) or 1 for f in pending),
+            "pendingLaws": law_names(pending),
             "pendingAdmin": adm_total(pending),
             "byJob": by_job,
             "notFound": [f["root"] for f in merged if not f["verified"]],
