@@ -130,10 +130,12 @@ PRO_JS = """/* RegRader Pro 회사별 사본: 어느 회사 데이터인지 화�
 
 
 def build_site(force=False, log=print):
-    """out/regrader/_site/ : 커밋된 RegRader 화면 (회사 데이터 빼고). HEAD 가 같으면 다시 만들지 않는다."""
+    """out/regrader/_site/ : 커밋된 RegRader 화면 (회사 데이터 빼고). HEAD 와 회사 이름 표시(company-chip.js)가 같으면 다시 만들지 않는다."""
     head, tar = _archive()
+    chip_v = hashlib.sha1((ROOT / "web" / "company-chip.js").read_bytes()).hexdigest()[:8]
+    stamp = f"{head} {chip_v}"   # company-chip.js 만 바뀌어도 다시 만든다 (사본에 복사해 넣는 파일)
     mark = SITE / ".commit"
-    if not force and mark.exists() and mark.read_text().strip() == head:
+    if not force and mark.exists() and mark.read_text().strip() == stamp:
         return head
     tmp = SITE.with_name("_site.tmp")
     shutil.rmtree(tmp, ignore_errors=True)
@@ -159,7 +161,6 @@ def build_site(force=False, log=print):
         elif rel.suffix in (".html", ".js"):
             text = add_etc_job(tar.extractfile(m).read().decode("utf-8"))
             if rel.name == "index.html":
-                chip_v = hashlib.sha1((ROOT / "web" / "company-chip.js").read_bytes()).hexdigest()[:8]   # 바뀌면 브라우저가 새로 받게
                 text = text.replace("</body>", f'    <script src="./company-chip.js?v={chip_v}"></script>\n    <script src="./pro-company.js"></script>\n</body>', 1)
                 text = text.replace('data-src="./pro/?embed=1"', 'data-src="/?embed=1"')   # 기업별 적용법규 검색 탭: 이 서버의 Pro 화면
                 # 회사 사본은 매일 자동 수집하지 않는다 (RegRader Pro 에서 다시 보내면 새로 수집)
@@ -173,7 +174,7 @@ def build_site(force=False, log=print):
     missing = [s for s in SCRIPTS if not (tmp / "scripts" / s).exists()]
     if missing:
         raise RuntimeError(f"RegRader 저장소에 수집 스크립트가 없습니다: {', '.join(missing)}")
-    (tmp / ".commit").write_text(head)
+    (tmp / ".commit").write_text(stamp)
     shutil.rmtree(SITE, ignore_errors=True)
     tmp.rename(SITE)
     log(f"화면 사본: RegRader {head[:7]} · 파일 {n}개 → {SITE.relative_to(ROOT)}")
