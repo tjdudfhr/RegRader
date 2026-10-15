@@ -445,6 +445,16 @@
   @keyframes rr-drop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
   .card .body .src { display: inline-block; margin: 10px 0 0 27px; font-size: 12.5px; font-weight: 700; color: var(--brand); text-decoration: none; }
   .card .body .src:hover { text-decoration: underline; }
+  .adm h4 small { font-weight: 500; color: var(--ink-4); margin-left: 4px; }
+  .adm .rev { margin-top: 8px; padding: 6px 10px 4px; border-radius: 8px; background: var(--check-soft); }
+  .adm .rev h4 { color: var(--check); }
+  .ask.qa { align-items: flex-start; padding: 9px 0; }
+  .ask.qa .q { display: flex; flex-direction: column; gap: 2px; font-weight: 500; }
+  .ask.qa .q b { font-size: 13.5px; color: var(--ink); line-height: 1.45; }
+  .ask.qa .ql { align-self: flex-start; font-size: 11px; font-weight: 700; color: var(--check); background: #fff; border: 1px solid #f0d9b5; border-radius: 6px; padding: 0 6px; }
+  .ask small.hint { display: block; color: var(--ink-2); font-size: 12px; line-height: 1.45; }
+  .ask.qa small.why, .ask.qa small.lw { display: block; color: var(--ink-4); font-size: 11.5px; line-height: 1.4; margin: 0; padding: 0; }
+  .ask.qa button { margin-top: 2px; }
   .members a { font-size: 12px; color: var(--ink-3); background: var(--surface-2); border: 1px solid var(--line-2); border-radius: 6px; padding: 2px 8px; text-decoration: none; }
   .members a:hover { color: var(--brand); border-color: var(--brand); }
   .xall { height: 30px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--brand); font: 700 12.5px var(--font); cursor: pointer; }
@@ -589,6 +599,8 @@
   const opened = new Set();   // '더 보기'를 펼친 계열
   const dutyOpen = new Set(); // 의무를 모두 펼친 계열
   const cardOpen = new Set(); // 목록에서 눌러 아래로 펼친 법령
+  const userOn = new Set();   // 사용자가 직접 체크한 '검토 필요' 행정규칙 (다시 판정해도 그대로)
+  const ADM_N = 10;           // 법령마다 적용 행정규칙을 처음에 몇 개 보여 줄지 (나머지는 '더 보기')
   const OPT_TIP = '항목에 마우스를 올리면 관련 법령이 표로 자세히 보입니다 (직무 · 지금 판정 · 이 항목과의 관계). 누르면 바로 골라지고 아래 적용법규에 반영됩니다. 숫자는 관련 법령 수입니다.';
   let qOpen = false;          // 질문을 모두 펼침
   const DUTY_N = 4;
@@ -614,7 +626,8 @@
       getJSON('/api/catalog'),
       getJSON('/api/status').catch(() => ({ ai: false, jobs: [], company: { ready: false } })),
     ]);
-    for (const s of catalog.sections) for (const o of s.options) tagInfo[o.id] = { label: o.label, section: s.label };
+    for (const s of catalog.sections) for (const o of s.options) tagInfo[o.id] = { label: o.label, section: s.label, q: o.q, hint: o.hint };
+    for (const f of catalog.flags || []) tagInfo[f.id] = tagInfo[f.id] || { label: f.label, section: '기본 정보', q: f.q, hint: f.hint };
     $('#nums').innerHTML = catalog.numbers.map((n) => `<label class="f">${esc(n.label)} (${esc(n.unit)})
       <input id="n-${n.id}" type="number" min="0" placeholder="${esc(n.placeholder)}"><span class="hint" id="h-${n.id}"></span></label>`).join('');
     $('#provinces').innerHTML = catalog.regions.provinces.map((p) => chip(p, p, 'provinces')).join('');
@@ -1117,8 +1130,11 @@
       result = await post('/api/suggest', { profile: profile(), research: S.research, ai: false });
       off.clear(); opened.clear(); dutyOpen.clear(); if (!quiet) cardOpen.clear(); if (!keepTab) catFilter = '전체'; lawHits = []; lawMsg = null;
       for (const f of result.families) if (f.verdict === '해당 가능성 낮음' || f.status === '확인') off.add(famKey(f));
+      if (!quiet) userOn.clear();
+      for (const f of result.families) for (const a of f.adminMore) off.add(admKey(f, a));   // 검토 필요: 그 제도를 쓸 때만 → 기본으로 고르지 않음
       if (quiet) {   // 체크를 해제해 둔 것 · 펼쳐 둔 것은 그대로
         keepOff.forEach((k) => off.add(k)); keepOpen.forEach((k) => opened.add(k)); keepDuty.forEach((k) => dutyOpen.add(k));
+        userOn.forEach((k) => off.delete(k));
         if (rrState?.state === 'done') rrState = Object.assign({}, rrState, { state: 'changed' });   // 보낸 뒤 항목이 바뀌었다
       }
       stop();
@@ -1147,6 +1163,8 @@
       laws: fams.reduce((n, f) => n + (f.members.length || 1), 0),
       admin: fams.reduce((n, f) => n + f.admin.length, 0),
       adminTotal: fams.reduce((n, f) => n + f.admin.length + f.adminMore.length + f.bundles.reduce((m, b) => m + b.bundle.length, 0), 0),
+      adminApply: new Set(fams.flatMap((f) => f.admin.map((a) => compact(a.name)).concat(f.bundles.flatMap((b) => b.bundle.map(compact))))).size,
+      adminReview: new Set(fams.flatMap((f) => f.adminMore.map((a) => compact(a.name)))).size,
       byCategory: by,
     });
   }
@@ -1162,11 +1180,18 @@
         rows.push({ ...base, type: '법령', name: m.name, kind: m.kind || m.level, matched: '', duties: i === 0 ? duties : '' });
       });
       for (const a of f.admin) if (!off.has(admKey(f, a))) rows.push({ ...base, type: '행정규칙', name: a.name, kind: a.kind, matched: (a.matched || []).join(', ') });
-      for (const a of f.adminMore) if (!off.has(admKey(f, a))) rows.push({ ...base, type: '행정규칙', name: a.name, kind: a.kind, matched: '관련' });
+      for (const a of f.adminMore) if (!off.has(admKey(f, a))) rows.push({ ...base, type: '행정규칙', name: a.name, kind: a.kind, matched: '검토 필요' });
       for (const b of f.bundles) if (!off.has(admKey(f, b))) for (const n of b.bundle) rows.push({ ...base, type: '행정규칙', name: n, kind: '고시', matched: '묶음' });
     }
     return rows;
   }
+
+  /* 지금 고른(체크한) 법령 · 행정규칙 수 — RegRader 로 보내고 엑셀로 받는 것 */
+  function selCounts() {
+    const rows = selectedRows();
+    return { laws: rows.filter((r) => r.type === '법령').length, adm: new Set(rows.filter((r) => r.type === '행정규칙').map((r) => r.name)).size };
+  }
+  const admApply = (sm) => sm.adminApply ?? sm.adminTotal ?? sm.admin;
 
   function admRow(f, a, checked) {
     const key = admKey(f, a);
@@ -1193,7 +1218,8 @@
       : kind === 'number'
         ? `<input type="number" min="0" data-num="${esc(fact)}" placeholder="${fact === 'employees' ? '명' : '억원'}"><button type="button" class="yes" data-numsave="${esc(fact)}">저장</button>`
         : '<small>왼쪽에서 시·도를 고르세요</small>';
-    return `<div class="ask"><span class="q">${esc(factLabel(fact))}${kind === 'yesno' ? ' — 해당합니까?' : ''}</span>
+    const t = tagInfo[fact] || {};
+    return `<div class="ask"><span class="q">${kind === 'yesno' && t.q ? `<b>${esc(t.q)}</b>${t.hint ? ` <small class="hint">${esc(t.hint)}</small>` : ''}` : esc(factLabel(fact)) + (kind === 'yesno' ? ' — 해당합니까?' : '')}</span>
       ${laws ? `<small title="${esc(laws.join(', '))}">법령 ${laws.length}개 판정</small>` : ''}<span class="sp"></span>${btns}</div>`;
   }
 
@@ -1220,8 +1246,9 @@
     const subs = f.members.slice(1);
     const showMore = opened.has(f.root);
     const open = cardOpen.has(f.root);
-    const nAdm = f.admin.length + f.adminMore.length + f.bundles.reduce((n, b) => n + b.bundle.length, 0);
-    const cnt = [subs.length ? `하위 ${subs.length}` : '', nAdm ? `행정규칙 ${nAdm}` : '', (f.duties || []).length ? `의무 ${f.duties.length}` : ''].filter(Boolean).join(' · ');
+    const nAdm = f.admin.length + f.bundles.reduce((n, b) => n + b.bundle.length, 0), nRev = f.adminMore.length;
+    const cnt = [subs.length ? `하위 ${subs.length}` : '', nAdm ? `행정규칙 ${nAdm}` : '', nRev ? `검토 ${nRev}` : '', (f.duties || []).length ? `의무 ${f.duties.length}` : ''].filter(Boolean).join(' · ');
+    const adms = showMore ? f.admin : f.admin.slice(0, ADM_N);
     return `<div class="card ${off.has(k) ? 'off' : ''} ${open ? 'open' : ''}" data-root="${esc(f.root)}">
       <div class="head" title="${esc(f.reasons.join(' / '))}">
         <input type="checkbox" data-key="${esc(k)}" ${off.has(k) ? '' : 'checked'} aria-label="${esc(f.root)} 선택">
@@ -1240,13 +1267,13 @@
       ${dutyBox(f)}
       ${f.verified ? '' : '<div class="warn">법제처에서 이 이름을 찾지 못했습니다. 법령명을 확인해 주세요.</div>'}
       ${subs.length ? `<div class="members">${subs.map((m) => `<a href="${LAW_URL(m.name)}" target="_blank" rel="noopener">${esc(m.name)}</a>`).join('')}</div>` : ''}
-      ${(f.admin.length || f.bundles.length || f.adminMore.length) ? `<div class="adm">
-        <h4>${f.admin.length || f.bundles.length ? `추천 행정규칙${f.adminMore.length ? ` · 관련 ${f.adminMore.length}개 포함 총 ${nAdm}개` : ''}` : '관련 행정규칙'}</h4>
-        ${f.admin.map((a) => admRow(f, a, !off.has(admKey(f, a)))).join('')}
+      ${(nAdm || nRev) ? `<div class="adm">
+        ${nAdm ? `<h4>적용 행정규칙 ${nAdm}개 <small>이 법령 아래 고시 · 훈령 · 예규 중 회사에 해당하는 것 (기관 내부용 · 다른 업종 · 다른 지역 · 지난 연도 것은 뺐습니다)</small></h4>
         ${f.bundles.map((b) => `${admRow(f, b, !off.has(admKey(f, b)))}<details class="bundle"><summary>${b.bundle.length}종 보기</summary>${b.bundle.map(esc).join('<br>')}</details>`).join('')}
-        ${f.adminMore.length ? (showMore
-          ? f.adminMore.map((a) => admRow(f, a, !off.has(admKey(f, a)))).join('') + `<button type="button" class="more" data-more="${esc(f.root)}">접기</button>`
-          : `<button type="button" class="more" data-more="${esc(f.root)}">관련 행정규칙 ${f.adminMore.length}개 보기 (선택됨 ${f.adminMore.filter((a) => !off.has(admKey(f, a))).length})</button>`) : ''}
+        ${adms.map((a) => admRow(f, a, !off.has(admKey(f, a)))).join('')}
+        ${f.admin.length > ADM_N ? `<button type="button" class="more" data-more="${esc(f.root)}">${showMore ? '접기' : `적용 행정규칙 ${f.admin.length - ADM_N}개 더 보기`}</button>` : ''}` : ''}
+        ${nRev ? `<div class="rev"><h4>검토 필요 ${nRev}개 <small>지원 · 융자 · 인증처럼 그 제도를 쓸 때만 해당합니다 — 쓰고 있으면 체크하세요</small></h4>
+          ${f.adminMore.map((a) => admRow(f, a, !off.has(admKey(f, a)))).join('')}</div>` : ''}
       </div>` : ''}
       <a class="src" href="${LAW_URL(f.root)}" target="_blank" rel="noopener">국가법령정보센터에서 ${esc(f.root)} 원문 보기 ↗</a>
       </div>
@@ -1275,11 +1302,11 @@
 
   /* AI가 찾아낸 적용법규: 합계 하나 + 직무별 수 (누르면 그 직무 목록으로) */
   function foundBox(jobs) {
-    const sm = result.summary, bs = sm.byStatus || {}, adm = sm.adminTotal ?? sm.admin;
+    const sm = result.summary, bs = sm.byStatus || {}, adm = admApply(sm), rev = sm.adminReview || 0;
     return `<div class="panel found">
       <h3 class="ph">AI가 찾아낸 적용법규 <small>현행 법률 ${(sm.registry || 0).toLocaleString()}개를 모두 판정한 결과</small></h3>
-      <div class="big"><b>${(sm.laws + adm).toLocaleString()}</b><span>적용법규 = 법령 ${sm.laws.toLocaleString()} + 행정규칙 ${adm.toLocaleString()}</span>
-        <em>법령 계열 ${(bs['적용'] || 0) + (bs['추정'] || 0)}개 (그중 추정 ${bs['추정'] || 0}) · 미적용 ${(bs['미적용'] || 0).toLocaleString()}</em></div>
+      <div class="big"><b>${(sm.laws + adm).toLocaleString()}</b><span>적용법규 = 법령 ${sm.laws.toLocaleString()} + 적용 행정규칙 ${adm.toLocaleString()}</span>
+        <em>법령 계열 ${(bs['적용'] || 0) + (bs['추정'] || 0)}개 (그중 추정 ${bs['추정'] || 0}) · 미적용 ${(bs['미적용'] || 0).toLocaleString()}${rev ? ` · 검토 필요 행정규칙 ${rev.toLocaleString()}개 별도 (지원 · 융자 · 인증 제도 — 쓰면 체크)` : ''}</em></div>
     </div>`;
   }
 
@@ -1287,14 +1314,20 @@
   function presumeBox() {
     const qs = result.questions || [], ps = result.presumptions || [], rv = result.reviews || [];
     const od = (S.research && S.research.opendart) || null;
-    const row = (x, yesLabel, noLabel, why) => `<div class="ask"><span class="q">${esc(x.label)}${why ? ` <small class="why">${esc(why)}</small>` : ''}</span>
-      <small title="${esc(x.laws.join(', '))}">법령 ${x.laws.length}개</small><span class="sp"></span>
-      <button type="button" class="yes" data-ans="${esc(x.fact)}" data-v="1">${yesLabel}</button><button type="button" class="no" data-ans="${esc(x.fact)}" data-v="0">${noLabel}</button></div>`;
+    /* 사실 하나를 구체적인 질문으로: 무엇을 묻는지 · '예'의 기준 · 왜 그렇게 추정했는지 · 답에 따라 바뀌는 법령 */
+    const row = (x, yesLabel, noLabel, why) => {
+      const t = tagInfo[x.fact] || {}, laws = x.laws || [];
+      return `<div class="ask qa"><div class="q"><span class="ql">${esc(x.label)}</span><b>${esc(t.q || x.label + ' — 해당합니까?')}</b>
+        ${t.hint ? `<small class="hint">${esc(t.hint)}</small>` : ''}
+        ${why ? `<small class="why">${esc(why)}</small>` : ''}
+        ${laws.length ? `<small class="lw" title="${esc(laws.join(', '))}">답에 따라 바뀌는 법령 ${laws.length}개: ${esc(laws.slice(0, 4).join(', '))}${laws.length > 4 ? ' 외' : ''}</small>` : ''}</div>
+        <span class="sp"></span><button type="button" class="yes" data-ans="${esc(x.fact)}" data-v="1">${yesLabel}</button><button type="button" class="no" data-ans="${esc(x.fact)}" data-v="0">${noLabel}</button></div>`;
+    };
     return `${od && od.report ? `<p class="src">DART: ${esc(od.corp)} <a href="${esc(od.report.url)}" target="_blank" rel="noopener">${esc(od.report.report)}</a> 본문 · 직원 현황과 공공데이터로 확인했습니다.</p>` : ''}
       ${qs.length ? `<div class="bsec"><h4>입력이 필요한 값 ${qs.length}개 <small>공공데이터에 없어 판정할 수 없습니다</small></h4>${qs.map((q) => askRow(q.fact, q.laws)).join('')}</div>` : ''}
       ${ps.length ? `<div class="verify"><h4>AI가 추정한 사실 ${ps.length}개 — 맞는지 확인해 주세요</h4>
         <p>공시 · 공공데이터에 직접 나오지 않아 회사 규모 · 업종으로 추정한 사실입니다. 틀리면 ‘아님’을 누르세요. 적용법규가 바로 다시 판정됩니다.</p>
-        ${ps.map((x) => row(x, '맞음', '아님', x.why ? '근거: ' + x.why : '')).join('')}</div>` : ''}
+        ${ps.map((x) => row(x, '맞음', '아님', x.why ? '이렇게 추정한 이유: ' + x.why : '')).join('')}</div>` : ''}
       ${rv.length ? `<div class="bsec"><details><summary>‘아니오’로 봤지만 경계에 있는 사실 ${rv.length}개 — 해당하면 ‘예’</summary>${rv.slice(0, 5).map((x) => row(x, '예', '아니오 확정', '')).join('')}</details></div>` : ''}`;
   }
 
@@ -1343,7 +1376,7 @@
   /* RegRader 로 내보내기: 선택한 적용법규로 RegRader(현행 시스템) 데이터를 만들고 분기별·직무별 화면을 연다 */
   let rrState = null, rrTimer = null;
   function rrBox() {
-    const st = rrState, p = profile(), sm = result.summary, adm = sm.adminTotal ?? sm.admin;
+    const st = rrState, p = profile(), sel = selCounts();
     const running = st?.state === 'running', done = st?.state === 'done';
     let msg = '이 회사 적용법규로 RegRader 모니터링 화면(종합 · 분기별 · 직무별 · 적용법규)을 만듭니다.';
     let bar = '';
@@ -1364,7 +1397,7 @@
       ? `<a class="go" href="${esc(st.url)}" target="_blank" rel="noopener">RegRader 화면 열기 →</a><button type="button" class="sec" data-rrx="1">다시 보내기</button>`
       : `<button type="button" class="go" data-rrx="1" ${running ? 'disabled' : ''}>RegRader로 보내기 →</button>`;
     return `<div class="rrx" role="region" aria-label="RegRader로 보내기">
-      <div class="co"><small>지금 판정한 회사</small><b>${esc(p.name || '직접 입력한 회사')}</b><span>적용법규 ${sm.laws} + 행정규칙 ${adm}</span></div>
+      <div class="co"><small>지금 판정한 회사</small><b>${esc(p.name || '직접 입력한 회사')}</b><span>보낼 것: 법령 ${sel.laws.toLocaleString()} + 행정규칙 ${sel.adm.toLocaleString()} (체크한 것)</span></div>
       <div class="acts">${go}<button type="button" class="sec" data-xlsx="1" title="이 회사의 적용법규 · 행정규칙 · 미적용 이유를 엑셀로">엑셀로 받기</button></div>
       <div class="msg">${msg} · <a href="./companies.html" target="_blank" rel="noopener">보낸 회사 목록</a></div>${bar}</div>`;
   }
@@ -1394,7 +1427,7 @@
       }));
       const adm = rows.filter((r) => r.type === '행정규칙').map((r, i) => ({
         '번호': i + 1, '직무': r.category, '법령 계열': r.family, '행정규칙명': r.name, '종류': r.kind,
-        '구분': r.matched === '관련' ? '관련' : r.matched === '묶음' ? '묶음' : '추천', '맞은 낱말': ['관련', '묶음'].includes(r.matched) ? '' : r.matched,
+        '구분': r.matched === '검토 필요' ? '검토 필요 (직접 고름)' : r.matched === '묶음' ? '적용 (묶음)' : '적용', '맞은 낱말': ['검토 필요', '묶음'].includes(r.matched) ? '' : r.matched,
       }));
       const no = (result.notApplicable || []).map((x, i) => ({
         '번호': i + 1, '직무': x.job, '법령': x.root, '미적용 이유': (x.reasons || []).join(' / ') || x.scopeLabel || '',
@@ -1487,7 +1520,6 @@
     let banner = '';
     if (result.aiError) banner = `<div class="banner bad">AI 판단을 하지 못해 규칙 결과만 보여 드립니다. ${esc(result.aiError)}</div>`;
     else if (result.ai) banner = '<div class="banner ai">AI가 법령마다 직무와 적용 여부를 판단했습니다.</div>';
-    const admTotal = s.adminTotal ?? s.admin;
     $('#rrx-slot').innerHTML = rrBox();
     $('#found-slot').innerHTML = foundBox(jobs);
     optDetail();
@@ -1611,6 +1643,7 @@
     const k = e.target.dataset?.key;
     if (!k || !result) return;
     e.target.checked ? off.delete(k) : off.add(k);
+    e.target.checked ? userOn.add(k) : userOn.delete(k);
     render();
   });
 
