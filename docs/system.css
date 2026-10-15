@@ -1222,6 +1222,8 @@ body > .container > .header .settings-btn.rr-pro-mini { display: none !important
 .rr-find .in { display: flex; align-items: center; gap: 12px; padding: 0 18px; height: 64px; border-bottom: 1px solid var(--line, #e5e7eb); cursor: text; }
 .rr-find .in svg { flex: none; width: 22px; height: 22px; stroke: var(--brand, #3056d3); fill: none; stroke-width: 2.3; stroke-linecap: round; }
 .rr-find .in input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font: 600 18px/1 var(--font); color: var(--ink, #111827); letter-spacing: -0.01em; }
+.rr-find .in input:focus, .rr-find .in input:focus-visible { outline: none !important; box-shadow: none !important; border: 0 !important; }
+.rr-find .in:focus-within { box-shadow: inset 0 -2px 0 var(--brand, #3056d3); }
 .rr-find .in input::placeholder { color: var(--ink-4, #9ca3af); font-weight: 500; }
 .rr-find .in input::-webkit-search-cancel-button { display: none; }
 .rr-find .in kbd { flex: none; font: 700 11px/1 var(--font); color: var(--ink-3, #6b7280); padding: 5px 7px; border-radius: 6px; border: 1px solid var(--line, #e5e7eb); background: var(--canvas, #f3f4f6); }

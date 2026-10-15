@@ -280,11 +280,11 @@
       var me = new URLSearchParams(location.search).get('company');
       var list = recent().filter(function (r) { return r.slug !== me; }).slice(0, 6);
       var h = '';
-      if (IN_CO) h += '<div class="sec">지금 보는 화면</div>' + rowHtml('data-home="1"', '당사 RegRader 화면으로', '', '우리 회사 적용법규(등록부) 기준 화면으로 돌아갑니다', '↩');
+      if (IN_CO) h += '<div class="sec">지금 보는 화면</div>' + rowHtml('data-rf-home="1"', '당사 RegRader 화면으로', '', '우리 회사 적용법규(등록부) 기준 화면으로 돌아갑니다', '↩');
       if (list.length) {
         h += '<div class="sec">최근 본 회사 <small>바로 열립니다</small></div>' + list.map(function (r) {
           var n = (r.laws != null ? '법령 ' + Number(r.laws).toLocaleString() + ' · 행정규칙 ' + Number(r.admin || 0).toLocaleString() + ' · ' : '') + (r.at || '') + ' 판정';
-          return rowHtml('data-slug="' + escH(r.slug) + '" data-key="' + escH(r.key) + '"', escH(r.name), '', escH(n), '열기');
+          return rowHtml('data-rf-slug="' + escH(r.slug) + '" data-rf-key="' + escH(r.key) + '"', escH(r.name), '', escH(n), '열기');
         }).join('');
       }
       if (!h) h = '<p class="msg">회사 이름을 두 글자 이상 넣으면 바로 찾습니다. 고르면 적용법규를 판정해 그 회사의 RegRader 화면을 엽니다.</p>';
@@ -298,7 +298,7 @@
     function search(q) {
       q0 = q;
       if (q.trim().length < 2) return idle();
-      if (!rows.length || !body.querySelector('.row[data-pick]')) paint('<p class="msg"><span class="spin"></span>회사 목록을 불러오는 중…</p>');
+      if (!rows.length || !body.querySelector('.row[data-rf-pick]')) paint('<p class="msg"><span class="spin"></span>회사 목록을 불러오는 중…</p>');
       engine().then(function (w) { return w.rrProApi.search(q, 8); }).then(function (res) {
         if (q !== q0) return;
         if (!res.length) return paint('<p class="msg">‘' + escH(q) + '’ 에 맞는 회사가 없습니다. 이름을 조금 다르게 넣거나, 아래 ‘직접 입력’으로 판정하세요.</p>');
@@ -306,7 +306,7 @@
           var badge = c.listedAs ? escH((c.listedAs.market || '상장') + ' ' + (c.listedAs.code || '')) : '';
           var sub = [c.industry && c.industry.name, c.employees ? '국민연금 ' + Number(c.employees).toLocaleString() + '명' : '',
             c.factoryCount ? '공장 ' + c.factoryCount + '곳' : '', (c.address || '').split(' ').slice(0, 2).join(' ')].filter(Boolean).map(escH).join(' · ');
-          return rowHtml('data-pick="' + escH(c.key) + '" data-name="' + escH(c.name) + '"', hl(c.name, q), badge, sub, '판정');
+          return rowHtml('data-rf-pick="' + escH(c.key) + '" data-rf-name="' + escH(c.name) + '"', hl(c.name, q), badge, sub, '판정');
         }).join(''));
       }, function (e) {
         if (q === q0) paint('<p class="msg err">' + escH(e.message) + '</p>');
@@ -350,9 +350,9 @@
     }
     function choose(r) {
       if (!r) return;
-      if (r.dataset.home) return soft(homeUrl());
-      if (r.dataset.slug) return soft(coSite() + '?company=' + encodeURIComponent(r.dataset.slug) + (r.dataset.key ? '&key=' + encodeURIComponent(r.dataset.key) : ''));
-      if (r.dataset.pick) pick(r.dataset.pick, r.dataset.name);
+      if (r.dataset.rfHome) return soft(homeUrl());
+      if (r.dataset.rfSlug) return soft(coSite() + '?company=' + encodeURIComponent(r.dataset.rfSlug) + (r.dataset.rfKey ? '&key=' + encodeURIComponent(r.dataset.rfKey) : ''));
+      if (r.dataset.rfPick) pick(r.dataset.rfPick, r.dataset.rfName);
     }
     input.addEventListener('input', function () { clearTimeout(timer); var q = input.value; timer = setTimeout(function () { search(q); }, 140); });
     input.addEventListener('keydown', function (e) {
@@ -366,7 +366,8 @@
       }
     });
     body.addEventListener('mousemove', function (e) { var r = e.target.closest('.row'); if (r) { var i = rows.indexOf(r); if (i >= 0 && i !== at) mark(i); } });
-    body.addEventListener('click', function (e) { choose(e.target.closest('.row')); });
+    // 사이트의 다른 클릭 처리(법령 목록 등)가 가로채지 않게 먼저 받는다
+    body.addEventListener('click', function (e) { var r = e.target.closest('.row'); if (!r) return; e.stopPropagation(); choose(r); });
     el.addEventListener('mousedown', function (e) { if (e.target === el) window.rrProClose(); });
     el.rrIdle = idle;
     document.body.appendChild(el);
