@@ -607,7 +607,8 @@
   const STATUS = { '적용': '적용', '추정': '적용(추정)', '확인': '확인 필요', '미적용': '미적용' };
   const FLAG_IDS = new Set(['listed', 'audited', 'group']);
   // 거의 모든 회사가 해당 — 묻지 않고 '예'로 둔다 (아니면 확인한 사실에서 × 로 빼면 '해당 없음'으로 기억)
-  const DEFAULT_YES = { 'site:owned': '사업장 건물 · 토지를 소유 (거의 모든 회사)', 'eq:vehicle': '업무용 차량 보유 · 운행 (거의 모든 회사)' };
+  const DEFAULT_YES = { 'site:owned': '사업장 건물 · 토지를 소유 (거의 모든 회사)', 'eq:vehicle': '업무용 차량 보유 · 운행 (거의 모든 회사)',
+    'eq:diesel': '경유 차량 보유 (화물차 · 승합차 등)' };
   function addDefaults() {
     for (const id of Object.keys(DEFAULT_YES)) if (!S.denied.has(id) && !S.tags.has(id)) {
       S.tags.add(id);
