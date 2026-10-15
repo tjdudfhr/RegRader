@@ -255,9 +255,21 @@ class DutyTest(unittest.TestCase):
         base = next(r for r in load_rules() if r["id"] == "base-labor")
         names = {law["name"] for law in base["laws"]}
         for n in ("근로기준법", "최저임금법", "근로자퇴직급여 보장법", "국민연금법", "국민건강보험법", "고용보험법",
-                  "산업재해보상보험법", "고용보험 및 산업재해보상보험의 보험료징수 등에 관한 법률", "임금채권보장법",
+                  "산업재해보상보험법", "고용보험 및 산업재해보상보험의 보험료징수 등에 관한 법률",
                   "장애인고용촉진 및 직업재활법", "노동절 제정에 관한 법률"):
             self.assertIn(n, names)
+
+    def test_only_laws_that_make_the_company_act(self):
+        # 적용법규 = 회사를 직접 구속하고 그 법 때문에 회사가 행위를 해야 하는 법.
+        # 다른 보험료와 함께 걷히는 부담금 · 징수 · 처벌 절차 · 권리법 · 일반 기본법은 적용하지 않는다 (미적용 이유로 보인다)
+        from engine.classify import classify
+        p = {"numbers": {"employees": 3000}, "flags": ["listed", "audited"], "tags": ["site:factory", "act:brand"], "regions": {"provinces": ["경기"]}}
+        cls = classify(p, load_rules())
+        for n in ("임금채권보장법", "노인장기요양보험법", "석면피해구제법", "국세징수법", "지방세징수법", "지방세기본법", "조세범 처벌법",
+                  "지방세특례제한법", "상표법", "통신비밀보호법", "민법", "상업등기법", "공직선거법", "공휴일에 관한 법률"):
+            self.assertEqual(cls[lawapi.compact(n)]["status"], "미적용", n)
+        for n in ("근로기준법", "국세기본법", "부가가치세법", "소득세법", "법인세법", "지방세법", "예비군법", "병역법", "민방위기본법"):
+            self.assertIn(cls[lawapi.compact(n)]["status"], ("적용", "추정"), n)
 
 
 class DartNameTest(unittest.TestCase):
