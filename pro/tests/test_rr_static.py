@@ -81,6 +81,12 @@ class BuildTest(unittest.TestCase):
         out = R.build(FAMS, "가회사", u)
         self.assertEqual([r for i in range(8) for r in out[f"m{i}.json"] if r.get("k")], [])
 
+    def test_same_name_admin_in_two_families_kept_once(self):
+        fams = [dict(FAMS[0], admin=[{"id": "A1", "name": "가 고시"}]),
+                {"root": "나법", "category": "기타", "status": "적용", "members": [{"name": "나법", "level": "법률"}],
+                 "admin": [{"id": "A9", "name": "가 고시"}], "adminMore": [], "bundles": []}]
+        self.assertEqual(R.keep_ids(fams), {"A1": ("가법", "안전")})   # 같은 이름은 먼저 나온 계열 것 하나만
+
     def test_filter_amend_renumbers_reasons(self):
         doc = {"reasons": ["r0", "r1", "r2"], "items": {"가법|2026-01-01|일": {"r": 2}, "나법|2026-02-01|일": {"r": 1}}}
         out = R.filter_amend(doc, R.amend_keys(self.out))
@@ -120,6 +126,11 @@ class JsSameAsPythonTest(unittest.TestCase):
 
     def test_same_basic(self):
         self.check(FAMS, universe())
+
+    def test_same_name_dedupe_same_as_python(self):
+        fams = FAMS + [{"root": "나법", "category": "기타", "status": "적용", "members": [{"name": "나법", "level": "법률"}],
+                        "admin": [{"id": "A2", "name": "가 고시"}], "adminMore": [], "bundles": []}]
+        self.check(fams, universe())
 
     def test_same_with_extra_and_dedupe(self):
         u = universe()

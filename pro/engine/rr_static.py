@@ -75,7 +75,7 @@ def base_items(families, ubase):
 
 def keep_ids(families, tree_names=None):
     """Pro 가 고른 행정규칙 (추천 · 관련 · 묶음) → {ID: (계열, 직무)}. 묶음은 이름으로 ID 를 찾는다 (tree_names: 이름 → ID)."""
-    keep = {}
+    keep, names = {}, set()
     for f in families:
         chosen = list(f.get("admin") or []) + list(f.get("adminMore") or [])
         for b in f.get("bundles") or []:
@@ -85,8 +85,14 @@ def keep_ids(families, tree_names=None):
                     chosen.append({"id": rid, "name": n})
         for a in chosen:
             rid = str(a.get("id") or "")
-            if rid and not rid.startswith("bundle:"):
-                keep.setdefault(rid, (f["root"], _job(f)))
+            if not rid or rid.startswith("bundle:") or rid in keep:
+                continue
+            # 이름이 같은 행정규칙이 여러 계열에 따로 있으면(예: 법인세법 · 소득세법의 같은 이름 고시) 먼저 나온 계열 것 하나만 — Pro 화면의 개수(이름 기준)와 같게
+            n = compact(a.get("name") or "")
+            if n and n in names:
+                continue
+            names.add(n)
+            keep[rid] = (f["root"], _job(f))
     return keep
 
 

@@ -57,7 +57,7 @@
   }
 
   function keepIds(families, treeNames) {
-    var keep = {};
+    var keep = {}, names = {};
     families.forEach(function (f) {
       var chosen = (f.admin || []).concat(f.adminMore || []);
       (f.bundles || []).forEach(function (b) {
@@ -68,7 +68,11 @@
       });
       chosen.forEach(function (a) {
         var rid = String(a.id || '');
-        if (rid && rid.indexOf('bundle:') !== 0 && !(rid in keep)) keep[rid] = [f.root, job(f)];
+        if (!rid || rid.indexOf('bundle:') === 0 || rid in keep) return;
+        var n = compact(a.name);   // 이름이 같은 행정규칙은 먼저 나온 계열 것 하나만 (engine/rr_static.py 와 같게)
+        if (n && names[n]) return;
+        names[n] = 1;
+        keep[rid] = [f.root, job(f)];
       });
     });
     return keep;
