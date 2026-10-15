@@ -1177,7 +1177,9 @@ body .rr-side-foot .rr-trk-who button + button { margin-left: 2px !important; }
 .rr-intro-meta { display: flex; align-items: center; gap: 6px; font-size: 13.5px; color: var(--ink-3); }
 .rr-intro-meta b { color: var(--ink); font-weight: 800; }
 .rr-intro-meta .ri { width: 15px; height: 15px; }
-.rr-intro-meta .rr-intro-new { margin-left: 4px; padding: 2px 7px; border-radius: 6px; font-size: 11px; font-weight: 800; letter-spacing: .04em; color: #fff; background: linear-gradient(135deg, #3d6bff, #6a4bff); }
+.rr-intro-meta { flex-wrap: wrap; row-gap: 6px; white-space: nowrap; }
+.rr-intro-meta .rr-intro-add { display: inline-flex; align-items: center; gap: 6px; margin-left: 8px; }
+.rr-intro-meta .rr-intro-new { padding: 2px 7px; border-radius: 6px; font-size: 11px; font-weight: 800; letter-spacing: .04em; color: #fff; background: linear-gradient(135deg, #3d6bff, #6a4bff); }
 
 /* ---------- 기업별 적용법규 검색: 사이드바 맨 위 버튼 → 팝업 (RegRader Pro 브라우저판) ---------- */
 .rr-pro-cta { display: flex; align-items: center; gap: 12px; width: calc(100% - 24px); margin: 14px 12px 2px; padding: 12px 14px; border: 0; border-radius: 14px; cursor: pointer; text-align: left;
