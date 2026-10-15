@@ -2,14 +2,15 @@
 
 사이트의 **안내 › 시스템 소개** 탭(`docs/intro/`)에 올라간 설명 영상과 PDF의 원본이다.
 
-- `slides/regrader-intro/index.tsx` — 14장짜리 슬라이드 ([open-slide](https://www.npmjs.com/package/@open-slide/core) 형식, 발표자 노트 포함)
-  - 1–10쪽: 시스템 소개, 11–13쪽: 사용법(실제 사이트 화면 위에서 커서 · 강조 · 확대), 14쪽: 마무리
-  - `assets/use-*.jpg` 사용법 화면 (2026-10-05 데이터 시점 사이트)
+- `slides/regrader-intro/index.tsx` — 16장짜리 슬라이드 ([open-slide](https://www.npmjs.com/package/@open-slide/core) 형식, 발표자 노트 포함)
+  - 1–10쪽: 시스템 소개, 11–13쪽: 사용법(실제 사이트 화면 위에서 커서 · 강조 · 확대),
+    14–15쪽: 새 기능 '기업별 적용법규 검색'(RegRader Pro) 소개 · 사용법, 16쪽: 마무리
+  - `assets/use-a..f-*.jpg` 사용법 화면 (2026-10-05 데이터 시점 사이트), `use-g..k-*.jpg` 기업별 적용법규 검색 화면 (2026-10-15)
 - `render/` — 슬라이드를 영상(MP4) · PDF · 표지 이미지로 만드는 스크립트
   - `narration.json` 내레이션 대본 (`say` 는 음성용, `caption` 은 자막용), 합니다체
-  - `voice/s01..s14.mp3` 페이지별 음성 (Microsoft 신경망 음성 `ko-KR-HyunsuMultilingualNeural`, edge-tts)
+  - `voice/s01..s16.mp3` 페이지별 음성 (Microsoft 신경망 음성 `ko-KR-HyunsuMultilingualNeural`, edge-tts)
   - `music.mp3` 배경음악 (Glif · Lyria 3). 영상보다 짧으면 도입부를 건너뛰고 6초 크로스페이드로 한 번 더 잇는다
-  - `capture.cjs` 사용법 화면 캡처, `mix.py` 페이지 시간 · 믹스 · 자막, `render.cjs` 프레임, `pdf.cjs` PDF, `make.sh` 전체
+  - `capture.cjs` 사용법 화면 캡처, `capture-pro.cjs` 기업별 적용법규 검색 화면 캡처, `mix.py` 페이지 시간 · 믹스 · 자막, `render.cjs` 프레임, `pdf.cjs` PDF, `make.sh` 전체
 
 숫자는 2026-10-05 데이터 기준으로 슬라이드에 적혀 있다. 레이더의 점은 그날의 개정 660건(`EV_RAW`)이다.
 
@@ -44,6 +45,6 @@ bash intro-deck/render/make.sh
 음악은 목소리보다 약 14 LU 낮게 깔고 목소리가 나올 때 더 낮춘다. 전체 음량은 -16 LUFS.
 결과는 `docs/intro/` 의 `regrader-intro.mp4`(자막 포함), `regrader-intro.ko.vtt`, `regrader-intro.pdf`, `poster.jpg` 에 덮어쓴다.
 
-사용법 페이지(11–13쪽)의 화면 움직임은 슬라이드 파일의 `U1`–`U3` 에 시간(초)으로 적혀 있고, `k` 로 내레이션 길이에 맞춰 늘린다.
+사용법 페이지(11–13 · 15쪽)의 화면 움직임은 슬라이드 파일의 `U1`–`U4` 에 시간(초)으로 적혀 있고, `k` 로 내레이션 길이에 맞춰 늘린다.
 
 Playwright 가 전역에 없으면 `PLAYWRIGHT=<playwright 모듈 경로>` 를 붙여 실행한다.

@@ -21,6 +21,11 @@ import useC from './assets/use-c-list.jpg';
 import useD from './assets/use-d-drawer.jpg';
 import useE from './assets/use-e-watch.jpg';
 import useF from './assets/use-f-report.jpg';
+import useG from './assets/use-g-home.jpg';
+import useH from './assets/use-h-pop.jpg';
+import useI from './assets/use-i-cands.jpg';
+import useJ from './assets/use-j-result.jpg';
+import useK from './assets/use-k-company.jpg';
 
 // Radar cinematic: deep navy night sky, brand blue sweep, one data-driven radar
 // bookending the deck (cover = first frame, closing = last frame).
@@ -107,12 +112,22 @@ const U3: UseDef = {
   cam: [[0, 1, 0.5, 0.5], [9.6, 1, 0.5, 0.5], [10.4, 1.3, 0.5, 0.52], [16, 1.3, 0.5, 0.52]],
 };
 
+// 기업별 적용법규 검색 (2026-10-15 화면): 사이드바 버튼 → 팝업에서 회사 검색 → 판정 → RegRader로 보내기 → 그 회사 화면
+const U4: UseDef = {
+  id: 'u4',
+  k: 1,
+  dur: 19.7,
+  cursor: [[0, 0.5, 0.6], [3.6, 0.5, 0.6], [5.0, 0.085, 0.12], [6.6, 0.085, 0.12], [7.8, 0.6, 0.39], [9.0, 0.6, 0.39], [9.8, 0.33, 0.53], [10.4, 0.33, 0.53], [11.6, 0.55, 0.36], [12.6, 0.55, 0.36], [13.6, 0.827, 0.134], [14.6, 0.827, 0.134], [15.6, 0.45, 0.35], [19.7, 0.45, 0.35]],
+  clicks: [6.2, 10.1, 14.1],
+  cam: [[0, 1, 0.5, 0.5], [10.6, 1, 0.5, 0.5], [11.4, 1.25, 0.62, 0.28], [14.3, 1.25, 0.62, 0.28], [14.7, 1, 0.5, 0.5], [19.7, 1, 0.5, 0.5]],
+};
+
 const camT = (s: number, cx: number, cy: number) => {
   const tx = Math.min(0, Math.max(FW - s * FW, FW / 2 - s * cx * FW));
   const ty = Math.min(0, Math.max(FH - s * FH, FH / 2 - s * cy * FH));
   return `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${s})`;
 };
-const useKeys = [U1, U2, U3].map((u) => {
+const useKeys = [U1, U2, U3, U4].map((u) => {
   const pc = (t: number) => `${((t / u.dur) * 100).toFixed(3)}%`;
   const cur = u.cursor.map(([t, x, y]) => `${pc(t)} { transform: translate(${(x * FW).toFixed(1)}px, ${(y * FH).toFixed(1)}px); }`).join(' ');
   const clk = ['0% { transform: scale(1); }', ...u.clicks.flatMap((t) => [`${pc(t - 0.12)} { transform: scale(1); }`, `${pc(t)} { transform: scale(0.78); }`, `${pc(t + 0.18)} { transform: scale(1); }`]), '100% { transform: scale(1); }'].join(' ');
@@ -124,7 +139,7 @@ const ANIMATED = [
   'rgx-rise', 'rgx-fade', 'rgx-grow', 'rgx-pop', 'rgx-draw', 'rgx-ticker', 'rgx-scan',
   'rgx-ping', 'rgx-travel', 'rgx-node', 'rgx-state', 'rgx-pill', 'rgx-dot', 'rgx-cursor',
   'rgx-shotin', 'rgx-ring', 'rgx-ringkeep', 'rgx-ripple', 'rgx-stepon', 'rgx-cur', 'rgx-clk', 'rgx-cam',
-  'rgx-slam', 'rgx-wave',
+  'rgx-slam', 'rgx-wave', 'rgx-key', 'rgx-blink',
 ];
 const stillSel = ANIMATED.map((c) => `[data-still] .${c}`).join(', ');
 const reducedSel = ANIMATED.map((c) => `.${c}`).join(', ');
@@ -150,6 +165,10 @@ const css = `
   @keyframes rgx-slam { 0% { opacity: 0; transform: scale(1.45); filter: blur(12px); } 55% { opacity: 1; filter: blur(0); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
   @keyframes rgx-wave { 0% { opacity: 0; transform: scale(0.2); } 8% { opacity: 0.9; } 100% { opacity: 0; transform: scale(1); } }
   .rgx-shotin { animation: rgx-shotin 0.45s ease-out both; }
+  .rgx-key { display: inline-block; overflow: hidden; vertical-align: bottom; max-width: 1.2em; animation: rgx-key 0.06s linear both; }
+  .rgx-blink { animation: rgx-blink 1s steps(1) infinite; }
+  @keyframes rgx-key { from { max-width: 0; } }
+  @keyframes rgx-blink { 50% { opacity: 0; } }
   .rgx-ring { opacity: 0; animation: rgx-ring linear both; }
   .rgx-ringkeep { animation: rgx-ringkeep 0.4s cubic-bezier(0.2, 1.1, 0.3, 1) both; }
   .rgx-ripple { opacity: 0; animation: rgx-ripple 0.7s ease-out both; }
@@ -560,7 +579,7 @@ const Backdrop = ({ arcs }: { arcs: boolean }) => (
   </>
 );
 
-const Footer = () => {
+const Footer = ({ asOf = '2026.10.05' }: { asOf?: string }) => {
   const { current, total } = useSlidePageNumber();
   return (
     <div
@@ -584,7 +603,7 @@ const Footer = () => {
         <Logo size={24} />
         REGRADER
       </span>
-      <span>DATA AS OF 2026.10.05</span>
+      <span>DATA AS OF {asOf}</span>
       <span style={{ color: ink.muted }}>
         {pad2(current)} / {pad2(total)}
       </span>
@@ -596,10 +615,12 @@ const Frame = ({
   children,
   footer = true,
   arcs = true,
+  asOf,
 }: {
   children: ReactNode;
   footer?: boolean;
   arcs?: boolean;
+  asOf?: string;
 }) => {
   const active = useIsActivePage();
   return (
@@ -618,7 +639,7 @@ const Frame = ({
       >
         {children}
       </div>
-      {footer && <Footer />}
+      {footer && <Footer asOf={asOf} />}
     </div>
   );
 };
@@ -1823,7 +1844,7 @@ const UseStepRow = ({ n, title, desc, at, k }: { n: string; title: string; desc:
 );
 
 const UseSteps = ({ children }: { children: ReactNode }) => (
-  <div style={{ position: 'absolute', left: 1288, top: 290, width: 492, display: 'flex', flexDirection: 'column', gap: 40 }}>{children}</div>
+  <div style={{ position: 'absolute', left: 1288, top: 290, width: 492, display: 'flex', flexDirection: 'column', gap: 30 }}>{children}</div>
 );
 
 const UseJob: Page = () => (
@@ -1891,7 +1912,175 @@ const UseReport: Page = () => (
   </Frame>
 );
 
-// ─── 11. Closing (mirrors the cover so the deck loops) ───
+// ─── 14–15. 새 기능: 기업별 적용법규 검색 (RegRader Pro) ───
+
+const PRO_AT = { type: 1.2, find: 6.0, judge: 12.6, send: 15.6, review: 18.2 }; // 내레이션에 맞춘 시각(초)
+
+const ProNode = ({ i, at, mark, title, desc }: { i: number; at: number; mark: string; title: string; desc: ReactNode }) => (
+  <div className="rgx-rise" style={{ animationDelay: `${at}s`, width: 546, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+    <div
+      className="rgx-node"
+      style={{
+        animationDelay: `${PRO_AT.send + 1 + i * 1.8}s`,
+        width: 140,
+        height: 140,
+        boxSizing: 'border-box',
+        borderRadius: '50%',
+        border: `2px solid ${ink.lineHi}`,
+        background: ink.node,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'var(--osd-font-display)',
+        fontSize: 32,
+        fontWeight: 700,
+        position: 'relative',
+        zIndex: 1,
+      }}
+    >
+      {mark}
+    </div>
+    <div style={{ marginTop: 34, fontSize: 36, fontWeight: 700, lineHeight: 1.3 }}>{title}</div>
+    <div style={{ marginTop: 12, fontSize: 26, lineHeight: 1.5, color: ink.muted }}>{desc}</div>
+  </div>
+);
+
+const TYPED = '포스코퓨처엠';
+
+const ProIntro: Page = () => (
+  <Frame asOf="2026.10.15">
+    <Eyebrow code="NEW">기업별 적용법규 검색</Eyebrow>
+    <Heading>회사 이름만 넣으면, 그 회사의 적용법규가 나옵니다</Heading>
+    <div
+      className="rgx-rise"
+      style={{
+        animationDelay: '400ms',
+        position: 'absolute',
+        left: 140,
+        top: 300,
+        width: 1640,
+        height: 104,
+        boxSizing: 'border-box',
+        padding: '0 14px 0 40px',
+        borderRadius: 52,
+        background: ink.panel,
+        border: `1.5px solid ${ink.lineHi}`,
+        boxShadow: '0 30px 70px -40px rgba(0, 0, 0, 0.7)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 26,
+      }}
+    >
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={ink.muted} strokeWidth="2.2" strokeLinecap="round">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.5-3.5" />
+      </svg>
+      <span style={{ fontSize: 44, fontWeight: 700, letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>
+        {[...TYPED].map((ch, i) => (
+          <span key={i} className="rgx-key" style={{ animationDelay: `${PRO_AT.type + i * 0.16}s` }}>
+            {ch}
+          </span>
+        ))}
+        <span className="rgx-blink" style={{ display: 'inline-block', width: 3, height: 46, marginLeft: 6, verticalAlign: '-6px', background: 'var(--osd-accent)' }} />
+      </span>
+      <span
+        style={{
+          marginLeft: 'auto',
+          height: 76,
+          padding: '0 44px',
+          borderRadius: 38,
+          background: 'var(--osd-accent)',
+          display: 'flex',
+          alignItems: 'center',
+          fontSize: 30,
+          fontWeight: 700,
+        }}
+      >
+        검색
+      </span>
+    </div>
+    <div style={{ position: 'absolute', left: 140, top: 470, width: 1640 }}>
+      <div
+        className="rgx-grow"
+        style={{ animationDelay: `${PRO_AT.find + 0.3}s`, position: 'absolute', left: 273, top: 69, width: 1093, height: 2, background: ink.lineHi }}
+      />
+      <div
+        className="rgx-travel"
+        style={{
+          ...vars({ '--rgx-dist': '1093px' }),
+          animationDelay: `${PRO_AT.send + 1}s`,
+          position: 'absolute',
+          left: 262,
+          top: 59,
+          width: 22,
+          height: 22,
+          borderRadius: '50%',
+          background: ink.mint,
+          boxShadow: '0 0 0 6px rgba(126, 226, 168, 0.18)',
+          zIndex: 0,
+        }}
+      />
+      <div style={{ display: 'flex' }}>
+        <ProNode i={0} at={PRO_AT.find} mark="찾기" title="회사 찾기" desc={<>국민연금 · 등록공장 · 전자공시로<br />업종 · 사업장 · 근로자 수 확인</>} />
+        <ProNode i={1} at={PRO_AT.judge} mark="판정" title="적용법규 판정" desc={<>현행 법률 1,725개 전부를<br />적용 · 미적용으로, 근거와 함께</>} />
+        <ProNode i={2} at={PRO_AT.send} mark="보내기" title="RegRader로 보내기" desc={<>그 회사 기준의 분기별 · 직무별<br />개정 모니터링 화면을 바로 생성</>} />
+      </div>
+    </div>
+    <div
+      style={{
+        position: 'absolute',
+        left: 140,
+        right: 140,
+        top: 868,
+        paddingTop: 28,
+        borderTop: `1px solid ${ink.line}`,
+        display: 'flex',
+        gap: 64,
+      }}
+    >
+      <span className="rgx-rise" style={{ animationDelay: `${PRO_AT.find}s` }}>
+        <HudItem k="COMPANIES" v="검색 가능 49,457곳" />
+      </span>
+      <span className="rgx-rise" style={{ animationDelay: `${PRO_AT.judge}s` }}>
+        <HudItem k="LAWS" v="현행 법률 1,725개 전부 판정" />
+      </span>
+      <span className="rgx-rise" style={{ animationDelay: `${PRO_AT.review}s` }}>
+        <HudItem k="REVIEW" v="검토 결과 자동 저장 · 다음 검색에 반영" />
+      </span>
+    </div>
+  </Frame>
+);
+
+const UsePro: Page = () => (
+  <Frame asOf="2026.10.15">
+    <Eyebrow code="STEP 4">사용법 · 기업별 적용법규 검색</Eyebrow>
+    <Heading>검색 한 번으로, 그 회사의 RegRader가 열립니다</Heading>
+    <Browser u={U4}>
+      <Shot src={useG} at={0} k={U4.k} />
+      <Shot src={useH} at={6.6} k={U4.k} />
+      <Shot src={useI} at={9.0} k={U4.k} />
+      <Shot src={useJ} at={10.4} k={U4.k} />
+      <Shot src={useK} at={14.6} k={U4.k} />
+      <Ring box={{ x: 0.0083, y: 0.0867, w: 0.1528, h: 0.0667 }} from={4.0} to={6.6} k={U4.k} />
+      <Ripple x={0.085} y={0.12} t={6.2} k={U4.k} />
+      <Ring box={{ x: 0.2311, y: 0.3639, w: 0.3891, h: 0.0556 }} from={7.2} to={9.0} k={U4.k} label="회사 이름 검색" />
+      <Ring box={{ x: 0.1874, y: 0.4861, w: 0.5, h: 0.0931 }} from={9.2} to={10.4} k={U4.k} />
+      <Ripple x={0.33} y={0.53} t={10.1} k={U4.k} />
+      <Ring box={{ x: 0.3512, y: 0.3206, w: 0.6153, h: 0.0775 }} from={11.0} to={13.0} k={U4.k} label="적용법규 1,480개 = 법령 551 + 행정규칙 929" />
+      <Ring box={{ x: 0.7613, y: 0.1089, w: 0.1325, h: 0.0511 }} from={12.8} to={14.6} k={U4.k} label="RegRader로 보내기" />
+      <Ripple x={0.827} y={0.134} t={14.1} k={U4.k} />
+      <Ring box={{ x: 0.2525, y: 0.0152, w: 0.264, h: 0.0395 }} from={15.2} k={U4.k} keep below label="그 회사의 RegRader 화면" />
+    </Browser>
+    <UseSteps>
+      <UseStepRow n="1" title="기업별 적용법규 검색" desc="왼쪽 메뉴 맨 위 버튼" at={0} k={U4.k} />
+      <UseStepRow n="2" title="회사 이름 검색" desc="예: 포스코퓨처엠" at={6.6} k={U4.k} />
+      <UseStepRow n="3" title="적용법규 판정 확인" desc="판정 근거 · 직무별 정리" at={10.4} k={U4.k} />
+      <UseStepRow n="4" title="RegRader로 보내기" desc="그 회사 기준 개정 모니터링 화면" at={14.1} k={U4.k} />
+    </UseSteps>
+  </Frame>
+);
+
+// ─── 16. Closing (mirrors the cover so the deck loops) ───
 
 const UseStep = ({ n, text, delay }: { n: string; text: string; delay: number }) => (
   <div className="rgx-rise" style={{ animationDelay: `${delay}ms`, display: 'flex', alignItems: 'baseline', gap: 24, fontSize: 34 }}>
@@ -1981,7 +2170,7 @@ export const meta: SlideMeta = {
   createdAt: '2026-10-05T14:45:57.777Z',
 };
 
-export default [Cover, Problem, Funnel, Pipeline, Scope, ThisYear, Sanctions, Soon, Tracker, Grow, UseJob, UseLaw, UseReport, Closing] satisfies Page[];
+export default [Cover, Problem, Funnel, Pipeline, Scope, ThisYear, Sanctions, Soon, Tracker, Grow, UseJob, UseLaw, UseReport, ProIntro, UsePro, Closing] satisfies Page[];
 
 export const notes: (string | undefined)[] = [
   '모르고 지나치는 법 개정, 이제 없습니다. 매일 아침, 우리 회사에 해당하는 법규 개정을 먼저 찾아내는 시스템, RegRader입니다. 지금 화면의 점 하나하나가 올해 실제로 포착된 개정 1건입니다.',
@@ -1997,5 +2186,7 @@ export const notes: (string | undefined)[] = [
   '이제 실제 사용 방법을 보겠습니다. 먼저 직무별 개정 현황에서 내 직무를 선택합니다. 환경을 선택하면, 30일 안에 시행되는 5건과 제재나 의무가 바뀐 17건이 바로 표시됩니다.',
   '목록에서 법령을 누르면 상세 화면이 열립니다. 어떤 벌칙과 과태료, 의무가 새로 생기거나 바뀌었는지 근거 조문과 함께 정리되어 있고, 개정문 원문과 신구조문 비교도 바로 열어 볼 수 있습니다.',
   '시행 임박 메뉴에서는 곧 시행되는 개정을 D-day 순서로 확인합니다. 보고가 필요할 때는 오른쪽 위의 보고서 버튼을 누르면, 임원 보고용 PPT와 엑셀 파일을 바로 만들 수 있습니다.',
+  '새로 추가된 기능, 기업별 적용법규 검색입니다. 회사 이름만 넣으면 국민연금과 전자공시 같은 공공데이터로 업종과 사업장을 확인하고, 현행 법률 1,725개 전부를 적용과 미적용으로 판정합니다. 담당자가 확인한 결과는 자동으로 저장되어, 다음 검색에 그대로 반영됩니다.',
+  '사용 방법은 간단합니다. 왼쪽 메뉴 맨 위의 기업별 적용법규 검색을 누르고, 회사 이름을 검색합니다. 판정 결과와 근거를 확인한 뒤 RegRader로 보내기를 누르면, 그 회사 기준의 개정 모니터링 화면이 바로 열립니다.',
   '법이 바뀌면, 레이더가 먼저 울립니다. 매일 아침 7시, 자동으로. 사이트에 접속해 내 직무를 선택하고, 시행 임박부터 확인하시기 바랍니다.',
 ];
