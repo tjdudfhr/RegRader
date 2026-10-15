@@ -88,7 +88,7 @@
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./system-ui.js?v=20261012b"></script>
+    <script src="./system-ui.js?v=20261015a"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         // EmailJS 초기화
@@ -1953,7 +1953,7 @@
         }
     </style>
     <link rel="stylesheet" href="./app-shell.css?v=20260927u">
-    <link rel="stylesheet" href="./system.css?v=20261006b">
+    <link rel="stylesheet" href="./system.css?v=20261015a">
 </head>
 <body>
     <!-- 시작 화면 (system-ui.js 가 데이터가 준비되면 걷는다) -->
@@ -1993,6 +1993,11 @@
                 <svg class="rr-brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#3056d3"/><circle cx="16" cy="16" r="9.5" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="1.8"/><circle cx="16" cy="16" r="5" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.8"/><g class="sweep"><path d="M16 16 22.7 9.3" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></g><circle cx="16" cy="16" r="2" fill="#fff"/><circle cx="21.2" cy="20.6" r="1.7" fill="#7ee2a8"/></svg>
                 <div><div class="rr-brand-name">RegRader</div><div class="rr-brand-sub">법규 개정 모니터링</div></div>
             </div>
+            <!-- 기업별 적용법규 검색: 누르면 팝업 (RegRader Pro 브라우저판, system-ui.js 의 rrProOpen) -->
+            <button type="button" class="rr-pro-cta" onclick="rrProOpen()" aria-haspopup="dialog">
+                <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+                <span><b>기업별 적용법규 검색</b><small>회사 이름으로 적용법규 · 모니터링</small></span>
+            </button>
             <div class="main-tab-container">
                 <div class="nav-caption">현황</div>
                 <div class="main-tab active" data-tab="overview" onclick="switchMainTab('overview')" role="tab" aria-selected="true">
@@ -2022,9 +2027,6 @@
                 <div class="nav-caption">안내</div>
                 <div class="main-tab" data-tab="intro" onclick="switchMainTab('intro')" role="tab" aria-selected="false">
                     <span class="tab-icon">📑</span><span class="tab-body"><span class="tab-text">시스템 소개</span></span>
-                </div>
-                <div class="main-tab" data-tab="pro" onclick="switchMainTab('pro')" role="tab" aria-selected="false">
-                    <span class="tab-icon">🔎</span><span class="tab-body"><span class="tab-text">기업별 적용법규 검색</span></span>
                 </div>
             </div>
             <div class="rr-side-foot">
@@ -2477,13 +2479,6 @@
                 </div>
             </div>
         
-            <!-- 기업별 적용법규 검색: 브라우저판 RegRader Pro (docs/pro/) 를 끼워 넣는다 — 회사 검색 → 판정 → 회사별 분기별·직무별 (처음 열 때 불러옴) -->
-            <div class="tab-pane" id="pro-content"><iframe class="rr-embed rr-pro-frame" data-src="./pro/?embed=1" title="기업별 적용법규 검색"></iframe></div>
-            <style>
-                /* 탭 높이 안에서 Pro 화면이 스스로 스크롤한다 (왼쪽 검색 · 오른쪽 결과) */
-                #pro-content iframe.rr-pro-frame { height: calc(100vh - 104px); min-height: 640px; }
-            </style>
-
             <!-- 대응 현황: 직무별 담당자가 개정마다 검토·조치를 기록 (tracker.js · Supabase) -->
             <div class="tab-pane" id="tracker-content"><div id="rr-trk-dash"></div></div>
 
