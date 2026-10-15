@@ -257,7 +257,10 @@
           company: { ready: true, nps: (ix.dataAsOf || {}).nps || (ix.generatedAt || '').slice(0, 7), count: ix.count } };
       });
     },
-    'GET /api/catalog': function () { return getJSON(PY + 'kb/catalog.json'); },
+    'GET /api/catalog': function () {
+      return Promise.all([getJSON(PY + 'kb/catalog.json'), getJSON(PY + 'kb/effects.json').catch(function () { return {}; })])
+        .then(function (r) { return Object.assign({}, r[0], { effects: r[1] }); });
+    },
     'GET /api/example': function () { return getJSON(PY + 'examples/manufacturer.json'); },
     'GET /api/company': function (u) { return search(u.searchParams.get('q') || '').then(function (r) { return { results: r }; }); },
     'POST /api/company/draft': function (u, b) { return draft(b.key); },

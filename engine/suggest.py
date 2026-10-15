@@ -8,6 +8,7 @@
 실행: python3 -m engine.suggest examples/manufacturer.json
 """
 import json
+from functools import lru_cache
 import re
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -102,6 +103,29 @@ def duties_for(root, profile, duties=None, facts=None):
         elif est:
             item["estimated"] = True
         out.append(item)
+    return out
+
+
+@lru_cache(maxsize=1)
+def fact_effects():
+    """입력 항목(사실) → 그 사실을 조건으로 쓰는 판정 규칙의 법령 이름 (화면 '항목 추가'의 '관련 법령 N').
+    묶음 이름(facts.json groups, 예: MFG)은 그 안의 항목으로 풀어서 센다. 'none'(해당하면 빠지는 조건)은 넣지 않는다."""
+    groups = json.loads((KB / "facts.json").read_text(encoding="utf-8")).get("groups", {})
+    out = {}
+    for r in load_rules(universe=True):
+        w = r.get("when") or {}
+        if not isinstance(w, dict):
+            continue
+        ids = set()
+        for k in ("any", "all"):
+            for x in w.get(k) or []:
+                if isinstance(x, str):
+                    ids |= set(groups.get(x, [x]))
+        for fid in ids:
+            names = out.setdefault(fid, [])
+            for law in r["laws"]:
+                if law["name"] not in names:
+                    names.append(law["name"])
     return out
 
 
