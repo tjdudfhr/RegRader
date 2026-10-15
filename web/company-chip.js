@@ -10,24 +10,33 @@
   'use strict';
   var css = [
     '.rr-top-left.rr-has-co { display: flex !important; flex-direction: row !important; align-items: center !important; min-width: 0; }',
-    '.rr-co { display: flex; align-items: center; gap: 10px; min-width: 0; margin-left: 16px; padding: 5px 14px 5px 6px; border-radius: 12px;',
-    '  background: var(--brand-soft, #e8edfb); border: 1px solid color-mix(in srgb, var(--brand, #3056d3) 28%, transparent); }',
-    '.rr-co .ic { flex: none; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: var(--brand-solid, #3056d3); color: #fff; }',
-    '.rr-co .ic svg { width: 17px; height: 17px; }',
-    '.rr-co .tx { min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }',
-    '.rr-co b { font-size: 16px; font-weight: 800; color: var(--ink, #111827); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.02em; }',
-    '.rr-co small { font-size: 11.5px; font-weight: 600; color: var(--ink-3, #6b7280); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }',
-    '.rr-co small a { color: var(--brand, #3056d3); text-decoration: none; font-weight: 700; }',
-    '.rr-co small a:hover { text-decoration: underline; }',
-    '.rr-co.miss { background: #fff4e5; border-color: #f6c26b; }',
-    '.rr-co.miss .ic { background: #dd6b20; }',
+    /* 앱 바(어두운 바탕) 안: 상자 없이 구분선 하나로 이어 붙인다 */
+    '.rr-co { display: flex; align-items: center; gap: 12px; min-width: 0; margin-left: 20px; padding-left: 20px; border-left: 1px solid rgba(255, 255, 255, .14); }',
+    '.rr-co .ic { flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; color: #fff;',
+    '  background: linear-gradient(135deg, #3d6bff, #6a4bff); box-shadow: 0 6px 14px -6px rgba(61, 107, 255, .8), inset 0 1px 0 rgba(255, 255, 255, .2); }',
+    '.rr-co .ic svg { width: 18px; height: 18px; }',
+    '.rr-co .tx { min-width: 0; display: flex; flex-direction: column; gap: 2px; line-height: 1.2; }',
+    '.rr-co b { font-size: 16.5px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.02em; }',
+    '.rr-co small { font-size: 11.5px; font-weight: 600; color: rgba(214, 224, 255, .62); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }',
+    '.rr-co .go { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 11px; border-radius: 9px; text-decoration: none; white-space: nowrap;',
+    '  font-size: 12.5px; font-weight: 700; color: #e6ecff; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .14); transition: background .15s, border-color .15s; }',
+    '.rr-co .go:hover { background: rgba(255, 255, 255, .13); border-color: rgba(255, 255, 255, .26); }',
+    '.rr-co .go svg { width: 14px; height: 14px; }',
+    '.rr-co.miss .ic { background: linear-gradient(135deg, #f08a24, #dd6b20); box-shadow: none; }',
+    '.rr-co.miss small { color: #ffcf8a; }',
     '.rr-co.m { display: none; }',
-    /* 좁은 화면: 앱 바 안에는 자리가 없어 앱 바 바로 아래 한 줄로 */
+    /* 좁은 화면: 앱 바 안에는 자리가 없어 앱 바 바로 아래 한 줄(밝은 바탕)로 */
     '@media (max-width: 900px) { .rr-top-left .rr-co { display: none; }',
-    '  .rr-co.m { display: flex; margin: 10px 12px 0; } .rr-co.m b { font-size: 15px; } .rr-co.m small { white-space: normal; } }'
+    '  .rr-co.m { display: flex; margin: 12px 14px 0; padding: 10px 12px; border: 1px solid var(--line, #e5e7eb); border-radius: 14px; background: var(--surface, #fff); }',
+    '  .rr-co.m b { color: var(--ink, #111827); font-size: 15px; } .rr-co.m small { color: var(--ink-3, #6b7280); white-space: normal; line-height: 1.35; }',
+    '  .rr-co.m .tx { flex: 1; } .rr-co.m .go { color: var(--brand, #3056d3); background: var(--brand-soft, #eef2ff); border-color: transparent; }',
+    '  .rr-co.m.miss small { color: #b45309; } }'
   ].join('\n');
   var ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
     '<path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M9 17h1M14 17h1"/></svg>';
+
+  var SWAP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M7 4 3 8l4 4M3 8h13M17 20l4-4-4-4M21 16H8"/></svg>';
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -52,21 +61,19 @@
     ic.innerHTML = ICON;
     var tx = el('span', 'tx');
     tx.appendChild(el('b', '', o.company));
-    var sub = el('small');
-    if (o.missing) {
-      sub.appendChild(document.createTextNode('이 브라우저에 이 회사 데이터가 없습니다 · '));
-    } else {
-      sub.appendChild(document.createTextNode('RegRader Pro 판정 · 법령 ' + (o.laws == null ? '–' : Number(o.laws).toLocaleString()) +
-        ' + 행정규칙 ' + (o.admin == null ? '–' : Number(o.admin).toLocaleString()) + (o.date ? ' · ' + o.date : '') + (o.home ? ' · ' : '')));
-    }
-    if (o.home) {
-      var a = el('a', '', o.homeLabel || '다른 회사 검색');
-      a.href = o.home;
-      sub.appendChild(a);
-    }
-    tx.appendChild(sub);
+    var n = function (x) { return x == null ? '–' : Number(x).toLocaleString(); };
+    tx.appendChild(el('small', '', o.missing ? '이 브라우저에 이 회사 데이터가 없습니다'
+      : '법령 ' + n(o.laws) + ' · 행정규칙 ' + n(o.admin) + (o.date ? ' · ' + o.date + ' 판정' : '')));
     chip.appendChild(ic);
     chip.appendChild(tx);
+    if (o.home) {
+      var a = el('a', 'go');
+      a.href = o.home;
+      a.title = o.homeLabel || '다른 회사 검색';
+      a.innerHTML = o.missing ? '' : SWAP;
+      a.appendChild(document.createTextNode(o.missing ? (o.homeLabel || '판정하기') : '다른 회사'));
+      chip.appendChild(a);
+    }
     chip.title = o.company + (o.missing ? '' : ' 의 적용법규로 만든 RegRader 화면');
     var left = document.querySelector('.rr-top-left');
     if (left) { left.classList.add('rr-has-co'); left.appendChild(chip); }
