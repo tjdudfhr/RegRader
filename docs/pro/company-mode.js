@@ -11,7 +11,8 @@
  */
 (function () {
   'use strict';
-  var slug = new URLSearchParams(location.search).get('company');
+  var params = new URLSearchParams(location.search);
+  var slug = params.get('company'), key = params.get('key');   // key: 회사 찾기 키 — 이 브라우저에 화면이 없으면 그 자리에서 판정해 만든다
   var HOME = window.RR_PRO_HOME || './pro/';
   if (!slug) {
     if (window.RR_PRO_HOME && !/[?&]embed=1/.test(location.search)) location.replace(HOME);   /* 회사 화면 사본: 회사를 안 고르면 Pro 로 */
@@ -54,9 +55,12 @@
   }
   function getJSON(url) { return realFetch(url, { cache: 'no-cache' }).then(function (res) { if (!res.ok) throw new Error(url); return res.json(); }); }
 
-  /* 최신 전체 수집으로 다시 만들기: 기준일(meta.asOf · generatedAt)이 바뀌었을 때만 */
+  /* 최신 전체 수집으로 다시 만들기: 기준일(meta.asOf · generatedAt)이 바뀌었을 때만.
+     방금(1시간 안) 만들거나 확인한 화면은 확인을 건너뛰어 바로 그린다 (검색창에서 넘어올 때 기다림 없이) */
+  var FRESH_MS = 60 * 60 * 1000;
   function refresh(r) {
     if (!r || !r.families || !window.rrStatic) return Promise.resolve(r);   // 예전 방식으로 저장한 회사는 그대로 (다시 보내면 자동 갱신)
+    if (Date.now() - Date.parse(r.refreshedAt || r.savedAt || 0) < FRESH_MS) return Promise.resolve(r);
     return getJSON(DATA + 'universe/meta.json').then(function (um) {
       var old = (r.files && r.files['meta.json']) || {};
       if (old.asOf === um.asOf && old.generatedAt === um.generatedAt) return r;
@@ -71,7 +75,39 @@
     }).catch(function () { return r; });
   }
 
-  var rec = load().then(refresh);
+  /* 이 브라우저에 이 회사 화면이 없을 때(링크로 처음 연 경우): RegRader Pro 판정 엔진을 보이지 않게 띄워
+     검색창과 같은 순서(회사 정보 → 판정 · 저장된 검토 반영 → 화면 만들기)로 만든다. 그동안 시작 화면에 진행 단계를 보인다 */
+  function build(k) {
+    window.__rrHold = true;
+    function say(t) {
+      document.documentElement.classList.remove('rr-soft');
+      var el = document.querySelector('#rr-boot .rr-boot-sub');
+      if (el) el.textContent = slug + ' · ' + t + ' 중…';
+    }
+    return new Promise(function (ok) {
+      function go() {
+        var f = document.createElement('iframe');
+        f.title = '판정 엔진';
+        f.tabIndex = -1;
+        f.setAttribute('aria-hidden', 'true');
+        f.style.cssText = 'position:fixed;left:-10000px;top:0;width:1200px;height:800px;border:0;opacity:0;pointer-events:none';
+        f.src = (window.RR_PRO_APP || '../') + '?embed=1&warm=1';
+        document.body.appendChild(f);
+        var t0 = Date.now();
+        say('판정 엔진 준비');
+        (function wait() {
+          var w = null;
+          try { w = f.contentWindow; } catch (e) { w = null; }
+          if (w && w.rrProAuto) return w.rrProAuto(k, say).then(ok, function () { ok(); });
+          if (Date.now() - t0 > 90000) return ok();
+          setTimeout(wait, 100);
+        })();
+      }
+      if (document.body) go(); else document.addEventListener('DOMContentLoaded', go);
+    }).then(function () { window.__rrHold = false; });
+  }
+
+  var rec = load().then(function (r) { return r || !key ? r : build(key).then(load); }).then(refresh);
   function reply(data) { return new Response(JSON.stringify(data), { status: 200, headers: { 'Content-Type': 'application/json; charset=utf-8' } }); }
   function keys(r) {
     var out = {};
@@ -124,6 +160,7 @@
       if (!window.rrCompanyChip) return;
       if (r) {
         var p = r.files['pro_company.json'] || {};
+        if (window.rrProRecent) window.rrProRecent({ slug: slug, key: key, name: r.company, laws: p.laws, admin: p.admin, at: p.date });   // 검색창의 '최근 본 회사'
         window.rrCompanyChip({ company: r.company, laws: p.laws, admin: p.admin, date: p.date, home: home, homeLabel: label });
       } else {
         window.rrCompanyChip({ company: slug, missing: true, home: HOME, homeLabel: 'RegRader Pro 에서 판정하기' });

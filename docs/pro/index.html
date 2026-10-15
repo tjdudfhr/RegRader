@@ -506,7 +506,7 @@
 <script src="./review-cloud.js?v=e8542ee2"></script>
 <script>window.RR_PRO_DATA = "https://raw.githubusercontent.com/tjdudfhr/RegRader/pro-data/"; window.RR_PRO_PY = "./py/"; window.RR_PRO_SITE = "./site/";</script>
 <script src="./rr-static.js?v=55501459"></script>
-<script src="./static-api.js?v=896907b3"></script>
+<script src="./static-api.js?v=a0b7206d"></script>
 </head>
 <body>
 <header>
@@ -605,6 +605,9 @@
   const esc = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const safeUrl = (u) => (/^https?:\/\//i.test(u || '') ? u : '');
   const compact = (t) => String(t || '').replace(/[\s·ㆍ]/g, '');
+  // RegRader 의 회사 검색창이 뒤에서 띄운 판정 엔진(?warm=1): 화면에 보이지 않으므로 커서를 가져가지 않는다
+  const WARM = /[?&]warm=1/.test(location.search);
+  let autoRun = false, autoSay = null;   // rrProAuto 실행 중: RegRader 창을 옮기지 않고 진행 단계를 알린다
   const LAW_URL = (n) => 'https://www.law.go.kr/법령/' + encodeURIComponent(n);
   const ADM_URL = (n) => 'https://www.law.go.kr/행정규칙/' + encodeURIComponent(n);
   const ART_URL = (law, art) => LAW_URL(law) + (art ? '/' + encodeURIComponent(art) : '');
@@ -772,7 +775,7 @@
   function landing(on) {
     document.body.classList.toggle('landing', on);
     const cands = $('#cands');
-    if (on) { $('#hero-cands').appendChild(cands); setTimeout(() => $('#hq').focus(), 0); }
+    if (on) { $('#hero-cands').appendChild(cands); if (!WARM) setTimeout(() => $('#hq').focus(), 0); }
     else $('#find').insertAdjacentElement('afterend', cands);
   }
   /* 검색 · 처음 화면 버튼은 페이지가 열리자마자 연결한다. 자료를 받기 전에 누르면 브라우저가 페이지를 새로 열어
@@ -1228,6 +1231,7 @@
     $('#cands').innerHTML = '';
     await ready;
     try {
+      autoSay?.('회사 정보 · 검토 기록 확인');
       const data = await post('/api/company/draft', { key });
       S.research = data.research;
       curKey = key; reviewNote = null;
@@ -1245,6 +1249,7 @@
       }
       if (saved) applyReview(saved, data.research.tagEvidence || {});
       if ((S.research.industries || []).length) loadCodes().then(renderBrief, () => {});
+      autoSay?.('현행 법률 1,725개 판정');
       await run();
     } catch (e) {
       $('#out').innerHTML = `<div class="err">${esc(e.message)}</div>`;
@@ -1649,7 +1654,7 @@
     try { if (window.parent.rrProClose) window.parent.rrProClose(); } catch (err) { /* 다른 출처면 그냥 둔다 */ }
   });
   function rrOpen(url) {
-    if (!url) return;
+    if (!url || autoRun) return;   // 자동 실행: 이동은 부른 쪽(RegRader 검색창)이 한다
     const abs = new URL(url, location.href).href;
     if (embedded) { try { window.top.location.href = abs; return; } catch (e) { /* 다른 사이트에 끼워진 경우: 새 창으로 */ } }
     if (rrWin && !rrWin.closed) { rrWin.location.href = abs; rrWin.focus(); }
@@ -1673,6 +1678,24 @@
     else if (rrState.state === 'running') rrPoll(rrState.slug || p.name);
     else if (rrWin) { try { rrWin.close(); } catch (e) { /* 닫지 못해도 그대로 */ } rrWin = null; }
   }
+
+  /* RegRader 의 '기업별 적용법규 검색' 창이 부른다: 회사 고르기 → 판정(저장해 둔 검토 반영) → RegRader 화면 만들기까지
+     화면을 누르지 않고 한 번에. 손으로 할 때와 같은 함수(pick · run · rrExport)를 그대로 쓴다 — 결과가 같다. */
+  window.rrProAuto = async function (key, say) {
+    autoRun = true;
+    autoSay = (t) => { try { if (say) say(t); } catch (e) { /* 알림 실패는 무시 */ } };
+    try {
+      result = null;
+      await pick(key);
+      if (!result || curKey !== key) throw new Error(($('#out .err')?.textContent || '').trim() || '판정하지 못했습니다. 다시 시도해 주세요.');
+      autoSay('RegRader 화면 만들기');
+      await rrExport();
+      if (rrState?.state !== 'done') throw new Error(rrState?.error || 'RegRader 화면을 만들지 못했습니다.');
+      return { url: new URL(rrState.url, location.href).href, company: profile().name, laws: rrState.laws, admin: rrState.admin };
+    } finally {
+      autoRun = false; autoSay = null;
+    }
+  };
 
   function rrPaint() {
     const box = document.querySelector('.rrx');
