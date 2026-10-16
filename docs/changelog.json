@@ -1,6 +1,66 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-10-16T22:00:49.898692+00:00",
+      "asOf": "2026-10-17",
+      "previousCheckedAt": "2026-10-14T22:21:29.239510+00:00",
+      "totalBefore": 681,
+      "totalAfter": 684,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2768,
+        "openapiFuture": 5480,
+        "openapiUpcoming": 297
+      },
+      "universeAfter": {
+        "openapiCurrent": 2769,
+        "openapiFuture": 5484,
+        "openapiUpcoming": 297
+      },
+      "added": [
+        {
+          "title": "상수도소화용수설비의 화재안전성능기준(NFPC 401)",
+          "effectiveDate": "2026-10-07",
+          "amendmentType": "일부개정",
+          "ministry": "소방청",
+          "category": "안전",
+          "kind": "고시",
+          "admRulSeq": "2100000286984"
+        },
+        {
+          "title": "(영산강유역환경청) 공공폐수처리시설 기본계획 통합 고시",
+          "effectiveDate": "2026-10-21",
+          "amendmentType": "일부개정",
+          "ministry": "영산강유역환경청",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000286862"
+        },
+        {
+          "title": "유해화학물질의 규정수량에 관한 규정",
+          "effectiveDate": "2026-12-19",
+          "amendmentType": "일부개정",
+          "ministry": "화학물질안전원",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000286916"
+        }
+      ],
+      "removed": [],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-10-14T22:21:29.239510+00:00",
       "asOf": "2026-10-15",
       "previousCheckedAt": "2026-10-13T22:21:28.087241+00:00",
@@ -9156,5 +9216,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-10-14T22:21:29.239510+00:00"
+  "updatedAt": "2026-10-16T22:00:49.898692+00:00"
 }
