@@ -9,6 +9,7 @@
   'use strict';
   var charts = {};
   var lastKey = '';
+  var detAsked = false;   // 개정문 분석 받기는 한 번만 부탁한다
   var QUARTERS = [['Q1', '1분기', 1, 3], ['Q2', '2분기', 4, 6], ['Q3', '3분기', 7, 9], ['Q4', '4분기', 10, 12]];
 
   function dark() { return window.rrIsDark ? window.rrIsDark() : false; }
@@ -188,7 +189,9 @@
     /* 3. 법령 종류별 반영할 곳 — 사규·업무 어디를 고칠지. 제재·의무 = 종합 현황 '벌칙·과태료·의무 변경'과 같은 기준.
           별표·서식 = 개정문에서 별표·별지·서식이 바뀐 개정 (amend_details.json). 행정규칙은 조문 분석 대상이 아니라 '–' */
     var WHERE = { '법률': '사규 본문 · 원칙과 의무', '시행령': '적용 대상 · 세부 기준', '시행규칙': '업무 절차 · 신고 서식', '행정규칙': '세부 지침 · 기준값 (고시문 원문)' };
-    var detReady = !!(A && A.details && inYear.length && A.details(inYear[0]) !== null);
+    /* 개정문 분석을 받았는지는 따로 묻는다. 예전에는 첫 개정(inYear[0])의 분석 유무로 판단해, 첫 줄이 분석 없는 행정규칙이면
+       (2026-10-17 '(영산강유역환경청) …' 고시가 이름순 맨 앞) '아직 안 받음' → 받기 → 다시 그리기가 끝없이 돌아 화면이 멈췄다 */
+    var detReady = !!(A && (A.detailsLoaded ? A.detailsLoaded() : A.details && inYear.length && A.details(inYear[0]) !== null));
     var isForm = function (x) { var d = A && A.details(x); var arts = d ? (d.articles || []).concat(d.changes || []) : []; return arts.some(function (a) { return /별표|별지|서식/.test((a.ref || '') + (a.title || '')); }); };
     var krows = KINDS.map(function (kd) {
       var xs = inYear.filter(function (x) { return kindOf(x) === kd; }), adm = kd === '행정규칙';
@@ -201,7 +204,7 @@
     document.getElementById('rr-an-kinds').innerHTML = '<table class="rr-an-kt"><thead><tr><th>종류</th><th>개정</th><th>실질 개정</th><th>제재·의무</th><th>별표·서식</th><th>주로 반영할 곳</th></tr></thead><tbody>' +
       krows.map(function (r) { return '<tr><td>' + r.k + '</td><td>' + num(r.n) + '</td><td>' + num(r.real) + '</td><td>' + cell(r.risk) + '</td><td>' + cell(r.form) + '</td><td class="w">' + WHERE[r.k] + '</td></tr>'; }).join('') +
       '</tbody><tfoot><tr><td>합계</td><td>' + num(sum('n')) + '</td><td>' + num(sum('real')) + '</td><td>' + num(sum('risk')) + '</td><td>' + (detReady ? num(sum('form')) : '…') + '</td><td></td></tr></tfoot></table>';
-    if (!detReady && A && A.loadDetails) A.loadDetails().then(function () { render(true); });
+    if (!detReady && !detAsked && A && A.loadDetails) { detAsked = true; A.loadDetails().then(function () { render(true); }); }   // 받은 뒤 한 번만 다시 그린다
 
     /* 4. 전체를 읽어야 할 개정 — 제정·전부개정·폐지제정은 바뀐 부분이 아니라 전체가 새 내용 */
     var FULL = ['제정', '전부개정', '폐지제정'];
