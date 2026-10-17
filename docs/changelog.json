@@ -1,6 +1,48 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-10-17T22:11:36.063193+00:00",
+      "asOf": "2026-10-18",
+      "previousCheckedAt": "2026-10-16T22:00:49.898692+00:00",
+      "totalBefore": 684,
+      "totalAfter": 683,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2769,
+        "openapiFuture": 5484,
+        "openapiUpcoming": 297
+      },
+      "universeAfter": {
+        "openapiCurrent": 2769,
+        "openapiFuture": 5484,
+        "openapiUpcoming": 297
+      },
+      "added": [],
+      "removed": [
+        {
+          "title": "(영산강유역환경청) 공공폐수처리시설 기본계획 통합 고시",
+          "effectiveDate": "2026-10-21",
+          "amendmentType": "일부개정",
+          "ministry": "영산강유역환경청",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000286862"
+        }
+      ],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-10-16T22:00:49.898692+00:00",
       "asOf": "2026-10-17",
       "previousCheckedAt": "2026-10-14T22:21:29.239510+00:00",
@@ -9216,5 +9258,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-10-16T22:00:49.898692+00:00"
+  "updatedAt": "2026-10-17T22:11:36.063193+00:00"
 }
