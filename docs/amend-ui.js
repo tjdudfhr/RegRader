@@ -302,6 +302,8 @@
   window.addEventListener('rr-year-changed', function () { renderPanel(); });
 
   window.rrAmend = {
+    /* 개정문 분석(amend_details.json)을 다 받았는지. details(x) 가 null 이면 '아직 안 받음'과 '이 개정은 분석 없음(행정규칙 등)'이 같아 보여서 따로 묻는다 */
+    detailsLoaded: function () { return !!DET; },
     ready: ready, codes: codes, isRisk: isRisk, badges: badges, details: details, keyOf: keyOf,
     popupSection: popupSection, briefFill: briefFill, isPlaceholder: isPlaceholder, loadDetails: loadDetails, META: META
   };
