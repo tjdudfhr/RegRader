@@ -1,0 +1,32 @@
+name: RegRader 매일 점검
+
+# 맥의 매일 갱신(07:00) 뒤에 확인한다: 오늘 갱신이 돌았고 성공했는지(docs/health.json), 공개 사이트가 멈추지 않는지.
+# 문제가 있으면 이 실행이 '실패'로 끝나고 GitHub 이 저장소 주인에게 알림 메일을 보낸다.
+# 저장소 비밀값 RR_MAIL_USER · RR_MAIL_PASS(Gmail 앱 비밀번호) · RR_MAIL_TO 를 넣으면 한국어 알림 메일도 보낸다.
+on:
+  schedule:
+    - cron: "20 23 * * *"   # 매일 08:20 (한국 시각)
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "알림 메일 시험 (일부러 실패로 끝낸다)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts
+      - name: 자동 갱신 · 공개 사이트 점검
+        env:
+          RR_MAIL_USER: ${{ secrets.RR_MAIL_USER }}
+          RR_MAIL_PASS: ${{ secrets.RR_MAIL_PASS }}
+          RR_MAIL_TO: ${{ secrets.RR_MAIL_TO }}
+        run: python3 scripts/daily_watch.py ${{ inputs.test && '--test' || '' }}
