@@ -16,7 +16,8 @@
   var LS_TO = 'rr_mail_to';
   var LS_CC = 'rr_mail_cc';
   /* 메일 중계(Google Apps Script 웹 앱) 주소 — scripts/mail_relay.gs 를 배포하면 나오는 /exec 주소 */
-  var RELAY = window.RR_MAIL_RELAY || '';
+  var RELAY = window.RR_MAIL_RELAY || 'https://script.google.com/macros/s/AKfycbzGLU61AsXAvnk2uvrRUP2l-_Dw_rFLIKYar11TAsUxK3S6wuE-F1IOQv4uXaRU25tV/exec';
+  // (주소가 공개돼도 괜찮다: 그쪽에서 로그인한 구성원인지 확인하고, 아니면 보내지 않는다)
   var MAX_BYTES = 190000;   // 개인 Gmail(Apps Script) 본문 한도 200KB 보다 조금 작게
   var state = { range: 'upcoming', jobs: null };
 
