@@ -138,28 +138,40 @@ function nextFirst_() {   // 다음 달 1일 (미리보기는 다음 정기 발�
 }
 
 function runMonthly_(opt) {
-  var owner = Session.getEffectiveUser().getEmail();
+  var plan = null;
   try {
-    var plan = planMonthly_(opt.today || today_());
+    plan = planMonthly_(opt.today || today_());
     var mails = buildMails_(plan);
-    if (!mails.length) { Logger.log('보낼 사람이 없습니다 (등록된 담당자 · 총괄이 없음)'); return; }
+    if (!mails.length) { Logger.log('보낼 사람이 없습니다 (등록된 담당자 · 총괄이 없음 — 대응 현황 관리 > 담당자 관리에서 등록하세요)'); return; }
+    var me = opt.preview ? owner_(plan.members) : '';
+    if (opt.preview && !me) throw new Error('미리보기를 받을 메일 주소를 알 수 없습니다. 실행 로그의 "권한 제공"을 눌러 이메일 주소 권한을 허용하거나, 대응 현황 관리에 총괄을 등록하세요.');
     if (MailApp.getRemainingDailyQuota() < mails.length) throw new Error('오늘 보낼 수 있는 메일 수가 모자랍니다 (남은 수 ' + MailApp.getRemainingDailyQuota() + ')');
     mails.forEach(function (m) {
       MailApp.sendEmail({
-        to: opt.preview ? owner : m.to,
+        to: opt.preview ? me : m.to,
         subject: (opt.preview ? '[미리보기 → ' + m.who + '] ' : '') + m.subject,
         htmlBody: m.html, body: m.text, name: 'RegRader 법규 개정 모니터링'
       });
     });
     if (!opt.preview) saveSent_(plan);
-    Logger.log((opt.preview ? '미리보기 ' + mails.length + '통을 ' + owner + ' 로 보냈습니다' : mails.length + '통을 보냈습니다') +
+    Logger.log((opt.preview ? '미리보기 ' + mails.length + '통을 ' + me + ' 로 보냈습니다' : mails.length + '통을 보냈습니다') +
       ' — ' + mails.map(function (m) { return m.who + ': ' + m.count + '건'; }).join(', '));
   } catch (err) {
     var msg = (err && err.message) || String(err);
     Logger.log('매월 알림 실패: ' + msg);
-    if (!opt.preview) MailApp.sendEmail(owner, '[RegRader] ⚠ 매월 담당자 알림을 보내지 못했습니다', msg + '\n\nApps Script 편집기에서 previewMonthly 를 실행해 원인을 확인하세요.');
-    else throw err;
+    if (opt.preview) throw err;
+    var to = owner_(plan && plan.members);
+    if (to) MailApp.sendEmail(to, '[RegRader] ⚠ 매월 담당자 알림을 보내지 못했습니다', msg + '\n\nApps Script 편집기에서 previewMonthly 를 실행해 원인을 확인하세요.');
   }
+}
+
+/* 미리보기 · 실패 알림을 받을 사람: 이 스크립트 주인 (이메일 주소 권한이 없으면 대응 현황 관리의 총괄) */
+function owner_(members) {
+  try {
+    var e = Session.getEffectiveUser().getEmail();
+    if (e) return e;
+  } catch (err) { /* 이메일 주소 권한을 안 준 경우 */ }
+  return (members || []).filter(function (m) { return m.role === 'admin' && m.email; }).map(function (m) { return m.email; }).join(',');
 }
 
 function today_() { return Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd'); }
