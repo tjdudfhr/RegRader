@@ -181,7 +181,12 @@
       '.rr-mail .pv .j i{width:7px;height:7px;border-radius:2px}' +
       '.rr-mail .pv .more,.rr-mail .pv .none{display:block;text-align:center;color:var(--ink-3);padding:10px;font-size:12.5px}' +
       '.rr-mail .rr-linkbtn{border:0;background:none;padding:0;color:var(--brand);font:inherit;font-weight:700;cursor:pointer;text-decoration:underline}' +
-      '.rr-mail .rr-dlg-f .sp{font-size:12.5px}';
+      '.rr-mail .rr-dlg-f .sp{font-size:12.5px}' +
+      '.rr-mail .ppl{display:flex;flex-direction:column;gap:8px;padding:10px 12px;border:1px dashed var(--line);border-radius:10px;background:var(--surface-2,#f8fafc)}' +
+      '.rr-mail .ppl .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.rr-mail .ppl .sp{flex:1}' +
+      '.rr-mail .ppl .lab{font-size:12.5px;font-weight:700;color:var(--ink-2)}.rr-mail .ppl .hint{font-size:12.5px;color:var(--ink-3)}' +
+      '.rr-mail .ppl .rr-chips{gap:6px}.rr-mail .rr-chipx.sm{padding:4px 9px;font-size:12px}' +
+      '.rr-mail .rr-chipx.sm i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:4px}';
     document.head.appendChild(st);
   }
 
@@ -190,6 +195,45 @@
   function readCc() { try { return localStorage.getItem(LS_CC) || ''; } catch (e) { return ''; } }
   function saveCc(v) { try { localStorage.setItem(LS_CC, v); } catch (e) {} }
   function parseTo(raw) { return String(raw || '').split(/[,;\s]+/).map(function (s) { return s.trim(); }).filter(Boolean); }
+
+  /* ---------- 직무 담당자 불러오기 (대응 현황 관리의 담당자 관리와 같은 목록) ---------- */
+  function members() { return window.rrTracker && window.rrTracker.members ? window.rrTracker.members() : null; }
+  function peopleHTML(list) {
+    var ms = members();
+    var admin = window.rrTracker && window.rrTracker.isAdmin && window.rrTracker.isAdmin();
+    var manage = '<button type="button" class="rr-btn mini" data-a="members"' + (admin ? '' : ' disabled title="담당자 등록 · 수정은 총괄만 할 수 있습니다"') + '>' +
+      (window.rrIcon ? window.rrIcon('users') : '') + '담당자 관리</button>';
+    if (!ms) return '<span class="lab">직무 담당자 불러오기</span><span class="hint">담당자 목록은 <button type="button" class="rr-linkbtn" data-a="login">담당자 로그인</button> 후 볼 수 있습니다</span>';
+    var staff = ms.filter(function (m) { return m.role !== 'admin' && m.job; });
+    var picked = jobsIn(list).map(function (g) { return g.job; });
+    var mine = staff.filter(function (m) { return picked.indexOf(m.job) >= 0; });
+    var chips = order().map(function (j) {
+      var n = staff.filter(function (m) { return m.job === j; }).length;
+      return '<button type="button" class="rr-chipx sm' + (n ? '' : ' off') + '" data-ppl="' + esc(j) + '"' + (n ? '' : ' disabled title="이 직무에 등록된 담당자가 없습니다"') + '><i style="background:' + color(j) + '"></i>' + esc(j) + (n ? ' <b>' + n + '</b>' : '') + '</button>';
+    }).join('');
+    var admins = ms.filter(function (m) { return m.role === 'admin'; }).length;
+    return '<div class="top"><span class="lab">직무 담당자 불러오기</span>' +
+      '<button type="button" class="rr-btn mini pri" data-ppl="__picked"' + (mine.length ? '' : ' disabled') + '>고른 직무 담당자 넣기' + (mine.length ? ' <b>' + mine.length + '명</b>' : '') + '</button>' +
+      '<span class="sp"></span>' + manage + '</div><div class="rr-chips">' + chips +
+      '<button type="button" class="rr-chipx sm' + (admins ? '' : ' off') + '" data-ppl="__admin"' + (admins ? '' : ' disabled') + '>총괄' + (admins ? ' <b>' + admins + '</b>' : '') + '</button></div>';
+  }
+  function paintPeople() {
+    var box = document.getElementById('rr-mail-people');
+    if (box) box.innerHTML = peopleHTML(picked());
+  }
+  function addPeople(which) {
+    var ms = members() || [];
+    var list = which === '__admin' ? ms.filter(function (m) { return m.role === 'admin'; })
+      : which === '__picked' ? ms.filter(function (m) { return m.role !== 'admin' && jobsIn(picked()).some(function (g) { return g.job === m.job; }); })
+      : ms.filter(function (m) { return m.role !== 'admin' && m.job === which; });
+    var el = document.getElementById('rr-mail-to');
+    if (!el || !list.length) return;
+    var cur = parseTo(el.value), low = cur.map(function (x) { return x.toLowerCase(); }), added = [];
+    list.forEach(function (m) { if (low.indexOf(m.email.toLowerCase()) < 0) { cur.push(m.email); low.push(m.email.toLowerCase()); added.push(m.name || m.email); } });
+    el.value = cur.join(', ');
+    var what = which === '__admin' ? '총괄' : which === '__picked' ? '고른 직무 담당자' : which + ' 담당자';
+    note('ok', added.length ? what + ' <b>' + added.length + '명</b>을 받는 사람에 넣었습니다 (' + esc(added.join(', ')) + ')' : '이미 받는 사람에 모두 들어 있습니다 (' + what + ')');
+  }
 
   function paint() {
     var modal = document.getElementById('email-modal');
@@ -225,6 +269,7 @@
         : '<span class="none">선택한 조건에 맞는 개정이 없습니다.</span>') + '</div></section>';
     h += '<section class="rr-box" style="display:flex;flex-direction:column;gap:10px">' +
       '<label class="rr-f"><span>받는 사람</span><textarea id="rr-mail-to" rows="2" placeholder="hong@company.com, kim@company.com (쉼표 · 줄바꿈으로 여러 명)">' + esc(toVal) + '</textarea></label>' +
+      '<div class="ppl" id="rr-mail-people">' + peopleHTML(list) + '</div>' +
       '<label class="rr-f"><span>참조 <small>(선택)</small></span><input type="text" id="rr-mail-cc" value="' + esc(ccVal) + '" placeholder="팀장님 등 함께 받을 사람"></label>' +
       '<label class="rr-f"><span>제목</span><input type="text" id="rr-mail-subject" value="' + esc(subject(list)) + '"></label></section>';
     h += '<div class="rr-msg" id="rr-mail-msg"></div></div>';
@@ -324,6 +369,7 @@
     var t = e.target.closest ? e.target.closest('button') : null;
     var modal = document.getElementById('email-modal');
     if (!t) { if (e.target === modal) close(); return; }
+    if (t.dataset.ppl) { addPeople(t.dataset.ppl); return; }
     if (t.dataset.range) { state.range = t.dataset.range; state.jobs = null; paint(); return; }
     if (t.dataset.job) {
       var all = jobsIn(inRange()).map(function (g) { return g.job; });
@@ -342,6 +388,7 @@
     else if (a === 'copy') doCopy(false);
     else if (a === 'direct') sendDirect(t);
     else if (a === 'login') { close(); if (window.rrTracker && window.rrTracker.openLogin) window.rrTracker.openLogin(); }
+    else if (a === 'members') { if (!(window.rrTracker && window.rrTracker.openMembers && window.rrTracker.openMembers())) note('err', '담당자 등록 · 수정은 총괄 계정으로 로그인해야 할 수 있습니다.'); }
   }
   function open() {
     var modal = document.getElementById('email-modal');
@@ -355,6 +402,10 @@
     var modal = document.getElementById('email-modal');
     if (modal) modal.classList.remove('show');
   }
+  window.addEventListener('rr-trk-change', function () {
+    var modal = document.getElementById('email-modal');
+    if (modal && modal.classList.contains('show')) paintPeople();
+  });
   window.openEmailModal = open;
   window.closeEmailModal = close;
   window.sendEmailViaMailto = function () { doCopy(true); };

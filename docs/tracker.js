@@ -749,7 +749,11 @@
   window.rrTracker = { popupSection: popupSection, status: statusOf, openLogin: openLogin, snapshot: snapshot, keyOf: keyOf, jobOf: jobOf,
     /* 메일 바로 보내기(mail-ui.js)가 쓴다: 로그인한 구성원의 토큰 — 받는 쪽(Google Apps Script)이 Supabase 로 진짜인지 확인한다 */
     token: function () { return client().then(function (c) { return c.auth.getSession(); }).then(function (r) { var s = r && r.data && r.data.session; return s ? s.access_token : ''; }); },
-    who: function () { return me && session && session.user ? { email: session.user.email, name: me.name || '', role: me.role } : null; } };
+    who: function () { return me && session && session.user ? { email: session.user.email, name: me.name || '', role: me.role } : null; },
+    /* 메일 창(mail-ui.js)의 '직무 담당자 불러오기' · '담당자 관리' 바로가기 */
+    members: function () { return loaded ? MEMBERS.map(function (x) { return { email: x.email, name: x.name || '', job: x.job || '', role: x.role }; }) : null; },
+    isAdmin: function () { return !!(me && me.role === 'admin'); },
+    openMembers: function () { if (!me || me.role !== 'admin') return false; paintMembers(); return true; } };
 
   var st = document.createElement('style');
   st.textContent = [
