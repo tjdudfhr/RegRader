@@ -349,8 +349,16 @@
     window.rrTracker.token().then(function (token) {
       if (!token) throw { login: true };
       return fetch(RELAY, { method: 'POST', body: JSON.stringify({ token: token, to: to, cc: cc, subject: subj, html: body.html, text: body.text }) })
-        .then(function (r) { return r.json(); });
+        .then(function (r) { return r.text(); })
+        .then(function (t) {
+          try { return JSON.parse(t); } catch (e) {
+            /* 구글이 결과 대신 오류 화면(HTML)을 돌려준 경우: 그 화면의 글자를 이유로 보여 준다 (메일은 이미 나갔을 수 있다) */
+            var why = String(t || '').replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;|&#39;|&quot;/g, ' ').replace(/\s+/g, ' ').trim();
+            return { ok: false, unsure: true, error: '메일 보내는 프로그램(구글)이 결과 대신 오류 화면을 돌려주었습니다' + (why ? ': ' + why.slice(0, 180) : '') };
+          }
+        });
     }).then(function (r) {
+      if (r && r.unsure) { saveTo(to.join(', ')); saveCc(cc.join(', ')); throw new Error(r.error + ' — 메일이 실제로 갔는지 받은편지함(또는 보낸편지함)을 확인해 주세요. 갔다면 다시 보내지 않으셔도 됩니다.'); }
       if (!r || !r.ok) throw (r && r.code === 'auth') ? { login: true } : new Error((r && r.error) || '보내지 못했습니다.');
       saveTo(to.join(', '));
       saveCc(cc.join(', '));
@@ -360,7 +368,8 @@
       if (err && err.login) {
         note('err', "바로 보내기는 '대응 현황 관리'에 로그인한 구성원만 쓸 수 있습니다. <button type=\"button\" class=\"rr-linkbtn\" data-a=\"login\">담당자 로그인</button>");
       } else {
-        note('err', esc((err && err.message) || '보내지 못했습니다.') + ' 잠시 뒤 다시 시도하거나 <b>메일 앱으로 작성</b>을 써 주세요.');
+        var m = (err && err.message) || '보내지 못했습니다.';
+        note('err', esc(m) + (/받은편지함/.test(m) ? '' : ' 잠시 뒤 다시 시도하거나 <b>메일 앱으로 작성</b>을 써 주세요.'));
       }
     }).then(function () { btn.disabled = false; btn.innerHTML = label; });
   }
