@@ -746,7 +746,10 @@
     if (!loaded || !me || me.role === 'guest') return null;
     return { resp: RESP, members: MEMBERS.slice(), me: me };
   }
-  window.rrTracker = { popupSection: popupSection, status: statusOf, openLogin: openLogin, snapshot: snapshot, keyOf: keyOf, jobOf: jobOf };
+  window.rrTracker = { popupSection: popupSection, status: statusOf, openLogin: openLogin, snapshot: snapshot, keyOf: keyOf, jobOf: jobOf,
+    /* 메일 바로 보내기(mail-ui.js)가 쓴다: 로그인한 구성원의 토큰 — 받는 쪽(Google Apps Script)이 Supabase 로 진짜인지 확인한다 */
+    token: function () { return client().then(function (c) { return c.auth.getSession(); }).then(function (r) { var s = r && r.data && r.data.session; return s ? s.access_token : ''; }); },
+    who: function () { return me && session && session.user ? { email: session.user.email, name: me.name || '', role: me.role } : null; } };
 
   var st = document.createElement('style');
   st.textContent = [

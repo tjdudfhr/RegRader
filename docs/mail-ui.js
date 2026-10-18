@@ -8,11 +8,16 @@
  *  1) 범위(30일 이내 / 시행예정 / 분기 / 올해 전체)와 직무를 고른다
  *  2) [메일 작성] -> 표 형식 본문을 클립보드에 복사하고, 받는 사람·제목만 채운 메일 앱을 연다
  *  3) 메일 본문 칸에 붙여 넣으면(Ctrl+V / ⌘V) 표가 그대로 들어간다
- * 사이트는 서버가 없는 정적 페이지라 직접 메일을 보내지 못한다. 보내는 것은 각자의 메일 앱이다.
+ *  4) [바로 보내기] (2026-10-18) -> 사이트에서 바로 보낸다. 사이트는 서버가 없어서 Google Apps Script 웹 앱(scripts/mail_relay.gs)이
+ *     앱 주인의 Gmail 로 대신 보낸다. '대응 현황 관리'에 로그인한 구성원만 (로그인 토큰을 같이 보내 그쪽에서 확인)
  */
 (function () {
   var SITE = 'https://tjdudfhr.github.io/RegRader/';
   var LS_TO = 'rr_mail_to';
+  var LS_CC = 'rr_mail_cc';
+  /* 메일 중계(Google Apps Script 웹 앱) 주소 — scripts/mail_relay.gs 를 배포하면 나오는 /exec 주소 */
+  var RELAY = window.RR_MAIL_RELAY || '';
+  var MAX_BYTES = 190000;   // 개인 Gmail(Apps Script) 본문 한도 200KB 보다 조금 작게
   var state = { range: 'upcoming', jobs: null };
 
   function items() { return window.__rrItems || window.lawsData || []; }
@@ -173,12 +178,16 @@
       '.rr-mail .pv .d{font-weight:800;font-variant-numeric:tabular-nums}' +
       '.rr-mail .pv .j{font-size:11.5px;font-weight:700;color:var(--ink-2);display:inline-flex;align-items:center;gap:5px}' +
       '.rr-mail .pv .j i{width:7px;height:7px;border-radius:2px}' +
-      '.rr-mail .pv .more,.rr-mail .pv .none{display:block;text-align:center;color:var(--ink-3);padding:10px;font-size:12.5px}';
+      '.rr-mail .pv .more,.rr-mail .pv .none{display:block;text-align:center;color:var(--ink-3);padding:10px;font-size:12.5px}' +
+      '.rr-mail .rr-linkbtn{border:0;background:none;padding:0;color:var(--brand);font:inherit;font-weight:700;cursor:pointer;text-decoration:underline}' +
+      '.rr-mail .rr-dlg-f .sp{font-size:12.5px}';
     document.head.appendChild(st);
   }
 
   function readTo() { try { return localStorage.getItem(LS_TO) || ''; } catch (e) { return ''; } }
   function saveTo(v) { try { localStorage.setItem(LS_TO, v); } catch (e) {} }
+  function readCc() { try { return localStorage.getItem(LS_CC) || ''; } catch (e) { return ''; } }
+  function saveCc(v) { try { localStorage.setItem(LS_CC, v); } catch (e) {} }
   function parseTo(raw) { return String(raw || '').split(/[,;\s]+/).map(function (s) { return s.trim(); }).filter(Boolean); }
 
   function paint() {
@@ -186,6 +195,8 @@
     if (!modal) return;
     css();
     var toVal = modal.querySelector('#rr-mail-to') ? modal.querySelector('#rr-mail-to').value : readTo();
+    var ccVal = modal.querySelector('#rr-mail-cc') ? modal.querySelector('#rr-mail-cc').value : readCc();
+    var who = window.rrTracker && window.rrTracker.who ? window.rrTracker.who() : null;
     var pool = inRange();
     var jobs = jobsIn(pool);
     var list = picked();
@@ -193,7 +204,7 @@
 
     var ic = function (n) { return window.rrIcon ? window.rrIcon(n) : ''; };
     var h = '<div class="modal-content rr-dlg rr-mail" style="--dlg-w:720px" role="dialog" aria-label="메일로 공유">' +
-      '<div class="rr-dlg-h"><span class="rr-dlg-ic">' + ic('mail') + '</span><div class="rr-dlg-t"><h2>메일로 공유</h2><p>고른 개정 목록을 메일 본문으로 복사합니다</p></div>' +
+      '<div class="rr-dlg-h"><span class="rr-dlg-ic">' + ic('mail') + '</span><div class="rr-dlg-t"><h2>메일로 공유</h2><p>고른 개정 목록을 원하는 사람에게 바로 보냅니다</p></div>' +
       '<button type="button" class="rr-dlg-x" data-a="close" aria-label="닫기">' + ic('x') + '</button></div><div class="rr-dlg-b">';
     h += '<section class="rr-box"><div class="rr-box-h">범위</div><div class="rr-chips">' + RANGES.map(function (r) {
       var n = items().filter(r.test).length;
@@ -212,12 +223,17 @@
       }).join('') + (list.length > 60 ? '<span class="more">외 ' + (list.length - 60) + '건 (메일에는 전부 들어갑니다)</span>' : '')
         : '<span class="none">선택한 조건에 맞는 개정이 없습니다.</span>') + '</div></section>';
     h += '<section class="rr-box" style="display:flex;flex-direction:column;gap:10px">' +
-      '<label class="rr-f"><span>받는 사람</span><textarea id="rr-mail-to" rows="2" placeholder="hong@company.com, kim@company.com">' + esc(toVal) + '</textarea></label>' +
+      '<label class="rr-f"><span>받는 사람</span><textarea id="rr-mail-to" rows="2" placeholder="hong@company.com, kim@company.com (쉼표 · 줄바꿈으로 여러 명)">' + esc(toVal) + '</textarea></label>' +
+      '<label class="rr-f"><span>참조 <small>(선택)</small></span><input type="text" id="rr-mail-cc" value="' + esc(ccVal) + '" placeholder="팀장님 등 함께 받을 사람"></label>' +
       '<label class="rr-f"><span>제목</span><input type="text" id="rr-mail-subject" value="' + esc(subject(list)) + '"></label></section>';
     h += '<div class="rr-msg" id="rr-mail-msg"></div></div>';
-    h += '<div class="rr-dlg-f"><span class="sp">메일 앱이 열리면 본문에 붙여넣기(Ctrl+V · ⌘V)</span>' +
+    var hint = !RELAY ? '바로 보내기는 메일 중계 설정 후 쓸 수 있습니다 (지금은 메일 앱으로 작성)'
+      : who ? esc(who.name || who.email) + ' 님 이름으로 보냅니다 · 답장은 ' + esc(who.email) + ' 로'
+      : '바로 보내기는 <button type="button" class="rr-linkbtn" data-a="login">담당자 로그인</button> 후 쓸 수 있습니다';
+    h += '<div class="rr-dlg-f"><span class="sp">' + hint + '</span>' +
       '<button type="button" class="rr-btn" data-a="copy"' + (list.length ? '' : ' disabled') + '>' + ic('clipboard') + '본문만 복사</button>' +
-      '<button type="button" class="rr-btn pri" data-a="send"' + (list.length ? '' : ' disabled') + '>' + ic('send') + '메일 작성</button></div>';
+      '<button type="button" class="rr-btn" data-a="app"' + (list.length ? '' : ' disabled') + '>' + ic('mail') + '메일 앱으로 작성</button>' +
+      '<button type="button" class="rr-btn pri" data-a="direct"' + (list.length ? '' : ' disabled') + '>' + ic('send') + '바로 보내기</button></div>';
     h += '</div>';
     modal.innerHTML = h;
   }
@@ -253,6 +269,56 @@
     });
   }
 
+  /* 본문 200KB 안으로: 넘으면 시행일이 가까운 것부터 넣고 '외 N건은 사이트에서' 를 붙인다 */
+  function bytes(s) { return window.TextEncoder ? new TextEncoder().encode(s).length : s.length * 3; }
+  function fitBody(list) {
+    var html = bodyHTML(list);
+    if (bytes(html) <= MAX_BYTES) return { html: html, text: bodyText(list), n: list.length };
+    var lo = 1, hi = list.length - 1, best = 1;
+    while (lo <= hi) {
+      var mid = (lo + hi) >> 1;
+      if (bytes(bodyHTML(list.slice(0, mid))) <= MAX_BYTES - 2000) { best = mid; lo = mid + 1; } else hi = mid - 1;
+    }
+    var part = list.slice(0, best), more = list.length - best;
+    var tail = '<p style="margin:16px 0 0;font-size:13px;color:#475467">외 <b>' + more + '건</b>은 메일 길이 제한으로 빠졌습니다. 전체 목록은 <a href="' + SITE + '">RegRader</a> 에서 보세요.</p>';
+    return { html: bodyHTML(part) + tail, text: bodyText(part) + '\n\n외 ' + more + '건은 메일 길이 제한으로 빠졌습니다. 전체 목록: ' + SITE, n: part.length, more: more };
+  }
+
+  /* 바로 보내기: 메일 중계(Google Apps Script)로 보낸다 — 로그인한 구성원만 */
+  function sendDirect(btn) {
+    var list = picked();
+    if (!list.length) return;
+    if (!RELAY) { note('err', '바로 보내기는 아직 설정되지 않았습니다. 관리자가 메일 중계(Google Apps Script)를 한 번 배포해야 합니다. 지금은 <b>메일 앱으로 작성</b>을 써 주세요.'); return; }
+    var to = parseTo((document.getElementById('rr-mail-to') || {}).value);
+    var cc = parseTo((document.getElementById('rr-mail-cc') || {}).value);
+    if (!to.length) { note('err', '받는 사람을 넣어 주세요.'); return; }
+    var bad = to.concat(cc).filter(function (x) { return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x); });
+    if (bad.length) { note('err', '이메일 주소를 확인해 주세요: ' + esc(bad.join(', '))); return; }
+    if (!window.rrTracker || !window.rrTracker.token) { note('err', '로그인 기능을 불러오지 못했습니다. 화면을 새로 고친 뒤 다시 시도해 주세요.'); return; }
+    var subj = (document.getElementById('rr-mail-subject') || {}).value || subject(list);
+    var body = fitBody(list);
+    var label = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = '보내는 중…';
+    window.rrTracker.token().then(function (token) {
+      if (!token) throw { login: true };
+      return fetch(RELAY, { method: 'POST', body: JSON.stringify({ token: token, to: to, cc: cc, subject: subj, html: body.html, text: body.text }) })
+        .then(function (r) { return r.json(); });
+    }).then(function (r) {
+      if (!r || !r.ok) throw (r && r.code === 'auth') ? { login: true } : new Error((r && r.error) || '보내지 못했습니다.');
+      saveTo(to.join(', '));
+      saveCc(cc.join(', '));
+      note('ok', '<b>' + r.sent + '명</b>에게 보냈습니다' + (body.more ? ' (메일 길이 제한으로 ' + body.n + '건만 넣고 나머지는 사이트 링크)' : ' (' + body.n + '건)') +
+        (typeof r.left === 'number' ? ' · 오늘 더 보낼 수 있는 수 ' + r.left + '명' : ''));
+    }).catch(function (err) {
+      if (err && err.login) {
+        note('err', "바로 보내기는 '대응 현황 관리'에 로그인한 구성원만 쓸 수 있습니다. <button type=\"button\" class=\"rr-linkbtn\" data-a=\"login\">담당자 로그인</button>");
+      } else {
+        note('err', esc((err && err.message) || '보내지 못했습니다.') + ' 잠시 뒤 다시 시도하거나 <b>메일 앱으로 작성</b>을 써 주세요.');
+      }
+    }).then(function () { btn.disabled = false; btn.innerHTML = label; });
+  }
+
   function onClick(e) {
     var t = e.target.closest ? e.target.closest('button') : null;
     var modal = document.getElementById('email-modal');
@@ -271,8 +337,10 @@
     if (a === 'close') close();
     else if (a === 'all') { state.jobs = null; paint(); }
     else if (a === 'none') { state.jobs = []; paint(); }
-    else if (a === 'send') doCopy(true);
+    else if (a === 'app' || a === 'send') doCopy(true);
     else if (a === 'copy') doCopy(false);
+    else if (a === 'direct') sendDirect(t);
+    else if (a === 'login') { close(); if (window.rrTracker && window.rrTracker.openLogin) window.rrTracker.openLogin(); }
   }
   function open() {
     var modal = document.getElementById('email-modal');
