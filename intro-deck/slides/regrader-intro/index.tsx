@@ -26,6 +26,12 @@ import useH from './assets/use-h-pop.jpg';
 import useI from './assets/use-i-cands.jpg';
 import useJ from './assets/use-j-result.jpg';
 import useK from './assets/use-k-company.jpg';
+import useM from './assets/use-m-home.jpg';
+import useN from './assets/use-n-mail.jpg';
+import useO0 from './assets/use-o-mail-before.jpg';
+import useO from './assets/use-o-mail-ppl.jpg';
+import useP from './assets/use-p-mail-sent.jpg';
+import useQ from './assets/use-q-alert.jpg';
 
 // Radar cinematic: deep navy night sky, brand blue sweep, one data-driven radar
 // bookending the deck (cover = first frame, closing = last frame).
@@ -112,14 +118,23 @@ const U3: UseDef = {
   cam: [[0, 1, 0.5, 0.5], [9.6, 1, 0.5, 0.5], [10.4, 1.3, 0.5, 0.52], [16, 1.3, 0.5, 0.52]],
 };
 
-// 기업별 적용법규 검색 (2026-10-15 화면): 사이드바 버튼 → 팝업에서 회사 검색 → 판정 → RegRader로 보내기 → 그 회사 화면
+// 기업별 적용법규 검색 (2026-10-19 화면): 사이드바 버튼 → 오른쪽 화면에서 회사 검색 → 판정 → RegRader로 보내기 → 새 탭에 그 회사 화면
 const U4: UseDef = {
   id: 'u4',
   k: 1,
-  dur: 19.7,
-  cursor: [[0, 0.5, 0.6], [3.6, 0.5, 0.6], [5.0, 0.085, 0.12], [6.6, 0.085, 0.12], [7.8, 0.6, 0.39], [9.0, 0.6, 0.39], [9.8, 0.33, 0.53], [10.4, 0.33, 0.53], [11.6, 0.55, 0.36], [12.6, 0.55, 0.36], [13.6, 0.827, 0.134], [14.6, 0.827, 0.134], [15.6, 0.45, 0.35], [19.7, 0.45, 0.35]],
-  clicks: [6.2, 10.1, 14.1],
-  cam: [[0, 1, 0.5, 0.5], [10.6, 1, 0.5, 0.5], [11.4, 1.25, 0.62, 0.28], [14.3, 1.25, 0.62, 0.28], [14.7, 1, 0.5, 0.5], [19.7, 1, 0.5, 0.5]],
+  dur: 22.07,
+  cursor: [[0, 0.5, 0.6], [4.0, 0.5, 0.6], [5.6, 0.085, 0.12], [7.0, 0.085, 0.12], [8.4, 0.62, 0.405], [10.0, 0.62, 0.405], [11.0, 0.42, 0.548], [11.9, 0.42, 0.548], [13.0, 0.6, 0.5], [14.6, 0.6, 0.5], [15.6, 0.825, 0.149], [16.5, 0.825, 0.149], [17.6, 0.45, 0.4], [22.07, 0.45, 0.4]],
+  clicks: [6.6, 11.6, 16.0],
+  cam: [[0, 1, 0.5, 0.5], [12.3, 1, 0.5, 0.5], [13.0, 1.22, 0.7, 0.32], [14.8, 1.22, 0.7, 0.32], [15.4, 1, 0.5, 0.5], [22.07, 1, 0.5, 0.5]],
+};
+// 메일로 공유 (2026-10-19 화면, 예시 담당자): ✉ → 범위 · 직무 → 직무 담당자 불러오기 → 바로 보내기 → 담당자 관리
+const U5: UseDef = {
+  id: 'u5',
+  k: 1,
+  dur: 19.53,
+  cursor: [[0, 0.55, 0.6], [1.0, 0.55, 0.6], [2.4, 0.897, 0.035], [3.2, 0.897, 0.035], [5.0, 0.5, 0.4], [5.8, 0.5, 0.4], [6.6, 0.307, 0.204], [7.6, 0.307, 0.204], [9.0, 0.41, 0.594], [9.9, 0.41, 0.594], [11.6, 0.697, 0.941], [12.6, 0.697, 0.941], [14.6, 0.682, 0.536], [19.53, 0.682, 0.536]],
+  clicks: [2.9, 6.9, 9.6, 12.3],
+  cam: [[0, 1, 0.5, 0.5], [19.53, 1, 0.5, 0.5]],
 };
 
 const camT = (s: number, cx: number, cy: number) => {
@@ -127,7 +142,7 @@ const camT = (s: number, cx: number, cy: number) => {
   const ty = Math.min(0, Math.max(FH - s * FH, FH / 2 - s * cy * FH));
   return `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${s})`;
 };
-const useKeys = [U1, U2, U3, U4].map((u) => {
+const useKeys = [U1, U2, U3, U4, U5].map((u) => {
   const pc = (t: number) => `${((t / u.dur) * 100).toFixed(3)}%`;
   const cur = u.cursor.map(([t, x, y]) => `${pc(t)} { transform: translate(${(x * FW).toFixed(1)}px, ${(y * FH).toFixed(1)}px); }`).join(' ');
   const clk = ['0% { transform: scale(1); }', ...u.clicks.flatMap((t) => [`${pc(t - 0.12)} { transform: scale(1); }`, `${pc(t)} { transform: scale(0.78); }`, `${pc(t + 0.18)} { transform: scale(1); }`]), '100% { transform: scale(1); }'].join(' ');
@@ -139,7 +154,7 @@ const ANIMATED = [
   'rgx-rise', 'rgx-fade', 'rgx-grow', 'rgx-pop', 'rgx-draw', 'rgx-ticker', 'rgx-scan',
   'rgx-ping', 'rgx-travel', 'rgx-node', 'rgx-state', 'rgx-pill', 'rgx-dot', 'rgx-cursor',
   'rgx-shotin', 'rgx-ring', 'rgx-ringkeep', 'rgx-ripple', 'rgx-stepon', 'rgx-cur', 'rgx-clk', 'rgx-cam',
-  'rgx-slam', 'rgx-wave', 'rgx-key', 'rgx-blink',
+  'rgx-slam', 'rgx-wave', 'rgx-key', 'rgx-blink', 'rgx-pan',
 ];
 const stillSel = ANIMATED.map((c) => `[data-still] .${c}`).join(', ');
 const reducedSel = ANIMATED.map((c) => `.${c}`).join(', ');
@@ -167,6 +182,8 @@ const css = `
   .rgx-shotin { animation: rgx-shotin 0.45s ease-out both; }
   .rgx-key { display: inline-block; overflow: hidden; vertical-align: bottom; max-width: 1.2em; animation: rgx-key 0.06s linear both; }
   .rgx-blink { animation: rgx-blink 1s steps(1) infinite; }
+  .rgx-pan { animation: rgx-pan 9s cubic-bezier(0.45, 0, 0.2, 1) both; }
+  @keyframes rgx-pan { from { transform: translateY(0); } to { transform: translateY(var(--pan)); } }
   @keyframes rgx-key { from { max-width: 0; } }
   @keyframes rgx-blink { 50% { opacity: 0; } }
   .rgx-ring { opacity: 0; animation: rgx-ring linear both; }
@@ -2052,35 +2069,121 @@ const ProIntro: Page = () => (
 );
 
 const UsePro: Page = () => (
-  <Frame asOf="2026.10.15">
+  <Frame asOf="2026.10.19">
     <Eyebrow code="STEP 4">사용법 · 기업별 적용법규 검색</Eyebrow>
     <Heading>검색 한 번으로, 그 회사의 RegRader가 열립니다</Heading>
     <Browser u={U4}>
       <Shot src={useG} at={0} k={U4.k} />
-      <Shot src={useH} at={6.6} k={U4.k} />
-      <Shot src={useI} at={9.0} k={U4.k} />
-      <Shot src={useJ} at={10.4} k={U4.k} />
-      <Shot src={useK} at={14.6} k={U4.k} />
-      <Ring box={{ x: 0.0083, y: 0.0867, w: 0.1528, h: 0.0667 }} from={4.0} to={6.6} k={U4.k} />
-      <Ripple x={0.085} y={0.12} t={6.2} k={U4.k} />
-      <Ring box={{ x: 0.2311, y: 0.3639, w: 0.3891, h: 0.0556 }} from={7.2} to={9.0} k={U4.k} label="회사 이름 검색" />
-      <Ring box={{ x: 0.1874, y: 0.4861, w: 0.5, h: 0.0931 }} from={9.2} to={10.4} k={U4.k} />
-      <Ripple x={0.33} y={0.53} t={10.1} k={U4.k} />
-      <Ring box={{ x: 0.3512, y: 0.3206, w: 0.6153, h: 0.0775 }} from={11.0} to={13.0} k={U4.k} label="적용법규 1,480개 = 법령 551 + 행정규칙 929" />
-      <Ring box={{ x: 0.7613, y: 0.1089, w: 0.1325, h: 0.0511 }} from={12.8} to={14.6} k={U4.k} label="RegRader로 보내기" />
-      <Ripple x={0.827} y={0.134} t={14.1} k={U4.k} />
-      <Ring box={{ x: 0.2525, y: 0.0152, w: 0.264, h: 0.0395 }} from={15.2} k={U4.k} keep below label="그 회사의 RegRader 화면" />
+      <Shot src={useH} at={7.4} k={U4.k} />
+      <Shot src={useI} at={10.4} k={U4.k} />
+      <Shot src={useJ} at={12.0} k={U4.k} />
+      <Shot src={useK} at={16.6} k={U4.k} />
+      <Ring box={{ x: 0.0083, y: 0.0867, w: 0.1528, h: 0.0667 }} from={4.6} to={7.4} k={U4.k} />
+      <Ripple x={0.085} y={0.12} t={6.6} k={U4.k} />
+      <Ring box={{ x: 0.316, y: 0.379, w: 0.389, h: 0.056 }} from={8.0} to={10.2} k={U4.k} label="오른쪽에 검색 화면 — 회사 이름 검색" />
+      <Ring box={{ x: 0.272, y: 0.501, w: 0.5, h: 0.093 }} from={10.6} to={12.0} k={U4.k} />
+      <Ripple x={0.42} y={0.548} t={11.6} k={U4.k} />
+      <Ring box={{ x: 0.523, y: 0.336, w: 0.442, h: 0.098 }} from={12.6} to={14.8} k={U4.k} label="적용법규 1,480개 · 판정 근거" />
+      <Ring box={{ x: 0.569, y: 0.534, w: 0.3, h: 0.0144 }} from={13.4} to={14.8} k={U4.k} below label="확인한 사실 — 점 색 = 근거" />
+      <Ring box={{ x: 0.759, y: 0.124, w: 0.132, h: 0.051 }} from={14.8} to={16.6} k={U4.k} label="RegRader로 보내기" />
+      <Ripple x={0.825} y={0.149} t={16.0} k={U4.k} />
+      <Ring box={{ x: 0.192, y: 0.015, w: 0.195, h: 0.04 }} from={17.2} k={U4.k} keep below label="새 탭: 그 회사의 RegRader 화면" />
     </Browser>
     <UseSteps>
       <UseStepRow n="1" title="기업별 적용법규 검색" desc="왼쪽 메뉴 맨 위 버튼" at={0} k={U4.k} />
-      <UseStepRow n="2" title="회사 이름 검색" desc="예: 포스코퓨처엠" at={6.6} k={U4.k} />
-      <UseStepRow n="3" title="적용법규 판정 확인" desc="판정 근거 · 직무별 정리" at={10.4} k={U4.k} />
-      <UseStepRow n="4" title="RegRader로 보내기" desc="그 회사 기준 개정 모니터링 화면" at={14.1} k={U4.k} />
+      <UseStepRow n="2" title="오른쪽에 검색 화면" desc="회사 이름 검색 · 예: 포스코퓨처엠" at={7.4} k={U4.k} />
+      <UseStepRow n="3" title="판정 결과 확인" desc="적용법규 · 판정 근거 · 확인한 사실" at={12.0} k={U4.k} />
+      <UseStepRow n="4" title="RegRader로 보내기" desc="새 탭에 그 회사 개정 모니터링 화면" at={16.0} k={U4.k} />
     </UseSteps>
   </Frame>
 );
 
-// ─── 16. Closing (mirrors the cover so the deck loops) ───
+// ─── 16. 메일로 공유 (바로 보내기 · 직무 담당자) ───
+
+const UseMail: Page = () => (
+  <Frame asOf="2026.10.19">
+    <Eyebrow code="STEP 5">사용법 · 메일로 공유</Eyebrow>
+    <Heading>고른 개정을 담당자에게 바로 보냅니다</Heading>
+    <Browser u={U5}>
+      <Shot src={useM} at={0} k={U5.k} />
+      <Shot src={useN} at={3.2} k={U5.k} />
+      <Shot src={useO0} at={8.0} k={U5.k} />
+      <Shot src={useO} at={9.9} k={U5.k} />
+      <Shot src={useP} at={12.7} k={U5.k} />
+      <Ring box={{ x: 0.8837, y: 0.015, w: 0.0271, h: 0.04 }} from={1.4} to={3.2} k={U5.k} below label="메일로 공유" />
+      <Ripple x={0.897} y={0.035} t={2.9} k={U5.k} />
+      <Ring box={{ x: 0.275, y: 0.186, w: 0.064, h: 0.036 }} from={5.8} to={7.8} k={U5.k} label="범위 · 직무 고르기" />
+      <Ripple x={0.307} y={0.204} t={6.9} k={U5.k} />
+      <Ring box={{ x: 0.3597, y: 0.5798, w: 0.1, h: 0.029 }} from={8.2} to={10.0} k={U5.k} label="직무 담당자 불러오기" />
+      <Ripple x={0.41} y={0.594} t={9.6} k={U5.k} />
+      <Ring box={{ x: 0.275, y: 0.486, w: 0.45, h: 0.07 }} from={10.0} to={11.4} k={U5.k} label="담당자가 받는 사람에" />
+      <Ring box={{ x: 0.6577, y: 0.92, w: 0.079, h: 0.042 }} from={11.2} to={12.8} k={U5.k} label="바로 보내기" />
+      <Ripple x={0.697} y={0.941} t={12.3} k={U5.k} />
+      <Ring box={{ x: 0.263, y: 0.842, w: 0.474, h: 0.045 }} from={12.9} to={14.4} k={U5.k} label="3명에게 보냈습니다" />
+      <Ring box={{ x: 0.649, y: 0.522, w: 0.067, h: 0.029 }} from={14.2} k={U5.k} keep label="담당자 관리 (총괄)" />
+    </Browser>
+    <UseSteps>
+      <UseStepRow n="1" title="메일 버튼" desc="화면 오른쪽 위 ✉" at={0} k={U5.k} />
+      <UseStepRow n="2" title="범위 · 직무 고르기" desc="예: 30일 이내 · 8건" at={5.8} k={U5.k} />
+      <UseStepRow n="3" title="직무 담당자 불러오기" desc="고른 직무 담당자를 한 번에" at={8.2} k={U5.k} />
+      <UseStepRow n="4" title="바로 보내기" desc="로그인한 담당자 이름으로 발송" at={11.4} k={U5.k} />
+    </UseSteps>
+  </Frame>
+);
+
+// ─── 17. 자동 알림 (매월 1일 담당자 · 매일 아침 점검) ───
+
+const AutoAlert: Page = () => (
+  <Frame asOf="2026.10.19">
+    <Eyebrow code="AUTO">자동 알림</Eyebrow>
+    <Heading>매월 1일, 담당자에게 먼저 알립니다</Heading>
+    <div
+      className="rgx-rise"
+      style={{
+        animationDelay: '150ms',
+        position: 'absolute',
+        left: 140,
+        top: 262,
+        width: FW,
+        borderRadius: 14,
+        overflow: 'hidden',
+        background: '#ffffff',
+        border: `1px solid ${ink.panelEdge}`,
+        boxShadow: '0 40px 90px -40px rgba(0, 0, 0, 0.75)',
+      }}
+    >
+      <div style={{ height: 36, display: 'flex', alignItems: 'center', gap: 8, padding: '0 16px', background: '#0d1736', borderBottom: `1px solid ${ink.line}` }}>
+        <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#ff6b5f' }} />
+        <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#ffbd2e' }} />
+        <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#28c840' }} />
+        <span style={{ marginLeft: 18, padding: '3px 14px', borderRadius: 7, background: 'rgba(132, 158, 238, 0.12)', fontFamily: MONO, fontSize: 15, color: ink.muted }}>받은편지함</span>
+      </div>
+      <div style={{ padding: '18px 26px 14px', borderBottom: '1px solid #eaecf0', color: '#101828' }}>
+        <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em' }}>[RegRader] 12월 시행 예정 법규 개정 — 환경 4건 · 11월 추가 5건</div>
+        <div style={{ marginTop: 8, display: 'flex', gap: 14, fontSize: 15, color: '#475467' }}>
+          <b style={{ color: '#101828' }}>RegRader 법규 개정 모니터링</b>
+          <span>받는 사람: 김환경 (환경 담당)</span>
+          <span style={{ marginLeft: 'auto' }}>11월 1일 (일) 오전 8:03</span>
+        </div>
+      </div>
+      <div style={{ position: 'relative', height: 556, overflow: 'hidden' }}>
+        <img
+          src={useQ}
+          alt=""
+          className="rgx-pan"
+          style={{ ...vars({ '--pan': '-345px' }), animationDelay: '6s', display: 'block', width: 980, margin: '0 auto' }}
+        />
+      </div>
+    </div>
+    <div style={{ position: 'absolute', left: 1288, top: 290, width: 492, display: 'flex', flexDirection: 'column', gap: 44 }}>
+      <Point n="01 · 매월 1일 08시" title="직무별 담당자에게" desc="다음 달 시행 개정을 대응 상태 · 기한과 함께" delay={3700} />
+      <Point n="02 · 같은 날" title="총괄에게 전체 요약" desc="직무별 건수와 새로 잡힌 이번 달 시행분" delay={10200} />
+      <Point n="03 · 매일 아침" title="자동 점검 · 문제 알림" desc="갱신 실패나 화면 멈춤이면 바로 메일로" delay={13300} />
+    </div>
+  </Frame>
+);
+
+// ─── 18. Closing (mirrors the cover so the deck loops) ───
 
 const UseStep = ({ n, text, delay }: { n: string; text: string; delay: number }) => (
   <div className="rgx-rise" style={{ animationDelay: `${delay}ms`, display: 'flex', alignItems: 'baseline', gap: 24, fontSize: 34 }}>
@@ -2170,7 +2273,7 @@ export const meta: SlideMeta = {
   createdAt: '2026-10-05T14:45:57.777Z',
 };
 
-export default [Cover, Problem, Funnel, Pipeline, Scope, ThisYear, Sanctions, Soon, Tracker, Grow, UseJob, UseLaw, UseReport, ProIntro, UsePro, Closing] satisfies Page[];
+export default [Cover, Problem, Funnel, Pipeline, Scope, ThisYear, Sanctions, Soon, Tracker, Grow, UseJob, UseLaw, UseReport, ProIntro, UsePro, UseMail, AutoAlert, Closing] satisfies Page[];
 
 export const notes: (string | undefined)[] = [
   '모르고 지나치는 법 개정, 이제 없습니다. 매일 아침, 우리 회사에 해당하는 법규 개정을 먼저 찾아내는 시스템, RegRader입니다. 지금 화면의 점 하나하나가 올해 실제로 포착된 개정 1건입니다.',
@@ -2187,6 +2290,8 @@ export const notes: (string | undefined)[] = [
   '목록에서 법령을 누르면 상세 화면이 열립니다. 어떤 벌칙과 과태료, 의무가 새로 생기거나 바뀌었는지 근거 조문과 함께 정리되어 있고, 개정문 원문과 신구조문 비교도 바로 열어 볼 수 있습니다.',
   '시행 임박 메뉴에서는 곧 시행되는 개정을 D-day 순서로 확인합니다. 보고가 필요할 때는 오른쪽 위의 보고서 버튼을 누르면, 임원 보고용 PPT와 엑셀 파일을 바로 만들 수 있습니다.',
   '새로 추가된 기능, 기업별 적용법규 검색입니다. 회사 이름만 넣으면 국민연금과 전자공시 같은 공공데이터로 업종과 사업장을 확인하고, 현행 법률 1,725개 전부를 적용과 미적용으로 판정합니다. 담당자가 확인한 결과는 자동으로 저장되어, 다음 검색에 그대로 반영됩니다.',
-  '사용 방법은 간단합니다. 왼쪽 메뉴 맨 위의 기업별 적용법규 검색을 누르고, 회사 이름을 검색합니다. 판정 결과와 근거를 확인한 뒤 RegRader로 보내기를 누르면, 그 회사 기준의 개정 모니터링 화면이 바로 열립니다.',
+  '사용 방법은 간단합니다. 왼쪽 메뉴 맨 위의 기업별 적용법규 검색을 누르면 오른쪽에 검색 화면이 열립니다. 회사 이름을 검색해 판정 결과와 근거를 확인하고, RegRader로 보내기를 누르면 그 회사 기준의 개정 모니터링 화면이 새 탭으로 열립니다.',
+  '확인한 개정은 오른쪽 위 메일 버튼으로 바로 공유합니다. 범위와 직무를 고르고, 직무 담당자 불러오기로 담당자를 한 번에 넣은 뒤 바로 보내기를 누르면 됩니다. 담당자는 이 창에서 바로 등록하고 고칠 수 있습니다.',
+  '알림은 자동으로도 갑니다. 매월 1일 아침, 직무별 담당자에게 다음 달에 시행되는 개정을 대응 상태와 함께 보내고, 총괄에게는 전체 요약을 보냅니다. 매일 아침에는 자동 갱신과 사이트를 스스로 점검해, 문제가 생기면 바로 메일로 알려 줍니다.',
   '법이 바뀌면, 레이더가 먼저 울립니다. 매일 아침 7시, 자동으로. 사이트에 접속해 내 직무를 선택하고, 시행 임박부터 확인하시기 바랍니다.',
 ];
