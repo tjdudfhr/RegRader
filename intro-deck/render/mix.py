@@ -4,7 +4,7 @@
   python3 mix.py plan    음성 길이로 페이지 시간을 정해 timing.json 을 쓴다 (render.cjs 가 읽음)
   python3 mix.py audio   음성 + 배경음악(음성이 나올 때 낮춤)을 섞어 audio.m4a, 자막 captions.vtt 를 만든다
 
-입력: voice/s01..s11.(mp3|wav), music.(mp3|wav), narration.json
+입력: voice/s01..s19.(mp3|wav), music.(mp3|wav), narration.json
 """
 import glob
 import json
@@ -16,8 +16,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 FPS = 30
 # 페이지마다 최소 노출 시간(초): 애니메이션이 다 보일 만큼
-MIN_DUR = [8.5, 5.5, 6, 6, 6, 5.5, 6.5, 6.5, 8, 5.5, 18, 17, 16, 20, 22, 19, 21, 6]
-LEAD = [1.3, 0.7, 0.8, 0.7, 0.7, 0.7, 0.7, 0.8, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.9]  # 페이지 시작 → 말 시작
+MIN_DUR = [8.5, 5.5, 6, 6, 6, 6, 5.5, 6.5, 6.5, 8, 5.5, 18, 17, 16, 20, 22, 19, 21, 6]   # 6쪽: 사업장 조례 (2026-10-20)
+LEAD = [1.3, 0.7, 0.8, 0.7, 0.7, 0.7, 0.7, 0.7, 0.8, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.9]  # 페이지 시작 → 말 시작
 TAIL = 1.0  # 말 끝 → 다음 페이지
 END_HOLD = 3.0  # 마지막 말 뒤 여운
 

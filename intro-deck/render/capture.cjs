@@ -1,12 +1,13 @@
 // 사용법 장면(실제 사이트 화면)을 찍는다 → ../slides/regrader-intro/assets/use-*.jpg + use-targets.json
-// 영상의 다른 숫자와 맞추려고 2026-10-05 데이터 시점의 docs/ 를 띄워 찍는다:
-//   git archive f0babfa docs | tar -x -C /tmp/site105 && (cd /tmp/site105/docs && python3 -m http.server 8766)
-//   SITE_URL=http://127.0.0.1:8766/ node capture.cjs
+// 지금 데이터로 찍는다 (2026-10-20 갱신: 영상 숫자도 같은 날 기준). 시계는 CLOCK(기본: 지금)
+//   (cd ~/RegRader-autoupdate && python3 -m http.server 8899)  →  SITE_URL=http://127.0.0.1:8899/docs/ node capture.cjs
+// 예전 방식(특정 날 데이터): git archive <커밋> docs | tar -x -C /tmp/siteX → 그 폴더를 띄우고 CLOCK=2026-10-05T08:10:00+09:00
 const { chromium } = require(process.env.PLAYWRIGHT || 'playwright');
 const fs = require('fs');
 const path = require('path');
 
-const SITE = process.env.SITE_URL || 'http://127.0.0.1:8766/';
+const SITE = process.env.SITE_URL || 'http://127.0.0.1:8899/docs/';
+const GATE = fs.readFileSync(path.join(__dirname, '..', '..', 'docs', 'gate.js'), 'utf8').match(/HASH = '([0-9a-f]+)'/)[1];
 const OUT = path.join(__dirname, '..', 'slides', 'regrader-intro', 'assets');
 const W = 1440;
 const H = 900;
@@ -15,8 +16,9 @@ const H = 900;
   fs.mkdirSync(OUT, { recursive: true });
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   const ctx = await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 2 });
+  await ctx.addInitScript((h) => { try { localStorage.setItem('rr-gate', h); } catch (e) {} }, GATE);
   const page = await ctx.newPage();
-  await page.clock.install({ time: new Date('2026-10-05T08:10:00+09:00') });
+  await page.clock.install({ time: process.env.CLOCK ? new Date(process.env.CLOCK) : new Date() });
   await page.goto(SITE + '?nc=' + Date.now());
   await page.waitForTimeout(6000);
 
@@ -59,7 +61,7 @@ const H = 900;
   await shot('c-list');
   await row.click();
   await page.waitForTimeout(2500);
-  targets.flagSection = await box(page.getByText('벌칙·과태료·의무 변경').last());
+  targets.flagSection = await box(page.locator('#rr-s-judge'));   // 상세 창 맨 위 '실무 판단' (2026-10-20 부터)
   targets.diffBtn = await box(page.getByText('신구조문 비교').first());
   await shot('d-drawer');
 

@@ -84,7 +84,7 @@ const dotKeys = STATUS.map((c, k) => {
   }`;
 }).join('\n');
 
-// ─── 사용법 장면: 실제 사이트 화면(2026-10-05) 위에서 커서 · 강조 · 확대가 움직인다 ───
+// ─── 사용법 장면: 실제 사이트 화면(2026-10-20) 위에서 커서 · 강조 · 확대가 움직인다 ───
 // 좌표는 화면 비율(0~1). 시간은 초이고, k 로 페이지 길이(내레이션)에 맞춰 늘린다.
 
 const FW = 1088; // 화면 크기 (사이트 1440×900 의 비율 그대로)
@@ -97,15 +97,15 @@ const U1: UseDef = {
   id: 'u1',
   k: 1.12,
   dur: 16,
-  cursor: [[0, 0.55, 0.62], [1.0, 0.55, 0.62], [2.4, 0.837, 0.19], [3.6, 0.837, 0.19], [5.0, 0.68, 0.4], [8.6, 0.68, 0.4], [9.8, 0.585, 0.62], [16, 0.585, 0.62]],
+  cursor: [[0, 0.55, 0.6289], [1.0, 0.55, 0.6289], [2.4, 0.837, 0.1989], [3.6, 0.837, 0.1989], [5.0, 0.68, 0.4089], [8.6, 0.68, 0.4089], [9.8, 0.585, 0.6289], [16, 0.585, 0.6289]],
   clicks: [2.55],
-  cam: [[0, 1, 0.5, 0.5], [4.4, 1, 0.5, 0.5], [5.4, 1.25, 0.58, 0.57], [16, 1.25, 0.58, 0.57]],
+  cam: [[0, 1, 0.5, 0.5], [4.4, 1, 0.5, 0.5], [5.4, 1.25, 0.58, 0.5789], [16, 1.25, 0.58, 0.5789]],
 };
 const U2: UseDef = {
   id: 'u2',
-  k: 1,
+  k: 1.45,   // 2026-10-20: 내레이션(실무 판단) 24.7초에 맞춤
   dur: 17,
-  cursor: [[0, 0.6, 0.75], [0.8, 0.6, 0.75], [2.2, 0.4, 0.408], [3.5, 0.4, 0.408], [5.2, 0.7, 0.62], [10.2, 0.7, 0.62], [11.4, 0.538, 0.224], [17, 0.538, 0.224]],
+  cursor: [[0, 0.6, 0.75], [0.8, 0.6, 0.75], [2.2, 0.4, 0.4227], [3.5, 0.4, 0.4227], [5.2, 0.7, 0.62], [10.2, 0.7, 0.62], [11.4, 0.538, 0.224], [17, 0.538, 0.224]],
   clicks: [2.35],
   cam: [[0, 1, 0.5, 0.5], [4.6, 1, 0.5, 0.5], [5.4, 1.4, 0.69, 0.7], [10.2, 1.4, 0.69, 0.7], [11.0, 1.4, 0.55, 0.3], [17, 1.4, 0.55, 0.3]],
 };
@@ -113,7 +113,7 @@ const U3: UseDef = {
   id: 'u3',
   k: 1,
   dur: 16,
-  cursor: [[0, 0.4, 0.6], [0.6, 0.4, 0.6], [1.9, 0.085, 0.402], [3.0, 0.085, 0.402], [4.2, 0.29, 0.15], [6.4, 0.45, 0.55], [8.4, 0.948, 0.035], [9.6, 0.948, 0.035], [10.8, 0.5, 0.536], [13.2, 0.5, 0.536], [14.2, 0.45, 0.66], [16, 0.45, 0.66]],
+  cursor: [[0, 0.4, 0.6], [0.6, 0.4, 0.6], [1.9, 0.085, 0.4953], [3.0, 0.085, 0.4953], [4.2, 0.29, 0.1589], [6.4, 0.45, 0.5589], [8.4, 0.948, 0.0394], [9.6, 0.948, 0.0394], [10.8, 0.5, 0.536], [13.2, 0.5, 0.536], [14.2, 0.45, 0.66], [16, 0.45, 0.66]],
   clicks: [2.05, 8.6],
   cam: [[0, 1, 0.5, 0.5], [9.6, 1, 0.5, 0.5], [10.4, 1.3, 0.5, 0.52], [16, 1.3, 0.5, 0.52]],
 };
@@ -123,16 +123,16 @@ const U4: UseDef = {
   id: 'u4',
   k: 1,
   dur: 22.07,
-  cursor: [[0, 0.5, 0.6], [4.0, 0.5, 0.6], [5.6, 0.085, 0.12], [7.0, 0.085, 0.12], [8.4, 0.62, 0.405], [10.0, 0.62, 0.405], [11.0, 0.42, 0.548], [11.9, 0.42, 0.548], [13.0, 0.6, 0.5], [14.6, 0.6, 0.5], [15.6, 0.825, 0.149], [16.5, 0.825, 0.149], [17.6, 0.45, 0.4], [22.07, 0.45, 0.4]],
-  clicks: [6.6, 11.6, 16.0],
-  cam: [[0, 1, 0.5, 0.5], [12.3, 1, 0.5, 0.5], [13.0, 1.22, 0.7, 0.32], [14.8, 1.22, 0.7, 0.32], [15.4, 1, 0.5, 0.5], [22.07, 1, 0.5, 0.5]],
+  cursor: [[0, 0.5, 0.6089], [4.0, 0.5, 0.6089], [5.6, 0.085, 0.1289], [7.0, 0.085, 0.1289], [8.4, 0.62, 0.4139], [10.0, 0.62, 0.4139], [11.0, 0.42, 0.5569], [11.9, 0.42, 0.5569], [13.0, 0.6, 0.5089], [14.6, 0.6, 0.5089], [15.6, 0.825, 0.1579], [16.5, 0.825, 0.1579], [17.6, 0.45, 0.4089], [22.07, 0.45, 0.4089]],
+  clicks: [6.6, 11.6, 16],
+  cam: [[0, 1, 0.5, 0.5], [12.3, 1, 0.5, 0.5], [13.0, 1.22, 0.7, 0.3289], [14.8, 1.22, 0.7, 0.3289], [15.4, 1, 0.5, 0.5], [22.07, 1, 0.5, 0.5]],
 };
 // 메일로 공유 (2026-10-19 화면, 예시 담당자): ✉ → 범위 · 직무 → 직무 담당자 불러오기 → 바로 보내기 → 담당자 관리
 const U5: UseDef = {
   id: 'u5',
   k: 1,
   dur: 19.53,
-  cursor: [[0, 0.55, 0.6], [1.0, 0.55, 0.6], [2.4, 0.897, 0.035], [3.2, 0.897, 0.035], [5.0, 0.5, 0.4], [5.8, 0.5, 0.4], [6.6, 0.307, 0.204], [7.6, 0.307, 0.204], [9.0, 0.41, 0.594], [9.9, 0.41, 0.594], [11.6, 0.697, 0.941], [12.6, 0.697, 0.941], [14.6, 0.682, 0.536], [19.53, 0.682, 0.536]],
+  cursor: [[0, 0.55, 0.6], [1.0, 0.55, 0.6], [2.4, 0.897, 0.0394], [3.2, 0.897, 0.0394], [5.0, 0.5, 0.4], [5.8, 0.5, 0.4], [6.6, 0.307, 0.204], [7.6, 0.307, 0.204], [9.0, 0.41, 0.594], [9.9, 0.41, 0.594], [11.6, 0.697, 0.941], [12.6, 0.697, 0.941], [14.6, 0.682, 0.536], [19.53, 0.682, 0.536]],
   clicks: [2.9, 6.9, 9.6, 12.3],
   cam: [[0, 1, 0.5, 0.5], [19.53, 1, 0.5, 0.5]],
 };
@@ -319,11 +319,11 @@ const Count = ({ to, delay = 0, duration = 1600 }: { to: number; delay?: number;
   return <span style={{ fontVariantNumeric: 'tabular-nums' }}>{fmt(v)}</span>;
 };
 
-// ─── Radar data: every dot is one real 2026 amendment (RegRader, 2026-10-05) ───
+// ─── Radar data: every dot is one real 2026 amendment (RegRader, 2026-10-20) ───
 // Encoded as dayOfYear*32 + ringIndex*4 + risk*2 + adminRule.
 
-const EV_RAW = '9,9,16,16,17,17,17,17,17,17,17,20,20,20,21,21,22,24,24,24,24,24,24,24,24,25,25,25,25,25,25,25,25,26,26,26,26,26,26,28,28,28,28,28,28,29,29,29,36,40,40,40,40,44,44,44,44,44,44,44,48,48,48,48,48,48,52,52,52,52,52,52,52,52,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,57,57,57,57,57,57,57,57,60,60,60,60,60,60,60,60,60,60,153,181,184,184,285,349,477,489,688,693,697,860,1001,1004,1004,1012,1012,1012,1012,1012,1012,1016,1016,1020,1020,1080,1117,1292,1596,1596,1596,1697,1724,1753,1789,1789,1805,1844,1844,1846,1846,1848,1848,1848,1850,1908,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1910,1913,1942,1980,1980,2009,2054,2072,2192,2192,2194,2196,2204,2205,2205,2268,2273,2416,2417,2424,2424,2426,2492,2492,2494,2494,2494,2516,2520,2520,2520,2520,2520,2522,2632,2636,2636,2640,2640,2644,2644,2644,2644,2648,2649,2652,2652,2652,2652,2652,2652,2652,2652,2652,2652,2652,2716,2716,2716,2716,2716,2716,2716,2749,2845,2865,2868,2873,2876,2876,2876,2904,2904,2905,2906,2968,3065,3092,3097,3100,3100,3117,3164,3289,3289,3289,3289,3289,3289,3289,3289,3289,3321,3534,3548,3548,3581,3581,3608,3637,3637,3637,3640,3640,3640,3768,3772,3773,3801,3805,3805,3806,3806,3817,3836,3860,3864,3864,3865,3868,3957,3957,3957,3957,3957,3957,3957,3957,3957,3957,3957,3957,4020,4028,4028,4029,4045,4045,4061,4088,4093,4189,4200,4208,4208,4208,4208,4209,4210,4210,4220,4220,4220,4220,4220,4222,4222,4256,4256,4281,4285,4429,4430,4436,4468,4468,4509,4509,4509,4646,4656,4664,4665,4677,4697,4716,4716,4716,4732,4734,4734,4734,4848,4849,4849,4853,4854,4854,4856,4857,4857,4861,4869,4876,4892,4892,4904,4904,4904,4908,4908,4924,4924,4925,5108,5116,5116,5172,5341,5353,5373,5493,5532,5532,5532,5532,5532,5532,5532,5532,5532,5532,5532,5533,5537,5544,5550,5561,5561,5580,5582,5588,5588,5652,5652,5653,5653,5657,5660,5660,5661,5729,5764,5773,5784,5785,5785,5789,5793,5793,5796,5800,5800,5800,5800,5801,5804,5805,5808,5808,5808,5808,5809,5809,5809,5812,5812,5812,5812,5812,5812,5812,5812,5812,5813,5813,5813,5813,5813,5816,5816,5816,5816,5816,5816,5816,5816,5817,5820,5820,5820,5820,5821,5837,5949,5998,5998,6004,6012,6025,6037,6068,6069,6077,6085,6237,6270,6297,6425,6436,6462,6500,6502,6653,6653,6653,6653,6653,6665,6676,6676,6680,6681,6717,6776,6776,6777,6805,6806,6806,6806,6845,6888,6889,6889,6904,6904,6925,7101,7112,7112,7128,7193,7348,7385,7404,7405,7408,7408,7408,7408,7408,7410,7420,7422,7570,7570,7669,7673,7732,7753,7793,7793,7798,7801,7801,7833,7837,7849,8022,8022,8025,8068,8108,8109,8109,8109,8109,8109,8109,8110,8110,8124,8124,8217,8221,8336,8336,8336,8336,8337,8338,8338,8338,8340,8340,8340,8340,8341,8344,8348,8348,8348,8348,8348,8348,8348,8348,8348,8348,8348,8348,8348,8349,8476,8604,8604,8604,8604,8649,8661,8680,8692,8697,8697,8750,8750,8760,8760,8760,8760,8760,8776,8776,8776,8776,8780,8780,8784,8784,8784,8784,8788,8792,8792,8792,8792,8796,8978,8980,8982,8988,8988,8988,8988,8990,9432,10102,10108,10108,10110,10110,10138,10140,10358,10576,10576,10580,10617,10760,10760,10928,10928,10930,10932,10970,10992,10996,11004,11006,11293,11668,11668';
-const TODAY = 277; // 2026-10-05, zero-based day of year
+const EV_RAW = '9,9,16,16,17,17,17,17,17,17,17,20,20,20,21,21,22,24,24,24,24,24,24,24,24,25,25,25,25,25,25,25,25,26,26,26,26,26,26,28,28,28,28,28,28,29,29,29,36,40,40,40,40,44,44,44,44,44,44,44,48,48,48,48,48,48,52,52,52,52,52,52,52,52,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,56,57,57,57,57,57,57,57,57,60,60,60,60,60,60,60,60,60,60,153,181,184,184,285,349,477,489,688,693,697,860,1001,1004,1004,1012,1012,1012,1012,1012,1012,1016,1016,1020,1020,1080,1117,1292,1589,1596,1596,1596,1697,1724,1753,1789,1789,1805,1844,1844,1846,1846,1848,1848,1848,1850,1908,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1909,1910,1913,1942,1980,1980,2009,2054,2072,2192,2192,2194,2196,2204,2205,2205,2268,2273,2416,2417,2424,2424,2426,2492,2492,2494,2494,2494,2516,2520,2520,2520,2520,2520,2522,2632,2636,2636,2640,2640,2644,2644,2644,2644,2648,2649,2652,2652,2652,2652,2652,2652,2652,2652,2652,2652,2652,2716,2716,2716,2716,2716,2716,2716,2749,2845,2865,2868,2873,2876,2876,2876,2904,2904,2905,2906,2968,3065,3092,3097,3100,3100,3117,3164,3289,3289,3289,3289,3289,3289,3289,3289,3289,3321,3534,3548,3548,3581,3581,3608,3637,3637,3637,3640,3640,3640,3768,3772,3773,3801,3805,3805,3806,3806,3817,3836,3860,3864,3864,3865,3868,3957,3957,3957,3957,3957,3957,3957,3957,3957,3957,3957,3957,4020,4028,4028,4029,4045,4045,4061,4088,4093,4189,4200,4208,4208,4208,4208,4209,4210,4210,4220,4220,4220,4220,4220,4222,4222,4256,4256,4281,4285,4429,4430,4436,4468,4468,4509,4509,4509,4646,4656,4664,4665,4677,4697,4716,4716,4716,4732,4734,4734,4734,4848,4849,4849,4853,4854,4854,4856,4857,4857,4861,4869,4876,4892,4892,4904,4904,4904,4908,4908,4924,4924,4925,5108,5116,5116,5172,5341,5353,5373,5493,5532,5532,5532,5532,5532,5532,5532,5532,5532,5532,5532,5533,5537,5544,5550,5561,5561,5580,5582,5588,5588,5652,5652,5653,5653,5657,5660,5660,5661,5729,5764,5773,5784,5785,5785,5785,5789,5793,5793,5796,5800,5800,5800,5800,5801,5804,5805,5808,5808,5808,5808,5809,5809,5809,5812,5812,5812,5812,5812,5812,5812,5812,5812,5813,5813,5813,5813,5813,5816,5816,5816,5816,5816,5816,5816,5816,5817,5820,5820,5820,5820,5821,5821,5837,5949,5998,5998,6004,6012,6025,6037,6045,6068,6069,6077,6085,6237,6270,6297,6425,6436,6462,6500,6502,6653,6653,6653,6653,6653,6665,6676,6676,6680,6681,6717,6776,6776,6777,6805,6806,6806,6806,6845,6888,6889,6889,6904,6904,6925,7101,7112,7112,7128,7165,7165,7193,7348,7349,7385,7404,7405,7408,7408,7408,7408,7408,7410,7420,7422,7570,7570,7669,7673,7732,7753,7793,7793,7798,7801,7801,7833,7837,7849,8022,8022,8025,8068,8108,8109,8109,8109,8109,8109,8109,8110,8110,8124,8124,8217,8221,8336,8336,8336,8336,8337,8338,8338,8338,8340,8340,8340,8340,8341,8344,8348,8348,8348,8348,8348,8348,8348,8348,8348,8348,8348,8348,8348,8349,8476,8604,8604,8604,8604,8649,8661,8680,8692,8697,8697,8729,8750,8750,8760,8760,8760,8760,8760,8765,8776,8776,8776,8776,8780,8780,8784,8784,8784,8784,8788,8792,8792,8792,8792,8793,8793,8796,8908,8916,8933,8933,8945,8949,8949,8953,8953,8957,8978,8980,8982,8988,8988,8988,8988,8988,8990,9113,9144,9149,9168,9213,9332,9332,9368,9432,9434,10102,10108,10108,10110,10110,10138,10140,10358,10576,10576,10580,10617,10760,10760,10928,10928,10930,10932,10970,10992,10996,11004,11006,11293,11293';
+const TODAY = 292; // 2026-10-20, zero-based day of year
 const TAU = Math.PI * 2;
 const PERIOD = 7.5; // seconds per sweep
 const MONTH_START = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
@@ -525,7 +525,7 @@ const Radar = ({
     const loop = (now: number) => {
       const t = (now - t0) / 1000;
       const phi = intro ? -Math.PI / 2 + (t / period) * TAU : angOf(TODAY) + (t / period) * TAU;
-      // 첫 바퀴를 다 돌면 660개 점이 한꺼번에 번쩍인다
+      // 첫 바퀴를 다 돌면 690개 점이 한꺼번에 번쩍인다
       const boost = intro && t >= period ? Math.exp(-(t - period) / 0.7) : 0;
       const shown = drawRadar(ctx, size, phi, intro && t < period ? phi : null, boost);
       if (hitRef?.current && shown !== last) {
@@ -596,7 +596,7 @@ const Backdrop = ({ arcs }: { arcs: boolean }) => (
   </>
 );
 
-const Footer = ({ asOf = '2026.10.05' }: { asOf?: string }) => {
+const Footer = ({ asOf = '2026.10.20' }: { asOf?: string }) => {
   const { current, total } = useSlidePageNumber();
   return (
     <div
@@ -796,10 +796,10 @@ const Cover: Page = () => {
           </div>
         </div>
         <div className="rgx-rise" style={{ animationDelay: '420ms', display: 'flex', gap: 56, marginTop: 64 }}>
-          <Readout label="마지막 스캔">10.05 07:43</Readout>
-          <Readout label="적용법규">923</Readout>
+          <Readout label="마지막 스캔">10.20 07:00</Readout>
+          <Readout label="적용법규">958</Readout>
           <Readout label="올해 포착" accent>
-            <span ref={hits}>660</span>
+            <span ref={hits}>690</span>
           </Readout>
         </div>
         <div
@@ -901,7 +901,7 @@ const Problem: Page = () => (
     <Eyebrow code="WHY">왜 필요한가</Eyebrow>
     <div className="rgx-rise" style={{ animationDelay: '100ms', display: 'flex', alignItems: 'baseline', gap: 24, marginTop: 36 }}>
       <span style={{ fontFamily: DISPLAY, fontSize: 220, fontWeight: 700, lineHeight: 0.95, letterSpacing: '-0.05em' }}>
-        <Count to={5426} duration={2200} />
+        <Count to={5500} duration={2200} />
       </span>
       <span style={{ fontSize: 56, fontWeight: 600, color: ink.muted }}>건</span>
     </div>
@@ -994,10 +994,10 @@ const Funnel: Page = () => (
     <Eyebrow code="WHAT">하는 일</Eyebrow>
     <Heading size={72}>필요한 것만 남기고 걸러 냅니다</Heading>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginTop: 64 }}>
-      <FunnelRow n={5426} plus label="올해 시행되는 법령 개정" sub="국가법령정보센터 · 행정규칙 제외" width={760} color="rgba(141, 154, 196, 0.55)" delay={200} />
-      <FunnelRow n={660} label="우리 회사에 해당하는 개정" sub="적용법규 923개 기준" width={574} color="#5b80ff" delay={550} />
-      <FunnelRow n={35} label="아직 시행 전" sub="준비할 시간이 남은 개정" width={314} color="#9cb2ff" delay={900} />
-      <FunnelRow n={9} label="30일 안에 시행" sub="지금 바로 챙길 개정" width={194} color={ink.mint} delay={1250} />
+      <FunnelRow n={5500} plus label="올해 시행되는 법령 개정" sub="국가법령정보센터 · 행정규칙 제외" width={760} color="rgba(141, 154, 196, 0.55)" delay={200} />
+      <FunnelRow n={690} label="우리 회사에 해당하는 개정" sub="적용법규 958개 기준 (조례 포함)" width={574} color="#5b80ff" delay={550} />
+      <FunnelRow n={28} label="아직 시행 전" sub="준비할 시간이 남은 개정" width={314} color="#9cb2ff" delay={900} />
+      <FunnelRow n={10} label="30일 안에 시행" sub="지금 바로 챙길 개정" width={194} color={ink.mint} delay={1250} />
     </div>
   </Frame>
 );
@@ -1071,8 +1071,8 @@ const Pipeline: Page = () => (
       <div style={{ display: 'flex' }}>
         <PipeNode i={0} mark="07:00" mono title="자동 시작" desc={<>정해진 시간에<br />스스로 시작</>} />
         <PipeNode i={1} mark="수집" title="법령 수집" desc={<>국가법령정보센터에서<br />개정 정보를 가져옴</>} />
-        <PipeNode i={2} mark="대조" title="회사 기준 대조" desc={<>적용법규 923개와 비교해<br />해당하는 것만 남김</>} />
-        <PipeNode i={3} mark="분석" title="개정문 분석" desc={<>벌칙·과태료·의무가<br />바뀐 조문을 표시</>} />
+        <PipeNode i={2} mark="대조" title="회사 기준 대조" desc={<>적용법규 958개와 비교해<br />해당하는 것만 남김</>} />
+        <PipeNode i={3} mark="분석" title="개정문 분석" desc={<>바뀐 조문에서<br />회사가 할 일을 정리</>} />
         <PipeNode i={4} mark="게시" title="사이트 갱신" desc={<>추가·삭제된 개정도<br />내역으로 기록</>} />
       </div>
     </div>
@@ -1092,7 +1092,7 @@ const Pipeline: Page = () => (
     >
       <HudItem k="SOURCE" v="국가법령정보센터 Open API" />
       <HudItem k="SCHEDULE" v="매일 07:00" />
-      <HudItem k="SCOPE" v="적용법규 923개" />
+      <HudItem k="SCOPE" v="적용법규 958개" />
     </div>
   </Frame>
 );
@@ -1150,7 +1150,7 @@ const Scope: Page = () => (
         className="rgx-rise"
         style={{ animationDelay: '100ms', fontFamily: DISPLAY, fontSize: 220, fontWeight: 700, lineHeight: 0.95, letterSpacing: '-0.05em', color: 'var(--osd-accent)' }}
       >
-        <Count to={923} duration={1800} />
+        <Count to={958} duration={1800} />
       </span>
       <span className="rgx-rise" style={{ animationDelay: '200ms', fontSize: 48, fontWeight: 700 }}>
         개 적용법규
@@ -1158,8 +1158,9 @@ const Scope: Page = () => (
     </div>
     <div style={{ width: 760, marginTop: 44 }}>
       <div className="rgx-grow" style={{ animationDelay: '400ms', display: 'flex', height: 22, borderRadius: 4, overflow: 'hidden' }}>
-        <div style={{ width: '27.5%', background: 'var(--osd-accent)' }} />
+        <div style={{ width: '26.5%', background: 'var(--osd-accent)' }} />
         <div style={{ flex: 1, background: ink.soft }} />
+        <div style={{ width: '3.7%', background: ink.mint }} />
       </div>
       <div className="rgx-rise" style={{ animationDelay: '600ms', display: 'flex', flexDirection: 'column', gap: 12, marginTop: 24, fontSize: 28 }}>
         <span style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -1172,11 +1173,16 @@ const Scope: Page = () => (
           행정규칙 <b style={{ fontFamily: MONO, fontWeight: 600 }}>669</b>
           <span style={{ color: ink.muted }}>고시 · 훈령 · 예규</span>
         </span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <span style={{ width: 16, height: 16, borderRadius: 3, background: ink.mint }} />
+          자치법규 <b style={{ fontFamily: MONO, fontWeight: 600 }}>35</b>
+          <span style={{ color: ink.muted }}>포항 · 광양 · 세종 조례</span>
+        </span>
       </div>
     </div>
     <div
       className="rgx-rise"
-      style={{ animationDelay: '800ms', width: 760, marginTop: 48, paddingTop: 32, borderTop: `1px solid ${ink.line}`, fontSize: 30, lineHeight: 1.5 }}
+      style={{ animationDelay: '800ms', width: 760, marginTop: 36, paddingTop: 28, borderTop: `1px solid ${ink.line}`, fontSize: 30, lineHeight: 1.5 }}
     >
       84개 법령 계열 · 8개 직무
       <div style={{ fontSize: 26, color: ink.muted, marginTop: 8 }}>공장 건설 → 제품 생산 → 판매·수출입, 그리고 회사 공통 업무</div>
@@ -1203,6 +1209,55 @@ const Scope: Page = () => (
           + 29건 더
         </div>
       </div>
+    </div>
+  </Frame>
+);
+
+// ─── 6. 사업장 조례 (자치법규, 2026-10-20) ───
+
+const ORD_ORGS: [string, number, string][] = [
+  ['포항시', 11, '건축 · 수도급수 · 하수도 사용 · 폐기물관리 · 시세 · 석면'],
+  ['광양시', 11, '원인자부담금 · 생활폐기물 · 국가산단 폐수처리 · 하수도 · 시세'],
+  ['세종특별자치시', 13, '상수도 급수 · 하수도 · 위험물 · 화재예방 · 운행차 배출가스'],
+];
+
+const Ordin: Page = () => (
+  <Frame>
+    <Eyebrow code="LOCAL">사업장 조례</Eyebrow>
+    <Heading size={72}>공장이 있는 지역의 조례까지 챙깁니다</Heading>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 52 }}>
+      <FunnelRow n={4683} label="사업장 지자체 조례 · 규칙" sub="6개 지자체 전부 검토" width={760} color="rgba(141, 154, 196, 0.55)" delay={200} />
+      <FunnelRow n={35} label="우리 회사에 의무를 지우는 조례" sub="근거 법령이 적용법규 + 신고 · 부담금 · 과태료" width={230} color={ink.mint} delay={650} />
+    </div>
+    <div style={{ position: 'absolute', left: 140, top: 640, width: 1640, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
+      {ORD_ORGS.map(([org, n, ex], i) => (
+        <div
+          key={org}
+          className="rgx-rise"
+          style={{
+            animationDelay: `${1100 + i * 150}ms`,
+            height: 220,
+            boxSizing: 'border-box',
+            padding: '30px 34px',
+            borderRadius: 'var(--osd-radius)',
+            background: ink.panel,
+            border: `1px solid ${ink.panelEdge}`,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <span style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 36, fontWeight: 700, letterSpacing: '-0.02em' }}>{org}</span>
+            <span style={{ fontFamily: DISPLAY, fontSize: 60, fontWeight: 700, lineHeight: 1, color: ink.mint }}>
+              <Count to={n} delay={1100 + i * 150} duration={1000} />
+            </span>
+          </span>
+          <span style={{ marginTop: 'auto', fontSize: 24, lineHeight: 1.45, color: ink.muted }}>{ex}</span>
+        </div>
+      ))}
+    </div>
+    <div className="rgx-fade" style={{ animationDelay: '1700ms', position: 'absolute', left: 140, top: 890, fontSize: 24, color: ink.muted }}>
+      올해 개정 6건 — 포항 건축 · 수도급수 · 먹는물 수질검사, 광양 원인자부담금 · 생활폐기물, 세종 건축 조례
     </div>
   </Frame>
 );
@@ -1256,7 +1311,7 @@ const ThisYear: Page = () => (
     <Heading size={72}>
       올해 우리 회사 법규 개정{' '}
       <span style={{ color: 'var(--osd-accent)' }}>
-        <Count to={660} duration={1600} />
+        <Count to={690} duration={1600} />
       </span>
       건
     </Heading>
@@ -1265,21 +1320,21 @@ const ThisYear: Page = () => (
         <div className="rgx-fade" style={{ animationDelay: '200ms', display: 'flex', alignItems: 'center', gap: 32, marginBottom: 20, fontSize: 24, color: ink.muted }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
             <span style={{ width: 16, height: 16, borderRadius: 3, background: 'var(--osd-accent)' }} />
-            실질 개정 456
+            실질 개정 484
           </span>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
             <span style={{ width: 16, height: 16, borderRadius: 3, background: ink.soft }} />
-            타법개정 204
+            타법개정 206
           </span>
           <span style={{ color: ink.dim }}>다른 법이 바뀌며 용어·인용만 정리된 개정</span>
         </div>
-        <JobRow i={0} name="환경" s={111} t={75} />
-        <JobRow i={1} name="재무회계" s={124} t={38} />
-        <JobRow i={2} name="안전" s={90} t={43} />
-        <JobRow i={3} name="인사노무" s={57} t={14} />
-        <JobRow i={4} name="정보보호" s={32} t={18} />
+        <JobRow i={0} name="환경" s={121} t={75} />
+        <JobRow i={1} name="재무회계" s={134} t={38} />
+        <JobRow i={2} name="안전" s={93} t={45} />
+        <JobRow i={3} name="인사노무" s={59} t={14} />
+        <JobRow i={4} name="정보보호" s={33} t={18} />
         <JobRow i={5} name="공정거래" s={24} t={14} />
-        <JobRow i={6} name="지배구조" s={10} t={2} />
+        <JobRow i={6} name="지배구조" s={12} t={2} />
         <JobRow i={7} name="지식재산권" s={8} t={0} />
       </div>
       <div style={{ width: 460 }}>
@@ -1287,10 +1342,10 @@ const ThisYear: Page = () => (
           분기별 시행
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-          <QuarterTile q="1분기" n={248} delay={500} />
-          <QuarterTile q="2분기" n={177} delay={600} />
-          <QuarterTile q="3분기" n={177} delay={700} />
-          <QuarterTile q="4분기" n={58} live delay={800} />
+          <QuarterTile q="1분기" n={249} delay={500} />
+          <QuarterTile q="2분기" n={178} delay={600} />
+          <QuarterTile q="3분기" n={183} delay={700} />
+          <QuarterTile q="4분기" n={80} live delay={800} />
         </div>
       </div>
     </div>
@@ -1336,20 +1391,20 @@ const Sanctions: Page = () => (
             className="rgx-rise"
             style={{ animationDelay: '150ms', fontFamily: DISPLAY, fontSize: 200, fontWeight: 700, lineHeight: 0.95, letterSpacing: '-0.05em', color: ink.amber }}
           >
-            <Count to={69} delay={150} duration={1400} />
+            <Count to={70} delay={150} duration={1400} />
           </span>
           <span className="rgx-rise" style={{ animationDelay: '250ms', fontSize: 48, fontWeight: 700 }}>
             건
           </span>
         </div>
         <div className="rgx-rise" style={{ animationDelay: '300ms', marginTop: 16, fontSize: 28, color: ink.muted }}>
-          올해 660건 중 제재·의무가 바뀐 개정
+          올해 690건 중 제재·의무가 바뀐 개정
         </div>
         <div style={{ marginTop: 40 }}>
           <TypeRow i={0} label="의무" n={54} />
           <TypeRow i={1} label="과태료" n={16} />
           <TypeRow i={2} label="벌칙" n={15} />
-          <TypeRow i={3} label="처분" n={11} />
+          <TypeRow i={3} label="처분" n={12} />
           <TypeRow i={4} label="과징금" n={10} />
         </div>
         <div className="rgx-fade" style={{ animationDelay: '1300ms', marginTop: 16, fontSize: 22, color: ink.dim }}>
@@ -1372,7 +1427,7 @@ const Sanctions: Page = () => (
         <div style={{ display: 'flex', gap: 12 }}>
           <Pill>환경</Pill>
           <Pill>2026.11.12 시행</Pill>
-          <Pill color={ink.mint}>D-38</Pill>
+          <Pill color={ink.mint}>D-23</Pill>
         </div>
         <div style={{ marginTop: 24, fontSize: 52, fontWeight: 700, letterSpacing: '-0.03em' }}>대기환경보전법</div>
         <div style={{ marginTop: 8, fontSize: 26, color: ink.muted }}>저공해자동차 충전시설 관련 조문 신설·변경</div>
@@ -1394,7 +1449,7 @@ const Sanctions: Page = () => (
 
 // ─── 8. Coming soon ───
 
-const PX_PER_DAY = 1640 / 87; // 10.05 → 12.31
+const PX_PER_DAY = 1640 / 72; // 10.20 → 12.31
 const xOf = (daysFromToday: number) => daysFromToday * PX_PER_DAY;
 
 const Stack = ({ days, n, risk }: { days: number; n: number; risk: number }) => {
@@ -1480,77 +1535,76 @@ const Soon: Page = () => (
           borderRight: `1.5px dashed ${ink.mint}66`,
         }}
       >
-        <span style={{ position: 'absolute', left: 18, top: 10, fontSize: 24, fontWeight: 600, color: ink.mint }}>30일 이내 · 9건</span>
+        <span style={{ position: 'absolute', left: 18, top: 10, fontSize: 24, fontWeight: 600, color: ink.mint }}>30일 이내 · 10건</span>
       </div>
-      <MonthLine days={27} label="11월" />
-      <MonthLine days={57} label="12월" />
+      <MonthLine days={12} label="11월" />
+      <MonthLine days={42} label="12월" />
       <div style={{ position: 'absolute', left: -1, top: -44, bottom: 0, width: 2, background: ink.mint }}>
-        <span style={{ position: 'absolute', left: 12, top: -2, fontSize: 22, fontWeight: 600, color: ink.mint, whiteSpace: 'nowrap' }}>오늘 10.05</span>
+        <span style={{ position: 'absolute', left: 12, top: -2, fontSize: 22, fontWeight: 600, color: ink.mint, whiteSpace: 'nowrap' }}>오늘 10.20</span>
       </div>
       <div className="rgx-grow" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 2, background: ink.lineHi }} />
       <div
         className="rgx-scan"
         style={{ ...vars({ '--rgx-dist': '1640px' }), animationDelay: '300ms', position: 'absolute', left: 0, top: 0, bottom: 0, width: 2, background: 'rgba(178, 198, 255, 0.3)' }}
       />
-      <Stack days={3} n={8} risk={3} />
-      <Stack days={17} n={1} risk={0} />
-      <Stack days={38} n={5} risk={3} />
-      <Stack days={39} n={2} risk={1} />
-      <Stack days={46} n={1} risk={1} />
-      <Stack days={53} n={3} risk={0} />
-      <Stack days={54} n={1} risk={0} />
-      <Stack days={59} n={2} risk={0} />
-      <Stack days={64} n={4} risk={1} />
-      <Stack days={65} n={1} risk={1} />
-      <Stack days={66} n={4} risk={1} />
-      <Stack days={75} n={1} risk={0} />
-      <Stack days={87} n={2} risk={0} />
+      <Stack days={0} n={1} risk={0} />
+      <Stack days={2} n={2} risk={1} />
+      <Stack days={23} n={5} risk={3} />
+      <Stack days={24} n={2} risk={1} />
+      <Stack days={31} n={1} risk={1} />
+      <Stack days={38} n={3} risk={0} />
+      <Stack days={39} n={1} risk={0} />
+      <Stack days={44} n={2} risk={0} />
+      <Stack days={49} n={4} risk={1} />
+      <Stack days={50} n={1} risk={1} />
+      <Stack days={51} n={4} risk={1} />
+      <Stack days={60} n={2} risk={0} />
       <span
         className="rgx-fade"
-        style={{ animationDelay: '900ms', position: 'absolute', left: xOf(3) + 22, bottom: 172, fontFamily: MONO, fontSize: 24, fontWeight: 600, color: ink.mint }}
+        style={{ animationDelay: '900ms', position: 'absolute', left: xOf(2) + 22, bottom: 92, fontFamily: MONO, fontSize: 24, fontWeight: 600, color: ink.mint }}
       >
-        D-3
+        D-2
       </span>
-      <DateMark days={3} label="10.08" />
-      <DateMark days={17} label="10.22" />
-      <DateMark days={38} label="11.12" />
-      <DateMark days={53} label="11.27" />
-      <DateMark days={64} label="12.08" />
-      <DateMark days={87} label="12.31" align="right" />
+      <DateMark days={2} label="10.22" />
+      <DateMark days={23} label="11.12" />
+      <DateMark days={38} label="11.27" />
+      <DateMark days={49} label="12.08" />
+      <DateMark days={72} label="12.31" align="right" />
     </div>
 
     <div style={{ position: 'absolute', left: 140, top: 700, width: 1640, display: 'grid', gridTemplateColumns: '1000px 1fr', gap: 80 }}>
       <div className="rgx-rise" style={{ animationDelay: '1200ms' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, fontSize: 30, fontWeight: 700 }}>
           30일 안에 시행
-          <span style={{ fontFamily: MONO, color: ink.mint }}>9건</span>
-          <span style={{ fontSize: 22, fontWeight: 400, color: ink.muted }}>10.08 · 8건 / 10.22 · 1건</span>
+          <span style={{ fontFamily: MONO, color: ink.mint }}>10건</span>
+          <span style={{ fontSize: 22, fontWeight: 400, color: ink.muted }}>10.20 · 1건 / 10.22 · 2건 / 11.12 · 5건 / 11.13 · 2건</span>
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 20 }}>
-          <Chip risk>근로기준법</Chip>
-          <Chip risk>화학물질관리법</Chip>
-          <Chip risk>감염병예방법</Chip>
+          <Chip>자본시장법 시행규칙</Chip>
+          <Chip>대외무역법</Chip>
+          <Chip risk>대외무역법 시행령</Chip>
+          <Chip risk>건축법</Chip>
           <Chip>탄소중립기본법</Chip>
           <Chip>탄소중립기본법 시행령</Chip>
-          <Chip>배출권거래법 시행령</Chip>
-          <Chip>식품위생법</Chip>
-          <Chip>환경정책기본법 시행령</Chip>
-          <Chip>대외무역법</Chip>
+          <Chip risk>대기환경보전법</Chip>
+          <Chip risk>폐기물관리법</Chip>
+          <Chip risk>자본시장법</Chip>
+          <Chip>해양폐기물관리법</Chip>
         </div>
       </div>
       <div className="rgx-rise" style={{ animationDelay: '1350ms' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, fontSize: 30, fontWeight: 700 }}>
           31일 이후 시행
-          <span style={{ fontFamily: MONO, color: '#9cb2ff' }}>26건</span>
+          <span style={{ fontFamily: MONO, color: '#9cb2ff' }}>18건</span>
         </div>
         <div style={{ marginTop: 22, display: 'flex', flexDirection: 'column', gap: 14, fontSize: 24 }}>
           <span>
-            <b style={{ fontWeight: 600 }}>11월 · 12건</b>
-            <span style={{ color: ink.muted }}>  대기환경보전법 · 폐기물관리법 …</span>
+            <b style={{ fontWeight: 600 }}>11월 · 5건</b>
+            <span style={{ color: ink.muted }}>  원자력안전법 · 고용보험법 …</span>
           </span>
           <span>
-            <b style={{ fontWeight: 600 }}>12월 · 14건</b>
-            <span style={{ color: ink.muted }}>  근로기준법 · 자본시장법 …</span>
+            <b style={{ fontWeight: 600 }}>12월 · 13건</b>
+            <span style={{ color: ink.muted }}>  근로기준법 · 대기환경보전법 …</span>
           </span>
         </div>
       </div>
@@ -1635,12 +1689,12 @@ const Tracker: Page = () => (
       }}
     >
       <div style={{ display: 'flex', gap: 12 }}>
-        <Pill>인사노무</Pill>
-        <Pill color={ink.mint}>D-3</Pill>
-        <Pill color={ink.amber}>벌칙 변경</Pill>
+        <Pill>재무회계</Pill>
+        <Pill color={ink.mint}>D-2</Pill>
+        <Pill color={ink.amber}>행정처분 변경</Pill>
       </div>
-      <div style={{ marginTop: 26, fontSize: 56, fontWeight: 700, letterSpacing: '-0.03em' }}>근로기준법</div>
-      <div style={{ marginTop: 10, fontSize: 28, color: ink.muted }}>2026.10.08 시행 · 일부개정</div>
+      <div style={{ marginTop: 26, fontSize: 56, fontWeight: 700, letterSpacing: '-0.03em' }}>대외무역법 시행령</div>
+      <div style={{ marginTop: 10, fontSize: 28, color: ink.muted }}>2026.10.22 시행 · 일부개정</div>
       <div style={{ marginTop: 48, fontSize: 22, fontWeight: 500, color: ink.dim }}>대응 상태</div>
       <div style={{ position: 'relative', marginTop: 16, width: 320, height: 84 }}>
         <div className="rgx-pill" style={{ position: 'absolute', inset: 0, borderRadius: 42, background: STATUS[3] }}>
@@ -1702,8 +1756,8 @@ const Grow: Page = () => (
     <Eyebrow code="GROW">계속 자라는 시스템</Eyebrow>
     <Heading>쓸수록 넓어지고, 해가 바뀌어도 이어집니다</Heading>
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, marginTop: 44 }}>
-      <Feature code="REQUEST" title="법규 추가 요청" desc="빠진 법규는 사이트의 요청 버튼으로 추가합니다" data="기본 법령 207 → 254개" delay={200} />
-      <Feature code="HISTORY" title="업데이트 내역" desc="매일 새로 잡히거나 빠진 개정을 날짜별로 남깁니다" data="10.01 +7 · 10.02 +3 · 10.04 −1" delay={320} />
+      <Feature code="REQUEST" title="법규 추가 요청" desc="빠진 법규는 사이트의 요청 버튼으로 추가합니다" data="법령 207 → 254개 · 조례 35개" delay={200} />
+      <Feature code="HISTORY" title="업데이트 내역" desc="매일 새로 잡히거나 빠진 개정을 날짜별로 남깁니다" data="10.17 +3 · 10.18 −1 · 10.19 조례 +6" delay={320} />
       <Feature code="ROLLOVER" title="연도 자동 전환" desc="1월 1일이 되면 지난해 자료는 보관하고 새해를 시작합니다" data="다음 전환 2027.01.01" delay={440} />
       <Feature code="REPORT" title="보고서 한 번에" desc="분기 보고용 PPT와 Excel을 그날 데이터로 바로 만듭니다" data="PPT · Excel · 메일 보고" delay={560} />
     </div>
@@ -1871,14 +1925,14 @@ const UseJob: Page = () => (
     <Browser u={U1}>
       <Shot src={useA} at={0} k={U1.k} />
       <Shot src={useB} at={3.0} k={U1.k} />
-      <Ring box={{ x: 0.7969, y: 0.1691, w: 0.0795, h: 0.0422 }} from={1.6} to={3.0} k={U1.k} />
-      <Ripple x={0.837} y={0.19} t={2.55} k={U1.k} />
-      <Ring box={{ x: 0.5892, y: 0.3282, w: 0.1812, h: 0.1118 }} from={5.0} to={8.8} k={U1.k} label="30일 내 시행 5건" />
-      <Ring box={{ x: 0.463, y: 0.459, w: 0.243, h: 0.463 }} from={9.6} k={U1.k} keep label="제재·의무 변경 17건" />
+      <Ring box={{ x: 0.7969, y: 0.178, w: 0.0795, h: 0.0422 }} from={1.6} to={3.0} k={U1.k} />
+      <Ripple x={0.837} y={0.199} t={2.55} k={U1.k} />
+      <Ring box={{ x: 0.5892, y: 0.337, w: 0.1812, h: 0.1118 }} from={5.0} to={8.8} k={U1.k} label="30일 내 시행 5건" />
+      <Ring box={{ x: 0.463, y: 0.468, w: 0.243, h: 0.463 }} from={9.6} k={U1.k} keep label="제재·의무 변경 17건" />
     </Browser>
     <UseSteps>
       <UseStepRow n="1" title="직무별 개정 현황" desc="왼쪽 메뉴에서 엽니다" at={0} k={U1.k} />
-      <UseStepRow n="2" title="내 직무 선택" desc="예: 환경 186건" at={2.6} k={U1.k} />
+      <UseStepRow n="2" title="내 직무 선택" desc="예: 환경 196건" at={2.6} k={U1.k} />
       <UseStepRow n="3" title="챙길 일 확인" desc="30일 내 시행 5건 · 제재·의무 변경 17건" at={5.0} k={U1.k} />
     </UseSteps>
   </Frame>
@@ -1887,18 +1941,18 @@ const UseJob: Page = () => (
 const UseLaw: Page = () => (
   <Frame>
     <Eyebrow code="STEP 2">사용법 · 법령 상세</Eyebrow>
-    <Heading>법령을 누르면, 바뀐 내용과 근거가 보입니다</Heading>
+    <Heading>법령을 누르면, 회사가 할 일과 근거가 보입니다</Heading>
     <Browser u={U2}>
       <Shot src={useC} at={0} k={U2.k} />
       <Shot src={useD} at={2.9} k={U2.k} />
-      <Ring box={{ x: 0.2226, y: 0.3838, w: 0.47, h: 0.0493 }} from={1.5} to={2.9} k={U2.k} />
-      <Ripple x={0.4} y={0.408} t={2.35} k={U2.k} />
-      <Ring box={{ x: 0.406, y: 0.472, w: 0.577, h: 0.52 }} from={5.0} to={10.6} k={U2.k} label="벌칙·과태료·의무 + 근거 조문" />
+      <Ring box={{ x: 0.2226, y: 0.3985, w: 0.47, h: 0.0493 }} from={1.5} to={2.9} k={U2.k} />
+      <Ripple x={0.4} y={0.4227} t={2.35} k={U2.k} />
+      <Ring box={{ x: 0.406, y: 0.47, w: 0.577, h: 0.5 }} from={5.0} to={10.6} k={U2.k} label="실무 판단 — 회사가 할 일 · 대상" />
       <Ring box={{ x: 0.408, y: 0.206, w: 0.236, h: 0.037 }} from={11.0} k={U2.k} keep below label="개정문 원문 · 신구조문 비교" />
     </Browser>
     <UseSteps>
       <UseStepRow n="1" title="다가오는 시행에서 선택" desc="예: 대기환경보전법 11.12 시행" at={0} k={U2.k} />
-      <UseStepRow n="2" title="벌칙·과태료·의무 변경" desc="근거 조문까지 자동 정리" at={2.9} k={U2.k} />
+      <UseStepRow n="2" title="실무 판단" desc="바뀐 조문에서 회사가 할 일 · 대상 · 기준" at={2.9} k={U2.k} />
       <UseStepRow n="3" title="원문 바로 열기" desc="개정문 원문 · 신구조문 비교 · 현행 법령" at={10.8} k={U2.k} />
     </UseSteps>
   </Frame>
@@ -1912,12 +1966,12 @@ const UseReport: Page = () => (
       <Shot src={useB} at={0} k={U3.k} />
       <Shot src={useE} at={2.4} k={U3.k} />
       <Shot src={useF} at={9.4} k={U3.k} />
-      <Ring box={{ x: 0.0083, y: 0.3813, w: 0.1528, h: 0.0422 }} from={1.3} to={2.4} k={U3.k} />
-      <Ripple x={0.085} y={0.402} t={2.05} k={U3.k} />
-      <Ring box={{ x: 0.193, y: 0.1, w: 0.187, h: 0.097 }} from={3.6} to={6.0} k={U3.k} below label="7일 이내 시행 8건" />
-      <Ring box={{ x: 0.193, y: 0.447, w: 0.778, h: 0.53 }} from={5.6} to={8.2} k={U3.k} label="D-day 순 목록" />
-      <Ring box={{ x: 0.9178, y: 0.015, w: 0.06, h: 0.04 }} from={7.6} to={9.4} k={U3.k} />
-      <Ripple x={0.948} y={0.035} t={8.6} k={U3.k} />
+      <Ring box={{ x: 0.0083, y: 0.4747, w: 0.1528, h: 0.0422 }} from={1.3} to={2.4} k={U3.k} />
+      <Ripple x={0.085} y={0.4953} t={2.05} k={U3.k} />
+      <Ring box={{ x: 0.193, y: 0.109, w: 0.187, h: 0.097 }} from={3.6} to={6.0} k={U3.k} below label="7일 이내 시행 3건" />
+      <Ring box={{ x: 0.193, y: 0.456, w: 0.778, h: 0.53 }} from={5.6} to={8.2} k={U3.k} label="D-day 순 목록" />
+      <Ring box={{ x: 0.9178, y: 0.0194, w: 0.06, h: 0.04 }} from={7.6} to={9.4} k={U3.k} />
+      <Ripple x={0.948} y={0.0394} t={8.6} k={U3.k} />
       <Ring box={{ x: 0.29, y: 0.245, w: 0.42, h: 0.33 }} from={10.0} to={13.4} k={U3.k} label="임원 보고용 PPT" />
       <Ring box={{ x: 0.29, y: 0.6, w: 0.42, h: 0.2 }} from={13.4} k={U3.k} keep below label="Excel 내려받기" />
     </Browser>
@@ -2069,7 +2123,7 @@ const ProIntro: Page = () => (
 );
 
 const UsePro: Page = () => (
-  <Frame asOf="2026.10.19">
+  <Frame asOf="2026.10.20">
     <Eyebrow code="STEP 4">사용법 · 기업별 적용법규 검색</Eyebrow>
     <Heading>검색 한 번으로, 그 회사의 RegRader가 열립니다</Heading>
     <Browser u={U4}>
@@ -2078,16 +2132,16 @@ const UsePro: Page = () => (
       <Shot src={useI} at={10.4} k={U4.k} />
       <Shot src={useJ} at={12.0} k={U4.k} />
       <Shot src={useK} at={16.6} k={U4.k} />
-      <Ring box={{ x: 0.0083, y: 0.0867, w: 0.1528, h: 0.0667 }} from={4.6} to={7.4} k={U4.k} />
-      <Ripple x={0.085} y={0.12} t={6.6} k={U4.k} />
-      <Ring box={{ x: 0.316, y: 0.379, w: 0.389, h: 0.056 }} from={8.0} to={10.2} k={U4.k} label="오른쪽에 검색 화면 — 회사 이름 검색" />
-      <Ring box={{ x: 0.272, y: 0.501, w: 0.5, h: 0.093 }} from={10.6} to={12.0} k={U4.k} />
-      <Ripple x={0.42} y={0.548} t={11.6} k={U4.k} />
-      <Ring box={{ x: 0.523, y: 0.336, w: 0.442, h: 0.098 }} from={12.6} to={14.8} k={U4.k} label="적용법규 1,480개 · 판정 근거" />
-      <Ring box={{ x: 0.569, y: 0.534, w: 0.3, h: 0.0144 }} from={13.4} to={14.8} k={U4.k} below label="확인한 사실 — 점 색 = 근거" />
-      <Ring box={{ x: 0.759, y: 0.124, w: 0.132, h: 0.051 }} from={14.8} to={16.6} k={U4.k} label="RegRader로 보내기" />
-      <Ripple x={0.825} y={0.149} t={16.0} k={U4.k} />
-      <Ring box={{ x: 0.192, y: 0.015, w: 0.195, h: 0.04 }} from={17.2} k={U4.k} keep below label="새 탭: 그 회사의 RegRader 화면" />
+      <Ring box={{ x: 0.0083, y: 0.0956, w: 0.1528, h: 0.0667 }} from={4.6} to={7.4} k={U4.k} />
+      <Ripple x={0.085} y={0.1289} t={6.6} k={U4.k} />
+      <Ring box={{ x: 0.316, y: 0.3879, w: 0.389, h: 0.056 }} from={8.0} to={10.2} k={U4.k} label="오른쪽에 검색 화면 — 회사 이름 검색" />
+      <Ring box={{ x: 0.272, y: 0.5099, w: 0.5, h: 0.093 }} from={10.6} to={12.0} k={U4.k} />
+      <Ripple x={0.42} y={0.5569} t={11.6} k={U4.k} />
+      <Ring box={{ x: 0.523, y: 0.3449, w: 0.442, h: 0.098 }} from={12.6} to={14.8} k={U4.k} label="적용법규 1,483개 · 판정 근거" />
+      <Ring box={{ x: 0.569, y: 0.5429, w: 0.3, h: 0.0144 }} from={13.4} to={14.8} k={U4.k} below label="확인한 사실 — 점 색 = 근거" />
+      <Ring box={{ x: 0.759, y: 0.1329, w: 0.132, h: 0.051 }} from={14.8} to={16.6} k={U4.k} label="RegRader로 보내기" />
+      <Ripple x={0.825} y={0.1579} t={16.0} k={U4.k} />
+      <Ring box={{ x: 0.188, y: 0.012, w: 0.11, h: 0.048 }} from={17.2} k={U4.k} keep below label="새 탭: 그 회사의 RegRader 화면" />
     </Browser>
     <UseSteps>
       <UseStepRow n="1" title="기업별 적용법규 검색" desc="왼쪽 메뉴 맨 위 버튼" at={0} k={U4.k} />
@@ -2101,7 +2155,7 @@ const UsePro: Page = () => (
 // ─── 16. 메일로 공유 (바로 보내기 · 직무 담당자) ───
 
 const UseMail: Page = () => (
-  <Frame asOf="2026.10.19">
+  <Frame asOf="2026.10.20">
     <Eyebrow code="STEP 5">사용법 · 메일로 공유</Eyebrow>
     <Heading>고른 개정을 담당자에게 바로 보냅니다</Heading>
     <Browser u={U5}>
@@ -2110,8 +2164,8 @@ const UseMail: Page = () => (
       <Shot src={useO0} at={8.0} k={U5.k} />
       <Shot src={useO} at={9.9} k={U5.k} />
       <Shot src={useP} at={12.7} k={U5.k} />
-      <Ring box={{ x: 0.8837, y: 0.015, w: 0.0271, h: 0.04 }} from={1.4} to={3.2} k={U5.k} below label="메일로 공유" />
-      <Ripple x={0.897} y={0.035} t={2.9} k={U5.k} />
+      <Ring box={{ x: 0.8837, y: 0.0194, w: 0.0271, h: 0.04 }} from={1.4} to={3.2} k={U5.k} below label="메일로 공유" />
+      <Ripple x={0.897} y={0.0394} t={2.9} k={U5.k} />
       <Ring box={{ x: 0.275, y: 0.186, w: 0.064, h: 0.036 }} from={5.8} to={7.8} k={U5.k} label="범위 · 직무 고르기" />
       <Ripple x={0.307} y={0.204} t={6.9} k={U5.k} />
       <Ring box={{ x: 0.3597, y: 0.5798, w: 0.1, h: 0.029 }} from={8.2} to={10.0} k={U5.k} label="직무 담당자 불러오기" />
@@ -2124,7 +2178,7 @@ const UseMail: Page = () => (
     </Browser>
     <UseSteps>
       <UseStepRow n="1" title="메일 버튼" desc="화면 오른쪽 위 ✉" at={0} k={U5.k} />
-      <UseStepRow n="2" title="범위 · 직무 고르기" desc="예: 30일 이내 · 8건" at={5.8} k={U5.k} />
+      <UseStepRow n="2" title="범위 · 직무 고르기" desc="예: 30일 이내 · 10건" at={5.8} k={U5.k} />
       <UseStepRow n="3" title="직무 담당자 불러오기" desc="고른 직무 담당자를 한 번에" at={8.2} k={U5.k} />
       <UseStepRow n="4" title="바로 보내기" desc="로그인한 담당자 이름으로 발송" at={11.4} k={U5.k} />
     </UseSteps>
@@ -2134,7 +2188,7 @@ const UseMail: Page = () => (
 // ─── 17. 자동 알림 (매월 1일 담당자 · 매일 아침 점검) ───
 
 const AutoAlert: Page = () => (
-  <Frame asOf="2026.10.19">
+  <Frame asOf="2026.10.20">
     <Eyebrow code="AUTO">자동 알림</Eyebrow>
     <Heading>매월 1일, 담당자에게 먼저 알립니다</Heading>
     <div
@@ -2273,21 +2327,22 @@ export const meta: SlideMeta = {
   createdAt: '2026-10-05T14:45:57.777Z',
 };
 
-export default [Cover, Problem, Funnel, Pipeline, Scope, ThisYear, Sanctions, Soon, Tracker, Grow, UseJob, UseLaw, UseReport, ProIntro, UsePro, UseMail, AutoAlert, Closing] satisfies Page[];
+export default [Cover, Problem, Funnel, Pipeline, Scope, Ordin, ThisYear, Sanctions, Soon, Tracker, Grow, UseJob, UseLaw, UseReport, ProIntro, UsePro, UseMail, AutoAlert, Closing] satisfies Page[];
 
 export const notes: (string | undefined)[] = [
   '모르고 지나치는 법 개정, 이제 없습니다. 매일 아침, 우리 회사에 해당하는 법규 개정을 먼저 찾아내는 시스템, RegRader입니다. 지금 화면의 점 하나하나가 올해 실제로 포착된 개정 1건입니다.',
-  '올해 시행되는 법령 개정만 5,400건이 넘습니다. 하루 평균 15건입니다. 이를 매일 사람이 모두 읽고, 우리 회사에 해당하는 것만 골라내기는 쉽지 않습니다.',
-  'RegRader는 우리 회사 적용법규 923개를 기준으로, 해당하는 개정만 남깁니다. 올해는 660건이며, 그중 30일 안에 시행되는 9건부터 확인하면 됩니다.',
-  '이 과정은 매일 아침 7시에 자동으로 진행됩니다. 국가법령정보센터에서 개정 정보를 가져와 회사 기준과 대조하고, 개정문까지 분석해 사이트에 게시합니다. 별도로 조작할 필요가 없습니다.',
-  '관리 대상은 법령 254개와, 고시 등 행정규칙 669개입니다. 법률부터 시행령, 시행규칙, 그 아래 고시까지 하나의 체계로 묶어 관리합니다.',
+  '올해 시행되는 법령 개정만 5,500건이 넘습니다. 하루 평균 15건입니다. 이를 매일 사람이 모두 읽고, 우리 회사에 해당하는 것만 골라내기는 쉽지 않습니다.',
+  'RegRader는 우리 회사 적용법규 958개를 기준으로, 해당하는 개정만 남깁니다. 올해는 690건이며, 그중 30일 안에 시행되는 10건부터 확인하면 됩니다.',
+  '이 과정은 매일 아침 7시에 자동으로 진행됩니다. 국가법령정보센터에서 개정 정보를 가져와 회사 기준과 대조하고, 개정문까지 분석해 회사가 할 일을 정리한 뒤 사이트에 게시합니다. 별도로 조작할 필요가 없습니다.',
+  '관리 대상은 법령 254개, 고시 등 행정규칙 669개, 그리고 사업장이 있는 지역의 조례 35개입니다. 법률부터 시행령, 시행규칙, 그 아래 고시까지 하나의 체계로 묶어 관리합니다.',
+  '조례는 이렇게 골랐습니다. 사업장이 있는 지역의 조례와 규칙 4,683건을 모두 살펴, 근거 법령이 우리 회사 적용법규이면서 회사에 신고나 부담금 같은 의무를 지우는 것만 남겼습니다. 포항과 광양, 세종의 수도와 하수도, 폐기물, 시세, 건축 조례 등 35개이며, 개정되면 다른 법령과 똑같이 알려 드립니다.',
   '올해 개정을 직무별로 보면 환경, 재무회계, 안전 순으로 많습니다. 다른 법 개정에 따라 용어만 정비된 타법개정은 따로 구분해, 실제로 바뀐 내용에 집중할 수 있도록 했습니다.',
-  '특히 벌칙, 과태료, 회사 의무가 바뀐 개정은 별도로 표시합니다. 올해는 69건입니다. 예를 들어 대기환경보전법은 충전시설 정보를 전산망에 등록해야 하고, 등록하지 않으면 과태료 대상이 됩니다. 이러한 근거를 조문 번호와 함께 제시합니다.',
-  '시행 임박 화면에서는 연말까지 시행될 개정을 날짜순으로 보여 줍니다. 10월 8일에는 근로기준법을 포함해 8건이 한꺼번에 시행됩니다.',
+  '특히 벌칙, 과태료, 회사 의무가 바뀐 개정은 별도로 표시합니다. 올해는 70건입니다. 예를 들어 대기환경보전법은 충전시설 정보를 전산망에 등록해야 하고, 등록하지 않으면 과태료 대상이 됩니다. 이러한 근거를 조문 번호와 함께 제시합니다.',
+  '시행 임박 화면에서는 연말까지 시행될 개정을 날짜순으로 보여 줍니다. 11월 12일에는 대기환경보전법과 폐기물관리법을 포함해 5건이 한꺼번에 시행됩니다.',
   '확인으로 끝나지 않습니다. 담당자는 사이트에서 검토중, 조치필요, 조치완료 등 대응 상태를 바로 기록하고, 이 진행 현황은 보고서에 그대로 반영됩니다.',
   '누락된 법규는 사이트에서 바로 추가를 요청할 수 있습니다. 매일의 변경 사항은 업데이트 내역에 기록되고, 해가 바뀌면 지난해 자료를 보관한 뒤 새해를 자동으로 시작합니다.',
   '이제 실제 사용 방법을 보겠습니다. 먼저 직무별 개정 현황에서 내 직무를 선택합니다. 환경을 선택하면, 30일 안에 시행되는 5건과 제재나 의무가 바뀐 17건이 바로 표시됩니다.',
-  '목록에서 법령을 누르면 상세 화면이 열립니다. 어떤 벌칙과 과태료, 의무가 새로 생기거나 바뀌었는지 근거 조문과 함께 정리되어 있고, 개정문 원문과 신구조문 비교도 바로 열어 볼 수 있습니다.',
+  '목록에서 법령을 누르면 상세 화면이 열립니다. 맨 위의 실무 판단에서는 바뀐 조문 가운데 회사가 해야 할 일을 대상, 기준과 함께 먼저 보여 줍니다. 대기환경보전법이라면 충전시설을 운영하는 경우의 등록 의무 4건이 정리되어 있고, 개정문 원문과 신구조문 비교도 바로 열어 볼 수 있습니다.',
   '시행 임박 메뉴에서는 곧 시행되는 개정을 D-day 순서로 확인합니다. 보고가 필요할 때는 오른쪽 위의 보고서 버튼을 누르면, 임원 보고용 PPT와 엑셀 파일을 바로 만들 수 있습니다.',
   '새로 추가된 기능, 기업별 적용법규 검색입니다. 회사 이름만 넣으면 국민연금과 전자공시 같은 공공데이터로 업종과 사업장을 확인하고, 현행 법률 1,725개 전부를 적용과 미적용으로 판정합니다. 담당자가 확인한 결과는 자동으로 저장되어, 다음 검색에 그대로 반영됩니다.',
   '사용 방법은 간단합니다. 왼쪽 메뉴 맨 위의 기업별 적용법규 검색을 누르면 오른쪽에 검색 화면이 열립니다. 회사 이름을 검색해 판정 결과와 근거를 확인하고, RegRader로 보내기를 누르면 그 회사 기준의 개정 모니터링 화면이 새 탭으로 열립니다.',
