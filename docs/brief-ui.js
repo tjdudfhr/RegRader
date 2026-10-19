@@ -21,7 +21,6 @@
     arts:  { icon: 'pin', color: '#d97706', nav: '개정 조항' },
     diff:  { icon: 'refresh', color: '#6b7280', nav: '신구 대조' },
     fam:   { icon: 'layers', color: '#0d9488', nav: '같은 계열' },
-    act:   { icon: 'ok', color: '#16a34a', nav: '실무 지침' },
     cmp:   { icon: 'book', color: '#7c3aed', nav: '신구비교' }
   };
   function ic(n) { return window.rrIcon ? window.rrIcon(n) : ''; }
@@ -149,7 +148,6 @@
     var live = 'https://www.law.go.kr/lsSc.do?menuId=1&query=' + encodeURIComponent(item.title || '');
     var cmp = lsi ? ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + lsi + '&viewCls=lsOldAndNew') : '';
     var points = (b.points || []).map(function (p) { return '<li>' + esc(p) + '</li>'; }).join('');
-    var acts = lines(b.action);   /* 실무 지침은 따로 적어 둔 것이 있을 때만 */
     var rawWhat = String(b.what || '');
     if (fill && fill.what && (!rawWhat || A.isPlaceholder(rawWhat))) rawWhat = fill.what;
     var isPromul = /이에 공포한다|국회에서 의결된/.test(rawWhat.slice(0, 80));
@@ -175,7 +173,6 @@
       (arts ? section('arts', n(), '개정 조항', '<div>' + arts + '</div>', '<span class="rr-sec-extra">' + artList.length + '개</span>') : '') +
       (diffHtml ? section('diff', n(), '신구 대조', diffHtml) : '') +
       (fam ? section('fam', n(), '같은 계열 올해 개정', fam.body, fam.extra) : '') +
-      (acts.length ? section('act', n(), '실무 지침', '<ul>' + acts.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>') : '') +
       (cmp ? section('cmp', n(), '신구조문 비교',
         '<iframe sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-modals" referrerpolicy="no-referrer" src="' + cmp + '" loading="lazy"></iframe>',
         '<a class="rr-sec-extra" href="' + cmp + '" target="_blank" rel="noopener">새 창 ↗</a>') : '') +

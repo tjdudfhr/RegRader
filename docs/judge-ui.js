@@ -10,7 +10,24 @@
  */
 (function () {
   var DATA = null, promise = null, OAN = {};
-  var FIT = { yes: ['당사 해당', 'yes'], no: ['당사 비해당', 'no'], cond: ['기준 확인', 'cond'], 'if': ['해당 시', 'if'] };
+  /* 대상 판정: 당사 해당(바로 할 일) / 조건부(대상이 특정 역할 · 신청인 등 — 그 경우에만) / 기준 확인(대상 기준을 하위 법령에서 정함) / 당사 비해당 */
+  var FIT = {
+    yes: ['당사 해당', 'yes', '대상이 회사 일반(사업주 · 회사 · 개인정보처리자 등)이거나 기준을 당사가 충족'],
+    no: ['당사 비해당', 'no', '대상 기준(인원 등)을 당사가 충족하지 않음'],
+    cond: ['기준 확인', 'cond', '대상 기준을 하위 법령에서 정함 — 그 기준을 확인해야 함'],
+    'if': ['조건부', 'if', '대상이 특정 역할 · 신청인 · 조건으로 정해져 있어, 당사가 그 경우에 해당할 때만 할 일']
+  };
+  /* 사규 · 업무 반영할 곳 (직무별) — 예전 '실무 지침' 칸을 여기로 옮겼다. 할 일이나 바뀐 숫자가 있을 때만 보인다 */
+  var WHERE = {
+    '인사노무': '취업규칙 · 근로계약서 · 휴가 · 장려금 신청 절차',
+    '공정거래': '거래약관 · 공정거래 자율준수(CP) 체크리스트',
+    '정보보호': '보안정책 · 개인정보처리방침 · 위탁 · 국외이전 계약',
+    '지식재산권': '지식재산 관리규정 · 라이선스 · 비밀유지 계약',
+    '재무회계': '회계처리 · 세무 신고 · 공시 · 내부통제 체크리스트',
+    '안전': '안전보건관리규정 · 안전보건교육 · 점검 주기',
+    '환경': '인허가 · 배출 · 폐기물 관리 절차 · 사내 환경매뉴얼',
+    '지배구조': '정관 · 이사회 규정 · 공시 체계'
+  };
   var FIT_ORDER = { yes: 0, cond: 1, 'if': 2, no: 3 };
   var DUTY = /((?:여야|해야|아야|어야|워야|켜야|와야|러야|라야|려야|져야)\s*한다|아니\s*된다|안\s*된다|하지\s*못한다)/g;
 
@@ -65,7 +82,7 @@
     return '<li class="rr-jd-act fit-' + f[1] + '">' +
       '<div class="rr-jd-top"><span class="rr-jd-type">' + esc(a.type) + '</span>' +
       '<span class="rr-jd-state ' + (a.state === '신설' ? 'new' : 'chg') + '">' + esc(a.state) + '</span>' +
-      '<span class="rr-jd-fit ' + f[1] + '">' + f[0] + '</span>' +
+      '<span class="rr-jd-fit ' + f[1] + '" title="' + esc(f[2]) + '">' + f[0] + '</span>' +
       '<span class="rr-jd-ref">' + esc(a.ref) + (a.title ? ' · ' + esc(a.title) : '') + '</span></div>' +
       '<p class="rr-jd-text">' + duty(a.text) + '</p>' +
       (a.items && a.items.length ? '<ul class="rr-jd-items">' + a.items.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') +
@@ -81,15 +98,28 @@
     var list = acts(it);
     var cnt = { yes: 0, cond: 0, 'if': 0, no: 0 };
     list.forEach(function (a) { cnt[a.fit] = (cnt[a.fit] || 0) + 1; });
-    var V = { act: ['회사 할 일', 'act'], check: ['숫자 · 기준 확인', 'check'], tidy: ['정비만', 'tidy'] }[d.v] || ['정비만', 'tidy'];
-    var chips = [];
-    if (cnt.yes) chips.push('<span class="c-yes">당사 해당 <b>' + cnt.yes + '</b></span>');
-    if (cnt.cond) chips.push('<span class="c-cond">기준 확인 <b>' + cnt.cond + '</b></span>');
-    if (cnt['if']) chips.push('<span class="c-if">해당 시 <b>' + cnt['if'] + '</b></span>');
-    if (cnt.no) chips.push('<span class="c-no">당사 비해당 <b>' + cnt.no + '</b></span>');
-    if (d.nums && d.nums.length) chips.push('<span>숫자 변경 <b>' + d.nums.length + '</b></span>');
-    if (d.n && d.n.tidy) chips.push('<span>정비 <b>' + d.n.tidy + '</b>개 조</span>');
-    var h = '<div class="rr-jd"><div class="rr-jd-sum"><span class="rr-jd-v ' + V[1] + '">' + V[0] + '</span>' + chips.join('') + '</div>';
+    var nn = d.n || {}, nums = (d.nums || []).length, maybe = cnt['if'] + cnt.cond;
+    /* 결론 한 문장 */
+    var lead, tone;
+    if (cnt.yes) { lead = '당사가 할 일 <b>' + cnt.yes + '건</b>' + (maybe ? ' · 조건에 해당하면 <b>' + maybe + '건</b> 더' : ''); tone = 'act'; }
+    else if (maybe) { lead = '당사에 바로 해당하는 할 일은 없습니다 · 조건에 해당하면 할 일 <b>' + maybe + '건</b>'; tone = 'maybe'; }
+    else if (cnt.no) { lead = '할 일 <b>' + cnt.no + '건</b>이 있지만 대상 기준에 당사가 해당하지 않습니다'; tone = 'none'; }
+    else if (nums) { lead = '회사가 새로 할 일은 없고, 금액 · 기한 등 숫자가 <b>' + nums + '건</b> 바뀌었습니다'; tone = 'check'; }
+    else { lead = '회사가 새로 하거나 달리 할 일은 없습니다 (용어 · 인용 조문 정비, 행정기관 절차 변경)'; tone = 'none'; }
+    var stat = [['바뀐 조문', (nn.art || 0) + '개 조', '', '이 시행일에 바뀐 조문 수']];
+    if (cnt.yes) stat.push(['당사가 할 일', cnt.yes + '건', 'yes', FIT.yes[2]]);
+    if (cnt['if']) stat.push(['조건부 할 일', cnt['if'] + '건', 'if', FIT['if'][2]]);
+    if (cnt.cond) stat.push(['기준 확인', cnt.cond + '건', 'cond', FIT.cond[2]]);
+    if (cnt.no) stat.push(['당사 비해당', cnt.no + '건', 'no', FIT.no[2]]);
+    if (nums) stat.push(['바뀐 숫자', nums + '건', '', '금액 · 기한 · 인원 등']);
+    if (nn.tidy) stat.push(['할 일 변화 없는 조문', nn.tidy + '개 조', '', '용어 · 인용 조문 정비, 조항 번호 이동, 행정기관 절차 · 권한 변경']);
+    var job = (it.categories || [])[0] || it.category || '';
+    var where = (tone === 'act' || tone === 'maybe' || tone === 'check') && WHERE[job] ? WHERE[job] : '';
+    var h = '<div class="rr-jd"><div class="rr-jd-lead ' + tone + '">' + lead +
+      (where ? '<div class="rr-jd-where"><i>반영할 곳</i>' + esc(where) + '</div>' : '') + '</div>' +
+      '<div class="rr-jd-stat">' + stat.map(function (x) {
+        return '<div class="' + x[2] + '" title="' + esc(x[3]) + '"><span>' + x[0] + '</span><b>' + x[1] + '</b></div>';
+      }).join('') + '</div>';
     if (list.length) {
       var head = list.slice(0, 6), rest = list.slice(6);
       h += '<ol class="rr-jd-acts">' + head.map(actHtml).join('') + '</ol>';
@@ -103,10 +133,10 @@
     }
     var u = it.meta && it.meta.lsiSeq;
     if (u && d.n && d.n.art) {
-      h += '<details class="rr-jd-cmp" data-u="' + esc(u) + '" data-arts="' + esc((d.arts || []).join('|')) + '"><summary>바뀐 조문 전후 <b>' + d.n.art + '</b>개 조</summary><div class="rr-jd-cmp-b">불러오는 중…</div></details>';
+      h += '<details class="rr-jd-cmp" data-u="' + esc(u) + '" data-arts="' + esc((d.arts || []).join('|')) + '"><summary>바뀐 조문 <b>' + d.n.art + '개 조</b> 개정 전 · 후 보기</summary><div class="rr-jd-cmp-b">불러오는 중…</div></details>';
     }
     h += '</div>';
-    var extra = list.length ? '<span class="rr-sec-extra">할 일 ' + list.length + '</span>' : '';
+    var extra = cnt.yes ? '<span class="rr-sec-extra">당사 할 일 ' + cnt.yes + '건</span>' : (maybe ? '<span class="rr-sec-extra">조건부 ' + maybe + '건</span>' : '');
     return { body: h, extra: extra };
   }
 
