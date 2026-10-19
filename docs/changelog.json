@@ -1,6 +1,89 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-10-19T22:00:55.077130+00:00",
+      "asOf": "2026-10-20",
+      "previousCheckedAt": "2026-10-19T12:46:21.896983+00:00",
+      "totalBefore": 692,
+      "totalAfter": 690,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2769,
+        "openapiFuture": 5488,
+        "openapiUpcoming": 297
+      },
+      "universeAfter": {
+        "openapiCurrent": 2777,
+        "openapiFuture": 5500,
+        "openapiUpcoming": 284
+      },
+      "added": [
+        {
+          "title": "자본시장과 금융투자업에 관한 법률 시행규칙",
+          "effectiveDate": "2026-10-20",
+          "amendmentType": "일부개정",
+          "ministry": "금융위원회",
+          "category": "재무회계",
+          "lsiSeq": "291415"
+        },
+        {
+          "title": "대외무역법 시행령",
+          "effectiveDate": "2026-10-22",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "재무회계",
+          "lsiSeq": "291263"
+        }
+      ],
+      "removed": [
+        {
+          "title": "실용신안법 시행령",
+          "effectiveDate": "2026-12-21",
+          "amendmentType": "일부개정",
+          "ministry": "지식재산처",
+          "category": "지식재산권",
+          "lsiSeq": "291167"
+        },
+        {
+          "title": "특허법 시행령",
+          "effectiveDate": "2026-12-21",
+          "amendmentType": "일부개정",
+          "ministry": "지식재산처",
+          "category": "지식재산권",
+          "lsiSeq": "291085"
+        },
+        {
+          "title": "식품위생법",
+          "effectiveDate": "2026-12-31",
+          "amendmentType": "일부개정",
+          "ministry": "식품의약품안전처",
+          "category": "안전",
+          "lsiSeq": "282007"
+        },
+        {
+          "title": "액화석유가스의 안전관리 및 사업법",
+          "effectiveDate": "2026-12-31",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "안전",
+          "lsiSeq": "281893"
+        }
+      ],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "ordinMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-10-19T12:46:21.896983+00:00",
       "asOf": "2026-10-19",
       "previousCheckedAt": "2026-10-18T22:00:54.291474+00:00",
@@ -9414,5 +9497,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-10-19T12:46:21.896983+00:00"
+  "updatedAt": "2026-10-19T22:00:55.077130+00:00"
 }
