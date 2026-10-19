@@ -34,6 +34,8 @@
   }
   function dday(d) { return d < 0 ? '시행완료' : d === 0 ? 'D-DAY' : 'D-' + d; }
   function link(it) {
+    var ord = (it.meta && it.meta.ordinSeq) || '';
+    if (ord) return 'https://www.law.go.kr/LSW/ordinInfoP.do?ordinSeq=' + ord;   /* 자치법규 */
     var adm = (it.meta && it.meta.admRulSeq) || '';
     if (adm) return 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + adm;   /* 행정규칙 */
     var seq = (it.meta && it.meta.lsiSeq) || '';

@@ -34,7 +34,7 @@
   };
   var FLAG_ORDER = ['벌칙', '과태료', '과징금', '처분', '의무', '신설', '삭제'];
   var SANCTION = { '벌칙': 1, '과태료': 1, '과징금': 1, '처분': 1 };
-  var LEVELS = ['법률', '시행령', '시행규칙', '행정규칙'];
+  var LEVELS = ['법률', '시행령', '시행규칙', '행정규칙', '자치법규'];
   var ST = ['미검토', '검토중', '조치필요', '조치완료', '해당없음'];
   var ST_COLOR = { '미검토': C.muted, '검토중': C.blue, '조치필요': C.orange, '조치완료': C.green, '해당없음': C.faint };   /* 사이트와 같은 색 */
   var ROMAN = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'];
@@ -61,11 +61,12 @@
   }
   var PREP_NAMES = ['처벌·제재 기준 변경', '회사 의무 신설·변경', '조문·기준 내용 변경', '타법개정'];
   function prepType(it) { return hasSanction(it) ? 0 : hasDuty(it) ? 1 : isTidy(it) ? 3 : 2; }
-  var WHERE = { '법률': '사규 본문 · 원칙과 의무', '시행령': '적용 대상 · 세부 기준', '시행규칙': '업무 절차 · 신고 서식', '행정규칙': '세부 지침 · 기준값 (고시문 원문)' };
+  var WHERE = { '법률': '사규 본문 · 원칙과 의무', '시행령': '적용 대상 · 세부 기준', '시행규칙': '업무 절차 · 신고 서식', '행정규칙': '세부 지침 · 기준값 (고시문 원문)', '자치법규': '사업장 지자체 신고 · 부담금 · 시설 기준' };
   var DEF_REAL = '실질 개정: 그 법령 자체의 의무·기준·절차 등 내용이 바뀐 개정';
   var DEF_TIDY = '타법개정: 다른 법령 제정·개정에 따라 법령명·기관명·용어·인용 조문 등이 단순 변경된 개정';
   function score(it) { return (it.codes || []).reduce(function (a, c) { return a + ((FLAG[c] || {}).w || 0); }, 0); }
   function levelOf(it) {
+    if (it.org) return '자치법규';
     if (it.kind) return '행정규칙';
     if (LEVELS.indexOf(it.level) >= 0) return it.level;
     return /시행령$/.test(it.title) ? '시행령' : /시행규칙$/.test(it.title) ? '시행규칙' : '법률';
@@ -455,7 +456,7 @@
     var t1 = input.label + ' 시행 개정 ' + fmt(P.length) + '건(법규 ' + fmt(laws.length) + '개)' + (PV ? ', ' + input.prev.label + ' 대비 ' + change(P.length - PV.length) : '') + '. ';
     if (!input.job) t1 += jobRank.slice(0, 3).map(function (x) { return x[0] + ' ' + x[1] + '건(' + pct(x[1], P.length) + '%)'; }).join('·') + ' 순이며, ';
     else if (fams.length) t1 += fams.slice(0, 2).map(function (f) { return cut(f[0], 20) + ' 계열 ' + f[1].length + '건'; }).join('·') + ' 등 ' + fams.length + '개 계열이며, ';
-    t1 += '법률 ' + lvN(P, '법률') + '·시행령 ' + lvN(P, '시행령') + '·시행규칙 ' + lvN(P, '시행규칙') + '·행정규칙 ' + lvN(P, '행정규칙') + '건';
+    t1 += '법률 ' + lvN(P, '법률') + '·시행령 ' + lvN(P, '시행령') + '·시행규칙 ' + lvN(P, '시행규칙') + '·행정규칙 ' + lvN(P, '행정규칙') + (lvN(P, '자치법규') ? '·자치법규 ' + lvN(P, '자치법규') : '') + '건';
     pts.push(['개정 현황', t1]);
     pts.push(['중점 관리', R.length
       ? '제재·의무가 바뀐 개정 ' + R.length + '건 — ' + topFam(R, 2).map(function (it) { return '「' + cut(it.title, 26) + '」(' + md(it.date) + ') ' + headline(it); }).join(', ') + (R.length > 2 ? ' 등' : '')
@@ -499,21 +500,23 @@
         });
       }
       var hasPV = !!PV;
-      var hdr = ['직무', '계', '실질', '법률', '시행령', '시행규칙', '행정규칙', '제재·의무'].concat(hasPV ? [input.prev.short || '전기'] : []);
+      var ORDC = lvN(P, '자치법규') > 0;   // 자치법규 개정이 있는 기간만 칸을 더한다
+      var hdr = ['직무', '계', '실질', '법률', '시행령', '시행규칙', '행정규칙'].concat(ORDC ? ['자치법규'] : []).concat(['제재·의무']).concat(hasPV ? [input.prev.short || '전기'] : []);
       var rows = [head(hdr, hdr.map(function (x, i) { return i ? 'right' : 'left'; }))];
       jobs.forEach(function (j) {
         var pj = ofJob(P, j);
-        rows.push([jobCell(j), num(pj.length, { bold: true }), num(count(pj, function (x) { return !isTidy(x); }), { color: C.accent, bold: true }), num(lvN(pj, '법률')), num(lvN(pj, '시행령')), num(lvN(pj, '시행규칙')), num(lvN(pj, '행정규칙')),
-          num(count(pj, isRisk), { color: count(pj, isRisk) ? C.red : C.ink, bold: !!count(pj, isRisk) })].concat(hasPV ? [num(ofJob(PV, j).length, { color: C.muted })] : []));
+        rows.push([jobCell(j), num(pj.length, { bold: true }), num(count(pj, function (x) { return !isTidy(x); }), { color: C.accent, bold: true }), num(lvN(pj, '법률')), num(lvN(pj, '시행령')), num(lvN(pj, '시행규칙')), num(lvN(pj, '행정규칙'))].concat(ORDC ? [num(lvN(pj, '자치법규'))] : []).concat([
+          num(count(pj, isRisk), { color: count(pj, isRisk) ? C.red : C.ink, bold: !!count(pj, isRisk) })]).concat(hasPV ? [num(ofJob(PV, j).length, { color: C.muted })] : []));
       });
       var tot = { bold: true, fill: { color: C.soft } };
-      rows.push([{ text: '합계', options: tot }, num(P.length, tot), num(count(P, function (x) { return !isTidy(x); }), Object.assign({ color: C.accent }, tot)), num(lvN(P, '법률'), tot), num(lvN(P, '시행령'), tot), num(lvN(P, '시행규칙'), tot), num(lvN(P, '행정규칙'), tot),
-        num(R.length, Object.assign({ color: C.red }, tot))].concat(hasPV ? [num(PV.length, Object.assign({ color: C.muted }, tot))] : []));
+      rows.push([{ text: '합계', options: tot }, num(P.length, tot), num(count(P, function (x) { return !isTidy(x); }), Object.assign({ color: C.accent }, tot)), num(lvN(P, '법률'), tot), num(lvN(P, '시행령'), tot), num(lvN(P, '시행규칙'), tot), num(lvN(P, '행정규칙'), tot)].concat(ORDC ? [num(lvN(P, '자치법규'), tot)] : []).concat([
+        num(R.length, Object.assign({ color: C.red }, tot))]).concat(hasPV ? [num(PV.length, Object.assign({ color: C.muted }, tot))] : []));
       var rh = Math.min(0.4, 3.75 / rows.length);
-      table(s, rows, tx, TOP, tw, hasPV ? [1.22, 0.56, 0.56, 0.56, 0.66, 0.8, 0.8, 0.86, 0.66] : [1.36, 0.64, 0.64, 0.64, 0.74, 0.9, 0.9, 0.86], 10, { rowH: rh });
-      s.addNotes(['[개정 현황] 직무별 (계 · 법률/시행령/시행규칙/행정규칙 · 제재·의무)'].concat(jobRank.map(function (x) {
+      table(s, rows, tx, TOP, tw, ORDC ? (hasPV ? [1.1, 0.5, 0.52, 0.52, 0.6, 0.72, 0.72, 0.64, 0.74, 0.62] : [1.2, 0.58, 0.58, 0.58, 0.66, 0.78, 0.78, 0.7, 0.82])
+        : (hasPV ? [1.22, 0.56, 0.56, 0.56, 0.66, 0.8, 0.8, 0.86, 0.66] : [1.36, 0.64, 0.64, 0.64, 0.74, 0.9, 0.9, 0.86]), 10, { rowH: rh });
+      s.addNotes(['[개정 현황] 직무별 (계 · 법률/시행령/시행규칙/행정규칙' + (ORDC ? '/자치법규' : '') + ' · 제재·의무)'].concat(jobRank.map(function (x) {
         var pj = ofJob(P, x[0]);
-        return '- ' + x[0] + ' ' + x[1] + '건 (' + LEVELS.map(function (l) { return l + ' ' + lvN(pj, l); }).join(' · ') + ' · 제재·의무 ' + count(pj, isRisk) + ')';
+        return '- ' + x[0] + ' ' + x[1] + '건 (' + LEVELS.filter(function (l) { return l !== '자치법규' || ORDC; }).map(function (l) { return l + ' ' + lvN(pj, l); }).join(' · ') + ' · 제재·의무 ' + count(pj, isRisk) + ')';
       })).join('\n'));
       var ms = monthSplit(P, input.start, input.end);
       var mline = (ms.length > 1 ? '월별 시행: ' + ms.map(function (m) { return m.label + ' ' + m.items.length + '건'; }).join(' · ') + '    ' : '');
@@ -533,12 +536,13 @@
           catAxisLabelFontFace: F, catAxisLabelFontSize: 10, catAxisLabelColor: C.ink, valAxisHidden: true, valGridLine: { style: 'none' }, catGridLine: { style: 'none' }
         });
       } else emptyCard(s, pptx, '이 기간에 시행된 개정이 없습니다.');
-      var fr = [head(['계열(법률)', '계', '실질', '법률', '시행령', '시행규칙', '행정규칙', '제재·의무'], ['left', 'right', 'right', 'right', 'right', 'right', 'right', 'right'])];
+      var ORDF = top.some(function (t) { return lvN(t[1], '자치법규') > 0; });
+      var fr = [head(['계열(법률)', '계', '실질', '법률', '시행령', '시행규칙', '행정규칙'].concat(ORDF ? ['자치법규'] : []).concat(['제재·의무']), ['left', 'right', 'right', 'right', 'right', 'right', 'right', 'right'].concat(ORDF ? ['right'] : []))];
       top.forEach(function (t) {
-        fr.push([cut(t[0], 15), num(t[1].length, { bold: true }), num(count(t[1], function (x) { return !isTidy(x); }), { color: C.accent, bold: true }), num(lvN(t[1], '법률')), num(lvN(t[1], '시행령')), num(lvN(t[1], '시행규칙')), num(lvN(t[1], '행정규칙')),
-          num(count(t[1], isRisk), { color: count(t[1], isRisk) ? C.red : C.ink })]);
+        fr.push([cut(t[0], 15), num(t[1].length, { bold: true }), num(count(t[1], function (x) { return !isTidy(x); }), { color: C.accent, bold: true }), num(lvN(t[1], '법률')), num(lvN(t[1], '시행령')), num(lvN(t[1], '시행규칙')), num(lvN(t[1], '행정규칙'))].concat(ORDF ? [num(lvN(t[1], '자치법규'))] : []).concat([
+          num(count(t[1], isRisk), { color: count(t[1], isRisk) ? C.red : C.ink })]));
       });
-      if (top.length) table(s, fr, tx, TOP, tw, [2.1, 0.45, 0.5, 0.5, 0.62, 0.78, 0.78, 0.82], 9.5);
+      if (top.length) table(s, fr, tx, TOP, tw, ORDF ? [1.9, 0.42, 0.46, 0.46, 0.56, 0.7, 0.7, 0.66, 0.72] : [2.1, 0.45, 0.5, 0.5, 0.62, 0.78, 0.78, 0.82], 9.5);
       note(s, '같은 법률의 시행령·시행규칙·행정규칙을 한 계열로 묶음(법령체계도 기준)' + (fams.length > top.length ? ' · 상위 ' + top.length + '개 계열' : '') + ' · 실질 개정 = 그 법령 자체의 내용 변경 · 타법개정 = 다른 법령 개정에 따른 명칭·인용 조문 단순 변경');
     }
 
@@ -551,7 +555,8 @@
       var kr = [head(['법령 종류', '개정', '실질 개정', '제재·의무', '별표·서식', '주로 반영할 곳'], ['left', 'right', 'right', 'right', 'right', 'left'])];
       var dash = { text: '–', options: { align: 'right', color: C.faint } };
       LEVELS.forEach(function (l) {
-        var xs = P.filter(function (x) { return levelOf(x) === l; }), adm = l === '행정규칙';
+        var xs = P.filter(function (x) { return levelOf(x) === l; }), adm = l === '행정규칙' || l === '자치법규';
+        if (l === '자치법규' && !xs.length) return;
         kr.push([{ text: l, options: { bold: true } }, num(xs.length), num(count(xs, function (x) { return !isTidy(x); }), { color: C.accent, bold: true }),
           adm ? dash : num(count(xs, isRisk), { color: count(xs, isRisk) ? C.red : C.ink }), adm ? dash : num(count(xs, hasForm)), { text: WHERE[l], options: { color: C.sub } }]);
       });
@@ -883,7 +888,8 @@
     aframe(s, pptx, '별첨 ' + apxNo('집계 기준과 방법') + '. 집계 기준과 방법');
     var how = [
       ['자료', '국가법령정보센터 OpenAPI (매일 오전 7시 자동 확인, ' + dot(input.asOf) + ' 기준). 공포됐지만 아직 시행되지 않은 개정도 포함'],
-      ['대상', WHO() + ' 적용법규 ' + fmt(input.baseCount) + '개 = 법령(법률·시행령·시행규칙) ' + fmt(input.lawCount) + '개 + 그 계열에 법령체계도로 연결된 행정규칙(고시·훈령·예규 등) ' + fmt(input.admCandidates) + '개'],
+      ['대상', WHO() + ' 적용법규 ' + fmt(input.baseCount) + '개 = 법령(법률·시행령·시행규칙) ' + fmt(input.lawCount) + '개 + 그 계열에 법령체계도로 연결된 행정규칙(고시·훈령·예규 등) ' + fmt(input.admCandidates) + '개' +
+        (input.ordCount ? ' + 사업장 소재 지자체(포항 · 광양 · 세종) 자치법규 ' + fmt(input.ordCount) + '개' : '')],
       ['집계', '시행일 기준. 개정 1건 = 법령 + 시행일 + 개정 구분 (같은 법령이 여러 번 바뀌면 각각 셈)'],
       ['제재·의무', '개정문과 조문 제목을 자동 분석. 벌칙·과태료·과징금·행정처분 조항이 신설·변경된 경우만 표시하고 인용·용어만 바뀐 경우는 제외. 의무는 회사(사업주·사용자 등)가 주어인 “…하여야 한다 / …아니 된다” 문장 기준'],
       ['실질 개정 · 타법개정', DEF_REAL + '. ' + DEF_TIDY + '. 국가법령정보센터의 개정 구분 기준'],
@@ -980,8 +986,8 @@
         return {
           title: it.title, date: it.effectiveDate, type: it.amendmentType || '', ministry: it.ministry || '',
           job: (it.categories || [])[0] || '기타', daysUntil: typeof it.daysUntil === 'number' ? it.daysUntil : 0,
-          codes: A ? A.codes(it) : [], detail: A ? A.details(it) : null, summary: it.summary || '', family: it.family || lv.root, kind: it.kind || '',
-          level: it.kind ? '행정규칙' : lv.level, key: it._key || (it.title + '|' + it.effectiveDate + '|' + short(it.amendmentType))
+          codes: A ? A.codes(it) : [], detail: A ? A.details(it) : null, summary: it.summary || '', family: it.org || it.family || lv.root, kind: it.kind || '', org: it.org || '',
+          level: it.org ? '자치법규' : it.kind ? '행정규칙' : lv.level, key: it._key || (it.title + '|' + it.effectiveDate + '|' + short(it.amendmentType))
         };
       });
       /* 연말: 다음 해 1~2월 시행분 (upcoming_next.json) */
@@ -990,14 +996,14 @@
         var lv = levelIn(r.t);
         items.push({ title: r.t, date: r.d, type: r.a === '일' ? '일부개정' : r.a === '타' ? '타법개정' : r.a || '', ministry: r.m || '',
           job: r.c || '기타', daysUntil: Math.round((new Date(r.d) - new Date(today)) / 86400000), codes: [], detail: null, summary: '', family: lv.root,
-          kind: r.k || '', level: r.k ? '행정규칙' : lv.level, key: r.t + '|' + r.d + '|' + (r.a || '') });
+          kind: r.k || '', org: r.o || '', level: r.o ? '자치법규' : r.k ? '행정규칙' : lv.level, key: r.t + '|' + r.d + '|' + (r.a || '') });
       });
       var p = period(opts.kind, opts.n, year);
       var M = window.__rrMeta || {};
       var pref = getPref();
       return Object.assign(p, {
         year: year, job: opts.job || '', asOf: today, items: items,
-        lawCount: M.baseLaws || 0, admCandidates: M.admrulLaws || 0, baseCount: (M.baseLaws || 0) + (M.admrulLaws || 0) || window.__rrBaseCount || '',
+        lawCount: M.baseLaws || 0, admCandidates: M.admrulLaws || 0, ordCount: M.ordinLaws || 0, baseCount: (M.baseLaws || 0) + (M.admrulLaws || 0) + (M.ordinLaws || 0) || window.__rrBaseCount || '',
         appendix: opts.appendix !== false, site: 'https://tjdudfhr.github.io/RegRader/',
         dept: opts.dept != null ? opts.dept : (pref.dept || ''), secret: opts.secret != null ? !!opts.secret : pref.secret !== false,
         track: opts.track === false ? null : trackSnap()

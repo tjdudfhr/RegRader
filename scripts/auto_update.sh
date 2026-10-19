@@ -17,7 +17,7 @@ trap 'rmdir "$LOCK" 2>/dev/null' EXIT
 
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') 갱신 시작 ==="
 
-DATA=(docs/index.json docs/previous_index.json docs/meta.json docs/changelog.json docs/m?.json docs/upcoming_next.json docs/law_families.json docs/amend_flags.json docs/amend_details.json docs/amend_actions.json docs/oan docs/admrul_candidates.json docs/admrul_events.json docs/admrul_index.json)
+DATA=(docs/index.json docs/previous_index.json docs/meta.json docs/changelog.json docs/m?.json docs/upcoming_next.json docs/law_families.json docs/amend_flags.json docs/amend_details.json docs/amend_actions.json docs/oan docs/ordin_index.json docs/admrul_candidates.json docs/admrul_events.json docs/admrul_index.json)
 HEALTH=docs/health.json
 
 # 오늘 갱신 결과를 docs/health.json 에 남긴다 → GitHub 의 매일 아침 점검(daily-check)이 읽어 문제가 있으면 알림 메일

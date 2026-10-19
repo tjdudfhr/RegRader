@@ -112,6 +112,17 @@ def admrul_detail(doc: dict) -> dict:
             "attach": link, "attachName": name, "issued": info.get("발령일자") or "", "dept": info.get("담당부서기관명") or ""}
 
 
+def ordin_detail(doc: dict) -> dict:
+    """자치법규(조례 · 규칙) 개정: 제개정이유와 공포일 · 담당부서 (조문 분석은 하지 않는다)"""
+    root = doc.get("LawService") or {}
+    reason = flat((root.get("제개정이유") or {}).get("제개정이유내용"))
+    reason = re.sub(r"[ \t]+", " ", reason)
+    reason = re.sub(r"\n\s*\n+", "\n", reason).strip()
+    info = root.get("자치법규기본정보") or {}
+    return {"ordin": True, "reason": reason[:REASON_MAX] + ("…" if len(reason) > REASON_MAX else ""),
+            "issued": info.get("공포일자") or "", "dept": info.get("담당부서명") or "", "org": info.get("지자체기관명") or ""}
+
+
 def flat(v) -> str:
     if isinstance(v, list):
         return "\n".join(flat(x) for x in v)
@@ -597,7 +608,8 @@ def build(force=False, only=None, log=print):
             v["reason"] = old_reasons[r] if isinstance(r, int) and r < len(old_reasons) else ""
     live = {key_of(r) for r in rows}
     todo = [r for r in rows if (force or key_of(r) not in items_d) and r.get("u") and (not only or r.get("u") == only)]
-    adm_todo = [r for r in todo if r.get("k")]          # 행정규칙: 제개정이유만
+    ord_todo = [r for r in todo if r.get("o")]           # 자치법규: 제개정이유만
+    adm_todo = [r for r in todo if r.get("k") and not r.get("o")]   # 행정규칙: 제개정이유만
     todo = [r for r in todo if not r.get("k")]
     lsis = sorted({r["u"] for r in todo})
     log(f"amend_details: 분석할 개정 {len(todo)}건 (법령 버전 {len(lsis)}개)")
@@ -644,6 +656,18 @@ def build(force=False, only=None, log=print):
         items_d[key_of(r)] = admrul_detail(doc)
     if adm_todo:
         log(f"amend_details: 행정규칙 {len(adm_todo)}건 제개정이유")
+    # 자치법규 개정: 제개정이유 (본문은 ordinances.py 가 받아 둔 캐시)
+    if ord_todo:
+        import ordinances
+        for r in ord_todo:
+            try:
+                items_f[key_of(r)] = []
+                items_d[key_of(r)] = ordin_detail(ordinances.body(r["u"]))
+            except Exception as e:  # noqa: BLE001
+                items_f.pop(key_of(r), None)
+                failed.append(r["u"])
+                log(f"  자치법규 {key_of(r)} 실패: {e}")
+        log(f"amend_details: 자치법규 {len(ord_todo)}건 제개정이유")
 
     # 목록에서 빠진 개정은 지운다
     items_f = {k: v for k, v in items_f.items() if k in live}

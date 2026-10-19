@@ -45,9 +45,9 @@
       var lab = tot.parentNode.querySelector('div[style*="0.75rem"]');
       /* '복수개정 87'을 중복 건수로 오해하기 쉬워서 '중복 포함'을 붙인다. 법규 개수(중복 제외)는 툴팁에만 둔다 */
       if (lab) {
-        var nAdm = items.filter(function (x) { return x.kind; }).length;
+        var nAdm = items.filter(function (x) { return x.kind && !x.org; }).length, nOrd = items.filter(function (x) { return x.org; }).length;
         lab.textContent = '개정 건수 (중복 포함)';
-        lab.title = '올해 개정 ' + s.events + '건 (그중 행정규칙 ' + nAdm + '건)은 한 법규가 여러 번 개정된 것을 각각 센 수입니다 (중복 포함). 중복을 빼면 법령·행정규칙 ' + s.laws + '개, 그중 2회 이상 개정된 것 ' + s.multi + '개';
+        lab.title = '올해 개정 ' + s.events + '건 (그중 행정규칙 ' + nAdm + '건' + (nOrd ? ' · 자치법규 ' + nOrd + '건' : '') + ')은 한 법규가 여러 번 개정된 것을 각각 센 수입니다 (중복 포함). 중복을 빼면 법령·행정규칙 ' + s.laws + '개, 그중 2회 이상 개정된 것 ' + s.multi + '개';
       }
       paintUrgent(items);
       return;

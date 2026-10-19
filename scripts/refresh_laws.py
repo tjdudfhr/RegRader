@@ -73,7 +73,7 @@ def fetch_target(target: str, start: str, end: str):
 
 
 LOOKAHEAD_DAYS = 60  # 연말에 다음 해 시행분을 미리 볼 기간
-ARCHIVE_FILES = ["index.json", "meta.json", "amend_flags.json", "amend_details.json", "amend_actions.json", "admrul_events.json"] + [f"m{i}.json" for i in range(8)]
+ARCHIVE_FILES = ["index.json", "meta.json", "amend_flags.json", "amend_details.json", "amend_actions.json", "ordin_index.json", "admrul_events.json"] + [f"m{i}.json" for i in range(8)]
 
 
 def archive_year(prev_year: int):
@@ -118,6 +118,9 @@ def match_rows(raw, base_norm):
 
 
 AMEND_MINI = {"일부개정": "일", "타법개정": "타"}
+
+
+ORDIN_NEW_SCOPE = set()   # 오늘 적용 범위에 새로 들어온 자치법규 ('O'+ID) — 그 개정은 '신규 개정'이 아니라 '적용법규 추가로 편입'
 
 
 def mini_row(title, eff, amend, in_force, ministry, category, lsi):
@@ -165,7 +168,9 @@ def change_item(r):
         "ministry": r.get("m") or "",
         "category": r.get("c") or "",
     }
-    if r.get("k"):   # 행정규칙: 종류와 행정규칙일련번호(원문 링크)
+    if r.get("o"):   # 자치법규: 종류(조례/규칙) · 지자체 · 자치법규일련번호(원문 링크)
+        item.update({"kind": r["k"], "org": r["o"], "ordinSeq": r.get("u") or ""})
+    elif r.get("k"):   # 행정규칙: 종류와 행정규칙일련번호(원문 링크)
         item.update({"kind": r["k"], "admRulSeq": r.get("u") or ""})
     else:
         item["lsiSeq"] = r.get("u") or ""
@@ -255,13 +260,25 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         by_base += merged
         added = [x for x in added if not x.get("kind")]
         admrul_merged = {"laws": meta.get("admrulLaws"), "events": len(merged)}
+    # 자치법규를 처음 합친 날 · 적용 범위에 새로 넣은 조례: 그 개정은 '적용법규 추가로 편입'
+    ordin_merged = None
+    if not any(r.get("o") for r in prev_rows) and any(r.get("o") for r in new_rows):
+        merged = [x for x in added if x.get("org")]
+        by_base += merged
+        added = [x for x in added if not x.get("org")]
+        ordin_merged = {"laws": meta.get("ordinLaws"), "events": len(merged)}
+    elif ORDIN_NEW_SCOPE:
+        new_td = {(r.get("t"), r.get("d")) for r in new_rows if r.get("o") and r.get("i") in ORDIN_NEW_SCOPE}
+        moved = [x for x in added if x.get("org") and (x["title"], x["effectiveDate"]) in new_td]
+        by_base += moved
+        added = [x for x in added if x not in moved]
     admrul_scope = ({"laws": len(out_ids), "events": len(removed_by_scope), "restored": len(restored_ids), "restoredEvents": len(added_by_scope)}
                     if removed_by_scope or added_by_scope else None)
     # 화면에 보이던 건수(직전 meta)와 새 건수가 다르면 개별 변동이 없어도 기록한다 (예: 중복 정리). RR_NOTE 로 사유를 남긴다.
     shown_before = (prev_meta or {}).get("totalCount")
     total_moved = shown_before is not None and shown_before != meta["totalCount"]
     note = (os.environ.get("RR_NOTE") or "").strip() or ("집계 정리" if total_moved else "")
-    if not (added or removed or now_in_force or base_added or base_renamed or base_removed or admrul_merged or admrul_scope or total_moved or (u_before and u_before != u_after)):
+    if not (added or removed or now_in_force or base_added or base_renamed or base_removed or admrul_merged or ordin_merged or admrul_scope or total_moved or (u_before and u_before != u_after)):
         print("changelog: 변경 없음", flush=True)
         return
     log = read_json(path, {"entries": []})
@@ -281,6 +298,7 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
         "baseLawsAdded": base_added,
         "addedByBase": by_base,
         "admrulMerged": admrul_merged,
+        "ordinMerged": ordin_merged,
         "baseLawsRenamed": base_renamed,
         "baseLawsRemoved": base_removed,
         "removedByBase": removed_by_base,
@@ -295,6 +313,7 @@ def record_changes(prev_rows, new_rows, prev_meta, meta):
     print(f"changelog: 신규 {len(added)} / 삭제 {len(removed)} / 시행 {len(now_in_force)} / 적용법규 추가 {len(base_added)}"
           f" / 법령명 변경 {len(base_renamed)} / 적용법규 삭제 {len(base_removed)}"
           + (f" / 행정규칙 편입 {admrul_merged['events']}건" if admrul_merged else "")
+          + (f" / 자치법규 편입 {ordin_merged['events']}건" if ordin_merged else "")
           + (f" / 적용 범위 조정 {admrul_scope['events']}건" if admrul_scope else ""), flush=True)
 
 
@@ -449,6 +468,23 @@ def main():
     except Exception as e:  # noqa: BLE001
         print(f"admin_rules 건너뜀: {e}", flush=True)
     mini += sorted(admrul_rows, key=lambda r: (r["d"], r["t"]))
+    # 사업장 소재 지자체(포항 · 광양 · 세종)의 적용 자치법규(조례 · 규칙) 올해 개정도 같은 목록에 넣는다 (scripts/ordinances.py).
+    # 자치법규 줄은 k(조례/규칙) · o(지자체) · i('O'+자치법규ID) 가 붙고, u 는 자치법규일련번호다.
+    ordin_rows, ordin_laws = [], 0
+    try:
+        import ordinances
+        res = ordinances.build(log=lambda m: print(m, flush=True), today=as_of, year=year) or {}
+        have = {(r["t"], r["d"], r["a"]) for r in mini}
+        for row in res.get("rows") or []:
+            if (row["t"], row["d"], row["a"]) not in have:
+                have.add((row["t"], row["d"], row["a"]))
+                ordin_rows.append(row)
+        ordin_laws = len(res.get("items") or [])
+        ORDIN_NEW_SCOPE.update("O" + x for x in res.get("newScope") or [])
+    except Exception as e:  # noqa: BLE001
+        print(f"ordinances 건너뜀: {e}", flush=True)
+        ordin_laws = (read_json(DOCS / "meta.json", {}) or {}).get("ordinLaws") or 0
+    mini += sorted(ordin_rows, key=lambda r: (r["d"], r["t"]))
     # 덮어쓰기 전에 직전 데이터를 읽어 둔다 (업데이트 내역 비교용)
     prev_rows = load_prev_rows()
     prev_meta = read_json(DOCS / "meta.json")
@@ -463,15 +499,17 @@ def main():
         "generatedAt": payload["generatedAt"],
         "asOf": payload["asOf"],
         "year": year,
-        "totalCount": len(mini),                    # 법령 + 행정규칙 개정
+        "totalCount": len(mini),                    # 법령 + 행정규칙 + 자치법규 개정
         "lawEvents": law_count,
         "admrulEvents": len(admrul_rows),
+        "ordinEvents": len(ordin_rows),
         "universe": payload["universe"],
         # 화면에 '전일 대비'를 보여주려고 직전 날짜의 수치를 같이 둔다 (같은 날 여러 번 돌면 그 전날 값 유지)
         "universePrev": (prev_meta.get("universePrev") if prev_meta.get("asOf") == payload["asOf"]
                          else ({**(prev_meta.get("universe") or {}), "asOf": prev_meta.get("asOf")} if prev_meta.get("universe") else None)),
         "baseLaws": len(base),
         "admrulLaws": admrul_main_count(),         # 적용법규에 포함된 행정규칙 수 (참고용 제외)
+        "ordinLaws": ordin_laws,                   # 적용 자치법규 수 (scripts/ordin_scope.json)
         "upcomingNext": len(upcoming_next),
         "archives": sorted(p.name for p in (DOCS / "archive").iterdir() if p.is_dir()) if (DOCS / "archive").exists() else [],
     }

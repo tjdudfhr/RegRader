@@ -1,13 +1,17 @@
-/* 적용법규 탭: 법령(base_laws_207.json) + 그 계열에 연결된 행정규칙(admrul_index.json, 참고용 제외) */
+/* 적용법규 탭: 법령(base_laws_207.json) + 그 계열에 연결된 행정규칙(admrul_index.json, 참고용 제외)
+   + 사업장 소재 지자체(포항 · 광양 · 세종) 자치법규(ordin_index.json) */
 (function () {
   var BASE = null, LAWS = null;
   /* 행정규칙을 적용법규 목록에 합친다 (family-ui.js 가 읽어 둔 것) */
   function mergeAdmrul() {
     var F = window.rrFamilies;
     var adm = F && F.admrul ? F.admrul() : [];
+    var ord = F && F.ordin ? F.ordin() : [];
     if (!LAWS || !adm.length) return false;
     BASE = LAWS.concat(adm.map(function (a) {
       return { title: a.title, categories: a.category ? [a.category] : [], lawType: '행정규칙', kind: a.kind, admSeq: a.admSeq, family: a.family };
+    })).concat(ord.map(function (o) {
+      return { title: o.title, categories: o.category ? [o.category] : [], lawType: '자치법규', kind: o.kind, org: o.org, ordinSeq: o.ordinSeq, basis: o.basis };
     }));
     return true;
   }
@@ -87,12 +91,35 @@
         '<span class="rr-rf-n' + (n ? '' : ' zero') + '">' + (n ? '올해 개정 ' + n + '건' : '') + '</span></div>' +
         (F.block ? F.block(f) : f.members.map(function (m) { return F.row(f, m); }).join('')) + '</div>';
     }).join('');
-    var sum = '<div class="rr-rf-sum"><b>' + list.length + '개 계열</b> · 적용법규 ' + (nLaw + nAdm).toLocaleString('ko-KR') + '개 (법령 ' + nLaw + ' · 행정규칙 ' + nAdm.toLocaleString('ko-KR') + ')' +
-      ' · 올해 개정 ' + evN + '건' + (admEv ? ' (행정규칙 ' + admEv + ')' : '') +
+    /* 자치법규: 법령체계도 밖이라 계열 대신 지자체별로 한 카드에 */
+    var ords = view.filter(function (b) { return b.lawType === '자치법규'; }), ordEv = 0, ordCard = '';
+    if (ords.length) {
+      var evOf = function (t) { return (window.__rrItems || []).filter(function (x) { return x.title === t; }); };
+      var byOrg = {};
+      ords.forEach(function (o) { (byOrg[o.org] = byOrg[o.org] || []).push(o); });
+      var rowsH = Object.keys(byOrg).sort().map(function (org) {
+        return '<div class="rr-rf-org">' + escH(org) + '</div>' + byOrg[org].sort(function (a, b) { return a.title.localeCompare(b.title, 'ko-KR'); }).map(function (o) {
+          var es = evOf(o.title); ordEv += es.length;
+          var c = (o.categories || [])[0] || '';
+          var url = o.ordinSeq ? 'https://www.law.go.kr/LSW/ordinInfoP.do?ordinSeq=' + encodeURIComponent(o.ordinSeq) : '';
+          return '<div class="rr-rf-ord"' + (es.length ? ' data-eid="' + escH(es[0].id) + '" style="cursor:pointer"' : '') + '>' +
+            '<span class="k">' + escH(o.kind || '조례') + '</span>' +
+            (es.length ? '<span class="t">' + escH(o.title) + '</span>' : '<a class="t" href="' + url + '" target="_blank" rel="noopener">' + escH(o.title) + '</a>') +
+            (c ? '<span class="rr-rf-cat" style="--c:' + (window.rrCatColor ? window.rrCatColor(c) : '#667eea') + '">' + escH(c) + '</span>' : '') +
+            '<span class="b">' + escH((o.basis || []).join(' · ')) + '</span>' +
+            (es.length ? '<span class="rr-rf-n">올해 개정 ' + es.length + '건</span>' : '') + '</div>';
+        }).join('');
+      }).join('');
+      ordCard = '<div class="rr-rf rr-rf-ordc"><div class="rr-rf-h"><b>자치법규 · ' + Object.keys(byOrg).sort().join(' · ') + '</b>' +
+        '<span class="rr-rf-n' + (ordEv ? '' : ' zero') + '">' + (ordEv ? '올해 개정 ' + ordEv + '건' : '') + '</span></div>' + rowsH + '</div>';
+      evN += ordEv;
+    }
+    var sum = '<div class="rr-rf-sum"><b>' + list.length + '개 계열</b> · 적용법규 ' + (nLaw + nAdm + ords.length).toLocaleString('ko-KR') + '개 (법령 ' + nLaw + ' · 행정규칙 ' + nAdm.toLocaleString('ko-KR') + (ords.length ? ' · 자치법규 ' + ords.length : '') + ')' +
+      ' · 올해 개정 ' + evN + '건' + (admEv ? ' (행정규칙 ' + admEv + (ordEv ? ' · 자치법규 ' + ordEv : '') + ')' : '') +
       (refN ? ' · <span title="정부 내부용 등 회사 준수사항과 거리가 먼 행정규칙은 적용법규로 세지 않고 흐리게만 보여 줍니다">참고용 행정규칙 ' + refN + '개</span>' : '') +
       (outN ? ' · <span title="국가법령정보센터 법령체계도상 이 계열에 속하지만 적용법규 목록에는 없는 하위법령">적용법규에 없는 하위법령 ' + outN + '개</span>' : '') +
       (staleN ? ' · <span class="warn">⚠ 법령명 확인 필요 ' + staleN + '개</span>' : '') + '</div>';
-    return { html: sum + (cards || '<div style="padding:2rem;text-align:center;color:var(--text-muted)">해당 직무의 적용법규가 없습니다.</div>'), count: list.length };
+    return { html: sum + ((cards + ordCard) || '<div style="padding:2rem;text-align:center;color:var(--text-muted)">해당 직무의 적용법규가 없습니다.</div>'), count: list.length };
   }
   function render(job, title) {
     if (!BASE) return;
@@ -145,7 +172,9 @@
       var title = String(law.title || '');
       var evs = byTitle[title] || [];
       var esc = title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-      var kindTag = law.lawType === '행정규칙' ? '<span style="margin-right:8px;padding:1px 7px;border-radius:6px;border:1px solid rgba(15,118,110,.4);' +
+      var kindTag = law.lawType === '자치법규' ? '<span style="margin-right:8px;padding:1px 7px;border-radius:6px;border:1px solid rgba(47,179,122,.45);' +
+                    'color:#15803d;font-size:11px;font-weight:800">' + escH((law.org || '') + ' ' + (law.kind || '조례')) + '</span>'
+        : law.lawType === '행정규칙' ? '<span style="margin-right:8px;padding:1px 7px;border-radius:6px;border:1px solid rgba(15,118,110,.4);' +
                     'color:#0f766e;font-size:11px;font-weight:800">' + escH(law.kind || '행정규칙') + '</span>' : '';
       if (evs.length) {
         var badge = '<span style="margin-left:8px;padding:1px 7px;border-radius:999px;background:#eef2ff;' +
@@ -153,7 +182,8 @@
         return '<div class="registry-law-item" data-eid="' + evs[0].id + '" style="cursor:pointer">' +
                kindTag + '<span>' + esc + '</span>' + badge + '</div>';
       }
-      var url = law.admSeq ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + encodeURIComponent(law.admSeq)
+      var url = law.ordinSeq ? 'https://www.law.go.kr/LSW/ordinInfoP.do?ordinSeq=' + encodeURIComponent(law.ordinSeq)
+        : law.admSeq ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + encodeURIComponent(law.admSeq)
         : 'https://www.law.go.kr/lsSc.do?query=' + encodeURIComponent(title);
       return '<div class="registry-law-item" title="올해 개정 없음 · 국가법령정보센터에서 원문 보기" ' +
              'onclick="window.open(\'' + url.replace(/'/g, '') + '\',\'_blank\')" style="cursor:pointer">' +

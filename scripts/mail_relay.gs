@@ -201,7 +201,7 @@ function planMonthly_(today) {
     return {
       key: key, h: hash_(key), title: r.t, date: r.d, type: AMEND[r.a] || r.a || '', job: r.c || '기타', kind: r.k || '',
       status: st.status || '미검토', due: st.due || '', dday: days_(today, r.d),
-      url: !r.u ? SITE : r.k ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + r.u
+      url: !r.u ? SITE : r.o ? 'https://www.law.go.kr/LSW/ordinInfoP.do?ordinSeq=' + r.u : r.k ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + r.u
         : 'https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u + '&efYd=' + String(r.d).replace(/-/g, '')
     };
   });
@@ -279,7 +279,7 @@ function tableHtml_(list) {
   var th = 'padding:8px 10px;border-bottom:2px solid #d0d5dd;text-align:left;font-size:12px;color:#475467;white-space:nowrap';
   var td = 'padding:8px 10px;border-bottom:1px solid #eaecf0;font-size:13px;vertical-align:top';
   return '<table cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:760px">' +
-    '<tr><th style="' + th + '">시행일</th><th style="' + th + '">D-day</th><th style="' + th + '">법령 · 행정규칙</th><th style="' + th + '">구분</th><th style="' + th + '">대응 상태</th></tr>' +
+    '<tr><th style="' + th + '">시행일</th><th style="' + th + '">D-day</th><th style="' + th + '">법령 · 행정규칙 · 자치법규</th><th style="' + th + '">구분</th><th style="' + th + '">대응 상태</th></tr>' +
     list.map(function (x) {
       var c = STATUS_COLOR[x.status] || '#475467';
       return '<tr><td style="' + td + ';white-space:nowrap">' + dot_(x.date) + '</td>' +

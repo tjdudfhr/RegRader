@@ -14,6 +14,7 @@
   var SEC = {
     track: { icon: 'check', color: '#2f855a', nav: '대응' },
     judge: { icon: 'target', color: '#4f46e5', nav: '실무 판단' },
+    basis: { icon: 'book', color: '#15803d', nav: '적용 근거' },
     risk:  { icon: 'alert', color: '#d92d20', nav: '제재·의무' },
     riskc: { icon: 'search', color: '#6b7280', nav: '제재 조문' },
     why:   { icon: 'info', color: '#3056d3', nav: '개정 취지' },
@@ -107,7 +108,29 @@
     return '<div style="overflow:auto"><table><thead><tr><th>조항</th><th>구분</th><th>종전</th><th>개정</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
   }
   /* 행정규칙(고시·훈령·예규 등) 팝업: 개정 취지·주요내용은 법령정보센터 제개정이유, 원문·첨부(고시 전문) 링크 */
+  function ordinHtml(item) {
+    var A = window.rrAmend;
+    var d = A ? A.details(item) : null;
+    var seq = (item.meta && item.meta.ordinSeq) || '';
+    var src = seq ? 'https://www.law.go.kr/LSW/ordinInfoP.do?ordinSeq=' + seq : '';
+    var F = window.rrFamilies, o = F && F.ordin ? F.ordin().filter(function (x) { return x.title === item.title; })[0] : null;
+    var iss = d && d.issued ? String(d.issued).replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : '';
+    var facts = [['시행일', esc(dotDate(item.effectiveDate))], ['구분', esc(item.kind || '조례') + ' · ' + esc(item.amendmentType || '-')],
+      ['지자체', esc(item.ministry || item.org || '-') + (d && d.dept ? '<small>' + esc(d.dept) + '</small>' : '')],
+      [iss ? '공포일' : '근거 법령', iss ? esc(dotDate(iss)) : esc(o ? (o.basis || []).join(' · ') : '-')]];
+    var links = [];
+    if (src) links.push(['자치법규 원문', src, '', 'file']);
+    var why = d && d.reason ? d.reason : (d ? '법령정보센터에 개정 이유가 등록되어 있지 않습니다.' : '개정 이유를 불러오는 중입니다…');
+    var basis = o ? '<div><b>근거 법령</b> ' + esc((o.basis || []).join(' · ')) + '</div>' + (o.why ? '<div style="color:var(--text-muted,#64748b)">' + esc(o.why) + '</div>' : '') : '';
+    var n = function () { return ''; };
+    return { hero: hero(item, facts, links), body: '<div id="rr-brief" class="summary-section rr-brief">' +
+      (window.rrTracker ? (function (t) { return section('track', n(), '대응 현황', t.body, t.extra); })(window.rrTracker.popupSection(item)) : '') +
+      section('why', n(), '개정 취지', '<div style="white-space:pre-wrap">' + esc(why) + '</div>') +
+      (basis ? section('basis', n(), '적용 근거', basis) : '') +
+      '</div>' };
+  }
   function admrulHtml(item) {
+    if (item.org) return ordinHtml(item);
     var A = window.rrAmend;
     var d = A ? A.details(item) : null;
     var fill = A ? A.briefFill(item) : null;
