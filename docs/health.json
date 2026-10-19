@@ -5,6 +5,6 @@
  "stage": "완료",
  "reason": "",
  "count": 690,
- "pro": false,
- "proReason": "회사별 화면 자료(pro-data) 갱신 실패 — 맥의 ~/Library/Logs/RegRader-pro.log 확인"
+ "pro": true,
+ "proNote": "07:01 법제처 응답 지연으로 실패 → 08:31 다시 갱신해 성공"
 }
