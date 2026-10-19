@@ -1,6 +1,6 @@
 /* 이 사이트가 어느 회사의 법규 개정 모니터링인지 표시 — 기업별 적용법규 검색으로 연 회사별 화면과 같은 모양(company-chip.js).
- * 앱 바 맨 앞: [포스코퓨처엠 · 법령 254 · 행정규칙 669] │ 종합 현황   (좁은 화면은 제목 위 한 줄) · 로딩 화면 부제 · 브라우저 탭 제목
- * 숫자는 meta.json (매일 갱신) 의 적용법규 수.
+ * 앱 바 제목 위 한 줄: 포스코퓨처엠 / 종합 현황 · 로딩 화면 부제 · 브라우저 탭 제목
+ * 적용법규 수(meta.json)는 이름에 마우스를 올리면 보인다.
  * 회사별 화면(?company= · pro/site · 맥 서버판)은 그 회사 이름으로 따로 표시하므로 여기서는 건너뛴다.
  */
 (function () {
@@ -15,7 +15,7 @@
     if (companyView() || !window.rrCompanyChip) return;
     window.rrCompanyChip({ company: HOME, laws: meta && meta.baseLaws, admin: meta && meta.admrulLaws });
     var chip = document.getElementById('rr-co');
-    if (chip) chip.title = HOME + ' 적용법규 기준 법규 개정 모니터링';
+    if (chip) chip.title = HOME + ' 적용법규 기준 법규 개정 모니터링' + (meta ? ' (법령 ' + meta.baseLaws + ' · 행정규칙 ' + meta.admrulLaws + ')' : '');
   }
   function run() {
     if (companyView()) return;
