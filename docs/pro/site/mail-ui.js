@@ -18,7 +18,7 @@
   /* 메일 중계(Google Apps Script 웹 앱) 주소 — scripts/mail_relay.gs 를 배포하면 나오는 /exec 주소 */
   var RELAY = window.RR_MAIL_RELAY || 'https://script.google.com/macros/s/AKfycbzGLU61AsXAvnk2uvrRUP2l-_Dw_rFLIKYar11TAsUxK3S6wuE-F1IOQv4uXaRU25tV/exec';
   // (주소가 공개돼도 괜찮다: 그쪽에서 로그인한 구성원인지 확인하고, 아니면 보내지 않는다)
-  var MAX_BYTES = 190000;   // 개인 Gmail(Apps Script) 본문 한도 200KB 보다 조금 작게
+  var MAX_BYTES = 150000;   // 개인 Gmail(Apps Script) 본문 한도 200KB — 보기 좋은 본문 + 글자 본문을 합친 크기, 메일 인코딩 여유까지 두고
   var state = { range: 'upcoming', jobs: null };
 
   function items() { return window.__rrItems || window.lawsData || []; }
@@ -315,15 +315,16 @@
     });
   }
 
-  /* 본문 200KB 안으로: 넘으면 시행일이 가까운 것부터 넣고 '외 N건은 사이트에서' 를 붙인다 */
+  /* 본문 한도 안으로: 넘으면 시행일이 가까운 것부터 넣고 '외 N건은 사이트에서' 를 붙인다 (보기 좋은 본문 + 글자 본문 합계) */
   function bytes(s) { return window.TextEncoder ? new TextEncoder().encode(s).length : s.length * 3; }
   function fitBody(list) {
-    var html = bodyHTML(list);
-    if (bytes(html) <= MAX_BYTES) return { html: html, text: bodyText(list), n: list.length };
+    var html = bodyHTML(list), text = bodyText(list);
+    if (bytes(html) + bytes(text) <= MAX_BYTES) return { html: html, text: text, n: list.length };
     var lo = 1, hi = list.length - 1, best = 1;
     while (lo <= hi) {
       var mid = (lo + hi) >> 1;
-      if (bytes(bodyHTML(list.slice(0, mid))) <= MAX_BYTES - 2000) { best = mid; lo = mid + 1; } else hi = mid - 1;
+      var sub = list.slice(0, mid);
+      if (bytes(bodyHTML(sub)) + bytes(bodyText(sub)) <= MAX_BYTES - 2000) { best = mid; lo = mid + 1; } else hi = mid - 1;
     }
     var part = list.slice(0, best), more = list.length - best;
     var tail = '<p style="margin:16px 0 0;font-size:13px;color:#475467">외 <b>' + more + '건</b>은 메일 길이 제한으로 빠졌습니다. 전체 목록은 <a href="' + SITE + '">RegRader</a> 에서 보세요.</p>';
