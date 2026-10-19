@@ -13,6 +13,7 @@
   /* 팝업 섹션: 카드 하나씩, 머리에 선 아이콘(system-ui.js 의 rrIcon)과 제목. 위쪽 바로가기 탭이 섹션으로 옮겨 준다. */
   var SEC = {
     track: { icon: 'check', color: '#2f855a', nav: '대응' },
+    judge: { icon: 'target', color: '#4f46e5', nav: '실무 판단' },
     risk:  { icon: 'alert', color: '#d92d20', nav: '제재·의무' },
     riskc: { icon: 'search', color: '#6b7280', nav: '제재 조문' },
     why:   { icon: 'info', color: '#3056d3', nav: '개정 취지' },
@@ -140,6 +141,7 @@
     var arts = artList.map(function (a) { return '<span class="rr-chip">' + esc(a) + '</span>'; }).join('');
     var risk = A ? A.popupSection(item) : null;
     var trk = window.rrTracker ? window.rrTracker.popupSection(item) : null;   /* 대응 현황 (tracker.js) */
+    var jd = window.rrJudge ? window.rrJudge.section(item) : null;            /* 실무 판단 (judge-ui.js) */
     var det = A && A.details ? A.details(item) : null;
     var lsi = (item.meta && item.meta.lsiSeq) || '';
     var efYd = String(item.effectiveDate || '').replace(/-/g, '');
@@ -166,6 +168,7 @@
     links.push(['현행 법령', live, '', 'book']);
     return { hero: hero(item, facts, links), body: '<div id="rr-brief" class="summary-section rr-brief">' +
       (trk ? section('track', n(), '대응 현황', trk.body, trk.extra) : '') +
+      (jd ? section('judge', n(), '실무 판단', jd.body, jd.extra) : '') +
       (risk ? section(risk.tone === 'hot' ? 'risk' : 'riskc', n(), risk.tone === 'hot' ? '벌칙·과태료·의무 변경' : '제재 조문 정비', risk.body, risk.extra) : '') +
       (whyText ? section('why', n(), '개정 취지', '<div style="white-space:pre-wrap">' + esc(whyText) + '</div>') : '') +
       (whatBody ? section('what', n(), '주요 개정내용', whatBody) : '') +
