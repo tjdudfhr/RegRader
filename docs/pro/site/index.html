@@ -1953,7 +1953,7 @@
             line-height: 1.4;
         }
     </style>
-    <link rel="stylesheet" href="./app-shell.css?v=20260927u">
+    <link rel="stylesheet" href="./app-shell.css?v=20261020o">
     <link rel="stylesheet" href="./system.css?v=20261019b">
 </head>
 <body>
@@ -2076,7 +2076,7 @@
                         <span style="font-size: 1.3rem;">🎯</span>
                         <div>
                             <div style="font-size: 1.3rem; font-weight: 700; color: var(--text-primary);"><span class="rr-year">2026</span>년 당사 적용 법규 개정 현황</div>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">법령 <span id="rr-base-sub-law">–</span> · 행정규칙 <span id="rr-base-sub-adm">–</span></div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">법령 <span id="rr-base-sub-law">–</span> · 행정규칙 <span id="rr-base-sub-adm">–</span><span id="rr-base-sub-ord-w" style="display:none"> · 자치법규 <span id="rr-base-sub-ord">–</span></span></div>
                         </div>
                     </div>
                     <!-- 숫자는 stats-ui.js 가 실제 데이터로 채운다. 옛 수치가 먼저 보이지 않도록 자리표시(–)만 둔다. -->
@@ -2493,8 +2493,8 @@
             <div class="tab-pane" id="tracker-content"><div id="rr-trk-dash"></div></div>
 
             <!-- 시행 임박 · 업데이트 내역: 각 페이지를 embed 모드로 끼워 넣는다 (처음 열 때 불러옴) -->
-            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20261001y" title="시행 임박 법령"></iframe></div>
-            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20261001b" title="업데이트 내역"></iframe></div>
+            <div class="tab-pane" id="watch-content"><iframe class="rr-embed" data-src="./watch.html?embed=1&v=20261020o" title="시행 임박 법령"></iframe></div>
+            <div class="tab-pane" id="history-content"><iframe class="rr-embed" data-src="./history.html?embed=1&v=20261020o" title="업데이트 내역"></iframe></div>
             <!-- 시스템 소개: 설명 영상 (my-deck/slides/regrader-intro 에서 만든 것) · 설명자료 PDF (발표자료 21쪽, intro/regrader-slides.pdf) -->
             <!-- 기업별 적용법규 검색: 브라우저판 RegRader Pro (docs/pro/) 를 끼워 넣는다 — 회사 검색 → 판정 → 'RegRader로 보내기'(새 탭) (처음 열 때 불러옴) -->
             <div class="tab-pane" id="pro-content"><iframe class="rr-embed rr-pro-frame" data-src="../?embed=1" title="기업별 적용법규 검색"></iframe></div>
@@ -7282,8 +7282,8 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     </script>
 
     <!-- RegRader 오버레이: 데이터/개정이유/UI -->
-    <script src="./app-init.js?v=20260927w"></script>
-    <script src="./event-boot.js?v=20260927a"></script>
+    <script src="./app-init.js?v=20261020o"></script>
+    <script src="./event-boot.js?v=20261020o"></script>
     <script src="./amend-ui.js?v=20261017a"></script>
     <script src="./whyA.js?v=20260917a"></script>
     <script src="./whyB.js?v=20260917a"></script>
@@ -7293,25 +7293,25 @@ function toggleAllQuarters(selectAll) { document.querySelectorAll('input[value="
     <script src="./brief-why.js?v=20260917a"></script>
     <script src="./sum-fill.js?v=20260917a"></script>
     <script src="./judge-ui.js?v=20261019b"></script>
-    <script src="./brief-ui.js?v=20261019b"></script>
-    <script src="./stats-ui.js?v=20261013a"></script>
-    <script src="./family-ui.js?v=20260927x"></script>
+    <script src="./brief-ui.js?v=20261020p"></script>
+    <script src="./stats-ui.js?v=20261020o"></script>
+    <script src="./family-ui.js?v=20261020o"></script>
     <script src="./tracker.js?v=20261019a"></script>
-    <script src="./registry-fix.js?v=20260927w"></script>
+    <script src="./registry-fix.js?v=20261020p"></script>
     <script src="./excel-fix.js?v=20261013a"></script>
-    <script src="./report-ppt.js?v=20261013a"></script>
-    <script src="./download-ui.js?v=20261013a"></script>
-    <script src="./mail-ui.js?v=20261019g"></script>
+    <script src="./report-ppt.js?v=20261020o"></script>
+    <script src="./download-ui.js?v=20261020o"></script>
+    <script src="./mail-ui.js?v=20261020o"></script>
     <script src="./company-chip.js?v=20261020d"></script>
-    <script src="./home-company.js?v=20261020c"></script>
+    <script src="./home-company.js?v=20261020o"></script>
     <script src="./law-request.js?v=20260928a"></script>
     <script src="./dashboard-charts.js?v=20260927u"></script>
     <script src="./year-view.js?v=20260926a"></script>
     <script src="./embed-host.js?v=20260926a"></script>
-    <script src="./analytics.js?v=20261017a"></script>
+    <script src="./analytics.js?v=20261020o"></script>
     <script src="./job-analytics.js?v=20261001b"></script>
-    <script src="./quarter-analytics.js?v=20261001b"></script>
-    <script src="./registry-analytics.js?v=20261001a"></script>
+    <script src="./quarter-analytics.js?v=20261020o"></script>
+    <script src="./registry-analytics.js?v=20261020o"></script>
 
     <script src="./company-chip.js?v=017a6364"></script>
 </body>

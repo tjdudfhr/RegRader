@@ -290,3 +290,12 @@ iframe.rr-embed {
 .rr-sum-title { flex: 1 1 0; }
 @media (min-width: 701px) { .rr-sum-title > div > div:first-child { white-space: nowrap; } }
 @media (max-width: 700px) { .rr-sum-nums { margin-left: 0; justify-content: flex-start; } }
+/* 적용법규 계열 보기: 자치법규 카드 (지자체별) */
+.rr-rf-ordc { border-left: 3px solid #2fb37a !important; }
+.rr-rf-org { margin: 0.55rem 0.35rem 0.2rem; font-size: 0.78rem; font-weight: 800; color: #15803d; letter-spacing: -0.01em; }
+.rr-rf-ord { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; padding: 0.32rem 0.5rem; border-radius: 8px; font-size: 0.86rem; }
+.rr-rf-ord:hover { background: var(--surface-3, #f1f3f6); }
+.rr-rf-ord .k { flex: none; font-size: 0.68rem; font-weight: 800; color: #15803d; border: 1px solid rgba(47,179,122,.45); border-radius: 6px; padding: 0 0.4rem; }
+.rr-rf-ord .t { color: var(--text-primary); font-weight: 600; text-decoration: none; }
+.rr-rf-ord a.t:hover { text-decoration: underline; }
+.rr-rf-ord .b { font-size: 0.74rem; color: var(--text-muted); }

@@ -17,7 +17,7 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   /* 보라 단계색: [0] 이 가장 강조 (라이트=가장 진함, 다크=가장 밝음). 둘 다 표면 대비 2:1 이상 검증 */
   function ramp() {
-    return dark() ? ['#ccd2f8', '#a9b3f1', '#8591e8', '#6470dd'] : ['#1f3a9e', '#3056d3', '#6485e6', '#a3b6f2'];   /* 앱 브랜드 파랑 단계 (system.css) */
+    return dark() ? ['#ccd2f8', '#a9b3f1', '#8591e8', '#6470dd', '#5fd39a'] : ['#1f3a9e', '#3056d3', '#6485e6', '#a3b6f2', '#2fb37a'];   /* 앱 브랜드 파랑 단계 (system.css) + 자치법규 초록 */
   }
   function ink() {
     return { text: cssVar('--text-primary', dark() ? '#f7fafc' : '#1a202c'), muted: cssVar('--text-muted', '#718096'),
@@ -28,9 +28,12 @@
     t = String(t || '').trim();
     return /규칙$/.test(t) ? '시행규칙' : /(시행령|규정|령)$/.test(t) ? '시행령' : '법률';
   }
-  /* 개정·적용법규 한 건의 종류: 행정규칙(고시·훈령·예규 등)이면 '행정규칙', 아니면 법령명으로 */
-  function kindOf(x) { return x && (x.kind || x.lawType === '행정규칙') ? '행정규칙' : lawKind(x && x.title); }
-  var KINDS = ['법률', '시행령', '시행규칙', '행정규칙'];
+  /* 개정·적용법규 한 건의 종류: 자치법규(조례 · 규칙, org 가 붙음) · 행정규칙(고시·훈령·예규 등) · 법령명으로 */
+  function kindOf(x) {
+    if (x && (x.org || x.lawType === '자치법규')) return '자치법규';
+    return x && (x.kind || x.lawType === '행정규칙') ? '행정규칙' : lawKind(x && x.title);
+  }
+  var KINDS = ['법률', '시행령', '시행규칙', '행정규칙', '자치법규'];
   function yearOf(items) {
     var c = {};
     items.forEach(function (x) { var y = String(x.effectiveDate || '').slice(0, 4); if (y) c[y] = (c[y] || 0) + 1; });
@@ -188,18 +191,18 @@
 
     /* 3. 법령 종류별 반영할 곳 — 사규·업무 어디를 고칠지. 제재·의무 = 종합 현황 '벌칙·과태료·의무 변경'과 같은 기준.
           별표·서식 = 개정문에서 별표·별지·서식이 바뀐 개정 (amend_details.json). 행정규칙은 조문 분석 대상이 아니라 '–' */
-    var WHERE = { '법률': '사규 본문 · 원칙과 의무', '시행령': '적용 대상 · 세부 기준', '시행규칙': '업무 절차 · 신고 서식', '행정규칙': '세부 지침 · 기준값 (고시문 원문)' };
+    var WHERE = { '법률': '사규 본문 · 원칙과 의무', '시행령': '적용 대상 · 세부 기준', '시행규칙': '업무 절차 · 신고 서식', '행정규칙': '세부 지침 · 기준값 (고시문 원문)', '자치법규': '사업장 지자체 신고 · 부담금 · 시설 기준' };
     /* 개정문 분석을 받았는지는 따로 묻는다. 예전에는 첫 개정(inYear[0])의 분석 유무로 판단해, 첫 줄이 분석 없는 행정규칙이면
        (2026-10-17 '(영산강유역환경청) …' 고시가 이름순 맨 앞) '아직 안 받음' → 받기 → 다시 그리기가 끝없이 돌아 화면이 멈췄다 */
     var detReady = !!(A && (A.detailsLoaded ? A.detailsLoaded() : A.details && inYear.length && A.details(inYear[0]) !== null));
     var isForm = function (x) { var d = A && A.details(x); var arts = d ? (d.articles || []).concat(d.changes || []) : []; return arts.some(function (a) { return /별표|별지|서식/.test((a.ref || '') + (a.title || '')); }); };
-    var krows = KINDS.map(function (kd) {
-      var xs = inYear.filter(function (x) { return kindOf(x) === kd; }), adm = kd === '행정규칙';
+    var krows = KINDS.filter(function (kd) { return kd !== '자치법규' || inYear.some(function (x) { return kindOf(x) === kd; }); }).map(function (kd) {
+      var xs = inYear.filter(function (x) { return kindOf(x) === kd; }), adm = kd === '행정규칙' || kd === '자치법규';
       return { k: kd, n: xs.length, real: xs.filter(function (x) { return !isTidy(x); }).length,
         risk: adm ? null : xs.filter(function (x) { return A && A.isRisk(x); }).length,
         form: adm ? null : (detReady ? xs.filter(isForm).length : undefined) };
     });
-    var cell = function (v) { return v === null ? '<span class="z" title="행정규칙은 조문 단위 분석 대상이 아닙니다">–</span>' : v === undefined ? '<span class="z">…</span>' : num(v); };
+    var cell = function (v) { return v === null ? '<span class="z" title="행정규칙 · 자치법규는 조문 단위 분석 대상이 아닙니다">–</span>' : v === undefined ? '<span class="z">…</span>' : num(v); };
     var sum = function (f) { return krows.reduce(function (n, r) { return n + (r[f] || 0); }, 0); };
     document.getElementById('rr-an-kinds').innerHTML = '<table class="rr-an-kt"><thead><tr><th>종류</th><th>개정</th><th>실질 개정</th><th>제재·의무</th><th>별표·서식</th><th>주로 반영할 곳</th></tr></thead><tbody>' +
       krows.map(function (r) { return '<tr><td>' + r.k + '</td><td>' + num(r.n) + '</td><td>' + num(r.real) + '</td><td>' + cell(r.risk) + '</td><td>' + cell(r.form) + '</td><td class="w">' + WHERE[r.k] + '</td></tr>'; }).join('') +

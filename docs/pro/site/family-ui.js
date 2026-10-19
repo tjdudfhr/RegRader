@@ -9,12 +9,13 @@
  *   .familyOf(title)        { root, members:[{title, level, kind, inBase, ref, category, parent, lsiSeq, admSeq, notFound}] } | null
  *   .all()                  계열 전체 (가나다순)
  *   .admrul()               적용법규에 들어가는 행정규칙 (참고용 제외) [{title, kind, category, family, admSeq}]
+ *   .ordin()                적용 자치법규 (ordin_index.json — 사업장 소재 지자체 조례) [{title, kind, category, org, ordinSeq, basis}]
  *   .events(title)          그 법규의 올해 개정 이벤트 (시행일순)
  *   .block(f, opt)          계열 한 덩어리 HTML (법령 줄 + 행정규칙 접기)
  *   .popupSection(item)     법령 팝업의 '같은 계열 올해 개정' 본문 { body, extra } | null
  */
 (function () {
-  var FAMS = [], BY = {}, ADM = [];
+  var FAMS = [], BY = {}, ADM = [], ORD = [];
 
   function compact(s) { return String(s || '').replace(/[\s·ㆍ・.]/g, ''); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -67,6 +68,17 @@
       return fetch('./admrul_index.json?v=' + Date.now(), { cache: 'no-store' })
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(addAdmrul)
+        .catch(function () {});
+    })
+    .then(function () {
+      var path = window.rrDataPath ? window.rrDataPath('ordin_index.json') : './ordin_index.json';
+      return fetch(path + '?v=' + Date.now(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (j) {
+          ORD = ((j && j.items) || []).map(function (x) {
+            return { title: x.name, kind: x.kind || '조례', category: x.job || '', org: x.org || '', ordinSeq: x.mst || '', basis: x.basis || [], why: x.why || '' };
+          });
+        })
         .catch(function () {});
     });
 
@@ -193,6 +205,7 @@
     familyOf: familyOf,
     all: function () { return FAMS; },
     admrul: function () { return ADM; },
+    ordin: function () { return ORD; },
     events: events,
     eventsOf: evOf,
     chips: chips,

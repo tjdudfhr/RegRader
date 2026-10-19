@@ -32,12 +32,12 @@
   function downloadMatched() {
     var A = window.rrAmend;
     saveRows(items().slice().sort(function (a, b) { return String(a.effectiveDate).localeCompare(String(b.effectiveDate)) || String(a.title).localeCompare(String(b.title)); }).map(function (law) {
-      var lv = law.kind ? { level: law.kind, root: law.family || '' } : levelOf(law.title);
+      var lv = law.org ? { level: law.kind, root: law.org } : law.kind ? { level: law.kind, root: law.family || '' } : levelOf(law.title);
       return {
         '시행일': law.effectiveDate || '',
         '상태': law.daysUntil < 0 ? '시행완료' : law.daysUntil === 0 ? '오늘 시행' : '시행예정',
         '법령명': law.title || '',
-        '구분': law.kind ? '행정규칙' : '법령',
+        '구분': law.org ? '자치법규' : law.kind ? '행정규칙' : '법령',
         '단계': lv.level,
         '개정구분': law.amendmentType || '',
         '직무': (law.categories || []).join(', '),
@@ -52,7 +52,7 @@
   /* 당사 적용법규 목록: 법령(base_laws) + 계열에 연결된 행정규칙(참고용 제외) */
   function downloadBase() {
     var P = function (f) { return fetch('./' + f + '?v=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.json(); }); };
-    Promise.all([P('base_laws_207.json'), P('admrul_index.json').catch(function () { return { items: [] }; })])
+    Promise.all([P('base_laws_207.json'), P('admrul_index.json').catch(function () { return { items: [] }; }), P('ordin_index.json').catch(function () { return { items: [] }; })])
       .then(function (res) {
         var ORDER = { '법률': 0, '시행령': 1, '시행규칙': 2 };
         var laws = (res[0].items || []).map(function (b) {
@@ -62,12 +62,16 @@
         var adm = ((res[1] && res[1].items) || []).filter(function (x) { return !x.g; }).map(function (x) {
           return { t: x.n || '', kind: '행정규칙', lv: x.k || '행정규칙', job: x.c || '', root: x.f || '', dept: '' };
         });
-        var all = laws.concat(adm).sort(function (a, b) {
+        var ord = ((res[2] && res[2].items) || []).map(function (x) {
+          return { t: x.name || '', kind: '자치법규', lv: x.kind || '조례', job: x.job || '', root: x.org || '', dept: '' };
+        });
+        var RANK = { '법령': 0, '행정규칙': 1, '자치법규': 2 };
+        var all = laws.concat(adm).concat(ord).sort(function (a, b) {
           return String(a.job).localeCompare(String(b.job)) || String(a.root).localeCompare(String(b.root)) ||
-            (a.kind === b.kind ? (ORDER[a.lv] != null ? ORDER[a.lv] : 3) - (ORDER[b.lv] != null ? ORDER[b.lv] : 3) : a.kind === '법령' ? -1 : 1) || a.t.localeCompare(b.t);
+            (a.kind === b.kind ? (ORDER[a.lv] != null ? ORDER[a.lv] : 3) - (ORDER[b.lv] != null ? ORDER[b.lv] : 3) : RANK[a.kind] - RANK[b.kind]) || a.t.localeCompare(b.t);
         });
         saveRows(all.map(function (x, i) {
-          return { '번호': i + 1, '직무': x.job, '계열(법률)': x.root, '구분': x.kind, '단계': x.lv, '법령명': x.t };
+          return { '번호': i + 1, '직무': x.job, '계열(법률) · 지자체': x.root, '구분': x.kind, '단계': x.lv, '법령명': x.t };
         }), WHO() + '적용법규', WHO() + '_적용법규_' + all.length + '개_' + stamp() + '.xlsx');
       })
       .catch(function () { alert('적용법규 목록 파일을 찾지 못했습니다.'); });
@@ -91,7 +95,7 @@
         '<section class="rr-box" id="rr-report-slot"></section>' +
         '<section class="rr-box"><div class="rr-box-h"><span class="rr-box-ic">' + ic('sheet') + '</span>엑셀 파일</div>' +
           '<button type="button" class="rr-opt" id="rr-dl-matched"><span class="rr-box-ic">' + ic('sheet') + '</span><span><b>' + WHO() + ' 개정 목록</b><small>' + window.RR_YEAR + '년 개정 ' + (items().length ? fmt(items().length) : '–') + '건</small></span><span class="go">' + ic('download') + '</span></button>' +
-          '<button type="button" class="rr-opt" id="rr-dl-base"><span class="rr-box-ic">' + ic('sheet') + '</span><span><b>' + WHO() + ' 적용법규 목록</b><small>법령·행정규칙 ' + baseN + '개</small></span><span class="go">' + ic('download') + '</span></button>' +
+          '<button type="button" class="rr-opt" id="rr-dl-base"><span class="rr-box-ic">' + ic('sheet') + '</span><span><b>' + WHO() + ' 적용법규 목록</b><small>법령 · 행정규칙 · 자치법규 ' + baseN + '개</small></span><span class="go">' + ic('download') + '</span></button>' +
         '</section>' +
       '</div>';
     if (window.rrReport) window.rrReport.mount(inner.querySelector('#rr-report-slot'));   /* 월간·분기 보고서 PPT (report-ppt.js) */

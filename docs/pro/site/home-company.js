@@ -15,7 +15,7 @@
     if (companyView() || !window.rrCompanyChip) return;
     window.rrCompanyChip({ company: HOME, laws: meta && meta.baseLaws, admin: meta && meta.admrulLaws });
     var chip = document.getElementById('rr-co');
-    if (chip) chip.title = HOME + ' 적용법규 기준 법규 개정 모니터링' + (meta ? ' (법령 ' + meta.baseLaws + ' · 행정규칙 ' + meta.admrulLaws + ')' : '');
+    if (chip) chip.title = HOME + ' 적용법규 기준 법규 개정 모니터링' + (meta ? ' (법령 ' + meta.baseLaws + ' · 행정규칙 ' + meta.admrulLaws + (meta.ordinLaws ? ' · 자치법규 ' + meta.ordinLaws : '') + ')' : '');
   }
   function run() {
     if (companyView()) return;

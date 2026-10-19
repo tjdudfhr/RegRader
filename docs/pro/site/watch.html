@@ -298,7 +298,7 @@ function expandMini(rows) {
     amendmentType: r.a === '일' ? '일부개정' : (r.a === '타' ? '타법개정' : r.a),
     status: r.s === 0 ? '현행' : '시행예정', ministry: r.m || '', categories: r.c ? [r.c] : [], kind: r.k || '',
     /* efYd(시행일)를 붙여야 그 날 시행되는 본문이 열린다. 없으면 이미 지난 연혁 버전이 열려 '현행법이 아닙니다'가 뜬다. */
-    source: { url: !r.u ? '' : r.k ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + r.u
+    source: { url: !r.u ? '' : r.o ? 'https://www.law.go.kr/LSW/ordinInfoP.do?ordinSeq=' + r.u : r.k ? 'https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=' + r.u
       : ('https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=' + r.u + (r.d ? '&efYd=' + String(r.d).replace(/-/g, '') : '')) }
   }));
 }

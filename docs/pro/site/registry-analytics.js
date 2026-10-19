@@ -50,7 +50,9 @@
         var F = window.rrFamilies;
         return (F && F.ready ? F.ready : Promise.resolve()).then(function () {
           var adm = F && F.admrul ? F.admrul() : [];
-          base = base.concat(adm.map(function (a) { return { title: a.title, categories: a.category ? [a.category] : [], lawType: '행정규칙', kind: a.kind, family: a.family }; }));
+          var ord = F && F.ordin ? F.ordin() : [];
+          base = base.concat(adm.map(function (a) { return { title: a.title, categories: a.category ? [a.category] : [], lawType: '행정규칙', kind: a.kind, family: a.family }; }))
+            .concat(ord.map(function (o) { return { title: o.title, categories: o.category ? [o.category] : [], lawType: '자치법규', kind: o.kind, org: o.org, family: (o.basis || [])[0] || '' }; }));
           return base;
         });
       })
@@ -159,13 +161,13 @@
     });
     document.getElementById('rr-reg-stages').innerHTML = STAGES.map(function (st, i) {
       var g = stg[st[0]], n = g.laws.length;
-      var adm = g.laws.filter(function (b) { return b.lawType === '행정규칙'; }).length;
+      var adm = g.laws.filter(function (b) { return b.lawType === '행정규칙'; }).length, ord = g.laws.filter(function (b) { return b.lawType === '자치법규'; }).length;
       var am = g.laws.filter(function (b) { return ev[b.title]; }).length, up = g.laws.filter(upSoon).length;
       var top = Object.keys(g.fam).map(function (k2) { return [k2, g.fam[k2]]; }).sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); });
       var shown = top.slice(0, 6);
       return (i === 3 ? '<span class="sep" aria-hidden="true"></span>' : i ? '<span class="arr" aria-hidden="true">→</span>' : '') +
         '<div class="st ' + st[0] + (n ? '' : ' none') + '"><div class="h">' + (i < 3 ? '<span class="no">' + (i + 1) + '</span>' : '') + st[1] + '</div>' +
-        '<div class="n"><b>' + n.toLocaleString('ko-KR') + '</b>개<small>법령 ' + (n - adm) + ' · 행정규칙 ' + adm + '</small></div>' +
+        '<div class="n"><b>' + n.toLocaleString('ko-KR') + '</b>개<small>법령 ' + (n - adm - ord) + ' · 행정규칙 ' + adm + (ord ? ' · 자치법규 ' + ord : '') + '</small></div>' +
         '<div class="m">올해 개정 <b>' + am + '</b> · 시행 예정 <b class="' + (up ? 'up' : '') + '">' + up + '</b></div>' +
         '<div class="fam">' + shown.map(function (f) { return '<span title="' + esc(f[0]) + ' 계열 적용법규 ' + f[1] + '개">' + esc(f[0].length > 14 ? f[0].slice(0, 13) + '…' : f[0]) + '<i>' + f[1] + '</i></span>'; }).join('') +
           (top.length > shown.length ? '<span class="more">외 ' + (top.length - shown.length) + '개 계열</span>' : '') + (n ? '' : '<span class="more">해당 없음</span>') + '</div></div>';
