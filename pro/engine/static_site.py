@@ -156,7 +156,9 @@ def company_keys(min_members=30, log=print):
     keys, listed = {}, {}
     with C._connect() as con:
         stems = [r["stem"] for r in con.execute("SELECT stem FROM stems WHERE members >= ?", (min_members,))]
-        lst = {r["nps_stem"]: dict(r) for r in con.execute("SELECT * FROM listed WHERE nps_stem != ''")}
+        lst = {}   # 줄기 → 상장사들 (한 줄기에 둘 이상일 수 있다: '녹십자' = (주)녹십자 · (주) 녹십자 홀딩스)
+        for r in con.execute("SELECT * FROM listed WHERE nps_stem != ''"):
+            lst.setdefault(r["nps_stem"], []).append(dict(r))
         todo = list(dict.fromkeys(stems + list(lst)))
         log(f"이름 줄기 {len(todo)}개 확인 (가입자 {min_members}명 이상 {len(stems)} + 상장 {len(lst)})")
         for i, st in enumerate(todo):
@@ -167,10 +169,13 @@ def company_keys(min_members=30, log=print):
             for g in corps:
                 if g["members"] >= min_members:
                     keys[g["key"]] = g["members"]
-            if st in lst and corps:
+            if st in lst and corps:   # 상장사는 그 법인(사업자등록번호)에, 이름으로만 맞춘 상장사는 줄기에서 가장 큰 법인에
                 best = max(corps, key=lambda g: g["members"])
-                keys[best["key"]] = best["members"]
-                listed[best["key"]] = lst[st]
+                for g in corps:
+                    row = C.entity_listing(lst[st], g["key"], g is best)
+                    if row:
+                        keys[g["key"]] = g["members"]
+                        listed[g["key"]] = row
     log(f"회사 {len(keys)}곳 (상장 {len(listed)})")
     return keys, listed
 
@@ -243,9 +248,15 @@ def _listed_rows(keys):
     out = {}
     with C._connect() as con:
         for k in keys:
-            r = con.execute("SELECT * FROM listed WHERE nps_stem = ?", (k.split("|")[0],)).fetchone()
-            if r:
-                out[k] = dict(r)
+            st = k.split("|")[0]
+            rows = [dict(r) for r in con.execute("SELECT * FROM listed WHERE nps_stem = ?", (st,))]
+            if not rows:
+                continue
+            groups = C._assemble(con.execute("SELECT * FROM nps WHERE stem = ?", (st,)).fetchall(),
+                                 con.execute("SELECT * FROM factory WHERE stem = ?", (st,)).fetchall())
+            row = C.entity_listing(rows, k, C._best_corp(groups) == k)
+            if row:
+                out[k] = row
     return out
 
 
