@@ -1,0 +1,140 @@
+══════════════════════════════════════════════════════════════════════════
+  RegRader 빠른 참조 — 포스코퓨처엠 법규 개정 모니터링
+  2026년 10월 20일 기준 · 자세한 내용: RegRader_운영매뉴얼.md (같은 폴더)
+  ※ 공개 저장소 문서. 비밀값은 적지 않고 있는 곳만 적음.
+══════════════════════════════════════════════════════════════════════════
+
+  사이트      https://tjdudfhr.github.io/RegRader/        (화면 잠금 비밀번호)
+  기업별 검색 https://tjdudfhr.github.io/RegRader/pro/    (사이드바 맨 위 버튼)
+  저장소      GitHub tjdudfhr/RegRader (공개) · Pro 원본 tjdudfhr/regrader-pro (비공개)
+  작업 폴더   맥 ~/RegRader-autoupdate · ~/regrader-pro
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ■ 오늘 숫자 (10-20)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  적용법규   958개 = 법령 254 · 행정규칙 669 · 자치법규 35 (포항 11 · 광양 11 · 세종 13)
+  올해 개정  690건 = 법령 446 · 행정규칙 238 · 자치법규 6
+             시행완료 662 · 30일 내 10 · 이후 18 / 실질 484 · 타법 206
+  제재 · 의무 변경 70건 / 실무 판단: 회사가 할 일 68 · 기준 확인 13 · 정비뿐 365
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ■ 자동으로 도는 것 (운영자가 할 일 없음)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  매일 07:00   맥: 법령 · 행정규칙 · 자치법규 수집 → 분석(제재 · 의무 · 실무 판단)
+               → 화면 점검(멈추면 안 올림) → 사이트 반영 → 기업별 검색 자료
+  매일 08:20   GitHub: 오늘 갱신 성공? 사이트 안 멈춤? → 아니면 실패 알림 메일
+  10분마다     맥: 적용법규 추가 요청(GitHub Issue, 라벨 law-add) 처리
+  매월 1일 08시 Apps Script: 직무 담당자에게 다음 달 시행분 메일 · 총괄에게 요약
+  1월 1일      작년 자료 보관(docs/archive/<연도>/) · 올해 새로 집계 — 자동
+
+  ※ 국가법령정보센터가 해외 IP를 막아서 수집은 국내 맥에서만 됨.
+     맥이 꺼져 있으면 그날 갱신 없음(사이트는 어제 자료로 정상). 잠자기는 괜찮음.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ■ 알림 메일이 오면
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1) 이유 보기     https://tjdudfhr.github.io/RegRader/health.json
+  2) 다시 돌리기   launchctl kickstart gui/$(id -u)/com.regrader.update
+  3) 지켜보기      tail -f ~/Library/Logs/RegRader-update.log      (10~20분)
+
+  기록 없음          → 맥이 꺼졌었음 → 켜고 2)
+  기록 없음(맥 켜짐)  → 커밋 안 한 수정 때문에 git pull 이 멈춤
+                       → cd ~/RegRader-autoupdate && git status → 커밋/되돌리기 → 2)
+  법령 수집 실패     → 법제처 응답 지연 → 한두 시간 뒤 2)
+  화면 점검 실패     → 데이터 한 건이 화면을 멈춤. 사이트는 안전(안 올림)
+                       → 코드 수정 필요 (/tmp/regrader_check.log)
+  Pro 자료 실패      → 대부분 법제처 지연 → 2)  (~/Library/Logs/RegRader-pro.log)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ■ 자주 하는 작업
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  법령 추가        사이트 적용법규 → [+ 법규 추가] → GitHub에서 Submit → 10분 안 반영
+  법령 빼기·개명   docs/base_laws_207.json 고쳐 커밋 →
+                   RR_BASE_REMOVED='[…]' 또는 RR_BASE_RENAMED='[…]' bash scripts/auto_update.sh
+                   (화면에 "⚠ 법령명 확인 필요 N개"가 뜨면 이름이 바뀐 법)
+  행정규칙 범위    scripts/admrul_scope.py (EXCLUDE · KEEP) → admrul_scope.py --apply
+                   → 커밋 → bash scripts/auto_update.sh
+  조례 범위        scripts/ordin_scope.json 고쳐 바로 커밋 → 다음 갱신에 반영
+  담당자           사이트 대응 현황 → 담당자 관리 (총괄만)
+                   로그인 계정은 Supabase → Authentication → Add user 가 확실
+  비밀번호 변경    read -s P; printf '%s' "$P" | shasum -a 256; unset P
+                   → docs/gate.js 의 HASH 교체 · gate.js?v= 올림 → 커밋 → 회사 화면 사본 → 올리기
+  메일 코드 변경   scripts/mail_relay.gs → script.google.com 에 붙여 넣기
+                   → 배포 관리 → 새 버전 → previewMonthly 로 확인
+                   ★ 지금 할 일: 10-20 조례 링크 수정분 붙여 넣기
+  당사 인원 변경   docs/company_facts.json headcount (지금 2,722명)
+                   → amend_actions.py VERSION +1 → 커밋
+  화면 코드 수정   ?v= 올림 → site_check.py --dir docs → 커밋
+                   → (회사 화면도) static_site web → 커밋 → 올리기
+  소개자료 최신화  PPT ~/RegRader-ppt-src · 영상 ~/my-deck/slides/regrader-intro
+                   숫자 · 캡처는 자동으로 안 바뀜 (지금 10-20 기준)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ■ 명령 모음 (cd ~/RegRader-autoupdate 에서)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  갱신 다시        launchctl kickstart gui/$(id -u)/com.regrader.update
+  화면 점검        /usr/bin/python3 scripts/site_check.py --dir docs
+  오늘 결과        cat docs/health.json
+  올리기           git fetch -q origin && git merge-base --is-ancestor origin/main HEAD \
+                   && git push -q origin HEAD:main
+  Pro 반영         git subtree pull --prefix=pro https://github.com/tjdudfhr/regrader-pro.git main --squash
+                   → 바로 push (07:00 전후 피하기)
+  회사 화면 사본   cd ~/regrader-pro && python3 -m engine.static_site web ~/RegRader-autoupdate/docs/pro
+  알림 시험        GitHub → Actions → RegRader 매일 점검 → Run workflow → 알림 메일 시험
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ■ 어디에 있나
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  운영자가 고치는 원본   docs/base_laws_207.json (법령)
+                         scripts/admrul_scope.py (행정규칙)
+                         scripts/ordin_scope.json (조례)
+                         docs/company_facts.json (당사 사실)
+  매일 만들어지는 자료   docs/m0~m7.json · meta.json · changelog.json · amend_*.json · oan/
+                         → 손으로 고치지 않음 (다음 날 덮어씀)
+  로그                   ~/Library/Logs/RegRader-update.log · RegRader-pro.log · RegRader-requests.log
+  캐시                   ~/Library/Caches/RegRader (약 2.2GB, 지워도 다시 받음)
+  자동 실행 설정         ~/Library/LaunchAgents/com.regrader.update.plist · com.regrader.requests.plist
+  비밀값 있는 곳         OpenDART 키 ~/regrader-pro/.env · 화면 비밀번호는 해시만 docs/gate.js
+                         Apps Script 비밀값은 그 프로젝트 속성 · Gmail 앱 비밀번호는 GitHub 비밀값(선택)
+  바깥 서비스            Supabase(대응 현황 · 로그인) · Google Apps Script(메일) · GitHub(Pages · Actions)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ■ 하지 말 것
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✗ 비밀번호 · 키를 저장소 · 문서 · 메신저에 쓰기
+  ✗ 담당자 이메일 · 대응 상태를 docs/ 에 넣기 (저장소는 공개)
+  ✗ 저장소 파일을 고친 채 커밋 안 하고 두기 — 다음 07:00 갱신이 멈춤
+  ✗ pro/ 폴더 직접 고치기 (원본은 ~/regrader-pro)
+  ✗ 화면 점검 건너뛰고 올리기
+  ✗ 유료 서비스 붙이기 (지금은 전부 무료)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ■ 1월 1일 확인
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  □ 알림 메일 없음 · health.json 날짜 1월 1일
+  □ 앱 바 연도 선택에 작년 · 작년 숫자 = 12월 31일 숫자
+  □ 1월 1일 시행 개정이 올해 화면에 잡힘
+  □ 업데이트 내역 '연도 전환' 한 건
+  □ 소개자료 숫자는 따로 최신화
+
+
+══════════════════════════════════════════════════════════════════════════
+  2026-10-20 개정 (이전 판 2026-03: 연초 수작업 갱신 기준 — 더 이상 맞지 않음)
+  막히면 맥의 Claude Code 에 "RegRader ○○ 해줘" 라고 맡기면 됨
+══════════════════════════════════════════════════════════════════════════
