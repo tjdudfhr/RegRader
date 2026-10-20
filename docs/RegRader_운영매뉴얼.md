@@ -405,6 +405,8 @@ git fetch -q origin && git merge-base --is-ancestor origin/main HEAD && git push
   `git subtree pull --prefix=pro https://github.com/tjdudfhr/regrader-pro.git main --squash` → **바로 push** → 7.9의 4)~5)
   (subtree 합친 커밋을 push 하기 전에 07:00 갱신의 `git pull --rebase` 가 돌면 충돌합니다. 07:00 전후는 피하세요)
 - 판정 점검: `cd ~/regrader-pro && python3 -m engine.selfcheck` · 포스코퓨처엠 목록과 비교 `python3 -m engine.benchmark …` (README 참고)
+- 회사 찾기 점검: `python3 -m engine.searchcheck` (상장사 · 대형 회사 · 짧은 검색어) · `node engine/searchcheck_web.cjs web/static-api.js out/static/companies/index.json` (브라우저판, 회사 4.9만 곳을 자기 이름으로 찾기 — 2026-10-20 3위 안 99.3%)
+- 회사 이름 · 상장 연결 (2026-10-20): 화면 이름은 국민연금 사업장 이름에서 '임직원 · 본사 · (직장) · 총무과' 같은 꼬리말을 뗀 것, 상장사는 DART 정식 회사명. 상장사는 DART 사업자등록번호로 그 법인에 연결한다
 - 맥 서버판(DART 실시간 조회): `cd ~/regrader-pro && python3 server.py` → http://127.0.0.1:8787
 
 ---
