@@ -106,7 +106,7 @@
     });
   }
 
-  /* ---------- 회사 찾기 (companydb.search 와 같은 순위 규칙) ---------- */
+  /* ---------- 회사 찾기 (companydb.search 와 같은 순위 규칙 + 회사 이름 전체로도 찾기) ---------- */
   var CORP = /\(주\)|㈜|주식회사|\(유\)|유한회사|유한책임회사|\(합\)|합자회사|합명회사|\(사\)|사단법인|\(재\)|재단법인|농업회사법인|영농조합법인|의료법인|학교법인|사회복지법인|\(株\)|co\.?,?\s*ltd\.?|inc\.?|corp\.?/ig;
   var NON_COMPANY = /어린이집|새마을금고|노동조합|노조|신용협동조합|신협|근로복지기금|공제회|상조회|협의회|장학회|동호회|직장보육/;
   var LETTERS = { a: '에이', b: '비', c: '씨', d: '디', e: '이', f: '에프', g: '지', h: '에이치', i: '아이', j: '제이', k: '케이', l: '엘', m: '엠', n: '엔',
@@ -120,18 +120,34 @@
     return /[a-z]/.test(n) ? n.replace(/[a-z]+/g, function (w) { return WORDS[w] || w.split('').map(function (c) { return LETTERS[c]; }).join(''); }) : n;
   }
   function index() { return once('index', function () { return getJSON(DATA + 'companies/index.json'); }); }
+  /* 검색어에서 지점 · 사업장 이름을 뗀 회사명 (companydb.stem 과 같은 규칙): '한화솔루션(주)진천사업장' → 한화솔루션 */
+  var MARK = /\(주\)|㈜|주식회사|\(유\)|유한회사|\(株\)|의료법인|학교법인|사회복지법인/;
+  var SEP = /[\s(\[\-_\/·,]/;
+  function cutName(q) {
+    var s = String(q || '').normalize('NFKC').trim(), m = s.match(MARK), base;
+    if (m && s.slice(0, m.index).trim()) base = s.slice(0, m.index);
+    else base = (m ? s.slice(m.index + m[0].length).trim() : s).split(SEP)[0];
+    return hangul(norm(base) || norm(s));
+  }
 
   function search(q, limit) {
     limit = limit || 12;
     return index().then(function (ix) {
       var n = norm(q);
-      if (n.length < 2) return [];
-      var keys = Array.from(new Set([hangul(n), n])).filter(function (k) { return k.length >= 2; });
+      if (!n) return [];
+      var one = n.length === 1;   /* 한 글자 이름('(주)숲')은 이름이 똑같은 곳만 */
+      var keys = Array.from(new Set([hangul(n), n])).filter(function (k) { return k.length >= (one ? 1 : 2); });
+      var org = NON_COMPANY.test(q);   /* '새마을금고중앙회' · '군인공제회' 처럼 그 이름을 직접 찾으면 빼지 않는다 */
+      /* 보조 검색어: 지점명을 뗀 회사명 — 검색어 그대로는 아무것도 없을 때만 ('현대건설(주) 임직원' → 현대건설).
+         늘 쓰면 '법무법인 한별' 이 '법무법인' 으로 잘려 더 큰 법무법인들이 앞선다 */
+      var cut = one ? '' : cutName(q);
+      var all = keys;
       var short = Math.min.apply(null, keys.map(function (k) { return k.length; })) <= 2 && !/\(주\)|㈜|주식회사/.test(q);
       function nameScore(st) {
         if (keys.indexOf(st) >= 0) return short ? 3.5 : 5;
         if (keys.some(function (k) { return st.indexOf(k) === 0; })) return 3;
-        if (keys.some(function (k) { return st.indexOf(k) >= 0; })) return 1.5;
+        if (all.indexOf(st) >= 0) return 4;
+        if (all.some(function (k) { return st.indexOf(k) >= 0; })) return 1.5;
         return 0;
       }
       function listedBonus(l) {
@@ -140,20 +156,31 @@
         if (/지주|홀딩스/.test(l[0])) return 2.5;
         return 0.5;
       }
+      var hits = scan();
+      if (!hits.length && cut.length >= 2 && keys.indexOf(cut) < 0) { all = keys.concat([cut]); hits = scan(); }
+      function scan() {
       var hits = [];
       ix.rows.forEach(function (r) {
         var st = r[1], l = r[8] || null;
+        /* 회사 이름 전체 (한글 읽기): 줄기는 띄어쓰기에서 잘려 '(주) 녹십자 홀딩스' → '녹십자' 가 되므로 이름으로도 맞춘다 */
+        var nm = r._nm || (r._nm = hangul(norm(r[2])));
         var ln = l ? [norm(l[0]), hangul(norm(l[0])), norm(l[4] || '')] : [];
-        var nameHit = keys.some(function (k) { return st.indexOf(k) >= 0; }) || ln.some(function (x) { return x && keys.some(function (k) { return x.indexOf(k) >= 0; }); });
-        if (!nameHit || NON_COMPANY.test(r[2])) return;
+        var nameHit = one ? keys.some(function (k) { return st === k || nm === k || ln.indexOf(k) >= 0; }) :
+          all.some(function (k) { return st.indexOf(k) >= 0 || nm.indexOf(k) >= 0; }) ||
+          ln.some(function (x) { return x && keys.some(function (k) { return x.indexOf(k) >= 0; }); });
+        if (!nameHit || (!org && NON_COMPANY.test(r[2]))) return;
         var size = r[3] || r[5] * 20;
-        hits.push({ r: r, score: nameScore(st) + Math.log10(size + 1) * 2.5 + listedBonus(l) });
+        /* 이름이 검색어와 똑같은 곳을 같은 줄기의 지점 · 병원 · 지역본부보다 위로 ('한국국토정보공사' > '… 대구경북지역본부') */
+        var same = keys.indexOf(nm) >= 0 ? 1.5 : 0;
+        hits.push({ r: r, score: Math.max(nameScore(st), nameScore(nm)) + same + Math.log10(size + 1) * 2.5 + listedBonus(l) });
       });
+      return hits;
+      }
       hits.sort(function (a, b) { return b.score - a.score || (a.r[2] < b.r[2] ? -1 : 1); });
       var out = [], per = {};
       hits.forEach(function (h) {
         var st = h.r[1];
-        if (out.length >= limit || (per[st] || 0) >= (keys.indexOf(st) >= 0 ? 3 : 2)) return;
+        if (out.length >= limit || (per[st] || 0) >= (all.indexOf(st) >= 0 ? 3 : 2)) return;
         per[st] = (per[st] || 0) + 1;
         var r = h.r, l = r[8];
         out.push({ key: r[0], stem: st, name: r[2], employees: r[3], workplaceCount: r[4], factoryCount: r[5],
