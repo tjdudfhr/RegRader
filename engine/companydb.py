@@ -43,6 +43,31 @@ MARK = re.compile(r"\(주\)|㈜|주식회사|\(유\)|유한회사|\(株\)|의료
 SEP = re.compile(r"[\s(\[\-_/·,]")
 # 회사 이름을 단 다른 단체 (같은 회사로 묶지 않는다)
 NON_COMPANY = re.compile(r"어린이집|새마을금고|노동조합|노조|신용협동조합|신협|근로복지기금|공제회|상조회|협의회|장학회|동호회|직장보육")
+# 국민연금 사업장 이름 끝에 붙는 가입 구분 · 부서 표시 — 회사 이름이 아니다 (화면에 보일 이름에서 뗀다)
+#   '현대건설(주) 임직원', '(주)대우건설 본사', '서산시청(직장)', '제주특별자치도교육청 총무과', '테라뷰리미티드(영업소)'
+# 지점 · 공장 · 병원 · 지역본부처럼 법인을 가르는 이름은 떼지 않는다 (같은 이름의 다른 법인과 구별해야 한다)
+WP_TAIL = re.compile(
+    r"[\s/\-_·,]*[(（]?\s*(?:"
+    r"임직원|교직원|직원|근로자|일용근로자|일용직|일용|상용|일반|직장|본사인원|본사|본점|본청|계약직|무기계약직|무기계약|기간제|전일제|"
+    r"공무직(?:\s*근로자)?(?:\s*등)?|교육공무직원?|비공무원|시간강사|회계직원|학교회계직원|대학회계|급식종사자|기타직|국민연금담당자|"
+    r"건설일용(?:관리)?|도급|영업소|연락사무소|행정실|총괄|[가-힣]{1,8}과(?:\s*[가-힣]{1,4}계)?|[가-힣]{1,6}팀"
+    r")\s*[)）]?\s*$")
+EN_TAIL = re.compile(r"\s*[(（][\sA-Za-z0-9&.,'’\-]*[A-Za-z][\sA-Za-z0-9&.,'’\-]*[)）]\s*$")   # 영문 이름 덧붙임 '(Kakao Style Corp.)'
+
+
+def clean_name(name, st):
+    """사업장 이름 → 화면에 보일 회사 이름. 뒤에 붙은 가입 구분 · 부서 · 영문 표기를 떼고 남은 이름이 회사명 줄기와 같을 때만 쓴다
+    ('현대건설(주) 임직원' → '현대건설(주)'). 같지 않으면 None (떼면 안 되는 이름: '(주) 녹십자 홀딩스')."""
+    s = unicodedata.normalize("NFKC", name or "").strip()
+    for _ in range(3):
+        cut = WP_TAIL.sub("", s) if WP_TAIL.search(s) else EN_TAIL.sub("", s)
+        cut = cut.strip(" -_/·,")
+        if not cut or cut == s:
+            return None
+        s = cut
+        if hangul(norm(s)) == st:
+            return s
+    return None
 
 
 def norm(name):
@@ -313,25 +338,97 @@ def link_listed(st, sido, index):
     return (best[1], "약칭") if best else ("", "")
 
 
+def _dart_listed():
+    """상장사 종목코드 → (DART 정식 회사명, 사업자등록번호). OpenDART 기업개황을 받아 둔 것만 읽는다 (네트워크 없이).
+    기업개황은 회사 정보를 만들 때(opendart.company) 받아 .cache/opendart 에 쌓인다."""
+    out = {}
+    for p in (ROOT / ".cache" / "opendart").glob("company.json_*.json"):
+        try:
+            j = json.loads(p.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        code = (j.get("stock_code") or "").strip()
+        if code and j.get("corp_name"):
+            out[code] = (j["corp_name"].strip(), re.sub(r"\D", "", j.get("bizr_no") or ""))
+    return out
+
+
+def _biz_stems(con):
+    """사업자등록번호 앞 6자리(국민연금 자료) → [(회사명 줄기, 사업장 이름(정규화 · 한글 읽기), 가입자 수)] (법인 본점만)."""
+    out = {}
+    for st, nm, bz, m in con.execute("SELECT stem, name, bizno, members FROM nps"):
+        if _kind(bz) == "c":
+            out.setdefault(bz, []).append((st, hangul(norm(nm)), m or 0))
+    return out
+
+
+def dart_link(krx_stem, official, bizr, heur, index, biz_stems):
+    """상장사 → 국민연금 회사(회사명 줄기 + 사업자등록번호 앞 6자리)를 DART 기업개황(정식 회사명 · 사업자등록번호)으로 맞춘다.
+
+    거래소 이름은 약칭이라('한전기술' · 'GKL' · '아이앤씨') 이름만으로 붙이면 이름이 비슷한 다른 회사에 붙는다
+    ('한전기술서비스' · '지케이엘위드' · '대아이앤씨'). 사업자등록번호 앞 6자리가 같은 법인 사업장 중 이름이 정식 이름과 같거나
+    정식 이름으로 시작하는 것('(주)금비이천공장')에 붙인다. 앞 6자리는 세무서 · 법인 구분이라 다른 회사도 같을 수 있어 이름도 맞아야 한다.
+    한 줄기에 다른 상장사가 같이 있으면('녹십자' 줄기: (주)녹십자 · (주) 녹십자 홀딩스) 사업자등록번호로 법인을 가른다.
+    국내 사업자등록번호가 없는 외국 회사(해외 지주회사 등)는 이름이 똑같은 국내 법인이 있을 때만 붙인다.
+    """
+    ost = stem(official)
+    whole = hangul(re.sub(r"[\W_]+", "", MARK.sub("", unicodedata.normalize("NFKC", official))).lower())   # '(주) DB Inc.' → 디비아이엔씨
+    keys = [k for k in dict.fromkeys([ost, hangul(ost), hangul(norm(official)), whole]) if k]   # 한 글자 이름도 ('(주)숲')
+    stems = index["stems"]
+    if len(bizr) != 10:   # 외국 회사
+        same = [k for k in keys if k in stems]
+        return (same[0], "정식 이름") if same else ("", "국내 법인 없음")
+    rows = biz_stems.get(bizr[:6], [])
+
+    def pick(hits):
+        size = {}
+        for st, _, m in hits:
+            size[st] = size.get(st, 0) + m
+        return max(size, key=size.get)
+
+    hit = [x for x in rows if x[0] in keys or x[1] in keys]
+    if hit:
+        return pick(hit), "사업자번호"
+    hit = [x for x in rows if any(x[1].startswith(k) for k in keys if len(k) >= 3)]
+    if hit:
+        return pick(hit), "사업자번호"
+    if heur and any(x[0] == heur for x in rows):
+        return heur, "사업자번호"
+    same = [k for k in keys if k in stems]
+    if same:   # 국민연금에 다른 사업자번호로 올라 있어도 정식 이름이 똑같으면 그 회사
+        return same[0], "정식 이름"
+    from difflib import SequenceMatcher   # 영문 이름을 다르게 읽은 것 ('SNT모티브' 에스엔티 ↔ 국민연금 '에스앤티모티브')
+    near = [x for x in rows if len(x[1]) >= 4 and any(len(k) >= 4 and SequenceMatcher(None, x[1], k).ratio() >= 0.85 for k in keys)]
+    if near:
+        return pick(near), "사업자번호 · 비슷한 이름"
+    return heur, ("약칭 (DART 확인 못 함)" if heur else "")
+
+
 def _build_listed(con):
     con.executescript("""
         CREATE TABLE listed(name TEXT, stem TEXT, alias TEXT, market TEXT, code TEXT, industry TEXT, products TEXT,
-                            since TEXT, sido TEXT, homepage TEXT, nps_stem TEXT, link TEXT);
+                            since TEXT, sido TEXT, homepage TEXT, nps_stem TEXT, link TEXT, official TEXT, biz TEXT);
         CREATE TABLE fin(code TEXT, name TEXT, stem TEXT, alias TEXT, market TEXT, assets_eok REAL, basis TEXT, fy_end TEXT);
     """)
     counts = {}
     markets = {"stockMkt": "유가증권시장", "kosdaqMkt": "코스닥시장", "konexMkt": "코넥스시장"}
     index = _stem_index(con)
+    dart, biz_stems = _dart_listed(), _biz_stems(con)
     n = 0
     for path in sorted((RAW / "listed").glob("*.html")):
         for r in _kind_rows(path):
             nm = r.get("회사명", "")
             st = norm(nm)  # 거래소 이름은 사업장 이름이 붙지 않은 회사명이라 자르지 않는다 ('S-Oil')
             sido = place(r.get("지역", ""))[0]
+            code = r.get("종목코드", "").zfill(6)
             nps_stem, how = link_listed(st, sido, index)
-            con.execute("INSERT INTO listed VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", (
-                nm, st, hangul(st), markets.get(path.stem, r.get("시장구분", "")), r.get("종목코드", "").zfill(6),
-                r.get("업종", ""), r.get("주요제품", ""), r.get("상장일", ""), sido, r.get("홈페이지", ""), nps_stem, how))
+            official, bizr = dart.get(code, ("", ""))
+            if official:
+                nps_stem, how = dart_link(st, official, bizr, nps_stem, index, biz_stems)
+            con.execute("INSERT INTO listed VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (
+                nm, st, hangul(st), markets.get(path.stem, r.get("시장구분", "")), code,
+                r.get("업종", ""), r.get("주요제품", ""), r.get("상장일", ""), sido, r.get("홈페이지", ""), nps_stem, how,
+                official, bizr[:6] if len(bizr) == 10 and how.startswith("사업자번호") else ""))
             n += 1
     if n:
         counts["listed"] = n
@@ -476,8 +573,11 @@ def _view(g, n="", keys=()):
     wps = sorted(g["workplaces"], key=lambda w: -w["members"])
     facs = g["factories"]
     names = [w["name"] for w in wps] + [f["name"] for f in facs]
-    exact = [x for x in names if norm(x) == g["stem"]]
-    name = max(set(exact), key=exact.count) if exact else min(names, key=len)
+    # 이름: 회사명 줄기와 같은 사업장 이름 중 가장 흔한 것 (같으면 큰 사업장 쪽) → 없으면 가입 구분 · 부서 표시를 뗀 이름 → 가장 짧은 이름
+    exact = [x for x in names if hangul(norm(x)) == g["stem"]]
+    if not exact:
+        exact = [c for c in (clean_name(x, g["stem"]) for x in names) if c]
+    name = max(dict.fromkeys(exact), key=exact.count) if exact else min(names, key=len)
     top = next((w for w in wps if (w["ind_cd"] or "")[:2] not in ("99", "00")), wps[0] if wps else {})
     st = g["stem"]
     keys = keys or (n,)
@@ -502,15 +602,21 @@ def search(q, limit=12):
     """
     import math
     n = norm(q)
-    if len(n) < 2:
+    if not n:
         return []
-    main_keys = [k for k in dict.fromkeys([hangul(n), n]) if len(k) >= 2]
-    cut = stem(q)  # '기아(주)AutoLand화성' → '기아': 보조 검색어 (이름이 정확히 같아도 낮게 친다)
-    keys = main_keys + ([cut] if len(cut) >= 2 and cut not in main_keys else [])
+    one = len(n) == 1   # 한 글자 이름('(주)숲')은 이름이 똑같은 곳만
+    org = bool(NON_COMPANY.search(q))   # '새마을금고중앙회' · '군인공제회' 처럼 그 이름을 직접 찾으면 빼지 않는다
+    main_keys = [k for k in dict.fromkeys([hangul(n), n]) if len(k) >= (1 if one else 2)]
+    # 보조 검색어: 지점명을 뗀 회사명 ('기아(주)AutoLand화성' → '기아'). 검색어 그대로는 아무것도 없을 때만 쓴다
+    # (늘 쓰면 '법무법인 한별' 이 '법무법인' 으로 잘려 더 큰 법무법인들이 앞선다)
+    cut = stem(q)
+    keys = list(main_keys)
     with _connect() as con:
-        size, listed = {}, {}
-        for k in keys:
-            like = f"%{k}%"
+        size, listed, by_name = {}, {}, set()
+
+        def look(ks):
+          for k in ks:
+            like = k if one else f"%{k}%"
             try:
                 rows = con.execute("SELECT stem, members AS m FROM stems WHERE stem LIKE ? ORDER BY members DESC LIMIT 400", (like,))
             except sqlite3.OperationalError:  # 요약표가 없는 옛 색인
@@ -518,11 +624,33 @@ def search(q, limit=12):
             for r in rows:
                 size[r["stem"]] = max(size.get(r["stem"], 0), r["m"] or 0)
             try:
-                for r in con.execute("SELECT * FROM listed WHERE (name LIKE ? OR stem LIKE ? OR alias LIKE ?) AND nps_stem != ''",
-                                     (f"%{q.strip()}%", like, like)):
-                    listed[r["nps_stem"]] = dict(r)
+                for r in con.execute("SELECT * FROM listed WHERE (name LIKE ? OR stem LIKE ? OR alias LIKE ? OR nps_stem LIKE ?) AND nps_stem != ''",
+                                     (f"%{q.strip()}%", like, like, like)):   # 정식 이름(국민연금 줄기)으로 찾아도 ('한국전력기술' ← 거래소 '한전기술')
+                    rows_ = listed.setdefault(r["nps_stem"], [])
+                    if all(x["code"] != r["code"] for x in rows_):
+                        rows_.append(dict(r))
             except sqlite3.OperationalError:
                 pass
+
+        look(main_keys)
+        if not one and not any(k in size for k in main_keys):
+            # 줄기는 띄어쓰기에서 잘린다 ('(주) 녹십자 홀딩스' → 녹십자): 이름이 같은 줄기가 없으면 사업장 이름 전체로도 찾는다
+            for k in main_keys:
+                for r in con.execute("SELECT stem, SUM(members) AS m FROM nps WHERE norm LIKE ? GROUP BY stem ORDER BY m DESC LIMIT 100", (f"%{k}%",)):
+                    size[r["stem"]] = max(size.get(r["stem"], 0), r["m"] or 0)
+                    if not any(x in r["stem"] for x in main_keys):   # 줄기로도 맞는 회사는 원래대로
+                        by_name.add(r["stem"])
+            for st in by_name:   # 이름으로 찾은 회사도 상장 정보를 붙인다
+                try:
+                    for r in con.execute("SELECT * FROM listed WHERE nps_stem = ?", (st,)):
+                        rows_ = listed.setdefault(st, [])
+                        if all(x["code"] != r["code"] for x in rows_):
+                            rows_.append(dict(r))
+                except sqlite3.OperationalError:
+                    pass
+        if not size and not listed and not one and len(cut) >= 2 and cut not in main_keys:
+            keys = main_keys + [cut]
+            look([cut])
         for st in listed:
             if st not in size:
                 row = con.execute("SELECT SUM(members) AS m FROM nps WHERE stem = ?", (st,)).fetchone()
@@ -542,21 +670,26 @@ def search(q, limit=12):
                 return 1.5
             return 0
 
-        def listed_bonus(st):
-            lst = listed.get(st)
-            if not lst:
-                return 0, None
+        def bonus_of(st, lst):
             if any(k in (lst["stem"], lst["alias"]) for k in main_keys):
-                return 6, lst  # 상장사 이름과 정확히 같음 ('LG', '신한지주')
+                return 6  # 상장사 이름과 정확히 같음 ('LG', '신한지주')
             if re.search(r"지주|홀딩스", lst["name"] + st):
-                return 2.5, lst  # 그룹을 대표하는 상장 지주회사
-            return 0.5, lst
+                return 2.5  # 그룹을 대표하는 상장 지주회사
+            return 0.5
+
+        def listed_bonus(st):
+            rows_ = listed.get(st) or []
+            if not rows_:
+                return 0, None
+            lst = max(rows_, key=lambda r: bonus_of(st, r))
+            return bonus_of(st, lst), lst
 
         def stem_score(st):
             return name_score(st) + math.log10(size.get(st, 0) + 1) * 2.5 + listed_bonus(st)[0]
 
-        named = [st for st in size if any(k in st for k in keys) or st in listed]
-        named = [st for st in named if not NON_COMPANY.search(st)] or named
+        named = [st for st in size if any(k in st for k in keys) or st in listed or st in by_name]
+        if not org:
+            named = [st for st in named if not NON_COMPANY.search(st)] or named
         stems = sorted(named, key=lambda st: (-stem_score(st), st))[:40]
         if not stems:
             return []
@@ -564,7 +697,12 @@ def search(q, limit=12):
         nps_rows = con.execute(f"SELECT * FROM nps WHERE stem IN ({qs})", stems).fetchall()
         fac_rows = con.execute(f"SELECT * FROM factory WHERE stem IN ({qs})", stems).fetchall()
     out = [_view(g, n, keys) for g in _assemble(nps_rows, fac_rows).values()]
-    out = [c for c in out if not NON_COMPANY.search(c["name"])] or out
+    if not org:
+        out = [c for c in out if not NON_COMPANY.search(c["name"])] or out
+    def wp_names(c):
+        return [hangul(norm(x)) for x in [c["name"]] + [w["name"] for w in c["workplaces"]] + [f["name"] for f in c["factories"]]]
+    if by_name:   # 이름으로만 찾은 줄기('(주) 녹십자 홀딩스' → 녹십자 · '현대건설(주) 임직원' → 현대건설)는 사업장 이름이 검색어를 품은 회사(법인)만
+        out = [c for c in out if c["stem"] not in by_name or any(k in x for x in wp_names(c) for k in main_keys)]
     # 순위는 회사(법인) 하나하나의 규모로: 같은 이름 작은 회사들의 합계가 큰 회사를 밀어내지 않게
     best_of = {}
     for c in out:
@@ -573,15 +711,21 @@ def search(q, limit=12):
                 best_of[c["stem"]] = c
 
     def entity_score(c):
-        bonus, lst = listed_bonus(c["stem"])
-        is_listed = lst is not None and best_of.get(c["stem"]) is c
+        lst = entity_listing(listed.get(c["stem"]) or [], c["key"], best_of.get(c["stem"]) is c)
+        is_listed = lst is not None
         c["listedAs"] = {"name": lst["name"], "code": lst["code"], "market": lst["market"]} if is_listed else None
+        if is_listed and lst.get("official"):
+            c["name"] = lst["official"]
         size_ = c["employees"] or c["factoryCount"] * 20
-        return name_score(c["stem"]) + math.log10(size_ + 1) * 2.5 + (bonus if is_listed else 0)
+        nm = hangul(norm(c["name"]))
+        # 이름이 검색어와 똑같은 곳을 같은 줄기의 지점 · 병원 · 지역본부보다 위로 ('한국국토정보공사' > '… 대구경북지역본부')
+        same = 1.5 if nm in main_keys else 0
+        by = max(name_score(x) for x in wp_names(c)) if c["stem"] in by_name else 0
+        return max(name_score(c["stem"]), by) + same + math.log10(size_ + 1) * 2.5 + (bonus_of(c["stem"], lst) if is_listed else 0)
 
     scored = sorted(((entity_score(c), c) for c in out), key=lambda x: (-x[0], x[1]["name"]))
     # 이름에 검색어가 걸치기만 한 아주 작은 곳은 뺀다 (예: '…쿠팡퇴직금…진상규명을위한…')
-    scored = [(sc, c) for sc, c in scored if name_score(c["stem"]) > 1.5 or c["employees"] >= 10 or c["factoryCount"]]
+    scored = [(sc, c) for sc, c in scored if name_score(c["stem"]) > 1.5 or c["employees"] >= 10 or c["factoryCount"] or c.get("listedAs")]
     final, per_stem, top_size = [], {}, {}
     for _, c in scored:
         # 같은 이름(줄기)은 대표 회사 위주로: 이름이 검색어와 정확히 같을 때만 여럿(최대 3) 보여 준다
@@ -606,8 +750,19 @@ def get(key):
     with _connect() as con:
         nps_rows = con.execute("SELECT * FROM nps WHERE stem = ?", (st,)).fetchall()
         fac_rows = con.execute("SELECT * FROM factory WHERE stem = ?", (st,)).fetchall()
-    g = _assemble(nps_rows, fac_rows).get(key)
-    return _view(g, st) if g else None
+        try:
+            lst = [dict(r) for r in con.execute("SELECT * FROM listed WHERE nps_stem = ?", (st,))]
+        except sqlite3.OperationalError:
+            lst = []
+    groups = _assemble(nps_rows, fac_rows)
+    g = groups.get(key)
+    if not g:
+        return None
+    v = _view(g, st)
+    row = entity_listing(lst, key, _best_corp(groups) == key) if lst else None
+    if row and row.get("official"):
+        v["name"] = row["official"]   # 상장사는 DART 정식 회사명 ('현대건설(주) 임직원' → '현대건설(주)')
+    return v
 
 
 # ---------------------------------------------------------------- 회사 정보 초안
@@ -636,6 +791,29 @@ def permits_for(c):
     return [dict(r) for r in own if near(r) or (c.get("solo") and hangul(r["norm"]) == hangul(st))] + [dict(r) for r in vendor if near(r)]
 
 
+def key_biz(key):
+    """회사 키 '줄기|c123811' → 사업자등록번호 앞 6자리 (법인 본점만)."""
+    m = re.search(r"\|c(\d{6})$", key or "")
+    return m.group(1) if m else ""
+
+
+def entity_listing(rows, key, is_best):
+    """같은 회사명 줄기에 붙은 상장사들 중 이 회사(법인)의 것.
+    사업자등록번호로 확인한 상장사는 그 번호의 법인에만, 이름으로만 맞춘 상장사는 그 줄기에서 가장 큰 법인에 붙인다."""
+    b = key_biz(key)
+    for r in rows:
+        if r.get("biz") and r["biz"] == b:
+            return r
+    if is_best:
+        return next((r for r in rows if not r.get("biz")), None)
+    return None
+
+
+def _best_corp(groups):
+    corps = [g for k, g in groups.items() if "|c" in k]
+    return max(corps, key=lambda g: g["members"])["key"] if corps else None
+
+
 def listing_for(c):
     """상장 정보와 자산총계 (한국거래소 상장법인목록 + DART 사업보고서 재무상태표).
 
@@ -646,13 +824,14 @@ def listing_for(c):
         return None, None
     keys = list(dict.fromkeys([st, hangul(st)]))
     qs = ",".join("?" * len(keys))
-    sidos = {w["sido"] for w in c["workplaces"]} | {f["sido"] for f in c["factories"]}
-    ok = c.get("solo") or ("|c" in c.get("key", "") or "|b" in c.get("key", ""))
     with _connect() as con:
         try:
-            lst = con.execute(f"SELECT * FROM listed WHERE nps_stem = ? OR stem IN ({qs}) OR alias IN ({qs})", [st] + keys + keys).fetchall()
-            lst = [dict(r) for r in lst if ok and (c.get("solo") or r["sido"] in sidos)]
-            row = lst[0] if lst else None
+            lst = [dict(r) for r in con.execute("SELECT * FROM listed WHERE nps_stem = ?", (st,))]
+            row = None
+            if lst:
+                groups = _assemble(con.execute("SELECT * FROM nps WHERE stem = ?", (st,)).fetchall(),
+                                   con.execute("SELECT * FROM factory WHERE stem = ?", (st,)).fetchall())
+                row = entity_listing(lst, c.get("key", ""), _best_corp(groups) == c.get("key"))
             fin = None
             if row:
                 fin = con.execute("SELECT * FROM fin WHERE code = ?", (row["code"],)).fetchone()
