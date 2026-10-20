@@ -69,7 +69,7 @@
                    → docs/gate.js 의 HASH 교체 · gate.js?v= 올림 → 커밋 → 회사 화면 사본 → 올리기
   메일 코드 변경   scripts/mail_relay.gs → script.google.com 에 붙여 넣기
                    → 배포 관리 → 새 버전 → previewMonthly 로 확인
-                   ★ 지금 할 일: 10-20 조례 링크 수정분 붙여 넣기
+                   (마지막 반영 10-20 · setupMonthly 다시 안 돌려도 됨)
   당사 인원 변경   docs/company_facts.json headcount (지금 2,722명)
                    → amend_actions.py VERSION +1 → 커밋
   화면 코드 수정   ?v= 올림 → site_check.py --dir docs → 커밋
