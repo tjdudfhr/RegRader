@@ -20,10 +20,11 @@
 
   var css = [
     'html.rr-landing, html.rr-landing body { background: #0b1226 !important; }',
-    'html.rr-landing #rr-boot { opacity: 0 !important; }',
+    'html.rr-landing body > *:not(#rr-landing) { visibility: hidden !important; }',   /* 대시보드는 뒤에서 그려 두되 보이지 않게 */
     'html.rr-landing body { overflow: hidden !important; }',
     '#rr-landing { position: fixed; inset: 0; z-index: 100000; overflow-y: auto; overflow-x: hidden; color: #eef2ff;',
-    '  font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; -webkit-font-smoothing: antialiased;',
+    '  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;',
+    '  letter-spacing: -0.012em; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;',
     '  background: radial-gradient(1100px 700px at 78% 42%, rgba(48, 86, 211, .32), transparent 62%),',
     '    radial-gradient(700px 500px at 8% 100%, rgba(47, 179, 122, .13), transparent 60%), linear-gradient(160deg, #0d1733 0%, #0a1024 70%);',
     '  transition: opacity .45s ease, transform .45s cubic-bezier(.2, .8, .2, 1); }',
@@ -116,7 +117,17 @@
   var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>';
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-  function icon(n) { return window.rrIcon ? window.rrIcon(n) : ''; }
+  var ICONS = {   /* system-ui.js rrIcon 과 같은 선 아이콘 — 처음 화면은 그 파일을 받기 전에 그리므로 여기 둔다 */
+    dashboard: '<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
+    clock: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M5 3 2 6M22 6l-3-3"/>',
+    book: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+    check: '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+    search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    history: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>'
+  };
+  function icon(n) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[n] || '') + '</svg>';
+  }
 
   var el = null, stopRadar = null;
 
@@ -145,7 +156,7 @@
         '<footer class="foot"><span class="st" id="rrl-st"><i></i>매일 07:00 자동 갱신</span>' +
           '<span class="lg"><em style="--d:#7d95ff">개정</em><em style="--d:#f5a65b">벌칙 · 과태료 · 의무 변경</em><em class="o">시행 예정</em></span></footer>' +
       '</div>';
-    document.body.appendChild(el);
+    (document.body || root).appendChild(el);
     el.addEventListener('click', function (e) {
       var b = e.target.closest('[data-go]');
       if (!b) return;
@@ -214,7 +225,6 @@
   var TAU = Math.PI * 2, PERIOD = 7500, FIRST = 4200;
   function radar(cv) {
     var ctx = cv.getContext('2d');
-    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     var dots = [], S = 0, dpr = 1, tData = 0, alive = true, raf = 0;
     var year = window.RR_YEAR || new Date().getFullYear();
     var start = Date.UTC(year, 0, 1), days = (Date.UTC(year + 1, 0, 1) - start) / 864e5;
@@ -261,7 +271,7 @@
         ctx.beginPath(); ctx.arc(cx, cy, r0 + (R - r0) * i / 8, 0, TAU); ctx.stroke();
       }
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.font = '500 ' + Math.max(10, Math.round(18 * k)) + 'px Pretendard, "Apple SD Gothic Neo", sans-serif';
+      ctx.font = '500 ' + Math.max(10, Math.round(18 * k)) + 'px "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif';
       for (var m = 0; m < 12; m++) {
         var d0 = (Date.UTC(year, m, 1) - start) / 864e5;
         var a = angOf(d0 - 0.5), am = angOf(d0 + 14);
@@ -272,7 +282,7 @@
       }
       if (S >= 420) {   /* 고리 이름 (작은 화면에서는 뺀다) */
         ctx.textAlign = 'right';
-        ctx.font = '500 ' + Math.round(15 * k) + 'px Pretendard, "Apple SD Gothic Neo", sans-serif';
+        ctx.font = '500 ' + Math.round(15 * k) + 'px "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif';
         ctx.fillStyle = 'rgba(165, 184, 240, 0.5)'; ctx.strokeStyle = 'rgba(10, 20, 49, 0.9)'; ctx.lineWidth = 4 * k;
         RINGS.forEach(function (name, j) {
           var y = cy - (r0 + (R - r0) * (j + 0.5) / 8);
@@ -298,7 +308,7 @@
         var e = dots[j];
         if (revealTo !== null && e.a > revealTo) break;
         var dd = ((phi - e.a) % TAU + TAU) % TAU;
-        var glow = reduce ? 0.35 : Math.exp(-dd / 0.75);
+        var glow = Math.exp(-dd / 0.75);
         var r = r0 + (R - r0) * e.u, x = cx + Math.cos(e.a) * r, y = cy + Math.sin(e.a) * r;
         var color = e.risk ? '#f5a65b' : e.future ? '#7ee2a8' : '#7d95ff';
         var size = (e.risk ? 4.6 : 3.4) * k + 0.4;
@@ -327,7 +337,6 @@
       if (!alive) return;
       if (!dots.length) load();
       if (cv.clientWidth !== S) fit();
-      if (reduce) { draw(aToday, null); raf = dots.length ? 0 : requestAnimationFrame(frame); return; }
       var phi, reveal = null;
       if (!dots.length) phi = -Math.PI / 2 + ((ts % PERIOD) / PERIOD) * TAU;   /* 자료를 받는 동안은 빈 레이더만 돈다 */
       else {
@@ -350,8 +359,7 @@
 
   if (want && !root.classList.contains('rr-locked')) {
     root.classList.add('rr-landing');
-    if (document.body) build();
-    else document.addEventListener('DOMContentLoaded', build);
+    build();
   }
   /* 왼쪽 위 로고를 누르면 처음 화면을 다시 연다 */
   document.addEventListener('click', function (e) {
