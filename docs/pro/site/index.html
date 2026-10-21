@@ -3,7 +3,7 @@
 <head>
 <script>window.RR_PRO_DATA = "https://raw.githubusercontent.com/tjdudfhr/RegRader/pro-data/"; window.RR_PRO_HOME = "../../#pro";</script><script src="../rr-static.js?v=55501459"></script><script src="../company-mode.js?v=14d0725e"></script>
     <script src="./gate.js?v=20261012b"></script>
-    <script src="./landing.js?v=20261021c"></script>
+    <script src="./landing.js?v=20261021d"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RegRader · 법규 개정 모니터링</title>
@@ -91,15 +91,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="./system-ui.js?v=20261016a"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- 메일 · 엑셀 라이브러리는 버튼을 누를 때만 쓰므로 화면을 먼저 그린 뒤에 받는다 (defer) — 머리말에서 받으면 처음 화면까지 늦어진다 -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
     <script type="text/javascript">
-        // EmailJS 초기화
-        (function(){
-            emailjs.init("Nt6PrPKpsL1ruZEIH");
-        })();
+        // EmailJS 초기화 (위 라이브러리를 받은 뒤)
+        document.addEventListener('DOMContentLoaded', function () {
+            if (window.emailjs) emailjs.init("Nt6PrPKpsL1ruZEIH");
+        });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js" defer></script>
     <style>
         :root {
             --primary: #667eea;
