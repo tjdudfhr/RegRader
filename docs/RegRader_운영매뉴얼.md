@@ -73,6 +73,13 @@
 
 ## 2. 화면 구성
 
+### 처음 화면 (2026-10-21)
+
+비밀번호를 넣고 들어오면 대시보드 대신 처음 화면이 먼저 보입니다 (`docs/landing.js`).
+- 왼쪽: 회사 이름 · 한 줄 소개 · [시작하기](→ 종합 현황) · [소개 영상] · 바로 가기 6개 / 오른쪽: 레이더 (올해 개정 하나하나가 점, 주황 = 벌칙 · 과태료 · 의무 변경, 초록 테 = 시행 예정)
+- 브라우저 창(탭)마다 한 번만 보입니다. 왼쪽 위 로고를 누르면 다시 열립니다
+- 주소에 `#watch` 같은 탭이 붙은 바로 가기 링크, 회사별 화면에서는 보이지 않습니다. 주소 뒤에 `?landing` 을 붙이면 언제든 보입니다
+
 ### 사이드바
 
 | 메뉴 | 내용 |
@@ -440,6 +447,7 @@ git fetch -q origin && git merge-base --is-ancestor origin/main HEAD && git push
 - 내레이션은 무료 음성(edge-tts `ko-KR-HyunsuMultilingualNeural`), 문장은 합니다체
 - 공개 자료에는 실제 담당자 이름 · 이메일 대신 예시(kim@company.com 등)를 씁니다
 - 파일을 바꾸면 `index.html` 의 `?v=` 를 올려야 방문자가 새 파일을 봅니다
+- 화면 캡처 도구(`intro-deck/render/capture*.cjs`, `~/RegRader-ppt-src/capture.cjs`)는 처음 화면을 건너뛰도록 되어 있습니다 (`sessionStorage rr-landing-seen`)
 - 손이 많이 가므로 Claude Code 에 "소개자료를 오늘 기준으로 최신화해줘"라고 맡기는 것을 권장합니다
 
 ---

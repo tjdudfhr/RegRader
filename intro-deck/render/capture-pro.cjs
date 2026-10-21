@@ -18,7 +18,7 @@ const H = 900;
   fs.mkdirSync(OUT, { recursive: true });
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   const ctx = await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 2 });
-  await ctx.addInitScript((h) => { try { localStorage.setItem('rr-gate', h); } catch (e) {} }, GATE);
+  await ctx.addInitScript((h) => { try { localStorage.setItem('rr-gate', h); sessionStorage.setItem('rr-landing-seen', '1'); } catch (e) {} }, GATE);
   const page = await ctx.newPage();
   await page.goto(SITE + '?nc=' + Date.now());
   await page.waitForFunction(() => document.body.classList.contains('rr-ready'), null, { timeout: 60000 });
