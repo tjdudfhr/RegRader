@@ -41,9 +41,8 @@
     '#rr-landing .top a { color: rgba(214, 224, 255, .75); font-size: 13px; font-weight: 600; text-decoration: none; padding: 7px 12px; border-radius: 9px; }',
     '#rr-landing .top a:hover { background: rgba(255, 255, 255, .08); color: #fff; }',
     '#rr-landing .copy { align-self: center; padding: 30px 0; }',
-    '#rr-landing .co { display: inline-block; font-size: 22px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 18px;',
-    '  background: linear-gradient(90deg, #7ee2a8 0%, #8fd3ff 55%, #a9b8ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }',
-    '#rr-landing h1 { margin: 0; font-size: clamp(34px, 4.2vw, 58px); line-height: 1.16; font-weight: 800; letter-spacing: -.035em; color: #f4f6ff; }',
+    '#rr-landing h1 { margin: 0; font-size: clamp(34px, 4.6vw, 64px); line-height: 1.16; font-weight: 800; letter-spacing: -.035em; color: #f4f6ff; }',
+    '#rr-landing h1 > span { display: inline-block; white-space: nowrap; }',
     '#rr-landing h1 em { font-style: normal; color: #7ee2a8; background: linear-gradient(transparent 88%, rgba(126, 226, 168, .55) 88%); }',
     '#rr-landing .lead { margin: 22px 0 0; max-width: 520px; font-size: 16.5px; line-height: 1.7; color: rgba(214, 224, 255, .78); }',
     '#rr-landing .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }',
@@ -119,11 +118,10 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function icon(n) { return window.rrIcon ? window.rrIcon(n) : ''; }
 
-  var el = null, raf = 0, stopRadar = null;
+  var el = null, stopRadar = null;
 
   function build() {
     var year = window.RR_YEAR || new Date().getFullYear();
-    var co = window.RR_COMPANY_NAME || '포스코퓨처엠';
     var d = 0;
     var rise = function () { d += 0.07; return ' class="rise" style="animation-delay:' + d.toFixed(2) + 's"'; };
     el = document.createElement('section');
@@ -134,8 +132,7 @@
         '<header class="top">' + MARK + '<b>RegRader</b><span>법규 개정 모니터링</span><i class="sp"></i>' +
           '<a href="#" data-go="intro">시스템 소개</a><a href="#" data-go="overview">대시보드</a></header>' +
         '<div class="copy">' +
-          '<div' + rise() + '><span class="co">' + esc(co) + '</span></div>' +
-          '<h1' + rise() + '>모르고 지나치는 법 개정,<br><em>이제 없습니다.</em></h1>' +
+          '<h1' + rise() + '><span>모르고 지나치는 법 개정,</span><br><em>이제 없습니다.</em></h1>' +
           '<p' + rise().replace('class="rise"', 'class="lead rise"') + '>법령 · 행정규칙 · 조례의 개정을 매일 아침 확인해, 우리 회사에 적용되는 것만 골라 할 일과 근거를 정리합니다.</p>' +
           '<div' + rise().replace('class="rise"', 'class="cta rise"') + '><button type="button" class="go" data-go="overview">시작하기' + ARROW + '</button>' +
             '<button type="button" class="ghost" data-go="intro">' + PLAY + '소개 영상</button></div>' +
@@ -156,8 +153,20 @@
       enter(b.getAttribute('data-go'));
     });
     document.addEventListener('keydown', onKey);
+    window.addEventListener('resize', fitTitle);
+    fitTitle();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTitle);
     stopRadar = radar(el.querySelector('canvas'));
     status();
+  }
+
+  /* 제목 첫 줄('모르고 지나치는 법 개정,')이 글 칸보다 넓으면 글자 크기를 줄여 한 줄에 맞춘다 */
+  function fitTitle() {
+    var h = el && el.querySelector('h1'), line = h && h.firstChild;
+    if (!h || !line) return;
+    h.style.fontSize = '';
+    var room = h.parentNode.clientWidth, need = line.scrollWidth;
+    if (room && need > room) h.style.fontSize = (parseFloat(getComputedStyle(h).fontSize) * room / need * 0.98).toFixed(1) + 'px';
   }
 
   function onKey(e) {
@@ -174,6 +183,7 @@
     el.classList.add('out');
     root.classList.remove('rr-landing');
     document.removeEventListener('keydown', onKey);
+    window.removeEventListener('resize', fitTitle);
     var gone = el;
     el = null;
     setTimeout(function () { if (stopRadar) stopRadar(); gone.remove(); }, 480);
@@ -198,139 +208,140 @@
     }).catch(function () {});
   }
 
-  /* ---------- 레이더: 12시 = 1월 1일, 시계 방향으로 한 해 · 고리 = 직무 · 점 = 개정 1건 ---------- */
-  var JOBS = ['환경', '재무회계', '안전', '인사노무', '정보보호', '공정거래', '지배구조', '지식재산권'];
+  /* ---------- 레이더 (소개 영상 표지와 같은 그림): 12시 = 1월 1일, 시계 방향으로 한 해 · 고리 = 직무 · 점 = 개정 1건 ----------
+     첫 바퀴는 빛이 지나가며 점을 하나씩 '포착'하고, 그다음부터는 7.5초에 한 바퀴씩 계속 돌며 지나간 자리의 점이 빛난다. */
+  var RINGS = ['지식재산권', '지배구조', '공정거래', '정보보호', '인사노무', '안전', '재무회계', '환경'];   // 안쪽 → 바깥
+  var TAU = Math.PI * 2, PERIOD = 7500, FIRST = 4200;
   function radar(cv) {
     var ctx = cv.getContext('2d');
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var dots = [], size = 0, dpr = 1, t0 = performance.now(), alive = true;
+    var dots = [], S = 0, dpr = 1, tData = 0, alive = true, raf = 0;
     var year = window.RR_YEAR || new Date().getFullYear();
     var start = Date.UTC(year, 0, 1), days = (Date.UTC(year + 1, 0, 1) - start) / 864e5;
-    var now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
-    var todayA = ((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - start) / 864e5) / days * Math.PI * 2;
-    var PERIOD = 7000;   // 한 바퀴 7초
+    var kst = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+    var today = Date.UTC(kst.getFullYear(), kst.getMonth(), kst.getDate());
+    var angOf = function (doy) { return -Math.PI / 2 + ((doy + 0.5) / days) * TAU; };
+    var aToday = angOf((today - start) / 864e5);
+    var hash = function (n) { var x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 
-    function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967295; }
     function load() {
       var items = window.__rrItems;
-      if (!items || !items.length) return false;
+      if (!items || !items.length) return;
       var risk = window.rrAmend && window.rrAmend.isRisk;
-      dots = items.map(function (it) {
+      dots = items.map(function (it, i) {
         var ds = String(it.effectiveDate || '');
         var t = Date.UTC(+ds.slice(0, 4), +ds.slice(5, 7) - 1, +ds.slice(8, 10));
         if (!isFinite(t)) return null;
-        var job = JOBS.indexOf(((it.categories || [])[0]) || '');
-        var k = hash(String(it.title) + ds);
-        return {
-          a: (t - start) / 864e5 / days * Math.PI * 2 + (k - .5) * .03,
-          r: (job < 0 ? JOBS.length - .5 : job + .2 + k * .6) / JOBS.length,
-          up: t > Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()),
-          risk: !!(risk && risk(it)),
-          lit: 0
-        };
-      }).filter(Boolean);
-      return true;
+        var ring = RINGS.indexOf(((it.categories || [])[0]) || '');
+        if (ring < 0) ring = 7;
+        return { a: angOf((t - start) / 864e5 + hash(i) * 1.8), u: (ring + 0.16 + 0.68 * hash(i + 999)) / 8, risk: !!(risk && risk(it)), future: t > today };
+      }).filter(Boolean).sort(function (x, y) { return x.a - y.a; });
+      tData = performance.now();
     }
     function fit() {
       dpr = Math.min(2, window.devicePixelRatio || 1);
-      size = cv.clientWidth;
-      cv.width = cv.height = Math.round(size * dpr);
+      S = cv.clientWidth;
+      cv.width = cv.height = Math.round(S * dpr);
+    }
+    function draw(phi, revealTo) {
+      var cx = S / 2, cy = S / 2, R = S * 0.43, r0 = S * 0.085, k = S / 960;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, S, S);
+      var disc = ctx.createRadialGradient(cx, cy, r0, cx, cy, R);
+      disc.addColorStop(0, 'rgba(91, 128, 255, 0.10)');
+      disc.addColorStop(1, 'rgba(91, 128, 255, 0.025)');
+      ctx.fillStyle = disc;
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.fill();
+      /* 시행 예정 구간 (오늘 ~ 연말) */
+      ctx.fillStyle = 'rgba(126, 226, 168, 0.05)';
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, R, aToday, -Math.PI / 2 + TAU); ctx.closePath(); ctx.fill();
+      ctx.lineWidth = 1;
+      for (var i = 0; i <= 8; i++) {
+        ctx.strokeStyle = i === 8 ? 'rgba(132, 158, 238, 0.5)' : 'rgba(132, 158, 238, 0.14)';
+        ctx.beginPath(); ctx.arc(cx, cy, r0 + (R - r0) * i / 8, 0, TAU); ctx.stroke();
+      }
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = '500 ' + Math.max(10, Math.round(18 * k)) + 'px Pretendard, "Apple SD Gothic Neo", sans-serif';
+      for (var m = 0; m < 12; m++) {
+        var d0 = (Date.UTC(year, m, 1) - start) / 864e5;
+        var a = angOf(d0 - 0.5), am = angOf(d0 + 14);
+        ctx.strokeStyle = 'rgba(132, 158, 238, 0.16)';
+        ctx.beginPath(); ctx.moveTo(cx + Math.cos(a) * r0, cy + Math.sin(a) * r0); ctx.lineTo(cx + Math.cos(a) * (R + 10 * k), cy + Math.sin(a) * (R + 10 * k)); ctx.stroke();
+        ctx.fillStyle = 'rgba(165, 184, 240, 0.62)';
+        ctx.fillText((m + 1) + '월', cx + Math.cos(am) * (R + 30 * k), cy + Math.sin(am) * (R + 30 * k));
+      }
+      if (S >= 420) {   /* 고리 이름 (작은 화면에서는 뺀다) */
+        ctx.textAlign = 'right';
+        ctx.font = '500 ' + Math.round(15 * k) + 'px Pretendard, "Apple SD Gothic Neo", sans-serif';
+        ctx.fillStyle = 'rgba(165, 184, 240, 0.5)'; ctx.strokeStyle = 'rgba(10, 20, 49, 0.9)'; ctx.lineWidth = 4 * k;
+        RINGS.forEach(function (name, j) {
+          var y = cy - (r0 + (R - r0) * (j + 0.5) / 8);
+          ctx.strokeText(name, cx - 12 * k, y); ctx.fillText(name, cx - 12 * k, y);
+        });
+        ctx.lineWidth = 1;
+      }
+      /* 훑는 빛 + 앞선 줄 */
+      var W = 0.9;
+      if (typeof ctx.createConicGradient === 'function') {
+        var cg = ctx.createConicGradient(phi - W, cx, cy);
+        cg.addColorStop(0, 'rgba(91, 128, 255, 0)');
+        cg.addColorStop(W / TAU * 0.995, 'rgba(120, 152, 255, 0.30)');
+        cg.addColorStop(W / TAU, 'rgba(91, 128, 255, 0)');
+        cg.addColorStop(1, 'rgba(91, 128, 255, 0)');
+        ctx.fillStyle = cg;
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, R, phi - W, phi); ctx.closePath(); ctx.fill();
+      }
+      ctx.strokeStyle = 'rgba(178, 198, 255, 0.9)'; ctx.lineWidth = 2 * k + 0.6;
+      ctx.beginPath(); ctx.moveTo(cx + Math.cos(phi) * r0, cy + Math.sin(phi) * r0); ctx.lineTo(cx + Math.cos(phi) * R, cy + Math.sin(phi) * R); ctx.stroke();
+      /* 점: 빛이 지나간 직후 가장 밝고 서서히 가라앉는다 */
+      for (var j = 0; j < dots.length; j++) {
+        var e = dots[j];
+        if (revealTo !== null && e.a > revealTo) break;
+        var dd = ((phi - e.a) % TAU + TAU) % TAU;
+        var glow = reduce ? 0.35 : Math.exp(-dd / 0.75);
+        var r = r0 + (R - r0) * e.u, x = cx + Math.cos(e.a) * r, y = cy + Math.sin(e.a) * r;
+        var color = e.risk ? '#f5a65b' : e.future ? '#7ee2a8' : '#7d95ff';
+        var size = (e.risk ? 4.6 : 3.4) * k + 0.4;
+        if (glow > 0.08) {
+          ctx.globalAlpha = glow * 0.3; ctx.fillStyle = color;
+          ctx.beginPath(); ctx.arc(x, y, size * (2.2 + 2 * glow), 0, TAU); ctx.fill();
+        }
+        ctx.globalAlpha = 0.42 + 0.58 * glow;
+        ctx.beginPath(); ctx.arc(x, y, size, 0, TAU);
+        if (e.future && !e.risk) { ctx.strokeStyle = color; ctx.lineWidth = 1.6 * k + 0.4; ctx.stroke(); }
+        else { ctx.fillStyle = color; ctx.fill(); }
+      }
+      ctx.globalAlpha = 1;
+      /* 오늘 */
+      ctx.setLineDash([6 * k, 6 * k]); ctx.strokeStyle = 'rgba(126, 226, 168, 0.85)'; ctx.lineWidth = 1.6 * k + 0.4;
+      ctx.beginPath(); ctx.moveTo(cx + Math.cos(aToday) * r0, cy + Math.sin(aToday) * r0); ctx.lineTo(cx + Math.cos(aToday) * R, cy + Math.sin(aToday) * R); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#7ee2a8';
+      ctx.beginPath(); ctx.arc(cx + Math.cos(aToday) * R, cy + Math.sin(aToday) * R, 5 * k + 1, 0, TAU); ctx.fill();
+      /* 가운데 */
+      ctx.fillStyle = '#0a1431';
+      ctx.beginPath(); ctx.arc(cx, cy, r0, 0, TAU); ctx.fill();
+      ctx.strokeStyle = 'rgba(132, 158, 238, 0.4)'; ctx.lineWidth = 1; ctx.stroke();
     }
     function frame(ts) {
       if (!alive) return;
       if (!dots.length) load();
-      if (cv.clientWidth !== size) fit();
-      var W = size, c = W / 2, R = W * 0.45, R0 = R * 0.2;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, W, W);
-      var sweep = reduce ? todayA : ((ts - t0) / PERIOD) * Math.PI * 2;
-      var ang = function (a) { return a - Math.PI / 2; };
-      /* 고리 · 달 눈금 */
-      ctx.lineWidth = 1;
-      for (var i = 0; i <= JOBS.length; i++) {
-        ctx.beginPath();
-        ctx.arc(c, c, R0 + (R - R0) * i / JOBS.length, 0, Math.PI * 2);
-        ctx.strokeStyle = i === JOBS.length ? 'rgba(143,170,255,.30)' : 'rgba(143,170,255,.09)';
-        ctx.stroke();
+      if (cv.clientWidth !== S) fit();
+      if (reduce) { draw(aToday, null); raf = dots.length ? 0 : requestAnimationFrame(frame); return; }
+      var phi, reveal = null;
+      if (!dots.length) phi = -Math.PI / 2 + ((ts % PERIOD) / PERIOD) * TAU;   /* 자료를 받는 동안은 빈 레이더만 돈다 */
+      else {
+        var t = ts - tData;
+        /* 첫 바퀴: 빠르게 돌며 포착하다가 끝에서 보통 속도(7.5초에 한 바퀴)로 이어진다 */
+        if (t < FIRST) { var p = t / FIRST, b = (FIRST / PERIOD - 1); phi = -Math.PI / 2 + ((1 - b) * p + b * p * p) * TAU; reveal = phi; }
+        else phi = -Math.PI / 2 + ((t - FIRST) / PERIOD) * TAU;
       }
-      ctx.font = '600 ' + Math.max(10, W * 0.019) + 'px Pretendard, -apple-system, sans-serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      for (var m = 0; m < 12; m++) {
-        var a = ang(m / 12 * Math.PI * 2);
-        ctx.beginPath();
-        ctx.moveTo(c + Math.cos(a) * R0, c + Math.sin(a) * R0);
-        ctx.lineTo(c + Math.cos(a) * R, c + Math.sin(a) * R);
-        ctx.strokeStyle = 'rgba(143,170,255,.07)';
-        ctx.stroke();
-        var am = ang((m + .5) / 12 * Math.PI * 2);
-        ctx.fillStyle = 'rgba(200,212,255,.42)';
-        ctx.fillText((m + 1) + '월', c + Math.cos(am) * (R + W * 0.033), c + Math.sin(am) * (R + W * 0.033));
-      }
-      /* 시행 예정 구간 (오늘 ~ 연말) 은 옅게 */
-      ctx.beginPath();
-      ctx.moveTo(c, c);
-      ctx.arc(c, c, R, ang(todayA), ang(Math.PI * 2));
-      ctx.closePath();
-      ctx.fillStyle = 'rgba(126,226,168,.035)';
-      ctx.fill();
-      /* 오늘 선 */
-      ctx.save();
-      ctx.setLineDash([4, 5]);
-      ctx.beginPath();
-      ctx.moveTo(c + Math.cos(ang(todayA)) * R0, c + Math.sin(ang(todayA)) * R0);
-      ctx.lineTo(c + Math.cos(ang(todayA)) * R, c + Math.sin(ang(todayA)) * R);
-      ctx.strokeStyle = 'rgba(126,226,168,.7)';
-      ctx.stroke();
-      ctx.restore();
-      ctx.beginPath();
-      ctx.arc(c + Math.cos(ang(todayA)) * R, c + Math.sin(ang(todayA)) * R, 4, 0, Math.PI * 2);
-      ctx.fillStyle = '#7ee2a8';
-      ctx.fill();
-      /* 훑는 빛 */
-      if (!reduce) {
-        var g = ctx.createConicGradient ? ctx.createConicGradient(ang(sweep) - 0.9, c, c) : null;
-        if (g) {
-          g.addColorStop(0, 'rgba(79,124,255,0)');
-          g.addColorStop(0.142, 'rgba(79,124,255,.30)');
-          g.addColorStop(0.1433, 'rgba(79,124,255,0)');
-          ctx.beginPath(); ctx.moveTo(c, c); ctx.arc(c, c, R, ang(sweep) - 0.9, ang(sweep)); ctx.closePath();
-          ctx.fillStyle = g; ctx.fill();
-        }
-        ctx.beginPath();
-        ctx.moveTo(c + Math.cos(ang(sweep)) * R0, c + Math.sin(ang(sweep)) * R0);
-        ctx.lineTo(c + Math.cos(ang(sweep)) * R, c + Math.sin(ang(sweep)) * R);
-        ctx.strokeStyle = 'rgba(170,195,255,.85)'; ctx.lineWidth = 1.6; ctx.stroke(); ctx.lineWidth = 1;
-      }
-      /* 점: 빛이 지나가면 밝아졌다가 천천히 가라앉는다 */
-      var sw = ((sweep % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
-      for (var j = 0; j < dots.length; j++) {
-        var p = dots[j];
-        var behind = ((sw - p.a) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
-        var glow = reduce ? .6 : Math.max(0, 1 - behind / 2.2);
-        var x = c + Math.cos(ang(p.a)) * (R0 + (R - R0) * p.r), y = c + Math.sin(ang(p.a)) * (R0 + (R - R0) * p.r);
-        var rad = W * (p.risk ? 0.0062 : 0.0048);
-        if (glow > .55) {
-          ctx.beginPath(); ctx.arc(x, y, rad * (2.6 + glow), 0, Math.PI * 2);
-          ctx.fillStyle = p.risk ? 'rgba(245,166,91,' + (glow * .18) + ')' : 'rgba(125,149,255,' + (glow * .16) + ')';
-          ctx.fill();
-        }
-        ctx.beginPath(); ctx.arc(x, y, rad, 0, Math.PI * 2);
-        if (p.up) {
-          ctx.strokeStyle = 'rgba(126,226,168,' + (.45 + glow * .5) + ')'; ctx.lineWidth = 1.4; ctx.stroke(); ctx.lineWidth = 1;
-        } else {
-          ctx.fillStyle = p.risk ? 'rgba(245,166,91,' + (.55 + glow * .45) + ')' : 'rgba(125,149,255,' + (.38 + glow * .55) + ')';
-          ctx.fill();
-        }
-      }
-      /* 가운데 구멍 */
-      ctx.beginPath(); ctx.arc(c, c, R0 * 0.92, 0, Math.PI * 2);
-      ctx.fillStyle = '#0b1328'; ctx.fill();
-      ctx.strokeStyle = 'rgba(143,170,255,.35)'; ctx.stroke();
-      raf = reduce && dots.length ? 0 : requestAnimationFrame(frame);
+      draw(phi, reveal);
+      raf = requestAnimationFrame(frame);
     }
     fit();
     raf = requestAnimationFrame(frame);
-    var onResize = function () { size = 0; if (!raf) raf = requestAnimationFrame(frame); };
+    var onResize = function () { S = 0; if (!raf) raf = requestAnimationFrame(frame); };
     window.addEventListener('resize', onResize);
     return function () { alive = false; cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); };
   }
