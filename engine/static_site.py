@@ -159,13 +159,16 @@ def company_keys(min_members=30, log=print):
         lst = {}   # 줄기 → 상장사들 (한 줄기에 둘 이상일 수 있다: '녹십자' = (주)녹십자 · (주) 녹십자 홀딩스)
         for r in con.execute("SELECT * FROM listed WHERE nps_stem != ''"):
             lst.setdefault(r["nps_stem"], []).append(dict(r))
-        todo = list(dict.fromkeys(stems + list(lst)))
+        try:   # 공장 · 지점을 붙이면 30명이 넘는 본사도 ('(주)모토닉' 13명 + 공장 251명)
+            parents = [r[0] for r in con.execute("SELECT DISTINCT parent FROM branch_of")]
+            branches = {r[0] for r in con.execute("SELECT stem FROM branch_of")}
+        except Exception:  # noqa: BLE001 - 지점 표가 없는 옛 색인
+            parents, branches = [], set()
+        todo = [st for st in dict.fromkeys(stems + list(lst) + parents) if st not in branches]
         c_stems = C.corp_stems(con)
         log(f"이름 줄기 {len(todo)}개 확인 (가입자 {min_members}명 이상 {len(stems)} + 상장 {len(lst)})")
         for i, st in enumerate(todo):
-            nps = con.execute("SELECT * FROM nps WHERE stem = ?", (st,)).fetchall()
-            fac = con.execute("SELECT * FROM factory WHERE stem = ?", (st,)).fetchall()
-            groups = C._assemble(nps, fac)
+            groups = C.assemble(con, [st])
             corps = [g for k, g in groups.items() if "|c" in k]
             b = groups.get(st + "|b")   # 지점 번호(xx-85)로만 올라 있는 회사 ('삼성물산' · '삼성중공업')
             if not corps and b and (st in lst or C.branch_only_company(st, c_stems)):   # 상장사로 연결된 줄기는 그대로 ('엔에이치엔케이씨피')
@@ -256,9 +259,7 @@ def _listed_rows(keys):
             rows = [dict(r) for r in con.execute("SELECT * FROM listed WHERE nps_stem = ?", (st,))]
             if not rows:
                 continue
-            groups = C._assemble(con.execute("SELECT * FROM nps WHERE stem = ?", (st,)).fetchall(),
-                                 con.execute("SELECT * FROM factory WHERE stem = ?", (st,)).fetchall())
-            row = C.entity_listing(rows, k, C._best_corp(groups) == k)
+            row = C.entity_listing(rows, k, C._best_corp(C.assemble(con, [st])) == k)
             if row:
                 out[k] = row
     return out

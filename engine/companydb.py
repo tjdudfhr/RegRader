@@ -214,6 +214,7 @@ def build():
     """)
     con.executescript("CREATE INDEX nps_stem ON nps(stem); CREATE INDEX factory_stem ON factory(stem); CREATE INDEX stems_stem ON stems(stem);"
                       "CREATE INDEX permit_stem ON permit(stem); CREATE INDEX permit_src ON permit(src);")
+    counts["branches"] = _build_branches(con)
     con.commit()
     n_nps = con.execute("SELECT count(*) FROM nps").fetchone()[0]
     n_fac = con.execute("SELECT count(*) FROM factory").fetchone()[0]
@@ -688,15 +689,21 @@ def search(q, limit=12):
             return name_score(st) + math.log10(size.get(st, 0) + 1) * 2.5 + listed_bonus(st)[0]
 
         named = [st for st in size if any(k in st for k in keys) or st in listed or st in by_name]
+        up = branch_parents(con, named)   # 본사에 붙인 공장 · 지점 줄기는 본사로 ('성우하이텍소주공장' → 성우하이텍)
+        if up:
+            for b, par in up.items():
+                size[par] = max(size.get(par, 0), size.get(b, 0))
+                if b in by_name:
+                    by_name.add(par)
+            named = list(dict.fromkeys(up.get(st, st) for st in named))
         if not org:
             named = [st for st in named if not NON_COMPANY.search(st)] or named
         stems = sorted(named, key=lambda st: (-stem_score(st), st))[:40]
         if not stems:
             return []
         qs = ",".join("?" * len(stems))
-        nps_rows = con.execute(f"SELECT * FROM nps WHERE stem IN ({qs})", stems).fetchall()
-        fac_rows = con.execute(f"SELECT * FROM factory WHERE stem IN ({qs})", stems).fetchall()
-    out = [_view(g, n, keys) for g in _assemble(nps_rows, fac_rows).values()]
+        groups = assemble(con, stems)
+    out = [_view(g, n, keys) for g in groups.values()]
     if not org:
         out = [c for c in out if not NON_COMPANY.search(c["name"])] or out
     def wp_names(c):
@@ -748,13 +755,11 @@ def get(key):
     """search 결과의 key → 회사 하나 (사업장·공장 전체)."""
     st = key.split("|")[0]
     with _connect() as con:
-        nps_rows = con.execute("SELECT * FROM nps WHERE stem = ?", (st,)).fetchall()
-        fac_rows = con.execute("SELECT * FROM factory WHERE stem = ?", (st,)).fetchall()
+        groups = assemble(con, [st])
         try:
             lst = [dict(r) for r in con.execute("SELECT * FROM listed WHERE nps_stem = ?", (st,))]
         except sqlite3.OperationalError:
             lst = []
-    groups = _assemble(nps_rows, fac_rows)
     g = groups.get(key)
     if not g:
         return None
@@ -809,6 +814,87 @@ def entity_listing(rows, key, is_best):
     return None
 
 
+GENERIC_PARENT = re.compile(r"(?:법인|법률사무소|조합|협회|재단|학교|병원|의원|교회|센터)$")   # '세무법인' 처럼 법인 종류 이름에는 붙이지 않는다
+
+
+def _build_branches(con):
+    """따로 줄기가 된 지점 · 공장 → 본사 줄기 (branch_of 표).
+
+    국민연금에는 공장 · 지점이 지점 사업자번호(xx-85)와 '(주)성우하이텍소주공장' 같은 이름으로 따로 올라
+    줄기가 '성우하이텍소주공장' 이 된다 → 본사 '(주)성우하이텍' 가입자가 31명으로 잡혔다 (실제 1,600여 명).
+    붙이는 조건: 그 줄기의 사업장이 모두 지점 번호이고 · 이름이 공장 · 지점 · 사업장 · 센터 · 연구소 등으로 끝나며 ·
+    그 앞부분이 본점 번호가 있는 회사 줄기이고 · 그보다 긴 다른 회사 줄기가 없을 것('케이피에프충주공장' 은 '케이피' 가 아니다) ·
+    본사 이름이 '세무법인' 같은 법인 종류 이름이 아닐 것. 'NHN KCP'(엔에이치엔케이씨피)처럼 이름 끝이 사업장 표시가 아니면 붙이지 않는다.
+    """
+    con.execute("DROP TABLE IF EXISTS branch_of")
+    con.execute("CREATE TABLE branch_of(stem TEXT PRIMARY KEY, parent TEXT)")
+    c_stems = corp_stems(con)
+    every = {r[0] for r in con.execute("SELECT stem FROM stems")}
+    kinds = {}
+    for st, bz in con.execute("SELECT stem, bizno FROM nps"):
+        kinds.setdefault(st, set()).add(_kind(bz))
+    pairs = []
+    for st in every:
+        if st in c_stems or not WP_STEM_END.search(st) or kinds.get(st, {"b"}) != {"b"}:
+            continue
+        parent = next((st[:i] for i in range(len(st) - 1, 1, -1) if st[:i] in every), None)
+        if not parent or parent not in c_stems or GENERIC_PARENT.search(parent):
+            continue
+        if len(WP_STEM_END.sub("", st[len(parent):])) > 8:
+            continue
+        pairs.append((st, parent))
+    con.executemany("INSERT INTO branch_of VALUES (?,?)", pairs)
+    con.execute("CREATE INDEX branch_parent ON branch_of(parent)")
+    return len(pairs)
+
+
+def assemble(con, stems):
+    """줄기들 → 회사(법인)들. 따로 줄기가 된 지점 · 공장(branch_of)도 본사에 붙인다.
+    한 줄기에 법인이 여럿이면 사업장 이름이 가장 길게 맞는 법인에 ('심텍홀딩스서울지점' → (주) 심텍 홀딩스, 아니면 가장 큰 법인)."""
+    stems = list(dict.fromkeys(stems))
+    if not stems:
+        return {}
+    qs = ",".join("?" * len(stems))
+    groups = _assemble(con.execute(f"SELECT * FROM nps WHERE stem IN ({qs})", stems).fetchall(),
+                       con.execute(f"SELECT * FROM factory WHERE stem IN ({qs})", stems).fetchall())
+    try:
+        pairs = con.execute(f"SELECT stem, parent FROM branch_of WHERE parent IN ({qs})", stems).fetchall()
+    except sqlite3.OperationalError:   # 지점 표가 없는 옛 색인
+        return groups
+    if not pairs:
+        return groups
+    parent_of = {r[0]: r[1] for r in pairs}
+    bq = ",".join("?" * len(parent_of))
+    for kind, table in (("workplaces", "nps"), ("factories", "factory")):
+        for r in con.execute(f"SELECT * FROM {table} WHERE stem IN ({bq})", list(parent_of)).fetchall():
+            parent = parent_of[r["stem"]]
+            corps = [g for k, g in groups.items() if g["stem"] == parent and ("|c" in k or k.endswith("|b"))]
+            if not corps:
+                continue
+            r = dict(r)
+            n = hangul(norm(r["name"]))
+
+            def fit(g):
+                return max((len(m) for m in (hangul(norm(w["name"])) for w in g["workplaces"]) if m and n.startswith(m)), default=0)
+            g = max(corps, key=lambda g: (fit(g), g["members"]))
+            g[kind].append(r)
+            if kind == "workplaces":
+                g["members"] += r["members"] or 0
+                g["places"].add((r["sido"], r["city"]))
+    return groups
+
+
+def branch_parents(con, stems):
+    """이 줄기들 중 본사에 붙인 지점 · 공장 줄기 → 본사 줄기."""
+    stems = list(stems)
+    if not stems:
+        return {}
+    try:
+        return {r[0]: r[1] for r in con.execute(f"SELECT stem, parent FROM branch_of WHERE stem IN ({','.join('?' * len(stems))})", stems)}
+    except sqlite3.OperationalError:
+        return {}
+
+
 def _best_corp(groups):
     """줄기에서 가장 큰 법인. 본점 번호가 국민연금에 없고 지점 번호(xx-85)로만 올라 있는 회사('삼성물산|b')도 법인이다."""
     corps = [g for k, g in groups.items() if "|c" in k or k.endswith("|b")]
@@ -847,8 +933,7 @@ def listing_for(c):
             lst = [dict(r) for r in con.execute("SELECT * FROM listed WHERE nps_stem = ?", (st,))]
             row = None
             if lst:
-                groups = _assemble(con.execute("SELECT * FROM nps WHERE stem = ?", (st,)).fetchall(),
-                                   con.execute("SELECT * FROM factory WHERE stem = ?", (st,)).fetchall())
+                groups = assemble(con, [st])
                 row = entity_listing(lst, c.get("key", ""), _best_corp(groups) == c.get("key"))
             fin = None
             if row:
