@@ -528,6 +528,13 @@ def main():
     except Exception as e:  # noqa: BLE001
         print(f"amend_actions 건너뜀: {e}", flush=True)
 
+    # 처음 화면 레이더 자료 (docs/radar.json) — 대시보드 자료를 기다리지 않고 바로 점을 그리게. 실패해도 갱신은 계속한다.
+    try:
+        import radar_data
+        radar_data.build(DOCS, log=lambda m: print(m, flush=True))
+    except Exception as e:  # noqa: BLE001
+        print(f"radar_data 건너뜀: {e}", flush=True)
+
     if prev_rows:
         record_changes(prev_rows, mini, prev_meta, meta)
 

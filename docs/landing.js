@@ -248,6 +248,27 @@
       }).filter(Boolean).sort(function (x, y) { return x.a - y.a; });
       tData = performance.now();
     }
+    /* 레이더 전용 작은 자료 (docs/radar.json, 몇 KB) — 대시보드 자료를 기다리지 않고 바로 받는다.
+       점 = 연중 날짜 * 16 + 고리 * 2 + 벌칙 · 과태료 · 의무 변경 (scripts/radar_data.py) */
+    function setYear(y) {
+      year = y;
+      start = Date.UTC(year, 0, 1);
+      days = (Date.UTC(year + 1, 0, 1) - start) / 864e5;
+      aToday = angOf((today - start) / 864e5);
+      var yl = cv.parentNode && cv.parentNode.querySelector('.yr');
+      if (yl) yl.textContent = year;
+    }
+    function useRadar(d) {
+      if (dots.length || !d || !d.dots || !d.dots.length) return;
+      if (d.year && +d.year !== year) setYear(+d.year);
+      var todayDoy = (today - start) / 864e5;
+      dots = d.dots.map(function (v, i) {
+        var doy = Math.floor(v / 16);
+        return { a: angOf(doy + hash(i) * 1.8), u: (((v >> 1) & 7) + 0.16 + 0.68 * hash(i + 999)) / 8, risk: (v & 1) === 1, future: doy > todayDoy };
+      }).sort(function (x, y) { return x.a - y.a; });
+      tData = performance.now();
+    }
+    fetch('./radar.json?cb=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.json(); }).then(useRadar).catch(function () {});
     function fit() {
       dpr = Math.min(2, window.devicePixelRatio || 1);
       S = cv.clientWidth;
@@ -290,9 +311,9 @@
         });
         ctx.lineWidth = 1;
       }
-      /* 훑는 빛 + 앞선 줄 */
+      /* 훑는 빛 + 앞선 줄 (자료를 받기 전에는 그리지 않는다) */
       var W = 0.9;
-      if (typeof ctx.createConicGradient === 'function') {
+      if (phi !== null && typeof ctx.createConicGradient === 'function') {
         var cg = ctx.createConicGradient(phi - W, cx, cy);
         cg.addColorStop(0, 'rgba(91, 128, 255, 0)');
         cg.addColorStop(W / TAU * 0.995, 'rgba(120, 152, 255, 0.30)');
@@ -301,8 +322,10 @@
         ctx.fillStyle = cg;
         ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, R, phi - W, phi); ctx.closePath(); ctx.fill();
       }
-      ctx.strokeStyle = 'rgba(178, 198, 255, 0.9)'; ctx.lineWidth = 2 * k + 0.6;
-      ctx.beginPath(); ctx.moveTo(cx + Math.cos(phi) * r0, cy + Math.sin(phi) * r0); ctx.lineTo(cx + Math.cos(phi) * R, cy + Math.sin(phi) * R); ctx.stroke();
+      if (phi !== null) {
+        ctx.strokeStyle = 'rgba(178, 198, 255, 0.9)'; ctx.lineWidth = 2 * k + 0.6;
+        ctx.beginPath(); ctx.moveTo(cx + Math.cos(phi) * r0, cy + Math.sin(phi) * r0); ctx.lineTo(cx + Math.cos(phi) * R, cy + Math.sin(phi) * R); ctx.stroke();
+      }
       /* 점: 빛이 지나간 직후 가장 밝고 서서히 가라앉는다 */
       for (var j = 0; j < dots.length; j++) {
         var e = dots[j];
@@ -338,7 +361,7 @@
       if (!dots.length) load();
       if (cv.clientWidth !== S) fit();
       var phi, reveal = null;
-      if (!dots.length) phi = -Math.PI / 2 + ((ts % PERIOD) / PERIOD) * TAU;   /* 자료를 받는 동안은 빈 레이더만 돈다 */
+      if (!dots.length) phi = null;   /* 자료를 받는 동안은 고리만 (보통 0.1~0.3초) */
       else {
         var t = ts - tData;
         /* 첫 바퀴: 빠르게 돌며 포착하다가 끝에서 보통 속도(7.5초에 한 바퀴)로 이어진다 */

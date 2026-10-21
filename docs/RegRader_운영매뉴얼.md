@@ -489,6 +489,7 @@ git fetch -q origin && git merge-base --is-ancestor origin/main HEAD && git push
 | `scripts/ordinances.py` · `ordin_scope.json` | 자치법규 개정 · 대상 35개 |
 | `scripts/amend_details.py` | 개정문 분석 (제재 · 의무) |
 | `scripts/amend_actions.py` | 실무 판단 |
+| `scripts/radar_data.py` | 처음 화면 레이더 점 → `docs/radar.json` (몇 KB, 매일 갱신 마지막에) |
 | `scripts/site_check.py` · `daily_watch.py` | 화면 점검 · 08:20 점검 |
 | `scripts/process_requests.sh` · `process_law_requests.py` | 적용법규 추가 요청 처리 |
 | `scripts/pro_publish.sh` | 기업별 검색 자료 |
@@ -512,6 +513,7 @@ git fetch -q origin && git merge-base --is-ancestor origin/main HEAD && git push
 | `company_facts.json` | 당사 사실 (상시 근로자 수) |
 | `upcoming_next.json` · `archive/` | 연말 다음 해 시행분 · 지난 연도 보관 |
 | `health.json` | 오늘 갱신 결과 |
+| `landing.js` · `radar.json` | 처음 화면 · 그 레이더 점 |
 | `gate.js` | 화면 잠금 (비밀번호 해시) |
 | `intro/` | 소개 영상 · 자막 · 설명자료 PDF |
 
