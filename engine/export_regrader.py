@@ -53,6 +53,7 @@ ASSET_NAMES = {"manifest.json"}
 STUBS = {
     "tracker.js": "/* RegRader Pro 회사별 사본: 대응 현황(Supabase 로그인) 기능은 끈다 */\n",
     "law-request.js": "/* RegRader Pro 회사별 사본: GitHub 법규 추가 요청은 끈다 (법령은 RegRader Pro 에서 더한다) */\n",
+    "landing.js": "/* RegRader Pro 회사별 사본: 처음 화면(포스코퓨처엠 RegRader 첫 화면)은 쓰지 않는다 — 바로 회사 대시보드 */\n",
 }
 JOBS8 = {"인사노무", "공정거래", "정보보호", "지식재산권", "재무회계", "안전", "환경", "지배구조"}
 LEVELS = ("법률", "시행령", "시행규칙")
