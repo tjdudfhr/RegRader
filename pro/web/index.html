@@ -63,6 +63,12 @@
   .quick button { border: 1px solid rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .08); color: #fff; border-radius: 999px; padding: 5px 12px;
     font: 600 12.5px var(--font); cursor: pointer; }
   .quick button:hover { background: rgba(255, 255, 255, .18); }
+  /* 바로 찾기: 그룹 고르기(포스코 · 삼성 · LG · SK · 그 외) → 그 그룹 회사들 */
+  .quick .qg { display: inline-flex; gap: 2px; padding: 2px; border-radius: 999px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .16); }
+  .quick .qg button { border: 0; background: transparent; color: #c7d4ff; padding: 4px 11px; font-weight: 700; }
+  .quick .qg button:hover { background: rgba(255, 255, 255, .12); color: #fff; }
+  .quick .qg button.on { background: #fff; color: var(--brand); }
+  .quick-c { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 9px; max-width: 760px; }
   #hero .cands { max-width: 720px; margin-top: 12px; }
   #hero .cands .cand { padding: 12px 14px; border-radius: 12px; box-shadow: 0 4px 14px rgba(0, 0, 0, .12); }
   #hero .cands .msg { color: #fff; }
@@ -522,7 +528,8 @@
       <input id="hq" placeholder="회사 이름을 입력하세요 (예: 에코프로비엠)" aria-label="회사 이름">
       <button type="submit">검색</button>
     </form>
-    <div class="quick" id="quick"><span>바로 찾기</span></div>
+    <div class="quick" id="quick"><span>바로 찾기</span><span class="qg" id="quick-g" role="tablist" aria-label="그룹"></span></div>
+    <div class="quick quick-c" id="quick-c"></div>
     <div id="hero-cands"></div>
   </div>
   <div class="hstats" id="hstats"></div>
@@ -769,7 +776,14 @@
   }
 
   /* ---------- 처음 화면 (가운데 큰 검색 창) ---------- */
-  const QUICK = ['에코프로비엠', '삼성전자', '카카오', '현대건설', '신한카드', '네이버'];
+  /* 바로 찾기: 그룹별 주요 회사 ('보일 이름|검색어' — 검색어가 같으면 이름만). 모두 검색 1위로 그 회사가 나오는 것을 확인했다 */
+  const QUICK = [
+    ['포스코', ['포스코홀딩스', '포스코', '포스코인터내셔널', '포스코퓨처엠', '포스코이앤씨', '포스코DX', '포스코엠텍', '포스코스틸리온', '포스코모빌리티솔루션', '포스코와이드', '포스코플로우']],
+    ['삼성', ['삼성전자', '삼성SDI', '삼성전기', '삼성SDS', '삼성디스플레이', '삼성바이오로직스', '삼성물산', '삼성중공업', '삼성E&A', '삼성생명', '삼성화재']],
+    ['LG', ['LG|LG(주)', 'LG전자', 'LG화학', 'LG에너지솔루션', 'LG디스플레이', 'LG이노텍', 'LG유플러스', 'LG생활건강', 'LG CNS']],
+    ['SK', ['SK|SK(주)', 'SK하이닉스', 'SK이노베이션', 'SK온', 'SK텔레콤', 'SK에너지', 'SK케미칼', 'SKC', 'SK에코플랜트', 'SK바이오팜', 'SK네트웍스']],
+    ['그 외', ['에코프로비엠', '현대건설', '카카오', '네이버', '신한카드']]
+  ];
   function landing(on) {
     document.body.classList.toggle('landing', on);
     const cands = $('#cands');
@@ -781,8 +795,14 @@
   function wireEarly() {
     $('#find').addEventListener('submit', (e) => { e.preventDefault(); find(); });
     $('#hfind').addEventListener('submit', (e) => { e.preventDefault(); $('#q').value = $('#hq').value; find(); });
-    $('#quick').insertAdjacentHTML('beforeend', QUICK.map((q) => `<button type="button" data-q="${esc(q)}">${esc(q)}</button>`).join(''));
-    $('#quick').addEventListener('click', (e) => {
+    const quickGroup = (i) => {
+      document.querySelectorAll('#quick-g button').forEach((b, j) => { b.classList.toggle('on', j === i); b.setAttribute('aria-selected', String(j === i)); });
+      $('#quick-c').innerHTML = QUICK[i][1].map((x) => { const [label, q] = x.split('|'); return `<button type="button" data-q="${esc(q || label)}">${esc(label)}</button>`; }).join('');
+    };
+    $('#quick-g').innerHTML = QUICK.map(([g], i) => `<button type="button" role="tab" data-g="${i}">${esc(g)}</button>`).join('');
+    quickGroup(0);
+    $('#quick-g').addEventListener('click', (e) => { const b = e.target.closest('button[data-g]'); if (b) quickGroup(Number(b.dataset.g)); });
+    $('#quick-c').addEventListener('click', (e) => {
       const b = e.target.closest('button[data-q]');
       if (b) { $('#hq').value = b.dataset.q; $('#q').value = b.dataset.q; find(); }
     });

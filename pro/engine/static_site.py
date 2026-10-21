@@ -160,12 +160,16 @@ def company_keys(min_members=30, log=print):
         for r in con.execute("SELECT * FROM listed WHERE nps_stem != ''"):
             lst.setdefault(r["nps_stem"], []).append(dict(r))
         todo = list(dict.fromkeys(stems + list(lst)))
+        c_stems = C.corp_stems(con)
         log(f"이름 줄기 {len(todo)}개 확인 (가입자 {min_members}명 이상 {len(stems)} + 상장 {len(lst)})")
         for i, st in enumerate(todo):
             nps = con.execute("SELECT * FROM nps WHERE stem = ?", (st,)).fetchall()
             fac = con.execute("SELECT * FROM factory WHERE stem = ?", (st,)).fetchall()
             groups = C._assemble(nps, fac)
             corps = [g for k, g in groups.items() if "|c" in k]
+            b = groups.get(st + "|b")   # 지점 번호(xx-85)로만 올라 있는 회사 ('삼성물산' · '삼성중공업')
+            if not corps and b and (st in lst or C.branch_only_company(st, c_stems)):   # 상장사로 연결된 줄기는 그대로 ('엔에이치엔케이씨피')
+                corps = [b]
             for g in corps:
                 if g["members"] >= min_members:
                     keys[g["key"]] = g["members"]

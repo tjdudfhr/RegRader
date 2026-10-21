@@ -810,8 +810,26 @@ def entity_listing(rows, key, is_best):
 
 
 def _best_corp(groups):
-    corps = [g for k, g in groups.items() if "|c" in k]
+    """줄기에서 가장 큰 법인. 본점 번호가 국민연금에 없고 지점 번호(xx-85)로만 올라 있는 회사('삼성물산|b')도 법인이다."""
+    corps = [g for k, g in groups.items() if "|c" in k or k.endswith("|b")]
     return max(corps, key=lambda g: g["members"])["key"] if corps else None
+
+
+# 지점 · 공장 하나가 따로 줄기가 된 것 ('성우하이텍소주공장', '케이씨씨글라스전의공장') — 회사로 따로 세우지 않는다
+WP_STEM_END = re.compile(r"(?:공장|사업장|지점|사업부|사업소|센터|센타|연구소|연구원|본부|지사|영업소|출장소|캠퍼스|현장)$")
+
+
+def corp_stems(con):
+    """본점(법인) 사업자번호가 있는 회사명 줄기들."""
+    return {r[0] for r in con.execute("SELECT DISTINCT stem FROM nps WHERE substr(bizno, 4, 2) >= '80' AND substr(bizno, 4, 2) <= '99' AND substr(bizno, 4, 2) != '85'")}
+
+
+def branch_only_company(st, c_stems):
+    """지점 번호로만 올라 있는 줄기가 회사 하나인지 ('삼성물산' · '삼성중공업' · '율촌화학'),
+    본사가 따로 있는 회사의 지점 · 공장인지 ('성우하이텍소주공장' · '삼양사판교' · '지에스리테일홈쇼핑')."""
+    if WP_STEM_END.search(st):
+        return False
+    return not any(st[:i] in c_stems for i in range(3, len(st)))
 
 
 def listing_for(c):
