@@ -132,16 +132,20 @@ def match(c):
     return None
 
 
-def latest_report(corp_code):
-    """최근 2년 안의 가장 최근 사업보고서 (정정본이면 정정본)."""
+def reports(corp_code):
+    """최근 2년 안의 사업보고서, 최근 것부터 (정정본이면 정정본).
+    '[첨부정정]' · '[첨부추가]' 는 감사보고서 같은 첨부만 바꾼 것이라 본문 파일이 없다 (OpenDART 014) — 뒤로 보낸다."""
     bgn = (date.today() - timedelta(days=730)).strftime("%Y%m%d")
     j = _fetch("list.json", {"corp_code": corp_code, "bgn_de": bgn, "pblntf_ty": "A", "page_count": "100"}, 7 * DAY)
     reps = [x for x in j.get("list", []) if "사업보고서" in x["report_nm"]]
-    if not reps:
-        return None
-    reps.sort(key=lambda x: x["rcept_no"], reverse=True)
-    r = reps[0]
-    return {"rcept_no": r["rcept_no"], "report": r["report_nm"].replace("[기재정정]", "").strip(), "date": r["rcept_dt"], "url": VIEW + r["rcept_no"]}
+    reps.sort(key=lambda x: (not re.match(r"\[첨부(정정|추가)\]", x["report_nm"]), x["rcept_no"]), reverse=True)
+    return [{"rcept_no": r["rcept_no"], "report": re.sub(r"\[(기재|첨부)(정정|추가)\]", "", r["report_nm"]).strip(), "date": r["rcept_dt"],
+             "url": VIEW + r["rcept_no"]} for r in reps]
+
+
+def latest_report(corp_code):
+    reps = reports(corp_code)
+    return reps[0] if reps else None
 
 
 MARKET = {"Y": "유가증권시장", "K": "코스닥시장", "N": "코넥스시장"}
@@ -338,13 +342,20 @@ def evidence(c):
         out = {"corp_code": code, "corp_name": info.get("corp_name"), "ksic": info.get("induty_code") or "",
                "corp_cls": info.get("corp_cls"), "report": None, "employees": None, "facts": {},
                "status": disclosure_status(code, info)}
-        rep = latest_report(code)
+        rep, secs = None, None
+        for cand in reports(code)[:3]:   # 본문 파일이 없으면 (014) 그다음 보고서
+            try:
+                secs = report_sections(cand["rcept_no"])
+                rep = cand
+                break
+            except RuntimeError as e:
+                if "014" not in str(e):
+                    raise
         if not rep:
             return out
         out["report"] = rep
         src = rep["url"]
         label = "사업보고서 " + re.sub(r"^사업보고서\s*", "", rep["report"])
-        secs = report_sections(rep["rcept_no"])
         facts = out["facts"]
 
         def put(fact, value, ev):
