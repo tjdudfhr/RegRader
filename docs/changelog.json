@@ -1,6 +1,58 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-10-24T22:00:57.907111+00:00",
+      "asOf": "2026-10-25",
+      "previousCheckedAt": "2026-10-23T22:00:57.012984+00:00",
+      "totalBefore": 692,
+      "totalAfter": 690,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2793,
+        "openapiFuture": 5500,
+        "openapiUpcoming": 239
+      },
+      "universeAfter": {
+        "openapiCurrent": 2793,
+        "openapiFuture": 5500,
+        "openapiUpcoming": 237
+      },
+      "added": [],
+      "removed": [
+        {
+          "title": "화학사고예방관리계획서 작성 등에 관한 규정",
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "일부개정",
+          "ministry": "화학물질안전원",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000285508"
+        },
+        {
+          "title": "항공위험물운송기술기준",
+          "effectiveDate": "2026-10-22",
+          "amendmentType": "전부개정",
+          "ministry": "국토교통부",
+          "category": "안전",
+          "kind": "고시",
+          "admRulSeq": "2100000287230"
+        }
+      ],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "ordinMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-10-23T22:00:57.012984+00:00",
       "asOf": "2026-10-24",
       "previousCheckedAt": "2026-10-22T22:22:35.086382+00:00",
@@ -9666,5 +9718,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-10-23T22:00:57.012984+00:00"
+  "updatedAt": "2026-10-24T22:00:57.907111+00:00"
 }
