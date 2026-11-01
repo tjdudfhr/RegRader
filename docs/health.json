@@ -1,9 +1,9 @@
 {
- "date": "2026-10-29",
- "time": "08:02",
- "ok": false,
- "stage": "법령 수집",
- "reason": "법제처(law.go.kr)가 응답하지 않아 3번 모두 실패했습니다: requests.exceptions.ConnectionError: HTTPSConnectionPool(host='www.law.go.kr', port=443): Max retries exceeded with url: /DRF/lawSearch.do?OC=knowhow1&target=la",
- "count": 692,
+ "date": "2026-11-02",
+ "time": "08:39",
+ "ok": true,
+ "stage": "완료",
+ "reason": "",
+ "count": 427,
  "pro": null
 }
