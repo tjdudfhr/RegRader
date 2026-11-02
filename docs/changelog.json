@@ -1,6 +1,82 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-11-02T22:16:36.390382+00:00",
+      "asOf": "2026-11-03",
+      "previousCheckedAt": "2026-11-01T23:39:11.410472+00:00",
+      "totalBefore": 427,
+      "totalAfter": 428,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2813,
+        "openapiFuture": 2813,
+        "openapiUpcoming": 0
+      },
+      "universeAfter": {
+        "openapiCurrent": 2827,
+        "openapiFuture": 2827,
+        "openapiUpcoming": 0
+      },
+      "added": [
+        {
+          "title": "통합공고",
+          "effectiveDate": "2026-10-30",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000287530"
+        },
+        {
+          "title": "소음·진동관리법 시행규칙",
+          "effectiveDate": "2026-11-03",
+          "amendmentType": "일부개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "291655"
+        },
+        {
+          "title": "소음·진동관리법 시행령",
+          "effectiveDate": "2026-11-03",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "291547"
+        }
+      ],
+      "removed": [
+        {
+          "title": "소음·진동관리법 시행령",
+          "effectiveDate": "2026-03-24",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "284785"
+        },
+        {
+          "title": "소음·진동관리법 시행규칙",
+          "effectiveDate": "2026-06-22",
+          "amendmentType": "타법개정",
+          "ministry": "기후에너지환경부",
+          "category": "환경",
+          "lsiSeq": "287427"
+        }
+      ],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "ordinMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-11-01T23:39:11.410472+00:00",
       "asOf": "2026-11-02",
       "previousCheckedAt": "2026-10-27T22:55:34.804673+00:00",
@@ -12199,5 +12275,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-01T23:39:11.410472+00:00"
+  "updatedAt": "2026-11-02T22:16:36.390382+00:00"
 }
