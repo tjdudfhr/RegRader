@@ -1,9 +1,9 @@
 {
- "date": "2026-11-07",
- "time": "07:06",
- "ok": true,
- "stage": "완료",
- "reason": "",
+ "date": "2026-11-08",
+ "time": "07:52",
+ "ok": false,
+ "stage": "법령 수집",
+ "reason": "법제처(law.go.kr)가 응답하지 않아 3번 모두 실패했습니다: requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='www.law.go.kr', port=443): Read timed out. (read timeout=25)",
  "count": 696,
  "pro": null
 }
