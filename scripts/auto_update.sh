@@ -1,7 +1,8 @@
 #!/bin/bash
 # RegRader 자동 갱신: law.go.kr 에서 최신 데이터를 받아 GitHub 에 올린다.
 # law.go.kr 는 해외 IP(GitHub Actions)를 막기 때문에 국내 IP 컴퓨터에서 실행해야 한다.
-# launchd(com.regrader.update)가 매일 07:00 실행  /  로그: ~/Library/Logs/RegRader-update.log
+# launchd(com.regrader.update)가 매일 06:00 · 07:00 · 19:00 · 22:00 실행 (오늘 이미 성공했으면 건너뜀 · 시각 변경: scripts/set_schedule.sh)
+# 로그: ~/Library/Logs/RegRader-update.log
 set -euo pipefail
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 
@@ -16,6 +17,22 @@ for _ in $(seq 1 60); do mkdir "$LOCK" 2>/dev/null && break; sleep 10; done
 trap 'rmdir "$LOCK" 2>/dev/null' EXIT
 
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') 갱신 시작 ==="
+
+# 하루 여러 번 실행된다(맥이 꺼져 있거나 인터넷이 끊긴 시각을 대비). 오늘 이미 끝까지 성공했으면 건너뛴다.
+# 실패한 날, Pro 자료만 실패한 날(pro=false), 인터넷이 없어 기록을 못 남긴 날은 다음 시각에 다시 한다.
+if /usr/bin/python3 - <<'PY'
+import json, sys, datetime
+try:
+    d = json.load(open('docs/health.json', encoding='utf-8'))
+except Exception:
+    sys.exit(1)
+done = d.get('date') == datetime.date.today().isoformat() and d.get('ok') is True and d.get('pro') is not False
+sys.exit(0 if done else 1)
+PY
+then
+  echo "오늘 이미 갱신 완료 — 건너뜀"
+  exit 0
+fi
 
 DATA=(docs/index.json docs/previous_index.json docs/meta.json docs/changelog.json docs/m?.json docs/upcoming_next.json docs/law_families.json docs/amend_flags.json docs/amend_details.json docs/amend_actions.json docs/oan docs/ordin_index.json docs/radar.json docs/admrul_candidates.json docs/admrul_events.json docs/admrul_index.json)
 HEALTH=docs/health.json
