@@ -7,6 +7,21 @@ export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO"
 
+# 이 작업이 마지막으로 돈 시각 (launchd 가 살아 있는지 확인용)
+date '+%Y-%m-%d %H:%M:%S' > .git/regrader-requests-last-run 2>/dev/null || true
+
+# 매일 갱신 추가 시도: launchd 07:00 외에 06 · 19 · 22시에도 한 번씩 부른다.
+# 그 시각에 맥이 잠들어 있었으면 깨어난 뒤 첫 실행 때 부른다. auto_update.sh 는 오늘 이미 성공했으면 스스로 건너뛴다.
+TODAY=$(date +%Y-%m-%d); HOUR=$((10#$(date +%H)))
+find /tmp -maxdepth 1 -name 'regrader-tried-*' -mtime +2 -delete 2>/dev/null || true
+for S in 6 19 22; do
+  MARK="/tmp/regrader-tried-$TODAY-$S"
+  if [ "$HOUR" -ge "$S" ] && [ ! -e "$MARK" ]; then
+    : > "$MARK"
+    scripts/auto_update.sh >> "$HOME/Library/Logs/RegRader-update.log" 2>&1 || true
+  fi
+done
+
 # 매일 갱신(auto_update.sh)과 동시에 돌지 않도록 같은 잠금을 쓴다
 LOCK=/tmp/regrader.lock
 find "$LOCK" -maxdepth 0 -mmin +60 -exec rmdir {} \; 2>/dev/null || true  # 비정상 종료로 남은 잠금 정리

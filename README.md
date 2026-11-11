@@ -29,7 +29,7 @@
 
 ## 매일 자동 갱신 (맥, 06:00 · 07:00 · 19:00 · 22:00)
 
-하루 네 번 시도하고, 그날 이미 성공했으면 건너뛴다 (실행 시각 변경: `scripts/set_schedule.sh`).
+하루 네 번 시도하고, 그날 이미 성공했으면 건너뛴다. 07:00 은 launchd `com.regrader.update`, 06 · 19 · 22시는 10분마다 도는 `scripts/process_requests.sh` 가 부른다 (시각은 그 파일의 `for S in 6 19 22`).
 
 launchd `com.regrader.update` → `scripts/auto_update.sh` (국가법령정보센터가 해외 IP를 막아 국내 맥에서 돈다)
 

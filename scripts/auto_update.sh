@@ -1,7 +1,8 @@
 #!/bin/bash
 # RegRader 자동 갱신: law.go.kr 에서 최신 데이터를 받아 GitHub 에 올린다.
 # law.go.kr 는 해외 IP(GitHub Actions)를 막기 때문에 국내 IP 컴퓨터에서 실행해야 한다.
-# launchd(com.regrader.update)가 매일 06:00 · 07:00 · 19:00 · 22:00 실행 (오늘 이미 성공했으면 건너뜀 · 시각 변경: scripts/set_schedule.sh)
+# 매일 06 · 07 · 19 · 22시에 실행 (오늘 이미 성공했으면 건너뜀)
+#   07:00 = launchd(com.regrader.update) / 06 · 19 · 22시 = process_requests.sh (launchd com.regrader.requests, 10분마다)가 부른다
 # 로그: ~/Library/Logs/RegRader-update.log
 set -euo pipefail
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
