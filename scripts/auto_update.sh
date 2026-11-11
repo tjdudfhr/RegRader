@@ -15,7 +15,11 @@ LOCK=/tmp/regrader.lock
 find "$LOCK" -maxdepth 0 -mmin +60 -exec rmdir {} \; 2>/dev/null || true  # 비정상 종료로 남은 잠금 정리
 for _ in $(seq 1 60); do mkdir "$LOCK" 2>/dev/null && break; sleep 10; done
 [ -d "$LOCK" ] || { echo "잠금을 얻지 못함"; exit 1; }
-trap 'rmdir "$LOCK" 2>/dev/null' EXIT
+# 60분 넘은 잠금은 '비정상 종료'로 보고 지우는데, Pro 자료 갱신은 2시간 넘게 걸리는 날이 있다 (2026-11-02: 9,311초).
+# 돌고 있는 동안에는 2분마다 잠금 시각을 새로 찍어 다른 작업이 끼어들지 않게 한다. 이 스크립트가 죽으면 스스로 멈춘다.
+( while kill -0 $$ 2>/dev/null; do touch "$LOCK" 2>/dev/null || exit 0; sleep 120; done ) &
+BEAT=$!
+trap 'kill "$BEAT" 2>/dev/null; rmdir "$LOCK" 2>/dev/null' EXIT
 
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') 갱신 시작 ==="
 
