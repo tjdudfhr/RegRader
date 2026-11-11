@@ -1,51 +1,51 @@
 {
   "year": 2026,
-  "totalCount": 442,
-  "generatedAt": "2026-11-10T22:00:54.928990+00:00",
+  "totalCount": 465,
+  "generatedAt": "2026-11-11T02:00:28.986734+00:00",
   "asOf": "2026-11-11",
   "stats": {
     "quarter": {
       "Q1": 175,
       "Q2": 99,
       "Q3": 109,
-      "Q4": 59
+      "Q4": 82
     },
     "categories": {
-      "인사노무": 48,
-      "재무회계": 99,
-      "환경": 144,
-      "안전": 81,
-      "공정거래": 23,
+      "인사노무": 55,
+      "재무회계": 102,
+      "환경": 147,
+      "안전": 87,
+      "공정거래": 25,
       "정보보호": 36,
       "지배구조": 9,
-      "지식재산권": 2
+      "지식재산권": 4
     },
     "amendmentType": {
-      "일부개정": 246,
-      "타법개정": 196
+      "일부개정": 266,
+      "타법개정": 199
     },
     "status": {
       "현행": 433,
-      "시행예정": 9
+      "시행예정": 32
     },
-    "distinctBaseHit": 176,
+    "distinctBaseHit": 182,
     "baseLaws": 254
   },
   "integrity": {
-    "checkedAt": "2026-11-10T22:00:54.929010+00:00",
+    "checkedAt": "2026-11-11T02:00:28.986760+00:00",
     "asOf": "2026-11-11",
     "rule": "unique key = title+effectiveDate+amendmentType; match = compact(name)",
-    "uniqueEvents": 442,
-    "uniqueTitles": 176,
-    "titlesWithMultipleEvents": 110,
-    "titlesWithBothInForceAndUpcoming": 8,
+    "uniqueEvents": 465,
+    "uniqueTitles": 182,
+    "titlesWithMultipleEvents": 111,
+    "titlesWithBothInForceAndUpcoming": 21,
     "duplicateKeys": 0,
     "statusConsistentWithDate": true
   },
   "universe": {
     "openapiCurrent": 2847,
-    "openapiFuture": 5500,
-    "openapiUpcoming": 48
+    "openapiFuture": 5737,
+    "openapiUpcoming": 284
   },
   "items": [
     {
@@ -1041,9 +1041,9 @@
       },
       "originalTitle": "원자력안전법",
       "eventIndex": 1,
-      "eventCount": 2,
+      "eventCount": 3,
       "sameTitlePastCount": 2,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-01",
@@ -1056,6 +1056,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_286119_law_196_2026-05-19_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-20",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286119_law_196_2026-11-20_일부개정"
         }
       ]
     },
@@ -1833,9 +1839,9 @@
       },
       "originalTitle": "감염병의 예방 및 관리에 관한 법률",
       "eventIndex": 1,
-      "eventCount": 3,
+      "eventCount": 4,
       "sameTitlePastCount": 3,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -1854,6 +1860,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_285325_law_202_2026-10-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286759_law_202_2026-12-10_일부개정"
         }
       ]
     },
@@ -3233,9 +3245,9 @@
       },
       "originalTitle": "대ㆍ중소기업 상생협력 촉진에 관한 법률",
       "eventIndex": 1,
-      "eventCount": 5,
+      "eventCount": 6,
       "sameTitlePastCount": 5,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -3266,6 +3278,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_290193_law_048_2026-09-29_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-03",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_280153_law_048_2026-12-03_일부개정"
         }
       ]
     },
@@ -4295,9 +4313,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
       "eventIndex": 1,
-      "eventCount": 11,
+      "eventCount": 12,
       "sameTitlePastCount": 11,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -4364,6 +4382,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
         }
       ]
     },
@@ -6331,9 +6355,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률",
       "eventIndex": 1,
-      "eventCount": 6,
+      "eventCount": 8,
       "sameTitlePastCount": 6,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-02-03",
@@ -6370,6 +6394,18 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_288615_law_099_2026-10-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285957_law_099_2026-11-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-09",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_289411_law_099_2026-12-09_일부개정"
         }
       ]
     },
@@ -7553,9 +7589,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률",
       "eventIndex": 2,
-      "eventCount": 6,
+      "eventCount": 8,
       "sameTitlePastCount": 6,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-02-03",
@@ -7592,6 +7628,18 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_288615_law_099_2026-10-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285957_law_099_2026-11-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-09",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_289411_law_099_2026-12-09_일부개정"
         }
       ]
     },
@@ -7960,9 +8008,9 @@
       },
       "originalTitle": "고용보험법",
       "eventIndex": 1,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-03-17",
@@ -7987,6 +8035,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_284449_law_030_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286253_law_030_2026-11-27_일부개정"
         }
       ]
     },
@@ -8096,9 +8150,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률",
       "eventIndex": 3,
-      "eventCount": 6,
+      "eventCount": 8,
       "sameTitlePastCount": 6,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-02-03",
@@ -8135,6 +8189,18 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_288615_law_099_2026-10-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285957_law_099_2026-11-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-09",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_289411_law_099_2026-12-09_일부개정"
         }
       ]
     },
@@ -8173,9 +8239,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
       "eventIndex": 2,
-      "eventCount": 11,
+      "eventCount": 12,
       "sameTitlePastCount": 11,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -8242,6 +8308,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
         }
       ]
     },
@@ -8280,9 +8352,9 @@
       },
       "originalTitle": "환경기술 및 환경산업 지원법",
       "eventIndex": 1,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-03-19",
@@ -8307,6 +8379,12 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_276823_law_147_2026-09-26_타법개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286769_law_147_2026-12-10_일부개정"
         }
       ]
     },
@@ -8345,9 +8423,9 @@
       },
       "originalTitle": "환경기술 및 환경산업 지원법",
       "eventIndex": 2,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-03-19",
@@ -8372,6 +8450,12 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_276823_law_147_2026-09-26_타법개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286769_law_147_2026-12-10_일부개정"
         }
       ]
     },
@@ -9124,9 +9208,9 @@
       },
       "originalTitle": "대기환경보전법 시행령",
       "eventIndex": 1,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 3,
-      "sameTitleUpcomingCount": 1,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-03-24",
@@ -9151,6 +9235,12 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_291815_law_103_2026-11-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291815_law_103_2026-12-10_일부개정"
         }
       ]
     },
@@ -9761,9 +9851,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
       "eventIndex": 3,
-      "eventCount": 11,
+      "eventCount": 12,
       "sameTitlePastCount": 11,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -9830,6 +9920,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
         }
       ]
     },
@@ -10263,9 +10359,9 @@
       },
       "originalTitle": "대기환경보전법",
       "eventIndex": 1,
-      "eventCount": 5,
+      "eventCount": 6,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 1,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-03-26",
@@ -10296,6 +10392,12 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_279785_law_102_2026-11-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286741_law_102_2026-12-10_일부개정"
         }
       ]
     },
@@ -10334,9 +10436,9 @@
       },
       "originalTitle": "대기환경보전법",
       "eventIndex": 2,
-      "eventCount": 5,
+      "eventCount": 6,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 1,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-03-26",
@@ -10367,6 +10469,12 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_279785_law_102_2026-11-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286741_law_102_2026-12-10_일부개정"
         }
       ]
     },
@@ -12204,9 +12312,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
       "eventIndex": 4,
-      "eventCount": 11,
+      "eventCount": 12,
       "sameTitlePastCount": 11,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -12273,6 +12381,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
         }
       ]
     },
@@ -13062,9 +13176,9 @@
       },
       "originalTitle": "고용보험법",
       "eventIndex": 2,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-03-17",
@@ -13089,6 +13203,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_284449_law_030_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286253_law_030_2026-11-27_일부개정"
         }
       ]
     },
@@ -14101,9 +14221,9 @@
       },
       "originalTitle": "원자력안전법",
       "eventIndex": 2,
-      "eventCount": 2,
+      "eventCount": 3,
       "sameTitlePastCount": 2,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-01",
@@ -14116,6 +14236,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_286119_law_196_2026-05-19_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-20",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286119_law_196_2026-11-20_일부개정"
         }
       ]
     },
@@ -14260,9 +14386,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
       "eventIndex": 5,
-      "eventCount": 11,
+      "eventCount": 12,
       "sameTitlePastCount": 11,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -14329,6 +14455,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
         }
       ]
     },
@@ -14915,9 +15047,9 @@
       },
       "originalTitle": "산업안전보건법",
       "eventIndex": 1,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-06-01",
@@ -14942,6 +15074,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291447_law_167_2026-10-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_285379_law_167_2026-12-08_타법개정"
         }
       ]
     },
@@ -15365,9 +15503,9 @@
       },
       "originalTitle": "대ㆍ중소기업 상생협력 촉진에 관한 법률",
       "eventIndex": 2,
-      "eventCount": 5,
+      "eventCount": 6,
       "sameTitlePastCount": 5,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -15398,6 +15536,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_290193_law_048_2026-09-29_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-03",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_280153_law_048_2026-12-03_일부개정"
         }
       ]
     },
@@ -15436,9 +15580,9 @@
       },
       "originalTitle": "대ㆍ중소기업 상생협력 촉진에 관한 법률",
       "eventIndex": 3,
-      "eventCount": 5,
+      "eventCount": 6,
       "sameTitlePastCount": 5,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -15469,6 +15613,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_290193_law_048_2026-09-29_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-03",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_280153_law_048_2026-12-03_일부개정"
         }
       ]
     },
@@ -15507,9 +15657,9 @@
       },
       "originalTitle": "대ㆍ중소기업 상생협력 촉진에 관한 법률 시행령",
       "eventIndex": 1,
-      "eventCount": 2,
+      "eventCount": 3,
       "sameTitlePastCount": 2,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-06-03",
@@ -15522,6 +15672,12 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_287277_law_049_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-12-03",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286633_law_049_2026-12-03_일부개정"
         }
       ]
     },
@@ -15902,9 +16058,9 @@
       },
       "originalTitle": "환경기술 및 환경산업 지원법",
       "eventIndex": 3,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-03-19",
@@ -15929,6 +16085,12 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_276823_law_147_2026-09-26_타법개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286769_law_147_2026-12-10_일부개정"
         }
       ]
     },
@@ -16715,9 +16877,9 @@
       },
       "originalTitle": "감염병의 예방 및 관리에 관한 법률",
       "eventIndex": 2,
-      "eventCount": 3,
+      "eventCount": 4,
       "sameTitlePastCount": 3,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -16736,6 +16898,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_285325_law_202_2026-10-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286759_law_202_2026-12-10_일부개정"
         }
       ]
     },
@@ -17282,9 +17450,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
       "eventIndex": 6,
-      "eventCount": 11,
+      "eventCount": 12,
       "sameTitlePastCount": 11,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -17351,6 +17519,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
         }
       ]
     },
@@ -17762,9 +17936,9 @@
       },
       "originalTitle": "대ㆍ중소기업 상생협력 촉진에 관한 법률",
       "eventIndex": 4,
-      "eventCount": 5,
+      "eventCount": 6,
       "sameTitlePastCount": 5,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -17795,6 +17969,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_290193_law_048_2026-09-29_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-03",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_280153_law_048_2026-12-03_일부개정"
         }
       ]
     },
@@ -17833,9 +18013,9 @@
       },
       "originalTitle": "대ㆍ중소기업 상생협력 촉진에 관한 법률 시행령",
       "eventIndex": 2,
-      "eventCount": 2,
+      "eventCount": 3,
       "sameTitlePastCount": 2,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-06-03",
@@ -17848,6 +18028,12 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_287277_law_049_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-12-03",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286633_law_049_2026-12-03_일부개정"
         }
       ]
     },
@@ -17886,9 +18072,9 @@
       },
       "originalTitle": "대기환경보전법 시행령",
       "eventIndex": 2,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 3,
-      "sameTitleUpcomingCount": 1,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-03-24",
@@ -17913,6 +18099,12 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_291815_law_103_2026-11-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291815_law_103_2026-12-10_일부개정"
         }
       ]
     },
@@ -19368,9 +19560,9 @@
       },
       "originalTitle": "대기환경보전법",
       "eventIndex": 3,
-      "eventCount": 5,
+      "eventCount": 6,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 1,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-03-26",
@@ -19401,6 +19593,12 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_279785_law_102_2026-11-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286741_law_102_2026-12-10_일부개정"
         }
       ]
     },
@@ -19439,9 +19637,9 @@
       },
       "originalTitle": "산업안전보건법",
       "eventIndex": 2,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-06-01",
@@ -19466,6 +19664,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291447_law_167_2026-10-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_285379_law_167_2026-12-08_타법개정"
         }
       ]
     },
@@ -20148,9 +20352,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
       "eventIndex": 7,
-      "eventCount": 11,
+      "eventCount": 12,
       "sameTitlePastCount": 11,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -20217,6 +20421,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
         }
       ]
     },
@@ -20397,9 +20607,9 @@
       },
       "originalTitle": "산업안전보건법",
       "eventIndex": 3,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-06-01",
@@ -20424,6 +20634,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291447_law_167_2026-10-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_285379_law_167_2026-12-08_타법개정"
         }
       ]
     },
@@ -20592,9 +20808,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률",
       "eventIndex": 4,
-      "eventCount": 6,
+      "eventCount": 8,
       "sameTitlePastCount": 6,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-02-03",
@@ -20631,6 +20847,18 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_288615_law_099_2026-10-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285957_law_099_2026-11-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-09",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_289411_law_099_2026-12-09_일부개정"
         }
       ]
     },
@@ -20669,9 +20897,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
       "eventIndex": 8,
-      "eventCount": 11,
+      "eventCount": 12,
       "sameTitlePastCount": 11,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -20738,6 +20966,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
         }
       ]
     },
@@ -21148,9 +21382,9 @@
       },
       "originalTitle": "고용보험법",
       "eventIndex": 3,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-03-17",
@@ -21175,6 +21409,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_284449_law_030_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286253_law_030_2026-11-27_일부개정"
         }
       ]
     },
@@ -21284,9 +21524,9 @@
       },
       "originalTitle": "근로기준법",
       "eventIndex": 1,
-      "eventCount": 3,
+      "eventCount": 5,
       "sameTitlePastCount": 3,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-08-20",
@@ -21305,6 +21545,18 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_285279_law_018_2026-10-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285279_law_018_2026-12-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286771_law_018_2026-12-10_일부개정"
         }
       ]
     },
@@ -21343,9 +21595,9 @@
       },
       "originalTitle": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률",
       "eventIndex": 1,
-      "eventCount": 2,
+      "eventCount": 3,
       "sameTitlePastCount": 2,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-08-20",
@@ -21358,6 +21610,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_284457_law_012_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286255_law_012_2026-11-27_일부개정"
         }
       ]
     },
@@ -21449,9 +21707,9 @@
       },
       "originalTitle": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률 시행령",
       "eventIndex": 1,
-      "eventCount": 2,
+      "eventCount": 3,
       "sameTitlePastCount": 2,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-08-20",
@@ -21464,6 +21722,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_288719_law_013_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291659_law_013_2026-11-27_일부개정"
         }
       ]
     },
@@ -22423,9 +22687,9 @@
       },
       "originalTitle": "고용보험법",
       "eventIndex": 4,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-03-17",
@@ -22450,6 +22714,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_284449_law_030_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286253_law_030_2026-11-27_일부개정"
         }
       ]
     },
@@ -22861,9 +23131,9 @@
       },
       "originalTitle": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률",
       "eventIndex": 2,
-      "eventCount": 2,
+      "eventCount": 3,
       "sameTitlePastCount": 2,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-08-20",
@@ -22876,6 +23146,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_284457_law_012_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286255_law_012_2026-11-27_일부개정"
         }
       ]
     },
@@ -22967,9 +23243,9 @@
       },
       "originalTitle": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률 시행령",
       "eventIndex": 2,
-      "eventCount": 2,
+      "eventCount": 3,
       "sameTitlePastCount": 2,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-08-20",
@@ -22982,6 +23258,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_288719_law_013_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291659_law_013_2026-11-27_일부개정"
         }
       ]
     },
@@ -23020,9 +23302,9 @@
       },
       "originalTitle": "대기환경보전법",
       "eventIndex": 4,
-      "eventCount": 5,
+      "eventCount": 6,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 1,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-03-26",
@@ -23053,6 +23335,12 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_279785_law_102_2026-11-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286741_law_102_2026-12-10_일부개정"
         }
       ]
     },
@@ -23269,9 +23557,9 @@
       },
       "originalTitle": "대기환경보전법 시행령",
       "eventIndex": 3,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 3,
-      "sameTitleUpcomingCount": 1,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-03-24",
@@ -23296,6 +23584,12 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_291815_law_103_2026-11-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291815_law_103_2026-12-10_일부개정"
         }
       ]
     },
@@ -24132,9 +24426,9 @@
       },
       "originalTitle": "환경기술 및 환경산업 지원법",
       "eventIndex": 4,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-03-19",
@@ -24159,6 +24453,12 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_276823_law_147_2026-09-26_타법개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286769_law_147_2026-12-10_일부개정"
         }
       ]
     },
@@ -24392,9 +24692,9 @@
       },
       "originalTitle": "대ㆍ중소기업 상생협력 촉진에 관한 법률",
       "eventIndex": 5,
-      "eventCount": 5,
+      "eventCount": 6,
       "sameTitlePastCount": 5,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -24425,6 +24725,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_290193_law_048_2026-09-29_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-03",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_280153_law_048_2026-12-03_일부개정"
         }
       ]
     },
@@ -24575,9 +24881,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률",
       "eventIndex": 5,
-      "eventCount": 6,
+      "eventCount": 8,
       "sameTitlePastCount": 6,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-02-03",
@@ -24614,6 +24920,18 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_288615_law_099_2026-10-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285957_law_099_2026-11-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-09",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_289411_law_099_2026-12-09_일부개정"
         }
       ]
     },
@@ -24652,9 +24970,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
       "eventIndex": 9,
-      "eventCount": 11,
+      "eventCount": 12,
       "sameTitlePastCount": 11,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -24721,6 +25039,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
         }
       ]
     },
@@ -25179,9 +25503,9 @@
       },
       "originalTitle": "근로기준법",
       "eventIndex": 2,
-      "eventCount": 3,
+      "eventCount": 5,
       "sameTitlePastCount": 3,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-08-20",
@@ -25200,6 +25524,18 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_285279_law_018_2026-10-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285279_law_018_2026-12-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286771_law_018_2026-12-10_일부개정"
         }
       ]
     },
@@ -25539,9 +25875,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률",
       "eventIndex": 6,
-      "eventCount": 6,
+      "eventCount": 8,
       "sameTitlePastCount": 6,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-02-03",
@@ -25578,6 +25914,18 @@
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_288615_law_099_2026-10-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285957_law_099_2026-11-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-09",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_289411_law_099_2026-12-09_일부개정"
         }
       ]
     },
@@ -25616,9 +25964,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
       "eventIndex": 10,
-      "eventCount": 11,
+      "eventCount": 12,
       "sameTitlePastCount": 11,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -25685,6 +26033,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
         }
       ]
     },
@@ -26231,9 +26585,9 @@
       },
       "originalTitle": "감염병의 예방 및 관리에 관한 법률",
       "eventIndex": 3,
-      "eventCount": 3,
+      "eventCount": 4,
       "sameTitlePastCount": 3,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -26252,6 +26606,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_285325_law_202_2026-10-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286759_law_202_2026-12-10_일부개정"
         }
       ]
     },
@@ -26290,9 +26650,9 @@
       },
       "originalTitle": "근로기준법",
       "eventIndex": 3,
-      "eventCount": 3,
+      "eventCount": 5,
       "sameTitlePastCount": 3,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-08-20",
@@ -26311,6 +26671,18 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_285279_law_018_2026-10-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285279_law_018_2026-12-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286771_law_018_2026-12-10_일부개정"
         }
       ]
     },
@@ -26521,15 +26893,21 @@
       },
       "originalTitle": "식품위생법",
       "eventIndex": 1,
-      "eventCount": 1,
+      "eventCount": 2,
       "sameTitlePastCount": 1,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-10-08",
           "amendmentType": "타법개정",
           "status": "현행",
           "id": "matched_2026_285339_law_205_2026-10-08_타법개정"
+        },
+        {
+          "effectiveDate": "2026-12-31",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_282007_law_205_2026-12-31_일부개정"
         }
       ]
     },
@@ -26780,9 +27158,9 @@
       },
       "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
       "eventIndex": 11,
-      "eventCount": 11,
+      "eventCount": 12,
       "sameTitlePastCount": 11,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-01-02",
@@ -26849,6 +27227,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
         }
       ]
     },
@@ -27223,9 +27607,9 @@
       },
       "originalTitle": "산업안전보건법",
       "eventIndex": 4,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 0,
+      "sameTitleUpcomingCount": 1,
       "timeline": [
         {
           "effectiveDate": "2026-06-01",
@@ -27250,6 +27634,12 @@
           "amendmentType": "일부개정",
           "status": "현행",
           "id": "matched_2026_291447_law_167_2026-10-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_285379_law_167_2026-12-08_타법개정"
         }
       ]
     },
@@ -28074,9 +28464,9 @@
       },
       "originalTitle": "대기환경보전법",
       "eventIndex": 5,
-      "eventCount": 5,
+      "eventCount": 6,
       "sameTitlePastCount": 4,
-      "sameTitleUpcomingCount": 1,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-03-26",
@@ -28107,6 +28497,12 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_279785_law_102_2026-11-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286741_law_102_2026-12-10_일부개정"
         }
       ]
     },
@@ -28145,9 +28541,9 @@
       },
       "originalTitle": "대기환경보전법 시행령",
       "eventIndex": 4,
-      "eventCount": 4,
+      "eventCount": 5,
       "sameTitlePastCount": 3,
-      "sameTitleUpcomingCount": 1,
+      "sameTitleUpcomingCount": 2,
       "timeline": [
         {
           "effectiveDate": "2026-03-24",
@@ -28172,6 +28568,12 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_291815_law_103_2026-11-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291815_law_103_2026-12-10_일부개정"
         }
       ]
     },
@@ -28312,6 +28714,208 @@
       ]
     },
     {
+      "id": "matched_2026_285957_law_099_2026-11-13_일부개정",
+      "title": "자본시장과 금융투자업에 관한 법률",
+      "summary": "자본시장과 금융투자업에 관한 법률의 2026년 일부개정사항",
+      "effectiveDate": "2026-11-13",
+      "announcedDate": "2026-05-12",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 2,
+      "ministry": "금융위원회",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-11-13",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010513",
+        "lsiSeq": "285957",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_099"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285957"
+      },
+      "originalTitle": "자본시장과 금융투자업에 관한 법률",
+      "eventIndex": 7,
+      "eventCount": 8,
+      "sameTitlePastCount": 6,
+      "sameTitleUpcomingCount": 2,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-03",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283193_law_099_2026-02-03_일부개정"
+        },
+        {
+          "effectiveDate": "2026-03-06",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284145_law_099_2026-03-06_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-17",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_273695_law_099_2026-03-17_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-04",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283193_law_099_2026-08-04_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_285183_law_099_2026-10-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288615_law_099_2026-10-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285957_law_099_2026-11-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-09",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_289411_law_099_2026-12-09_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_291669_law_100_2026-11-13_일부개정",
+      "title": "자본시장과 금융투자업에 관한 법률 시행령",
+      "summary": "자본시장과 금융투자업에 관한 법률 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-11-13",
+      "announcedDate": "2026-11-10",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 2,
+      "ministry": "금융위원회",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-11-13",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010817",
+        "lsiSeq": "291669",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_100"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=291669"
+      },
+      "originalTitle": "자본시장과 금융투자업에 관한 법률 시행령",
+      "eventIndex": 12,
+      "eventCount": 12,
+      "sameTitlePastCount": 11,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_281857_law_100_2026-01-02_일부개정"
+        },
+        {
+          "effectiveDate": "2026-03-17",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283995_law_100_2026-03-17_일부개정"
+        },
+        {
+          "effectiveDate": "2026-03-24",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284829_law_100_2026-03-24_타법개정"
+        },
+        {
+          "effectiveDate": "2026-04-28",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285717_law_100_2026-04-28_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-26",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_286315_law_100_2026-05-26_일부개정"
+        },
+        {
+          "effectiveDate": "2026-06-30",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_287509_law_100_2026-06-30_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-28",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288399_law_100_2026-07-28_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-04",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288399_law_100_2026-08-04_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_290293_law_100_2026-10-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_290473_law_100_2026-10-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-13",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_291081_law_100_2026-10-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291669_law_100_2026-11-13_일부개정"
+        }
+      ]
+    },
+    {
       "id": "matched_2026_285945_law_114_2026-11-13_일부개정",
       "title": "해양폐기물 및 해양오염퇴적물 관리법",
       "summary": "해양폐기물 및 해양오염퇴적물 관리법의 2026년 일부개정사항",
@@ -28355,6 +28959,1311 @@
           "amendmentType": "일부개정",
           "status": "시행예정",
           "id": "matched_2026_285945_law_114_2026-11-13_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_286119_law_196_2026-11-20_일부개정",
+      "title": "원자력안전법",
+      "summary": "원자력안전법의 2026년 일부개정사항",
+      "effectiveDate": "2026-11-20",
+      "announcedDate": "2026-05-19",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 9,
+      "ministry": "원자력안전위원회",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-11-20",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "011435",
+        "lsiSeq": "286119",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_196"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286119"
+      },
+      "originalTitle": "원자력안전법",
+      "eventIndex": 3,
+      "eventCount": 3,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_268625_law_196_2026-01-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-19",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_286119_law_196_2026-05-19_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-20",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286119_law_196_2026-11-20_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_286253_law_030_2026-11-27_일부개정",
+      "title": "고용보험법",
+      "summary": "고용보험법의 2026년 일부개정사항",
+      "effectiveDate": "2026-11-27",
+      "announcedDate": "2026-05-26",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 16,
+      "ministry": "고용노동부",
+      "categories": [
+        "인사노무"
+      ],
+      "amendments": [
+        {
+          "date": "2026-11-27",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001761",
+        "lsiSeq": "286253",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_030"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286253"
+      },
+      "originalTitle": "고용보험법",
+      "eventIndex": 5,
+      "eventCount": 5,
+      "sameTitlePastCount": 4,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-03-17",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284449_law_030_2026-03-17_일부개정"
+        },
+        {
+          "effectiveDate": "2026-05-12",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_279807_law_030_2026-05-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283373_law_030_2026-08-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284449_law_030_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286253_law_030_2026-11-27_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_286255_law_012_2026-11-27_일부개정",
+      "title": "남녀고용평등과 일·가정 양립 지원에 관한 법률",
+      "summary": "남녀고용평등과 일·가정 양립 지원에 관한 법률의 2026년 일부개정사항",
+      "effectiveDate": "2026-11-27",
+      "announcedDate": "2026-05-26",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 16,
+      "ministry": "고용노동부,성평등가족부",
+      "categories": [
+        "인사노무"
+      ],
+      "amendments": [
+        {
+          "date": "2026-11-27",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "000130",
+        "lsiSeq": "286255",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_012"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286255"
+      },
+      "originalTitle": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률",
+      "eventIndex": 3,
+      "eventCount": 3,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-08-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283455_law_012_2026-08-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284457_law_012_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286255_law_012_2026-11-27_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_291659_law_013_2026-11-27_일부개정",
+      "title": "남녀고용평등과 일·가정 양립 지원에 관한 법률 시행령",
+      "summary": "남녀고용평등과 일·가정 양립 지원에 관한 법률 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-11-27",
+      "announcedDate": "2026-11-10",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 16,
+      "ministry": "고용노동부,성평등가족부",
+      "categories": [
+        "인사노무"
+      ],
+      "amendments": [
+        {
+          "date": "2026-11-27",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "003140",
+        "lsiSeq": "291659",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_013"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=291659"
+      },
+      "originalTitle": "남녀고용평등과 일ㆍ가정 양립 지원에 관한 법률 시행령",
+      "eventIndex": 3,
+      "eventCount": 3,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-08-20",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288719_law_013_2026-08-20_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_288719_law_013_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291659_law_013_2026-11-27_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_286287_law_193_2026-11-27_일부개정",
+      "title": "도시가스사업법",
+      "summary": "도시가스사업법의 2026년 일부개정사항",
+      "effectiveDate": "2026-11-27",
+      "announcedDate": "2026-05-26",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 16,
+      "ministry": "산업통상부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-11-27",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001851",
+        "lsiSeq": "286287",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_193"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286287"
+      },
+      "originalTitle": "도시가스사업법",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 0,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286287_law_193_2026-11-27_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_280153_law_048_2026-12-03_일부개정",
+      "title": "대·중소기업 상생협력 촉진에 관한 법률",
+      "summary": "대·중소기업 상생협력 촉진에 관한 법률의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-03",
+      "announcedDate": "2025-12-02",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 22,
+      "ministry": "중소벤처기업부",
+      "categories": [
+        "공정거래"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-03",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010165",
+        "lsiSeq": "280153",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_048"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280153"
+      },
+      "originalTitle": "대ㆍ중소기업 상생협력 촉진에 관한 법률",
+      "eventIndex": 6,
+      "eventCount": 6,
+      "sameTitlePastCount": 5,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_277113_law_048_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-03",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280153_law_048_2026-06-03_일부개정"
+        },
+        {
+          "effectiveDate": "2026-06-03",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_280163_law_048_2026-06-03_타법개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284057_law_048_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-29",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_290193_law_048_2026-09-29_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-03",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_280153_law_048_2026-12-03_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_286633_law_049_2026-12-03_일부개정",
+      "title": "대·중소기업 상생협력 촉진에 관한 법률 시행령",
+      "summary": "대·중소기업 상생협력 촉진에 관한 법률 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-03",
+      "announcedDate": "2026-06-02",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 22,
+      "ministry": "중소벤처기업부",
+      "categories": [
+        "공정거래"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-03",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010213",
+        "lsiSeq": "286633",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_049"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286633"
+      },
+      "originalTitle": "대ㆍ중소기업 상생협력 촉진에 관한 법률 시행령",
+      "eventIndex": 3,
+      "eventCount": 3,
+      "sameTitlePastCount": 2,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-06-03",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_286633_law_049_2026-06-03_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287277_law_049_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-12-03",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286633_law_049_2026-12-03_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285279_law_018_2026-12-08_일부개정",
+      "title": "근로기준법",
+      "summary": "근로기준법의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-08",
+      "announcedDate": "2026-04-07",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 27,
+      "ministry": "고용노동부",
+      "categories": [
+        "인사노무"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-08",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001872",
+        "lsiSeq": "285279",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_018"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285279"
+      },
+      "originalTitle": "근로기준법",
+      "eventIndex": 4,
+      "eventCount": 5,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 2,
+      "timeline": [
+        {
+          "effectiveDate": "2026-08-20",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283457_law_018_2026-08-20_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_290781_law_018_2026-10-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285279_law_018_2026-10-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285279_law_018_2026-12-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286771_law_018_2026-12-10_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285375_law_015_2026-12-08_타법개정",
+      "title": "기간제 및 단시간근로자 보호 등에 관한 법률",
+      "summary": "기간제 및 단시간근로자 보호 등에 관한 법률의 2026년 타법개정사항",
+      "effectiveDate": "2026-12-08",
+      "announcedDate": "2026-04-07",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 27,
+      "ministry": "고용노동부",
+      "categories": [
+        "인사노무"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-08",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010356",
+        "lsiSeq": "285375",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_015"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285375"
+      },
+      "originalTitle": "기간제 및 단시간근로자 보호 등에 관한 법률",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 0,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_285375_law_015_2026-12-08_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285379_law_167_2026-12-08_타법개정",
+      "title": "산업안전보건법",
+      "summary": "산업안전보건법의 2026년 타법개정사항",
+      "effectiveDate": "2026-12-08",
+      "announcedDate": "2026-04-07",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 27,
+      "ministry": "고용노동부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-08",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001766",
+        "lsiSeq": "285379",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_167"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285379"
+      },
+      "originalTitle": "산업안전보건법",
+      "eventIndex": 5,
+      "eventCount": 5,
+      "sameTitlePastCount": 4,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-06-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283449_law_167_2026-06-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-07-07",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_287805_law_167_2026-07-07_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-01",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283449_law_167_2026-08-01_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-27",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_291447_law_167_2026-10-27_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_285379_law_167_2026-12-08_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_285389_law_021_2026-12-08_타법개정",
+      "title": "최저임금법",
+      "summary": "최저임금법의 2026년 타법개정사항",
+      "effectiveDate": "2026-12-08",
+      "announcedDate": "2026-04-07",
+      "lawType": "법률",
+      "amendmentType": "타법개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 27,
+      "ministry": "고용노동부",
+      "categories": [
+        "인사노무"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-08",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "타법개정"
+        }
+      ],
+      "meta": {
+        "lsId": "000129",
+        "lsiSeq": "285389",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_021"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=285389"
+      },
+      "originalTitle": "최저임금법",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 0,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "타법개정",
+          "status": "시행예정",
+          "id": "matched_2026_285389_law_021_2026-12-08_타법개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_289411_law_099_2026-12-09_일부개정",
+      "title": "자본시장과 금융투자업에 관한 법률",
+      "summary": "자본시장과 금융투자업에 관한 법률의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-09",
+      "announcedDate": "2026-09-08",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 28,
+      "ministry": "금융위원회",
+      "categories": [
+        "재무회계"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-09",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "010513",
+        "lsiSeq": "289411",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_099"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=289411"
+      },
+      "originalTitle": "자본시장과 금융투자업에 관한 법률",
+      "eventIndex": 8,
+      "eventCount": 8,
+      "sameTitlePastCount": 6,
+      "sameTitleUpcomingCount": 2,
+      "timeline": [
+        {
+          "effectiveDate": "2026-02-03",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283193_law_099_2026-02-03_일부개정"
+        },
+        {
+          "effectiveDate": "2026-03-06",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284145_law_099_2026-03-06_타법개정"
+        },
+        {
+          "effectiveDate": "2026-03-17",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_273695_law_099_2026-03-17_일부개정"
+        },
+        {
+          "effectiveDate": "2026-08-04",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_283193_law_099_2026-08-04_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_285183_law_099_2026-10-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288615_law_099_2026-10-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285957_law_099_2026-11-13_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-09",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_289411_law_099_2026-12-09_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_286759_law_202_2026-12-10_일부개정",
+      "title": "감염병의 예방 및 관리에 관한 법률",
+      "summary": "감염병의 예방 및 관리에 관한 법률의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-10",
+      "announcedDate": "2026-06-09",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 29,
+      "ministry": "보건복지부,질병관리청",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-10",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001792",
+        "lsiSeq": "286759",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_202"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286759"
+      },
+      "originalTitle": "감염병의 예방 및 관리에 관한 법률",
+      "eventIndex": 4,
+      "eventCount": 4,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-01-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_277211_law_202_2026-01-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-24",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_280445_law_202_2026-06-24_일부개정"
+        },
+        {
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285325_law_202_2026-10-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286759_law_202_2026-12-10_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_286771_law_018_2026-12-10_일부개정",
+      "title": "근로기준법",
+      "summary": "근로기준법의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-10",
+      "announcedDate": "2026-06-09",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 29,
+      "ministry": "고용노동부",
+      "categories": [
+        "인사노무"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-10",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001872",
+        "lsiSeq": "286771",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_018"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286771"
+      },
+      "originalTitle": "근로기준법",
+      "eventIndex": 5,
+      "eventCount": 5,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 2,
+      "timeline": [
+        {
+          "effectiveDate": "2026-08-20",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_283457_law_018_2026-08-20_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-02",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_290781_law_018_2026-10-02_타법개정"
+        },
+        {
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_285279_law_018_2026-10-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-08",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_285279_law_018_2026-12-08_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286771_law_018_2026-12-10_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_286741_law_102_2026-12-10_일부개정",
+      "title": "대기환경보전법",
+      "summary": "대기환경보전법의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-10",
+      "announcedDate": "2026-06-09",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 29,
+      "ministry": "기후에너지환경부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-10",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001773",
+        "lsiSeq": "286741",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_102"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286741"
+      },
+      "originalTitle": "대기환경보전법",
+      "eventIndex": 6,
+      "eventCount": 6,
+      "sameTitlePastCount": 4,
+      "sameTitleUpcomingCount": 2,
+      "timeline": [
+        {
+          "effectiveDate": "2026-03-26",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_270221_law_102_2026-03-26_일부개정"
+        },
+        {
+          "effectiveDate": "2026-03-26",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276715_law_102_2026-03-26_타법개정"
+        },
+        {
+          "effectiveDate": "2026-07-07",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_287811_law_102_2026-07-07_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_284159_law_102_2026-09-18_일부개정"
+        },
+        {
+          "effectiveDate": "2026-11-12",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_279785_law_102_2026-11-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286741_law_102_2026-12-10_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_291815_law_103_2026-12-10_일부개정",
+      "title": "대기환경보전법 시행령",
+      "summary": "대기환경보전법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-10",
+      "announcedDate": "2026-11-10",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 29,
+      "ministry": "기후에너지환경부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-10",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "003302",
+        "lsiSeq": "291815",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_103"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=291815"
+      },
+      "originalTitle": "대기환경보전법 시행령",
+      "eventIndex": 5,
+      "eventCount": 5,
+      "sameTitlePastCount": 3,
+      "sameTitleUpcomingCount": 2,
+      "timeline": [
+        {
+          "effectiveDate": "2026-03-24",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_284715_law_103_2026-03-24_타법개정"
+        },
+        {
+          "effectiveDate": "2026-07-01",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_287111_law_103_2026-07-01_타법개정"
+        },
+        {
+          "effectiveDate": "2026-09-18",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_288869_law_103_2026-09-18_타법개정"
+        },
+        {
+          "effectiveDate": "2026-11-12",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291815_law_103_2026-11-12_일부개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291815_law_103_2026-12-10_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_286769_law_147_2026-12-10_일부개정",
+      "title": "환경기술 및 환경산업 지원법",
+      "summary": "환경기술 및 환경산업 지원법의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-10",
+      "announcedDate": "2026-06-09",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 29,
+      "ministry": "기후에너지환경부",
+      "categories": [
+        "환경"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-10",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001774",
+        "lsiSeq": "286769",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_147"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286769"
+      },
+      "originalTitle": "환경기술 및 환경산업 지원법",
+      "eventIndex": 5,
+      "eventCount": 5,
+      "sameTitlePastCount": 4,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-03-19",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_269977_law_147_2026-03-19_일부개정"
+        },
+        {
+          "effectiveDate": "2026-03-19",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276823_law_147_2026-03-19_타법개정"
+        },
+        {
+          "effectiveDate": "2026-06-09",
+          "amendmentType": "일부개정",
+          "status": "현행",
+          "id": "matched_2026_286769_law_147_2026-06-09_일부개정"
+        },
+        {
+          "effectiveDate": "2026-09-26",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_276823_law_147_2026-09-26_타법개정"
+        },
+        {
+          "effectiveDate": "2026-12-10",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_286769_law_147_2026-12-10_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_291167_law_058_2026-12-21_일부개정",
+      "title": "실용신안법 시행령",
+      "summary": "실용신안법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-21",
+      "announcedDate": "2026-10-13",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 40,
+      "ministry": "지식재산처",
+      "categories": [
+        "지식재산권"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-21",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "004119",
+        "lsiSeq": "291167",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_058"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=291167"
+      },
+      "originalTitle": "실용신안법 시행령",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 0,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-12-21",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291167_law_058_2026-12-21_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_291085_law_054_2026-12-21_일부개정",
+      "title": "특허법 시행령",
+      "summary": "특허법 시행령의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-21",
+      "announcedDate": "2026-10-13",
+      "lawType": "대통령령",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 40,
+      "ministry": "지식재산처",
+      "categories": [
+        "지식재산권"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-21",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "005343",
+        "lsiSeq": "291085",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_054"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=291085"
+      },
+      "originalTitle": "특허법 시행령",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 0,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-12-21",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_291085_law_054_2026-12-21_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_282007_law_205_2026-12-31_일부개정",
+      "title": "식품위생법",
+      "summary": "식품위생법의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-31",
+      "announcedDate": "2025-12-30",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 50,
+      "ministry": "식품의약품안전처",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-31",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001805",
+        "lsiSeq": "282007",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_205"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=282007"
+      },
+      "originalTitle": "식품위생법",
+      "eventIndex": 2,
+      "eventCount": 2,
+      "sameTitlePastCount": 1,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-10-08",
+          "amendmentType": "타법개정",
+          "status": "현행",
+          "id": "matched_2026_285339_law_205_2026-10-08_타법개정"
+        },
+        {
+          "effectiveDate": "2026-12-31",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_282007_law_205_2026-12-31_일부개정"
+        }
+      ]
+    },
+    {
+      "id": "matched_2026_281893_law_190_2026-12-31_일부개정",
+      "title": "액화석유가스의 안전관리 및 사업법",
+      "summary": "액화석유가스의 안전관리 및 사업법의 2026년 일부개정사항",
+      "effectiveDate": "2026-12-31",
+      "announcedDate": "2025-12-30",
+      "lawType": "법률",
+      "amendmentType": "일부개정",
+      "status": "시행예정",
+      "inForce": false,
+      "daysUntil": 50,
+      "ministry": "산업통상부",
+      "categories": [
+        "안전"
+      ],
+      "amendments": [
+        {
+          "date": "2026-12-31",
+          "reason": null,
+          "mainContents": null,
+          "amendmentType": "일부개정"
+        }
+      ],
+      "meta": {
+        "lsId": "001849",
+        "lsiSeq": "281893",
+        "matchType": "100%완전일치",
+        "companyLawId": "law_190"
+      },
+      "source": {
+        "name": "국가법령정보(OpenAPI)",
+        "url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=281893"
+      },
+      "originalTitle": "액화석유가스의 안전관리 및 사업법",
+      "eventIndex": 1,
+      "eventCount": 1,
+      "sameTitlePastCount": 0,
+      "sameTitleUpcomingCount": 1,
+      "timeline": [
+        {
+          "effectiveDate": "2026-12-31",
+          "amendmentType": "일부개정",
+          "status": "시행예정",
+          "id": "matched_2026_281893_law_190_2026-12-31_일부개정"
         }
       ]
     }
