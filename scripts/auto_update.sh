@@ -19,6 +19,7 @@ for _ in $(seq 1 60); do mkdir "$LOCK" 2>/dev/null && break; sleep 10; done
 # 돌고 있는 동안에는 2분마다 잠금 시각을 새로 찍어 다른 작업이 끼어들지 않게 한다. 이 스크립트가 죽으면 스스로 멈춘다.
 ( while kill -0 $$ 2>/dev/null; do touch "$LOCK" 2>/dev/null || exit 0; sleep 120; done ) &
 BEAT=$!
+disown "$BEAT" 2>/dev/null || true   # 끝낼 때 "Terminated" 줄이 기록에 남지 않게
 trap 'kill "$BEAT" 2>/dev/null; rmdir "$LOCK" 2>/dev/null' EXIT
 
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') 갱신 시작 ==="
