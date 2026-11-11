@@ -10,3 +10,15 @@ PRO="${PRO_DIR:-$HOME/regrader-pro}"
 export REGRADER_REPO="$REPO"
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') Pro 자료 갱신 ($PRO) ==="
 cd "$PRO" && /usr/bin/python3 -m engine.static_site daily
+RC=$?
+
+# Pro 원본(~/regrader-pro)에 커밋만 해 두고 GitHub 에 안 올린 수정이 있으면 올린다. 실패해도 위 갱신 결과는 그대로다.
+if [ -d "$PRO/.git" ] && [ "$(git -C "$PRO" rev-parse --abbrev-ref HEAD 2>/dev/null)" = "main" ] \
+   && [ -n "$(git -C "$PRO" log --oneline origin/main..main 2>/dev/null)" ]; then
+  if git -C "$PRO" push --quiet origin main; then
+    echo "regrader-pro: 커밋해 둔 수정을 GitHub 에 올림"
+  else
+    echo "regrader-pro: GitHub 올리기 실패 (다음 갱신 때 다시)"
+  fi
+fi
+exit $RC
