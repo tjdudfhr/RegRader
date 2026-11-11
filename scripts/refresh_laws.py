@@ -25,6 +25,7 @@ DOCS = ROOT / "docs"
 OC = os.environ.get("LAW_OC") or "knowhow1"
 OPENAPI = "https://www.law.go.kr/DRF/lawSearch.do"
 UA = "RegRader-refresh/1.1"
+FORCE = os.environ.get("RR_FORCE") == "1"   # 건수 급감 점검을 건너뛴다
 
 
 def normalize_name(name: str) -> str:
@@ -46,7 +47,7 @@ def ymd_to_iso(s):
 def fetch_target(target: str, start: str, end: str):
     items = []
     page, total = 1, None
-    while page <= 55:
+    while page <= 300:   # 2026-11-11: 55쪽(5,500건)에서 끊어 11월 중순 이후 시행분이 빠졌다. 끝까지 받고, 덜 받았으면 아래에서 멈춘다
         params = {
             "OC": OC, "target": target, "type": "JSON",
             "display": "100", "page": str(page),
@@ -69,6 +70,8 @@ def fetch_target(target: str, start: str, end: str):
             break
         page += 1
         time.sleep(0.08)
+    if total and len(items) < total:
+        raise RuntimeError(f"법제처 {target} 목록이 덜 받아짐 ({len(items)}/{total}건)")
     return items
 
 
@@ -323,6 +326,16 @@ def main():
     start, end = f"{year}0101", f"{year}1231"
     current = fetch_target("law", start, end)
     future = fetch_target("eflaw", start, end)
+    # 받아 온 자료가 이상하면 아무것도 덮어쓰기 전에 멈춘다 (auto_update.sh 가 어제 자료를 그대로 두고 실패로 기록 · 다음 시각에 다시 시도).
+    # 2026-11-02~03: 법제처 eflaw(연혁 포함)가 law(현행)와 똑같은 2,813건만 돌려줘 법령 개정이 445 → 173건으로 줄어든 채 올라갔다.
+    # 정말 줄어든 것이 맞으면 RR_FORCE=1 로 실행한다.
+    if not FORCE:
+        if len(future) <= len(current):
+            raise RuntimeError(f"법제처 eflaw 응답 이상: 연혁 포함 {len(future)}건이 현행 {len(current)}건보다 많지 않음")
+        pm = read_json(DOCS / "meta.json", {}) or {}
+        before = (pm.get("universe") or {}).get("openapiFuture") or 0
+        if pm.get("year") == year and len(future) < before * 0.8:
+            raise RuntimeError(f"법제처 eflaw 응답 이상: {before} → {len(future)}건으로 급감")
     raw = [to_raw(it) for it in current + future]
 
     base = json.loads((DOCS / "base_laws_207.json").read_text(encoding="utf-8"))["items"]
@@ -488,6 +501,10 @@ def main():
     # 덮어쓰기 전에 직전 데이터를 읽어 둔다 (업데이트 내역 비교용)
     prev_rows = load_prev_rows()
     prev_meta = read_json(DOCS / "meta.json")
+    # 전체 개정 건수가 직전보다 20% 넘게 줄면 올리지 않는다 (행정규칙 · 법령 수집이 일부만 된 경우)
+    before_total = (prev_meta or {}).get("totalCount") or 0
+    if not FORCE and (prev_meta or {}).get("year") == year and len(mini) < before_total * 0.8:
+        raise RuntimeError(f"개정 건수 급감: {before_total} → {len(mini)}건 (법령 {law_count} · 행정규칙 {len(admrul_rows)} · 자치법규 {len(ordin_rows)}) — 올리지 않음")
 
     shard = (len(mini) + 7) // 8 or 1
     for i in range(8):

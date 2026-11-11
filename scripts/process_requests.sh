@@ -14,6 +14,10 @@ date '+%Y-%m-%d %H:%M:%S' > .git/regrader-requests-last-run 2>/dev/null || true
 # 그 시각에 맥이 잠들어 있었으면 깨어난 뒤 첫 실행 때 부른다. auto_update.sh 는 오늘 이미 성공했으면 스스로 건너뛴다.
 TODAY=$(date +%Y-%m-%d); HOUR=$((10#$(date +%H)))
 find /tmp -maxdepth 1 -name 'regrader-tried-*' -mtime +2 -delete 2>/dev/null || true
+# 다시 실행 요청: touch .git/regrader-rerun (auto_update.sh 가 파일을 지우고 성공한 날에도 한 번 더 돈다)
+if [ -e .git/regrader-rerun ]; then
+  scripts/auto_update.sh >> "$HOME/Library/Logs/RegRader-update.log" 2>&1 || true
+fi
 for S in 6 19 22; do
   MARK="/tmp/regrader-tried-$TODAY-$S"
   if [ "$HOUR" -ge "$S" ] && [ ! -e "$MARK" ]; then

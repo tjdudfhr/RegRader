@@ -21,7 +21,11 @@ echo "=== $(date '+%Y-%m-%d %H:%M:%S') 갱신 시작 ==="
 
 # 하루 여러 번 실행된다(맥이 꺼져 있거나 인터넷이 끊긴 시각을 대비). 오늘 이미 끝까지 성공했으면 건너뛴다.
 # 실패한 날, Pro 자료만 실패한 날(pro=false), 인터넷이 없어 기록을 못 남긴 날은 다음 시각에 다시 한다.
-if /usr/bin/python3 - <<'PY'
+# .git/regrader-rerun 파일이 있으면 성공한 날에도 한 번 더 돈다 (touch .git/regrader-rerun → 10분 안에 실행)
+if [ -e .git/regrader-rerun ]; then
+  rm -f .git/regrader-rerun
+  echo "다시 실행 요청(.git/regrader-rerun)"
+elif /usr/bin/python3 - <<'PY'
 import json, sys, datetime
 try:
     d = json.load(open('docs/health.json', encoding='utf-8'))
@@ -72,7 +76,7 @@ for i in 1 2 3; do
   echo "갱신 실패 ($i/3)"; tail -3 /tmp/regrader_refresh.log
   if [ "$i" = 3 ]; then
     git checkout -- "${DATA[@]}" 2>/dev/null || true   # 반쯤 받은 데이터는 버린다 (사이트는 어제 데이터 그대로)
-    health false "법령 수집" "법제처(law.go.kr)가 응답하지 않아 3번 모두 실패했습니다: $(tail -1 /tmp/regrader_refresh.log | cut -c1-160)"
+    health false "법령 수집" "법령 수집이 3번 모두 실패했습니다 (법제처 무응답 또는 받은 자료 이상): $(tail -1 /tmp/regrader_refresh.log | cut -c1-160)"
     push_health 실패
     exit 1
   fi
