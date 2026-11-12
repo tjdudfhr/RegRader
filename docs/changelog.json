@@ -1,6 +1,74 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-11-12T22:03:16.183132+00:00",
+      "asOf": "2026-11-13",
+      "previousCheckedAt": "2026-11-11T23:23:50.648270+00:00",
+      "totalBefore": 728,
+      "totalAfter": 729,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2853,
+        "openapiFuture": 5744,
+        "openapiUpcoming": 251
+      },
+      "universeAfter": {
+        "openapiCurrent": 2862,
+        "openapiFuture": 5751,
+        "openapiUpcoming": 215
+      },
+      "added": [
+        {
+          "title": "자유무역협정 원산지인증수출자 운영에 관한 고시",
+          "effectiveDate": "2026-11-12",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000288016"
+        }
+      ],
+      "removed": [],
+      "nowInForce": [
+        {
+          "title": "자본시장과 금융투자업에 관한 법률",
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "ministry": "금융위원회",
+          "category": "재무회계",
+          "lsiSeq": "285957"
+        },
+        {
+          "title": "자본시장과 금융투자업에 관한 법률 시행령",
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "ministry": "금융위원회",
+          "category": "재무회계",
+          "lsiSeq": "291669"
+        },
+        {
+          "title": "해양폐기물 및 해양오염퇴적물 관리법",
+          "effectiveDate": "2026-11-13",
+          "amendmentType": "일부개정",
+          "ministry": "해양수산부",
+          "category": "환경",
+          "lsiSeq": "285945"
+        }
+      ],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "ordinMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-11-11T23:23:50.648270+00:00",
       "asOf": "2026-11-12",
       "previousCheckedAt": "2026-11-11T02:36:13.237201+00:00",
@@ -15144,5 +15212,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-11T23:23:50.648270+00:00"
+  "updatedAt": "2026-11-12T22:03:16.183132+00:00"
 }
