@@ -1,6 +1,75 @@
 {
   "entries": [
     {
+      "checkedAt": "2026-11-23T21:04:48.338816+00:00",
+      "asOf": "2026-11-24",
+      "previousCheckedAt": "2026-11-22T21:52:55.684793+00:00",
+      "totalBefore": 735,
+      "totalAfter": 739,
+      "note": "집계 정리",
+      "universeBefore": {
+        "openapiCurrent": 2888,
+        "openapiFuture": 5801,
+        "openapiUpcoming": 193
+      },
+      "universeAfter": {
+        "openapiCurrent": 2891,
+        "openapiFuture": 5819,
+        "openapiUpcoming": 199
+      },
+      "added": [
+        {
+          "title": "화학사고예방관리계획서 작성 등에 관한 규정",
+          "effectiveDate": "2026-10-01",
+          "amendmentType": "일부개정",
+          "ministry": "화학물질안전원",
+          "category": "환경",
+          "kind": "고시",
+          "admRulSeq": "2100000285508"
+        },
+        {
+          "title": "핵심전략기술과 그 관련 품목 및 소재·부품·장비 분야 경제안보품목등의 선정·확인·재검토 세부절차 등에 관한 고시",
+          "effectiveDate": "2026-11-19",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "정보보호",
+          "kind": "고시",
+          "admRulSeq": "2100000288470"
+        },
+        {
+          "title": "관세평가 운영에 관한 고시",
+          "effectiveDate": "2026-11-23",
+          "amendmentType": "일부개정",
+          "ministry": "관세청",
+          "category": "재무회계",
+          "kind": "고시",
+          "admRulSeq": "2100000288426"
+        },
+        {
+          "title": "도시가스사업법 시행령",
+          "effectiveDate": "2026-11-27",
+          "amendmentType": "일부개정",
+          "ministry": "산업통상부",
+          "category": "안전",
+          "lsiSeq": "292001"
+        }
+      ],
+      "removed": [],
+      "nowInForce": [],
+      "baseLawsAdded": [],
+      "addedByBase": [],
+      "admrulMerged": null,
+      "ordinMerged": null,
+      "baseLawsRenamed": [],
+      "baseLawsRemoved": [],
+      "removedByBase": [],
+      "admrulScope": null,
+      "removedByScope": [],
+      "addedByScope": [],
+      "baseLawsBefore": 254,
+      "baseLawsAfter": 254
+    },
+    {
       "checkedAt": "2026-11-22T21:52:55.684793+00:00",
       "asOf": "2026-11-23",
       "previousCheckedAt": "2026-11-17T22:22:06.229928+00:00",
@@ -15383,5 +15452,5 @@
       ]
     }
   ],
-  "updatedAt": "2026-11-22T21:52:55.684793+00:00"
+  "updatedAt": "2026-11-23T21:04:48.338816+00:00"
 }
